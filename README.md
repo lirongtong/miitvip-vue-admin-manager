@@ -1,2 +1,2 @@
-# miitvip-vue-admin-manager
-VUE + ViewDesign 开发的一套适合自身项目的统一后台管理系统框架，包含注册 / 登录等常用模块，开箱即用。
+# 管理系统 UI 框架 - 麦可易特网
+> 基于 Vue3.0 + Vite + Ant Design Vue 开发的一套适合自身项目的统一后台管理系统框架，包含注册 / 登录等常用模块，开箱即用。

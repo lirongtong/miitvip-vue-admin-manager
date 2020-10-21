@@ -1,0 +1,42 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"strict": true,
+		"jsx": "preserve",
+		"importHelpers": true,
+		"moduleResolution": "node",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"baseUrl": ".",
+		"paths": {
+			"/@/*": ["src/*"],
+			"/@assets/*": ["src/assets/*"],
+			"/@styles/*": ["src/assets/styles/*"],
+			"/@images/*": ["src/assets/images/*"],
+			"/@fonts/*": ["src/assets/fonts/*"],
+			"/@common/*": ["src/common/*"],
+			"/@components/*": ["src/components/*"],
+			"/@views/*": ["src/views/*"],
+			"/@store/*": ["src/store/*"]
+		},
+		"lib": [
+			"esnext",
+			"dom",
+			"dom.iterable",
+			"scripthost"
+		]
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"tests/**/*.ts",
+		"tests/**/*.tsx"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

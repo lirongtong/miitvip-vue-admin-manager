@@ -1,0 +1,22 @@
+{
+    "name": "demo",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "dependencies": {
+        "ant-design-vue": "^2.0.0-beta.10",
+        "axios": "^0.20.0",
+        "vue": "^3.0.0-rc.1",
+        "vue-router": "^4.0.0-beta.13",
+        "vuex": "^4.0.0-beta.4"
+    },
+    "devDependencies": {
+        "@vue/compiler-sfc": "^3.0.0-rc.1",
+        "less": "^3.12.2",
+        "less-loader": "^7.0.2",
+        "typescript": "^4.0.3",
+        "vite": "^1.0.0-rc.1"
+    }
+}
