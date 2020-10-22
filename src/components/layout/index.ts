@@ -1,2 +1,2 @@
-import MiLayout from './layout.vue'
+import MiLayout from './index.vue'
 export default MiLayout

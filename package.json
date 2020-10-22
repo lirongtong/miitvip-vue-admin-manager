@@ -21,7 +21,7 @@
     "description": "makeit's backend management system ( a unified template ).",
     "private": true,
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --mode development",
         "build": "vite build",
         "build:frame": "webpack --config build/webpack.prod.config.js --mode production --progress --color",
         "build:style": "gulp --gulpfile build/gulp.style.config.js"

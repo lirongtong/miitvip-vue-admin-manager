@@ -13,6 +13,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"/@/*": ["example/*"],
+			"/@src/*": ["src/*"],
 			"/@assets/*": ["example/assets/*"],
 			"/@styles/*": ["example/assets/styles/*"],
 			"/@images/*": ["example/assets/images/*"],
@@ -32,7 +33,10 @@
 	"include": [
 		"example/**/*.ts",
 		"example/**/*.tsx",
-		"example/**/*.vue"
+		"example/**/*.vue",
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue"
 	],
 	"exclude": [
 		"node_modules"

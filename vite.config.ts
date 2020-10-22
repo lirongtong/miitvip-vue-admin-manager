@@ -5,6 +5,7 @@ const primaryColor = '#0aa679'
 const config = {
     alias: {
         '/@/': resolve('example'),
+        '/@src/': resolve('src'),
         '/@assets/': resolve('example/assets'),
         '/@styles/': resolve('example/assets/styles'),
         '/@images/': resolve('example/assets/images'),
@@ -26,6 +27,13 @@ const config = {
                 'pagination-item-bg-active': primaryColor
             },
             javascriptEnabled: true
+        }
+    },
+    proxy: {
+        '/v1': {
+            target: 'http://local-api.makeit.vip',
+            rewrite: (path: any) => path.replace(/^\/v1/, ''),
+            changeOrigin: true
         }
     }
 }
