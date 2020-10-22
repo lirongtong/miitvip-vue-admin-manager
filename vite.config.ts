@@ -4,15 +4,15 @@ const primaryColor = '#0aa679'
 
 const config = {
     alias: {
-        '/@/': resolve('src'),
-        '/@assets/': resolve('src/assets'),
-        '/@styles/': resolve('src/assets/styles'),
-        '/@images/': resolve('src/assets/images'),
-        '/@fonts/': resolve('src/assets/fonts'),
-        '/@common/': resolve('src/common'),
-        '/@views/': resolve('src/views'),
-        '/@store/': resolve('src/store'),
-        '/@components/': resolve('src/components')
+        '/@/': resolve('example'),
+        '/@assets/': resolve('example/assets'),
+        '/@styles/': resolve('example/assets/styles'),
+        '/@images/': resolve('example/assets/images'),
+        '/@fonts/': resolve('example/assets/fonts'),
+        '/@common/': resolve('example/common'),
+        '/@views/': resolve('example/views'),
+        '/@store/': resolve('example/store'),
+        '/@components/': resolve('example/components')
     },
     cssPreprocessOptions: {
         less: {

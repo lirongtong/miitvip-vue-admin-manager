@@ -12,15 +12,15 @@
 		"sourceMap": true,
 		"baseUrl": ".",
 		"paths": {
-			"/@/*": ["src/*"],
-			"/@assets/*": ["src/assets/*"],
-			"/@styles/*": ["src/assets/styles/*"],
-			"/@images/*": ["src/assets/images/*"],
-			"/@fonts/*": ["src/assets/fonts/*"],
-			"/@common/*": ["src/common/*"],
-			"/@components/*": ["src/components/*"],
-			"/@views/*": ["src/views/*"],
-			"/@store/*": ["src/store/*"]
+			"/@/*": ["example/*"],
+			"/@assets/*": ["example/assets/*"],
+			"/@styles/*": ["example/assets/styles/*"],
+			"/@images/*": ["example/assets/images/*"],
+			"/@fonts/*": ["example/assets/fonts/*"],
+			"/@common/*": ["example/common/*"],
+			"/@components/*": ["example/components/*"],
+			"/@views/*": ["example/views/*"],
+			"/@store/*": ["example/store/*"]
 		},
 		"lib": [
 			"esnext",
@@ -30,11 +30,9 @@
 		]
 	},
 	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"tests/**/*.ts",
-		"tests/**/*.tsx"
+		"example/**/*.ts",
+		"example/**/*.tsx",
+		"example/**/*.vue"
 	],
 	"exclude": [
 		"node_modules"
