@@ -18,6 +18,7 @@ import storage from './utils/storage'
 import http from './utils/http'
 import tools from './utils/tools'
 import { layout } from './store/layout'
+import { passport } from './store/passport'
 import MiLayout from './components/layout'
 
 const components: {[index: string]: any} = {
@@ -31,6 +32,11 @@ const install = (app: App) => {
     Object.keys(components).forEach((name) => {
         app.use(components[name])
     })
+    /**
+     * mixin.
+     * 1. Dynamic loading state management module (eg,. `layout`, `passport`).
+     * 2. Add axios interceptor (request and response).
+     */
     app.mixin({
         beforeMount() {
             if (!_Vue) {
@@ -41,6 +47,7 @@ const install = (app: App) => {
                         }))
                     }
                     this.$store.registerModule(['layout'], layout)
+                    this.$store.registerModule(['passport'], passport)
                     _Vue = true
                 } catch (e) {
                     throw new Error('Vuex must be installed and registered. \r\n' + e)
@@ -49,7 +56,7 @@ const install = (app: App) => {
         },
 
         mounted() {
-
+            
         }
     })
 }

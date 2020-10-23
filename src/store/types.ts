@@ -29,6 +29,15 @@ export interface LayoutState {
 	routes: {};
 }
 
+export interface PassportState {
+	user: {[index: string]: any} | null;
+	token: {
+		access: string | null;
+		refresh: string | null;
+	};
+	auto: boolean | null;
+}
+
 export const mutations = {
 	layout: {
 		collapsed: 'SET_MENU_COLLAPSED',

@@ -65,10 +65,10 @@ class Http {
         })
     }
 }
-
+export const $http = new Http()
 const http = {
     install(app: App) {
-        app.config.globalProperties.$http = new Http()
+        app.config.globalProperties.$http = $http
     }
 }
 export default http
