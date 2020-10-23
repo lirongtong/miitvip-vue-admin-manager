@@ -13,6 +13,7 @@
 import { App } from 'vue'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
+import http from './utils/http'
 import MiLayout from './components/layout'
 
 const components: {[index: string]: any} = {
@@ -24,6 +25,7 @@ const install = (app: App) => {
     })
     app.use(cookie)
     app.use(storage)
+    app.use(http)
 }
 
 export default class MakeitAdmin {

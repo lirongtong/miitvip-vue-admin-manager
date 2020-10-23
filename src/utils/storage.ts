@@ -41,7 +41,7 @@ export declare interface MiStorage {
 
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
-        storage: MiStorage
+        $storage: MiStorage
     }
 }
 
@@ -65,7 +65,7 @@ const storage = {
     install(app: App, type = 'local', prefix?: string) {
         if (type === 'session') storage.instance = sessionStorage
         if (prefix) storage.prefix = prefix
-        app.config.globalProperties.storage = {
+        app.config.globalProperties.$storage = {
             /**
              * Get Storage.
              * The key value supports string or array.

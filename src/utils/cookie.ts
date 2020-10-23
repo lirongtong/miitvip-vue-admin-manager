@@ -36,7 +36,7 @@ export declare interface Cookie {
 
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
-        cookie: Cookie
+        $cookie: Cookie
     }
 }
 
@@ -46,7 +46,7 @@ const cookie = {
      * @param app 
      */
     install(app: App, prefix: string = 'mi-') {
-        app.config.globalProperties.cookie = {
+        app.config.globalProperties.$cookie = {
             /**
              * Get Cookie.
              * @param key
