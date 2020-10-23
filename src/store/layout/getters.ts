@@ -1,15 +1,3 @@
-/*
- * +-------------------------------------------+
- * |                  MIITVIP                  |
- * +-------------------------------------------+
- * | Copyright (c) 2020 makeit.vip             |
- * +-------------------------------------------+
- * | Author: makeit <lirongtong@hotmail.com>   |
- * | Homepage: https://www.makeit.vip          |
- * | Github: https://github.com/lirongtong     |
- * | Date: 2020-5-28 11:15                     |
- * +-------------------------------------------+
- */
 import { GetterTree } from 'vuex'
 import { RootState, LayoutState } from '../types'
 import { config } from '../../utils/config'

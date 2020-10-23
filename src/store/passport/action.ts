@@ -11,6 +11,8 @@ export const actions: ActionTree<PassportState, RootState> = {
         captcha: boolean;
         uuid: string;
     }): Promise<any> {
-        return new Promise((resolve, reject) => {})
+        return new Promise((resolve, reject) => {
+            ($http as any).post()
+        })
     }
 }

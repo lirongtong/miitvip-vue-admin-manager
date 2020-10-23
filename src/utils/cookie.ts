@@ -1,15 +1,3 @@
-/*
- * +-------------------------------------------+
- * |                  MIITVIP                  |
- * +-------------------------------------------+
- * | Copyright (c) 2020 makeit.vip             |
- * +-------------------------------------------+
- * | Author: makeit <lirongtong@hotmail.com>   |
- * | Homepage: https://www.makeit.vip          |
- * | Github: https://github.com/lirongtong     |
- * | Date: 2020-5-27 11:21                     |
- * +-------------------------------------------+
- */
 import { App } from 'vue'
 
 export declare interface Cookie {
