@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex'
 import { PassportState, RootState, mutations } from '../types'
 import { $http } from '../../utils/http'
+import { $api } from '../../utils/api'
 
 export const actions: ActionTree<PassportState, RootState> = {
     login({dispatch, commit}, data: {
@@ -11,8 +12,6 @@ export const actions: ActionTree<PassportState, RootState> = {
         captcha: boolean;
         uuid: string;
     }): Promise<any> {
-        return new Promise((resolve, reject) => {
-            ($http as any).post()
-        })
+        return new Promise((resolve, reject) => {})
     }
 }

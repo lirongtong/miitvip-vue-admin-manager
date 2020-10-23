@@ -74,7 +74,13 @@ export declare interface Config {
      * General background image.
      * @type {{[index: string]: string}}
      */
-    background: {},
+    background: {};
+
+    /**
+     * Api version.
+     * @type {string}
+     */
+    apiVersion: string;
 
     /**
      * Whether is mobile phone.
@@ -146,6 +152,7 @@ export const config: {[index: string]: any} = {
         default: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7Z_ieAVz4DAAAdR-zeJvg322.svg',
 		captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
     },
+    apiVersion: 'v1',
     mobile: false,
     regExp: {
         phone: /^1[3456789]\d{9}$/,
