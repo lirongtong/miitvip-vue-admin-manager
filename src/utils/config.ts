@@ -2,81 +2,117 @@ import { App } from 'vue'
 
 export declare interface Config {
     /**
+     * Independent project, or embedded project.
+     * If it is an embedded project, the `header` and `sider` are not displayed, only content section is displayed.
+     * @type {boolean}
+     */
+    embed: boolean;
+
+    /**
      * Website title.
-     * @type string
+     * @type {string}
      */
     title: string;
 
     /**
      * Website author.
-     * @type string
+     * @type {string}
      */
     author: string;
 
     /**
      * Website keywords.
-     * @type string
+     * @type {string}
      */
     keywords: string;
 
     /**
      * Website description.
-     * @type string
+     * @type {string}
      */
     description: string;
 
     /**
-     * @type string
+     * All rights reserved.
+     * @type {string}
      */
     powered: string;
 
     /**
+     * Website logo.
+     * @type {string | null}
+     */
+    logo: string | null;
+
+    /**
+     * Website default avatar.
+     * @type {string | null}
+     */
+    avatar: string | null;
+
+    /**
      * Prefix.
      * Anywhere you want to used, eg: cookie, storage, vuex ...
-     * @type string
+     * @type {string}
      */
     prefix: string;
 
     /**
      * Encrypted salt.
-     * @type string
+     * @type {string}
      */
     salt: string;
 
     /**
      * Delimiter.
      * Mainly used when decrypting encrypted strings.
-     * @type string
+     * @type {string}
      */
     separator: string;
 
     /**
+     * General background image.
+     * @type {{[index: string]: string}}
+     */
+    background: {},
+
+    /**
      * Whether is mobile phone.
-     * @type boolean
+     * @type {boolean}
      */
     mobile: boolean;
 
     /**
      * General regular expression.
-     * @type object
+     * @type {{[index: string]: any}}
      */
     regExp: {},
 
     /**
+     * Cached key value.
+     * Including `storages` and `cookies`
+     * @type {storages: {}, cookies: {}}
+     */
+    caches: {
+        storages: {},
+        cookies: {}
+    },
+
+    /**
      * Used at the bottom of the website (PC browser)
-     * @type string
+     * @type {string}
      */
     footer: string;
 
     /**
      * Used at the bottom of the website (mobile browser).
-     * @type string
+     * @type {string}
      */
     copyright: string;
 
     /**
      * Add an attribute of any name.
-     * @type any
+     * @type {any}
      */
     [propName: string]: any;
 
@@ -94,15 +130,22 @@ export declare interface Config {
     add(key: string, value: any): () => void;
 }
 
-const config: {[index: string]: any} = {
+export const config: {[index: string]: any} = {
+    embed: false,
     title: '后台管理系统 UI 框架',
     author: '麦可易特网',
     keywords: '麦可易特网, makeit, makeit.vip, miitvip, vue, typescript, ant-design-vue, component-ui, makeit-admin, vue3.0, vite, webpack, admin-manage, UI frame',
     description: `makeit's backend management system ( a unified template ). 麦可易特网统一后台管理模板，内含登录 / 注册等常用模块，开箱即用，持续更新 ...`,
     powered: 'Powered By makeit.vip',
-    prefix: 'mi-',
+    logo: null,
+    avatar: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png',
+    prefix: (import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX ?? 'mi-',
     salt: 'mi-bXrf4dJbLlf0u8X3',
     separator: '/!#!$/',
+    background: {
+        default: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7Z_ieAVz4DAAAdR-zeJvg322.svg',
+		captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
+    },
     mobile: false,
     regExp: {
         phone: /^1[3456789]\d{9}$/,
@@ -110,6 +153,19 @@ const config: {[index: string]: any} = {
         password: /^[A-Za-z0-9~!@#$%^&*()_+=\-.,]{6,32}$/,
         username: /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){3,15}$/,
         email: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+    },
+    caches: {
+        storages: {
+            user: 'user-info',
+            collapsed: 'layout-menu-collapsed',
+            routes: 'history-routes'
+        },
+        cookies: {
+            token: {
+                access: 'access-token',
+                refresh: 'refresh-token'
+            }
+        }
     },
     footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',
     copyright: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'

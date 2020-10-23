@@ -31,7 +31,7 @@
         "axios": "^0.20.0",
         "vue": "^3.0.0-rc.1",
         "vue-router": "^4.0.0-beta.13",
-        "vuex": "^3.5.1"
+        "vuex": "^4.0.0-beta.4"
     },
     "devDependencies": {
         "@vue/compiler-sfc": "^3.0.0-rc.1",
