@@ -20,7 +20,7 @@ const components: {[index: string]: any} = {
 }
 const install = (app: App) => {
     Object.keys(components).forEach((name) => {
-        app.component(name, components[name])
+        app.use(components[name])
     })
     app.use(cookie)
     app.use(storage)

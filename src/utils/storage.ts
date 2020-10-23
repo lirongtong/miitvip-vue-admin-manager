@@ -11,15 +11,64 @@
  * +-------------------------------------------+
  */
 import { App } from 'vue'
+
+export declare interface MiStorage {
+    /**
+     * get cookie.
+     * @param item 
+     */
+    get(item: string): () => any;
+
+    /**
+     * set cookie.
+     * @param item 
+     * @param value 
+     */
+    set(item: string, value: any): () => void;
+
+    /**
+     * del cookie.
+     * @param item 
+     */
+    del(item: string | string[]): () => void;
+
+    /**
+     * change type.
+     * @param type 
+     */
+    change: (type?: string) => this;
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        storage: MiStorage
+    }
+}
+
 const storage = {
     /**
-     * use.
+     * storage prefix.
+     * @type string
+     */
+    prefix: (import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX,
+
+    /**
+     * storage instance, including localStorage and sessionStorage.
+     * @type Storage
+     */
+    instance: localStorage,
+
+    /**
+     * use ( install ).
      * @param app 
      */
-    install(app: App) {
+    install(app: App, type = 'local', prefix?: string) {
+        if (type === 'session') storage.instance = sessionStorage
+        if (prefix) storage.prefix = prefix
         app.config.globalProperties.storage = {
             /**
              * Get Storage.
+             * The key value supports string or array.
              * @param keys
              * @return {*}
              */
@@ -28,13 +77,13 @@ const storage = {
                 if (Array.isArray(keys)) {
                     for (let i = 0, len = keys.length; i < len; i++) {
                         const key = keys[i]
-                        const item = `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${key}`
-                        data[key] = JSON.parse(localStorage.getItem(item) as string)
+                        const item = `${storage.prefix}${key}`
+                        data[key] = JSON.parse(storage.instance.getItem(item) as string)
                     }
                 } else {
                     data = null
-                    const key = `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${keys}`
-                    if (keys) data = JSON.parse(localStorage.getItem(key) as string)
+                    const key = `${storage.prefix}${keys}`
+                    if (keys) data = JSON.parse(storage.instance.getItem(key) as string)
                 }
                 return data
             },
@@ -45,8 +94,8 @@ const storage = {
              * @param value
              */
             set(key: string, value: any) {
-                const item = `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${key}`;
-                localStorage.setItem(item, JSON.stringify(value));
+                const item = `${storage.prefix}${key}`;
+                storage.instance.setItem(item, JSON.stringify(value));
             },
             
             /**
@@ -57,13 +106,24 @@ const storage = {
                 if (Array.isArray(keys)) {
                     for (let i = 0, len = keys.length; i < len; i++) {
                         const key = keys[i],
-                            item = `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${key}`;
-                        localStorage.removeItem(item);
+                            item = `${storage.prefix}${key}`;
+                            storage.instance.removeItem(item);
                     }
                 } else {
-                    const item = `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${keys}`;
-                    localStorage.removeItem(item);
+                    const item = `${storage.prefix}${keys}`;
+                    storage.instance.removeItem(item);
                 }
+            },
+
+            /**
+             * Change storage type.
+             * @param type 
+             */
+            change(type?: string) {
+                storage.instance = type === 'local'
+                    ? localStorage
+                    : (type === 'session' ? sessionStorage : localStorage)
+                return this
             }
         }
     }

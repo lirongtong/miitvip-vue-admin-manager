@@ -19,7 +19,8 @@ const compression = require('compression-webpack-plugin')
 const terser = require('terser-webpack-plugin')
 const version = process.env.VERSION || require('../package.json').version
 const banner = `makeit-admin manager v${version}
-(c) ${new Date().getFullYear()} lirongtong
+Copyright ${new Date().getFullYear()} lirongtong
+All rights reserved
 @license MIT`
 
 process.env.NODE_ENV = '"production"'

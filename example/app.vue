@@ -7,10 +7,7 @@
     import { defineComponent } from 'vue'
 
     const appComponent = defineComponent({
-        mounted() {
-            this.cookie.set('name', '111')
-            this.storage.set('name', '2222')
-        }
+        mounted() {}
     })
     export default appComponent
 </script>

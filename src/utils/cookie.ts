@@ -11,12 +11,41 @@
  * +-------------------------------------------+
  */
 import { App } from 'vue'
+import {Router} from 'vue-router'
+
+export declare interface Cookie {
+    /**
+     * get cookie.
+     * @param item 
+     */
+    get(item: string): () => any;
+
+    /**
+     * set cookie.
+     * @param item 
+     * @param value 
+     */
+    set(item: string, value: any): () => void;
+
+    /**
+     * del cookie.
+     * @param item 
+     */
+    del(item: string): () => void;
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        cookie: Cookie
+    }
+}
+
 const cookie = {
     /**
      * use.
      * @param app 
      */
-    install(app: App) {
+    install(app: App, prefix: string = 'mi-') {
         app.config.globalProperties.cookie = {
             /**
              * Get Cookie.
@@ -24,7 +53,7 @@ const cookie = {
              * @return {string|null}
              */
             get(key: string): any {
-                const name = `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${key}=`
+                const name = `${prefix}${key}=`
                 const values = document.cookie.split(';')
                 for (let i = 0, len = values.length; i < len; i++) {
                     let value = values[i]
@@ -49,7 +78,7 @@ const cookie = {
                     expires = `expires=${date.toUTCString()}`
                 }
                 const params = [
-                    `${(import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX}${name}=${escape(value)}`,
+                    `${prefix}${name}=${escape(value)}`,
                     expires,
                     'path=/'
                 ]
@@ -73,4 +102,5 @@ const cookie = {
         }
     }
 }
+
 export default cookie
