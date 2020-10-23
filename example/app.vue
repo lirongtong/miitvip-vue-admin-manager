@@ -7,7 +7,11 @@
     import { defineComponent } from 'vue'
 
     const appComponent = defineComponent({
-        mounted() {}
+        mounted() {
+            this.$tools.setTitle()
+            this.$tools.setKeywords()
+            this.$tools.setDescription()
+        }
     })
     export default appComponent
 </script>

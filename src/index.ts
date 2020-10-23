@@ -11,21 +11,21 @@
  * +-------------------------------------------+
  */
 import { App } from 'vue'
+import config from './utils/config'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
 import http from './utils/http'
+import tools from './utils/tools'
 import MiLayout from './components/layout'
 
 const components: {[index: string]: any} = {
+    config, cookie, storage, http, tools,
     MiLayout
 }
 const install = (app: App) => {
     Object.keys(components).forEach((name) => {
         app.use(components[name])
     })
-    app.use(cookie)
-    app.use(storage)
-    app.use(http)
 }
 
 export default class MakeitAdmin {
