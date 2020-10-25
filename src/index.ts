@@ -13,6 +13,7 @@
 import { App } from 'vue'
 import { createStore } from 'vuex'
 import axios from 'axios'
+import antd from './modules'
 import config from './utils/config'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
@@ -25,10 +26,11 @@ import { passport } from './store/passport'
 import { mutations } from './store/types'
 
 import MiLayout from './components/layout'
+import MiLayoutSider from './components/sider'
 
 const components: {[index: string]: any} = {
-    config, cookie, storage, api, http, tools,
-    MiLayout
+    antd, config, cookie, storage, api, http, tools,
+    MiLayout, MiLayoutSider
 }
 const env = (import.meta as any).env.NODE_ENV
 let _Vue: boolean | null = null

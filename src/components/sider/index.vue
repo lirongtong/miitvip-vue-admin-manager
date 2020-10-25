@@ -1,0 +1,9 @@
+<template>
+    <a-layout-sider
+        class="mi-layout-sider"
+        :clooapsible="true"
+        theme="light"
+        width="256"
+        :trigger="null">
+    </a-layout-sider>
+</template>
