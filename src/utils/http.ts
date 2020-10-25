@@ -12,6 +12,9 @@ declare module '@vue/runtime-core' {
     }
 }
 
+/**
+ * @method get
+ */
 class Http {
 
     instance: {[index: string]: any} = this
@@ -65,7 +68,7 @@ class Http {
         })
     }
 }
-export const $http = new Http()
+export const $http = new Http() as any
 const http = {
     install(app: App) {
         app.config.globalProperties.$http = $http
