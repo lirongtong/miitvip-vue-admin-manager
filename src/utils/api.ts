@@ -19,40 +19,55 @@ declare module '@vue/runtime-core' {
 }
 
 class Api {
-    _version?: string = config.apiVersion
-    _api: {[index: string]: any} = {}
+    version: string
+    api: {[index: string]: any}
 
     constructor() {
-        Object.defineProperty(this, 'version', {
-            get(): any {
-				return this._version
-			},
-			set(v: string) {
-				this._version = v.trim();
-				this.parse()
-			}
+        this.version = (import.meta as any).env.VITE_MAKEIT_ADMIN_API_VERSION ?? config.apiVersion
+        this.api = new Proxy({}, {
+            get: (
+                target: {[index: string]: any},
+                name: string
+            ) => {
+                return name in target ? target[name] : 'No Prop'
+            },
+            set: (
+                target: {[index: string]: any},
+                name: string,
+                value: any
+            ) => {
+                target[name] = value
+                return true
+            }
         })
 
         const links = new Links()
 		const keys = Object.keys(links)
 		const values = Object.values(links)
 		for (let i = 0, len = keys.length; i < len; i++) {
-			this._api[keys[i]] = values[i]
-		}
-		this.parse()
+			this.api[keys[i]] = values[i]
+        }
+        this.parse()
     }
 
-    parse(api?: {[index: string]: any}): void {
-        api = api ?? this._api
+    parse(api?: {[index: string]: any}) {
+        api = api ?? this.api
         for (const i in api) {
             if (Object.prototype.hasOwnProperty.call(api, i)) {
-                if (typeof api[i] === 'object' && Object.keys(api[i]).length > 0) {
-					this.parse(api[i]);
-				} else {
+                if (
+                    typeof api[i] === 'object' &&
+                    Object.keys(api[i]).length > 0
+                ) {
+                    this.parse(api[i])
+                } else {
                     const reg = config.regExp.url
-                    if (!reg.rest(api[i])) {
-                        if (this._version && api[i].indexOf(`${this._version}/`) === -1)
-                            api[i] = `${this._version}/${api[i]}`
+                    if (
+                        !reg.test(api[i]) &&
+                        this.version
+                    ) {
+                        api[i] = api[i].indexOf(`${this.version}/`) !== -1
+                            ? api[i]
+                            : `${this.version}/${api[i]}`
                     }
                 }
             }
@@ -63,7 +78,7 @@ export const $api = new Api()
 
 const api = {
     install(app: App) {
-        app.config.globalProperties.api = $api
+        app.config.globalProperties.api = $api.api
     }
 }
 export default api

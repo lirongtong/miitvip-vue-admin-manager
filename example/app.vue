@@ -11,6 +11,7 @@
             this.$tools.setTitle()
             this.$tools.setKeywords()
             this.$tools.setDescription()
+            console.log(this.api)
         }
     })
     export default appComponent

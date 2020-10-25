@@ -16,6 +16,7 @@ import axios from 'axios'
 import config from './utils/config'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
+import api from './utils/api'
 import http from './utils/http'
 import tools from './utils/tools'
 
@@ -26,7 +27,7 @@ import { mutations } from './store/types'
 import MiLayout from './components/layout'
 
 const components: {[index: string]: any} = {
-    config, cookie, storage, http, tools,
+    config, cookie, storage, api, http, tools,
     MiLayout
 }
 const env = (import.meta as any).env.NODE_ENV
