@@ -1,16 +1,3 @@
 <template>
-    <mi-layout></mi-layout>
+    <router-view></router-view>
 </template>
-
-<script lang="ts">
-    import { defineComponent } from 'vue'
-
-    const appComponent = defineComponent({
-        mounted() {
-            this.$tools.setTitle()
-            this.$tools.setKeywords()
-            this.$tools.setDescription()
-        }
-    })
-    export default appComponent
-</script>

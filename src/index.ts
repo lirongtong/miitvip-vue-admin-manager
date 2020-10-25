@@ -13,7 +13,6 @@
 import { App } from 'vue'
 import { createStore } from 'vuex'
 import axios from 'axios'
-import antd from './modules'
 import config from './utils/config'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
@@ -32,7 +31,7 @@ import MiLayoutContent from './components/content'
 import MiLayoutFooter from './components/footer'
 
 const components: {[index: string]: any} = {
-    antd, config, cookie, storage, api, http, tools,
+    config, cookie, storage, api, http, tools,
     MiLayout, MiLayoutSider, MiLayoutHeader, MiLayoutFooter,
     MiLayoutContent
 }
