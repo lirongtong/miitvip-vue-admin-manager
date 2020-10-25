@@ -4,6 +4,7 @@
             <mi-layout-sider></mi-layout-sider>
             <a-layout class="mi-layout-container">
                 <mi-layout-header></mi-layout-header>
+                <mi-layout-footer></mi-layout-footer>
             </a-layout>
         </slot>
     </a-layout>
@@ -13,10 +14,12 @@
     import { defineComponent, computed, getCurrentInstance } from 'vue'
     import MiLayoutHeader from '../header/index.vue'
     import MiLayoutSider from '../sider/index.vue'
+    import MiLayoutFooter from '../footer/index.vue'
 
     const indexComponent = defineComponent({
         components: {
-            MiLayoutHeader, MiLayoutSider
+            MiLayoutHeader, MiLayoutSider,
+            MiLayoutFooter
         },
 
         props: {

@@ -27,10 +27,12 @@ import { mutations } from './store/types'
 
 import MiLayout from './components/layout'
 import MiLayoutSider from './components/sider'
+import MiLayoutHeader from './components/header'
+import MiLayoutFooter from './components/footer'
 
 const components: {[index: string]: any} = {
     antd, config, cookie, storage, api, http, tools,
-    MiLayout, MiLayoutSider
+    MiLayout, MiLayoutSider, MiLayoutHeader, MiLayoutFooter
 }
 const env = (import.meta as any).env.NODE_ENV
 let _Vue: boolean | null = null
