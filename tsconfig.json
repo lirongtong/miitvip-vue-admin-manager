@@ -21,7 +21,8 @@
 			"/@common/*": ["example/common/*"],
 			"/@components/*": ["example/components/*"],
 			"/@views/*": ["example/views/*"],
-			"/@store/*": ["example/store/*"]
+			"/@store/*": ["example/store/*"],
+			"/@ant-design/icons-vue$": ["src/icons.ts"]
 		},
 		"lib": [
 			"esnext",

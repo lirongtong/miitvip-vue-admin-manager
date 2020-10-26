@@ -89,7 +89,7 @@ pre, code, kbd, samp {
 }
 
 /** Properties */
-.properties(@key, @value: @mi-margin-base) {
+.properties(@key, @value: @mi-spacing) {
     @{key}: (@value / @mi-font-size-base) * @mi-font-size;
 }
 
@@ -98,4 +98,9 @@ pre, code, kbd, samp {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/** Letter Spacing  */
+.letter-spacing(@value: 2) {
+    .properties(letter-spacing, 2);
 }

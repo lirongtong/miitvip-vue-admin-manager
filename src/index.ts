@@ -24,6 +24,7 @@ import { layout } from './store/layout'
 import { passport } from './store/passport'
 import { mutations } from './store/types'
 
+import MiIcons from './icons'
 import MiLayout from './components/layout'
 import MiLayoutSider from './components/sider'
 import MiLayoutHeader from './components/header'
@@ -32,7 +33,7 @@ import MiLayoutFooter from './components/footer'
 
 const components: {[index: string]: any} = {
     config, cookie, storage, api, http, tools,
-    MiLayout, MiLayoutSider, MiLayoutHeader, MiLayoutFooter,
+    MiIcons, MiLayout, MiLayoutSider, MiLayoutHeader, MiLayoutFooter,
     MiLayoutContent
 }
 const env = (import.meta as any).env.NODE_ENV

@@ -29,6 +29,9 @@ const config = {
             javascriptEnabled: true
         }
     },
+    optimizeDeps: {
+        include: ['@ant-design/colors', '@ant-design/icons-vue']
+    },
     proxy: {
         '/v1': {
             target: 'http://local-api.makeit.vip',

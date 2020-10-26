@@ -1,0 +1,52 @@
+.@{mi-layout} {
+    &-sider {
+        &-logo {
+            .flex();
+            top: 0;
+            left: 0;
+            position: fixed;
+            width: @mi-sider-width;
+            height: @mi-header-height;
+            background: @mi-sider-color;
+            box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+            border-bottom: 1px solid rgb(38, 38, 38);
+            transition: all .3s ease-in-out;
+            .properties(padding-left);
+            .properties(padding-right);
+            .text-ellipsis();
+            cursor: pointer;
+            color: @mi-white-color;
+            z-index: 1000;
+
+            &-site {
+                .flex();
+                .text-ellipsis();
+                .properties(margin-right, 16);
+
+                svg {
+                    .font-size(30);
+                    color: @mi-theme-color;
+                }
+
+                > img {
+                    width: @mi-sider-logo-size;
+                    height: @mi-sider-logo-size;
+                    .border-radius-circle();
+                }
+
+                > h1 {
+                    .text-ellipsis();
+                    color: @mi-theme-color;
+                    width: 100%;
+                    .font-size(20);
+                    font-weight: 400;
+                    .properties(margin-left, 12);
+                    transition: all .3s ease-in-out;
+                    .letter-spacing();
+                    .flex();
+                    zoom: 1;
+                }
+            }
+        }
+    }
+}

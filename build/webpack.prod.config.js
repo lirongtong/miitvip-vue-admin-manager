@@ -70,6 +70,12 @@ module.exports = merge(baseConfig, {
 				commonjs: 'ant-design-vue',
 				commonjs2: 'ant-design-vue',
 				amd: 'ant-design-vue'
+			},
+			'@ant-design': {
+				root: '@ant-design',
+				commonjs: '@ant-design',
+				commonjs2: '@ant-design',
+				amd: '@ant-design'
 			}
 		}
 	],

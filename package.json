@@ -27,6 +27,7 @@
         "build:style": "gulp --gulpfile build/gulp.style.config.js"
     },
     "dependencies": {
+        "@ant-design/icons-vue": "^5.1.5",
         "ant-design-vue": "^2.0.0-beta.10",
         "axios": "^0.20.0",
         "vue": "^3.0.0-rc.1",
@@ -34,6 +35,7 @@
         "vuex": "^4.0.0-beta.4"
     },
     "devDependencies": {
+        "@ant-design/colors": "^4.0.5",
         "@vue/compiler-sfc": "^3.0.0-rc.1",
         "babel-loader": "^8.1.0",
         "cache-loader": "^4.1.0",

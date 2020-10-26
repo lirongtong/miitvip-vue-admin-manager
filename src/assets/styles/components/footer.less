@@ -1,7 +1,10 @@
 .@{mi-layout} {
     &-footer {
+        background: @mi-body-color;
+        color: @mi-white-color;
         .flex();
-        transition: all .3s ease;
+        transition: all .3s ease-in-out;
+	    z-index: 10;
 
         &-content {
             .properties(letter-spacing, 2);

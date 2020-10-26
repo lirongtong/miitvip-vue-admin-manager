@@ -138,7 +138,7 @@ export declare interface Config {
 
 export const config: {[index: string]: any} = {
     embed: false,
-    title: '后台管理系统 UI 框架',
+    title: '管理系统 UI 框架',
     author: '麦可易特网',
     keywords: '麦可易特网, makeit, makeit.vip, miitvip, vue, typescript, ant-design-vue, component-ui, makeit-admin, vue3.0, vite, webpack, admin-manage, UI frame',
     description: `makeit's backend management system ( a unified template ). 麦可易特网统一后台管理模板，内含登录 / 注册等常用模块，开箱即用，持续更新 ...`,
