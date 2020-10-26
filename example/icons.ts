@@ -1,8 +1,8 @@
 import { App } from 'vue'
-import { MediumOutlined } from '@ant-design/icons-vue'
+import { MediumOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 
 const MiIcons: any = {
-    MediumOutlined
+    MediumOutlined, LoginOutlined, LogoutOutlined
 }
 const icons = {
     install(app: App) {

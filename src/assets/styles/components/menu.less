@@ -2,6 +2,20 @@
     &-sider {
         &-menu {
             margin-top: @mi-header-height;
+            background: @mi-sider-color;
+
+            .ant-menu-item {
+                .flex(center, flex-start);
+                height: @mi-sider-item-height;
+                color: @mi-white-color;
+                position: relative;
+                transition: none;
+
+                &-selected {
+                    color: @mi-theme-color;
+                    background-color: @mi-black-color !important;
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@
         :clooapsible="true"
         theme="light"
         width="256"
+        breakpoint="lg"
         :trigger="null">
         <mi-layout-sider-logo></mi-layout-sider-logo>
         <mi-layout-sider-menu></mi-layout-sider-menu>
