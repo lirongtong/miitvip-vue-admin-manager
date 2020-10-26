@@ -6,5 +6,6 @@
         width="256"
         :trigger="null">
         <mi-layout-sider-logo></mi-layout-sider-logo>
+        <mi-layout-sider-menu></mi-layout-sider-menu>
     </a-layout-sider>
 </template>

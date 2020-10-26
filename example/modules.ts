@@ -1,8 +1,10 @@
 import { App } from 'vue'
 import 'ant-design-vue/lib/layout/style/index.less'
-import { Layout } from 'ant-design-vue'
+import { Layout, Menu } from 'ant-design-vue'
 
-const components = {Layout} as any
+const components = {
+    Layout, Menu
+} as any
 const antd = {
     install(app: App) {
         Object.keys(components).forEach((name) => {
