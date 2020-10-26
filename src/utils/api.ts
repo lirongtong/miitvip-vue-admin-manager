@@ -50,6 +50,12 @@ class Api {
         this.parse()
     }
 
+    /**
+     * Parse the api.
+     * Put the version number in front of each link.
+     * You can also modify the version number through `this.api.version = 'v2'`
+     * @param api 
+     */
     parse(api?: {[index: string]: any}) {
         api = api ?? this.api
         for (const i in api) {

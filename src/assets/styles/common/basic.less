@@ -26,8 +26,76 @@ img {
     height: 100%;
 }
 
+a {
+    color: @mi-theme-color;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-transition: color .4s;
+    transition: color .4s;
+    -webkit-text-decoration-skip: objects;
+
+    &:active,
+    &:hover,
+    &:link {
+        color: @mi-theme-color;
+    }
+}
+
+pre, code, kbd, samp {
+    margin: 0;
+    font-family: @mi-code-family;
+    .font-size(14);
+    tab-size: 16;
+}
+
+::selection,
+::-moz-selection {
+    color: @mi-white-color;
+    background: @mi-sider-color;
+}
+
+/** Flex */
+.flex(@align: center, @justify: center) {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: @align;
+    align-items: @align;
+    justify-content: @justify;
+}
+
+/** Border Radius */
+.border-radius(@raduis: 4) {
+    -moz-border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
+    -webkit-border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
+    -o-border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
+    -khtml-border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
+    border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
+}
+
+.border-radius-circle() {
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -o-border-radius: 50%;
+    -khtml-border-radius: 50%;
+    border-radius: 50%;
+}
+
 /** Font Size */
 .font-size(@size: @mi-font-size-normal){
     font-size: (@size / @mi-font-size-base) * @mi-font-size;
     line-height: ((@size + 4) / @mi-font-size-base) * @mi-font-size;
+}
+
+/** Properties */
+.properties(@key, @value: @mi-margin-base) {
+    @{key}: (@value / @mi-font-size-base) * @mi-font-size;
+}
+
+/** Text Ellipsis */
+.text-ellipsis(){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
