@@ -6,7 +6,9 @@
         width="256"
         breakpoint="lg"
         :trigger="null">
-        <mi-layout-sider-logo></mi-layout-sider-logo>
-        <mi-layout-sider-menu></mi-layout-sider-menu>
+        <slot name="sider">
+            <mi-layout-sider-logo></mi-layout-sider-logo>
+            <mi-layout-sider-menu></mi-layout-sider-menu>
+        </slot>
     </a-layout-sider>
 </template>

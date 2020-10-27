@@ -1,6 +1,8 @@
 <template>
     <a-layout-footer class="mi-layout-footer">
-        <div class="mi-layout-footer-content" v-html="copyright"></div>
+        <slot name="footer">
+            <div class="mi-layout-footer-content" v-html="copyright"></div>
+        </slot>
     </a-layout-footer>
 </template>
 

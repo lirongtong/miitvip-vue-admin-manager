@@ -12,10 +12,11 @@ import MiLayoutSiderMenu from './components/menu'
 import MiLayoutHeader from './components/header'
 import MiLayoutContent from './components/content'
 import MiLayoutFooter from './components/footer'
+import MiCaptcha from './components/captcha'
 
 const components: {[index: string]: any} = {
     config, cookie, storage, api, http, tools,
     MiLayout, MiLayoutSider, MiLayoutSiderLogo, MiLayoutSiderMenu, 
-    MiLayoutHeader, MiLayoutFooter, MiLayoutContent
+    MiLayoutHeader, MiLayoutFooter, MiLayoutContent, MiCaptcha
 }
 export default components
