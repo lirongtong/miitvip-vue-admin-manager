@@ -3,7 +3,7 @@
         class="mi-layout-sider-menu"
         theme="dark"
         mode="inline"
-        :inlineCollapsed="true"
+        :inline-collapsed="!collapsed"
         v-model:openKeys="G.menus.opens"
         v-model:selectedKeys="G.menus.active">
         <slot name="menu">
@@ -23,6 +23,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
+    import { useStore } from 'vuex'
     import MiLayoutMenu from './menu.vue'
     import MiLayoutMenuItem from './item.vue'
 
@@ -32,6 +33,15 @@
             menuClassName: {
                 type: String,
                 default: ''
+            }
+        },
+        setup() {
+            const store = useStore()
+            return {store}
+        },
+        computed: {
+            collapsed(): boolean {
+                return this.store.getters['layout/collapsed']
             }
         }
     })

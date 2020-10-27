@@ -20,6 +20,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue'
+    import { useStore } from 'vuex'
     import MiLayoutMenuItem from './item.vue'
 
     export default defineComponent({

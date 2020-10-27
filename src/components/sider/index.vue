@@ -20,8 +20,15 @@
     import { mutations } from '/@src/store/types'
 
     export default defineComponent({
+        setup() {
+            const store = useStore()
+            return {store}
+        },
+
         methods: {
-            setCollapsed(collapse: boolean) {}
+            setCollapsed(collapse: boolean) {
+                this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
+            }
         }
     })
 </script>
