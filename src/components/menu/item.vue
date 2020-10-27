@@ -1,5 +1,5 @@
 <template>
-    <a-menu-item :key="G.prefix + item.name">
+    <a-menu-item class="mi-layout-sider-menu-item" :title="item.meta.title" :key="G.prefix + item.name">
         <router-link class="mi-layout-sider-menu-link" :to="{path: item.path}" v-if="!G.regExp.url.test(item.path)">
             <component :is="item.meta.icon" v-if="item.meta.icon" />
             <TagsFilled v-else />

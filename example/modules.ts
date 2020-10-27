@@ -1,10 +1,12 @@
 import { App } from 'vue'
 import 'ant-design-vue/lib/layout/style/index.less'
 import 'ant-design-vue/lib/menu/style/index.less'
-import { Layout, Menu } from 'ant-design-vue'
+import {
+    Layout, Menu, Tooltip
+} from 'ant-design-vue'
 
 const components = {
-    Layout, Menu
+    Layout, Menu, Tooltip
 } as any
 const antd = {
     install(app: App) {

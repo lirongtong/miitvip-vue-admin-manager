@@ -5,6 +5,7 @@
         theme="light"
         width="256"
         breakpoint="lg"
+        @collapse="setCollapsed"
         :trigger="null">
         <slot name="sider">
             <mi-layout-sider-logo></mi-layout-sider-logo>
@@ -12,3 +13,15 @@
         </slot>
     </a-layout-sider>
 </template>
+
+<script lang="ts">
+    import { defineComponent } from 'vue'
+    import { useStore } from 'vuex'
+    import { mutations } from '/@src/store/types'
+
+    export default defineComponent({
+        methods: {
+            setCollapsed(collapse: boolean) {}
+        }
+    })
+</script>

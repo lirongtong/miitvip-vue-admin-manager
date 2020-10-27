@@ -1,108 +1,129 @@
-.@{mi-layout} {
-    &-sider {
-        &-menu {
-            color: @mi-white-color;
-            background: @mi-sider-color;
-            .properties(margin-bottom);
+.@{mi-sider} {
+    &-menu {
+        color: @mi-white-color;
+        background: @mi-sider-color;
+        .properties(margin-bottom);
 
-            &.ant-menu-dark {
-                .ant-menu {
-                    &-item {
-                        .flex(center, flex-start);
-                        color: @mi-white-color;
-                        position: relative;
+        &.ant-menu-dark {
+            .ant-menu {
+                &-item {
+                    .flex(center, flex-start);
+                    color: @mi-white-color;
+                    position: relative;
 
-                        .anticon + span, svg {
-                            color: @mi-white-color
-                        }
-    
-                        &-selected,
-                        &-active,
-                        &:hover {
+                    .anticon + span, svg {
+                        color: @mi-white-color
+                    }
+
+                    &-selected,
+                    &-active,
+                    &:hover {
+                        color: @mi-theme-color;
+                        background-color: @mi-black-color;
+
+                        .anticon + span,
+                        svg,
+                        > a,
+                        > a:hover {
                             color: @mi-theme-color;
-                            background-color: @mi-black-color;
-    
-                            .anticon + span,
-                            svg,
-                            > a,
-                            > a:hover {
+                        }
+                    }
+
+                    > a {
+                        .flex(center, flex-start);
+                    }
+                }
+
+                &-submenu {
+                    &-arrow {
+                        opacity: 1;
+                    }
+                    
+                    &-popup {
+                        .ant-menu-dark {
+                            .ant-menu-item-selected {
+                                background-color: @mi-black-color;
                                 color: @mi-theme-color;
-                            }
-                        }
-
-                        > a {
-                            .flex(center, flex-start);
-                        }
-                    }
-
-                    &-submenu {
-                        .flex(center, flex-start);
-
-                        &-arrow {
-                            opacity: 1;
-                        }
-                        
-                        &-popup {
-                            .ant-menu-dark {
-                                .ant-menu-item-selected {
-                                    background-color: @mi-black-color;
-                                    color: @mi-theme-color;
-                                }
-                            }
-                        }
-
-                        &:hover {
-                            background: @mi-black-color;
-                            color: @mi-theme-color;
-                        }
-                    }
-
-                    &-inline {
-                        &.ant-menu {
-                            &-sub {
-                                background: @mi-sider-color;
-                                box-shadow: none;
                             }
                         }
                     }
                 }
 
-                &.ant-menu {
-                    &-inline {
-                        .ant-menu {
-                            &-item:after {
-                                border-right: 3px solid @mi-theme-color;
-                            }
-                        }
-
-                        &-collapsed {
-                            > .ant-menu-item .anticon {
-                                .flex();
-                                .properties(font-size, 18);
-                            }
-                        }
-                    }
-
-                    &-vertical {
-                        .ant-menu {
-                            &-item-selected {
-                                &:after {
-                                    border-right: 3px solid @mi-theme-color;
-                                    opacity: 1;
-                                    transform: scaleY(1);
-                                }
-                            }
+                &-inline {
+                    &.ant-menu {
+                        &-sub {
+                            background: @mi-sider-color;
+                            box-shadow: none;
                         }
                     }
                 }
             }
 
-            &-link,
-            .ant-menu-submenu-title {
-                .letter-spacing(2);
+            &.ant-menu {
+                &-inline {
+                    .ant-menu {
+                        &-item:after {
+                            border-right: 3px solid @mi-theme-color;
+                        }
+                    }
 
-                .anticon + span, svg {
-                    color: @mi-white-color;
+                    &-collapsed {
+                        > .ant-menu-item .anticon {
+                            .flex();
+                            .properties(font-size, 18);
+                        }
+                    }
+                }
+
+                &-vertical {
+                    .ant-menu {
+                        &-item-selected {
+                            &:after {
+                                border-right: 3px solid @mi-theme-color;
+                                opacity: 1;
+                                transform: scaleY(1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &-link,
+        .ant-menu-submenu-title {
+            .letter-spacing(2);
+
+            .anticon + span, svg {
+                color: @mi-white-color;
+            }
+        }
+    }
+
+    &.ant-layout-sider {
+        &-collapsed {
+            .@{mi-menu} {
+                &-item,
+                &-items {
+                    .flex();
+                }
+
+                &-items {
+                    .ant-menu-submenu-title,
+                    .anticon {
+                        .flex();
+                    }
+
+                    &:hover {
+                        background-color: @mi-black-color;
+
+                        .ant-menu-submenu-title {
+                            .flex();
+    
+                            .anticon + span, svg {
+                                color: @mi-theme-color;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -18,7 +18,7 @@ import { layout } from './store/layout'
 import { passport } from './store/passport'
 import { mutations } from './store/types'
 
-const env = (import.meta as any).env.NODE_ENV
+const env = process.env.NODE_ENV
 let _Vue: boolean | null = null
 let _Ready: boolean | null = null
 const install = (app: App) => {

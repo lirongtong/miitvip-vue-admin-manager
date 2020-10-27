@@ -12,11 +12,6 @@
                     :key="G.prefix + item.name"
                     v-if="item.children && item.children.length > 0">
                 </mi-layout-menu>
-                <mi-layout-menu :item="item"
-                    :key="G.prefix + item.name"
-                    type="group"
-                    v-else-if="item.group && item.group.length > 0">
-                </mi-layout-menu>
                 <mi-layout-menu-item :item="item"
                     :key="G.prefix + item.name"
                     v-else>
@@ -27,8 +22,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, reactive, getCurrentInstance } from 'vue'
-    import { useStore } from 'vuex'
+    import { defineComponent } from 'vue'
     import MiLayoutMenu from './menu.vue'
     import MiLayoutMenuItem from './item.vue'
 

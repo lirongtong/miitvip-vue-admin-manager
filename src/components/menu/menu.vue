@@ -1,11 +1,11 @@
 <template>
-    <a-sub-menu :key="G.prefix + item.name">
+    <a-sub-menu class="mi-layout-sider-menu-items" :key="G.prefix + item.name">
         <template v-slot:title>
             <component :is="item.meta.icon" v-if="item.meta.icon" />
             <TagsFilled v-else />
             <span>{{ item.meta.title ?? null }}</span>
         </template>
-        <template v-for="child in item.children" :key="G.prefix + child.name">
+        <template v-for="(child, i) in item.children" :key="i">
             <mi-layout-menu :item="child.children"
                 :key="G.prefix + child.name"
                 v-if="child.children && child.children.length > 0">
