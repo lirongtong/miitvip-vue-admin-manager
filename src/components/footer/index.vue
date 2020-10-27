@@ -9,12 +9,11 @@
 <script lang="ts">
     import {defineComponent, computed} from 'vue'
 
-    const footerComponent = defineComponent({
+    export default defineComponent({
         computed: {
             copyright() {
                 return this.G.mobile ? this.G.copyright : this.G.footer
             }
         }
     })
-    export default footerComponent
 </script>

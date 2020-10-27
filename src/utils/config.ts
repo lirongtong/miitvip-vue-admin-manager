@@ -1,4 +1,30 @@
-import { App } from 'vue'
+import { App, reactive } from 'vue'
+
+export declare interface MenuItems {
+    /**
+     * Path of the record. Should start with `/` unless the record is the child of
+     * another record.
+     * 
+     * @example `/users/:id` matches `/users/1` as well as `/users/posva`.
+     */
+    path: string;
+
+    /**
+     * Name for the item.
+     */
+    name: string | symbol;
+
+    /**
+     * Array of nested menu items.
+     */
+    children?: MenuItems[];
+    groups?: MenuItems[];
+
+    /**
+     * Interface to type `meta` fields in items records.
+     */
+    meta?: Record<string | number | symbol, any>;
+}
 
 export declare interface Config {
     /**
@@ -74,7 +100,7 @@ export declare interface Config {
      * General background image.
      * @type {{[index: string]: string}}
      */
-    background: {};
+    background: {[index: string]: any};
 
     /**
      * Api version.
@@ -92,7 +118,7 @@ export declare interface Config {
      * General regular expression.
      * @type {{[index: string]: any}}
      */
-    regExp: {},
+    regExp: {[index: string]: any},
 
     /**
      * Cached key value.
@@ -100,8 +126,14 @@ export declare interface Config {
      * @type {storages: {}, cookies: {}}
      */
     caches: {
-        storages: {},
-        cookies: {}
+        storages: {[index: string]: any};
+        cookies: {[index: string]: any};
+    },
+
+    menus: {
+        active: string[];
+        opens: string[];
+        items: MenuItems[];
     },
 
     /**
@@ -136,7 +168,7 @@ export declare interface Config {
     add(key: string, value: any): () => void;
 }
 
-export const config: {[index: string]: any} = {
+export const config: {[index: string]: any} = reactive({
     embed: false,
     title: '管理系统 UI 框架',
     author: '麦可易特网',
@@ -174,9 +206,14 @@ export const config: {[index: string]: any} = {
             }
         }
     },
+    menus: {
+        active: [],
+        opens: [],
+        items: []
+    },
     footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',
     copyright: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'
-}
+})
 
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {

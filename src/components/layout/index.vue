@@ -18,7 +18,7 @@
     import MiLayoutContent from '../content/index.vue'
     import MiLayoutFooter from '../footer/index.vue'
 
-    const indexComponent = defineComponent({
+    export default defineComponent({
         components: {
             MiLayoutHeader, MiLayoutSider,
             MiLayoutContent, MiLayoutFooter
@@ -59,5 +59,4 @@
             this.$tools.setDescription()
         }
     })
-    export default indexComponent
 </script>
