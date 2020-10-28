@@ -96,18 +96,6 @@ export const $storage = new MiStorage()
 
 const storage = {
     /**
-     * storage prefix.
-     * @type string
-     */
-    prefix: (import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX,
-
-    /**
-     * storage instance, including localStorage and sessionStorage.
-     * @type Storage
-     */
-    instance: localStorage,
-
-    /**
      * use ( install ).
      * @param app 
      */
