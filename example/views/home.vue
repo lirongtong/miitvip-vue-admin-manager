@@ -22,7 +22,8 @@
                 meta: {
                     title: '登录注册',
                     subTitle: 'Passport',
-                    icon: 'SecurityScanOutlined'
+                    icon: 'VerifiedOutlined'
+                    
                 },
                 children: [{
                     name: 'login',
@@ -39,6 +40,65 @@
                         title: '注册页面',
                         subTitle: 'Register',
                         icon: 'LogoutOutlined'
+                    }
+                }]
+            }, {
+                name: 'list',
+                path: '/list',
+                meta: {
+                    title: '列表页面',
+                    subTitle: 'List',
+                    icon: 'OrderedListOutlined'
+                },
+                children: [{
+                    name: 'normal',
+                    path: '/list/normal',
+                    meta: {
+                        title: '基础列表',
+                        subTitle: 'Normal',
+                        icon: 'AlignLeftOutlined'
+                    }
+                }, {
+                    name: 'card',
+                    path: '/list/card',
+                    meta: {
+                        title: '卡片列表',
+                        subTitle: 'Card',
+                        icon: 'CreditCardOutlined'
+                    }
+                }, {
+                    name: 'goods',
+                    path: '/list/goods',
+                    meta: {
+                        title: '商品列表',
+                        subTitle: 'Goods',
+                        icon: 'ShoppingCartOutlined',
+                        tag: {icon: 'FireFilled', color: '#ed4014'}
+                    }
+                }]
+            }, {
+                name: 'tools',
+                path: '/tools',
+                meta: {
+                    title: '常用工具',
+                    subTitle: 'Tools',
+                    icon: 'ToolOutlined'
+                },
+                children: [{
+                    name: 'editor',
+                    path: '/tools/editor',
+                    meta: {
+                        title: '编辑器',
+                        subTitle: 'Editor',
+                        icon: 'FormOutlined'
+                    }
+                }, {
+                    name: 'captcha',
+                    path: '/tools/captcha',
+                    meta: {
+                        title: '验证码',
+                        subTitle: 'Captcha',
+                        icon: 'CheckSquareOutlined'
                     }
                 }]
             }]

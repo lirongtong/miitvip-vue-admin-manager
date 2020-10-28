@@ -10,16 +10,17 @@
     overflow-y: scroll;
 
     & &-items, & &-item {
-        height: @mi-sider-item-height;
+        min-height: @mi-sider-item-height;
         line-height: @mi-sider-item-height;
         .letter-spacing();
-        transition: none;
+        transition: all .3s ease;
+        overflow: hidden;
     }
 
     &-title {
         .flex(flex-start, center);
         height: @mi-sider-item-height;
-        .properties(line-height, 16);
+        .properties(line-height, 18);
         flex-direction: column;
 
         .sub {
@@ -46,6 +47,14 @@
         text-align: center;
     }
 
+    &-icon {
+        position: absolute;
+        .properties(right, 36);
+        .properties(top, 18);
+        color: @mi-theme-color;
+        margin-right: 0
+    }
+
     & &-items {
         .@{ant-menu} {
             &-submenu-title {
@@ -69,8 +78,11 @@
             }
 
             &-sub {
+                transition: all .3s ease;
                 background: @mi-sider-color;
                 box-shadow: none;
+                overflow: hidden;
+                position: relative;
             }
         }
 
@@ -78,7 +90,7 @@
             &-item {
                 height: @mi-sider-item-height;
                 line-height: @mi-sider-item-height;
-                transition: none;
+                transition: all .3s ease;
 
                 &:hover {
                     .@{mi-menu}-link {
@@ -87,7 +99,7 @@
                 }
 
                 & .@{mi-menu}-link {
-                    transition: none;
+                    transition: all .3s ease;
                 }
             }
         }
@@ -99,6 +111,10 @@
     }
 
     &.@{ant-menu}-dark &-item {
+        &:not(:last-child) {
+            margin-bottom: 0;
+        }
+
         &.@{ant-menu}-item-selected {
             background-color: @mi-black-color;
 

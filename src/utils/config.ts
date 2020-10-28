@@ -130,10 +130,19 @@ export declare interface Config {
         cookies: {[index: string]: any};
     },
 
+    /**
+     * Sider menu.
+     * @param {string[]} active Currently selected menu item.
+     * @param {string[]} opens Currently selected sub menu item.
+     * @param {any[]} items See interface `MenuItems`.
+     * @param {boolean} accordion Whether to open the accordion menu.
+     * @type {object}
+     */
     menus: {
         active: string[];
         opens: string[];
         items: MenuItems[];
+        accordion: boolean;
     },
 
     /**
@@ -209,7 +218,8 @@ export const config: {[index: string]: any} = reactive({
     menus: {
         active: [],
         opens: [],
-        items: []
+        items: [],
+        accordion: true
     },
     footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',
     copyright: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'

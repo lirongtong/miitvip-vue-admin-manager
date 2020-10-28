@@ -19,26 +19,26 @@ export const mutation: MutationTree<LayoutState> = {
      * @param state 
      * @param opens 
      */
-    [mutations.layout.opens](state, opens: string | any[]) {
-		state.opens = Array.isArray(opens) ? opens: [opens];
+    [mutations.layout.opens](state, opens: string | string[]) {
+        state.opens = Array.isArray(opens) ? opens : [opens];
     },
-    
+
     /**
      * The currently selected menu item.
      * @param state 
      * @param active 
      */
-    [mutations.layout.active](state, active: string) {
-		state.active = active;
+    [mutations.layout.active](state, active: string[]) {
+        state.active = active;
     },
-    
+
     /**
      * Whether to open the drawer menu.
      * @param state 
      * @param status 
      */
     [mutations.layout.drawer](state, status: boolean) {
-		state.drawer = status;
+        state.drawer = status;
     },
 
     /**
@@ -49,25 +49,25 @@ export const mutation: MutationTree<LayoutState> = {
      * @param status 
      */
     [mutations.layout.mobile](state, status: boolean) {
-		state.mobile = status;
+        state.mobile = status;
     },
-    
+
     /**
      * Screen type size (xs, xl, sm ...)
      * @param state 
      * @param type 
      */
     [mutations.layout.type](state, type: string) {
-		state.type = type;
-	},
-    
+        state.type = type;
+    },
+
     /**
      * history routes.
      * @param state 
      * @param routes 
      */
     [mutations.layout.routes](state, routes: {}) {
-		state.routes = routes;
-		$storage.set(config.caches.storages.routes, JSON.stringify(routes));
-	}
+        state.routes = routes;
+        $storage.set(config.caches.storages.routes, JSON.stringify(routes));
+    }
 }

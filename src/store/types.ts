@@ -8,8 +8,8 @@ export interface LayoutState {
 	 * @type {boolean | null}
 	 */
     collapsed: boolean | null;
-    active: string | null;
-	opens: any[];
+    active: string[] | null;
+	opens: string | string[];
 	mobile: boolean;
 	drawer: boolean;
 	small: boolean;

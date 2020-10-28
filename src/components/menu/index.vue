@@ -3,6 +3,9 @@
         class="mi-layout-sider-menu"
         theme="dark"
         mode="inline"
+        :force-sub-menu-render="true"
+        @click="setActive"
+        @openChange="setOpenKeys"
         :inline-collapsed="!collapsed"
         v-model:openKeys="G.menus.opens"
         v-model:selectedKeys="G.menus.active">
@@ -26,6 +29,7 @@
     import { useStore } from 'vuex'
     import MiLayoutMenu from './menu.vue'
     import MiLayoutMenuItem from './item.vue'
+    import { mutations } from '/@src/store/types'
 
     export default defineComponent({
         components: {MiLayoutMenu, MiLayoutMenuItem},
@@ -42,6 +46,24 @@
         computed: {
             collapsed(): boolean {
                 return this.store.getters['layout/collapsed']
+            }
+        },
+        methods: {
+            setOpenKeys(openKeys: string[]): void {
+                let opens: string[] = []
+                if (openKeys.length > 0) {
+                    opens = openKeys
+                    if (this.G.menus.accordion) opens = [openKeys[openKeys.length - 1]]
+                }
+                this.store.commit(`layout/${mutations.layout.opens}`, opens)
+                this.G.menus.opens = opens
+            },
+            setActive(item: any): void {
+                if (item.keyPath && item.keyPath.length <= 1) {
+                    this.G.menus.opens = [];
+                    this.store.commit(`layout/${mutations.layout.opens}`, [])
+                }
+                this.store.commit(`layout/${mutations.layout.active}`, [item.key])
             }
         }
     })

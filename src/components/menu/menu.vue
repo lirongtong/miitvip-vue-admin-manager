@@ -7,7 +7,8 @@
                 <span>{{ item.meta.title ?? null }}</span>
                 <span class="sub" v-html="item.meta.subTitle" v-if="item.meta.subTitle"></span>
             </div>
-            <a-tag class="mi-layout-sider-menu-tag" :color="item.meta.tag.color ?? '#f6ca9d'" v-if="item.meta.tag">{{ item.meta.tag.content }}</a-tag>
+            <a-tag class="mi-layout-sider-menu-tag" :color="item.meta.tag.color ?? '#f6ca9d'" v-if="item.meta.tag && item.meta.tag.content">{{ item.meta.tag.content }}</a-tag>
+            <component :is="item.meta.tag.icon" class="mi-layout-sider-menu-icon" :style="{color: item.meta.tag.color ?? '#f6ca9d', marginRight: 0, fontSize: `${item.meta.tag.size ?? 14}px`}" v-if="item.meta.tag && item.meta.tag.icon && !item.meta.tag.content"></component>
         </template>
         <template v-for="(child, i) in item.children" :key="i">
             <mi-layout-menu :item="child.children"
