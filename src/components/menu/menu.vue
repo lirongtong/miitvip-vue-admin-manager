@@ -3,7 +3,11 @@
         <template v-slot:title>
             <component :is="item.meta.icon" v-if="item.meta.icon" />
             <TagsFilled v-else />
-            <span>{{ item.meta.title ?? null }}</span>
+            <div class="mi-layout-sider-menu-title">
+                <span>{{ item.meta.title ?? null }}</span>
+                <span class="sub" v-html="item.meta.subTitle" v-if="item.meta.subTitle"></span>
+            </div>
+            <a-tag class="mi-layout-sider-menu-tag" :color="item.meta.tag.color ?? '#f6ca9d'" v-if="item.meta.tag">{{ item.meta.tag.content }}</a-tag>
         </template>
         <template v-for="(child, i) in item.children" :key="i">
             <mi-layout-menu :item="child.children"

@@ -1,3 +1,3 @@
 <template>
-    Nice Job
+    Getting Start
 </template>

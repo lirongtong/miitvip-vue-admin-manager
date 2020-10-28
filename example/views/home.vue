@@ -12,27 +12,32 @@
                 path: '/start',
                 meta: {
                     title: '快速上手',
-                    icon: 'ThunderboltOutlined'
+                    subTitle: 'Geeting Start',
+                    icon: 'ThunderboltOutlined',
+                    tag: {color: '#f50', content: 'New'}
                 }
             }, {
                 name: 'passport',
                 path: '/passport',
                 meta: {
-                    title: 'Passport',
+                    title: '登录注册',
+                    subTitle: 'Passport',
                     icon: 'SecurityScanOutlined'
                 },
                 children: [{
                     name: 'login',
                     path: '/passport/login',
                     meta: {
-                        title: 'Login 登录',
+                        title: '登录页面',
+                        subTitle: 'Login',
                         icon: 'LoginOutlined'
                     }
                 }, {
                     name: 'register',
                     path: '/passport/register',
                     meta: {
-                        title: 'Register 注册',
+                        title: '注册页面',
+                        subTitle: 'Register',
                         icon: 'LogoutOutlined'
                     }
                 }]
