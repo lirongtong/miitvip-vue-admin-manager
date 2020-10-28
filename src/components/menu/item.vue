@@ -3,6 +3,7 @@
         <router-link class="mi-layout-sider-menu-link" :to="{path: item.path}" v-if="!G.regExp.url.test(item.path)">
             <component :is="item.meta.icon" v-if="item.meta.icon" />
             <TagsFilled v-else />
+            <span v-if="top">{{ item.meta.title ?? G.title }}</span>
             <div class="mi-layout-sider-menu-title" v-if="!top">
                 <span>{{ title ? item.meta.title : null }}</span>
                 <span class="sub" v-html="item.meta.subTitle" v-if="item.meta.subTitle"></span>

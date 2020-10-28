@@ -6,7 +6,7 @@
         :force-sub-menu-render="true"
         @click="setActive"
         @openChange="setOpenKeys"
-        :inline-collapsed="!collapsed"
+        :inline-collapsed="collapsed"
         v-model:openKeys="G.menus.opens"
         v-model:selectedKeys="G.menus.active">
         <slot name="menu">
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue'
+    import { defineComponent, computed } from 'vue'
     import { useStore } from 'vuex'
     import MiLayoutMenu from './menu.vue'
     import MiLayoutMenuItem from './item.vue'
@@ -43,12 +43,8 @@
         },
         setup() {
             const store = useStore()
-            return {store}
-        },
-        computed: {
-            collapsed(): boolean {
-                return this.store.getters['layout/collapsed']
-            }
+            const collapsed = computed(() => store.getters['layout/collapsed'])
+            return {store, collapsed}
         },
         methods: {
             setOpenKeys(openKeys: string[]): void {

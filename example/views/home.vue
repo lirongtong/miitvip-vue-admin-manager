@@ -99,7 +99,16 @@
                         title: '验证码',
                         subTitle: 'Captcha',
                         icon: 'CheckSquareOutlined'
-                    }
+                    },
+                    children: [{
+                        name: 'message',
+                        path: '/tools/captcha',
+                        meta: {
+                            title: '短信验证码',
+                            subTitle: 'Message',
+                            icon: 'CheckSquareOutlined'
+                        }
+                    }]
                 }]
             }]
         }
