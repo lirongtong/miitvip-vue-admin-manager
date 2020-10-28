@@ -3,12 +3,24 @@
         <template v-slot:title>
             <component :is="item.meta.icon" v-if="item.meta.icon" />
             <TagsFilled v-else />
-            <div class="mi-layout-sider-menu-title">
+            <div class="mi-layout-sider-menu-title" v-if="!top">
                 <span>{{ item.meta.title ?? null }}</span>
                 <span class="sub" v-html="item.meta.subTitle" v-if="item.meta.subTitle"></span>
             </div>
-            <a-tag class="mi-layout-sider-menu-tag" :color="item.meta.tag.color ?? '#f6ca9d'" v-if="item.meta.tag && item.meta.tag.content">{{ item.meta.tag.content }}</a-tag>
-            <component :is="item.meta.tag.icon" class="mi-layout-sider-menu-icon" :style="{color: item.meta.tag.color ?? '#f6ca9d', marginRight: 0, fontSize: `${item.meta.tag.size ?? 14}px`}" v-if="item.meta.tag && item.meta.tag.icon && !item.meta.tag.content"></component>
+            <a-tag class="mi-layout-sider-menu-tag"
+                :color="item.meta.tag.color ?? '#f6ca9d'"
+                v-if="item.meta.tag && item.meta.tag.content && !top">
+                {{ item.meta.tag.content }}
+            </a-tag>
+            <component :is="item.meta.tag.icon"
+                class="mi-layout-sider-menu-icon"
+                :style="{
+                    color: item.meta.tag.color ?? '#f6ca9d',
+                    marginRight: 0,
+                    fontSize: `${item.meta.tag.size ?? 14}px`
+                }"
+                v-if="item.meta.tag && item.meta.tag.icon && !item.meta.tag.content && !top">
+            </component>
         </template>
         <template v-for="(child, i) in item.children" :key="i">
             <mi-layout-menu :item="child.children"
@@ -40,6 +52,10 @@
             type: {
                 type: String,
                 default: 'children'
+            },
+            top: {
+                type: Boolean,
+                default: false
             }
         }
     })

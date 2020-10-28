@@ -13,10 +13,12 @@
             <template v-for="item in G.menus.items" :key="G.prefix + item.name">
                 <mi-layout-menu :item="item"
                     :key="G.prefix + item.name"
+                    :top="collapsed"
                     v-if="item.children && item.children.length > 0">
                 </mi-layout-menu>
                 <mi-layout-menu-item :item="item"
                     :key="G.prefix + item.name"
+                    :top="collapsed"
                     v-else>
                 </mi-layout-menu-item>
             </template>

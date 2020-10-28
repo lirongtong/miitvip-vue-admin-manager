@@ -134,3 +134,92 @@
         }
     }
 }
+
+.@{mi-sider} {
+    &-collapsed {
+        & .@{mi-menu} {
+            width: @mi-sider-width-sm-scroll;
+
+            & > .@{mi-menu} {
+                &-item, &-items {
+                    .flex();
+
+                    .@{mi-menu}-link {
+                        & .anticon {
+                            .flex();
+                            .properties(font-size, 20);
+                        }
+                    }
+
+                    &.@{ant-menu}-item-selected {
+                        &:after {
+                            transform: scaleY(1);
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.@{ant-menu} {
+    &:not(.@{ant-menu}-inline) {
+        .@{ant-menu} {
+            &-submenu-open,
+            &-submenu-active {
+                color: @mi-theme-color;
+            }
+        }
+    }
+
+    &-dark {
+        &.@{ant-menu}-submenu-popup {
+            .@{ant-menu} {
+                &-sub {
+                    background: @mi-sider-color;
+                    color: @mi-white-color;
+                }
+
+                &-item {
+                    min-height: @mi-sider-item-height;
+                    .flex(center, flex-start);
+
+                    > a {
+                        .flex();
+
+                        &:hover {
+                            color: @mi-theme-color;
+                        }
+                    }
+
+                    &-selected {
+                        background-color: @mi-black-color;
+
+                        .@{mi-menu} {
+                            &-link {
+                                color: @mi-theme-color;
+                                
+                                .anticon, .anticon + span {
+                                    color: @mi-theme-color;
+                                }
+                            }
+                         }
+
+                         &:after {
+                            border-right: 3px solid @mi-theme-color;
+                            transform: scaleY(1);
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .@{mi-menu} {
+            &-icon {
+                .properties(right, 16);
+            }
+        }
+    }
+}

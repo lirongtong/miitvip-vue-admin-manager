@@ -1,6 +1,7 @@
 <template>
     <a-layout-sider
         class="mi-layout-sider"
+        :class="collapsed ? 'mi-layout-sider-collapsed' : null"
         :clooapsible="true"
         theme="light"
         width="256"
@@ -15,14 +16,15 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue'
+    import { defineComponent, computed } from 'vue'
     import { useStore } from 'vuex'
     import { mutations } from '/@src/store/types'
 
     export default defineComponent({
         setup() {
             const store = useStore()
-            return {store}
+            const collapsed = computed(() => store.getters['layout/collapsed'])
+            return {store, collapsed}
         },
 
         methods: {
