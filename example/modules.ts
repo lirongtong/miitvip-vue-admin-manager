@@ -1,6 +1,8 @@
 import { App } from 'vue'
 import 'ant-design-vue/lib/layout/style/index.less'
 import 'ant-design-vue/lib/menu/style/index.less'
+import 'ant-design-vue/lib/tooltip/style/index.less'
+import 'ant-design-vue/lib/tag/style/index.less'
 import {
     Layout, Menu, Tooltip, Tag
 } from 'ant-design-vue'
