@@ -1,7 +1,8 @@
 <template>
     <a-sub-menu
         class="mi-layout-sider-menu-items"
-        :key="G.prefix + item.meta.name">
+        :class="active"
+        :key="G.prefix + item.name">
         <template v-slot:title>
             <component :is="item.meta.icon" v-if="item.meta.icon" />
             <TagsFilled v-else />
@@ -48,27 +49,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useStore } from "vuex";
-import MiLayoutMenuItem from "./item.vue";
+    import { defineComponent } from 'vue'
+    import { useStore } from 'vuex'
+    import MiLayoutMenuItem from './item.vue'
 
-export default defineComponent({
-    name: "MiLayoutMenu",
-    components: { MiLayoutMenuItem },
-    props: {
-        item: {
-            type: Object,
-            default: () => {},
-            required: true,
+    export default defineComponent({
+        name: 'MiLayoutMenu',
+        components: { MiLayoutMenuItem },
+        props: {
+            item: {
+                type: Object,
+                default: () => {},
+                required: true
+            },
+            type: {
+                type: String,
+                default: 'children'
+            },
+            top: {
+                type: Boolean,
+                default: false
+            }
         },
-        type: {
-            type: String,
-            default: "children",
-        },
-        top: {
-            type: Boolean,
-            default: false,
-        },
-    },
-});
+        computed: {
+            active(): string | null {
+                return this.G.menus.relationshipChain.includes(this.G.prefix + this.item.name) ? 'mi-layout-sider-menu-items-active' : null
+            }
+        }
+    })
 </script>

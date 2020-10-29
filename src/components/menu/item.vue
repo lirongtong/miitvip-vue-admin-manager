@@ -1,7 +1,7 @@
 <template>
     <a-menu-item
         class="mi-layout-sider-menu-item"
-        :key="G.prefix + item.meta.name">
+        :key="G.prefix + item.name">
         <router-link
             class="mi-layout-sider-menu-link"
             :to="{ path: item.path }"
@@ -76,23 +76,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+    import { defineComponent } from 'vue';
 
-export default defineComponent({
-    props: {
-        item: {
-            type: Object,
-            required: true,
-            default: () => {},
-        },
-        title: {
-            type: Boolean,
-            default: true,
-        },
-        top: {
-            type: Boolean,
-            default: false,
-        },
-    },
-});
+    export default defineComponent({
+        props: {
+            item: {
+                type: Object,
+                required: true,
+                default: () => {}
+            },
+            title: {
+                type: Boolean,
+                default: true
+            },
+            top: {
+                type: Boolean,
+                default: false
+            }
+        }
+    })
 </script>

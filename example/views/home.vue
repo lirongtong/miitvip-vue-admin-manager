@@ -102,7 +102,7 @@
                     },
                     children: [{
                         name: 'captcha-message',
-                        path: 'https://admin.makeit.vip/tools/captcha/message',
+                        path: '/tools/captcha/message',
                         meta: {
                             title: '短信验证码',
                             subTitle: 'Message',

@@ -12,7 +12,7 @@ export declare interface MenuItems {
     /**
      * Name for the item.
      */
-    name: string | symbol;
+    name: string;
 
     /**
      * Array of nested menu items.
@@ -136,6 +136,8 @@ export declare interface Config {
      * @param {string[]} opens Currently selected sub menu item.
      * @param {any[]} items See interface `MenuItems`.
      * @param {boolean} accordion Whether to open the accordion menu.
+     * @param {string[]} relationshipChain The relationship chain of the selected menu,
+     *                                      from the root to bottom.
      * @type {object}
      */
     menus: {
@@ -143,6 +145,7 @@ export declare interface Config {
         opens: (string | number)[];
         items: MenuItems[];
         accordion: boolean;
+        relationshipChain: string[];
     },
 
     /**
@@ -219,7 +222,8 @@ export const config: {[index: string]: any} = reactive({
         active: [],
         opens: [],
         items: [],
-        accordion: true
+        accordion: true,
+        relationshipChain: []
     },
     footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',
     copyright: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'

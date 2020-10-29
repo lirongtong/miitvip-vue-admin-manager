@@ -12,10 +12,12 @@ const ListGoods = () => import('/@views/list/goods.vue')
 const Tools = () => import('/@views/tools/index.vue')
 const ToolsEditor = () => import('/@views/tools/editor.vue')
 const ToolsCaptcha = () => import('/@views/tools/captcha.vue')
+const ToolsCaptchaMessage = () => import('/@views/tools/message.vue')
 
 const routes: Array<RouteRecordRaw> = [{
     path: '/',
     component: Home,
+    redirect: '/start',
     children: [{
         path: 'start',
         component: Start 
@@ -39,7 +41,12 @@ const routes: Array<RouteRecordRaw> = [{
             component: ToolsEditor
         }, {
             path: 'captcha',
-            component: ToolsCaptcha
+            component: ToolsCaptcha,
+            redirect: 'tools/captcha/message',
+            children: [{
+                path: 'message',
+                component: ToolsCaptchaMessage
+            }]
         }]
     }, {
         path: 'list',
