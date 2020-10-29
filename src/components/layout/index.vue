@@ -53,10 +53,11 @@
             }
         },
 
-        mounted() {
+        created() {
             this.$tools.setTitle()
             this.$tools.setKeywords()
             this.$tools.setDescription()
+            this.G.mobile = this.$tools.isMobile()
         }
     })
 </script>

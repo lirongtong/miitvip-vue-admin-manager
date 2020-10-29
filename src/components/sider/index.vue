@@ -1,12 +1,13 @@
 <template>
     <a-layout-sider
         class="mi-layout-sider"
-        :clooapsible="true"
+        :collapsible="true"
         theme="light"
         width="256"
         breakpoint="lg"
-        @collapse="setCollapsed"
-        :trigger="null">
+        v-model:collapsed="collapsed"
+        :trigger="null"
+        v-if="!G.mobile">
         <slot name="sider">
             <mi-layout-sider-logo></mi-layout-sider-logo>
             <mi-layout-sider-menu></mi-layout-sider-menu>
@@ -15,7 +16,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue'
+    import { defineComponent, computed, ref, watch } from 'vue'
     import { useStore } from 'vuex'
     import { mutations } from '/@src/store/types'
 
@@ -23,6 +24,11 @@
         setup() {
             const store = useStore()
             return {store}
+        },
+        computed: {
+            collapsed(): boolean {
+                return this.store.getters['layout/collapsed']
+            }
         },
         methods: {
             setCollapsed(collapse: boolean) {

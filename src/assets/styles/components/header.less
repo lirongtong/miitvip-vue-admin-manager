@@ -2,5 +2,32 @@
     background: @mi-sider-color;
     transition: all .3s ease;
     .flex(center, space-between);
+    padding-left: 0;
+    padding-right: 0;
     z-index: 11;
+
+    &-left,
+    &-right {
+        .flex();
+    }
+
+    &-trigger {
+        width: 100%;
+        height: 100%;
+        
+        > .anticon {
+            width: @mi-header-height;
+            height: @mi-header-height;
+            .flex();
+            cursor: pointer;
+
+            > svg {
+                .properties(font-size, 18);
+            }
+
+            &:hover {
+                background: fade(@mi-black-color, 20%);
+            }
+        }
+    }
 }

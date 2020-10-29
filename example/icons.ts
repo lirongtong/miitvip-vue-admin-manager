@@ -4,7 +4,7 @@ import {
     TagsFilled, SecurityScanOutlined, ThunderboltOutlined, VerifiedOutlined,
     FormOutlined, OrderedListOutlined, AlignLeftOutlined, CreditCardOutlined,
     ShoppingCartOutlined, CheckSquareOutlined, ToolOutlined, FireFilled,
-    MessageOutlined, MailOutlined, PhoneOutlined
+    MessageOutlined, MailOutlined, PhoneOutlined, MenuFoldOutlined, MenuUnfoldOutlined
 } from '@ant-design/icons-vue'
 
 const MiIcons: any = {
@@ -12,7 +12,7 @@ const MiIcons: any = {
     TagsFilled, SecurityScanOutlined, ThunderboltOutlined, VerifiedOutlined,
     FormOutlined, OrderedListOutlined, AlignLeftOutlined, CreditCardOutlined,
     ShoppingCartOutlined, CheckSquareOutlined, ToolOutlined, FireFilled,
-    MessageOutlined, MailOutlined, PhoneOutlined
+    MessageOutlined, MailOutlined, PhoneOutlined, MenuFoldOutlined, MenuUnfoldOutlined
 }
 const icons = {
     install(app: App) {

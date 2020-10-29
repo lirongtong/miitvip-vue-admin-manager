@@ -1,6 +1,5 @@
 <template>
-    <a-menu
-        ref="mi-menus"
+    <a-menu ref="mi-menus"
         class="mi-layout-sider-menu"
         theme="dark"
         mode="inline"
@@ -42,7 +41,7 @@
         props: {
             menuClassName: {
                 type: String,
-                default: ""
+                default: ''
             }
         },
         setup() {

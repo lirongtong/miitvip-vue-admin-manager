@@ -8,7 +8,7 @@ export declare interface Tools {
     setDescription(desc?: string, overwritten?: boolean): () => void;
     randomNumberInRange(start: number, end: number): () => number;
     uid(upper: boolean): () => string;
-    isMobile(): () => boolean;
+    isMobile: () => boolean;
     isNumber(number: any): () => boolean;
     checkEmail(email: string): () => boolean;
 }
