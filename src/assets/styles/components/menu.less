@@ -5,13 +5,19 @@
     background: @mi-sider-color;
     height: calc(100vh - @mi-header-height);
     margin-top: @mi-header-height;
-    width: @mi-sider-width-scroll;
+    width: @mi-sider-width;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     overflow-x: hidden;
     overflow-y: scroll;
 
     & &-items, & &-item {
         min-height: @mi-sider-item-height;
         line-height: @mi-sider-item-height;
+        color: @mi-white-color;
         .letter-spacing();
         transition: all .3s ease;
         overflow: hidden;
@@ -137,11 +143,12 @@
 .ant-layout-sider {
     &-collapsed {
         & .@{mi-menu} {
-            width: @mi-sider-width-sm-scroll;
+            width: @mi-sider-width-sm;
 
             & > .@{mi-menu} {
                 &-item, &-items {
                     .flex();
+                    width: @mi-sider-width-sm;
 
                     .@{mi-menu}-link {
                         & .anticon {
@@ -174,6 +181,8 @@
 
     &-dark {
         &.@{ant-menu}-submenu-popup {
+            transition: none;
+
             .@{ant-menu} {
                 &-sub {
                     background: @mi-sider-color;
@@ -186,6 +195,7 @@
 
                     > a {
                         .flex();
+                        color: @mi-white-color;
 
                         &:hover {
                             color: @mi-theme-color;
@@ -219,6 +229,44 @@
             &-icon {
                 .properties(right, 16);
             }
+        }
+    }
+
+    &-vertical > &-submenu > &-submenu-title {
+        .flex(center, flex-start);
+        height: @mi-sider-item-height;
+        line-height: @mi-sider-item-height;
+
+        .@{ant-menu}-submenu-arrow {
+            opacity: 1;
+        }
+
+        &:hover {
+            color: @mi-theme-color;
+
+            .@{ant-menu}-submenu-arrow {
+                &:before,
+                &:after {
+                    background: @mi-theme-color;
+                }
+            }
+        }
+    }
+
+    &-vertical > &-submenu-active > &-submenu-title {
+        .@{ant-menu}-submenu-arrow {
+            &:before,
+            &:after {
+                background: @mi-theme-color;
+            }
+        }
+    }
+
+    &-vertical &-item:not(:last-child) {
+        margin-bottom: 0;
+
+        > a {
+            color: @mi-white-color;
         }
     }
 }

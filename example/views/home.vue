@@ -101,12 +101,21 @@
                         icon: 'CheckSquareOutlined'
                     },
                     children: [{
-                        name: 'message',
-                        path: '/tools/captcha',
+                        name: 'captcha-message',
+                        path: 'https://admin.makeit.vip/tools/captcha/message',
                         meta: {
                             title: '短信验证码',
                             subTitle: 'Message',
-                            icon: 'CheckSquareOutlined'
+                            icon: 'MessageOutlined',
+                            tag: {icon: 'PhoneOutlined', color: 'green'}
+                        }
+                    }, {
+                        name: 'captcha-email',
+                        path: 'https://admin.makeit.vip/tools/captcha/email',
+                        meta: {
+                            title: '邮箱验证码',
+                            subTitle: 'Email',
+                            icon: 'MailOutlined'
                         }
                     }]
                 }]

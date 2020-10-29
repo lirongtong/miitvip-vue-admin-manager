@@ -140,7 +140,7 @@ export declare interface Config {
      */
     menus: {
         active: string[];
-        opens: string[];
+        opens: (string | number)[];
         items: MenuItems[];
         accordion: boolean;
     },
