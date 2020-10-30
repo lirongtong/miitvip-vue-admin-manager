@@ -11,18 +11,18 @@
         v-model:selectedKeys="G.menus.active">
         <slot name="menu">
             <template v-for="item in data" :key="G.prefix + item.name">
-                <mi-layout-sub-menu
+                <mi-layout-sider-sub-menu
                     :item="item"
                     :key="G.prefix + item.name"
                     :top="collapsed"
                     v-if="item.children && item.children.length > 0">
-                </mi-layout-sub-menu>
-                <mi-layout-menu-item
+                </mi-layout-sider-sub-menu>
+                <mi-layout-sider-menu-item
                     :item="item"
                     :key="G.prefix + item.name"
                     :top="collapsed"
                     v-else>
-                </mi-layout-menu-item>
+                </mi-layout-sider-menu-item>
             </template>
         </slot>
     </a-menu>
@@ -31,13 +31,10 @@
 <script lang="ts">
     import { defineComponent, computed, reactive } from 'vue'
     import { useStore } from 'vuex'
-    import MiLayoutSubMenu from './submenu.vue'
-    import MiLayoutMenuItem from './item.vue'
     import { mutations } from '/@src/store/types'
     import { MenuItems } from '/@src/utils/config'
 
     export default defineComponent({
-        components: { MiLayoutSubMenu, MiLayoutMenuItem },
         props: {
             menuClassName: {
                 type: String,

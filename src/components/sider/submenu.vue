@@ -5,34 +5,7 @@
         :key="G.prefix + item.name"
         v-if="item">
             <template v-slot:title>
-                <component :is="item.meta.icon" v-if="item.meta.icon" />
-                <TagsFilled v-else />
-                <div class="mi-layout-sider-menu-title" v-if="!top">
-                    <span>{{ item.meta.title ?? null }}</span>
-                    <span class="sub"
-                        v-html="item.meta.subTitle"
-                        v-if="item.meta.subTitle">
-                    </span>
-                </div>
-                <a-tag
-                    class="mi-layout-sider-menu-tag"
-                    :color="item.meta.tag.color ?? '#f6ca9d'"
-                    v-if="item.meta.tag && item.meta.tag.content && !top">
-                    {{ item.meta.tag.content }}
-                </a-tag>
-                <component
-                    :is="item.meta.tag.icon"
-                    class="mi-layout-sider-menu-icon"
-                    :style="{
-                        color: item.meta.tag.color ?? '#f6ca9d',
-                        marginRight: 0,
-                        fontSize: `${item.meta.tag.size ?? 14}px`,
-                    }"
-                    v-if="item.meta.tag &&
-                        item.meta.tag.icon &&
-                        !item.meta.tag.content &&
-                        !top">
-                </component>
+                <mi-layout-menu-item-link :item="item" :top="top" :title="true"></mi-layout-menu-item-link>
             </template>
             <slot name="sub-menu">
                 <template v-for="child in item.children">
@@ -54,8 +27,10 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import { useStore } from 'vuex'
+    import MiLayoutMenuItemLink from './item-link.vue'
 
     export default defineComponent({
+        components: { MiLayoutMenuItemLink },
         props: {
             item: {
                 type: Object,
