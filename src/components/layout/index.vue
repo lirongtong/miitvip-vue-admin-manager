@@ -1,5 +1,5 @@
 <template>
-    <a-layout class="mi-layout" :class="layoutClass">
+    <a-layout class="mi-layout" :hasSider="true" :class="layoutClass">
         <slot name="layout">
             <mi-layout-sider></mi-layout-sider>
             <a-layout class="mi-layout-container">
@@ -12,18 +12,11 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed, getCurrentInstance } from 'vue'
-    import MiLayoutHeader from '../header/index.vue'
-    import MiLayoutSider from '../sider/index.vue'
-    import MiLayoutContent from '../content/index.vue'
-    import MiLayoutFooter from '../footer/index.vue'
+    import { defineComponent } from 'vue'
+    import { useStore } from 'vuex'
+    import { mutations } from '/@src/store/types'
 
     export default defineComponent({
-        components: {
-            MiLayoutHeader, MiLayoutSider,
-            MiLayoutContent, MiLayoutFooter
-        },
-
         props: {
 			embed: {
 				type: Boolean,
@@ -38,7 +31,6 @@
                 default: ''
             }
         },
-
         computed: {
             layoutClass(): any {
                 const embed = this.G.embed ? `mi-layout-embed `: ''
@@ -46,13 +38,6 @@
 				return mobile + embed
             }
         },
-
-        methods: {
-            resize() {
-                console.log('resize')
-            }
-        },
-
         created() {
             this.$tools.setTitle()
             this.$tools.setKeywords()

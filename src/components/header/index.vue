@@ -22,10 +22,14 @@
         setup() {
             const store = useStore()
             const collapsed = computed(() => store.getters['layout/collapsed'])
-            const setCollapsed = () => {
-                store.commit(`layout/${mutations.layout.collapsed}`, !collapsed.value)
+            return {collapsed, store}
+        },
+        methods: {
+            setCollapsed() {
+                const collapse = !this.collapsed
+                this.G.menus.collapsed = collapse
+                this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
             }
-            return {collapsed, setCollapsed}
         }
     })
 </script>

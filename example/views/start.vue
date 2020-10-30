@@ -1,3 +1,3 @@
 <template>
-    Getting Start
+    Geeting Started
 </template>
