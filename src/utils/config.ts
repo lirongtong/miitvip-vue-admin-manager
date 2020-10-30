@@ -21,17 +21,15 @@ export declare interface MenuItems {
      * Name for the item.
      */
     name: string;
+    /**
+     * Interface to type `meta` fields in items records.
+     */
+    meta?: Record<string | number | symbol, any>;
 
     /**
      * Array of nested menu items.
      */
     children?: MenuItems[];
-    groups?: MenuItems[];
-
-    /**
-     * Interface to type `meta` fields in items records.
-     */
-    meta?: Record<string | number | symbol, any>;
 }
 
 export declare interface Config {
