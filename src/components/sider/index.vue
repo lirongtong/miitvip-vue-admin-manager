@@ -6,8 +6,7 @@
         v-model:collapsed="G.menus.collapsed"
         @collapse="setCollapsed"
         :trigger="null"
-        collapsible
-        v-if="!G.mobile">
+        collapsible>
         <slot name="sider">
             <mi-layout-sider-logo></mi-layout-sider-logo>
             <mi-layout-sider-menu></mi-layout-sider-menu>

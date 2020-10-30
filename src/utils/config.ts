@@ -146,6 +146,7 @@ export declare interface Config {
         items: MenuItems[];
         accordion: boolean;
         collapsed: boolean;
+        drawer: boolean;
         relationshipChain: string[];
     },
 
@@ -225,6 +226,7 @@ export const config: {[index: string]: any} = reactive({
         items: [],
         accordion: true,
         collapsed: false,
+        drawer: false,
         relationshipChain: []
     },
     footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',

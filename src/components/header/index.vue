@@ -26,9 +26,13 @@
         },
         methods: {
             setCollapsed() {
-                const collapse = !this.collapsed
-                this.G.menus.collapsed = collapse
-                this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
+                if (this.G.mobile) {
+                    this.G.menus.drawer = !this.G.menus.drawer
+                } else {
+                    const collapse = !this.collapsed
+                    this.G.menus.collapsed = collapse
+                    this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
+                }
             }
         }
     })

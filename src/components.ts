@@ -17,6 +17,7 @@ import MiCaptcha from './components/captcha'
 const components: {[index: string]: any} = {
     config, cookie, storage, api, http, tools,
     MiLayout, MiLayoutSider, MiLayoutSiderLogo, MiLayoutSiderMenu,
-    MiLayoutHeader, MiLayoutFooter, MiLayoutContent, MiCaptcha
+    MiLayoutHeader, MiLayoutFooter, MiLayoutContent,
+    MiCaptcha
 }
 export default components
