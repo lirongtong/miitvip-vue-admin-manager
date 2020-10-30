@@ -13,7 +13,7 @@
                     <ExpandOutlined />
                 </div>
                 <div class="mi-layout-header-trigger mi-layout-header-trigger-min">
-                    <a-badge :count="1" dot><BellOutlined /></a-badge>
+                    <mi-layout-header-notice></mi-layout-header-notice>
                 </div>
                 <div class="mi-layout-header-trigger mi-layout-header-trigger-min">
                     <mi-layout-header-dropdown></mi-layout-header-dropdown>

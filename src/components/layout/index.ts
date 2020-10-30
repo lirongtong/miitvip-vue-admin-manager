@@ -8,13 +8,15 @@ import MiLayoutSiderMenuItem from '../sider/item.vue'
 import MiLayoutSiderDrawer from '../sider/drawer.vue'
 import MiLayoutHeader from './header.vue'
 import MiLayoutHeaderDropdown from '../header/dropdown.vue'
+import MiLayoutHeaderNotice from '../header/notice.vue'
 import MiLayoutContent from './content.vue'
 import MiLayoutFooter from './footer.vue'
 
 const components = {
     MiLayout, MiLayoutSider, MiLayoutSiderLogo, MiLayoutSiderMenu,
     MiLayoutSiderDrawer, MiLayoutSiderSubMenu, MiLayoutSiderMenuItem,
-    MiLayoutHeader, MiLayoutHeaderDropdown, MiLayoutContent, MiLayoutFooter
+    MiLayoutHeader, MiLayoutHeaderDropdown, MiLayoutHeaderNotice, MiLayoutContent,
+    MiLayoutFooter
 } as any
 
 const Layout = {

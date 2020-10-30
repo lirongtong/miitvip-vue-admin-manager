@@ -1,5 +1,5 @@
 <template>
-    <a-dropdown :trigger="['click']" placement="bottomCenter">
+    <a-dropdown placement="bottomCenter" v-model:visible="visible">
         <div class="mi-layout-header-dropdown-title">
             <slot name="title">
                 <a-avatar class="avatar" :src="G.avatar" :alt="G.powered" size="small"></a-avatar>
@@ -40,7 +40,7 @@
     import { MenuItem } from '/@src/utils/config'
 
     export default defineComponent({
-        components: {MiLayoutHeaderDropdownItem},
+        components: { MiLayoutHeaderDropdownItem },
         props: {
             items: {
                 type: Object,
