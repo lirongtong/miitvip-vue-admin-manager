@@ -16,15 +16,7 @@
                     <a-badge :count="1" dot><BellOutlined /></a-badge>
                 </div>
                 <div class="mi-layout-header-trigger mi-layout-header-trigger-min">
-                    <a-dropdown :trigger="['click']" placement="bottomCenter" v-model:visible="menuVisible">
-                        <div class="mi-layout-header-dropdown-title">
-                            <a-avatar class="avatar" :src="G.avatar" :alt="G.powered" size="small"></a-avatar>
-                            <span class="name">{{ G.userInfo.nickname ?? G.author }}</span>
-                        </div>
-                        <template v-slot:overlay>
-                            <mi-layout-header-dropdown></mi-layout-header-dropdown>
-                        </template>
-                    </a-dropdown>
+                    <mi-layout-header-dropdown></mi-layout-header-dropdown>
                 </div>
             </div>
         </slot>

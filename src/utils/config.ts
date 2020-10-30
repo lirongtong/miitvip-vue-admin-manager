@@ -6,6 +6,7 @@ export declare interface MenuItem {
     path?: string;
     icon?: string;
     tag?: Record<string, string>;
+    callback?: (...args: any) => any;
 }
 
 export declare interface MenuItems {

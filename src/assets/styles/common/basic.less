@@ -49,6 +49,10 @@ a {
     }
 }
 
+.tag {
+    .tag();
+}
+
 pre, code, kbd, samp {
     margin: 0;
     font-family: @mi-code-family;
@@ -109,4 +113,20 @@ pre, code, kbd, samp {
 /** Letter Spacing  */
 .letter-spacing(@value: 2) {
     .properties(letter-spacing, 2);
+}
+
+/** Tag */
+.tag() {
+    background: #ff5500;
+    margin-right: 0;
+    .properties(margin-left, 24);
+    .border-radius(16);
+    color: @mi-white-color;
+    .properties(line-height, 16);
+    .properties(max-width, 64);
+    .text-ellipsis();
+    .properties(padding-left);
+    .properties(padding-right);
+    .properties(font-size, 12);
+    .properties(height, 20);
 }

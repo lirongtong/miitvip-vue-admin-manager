@@ -9,13 +9,13 @@
         created() {
             this.G.menus.dropdown = [{
                 name: 'personal',
-                path: '/profile',
+                path: 'https://admin.makeit.vip/profile',
                 title: '个人中心',
                 icon: 'UserOutlined',
-                tag: {icon: 'StarOutlined', color: '#ed4014'}
+                tag: {icon: 'StarOutlined', color: '#ed4014', content: 'New'}
             }, {
                 name: 'setting',
-                path: '/setting',
+                path: 'https://admin.makeit.vip/setting',
                 title: '系统设置',
                 icon: 'SettingOutlined'
             }, {
@@ -30,7 +30,7 @@
                     title: '快速上手',
                     subTitle: 'Getting Start',
                     icon: 'ThunderboltOutlined',
-                    tag: {color: '#f50', content: 'New'}
+                    tag: {color: '#f50', content: 'Hot'}
                 }
             }, {
                 name: 'passport',

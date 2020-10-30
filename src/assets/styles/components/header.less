@@ -58,7 +58,43 @@
 }
 
 .ant-dropdown {
-    &-menu-dark {
-        background: @mi-sider-color;
+    & .ant-menu {
+        &-dark {
+            background: @mi-sider-color;
+
+            & .ant-menu-item {
+                color: @mi-white-color;
+                .letter-spacing();
+                .flex(center, flex-start);
+                .properties(padding-left, 24);
+                .properties(padding-right, 24);
+
+                &-selected {
+                    background: transparent;
+                }
+
+                a {
+                    .flex(center, flex-start);
+                    color: @mi-white-color;
+
+                    .anticon:last-child {
+                        margin-right: 0;
+                        .properties(margin-left, 24);
+                    }
+                }
+
+                &-active,
+                &:hover {
+                    background: @mi-black-color;
+                    color: @mi-theme-color;
+
+                    a,
+                    .anticon,
+                    .anticon + span {
+                        color: @mi-theme-color;
+                    }
+                }
+            }
+        }
     }
 }
