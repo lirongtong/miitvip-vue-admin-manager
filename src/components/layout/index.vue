@@ -50,6 +50,7 @@
             this.$tools.setKeywords()
             this.$tools.setDescription()
             this.G.mobile = this.$tools.isMobile()
+            this.G.menus.collapsed = this.store.getters['layout/collapsed']
             if (this.G.mobile) {
                 this.G.menus.collapsed = false
                 this.store.commit(`layout/${mutations.layout.collapsed}`, false)

@@ -7,6 +7,22 @@
 
     const homeComponent = defineComponent({
         created() {
+            this.G.menus.dropdown = [{
+                name: 'personal',
+                path: '/profile',
+                title: '个人中心',
+                icon: 'UserOutlined',
+                tag: {icon: 'StarOutlined', color: '#ed4014'}
+            }, {
+                name: 'setting',
+                path: '/setting',
+                title: '系统设置',
+                icon: 'SettingOutlined'
+            }, {
+                name: 'logout',
+                title: '退出登录',
+                icon: 'PoweroffOutlined'
+            }];
             this.G.menus.items = [{
                 name: 'start',
                 path: '/start',

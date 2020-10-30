@@ -1,5 +1,13 @@
 import { App, reactive } from 'vue'
 
+export declare interface MenuItem {
+    name: string;
+    title: string;
+    path?: string;
+    icon?: string;
+    tag?: Record<string, string>;
+}
+
 export declare interface MenuItems {
     /**
      * Path of the record. Should start with `/` unless the record is the child of
@@ -109,6 +117,12 @@ export declare interface Config {
     apiVersion: string;
 
     /**
+     * User information.
+     * @type {Record}
+     */
+    userInfo: Record<string, any>;
+
+    /**
      * Whether is mobile phone.
      * @type {boolean}
      */
@@ -147,6 +161,7 @@ export declare interface Config {
         accordion: boolean;
         collapsed: boolean;
         drawer: boolean;
+        dropdown: MenuItem[];
         relationshipChain: string[];
     },
 
@@ -199,6 +214,7 @@ export const config: {[index: string]: any} = reactive({
 		captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
     },
     apiVersion: 'v1',
+    userInfo: {},
     mobile: false,
     regExp: {
         phone: /^1[3456789]\d{9}$/,
@@ -227,6 +243,7 @@ export const config: {[index: string]: any} = reactive({
         accordion: true,
         collapsed: false,
         drawer: false,
+        dropdown: [],
         relationshipChain: []
     },
     footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',

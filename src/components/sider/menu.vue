@@ -10,13 +10,13 @@
         v-model:openKeys="G.menus.opens"
         v-model:selectedKeys="G.menus.active">
         <slot name="menu">
-            <template v-for="item in G.menus.items" :key="G.prefix + item.name">
-                <mi-layout-menu
+            <template v-for="item in data" :key="G.prefix + item.name">
+                <mi-layout-sub-menu
                     :item="item"
                     :key="G.prefix + item.name"
                     :top="collapsed"
                     v-if="item.children && item.children.length > 0">
-                </mi-layout-menu>
+                </mi-layout-sub-menu>
                 <mi-layout-menu-item
                     :item="item"
                     :key="G.prefix + item.name"
@@ -29,29 +29,34 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, computed, reactive } from "vue";
-    import { useStore } from "vuex";
-    import MiLayoutMenu from "./menu.vue";
-    import MiLayoutMenuItem from "./item.vue";
-    import { mutations } from "/@src/store/types";
-    import { MenuItems } from "/@src/utils/config";
+    import { defineComponent, computed, reactive } from 'vue'
+    import { useStore } from 'vuex'
+    import MiLayoutSubMenu from './submenu.vue'
+    import MiLayoutMenuItem from './item.vue'
+    import { mutations } from '/@src/store/types'
+    import { MenuItems } from '/@src/utils/config'
 
     export default defineComponent({
-        components: { MiLayoutMenu, MiLayoutMenuItem },
+        components: { MiLayoutSubMenu, MiLayoutMenuItem },
         props: {
             menuClassName: {
                 type: String,
                 default: ''
+            },
+            items: {
+                type: Object,
+                default: () => {}
             }
         },
         setup() {
             const store = useStore()
             const menus: any = reactive({})
+            const data: MenuItems[] = reactive([])
             const collapsed = computed(() => store.getters["layout/collapsed"])
-            return { store, collapsed, menus }
+            return { store, collapsed, menus, data }
         },
         created() {
-            const data = this.G.menus.items as MenuItems[]
+            this.data = (this.items ?? this.G.menus.items) as MenuItems[]
             const path = this.$route.path
             let find = false
             let relation: string[] = []
@@ -72,14 +77,14 @@
                     if (!find) relation.pop()
                 }
             };
-            for (let i = 0; i < data.length; i++) {
-                const name = this.G.prefix + data[i].name
+            for (let i = 0; i < this.data.length; i++) {
+                const name = this.G.prefix + this.data[i].name
                 if (!find) {
                     relation.push(name)
-                    if (path === data[i].path) find = true
+                    if (path === this.data[i].path) find = true
                 }
                 this.menus[name] = {}
-                const children = data[i].children
+                const children = this.data[i].children
                 if (children && children.length > 0) {
                     getChildren(children, name)
                     this.menus[name] = allChildren
@@ -124,7 +129,6 @@
                 this.store.commit(`layout/${mutations.layout.active}`, [item.key])
             },
             getRelationshipChain() {
-                const data = this.G.menus.items as MenuItems[]
                 const path = this.$route.path
                 let find = false
                 let relation: string[] = []
@@ -140,13 +144,13 @@
                         if (!find) relation.pop()
                     }
                 }
-                for (let i = 0; i < data.length; i++) {
-                    const name = this.G.prefix + data[i].name
+                for (let i = 0; i < this.data.length; i++) {
+                    const name = this.G.prefix + this.data[i].name
                     if (!find) {
                         relation.push(name)
-                        if (path === data[i].path) find = true
+                        if (path === this.data[i].path) find = true
                     }
-                    const children = data[i].children
+                    const children = this.data[i].children
                     if (children && children.length > 0) getChildren(children)
                     if (!find) relation = []
                 }
