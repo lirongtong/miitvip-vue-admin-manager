@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="mi-layout-header-right">
-                <div class="mi-layout-header-trigger mi-layout-header-trigger-min">
+                <div class="mi-layout-header-trigger mi-layout-header-trigger-min" v-if="!G.mobile">
                     <ExpandOutlined />
                 </div>
                 <div class="mi-layout-header-trigger mi-layout-header-trigger-min">

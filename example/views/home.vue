@@ -28,7 +28,7 @@
                 path: '/start',
                 meta: {
                     title: '快速上手',
-                    subTitle: 'Geeting Start',
+                    subTitle: 'Getting Start',
                     icon: 'ThunderboltOutlined',
                     tag: {color: '#f50', content: 'New'}
                 }
