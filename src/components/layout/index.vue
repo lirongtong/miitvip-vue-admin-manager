@@ -16,10 +16,8 @@
     import { defineComponent } from 'vue'
     import { useStore } from 'vuex'
     import { mutations } from '/@src/store/types'
-    import MiLayoutSiderMenuDrawer from '../menu/drawer.vue'
 
     export default defineComponent({
-        components: {MiLayoutSiderMenuDrawer},
         props: {
 			embed: {
 				type: Boolean,

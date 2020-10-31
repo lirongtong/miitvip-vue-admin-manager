@@ -10,11 +10,11 @@ export const getters: GetterTree<LayoutState, RootState> = {
         return collapsed
     },
 
-    opens: (state): any[] => {
+    opens: (state): string[] => {
 		return state.opens;
     },
     
-    active: (state): string | null => {
+    active: (state): string[] | null => {
 		return state.active;
 	},
 	

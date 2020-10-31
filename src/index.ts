@@ -13,17 +13,17 @@
 import { App } from 'vue'
 import { createStore } from 'vuex'
 import axios from 'axios'
-import components from './components'
-import { layout } from './store/layout'
-import { passport } from './store/passport'
-import { mutations } from './store/types'
+import mip from '/@src/modules'
+import { layout } from '/@src/store/layout'
+import { passport } from '/@src/store/passport'
+import { mutations } from '/@src/store/types'
 
 const env = process.env.NODE_ENV
 let _Vue: boolean | null = null
 let _Ready: boolean | null = null
 const install = (app: App) => {
-    Object.keys(components).forEach((name) => {
-        app.use(components[name])
+    Object.keys(mip).forEach((name) => {
+        app.use(mip[name])
     })
     /**
      * mixin.

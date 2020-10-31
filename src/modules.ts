@@ -5,11 +5,11 @@ import api from './utils/api'
 import http from './utils/http'
 import tools from './utils/tools'
 
-import MiLayout from './components/layout'
-import MiCaptcha from './components/captcha'
+import MiLayout from '/@src/components/layout'
+import MiCaptcha from '/@src/components/captcha'
 
-const components: {[index: string]: any} = {
+const mip: {[index: string]: any} = {
     config, cookie, storage, api, http, tools,
     MiLayout, MiCaptcha
 }
-export default components
+export default mip

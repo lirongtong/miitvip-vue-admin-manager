@@ -9,7 +9,7 @@ export interface LayoutState {
 	 */
     collapsed: boolean | null;
     active: string[] | null;
-	opens: string | string[];
+	opens: string[];
 	mobile: boolean;
 	drawer: boolean;
 	small: boolean;

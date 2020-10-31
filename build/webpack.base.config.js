@@ -96,10 +96,10 @@ module.exports = {
 		alias: {
 			'@': resolve('example'),
 			'vue': 'vue/dist/vue.runtime.esm-browser.js',
-			'@src': resolve('src'),
+			'/@src': resolve('src'),
 			'@dist': resolve('dist')
 		},
-		extensions: ['.js', '.less', '.vue', '.json', '.ts', '.tsx']
+		extensions: ['.js', '.less', '.vue', '.json', '.ts', '.tsx', '.jsx']
 	},
 	plugins: [
 		new VueLoaderPlugin(),
