@@ -1,11 +1,6 @@
 import { App } from 'vue'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
-const domain = (import.meta as any).env.VITE_MAKEIT_ADMIN_API_SERVER ?? '/'
-axios.defaults.baseURL = domain
-axios.defaults.withCredentials = true
-axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
-
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
         $http: AxiosInstance

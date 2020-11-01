@@ -21,7 +21,7 @@ import { mutations } from '/@src/store/types'
 const env = process.env.NODE_ENV
 let _Vue: boolean | null = null
 let _Ready: boolean | null = null
-const install = function(app: App) {
+const install = (app: App) => {
     Object.keys(makeit).forEach((name) => {
         app.use(makeit[name])
     })
@@ -43,7 +43,7 @@ const install = function(app: App) {
                     this.$store.registerModule(['passport'], passport)
                     _Vue = true
                 } catch (e) {
-                    throw new Error('Vuex must be installed and registered. \r\n' + e)
+                    throw new Error('Vuex must be required. Please import vuex before MakeitAdmin\r\n' + e)
                 }
             }
         },
@@ -125,6 +125,7 @@ const install = function(app: App) {
     })
     return app
 }
+
 export default {
     version: `${process.env.VERSION}`,
     install

@@ -10,18 +10,30 @@
  * | Date: 2020-5-25 14:38                     |
  * +-------------------------------------------+
  */
-const path = require('path');
-const resolve = (dir) => path.resolve(__dirname, '../', dir);
-const webpack = require('webpack');
-const pkg = require('../package.json');
-const VueLoaderPlugin = require('vue-loader/dist/plugin').default;
+const path = require('path')
+const resolve = (dir) => path.resolve(__dirname, '../', dir)
+const webpack = require('webpack')
+const pkg = require('../package.json')
+const VueLoaderPlugin = require('vue-loader/dist/plugin').default
 
 module.exports = {
 	module: {
 		rules: [
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader'
+				use: [{
+					loader: 'vue-loader',
+					options: {
+						loaders: [{
+							ts: [{
+								loader: 'ts-loader',
+								options: {
+									configFile: resolve('tsconfig.json')
+								}
+							}]
+						}]
+					}
+				}]
 			},
 			{
 				test: /\.js$/,
@@ -35,14 +47,13 @@ module.exports = {
 			},
 			{
                 test: /\.ts$/,
-                use: [
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            configFile: resolve('tsconfig.json'),
-                        },
-                    },
-                ],
+                use: [{
+					loader: 'ts-loader',
+					options: {
+						configFile: resolve('tsconfig.json'),
+						appendTsSuffixTo: [/\.vue$/]
+					}
+                }],
                 exclude: /node_modules/,
             },
 			{

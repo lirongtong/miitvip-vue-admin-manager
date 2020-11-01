@@ -12,19 +12,17 @@ import MiLayoutHeaderNotice from '/@src/components/header/notice.vue'
 import MiLayoutContent from '/@src/components/layout/content.vue'
 import MiLayoutFooter from '/@src/components/layout/footer.vue'
 
-const components = [
+const components = {
     MiLayout, MiLayoutSider, MiLayoutSiderLogo, MiLayoutSiderMenu,
     MiLayoutSiderMenuDrawer, MiLayoutSiderSubMenu, MiLayoutSiderMenuItem,
     MiLayoutHeader, MiLayoutHeaderDropdown, MiLayoutHeaderNotice, MiLayoutContent,
     MiLayoutFooter
-]
+} as any
 
 const Layout = {
     install: (app: App) => {
-        components.forEach(component => {
-            app.use(component as typeof component & {
-                install: () => void
-            })
+        Object.keys(components).forEach(name => {
+            app.use(components[name])
         })
     }
 }

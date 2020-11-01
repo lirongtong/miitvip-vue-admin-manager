@@ -23,7 +23,7 @@ class Api {
     api: {[index: string]: any}
 
     constructor() {
-        this.version = (import.meta as any).env.VITE_MAKEIT_ADMIN_API_VERSION ?? config.apiVersion
+        this.version = config.apiVersion
         this.api = new Proxy({}, {
             get: (
                 target: {[index: string]: any},
@@ -81,10 +81,8 @@ class Api {
     }
 }
 export const $api = new Api()
-
-const api = {
+export default {
     install(app: App) {
         app.config.globalProperties.api = $api.api
     }
 }
-export default api

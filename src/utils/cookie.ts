@@ -14,7 +14,7 @@ declare module '@vue/runtime-core' {
 
 class MiCookie {
 
-    prefix = (import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX ?? 'mi-'
+    prefix = 'mi-'
 
     /**
      * Get Cookie.
@@ -78,7 +78,7 @@ const cookie = {
      * use.
      * @param app 
      */
-    install(app: App, prefix: string = 'mi-') {
+    install(app: App) {
         app.config.globalProperties.$cookie = $cookie
     }
 }

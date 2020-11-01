@@ -1,8 +1,8 @@
 import { MutationTree } from 'vuex'
-import { PassportState, mutations } from '../types'
-import { config } from '../../utils/config'
-import { $storage } from '../../utils/storage'
-import { $cookie } from '../../utils/cookie'
+import { PassportState, mutations } from '/@src/store/types'
+import { config } from '/@src/utils/config'
+import { $storage } from '/@src/utils/storage'
+import { $cookie } from '/@src/utils/cookie'
 
 export const mutation: MutationTree<PassportState> = {
     /**

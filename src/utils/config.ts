@@ -196,7 +196,7 @@ export declare interface Config {
     add(key: string, value: any): () => void;
 }
 
-export const config: {[index: string]: any} = reactive({
+export const config = reactive({
     embed: false,
     title: '管理系统模板',
     author: '麦可易特网',
@@ -205,7 +205,7 @@ export const config: {[index: string]: any} = reactive({
     powered: 'Powered By makeit.vip',
     logo: null,
     avatar: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png',
-    prefix: (import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX ?? 'mi-',
+    prefix: 'mi-',
     salt: 'mi-bXrf4dJbLlf0u8X3',
     separator: '/!#!$/',
     background: {
@@ -229,6 +229,7 @@ export const config: {[index: string]: any} = reactive({
             routes: 'history-routes'
         },
         cookies: {
+            auto: 'auto-login',
             token: {
                 access: 'access-token',
                 refresh: 'refresh-token'

@@ -28,7 +28,7 @@ class MiStorage {
     instance!: Storage
 
     constructor(type = 'local') {
-        this.prefix = (import.meta as any).env.VITE_MAKEIT_ADMIN_PREFIX ?? 'mi-'
+        this.prefix = 'mi-'
         this.change(type)
     }
 

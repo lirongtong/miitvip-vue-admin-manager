@@ -14,7 +14,7 @@
 		"paths": {
 			"/@/*": ["example/*"],
 			"/@src/*": ["src/*"],
-			"/@views/*": ["src/views/*"],
+			"/@views/*": ["example/views/*"],
 			"makeit-admin": ["/@src/index.ts"],
 			"makeit-admin/styles": ["/@src/styles/makeit.less"]
 		},

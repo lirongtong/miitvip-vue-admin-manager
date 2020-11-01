@@ -29,14 +29,17 @@ process.env.MAKEIT_ADMIN_PREFIX = '"mi-"'
 
 module.exports = merge(baseConfig, {
 	mode: 'production',
-	entry: resolve('src/index.ts'),
+	entry: {
+		'makeit-admin': resolve('src/index.ts'),
+		'makeit-admin.min': resolve('src/index.ts')
+	},
 	output: {
 		path: resolve('dist'),
 		publicPath: '/dist/',
-		filename: 'makeit-admin.min.js',
-		library: 'makeit-admin',
+		filename: '[name].js',
+		library: 'MakeitAdmin',
+		libraryExport: 'default',
 		libraryTarget: 'umd',
-		umdNamedDefine: true
 	},
 	externals: [
 		{
@@ -59,7 +62,7 @@ module.exports = merge(baseConfig, {
 				amd: 'vue-router'
 			},
 			axios: {
-				root: 'axios',
+				root: 'Axios',
 				commonjs: 'axios',
 				commonjs2: 'axios',
 				amd: 'axios'
@@ -98,7 +101,7 @@ module.exports = merge(baseConfig, {
 			cleanAfterEveryBuildPatterns: ['dist']
 		}),
 		new compression({
-			test: /\.(js|css)$/,
+			test: /\.min.(js|css)$/,
 			algorithm: 'gzip',
 			threshold: 10240,
 		})
@@ -108,7 +111,7 @@ module.exports = merge(baseConfig, {
 		minimizer: [
 			new terser({
 				parallel: true,
-				test: /\.js(\?.*)?$/i
+				test: /\.min.js(\?.*)?$/i
 			})
 		]
 	}
