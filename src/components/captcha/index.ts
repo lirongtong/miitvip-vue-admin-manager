@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import MiCaptcha from './index.vue'
+import MiCaptcha from './captcha.vue'
 
 const Captcha = {
     name: 'MiCaptcha',

@@ -4,8 +4,9 @@ import vuex from './store'
 import icons from './icons'
 import antd from './modules'
 import App from './app.vue'
-import '../src/assets/styles/makeit.less'
-import MakeitAdmin from '../src/index'
+import 'makeit-admin/styles'
+import MakeitAdmin from 'makeit-admin'
 
 const app = createApp(App)
-app.use(router).use(vuex).use(icons).use(antd).use(MakeitAdmin).mount('#app')
+app.use(router).use(vuex).use(icons)
+app.use(antd).use(MakeitAdmin).mount('#app')

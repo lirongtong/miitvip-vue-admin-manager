@@ -4,15 +4,10 @@ const resolve = (dir: string) => path.join(__dirname, dir)
 const config = {
     alias: {
         '/@/': resolve('example'),
-        '/@src/': resolve('src'),
-        '/@assets/': resolve('example/assets'),
-        '/@styles/': resolve('example/assets/styles'),
-        '/@images/': resolve('example/assets/images'),
-        '/@fonts/': resolve('example/assets/fonts'),
-        '/@common/': resolve('example/common'),
         '/@views/': resolve('example/views'),
-        '/@store/': resolve('example/store'),
-        '/@components/': resolve('example/components')
+        '/@src/': resolve('src'),
+        'makeit-admin': '/@src/index.ts',
+        'makeit-admin/styles': '/@src/styles/makeit.less'
     },
     cssPreprocessOptions: {
         less: {

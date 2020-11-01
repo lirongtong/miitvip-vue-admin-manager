@@ -7,13 +7,13 @@
  * | Author: makeit <lirongtong@hotmail.com>   |
  * | Homepage: https://www.makeit.vip          |
  * | Github: https://github.com/lirongtong     |
- * | Date: 2020-5-25 11:07                     |
+ * | Date: 2020-10-23 11:07                    |
  * +-------------------------------------------+
  */
 import { App } from 'vue'
 import { createStore } from 'vuex'
 import axios from 'axios'
-import mip from '/@src/modules'
+import makeit from '/@src/_base/modules'
 import { layout } from '/@src/store/layout'
 import { passport } from '/@src/store/passport'
 import { mutations } from '/@src/store/types'
@@ -21,9 +21,9 @@ import { mutations } from '/@src/store/types'
 const env = process.env.NODE_ENV
 let _Vue: boolean | null = null
 let _Ready: boolean | null = null
-const install = (app: App) => {
-    Object.keys(mip).forEach((name) => {
-        app.use(mip[name])
+const install = function(app: App) {
+    Object.keys(makeit).forEach((name) => {
+        app.use(makeit[name])
     })
     /**
      * mixin.
@@ -123,12 +123,9 @@ const install = (app: App) => {
             }
         }
     })
+    return app
 }
-
-export default class MakeitAdmin {
-    static install: (app: App) => void
-    static version: string
-    constructor() {}
+export default {
+    version: `${process.env.VERSION}`,
+    install
 }
-MakeitAdmin.install = install
-MakeitAdmin.version = `${process.env.VERSION}`

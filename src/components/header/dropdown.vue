@@ -37,9 +37,11 @@
 <script lang="ts">
     import { defineComponent, reactive, ref, createApp } from 'vue'
     import MiLayoutHeaderDropdownItem from './dropdown-item.vue'
+    import { install } from '/@src/_base/type'
     import { MenuItem } from '/@src/utils/config'
 
-    export default defineComponent({
+    const MiLayoutHeaderDropdown = defineComponent({
+        name: 'MiLayoutHeaderDropdown',
         components: { MiLayoutHeaderDropdownItem },
         props: {
             items: {
@@ -53,4 +55,5 @@
             return { menus, visible }
         }
     })
+    export default install(MiLayoutHeaderDropdown)
 </script>

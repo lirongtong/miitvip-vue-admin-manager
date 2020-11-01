@@ -18,21 +18,21 @@ const autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('css', () => {
 	return new Promise(function(resolve) {
-		gulp.src('../src/assets/styles/makeit.less')
+		gulp.src('../src/styles/makeit.less')
 		.pipe(less())
 		.pipe(autoprefixer({
 			overrideBrowserslist: ['last 2 versions', 'ie > 8']
 		}))
 		.pipe(clean())
 		.pipe(rename('makeit-admin.min.css'))
-		.pipe(gulp.dest('../dist/styles'));
+		.pipe(gulp.dest('../dist'));
 		resolve();
 	});
 });
 
 gulp.task('fonts', () => {
 	return new Promise(function(resolve) {
-		gulp.src('../src/assets/fonts/*.*')
+		gulp.src('../src/fonts/*.*')
 		.pipe(gulp.dest('../dist/fonts'));
 		resolve();
 	});

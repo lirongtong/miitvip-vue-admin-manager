@@ -14,43 +14,14 @@ const path = require('path');
 const resolve = (dir) => path.resolve(__dirname, '../', dir);
 const webpack = require('webpack');
 const pkg = require('../package.json');
-const { VueLoaderPlugin } = require('vue-loader');
+const VueLoaderPlugin = require('vue-loader/dist/plugin').default;
 
 module.exports = {
 	module: {
 		rules: [
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					loaders: {
-						css: [
-							'vue-style-loader',
-							{
-								loader: 'css-loader',
-								options: {
-									sourceMap: true
-								}
-							}
-						],
-						less: [
-							'vue-style-loader',
-							{
-								loader: 'css-loader',
-								options: {
-									sourceMap: true
-								}
-							},
-							{
-								loader: 'less-loader',
-								options: {
-									sourceMap: true
-								}
-							}
-						]
-					},
-					sourceMap: true
-				}
+				loader: 'vue-loader'
 			},
 			{
 				test: /\.js$/,
@@ -79,7 +50,8 @@ module.exports = {
 				use: [
 					'style-loader',
 					'css-loader',
-					'less-loader'
+					'less-loader',
+					'sass-loader'
 				]
 			},
 			{
@@ -95,11 +67,12 @@ module.exports = {
 	resolve: {
 		alias: {
 			'@': resolve('example'),
-			'vue': 'vue/dist/vue.runtime.esm-browser.js',
-			'/@src': resolve('src'),
-			'@dist': resolve('dist')
+			'makeit-admin': path.join(__dirname, './components'),
+			'makeit-admin/styles': path.join(__dirname, './styles'),
+			'vue$': 'vue/dist/vue.esm-bundler.js',
+			'/@src': resolve('src')
 		},
-		extensions: ['.js', '.less', '.vue', '.json', '.ts', '.tsx', '.jsx']
+		extensions: ['.js', '.less', '.vue', '.json', '.ts', '.tsx', '.jsx', '.md']
 	},
 	plugins: [
 		new VueLoaderPlugin(),

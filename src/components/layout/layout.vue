@@ -15,9 +15,11 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import { useStore } from 'vuex'
+    import { install } from '/@src/_base/type'
     import { mutations } from '/@src/store/types'
 
-    export default defineComponent({
+    const MiLayout = defineComponent({
+        name: 'MiLayout',
         props: {
 			embed: {
 				type: Boolean,
@@ -55,4 +57,5 @@
             }
         }
     })
+    export default install(MiLayout)
 </script>

@@ -21,9 +21,11 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import { install } from '/@src/_base/type'
     import MiLayoutMenuItemLink from './item-link.vue'
 
-    export default defineComponent({
+    const MiLayoutSiderMenuItem = defineComponent({
+        name: 'MiLayoutSiderMenuItem',
         components: { MiLayoutMenuItemLink },
         props: {
             item: {
@@ -40,4 +42,5 @@
             }
         }
     })
+    export default install(MiLayoutSiderMenuItem)
 </script>

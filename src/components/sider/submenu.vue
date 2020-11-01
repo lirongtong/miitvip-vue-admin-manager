@@ -27,9 +27,11 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import { useStore } from 'vuex'
+    import { install } from '/@src/_base/type'
     import MiLayoutMenuItemLink from './item-link.vue'
 
-    export default defineComponent({
+    const MiLayoutSiderSubMenu = defineComponent({
+        name: 'MiLayoutSiderSubMenu',
         components: { MiLayoutMenuItemLink },
         props: {
             item: {
@@ -51,4 +53,5 @@
             }
         }
     })
+    export default install(MiLayoutSiderSubMenu)
 </script>

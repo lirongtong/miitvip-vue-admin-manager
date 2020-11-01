@@ -31,10 +31,12 @@
 <script lang="ts">
     import { defineComponent, computed, reactive } from 'vue'
     import { useStore } from 'vuex'
+    import { install } from '/@src/_base/type'
     import { mutations } from '/@src/store/types'
     import { MenuItems } from '/@src/utils/config'
 
-    export default defineComponent({
+    const MiLayoutSiderMenu = defineComponent({
+        name: 'MiLayoutSiderMenu',
         props: {
             menuClassName: {
                 type: String,
@@ -168,4 +170,5 @@
             }
         }
     })
+    export default install(MiLayoutSiderMenu)
 </script>

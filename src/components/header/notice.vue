@@ -27,3 +27,13 @@
         </template>
     </a-popover>
 </template>
+
+<script lang="ts">
+    import { defineComponent } from 'vue'
+    import { install } from '/@src/_base/type'
+    
+    const MiLayoutHeaderNotice = defineComponent({
+        name: 'MiLayoutHeaderNotice'
+    })
+    export default install(MiLayoutHeaderNotice)
+</script>

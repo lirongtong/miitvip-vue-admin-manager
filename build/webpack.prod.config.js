@@ -13,9 +13,10 @@
 const path = require('path')
 const resolve = (dir) => path.resolve(__dirname, '../', dir)
 const webpack = require('webpack')
-const {merge} = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const baseConfig = require('./webpack.base.config')
 const compression = require('compression-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const terser = require('terser-webpack-plugin')
 const version = process.env.VERSION || require('../package.json').version
 const banner = `makeit-admin manager v${version}
@@ -28,9 +29,7 @@ process.env.MAKEIT_ADMIN_PREFIX = '"mi-"'
 
 module.exports = merge(baseConfig, {
 	mode: 'production',
-	entry: {
-		main: resolve('src/index.ts')
-	},
+	entry: resolve('src/index.ts'),
 	output: {
 		path: resolve('dist'),
 		publicPath: '/dist/',
@@ -94,6 +93,9 @@ module.exports = merge(baseConfig, {
 		}),
 		new webpack.BannerPlugin({
 			banner
+		}),
+		new CleanWebpackPlugin({
+			cleanAfterEveryBuildPatterns: ['dist']
 		}),
 		new compression({
 			test: /\.(js|css)$/,

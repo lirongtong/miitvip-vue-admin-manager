@@ -26,9 +26,11 @@
 <script lang="ts">
     import { defineComponent, computed, ref } from 'vue'
     import { useStore } from 'vuex'
+    import { install } from '/@src/_base/type'
     import { mutations } from '/@src/store/types'
 
-    export default defineComponent({
+    const MiLayoutHeader = defineComponent({
+        name: 'MiLayoutHeader',
         setup() {
             const store = useStore()
             const collapsed = computed(() => store.getters['layout/collapsed'])
@@ -47,4 +49,5 @@
             }
         }
     })
+    export default install(MiLayoutHeader)
 </script>

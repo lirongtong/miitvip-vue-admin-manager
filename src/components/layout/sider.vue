@@ -17,9 +17,11 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     import { useStore } from 'vuex'
+    import { install } from '/@src/_base/type'
     import { mutations } from '/@src/store/types'
 
-    export default defineComponent({
+    const MiLayoutSider = defineComponent({
+        name: 'MiLayoutSider',
         setup() {
             const store = useStore()
             return { store }
@@ -31,4 +33,5 @@
             }
         }
     })
+    export default install(MiLayoutSider)
 </script>

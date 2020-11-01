@@ -8,12 +8,15 @@
 
 <script lang="ts">
     import {defineComponent, computed} from 'vue'
+    import { install } from '/@src/_base/type'
 
-    export default defineComponent({
+    const MiLayoutFooter = defineComponent({
+        name: 'MiLayoutFooter',
         computed: {
             copyright() {
                 return this.G.mobile ? this.G.copyright : this.G.footer
             }
         }
     })
+    export default install(MiLayoutFooter)
 </script>

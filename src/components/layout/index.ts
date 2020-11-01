@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import MiLayout from '/@src/components/layout/index.vue'
+import MiLayout from '/@src/components/layout/layout.vue'
 import MiLayoutSider from '/@src/components/layout/sider.vue'
 import MiLayoutSiderLogo from '/@src/components/sider/logo.vue'
 import MiLayoutSiderMenu from '/@src/components/sider/menu.vue'
@@ -12,17 +12,19 @@ import MiLayoutHeaderNotice from '/@src/components/header/notice.vue'
 import MiLayoutContent from '/@src/components/layout/content.vue'
 import MiLayoutFooter from '/@src/components/layout/footer.vue'
 
-const components = {
+const components = [
     MiLayout, MiLayoutSider, MiLayoutSiderLogo, MiLayoutSiderMenu,
     MiLayoutSiderMenuDrawer, MiLayoutSiderSubMenu, MiLayoutSiderMenuItem,
     MiLayoutHeader, MiLayoutHeaderDropdown, MiLayoutHeaderNotice, MiLayoutContent,
     MiLayoutFooter
-} as any
+]
 
 const Layout = {
     install: (app: App) => {
-        Object.keys(components).forEach(name => {
-            app.component(name, components[name])
+        components.forEach(component => {
+            app.use(component as typeof component & {
+                install: () => void
+            })
         })
     }
 }

@@ -18,11 +18,14 @@
 
 <script lang="ts">
     import { defineComponent, ref } from 'vue'
+    import { install } from '/@src/_base/type'
 
-    export default defineComponent({
+    const MiLayoutSiderMenuDrawer = defineComponent({
+        name: 'MiLayoutSiderMenuDrawer',
         setup() {
             const visible = ref(false)
             return { visible }
         }
     })
+    export default install(MiLayoutSiderMenuDrawer)
 </script>

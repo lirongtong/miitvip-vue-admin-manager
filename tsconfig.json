@@ -14,14 +14,9 @@
 		"paths": {
 			"/@/*": ["example/*"],
 			"/@src/*": ["src/*"],
-			"/@assets/*": ["example/assets/*"],
-			"/@styles/*": ["example/assets/styles/*"],
-			"/@images/*": ["example/assets/images/*"],
-			"/@fonts/*": ["example/assets/fonts/*"],
-			"/@common/*": ["example/common/*"],
-			"/@components/*": ["example/components/*"],
-			"/@views/*": ["example/views/*"],
-			"/@store/*": ["example/store/*"]
+			"/@views/*": ["src/views/*"],
+			"makeit-admin": ["/@src/index.ts"],
+			"makeit-admin/styles": ["/@src/styles/makeit.less"]
 		},
 		"lib": [
 			"esnext",

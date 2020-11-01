@@ -9,3 +9,13 @@
         </slot>
     </div>
 </template>
+
+<script lang="ts">
+    import { defineComponent } from 'vue'
+    import { install } from '/@src/_base/type'
+    
+    const MiLayoutSiderLogo = defineComponent({
+        name: 'MiLayoutSiderLogo'
+    })
+    export default install(MiLayoutSiderLogo)
+</script>
