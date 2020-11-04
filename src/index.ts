@@ -1,10 +1,11 @@
 import { App } from 'vue'
-import './styles'
+
+import config from './utils/config'
 
 import { default as Layout } from './components/layout'
 
 const components = [
-    Layout
+    config, Layout
 ]
 
 const install = (app: App) => {
