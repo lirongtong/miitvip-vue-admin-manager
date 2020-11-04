@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const baseConfig = require('./webpack.base.config');
 const pkg = require('../package.json');
@@ -20,6 +21,7 @@ const entry = resolve('index');
 const distFileName = 'makeit-admin';
 
 module.exports = merge(baseConfig, {
+	devtool: 'source-map',
     mode: 'production',
     entry: {
         [`${distFileName}`]: entry,
@@ -67,7 +69,12 @@ module.exports = merge(baseConfig, {
 		new webpack.BannerPlugin({
 			banner
 		}),
-		new CleanWebpackPlugin(),
+		new webpack.LoaderOptionsPlugin({
+			minimize: true
+		}),
+		new CleanWebpackPlugin({
+			cleanOnceBeforeBuildPatterns: ['dist']
+		}),
 		new CaseSensitivePathsPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.LoaderOptionsPlugin({
@@ -83,11 +90,13 @@ module.exports = merge(baseConfig, {
         })
     ],
     optimization: {
-		minimize: true,
 		minimizer: [
 			new TerserPlugin({
 				parallel: true,
 				test: /\.min.js(\?.*)?$/i
+			}),
+			new OptimizeCSSAssetsPlugin({
+				assetNameRegExp: /\.min\.css$/
 			})
 		]
 	}

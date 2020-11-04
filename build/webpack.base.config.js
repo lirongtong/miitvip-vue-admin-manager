@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/dist/plugin').default;
 const pkg = require('../package.json');
 const postcssConfig = require('../postcss.config');
+const postcssOptions = Object.assign({}, postcssConfig, {
+    sourceMap: true
+})
 const babelConfig = require('./babel.common.config');
 
 module.exports = {
@@ -78,9 +81,9 @@ module.exports = {
                     },
                     {
                         loader: 'postcss-loader',
-                        options: Object.assign({}, postcssConfig, {
-                            sourceMap: true
-                        })
+                        options: {
+                            postcssOptions: postcssOptions
+                        }
                     }
                 ]
             },
@@ -96,9 +99,9 @@ module.exports = {
                     },
                     {
                         loader: 'postcss-loader',
-                        options: Object.assign({}, postcssConfig, {
-                            sourceMap: true
-                        })
+                        options: {
+                            postcssOptions: postcssOptions
+                        }
                     },
                     {
                         loader: 'less-loader',
@@ -110,6 +113,14 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(gif|jpg|png|webp|woff|woff2|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader'
+            },
+            {
+                test: /\.(html|tpl)$/,
+                loader: 'html-loader'
             }
         ]
     },

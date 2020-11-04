@@ -5,7 +5,8 @@ const config = {
     alias: {
         '/@/': resolve('example'),
         '/@src/': resolve('src'),
-        'makeit-admin': '/@src/index.ts'
+        'makeit-admin': '/@src/index.ts',
+        'makeit-admin/style': '/@src/style.ts'
     },
     cssPreprocessOptions: {
         less: {

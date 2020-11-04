@@ -21,9 +21,7 @@
 		"allowJs": true,
         "baseUrl": "./",
         "paths": {
-			"/@/*": ["example/*"],
-			"/@src/*": ["src/*"],
-			"makeit-admin": ["/@src/index.ts"]
+			"makeit-admin": ["src/index.ts"]
 		},
 		"lib": [
 			"esnext",

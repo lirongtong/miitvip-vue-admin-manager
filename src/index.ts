@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import './styles'
 
 import { default as Layout } from './components/layout'
 

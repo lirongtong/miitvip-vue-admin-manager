@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import 'makeit-admin/style'
 import MakeitAdmin from 'makeit-admin'
 import App from './app.vue'
 
