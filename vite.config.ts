@@ -1,11 +1,26 @@
 import path from 'path'
-import { SharedConfig } from 'vite'
 const resolve = (dir: string) => path.join(__dirname, dir)
 
-const config: SharedConfig = {
+const config = {
     alias: {
-        '/@/': resolve('src'),
-        'makeit-admin': resolve('src/index.ts')
+        '/@/': resolve('example'),
+        '/@src/': resolve('src'),
+        'makeit-admin': '/@src/index.ts'
+    },
+    cssPreprocessOptions: {
+        less: {
+            javascriptEnabled: true
+        }
+    },
+    optimizeDeps: {
+        include: ['@ant-design/colors', '@ant-design/icons-vue']
+    },
+    proxy: {
+        '/v1': {
+            target: 'http://local-api.makeit.vip',
+            rewrite: (path: any) => path.replace(/^\/v1/, ''),
+            changeOrigin: true
+        }
     }
 }
 module.exports = config
