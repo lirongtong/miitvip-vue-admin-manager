@@ -16,11 +16,21 @@
         "miitvip",
         "makeit.vip",
         "makeit-admin",
+        "makeit-admin-pro",
+        "admin-manager",
         "麦可易特网"
     ],
     "description": "makeit's backend management system ( a unified template ).",
     "private": false,
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lirongtong/miitvip-vue-admin-manager.git"
+    },
+    "bugs": {
+        "url": "https://github.com/lirongtong/miitvip-vue-admin-manager/issues"
+    },
+    "homepage": "https://admin.makeit.vip",
     "files": [
         "dist"
     ],
