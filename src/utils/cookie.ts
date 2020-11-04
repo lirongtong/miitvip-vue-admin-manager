@@ -2,7 +2,11 @@ import { App } from 'vue'
 import { config } from './config'
 
 class MiCookie {
-    prefix = config.prefix
+    prefix: string
+
+    constructor() {
+        this.prefix = config.prefix;
+    }
 
     /**
      * Get Cookie.
@@ -13,7 +17,8 @@ class MiCookie {
     get(key: string, prefix?: string): any {
         const name = `${prefix ?? this.prefix}${key}=`
         const values = document.cookie.split(';')
-        for (let i = 0, len = values.length; i < len; i++) {
+        const len = values.length
+        for (let i = 0; i < len; i++) {
             let value = values[i]
             while (value.charAt(0) === ' ') value = value.substring(1)
             if (value.indexOf(name) !== -1) {
@@ -28,6 +33,7 @@ class MiCookie {
      * @param name
      * @param value
      * @param expire
+     * @param prefix
      */
     set(
         name: string,
@@ -52,12 +58,14 @@ class MiCookie {
     /**
      * Delete Cookie.
      * @param names
+     * @param prefix
      */
     del(names: string | any[], prefix?: string): void {
         if (Array.isArray(names)) {
-            for (let i = 0, len = names.length; i < len; i++) {
+            const len = names.length
+            for (let i = 0; i < len; i++) {
                 const name = names[i]
-                if (name) this.set(name, '', -1)
+                if (name) this.set(name, '', -1, prefix)
             }
         } else {
             this.set(names, '', -1, prefix)
