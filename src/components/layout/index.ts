@@ -1,29 +1,9 @@
-import { App } from 'vue'
-import MiLayout from '/@src/components/layout/layout.vue'
-import MiLayoutSider from '/@src/components/layout/sider.vue'
-import MiLayoutSiderLogo from '/@src/components/sider/logo.vue'
-import MiLayoutSiderMenu from '/@src/components/sider/menu.vue'
-import MiLayoutSiderSubMenu from '/@src/components/sider/submenu.vue'
-import MiLayoutSiderMenuItem from '/@src/components/sider/item.vue'
-import MiLayoutSiderMenuDrawer from '/@src/components/sider/drawer.vue'
-import MiLayoutHeader from '/@src/components/layout/header.vue'
-import MiLayoutHeaderDropdown from '/@src/components/header/dropdown.vue'
-import MiLayoutHeaderNotice from '/@src/components/header/notice.vue'
-import MiLayoutContent from '/@src/components/layout/content.vue'
-import MiLayoutFooter from '/@src/components/layout/footer.vue'
+import { App, Plugin } from 'vue'
+import Layout from './layout'
 
-const components = {
-    MiLayout, MiLayoutSider, MiLayoutSiderLogo, MiLayoutSiderMenu,
-    MiLayoutSiderMenuDrawer, MiLayoutSiderSubMenu, MiLayoutSiderMenuItem,
-    MiLayoutHeader, MiLayoutHeaderDropdown, MiLayoutHeaderNotice, MiLayoutContent,
-    MiLayoutFooter
-} as any
-
-const Layout = {
-    install: (app: App) => {
-        Object.keys(components).forEach(name => {
-            app.use(components[name])
-        })
-    }
+Layout.install = function(app: App) {
+    app.component(Layout.name, Layout)
+    return app
 }
-export default Layout
+
+export default Layout as typeof Layout & Plugin

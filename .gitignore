@@ -14,6 +14,8 @@ pnpm-debug.log*
 .idea
 .vscode
 .history
+types
+makeit
 *.suo
 *.ntvs*
 *.njsproj
