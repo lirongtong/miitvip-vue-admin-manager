@@ -18,11 +18,11 @@
 		"allowSyntheticDefaultImports": true,
 		"sourceMap": false,
 		"declaration": true,
-		"declarationDir": "dist/lib",
+		"declarationDir": "lib",
 		"allowJs": true,
         "baseUrl": "./",
         "paths": {
-			"makeit-admin": ["src/index.ts"]
+			"makeit-admin-pro": ["src/index.ts"]
 		},
 		"lib": [
 			"esnext",
@@ -39,6 +39,8 @@
 	],
 	"exclude": [
 		"node_modules",
-		"dist"
+		"dist",
+		"lib",
+		"example"
 	]
 }

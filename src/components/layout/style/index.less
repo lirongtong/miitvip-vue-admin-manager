@@ -1,9 +1,14 @@
-@import '../../../styles/theme/index';
+@import '../../../style/theme/index';
 
 @layout-prefix-cls: ~'@{mi-prefix}layout';
 
 .@{layout-prefix-cls} {
     &-containt {
         height: 100vh;
+    }
+
+    &-header {
+        background: @mi-sider-color;
+        transition: all .3s ease;
     }
 }

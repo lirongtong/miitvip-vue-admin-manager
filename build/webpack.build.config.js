@@ -18,7 +18,7 @@ All rights reserved.
 @license MIT`;
 
 const entry = resolve('index');
-const distFileName = 'makeit-admin';
+const distFileName = 'makeit-admin-pro';
 
 module.exports = merge(baseConfig, {
 	devtool: 'source-map',
@@ -28,7 +28,7 @@ module.exports = merge(baseConfig, {
         [`${distFileName}.min`]: entry
     },
     output: {
-        path: resolve('dist/dist'),
+        path: resolve('dist'),
         filename: '[name].js',
         library: distFileName,
         libraryTarget: 'umd'

@@ -3,3 +3,4 @@ node_modules/
 **/styles/
 *.html
 example/*.vue
+lib/

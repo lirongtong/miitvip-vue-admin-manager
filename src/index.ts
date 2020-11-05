@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import './style'
+
 import config from './utils/config'
 import cookie from './utils/cookie'
 

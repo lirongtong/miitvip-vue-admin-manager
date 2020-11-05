@@ -31,6 +31,5 @@ module.exports = {
         [resolve("@babel/plugin-proposal-class-properties"), {"loose": true}],
         resolve("@babel/plugin-syntax-dynamic-import"),
         [resolve("@babel/plugin-transform-runtime"), {"helpers": false}]
-    ],
-    "comments": false
+    ]
 };
