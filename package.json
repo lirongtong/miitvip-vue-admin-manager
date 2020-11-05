@@ -38,10 +38,10 @@
     ],
     "main": "lib/index.js",
     "module": "lib/index.js",
-    "unpkg": "dist/makeit-admin.min.js",
+    "unpkg": "dist/miitvip.min.js",
     "scripts": {
         "dev": "vite",
-        "build": "webpack --config build/webpack.build.config.js --mode production --progress --color && tsc --project tsconfig.json --outDir lib && npm run build:style",
+        "build": "webpack --config build/webpack.build.config.js --mode production --progress --color && tsc --project tsconfig.json --outDir lib",
         "build:example": "vite build",
         "build:style": "gulp --gulpfile build/gulp.style.config.js",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts,.tsx ./src",

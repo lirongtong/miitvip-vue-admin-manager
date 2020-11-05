@@ -16,6 +16,26 @@ const babelConfig = require('./babel.common.config')
 const  { readFileSync, existsSync } = require('fs');
 const postcss = require('postcss');
 const postcssConfig = require('../postcss.config');
+const distName = 'miitvip';
+
+function transformLess(lessFile) {
+    const resolvedLessFile = path.resolve(process.cwd(), lessFile);
+    let data = readFileSync(resolvedLessFile, 'utf-8');
+    data = data.replace(/^\uFEFF/, '');
+    return lessCli.render(data, {
+        paths: [path.dirname(resolvedLessFile)],
+        filename: resolvedLessFile,
+        plugins: [new LessNpmImportPlugin({prefix: '~'})],
+        javascriptEnabled: true
+    }).then(res => {
+        const source = res.css;
+        return postcss(postcssConfig.plugins).process(source, {
+            from: undefined
+        });
+    }).then(r => {
+        return r.css;
+    });
+}
 
 gulp.task('less-to-css', (done) => {
     gulp.src(['../src/**/*.less', '../src/**/**/*.less'])
@@ -26,22 +46,8 @@ gulp.task('less-to-css', (done) => {
                 file.path.match(/\\style\\index\.less$/) ||
                 file.path.match(/\/style\/index\.less$/)
             ) {
-                const lessFile = path.resolve(process.cwd(), file.path);
-                let data = readFileSync(lessFile, 'utf-8');
-                data = data.replace(/^\uFEFF/, '');
-                lessCli.render(data, {
-                    paths: [path.dirname(lessFile)],
-                    filename: lessFile,
-                    plugins: [new LessNpmImportPlugin({prefix: '~'})],
-                    javascriptEnabled: true
-                }).then(res => {
-                    const source = res.css;
-                    return postcss(postcssConfig.plugins).process(source, {
-                        from: undefined
-                    });
-                }).then(r => {
-                    return r.css;
-                }).then(css => {
+                transformLess(file.path)
+                .then(css => {
                     file.contents = Buffer.from(css);
                     file.path = file.path.replace(/\.less$/, '.css');
                     this.push(file);
@@ -67,7 +73,7 @@ gulp.task('ts-to-js', (done) => {
                 file.contents = Buffer.from(
                     content.replace(/\/style\/?'/g, "/style/css'").replace(/\.less/g, '.css')
                 );
-                file.path = file.path.replace(/index\.(js|jsx|ts|tsx)$/, 'makeit.js');
+                file.path = file.path.replace(/index\.(js|jsx|ts|tsx)$/, 'mi.js');
                 this.push(file);
                 callback();
             } else callback();
@@ -82,7 +88,7 @@ gulp.task('concat-css', (done) => {
     .pipe(autoprefixer({
         overrideBrowserslist: ['last 2 versions', 'ie > 8']
     }))
-    .pipe(concat('makeit-admin-pro.css'))
+    .pipe(concat(distName + '.css'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('../dist'));
     done();
@@ -95,7 +101,7 @@ gulp.task('minify-css', (done) => {
         overrideBrowserslist: ['last 2 versions', 'ie > 8']
     }))
     .pipe(clean({compatibility: 'ie8'}))
-    .pipe(concat('makeit-admin-pro.min.css'))
+    .pipe(concat(distName + '.min.css'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('../dist'));
     done();

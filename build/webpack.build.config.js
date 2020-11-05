@@ -18,7 +18,7 @@ All rights reserved.
 @license MIT`;
 
 const entry = resolve('index');
-const distFileName = 'makeit-admin-pro';
+const distFileName = 'miitvip';
 
 module.exports = merge(baseConfig, {
 	devtool: 'source-map',
