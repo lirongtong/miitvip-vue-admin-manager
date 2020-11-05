@@ -41,9 +41,9 @@
     "unpkg": "dist/miitvip.min.js",
     "scripts": {
         "dev": "vite",
-        "build": "webpack --config build/webpack.build.config.js --mode production --progress --color && tsc --project tsconfig.json --outDir lib",
+        "compile": "webpack --config build/webpack.build.config.js --mode production --progress --color && tsc --project tsconfig.json --outDir lib && gulp --gulpfile build/gulp.style.config.js",
+        "build": "gulp --gulpfile build/gulp.style.config.js",
         "build:example": "vite build",
-        "build:style": "gulp --gulpfile build/gulp.style.config.js",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts,.tsx ./src",
         "lint:fix": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src"
     },
