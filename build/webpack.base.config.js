@@ -14,17 +14,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                use: [{
-					loader: 'ts-loader',
-					options: {
-						configFile: resolve('tsconfig.json'),
-						appendTsSuffixTo: [/\.vue$/]
-					}
-                }]
-            },
-            {
                 test: /\.vue$/,
                 exclude: /node_modules/,
                 use: [

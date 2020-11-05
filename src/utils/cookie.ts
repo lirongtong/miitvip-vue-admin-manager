@@ -2,19 +2,16 @@ import { App } from 'vue'
 import { config } from './config'
 
 class MiCookie {
-    prefix: string
 
-    constructor(prefix?: string) {
-        this.prefix = prefix ?? config.prefix
-    }
+    prefix = config.prefix
 
     /**
      * Get Cookie.
      * @param key
      * @param prefix
-     * @return {string|null}
+     * @return {any}
      */
-    public get(key: string, prefix?: string): any {
+    get(key: string, prefix?: string): any {
         const name = `${prefix ?? this.prefix}${key}=`
         const values = document.cookie.split(';')
         const len = values.length
@@ -35,7 +32,12 @@ class MiCookie {
      * @param expire
      * @param prefix
      */
-    public set(name: string, value: any, expire: number | null, prefix?: string): void {
+    set(
+        name: string,
+        value: any,
+        expire: number | null,
+        prefix?: string
+    ): void {
         let expires = null
         if (expire) {
             const date = new Date()
@@ -51,7 +53,7 @@ class MiCookie {
      * @param names
      * @param prefix
      */
-    public del(names: string | any[], prefix?: string): void {
+    del(names: string | any[], prefix?: string): void {
         if (Array.isArray(names)) {
             const len = names.length
             for (let i = 0; i < len; i++) {
@@ -68,6 +70,7 @@ export const $MCookie = new MiCookie()
 const cookie = {
     install(app: App) {
         app.config.globalProperties.$MCookie = $MCookie
+        return app
     }
 }
 export default cookie

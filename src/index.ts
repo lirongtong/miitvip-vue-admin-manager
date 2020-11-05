@@ -1,5 +1,5 @@
 import { App } from 'vue'
-
+import './style'
 import config from './utils/config'
 import cookie from './utils/cookie'
 
@@ -9,11 +9,10 @@ const components = [config, cookie, Layout]
 
 const install = (app: App) => {
     components.forEach((component) => {
-        app.use(
-            component as typeof component & {
-                install: () => void
-            }
-        )
+        app.use(component as typeof component & {
+            install: () => void
+        })
+        return app
     })
 }
 

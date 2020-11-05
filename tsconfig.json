@@ -11,6 +11,7 @@
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 		"noImplicitAny": false,
 		"noImplicitThis": false,
 		"experimentalDecorators": true,
@@ -26,6 +27,7 @@
 		"lib": [
 			"esnext",
 			"dom",
+			"es2017",
 			"dom.iterable",
 			"scripthost"
 		]

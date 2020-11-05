@@ -170,6 +170,7 @@ export const config = reactive({
 const $MC = {
     install(app: App) {
         app.config.globalProperties.$MC = config
+        return app
     }
 }
 export default $MC

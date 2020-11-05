@@ -14,7 +14,9 @@ module.exports = {
                     "Android >= 6",
                     '> 1%',
                 ]
-            }
+            },
+            "useBuiltIns": "usage",
+            "corejs": 3
         }],
         resolve("@babel/preset-typescript")
     ],
@@ -26,7 +28,7 @@ module.exports = {
         resolve("@babel/plugin-proposal-object-rest-spread"),
         resolve("@babel/plugin-proposal-export-default-from"),
         resolve("@babel/plugin-proposal-export-namespace-from"),
-        resolve("@babel/plugin-proposal-class-properties"),
+        [resolve("@babel/plugin-proposal-class-properties"), {"loose": true}],
         resolve("@babel/plugin-syntax-dynamic-import"),
         [resolve("@babel/plugin-transform-runtime"), {"helpers": false}]
     ],
