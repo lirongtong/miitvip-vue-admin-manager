@@ -5,21 +5,19 @@ import cookie from './utils/cookie'
 
 import { default as Layout } from './components/layout'
 
-const components = [
-    config, cookie, Layout
-]
+const components = [config, cookie, Layout]
 
 const install = (app: App) => {
-    components.forEach(component => {
-        app.use(component as typeof component & {
-            install: () => void
-        })
+    components.forEach((component) => {
+        app.use(
+            component as typeof component & {
+                install: () => void
+            }
+        )
     })
 }
 
-export {
-    Layout
-}
+export { Layout }
 
 export default {
     version: `${process.env.VERSION}`,

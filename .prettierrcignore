@@ -1,0 +1,8 @@
+dist/
+LICENSE
+DS_Store
+.prettierignore
+.gitignore
+.gitattributes
+.png
+src/styles/*.less

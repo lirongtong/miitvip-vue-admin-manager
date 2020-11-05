@@ -1,0 +1,17 @@
+{
+    "singleQuote": true,
+    "semi": false,
+    "printWidth": 100,
+    "proseWrap": "never",
+    "tabWidth": 4,
+    "ignorePath": ".prettierrcignore",
+    "trailingComma": "none",
+    "overrides": [
+        {
+            "files": ".prettierrc",
+            "options": {
+                "parser": "json"
+            }
+        }
+    ]
+}

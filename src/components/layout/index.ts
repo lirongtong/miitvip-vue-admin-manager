@@ -1,7 +1,7 @@
 import { App, Plugin } from 'vue'
 import Layout from './layout'
 
-Layout.install = function(app: App) {
+Layout.install = function (app: App) {
     app.component(Layout.name, Layout)
     return app
 }

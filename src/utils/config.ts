@@ -24,13 +24,15 @@ export const config = reactive({
      * Website keywords.
      * @type {string}
      */
-    keywords: 'makeit, makeit.vip, makeit-admin, admin-manage, makeit admin pro, miitvip, vue, vue3, vite, typescript, ant-design-vue component-ui, ui frame',
+    keywords:
+        'makeit, makeit.vip, makeit-admin, admin-manage, makeit admin pro, miitvip, vue, vue3, vite, typescript, ant-design-vue component-ui, ui frame',
 
     /**
      * Website description.
      * @type {string}
      */
-    description: `makeit's backend management system ( a unified template ). 麦可易特网中后台管理模板，内含登录 / 注册 / 验证码等常用模块，开箱即用，持续更新 ...`,
+    description:
+        "makeit's backend management system ( a unified template ). 麦可易特网中后台管理模板，内含登录 / 注册 / 验证码等常用模块，开箱即用，持续更新 ...",
 
     /**
      * All rights reserved.
@@ -76,7 +78,7 @@ export const config = reactive({
      */
     background: {
         default: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7Z_ieAVz4DAAAdR-zeJvg322.svg',
-		captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
+        captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
     },
 
     /**
@@ -154,13 +156,15 @@ export const config = reactive({
      * Used at the bottom of the website (PC browser)
      * @type {string}
      */
-    footer: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',
+    footer:
+        '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )',
 
     /**
      * Used at the bottom of the website (mobile browser).
      * @type {string}
      */
-    copyright: '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'
+    copyright:
+        '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'
 })
 
 const $MC = {

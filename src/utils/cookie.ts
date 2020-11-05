@@ -4,8 +4,8 @@ import { config } from './config'
 class MiCookie {
     prefix: string
 
-    constructor() {
-        this.prefix = config.prefix;
+    constructor(prefix?: string) {
+        this.prefix = prefix ?? config.prefix
     }
 
     /**
@@ -14,7 +14,7 @@ class MiCookie {
      * @param prefix
      * @return {string|null}
      */
-    get(key: string, prefix?: string): any {
+    public get(key: string, prefix?: string): any {
         const name = `${prefix ?? this.prefix}${key}=`
         const values = document.cookie.split(';')
         const len = values.length
@@ -35,23 +35,14 @@ class MiCookie {
      * @param expire
      * @param prefix
      */
-    set(
-        name: string,
-        value: any,
-        expire: number | null,
-        prefix?: string
-    ): void {
+    public set(name: string, value: any, expire: number | null, prefix?: string): void {
         let expires = null
         if (expire) {
             const date = new Date()
-            date.setTime(date.getTime() + (expire * 24 * 60 * 60 * 1000))
+            date.setTime(date.getTime() + expire * 24 * 60 * 60 * 1000)
             expires = `expires=${date.toUTCString()}`
         }
-        const params = [
-            `${prefix ?? this.prefix}${name}=${escape(value)}`,
-            expires,
-            'path=/'
-        ]
+        const params = [`${prefix ?? this.prefix}${name}=${escape(value)}`, expires, 'path=/']
         document.cookie = params.join(';')
     }
 
@@ -60,7 +51,7 @@ class MiCookie {
      * @param names
      * @param prefix
      */
-    del(names: string | any[], prefix?: string): void {
+    public del(names: string | any[], prefix?: string): void {
         if (Array.isArray(names)) {
             const len = names.length
             for (let i = 0; i < len; i++) {
