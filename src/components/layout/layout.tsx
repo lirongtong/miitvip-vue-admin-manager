@@ -1,10 +1,14 @@
 import { defineComponent } from 'vue'
 import Header from './header'
 
+import { Layout as ALayout } from 'ant-design-vue'
+
 const Layout = defineComponent({
     name: 'MiLayout',
     render() {
-        return <div class="mi-layout">Nice Job.</div>
+        return <ALayout class="mi-layout">
+            {this.$slots.default}
+        </ALayout>
     }
 })
 Layout.Header = Header

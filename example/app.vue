@@ -1,5 +1,5 @@
 <template>
-    <mi-layout></mi-layout>
+    <mi-layout>Good Job 3</mi-layout>
 </template>
 
 <script lang="ts">
