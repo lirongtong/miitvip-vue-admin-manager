@@ -66,10 +66,10 @@ class MiCookie {
     }
 }
 
-export const $MCookie = new MiCookie()
+export const $cookie = new MiCookie()
 const cookie = {
     install(app: App) {
-        app.config.globalProperties.$MCookie = $MCookie
+        app.config.globalProperties.$cookie = $cookie
         return app
     }
 }

@@ -167,10 +167,10 @@ export const config = reactive({
         '&copy; Copyright 2020 <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>'
 })
 
-const $MC = {
+const global = {
     install(app: App) {
-        app.config.globalProperties.$MC = config
+        app.config.globalProperties.$g = config
         return app
     }
 }
-export default $MC
+export default global
