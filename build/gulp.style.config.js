@@ -9,7 +9,6 @@ const through2 = require('through2');
 const merge2 = require('merge2');
 const clean = require('gulp-clean-css');
 const less = require('gulp-less');
-const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const concat = require('gulp-concat');
 const rimraf = require('rimraf');

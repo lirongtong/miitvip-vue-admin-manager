@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
-import 'makeit-admin/style'
-import MakeitAdmin from 'makeit-admin'
+import 'makeit-admin-pro/style'
+import MakeitAdminPro from 'makeit-admin-pro'
 import App from './app.vue'
 
 const app = createApp(App)
-app.use(MakeitAdmin)
+app.use(MakeitAdminPro)
 app.mount('#app')

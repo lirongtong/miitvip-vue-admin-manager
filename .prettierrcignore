@@ -2,6 +2,7 @@ dist/
 lib/
 es/
 build/
+example/
 LICENSE
 DS_Store
 .prettierignore
