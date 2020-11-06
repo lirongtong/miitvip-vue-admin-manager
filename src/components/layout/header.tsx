@@ -1,6 +1,5 @@
 import { defineComponent } from 'vue'
 
-const Header = defineComponent({
+export default defineComponent({
     name: 'MiHeader'
 })
-export default Header as typeof Header

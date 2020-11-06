@@ -1,17 +1,27 @@
 import { defineComponent } from 'vue'
-import Header from './header'
+import MiLayoutHeader from './header'
+import MiLayoutSider from './sider'
 
-import { Layout as ALayout } from 'ant-design-vue'
+import { Layout } from 'ant-design-vue'
 
-const Layout = defineComponent({
+const MiLayout = defineComponent({
     name: 'MiLayout',
-    render() {
-        return <ALayout class="mi-layout">
-            {this.$slots.default}
-        </ALayout>
+    setup() {
+        const slots = {
+            default: () => (
+                <MiLayoutSider></MiLayoutSider>
+            )
+        }
+        return () => (
+            <Layout>
+                { slots }
+            </Layout>
+        )
     }
 })
-Layout.Header = Header
-export default Layout as typeof Layout & {
-    readonly Header: typeof Header
+MiLayout.Header = MiLayoutHeader
+MiLayout.Sider = MiLayoutSider
+export default MiLayout as typeof MiLayout & {
+    readonly Header: typeof MiLayoutHeader
+    readonly Sider: typeof MiLayoutSider
 }
