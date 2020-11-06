@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import { $g } from './config'
 
-class $tools {
+class MiTools {
     /**
      * Set title.
      * @param title
@@ -122,10 +122,10 @@ class $tools {
         return regExp.email.test(email)
     }
 }
-
+export const $tools: MiTools = new MiTools()
 const tools = {
     install(app: App) {
-        app.config.globalProperties.$tools = new $tools()
+        app.config.globalProperties.$tools = $tools
     }
 }
 export default tools
