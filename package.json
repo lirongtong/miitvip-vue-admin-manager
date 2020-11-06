@@ -46,8 +46,8 @@
         "compile": "gulp --gulpfile build/gulp.style.config.js",
         "build": "npm run compile && npm run dist && webpack --config build/webpack.dts.config.js --progress --color",
         "build:example": "vite build",
-        "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts,.tsx ./src",
-        "lint:fix": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src"
+        "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
+        "lint:fix": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts ./src"
     },
     "dependencies": {
         "ant-design-vue": "^2.0.0-beta.13",

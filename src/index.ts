@@ -18,8 +18,8 @@ const install = (app: App) => {
                 install: () => void
             }
         )
-        return app
     })
+    return app
 }
 
 export { config, cookie, storage, http, tools, api, Layout }
