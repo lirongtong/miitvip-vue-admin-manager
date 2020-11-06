@@ -16,7 +16,11 @@ const install = (app: App) => {
     })
 }
 
-export { Layout }
+export {
+    config,
+    cookie,
+    Layout
+}
 
 export default {
     version: `${process.env.VERSION}`,

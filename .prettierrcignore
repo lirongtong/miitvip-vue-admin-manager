@@ -1,4 +1,7 @@
 dist/
+lib/
+es/
+build/
 LICENSE
 DS_Store
 .prettierignore
@@ -6,4 +9,3 @@ DS_Store
 .gitattributes
 .png
 src/styles/*.less
-lib/

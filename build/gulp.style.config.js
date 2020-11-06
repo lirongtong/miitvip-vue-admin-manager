@@ -1,21 +1,28 @@
 const gulp = require('gulp');
 const lessCli = require('less');
 const path = require('path');
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.build.config');
+const ts = require('gulp-typescript');
+const tsConfig = require('./ts.common.config');
+const tsReportDefault = ts.reporter.defaultReporter();
 const LessNpmImportPlugin = require('less-plugin-npm-import');
 const through2 = require('through2');
+const merge2 = require('merge2');
 const clean = require('gulp-clean-css');
 const less = require('gulp-less');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const concat = require('gulp-concat');
+const rimraf = require('rimraf');
 const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
-const babelConfig = require('./babel.common.config')
+const babelConfig = require('./babel.common.config');
 const  { readFileSync, existsSync } = require('fs');
 const postcss = require('postcss');
 const postcssConfig = require('../postcss.config');
+
+const libDir = '../lib';
+const esDir = '../es';
+const distDir = '../dist';
 const distName = 'miitvip';
 
 function transformLess(lessFile) {
@@ -37,8 +44,33 @@ function transformLess(lessFile) {
     });
 }
 
-gulp.task('less-to-css', (done) => {
-    gulp.src(['../src/**/*.less', '../src/**/**/*.less'])
+function babelify(js, modules) {
+    babelConfig.babelrc = false;
+    delete babelConfig.cacheDirectory;
+    return js.pipe(babel(babelConfig))
+    .pipe(
+        through2.obj(function(file, encoding, callback) {
+            this.push(file.clone());
+            if (
+                file.path.match(/\/style\/index\.(js|jsx|ts|tsx)$/) || 
+                file.path.match(/\\style\\index\.(js|jsx|ts|tsx)$/)
+            ) {
+                const content = file.contents.toString(encoding);
+                file.contents = Buffer.from(
+                    content.replace(/\/style\/?'/g, "/style/css'").replace(/\.less/g, '.css')
+                );
+                file.path = file.path.replace(/index\.(js|jsx|ts|tsx)$/, 'mip.js');
+                this.push(file);
+                callback();
+            } else callback();
+        })
+    ).pipe(gulp.dest(modules === false ? esDir : libDir));
+}
+
+function compile(modules) {
+    rimraf.sync(modules === false ? esDir : libDir);
+    /** less */
+    const lessStream = gulp.src(['../src/**/*.less', '../src/**/**/*.less'])
     .pipe(
         through2.obj(function(file, encoding, callback) {
             this.push(file.clone());
@@ -57,45 +89,73 @@ gulp.task('less-to-css', (done) => {
                 });
             } else callback();
         })
-    ).pipe(gulp.dest('../lib'));
-    done();
-});
+    ).pipe(gulp.dest(modules === false ? esDir : libDir));
+    /** ts / tsx */
+    let error = 0;
+    const sources = [
+        '../src/**/*.js',
+        '../src/**/*.jsx',
+        '../src/**/*.ts',
+        '../src/**/*.tsx',
+        'types/**/*.d.ts'
+    ];
+    const tsResult = gulp.src(sources)
+    .pipe(ts(tsConfig(modules), {
+        error(e) {
+            tsReportDefault.error(e);
+            error = 1;
+        },
+        finish: tsReportDefault.finish
+    }));
+    const check = () => {
+        if (error) process.exit(1);
+    };
+    tsResult.on('finish', check);
+    tsResult.on('end', check);
+    const tsFileStream = modules === false
+        ? compileTs(tsResult.js)
+        : babelify(tsResult.js, modules);
+    const tsd = tsResult.dts.pipe(gulp.dest(modules === false ? esDir : libDir));
+    return merge2([lessStream, tsFileStream, tsd]);
+}
 
-gulp.task('ts-to-js', (done) => {
-    gulp.src(['../src/**/**/*.ts'])
-    .pipe(
+function compileTs(js) {
+    return js.pipe(
         through2.obj(function(file, encoding, callback) {
-            if (
-                file.path.match(/\/style\/index\.(js|jsx|ts|tsx)$/) || 
-                file.path.match(/\\style\\index\.(js|jsx|ts|tsx)$/)
-            ) {
-                const content = file.contents.toString(encoding);
-                file.contents = Buffer.from(
-                    content.replace(/\/style\/?'/g, "/style/css'").replace(/\.less/g, '.css')
-                );
-                file.path = file.path.replace(/index\.(js|jsx|ts|tsx)$/, 'mi.js');
-                this.push(file);
-                callback();
-            } else callback();
+            file.path = file.path.replace(/\.[jt]sx$/, '.js');
+            this.push(file);
+            callback();
         })
-    ).pipe(gulp.dest('../lib'));
-    done();
-});
+    ).pipe(gulp.dest(esDir));
+}
+
+gulp.task('compile-with-es', gulp.series(done => {
+    compile(false).on('finish', () => {
+        done();
+    })
+}));
+
+gulp.task('compile', gulp.series('compile-with-es', done => {
+    compile().on('finish', () => {
+        done();
+    });
+}));
 
 gulp.task('concat-css', (done) => {
-    gulp.src(['../lib/**/*.css'])
+    const stream = gulp.src([libDir + '/**/*.css'])
+    .pipe(less())
     .pipe(sourcemaps.init())
     .pipe(autoprefixer({
         overrideBrowserslist: ['last 2 versions', 'ie > 8']
     }))
     .pipe(concat(distName + '.css'))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('../dist'));
+    .pipe(gulp.dest(distDir));
     done();
 });
 
 gulp.task('minify-css', (done) => {
-    gulp.src(['../lib/**/*.css'])
+    gulp.src([libDir + '/**/*.css'])
     .pipe(sourcemaps.init())
     .pipe(autoprefixer({
         overrideBrowserslist: ['last 2 versions', 'ie > 8']
@@ -103,29 +163,8 @@ gulp.task('minify-css', (done) => {
     .pipe(clean({compatibility: 'ie8'}))
     .pipe(concat(distName + '.min.css'))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('../dist'));
+    .pipe(gulp.dest(distDir));
     done();
 });
 
-gulp.task('compile-ts', (done) => {
-    const dir = path.dirname(process.cwd());
-    const distDir = dir + '/dist';
-    const libDir = dir + '/lib';
-    if (
-        !existsSync(distDir) ||
-        !existsSync(libDir)
-    ) {
-        webpack(webpackConfig, (err, stats) => {
-            if (err) {
-                console.error(err.stack || err);
-                if (err.details) {
-                    console.err(err.details);
-                }
-                return ;
-            }
-            done();
-        });
-    } else done();
-});
-
-gulp.task('default', gulp.series('compile-ts', gulp.parallel('less-to-css', 'ts-to-js'), 'concat-css', 'minify-css'));
+gulp.task('default', gulp.series('compile', gulp.parallel('concat-css', 'minify-css')));

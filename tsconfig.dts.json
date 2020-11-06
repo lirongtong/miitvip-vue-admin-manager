@@ -17,7 +17,7 @@
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
 		"declaration": true,
-		"declarationDir": "es",
+		"declarationDir": "lib",
 		"allowJs": true,
         "baseUrl": "./",
         "paths": {
@@ -33,8 +33,7 @@
 	},
 	"include": [
 		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue"
+		"src/**/*.tsx"
 	],
 	"exclude": [
 		"node_modules",

@@ -11,7 +11,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const baseConfig = require('./webpack.base.config');
 const pkg = require('../package.json');
 const postcssConfig = require('../postcss.config');
-const banner = `${pkg.name} manager v${pkg.version}
+const banner = `${pkg.name} v${pkg.version}
 
 Copyright ${new Date().getFullYear()} makeit.vip <lirongtong@hotmail.com>.
 All rights reserved.
@@ -64,7 +64,7 @@ module.exports = merge(baseConfig, {
     plugins: [
         new webpack.DefinePlugin({
 			'process.env.NODE_ENV': '"production"',
-			'process.env.MAKEIT_ADMIN_PREFIX': '"mi-"'
+			'process.env.MAKEIT_ADMIN_RPO_PREFIX': '"mi-"'
 		}),
 		new webpack.BannerPlugin({
 			banner
