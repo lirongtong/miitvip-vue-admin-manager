@@ -21,7 +21,7 @@
         "admin-manager",
         "麦可易特网"
     ],
-    "description": "makeit's backend management system ( a unified template ).",
+    "description": "A unified template used to backend management based on Vue3.0 + Ant Design Vue + Vite.",
     "private": false,
     "license": "MIT",
     "repository": {
