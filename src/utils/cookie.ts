@@ -1,9 +1,8 @@
 import { App } from 'vue'
-import { config } from './config'
+import { $g } from './config'
 
 class MiCookie {
-
-    prefix = config.prefix
+    prefix = $g.prefix
 
     /**
      * Get Cookie.
@@ -32,12 +31,7 @@ class MiCookie {
      * @param expire
      * @param prefix
      */
-    set(
-        name: string,
-        value: any,
-        expire: number | null,
-        prefix?: string
-    ): void {
+    set(name: string, value: any, expire: number | null, prefix?: string): void {
         let expires = null
         if (expire) {
             const date = new Date()

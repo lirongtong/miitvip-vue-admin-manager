@@ -1,8 +1,7 @@
 import { App } from 'vue'
-import { config } from './config'
+import { $g } from './config'
 
 class MiStorage {
-
     /**
      * storage prefix.
      * @type {string}
@@ -16,7 +15,7 @@ class MiStorage {
     instance!: Storage
 
     constructor(type?: string) {
-        this.prefix = config.prefix
+        this.prefix = $g.prefix
         this.change(type)
     }
 
@@ -28,7 +27,7 @@ class MiStorage {
      * @return {*}
      */
     get(keys: string | any[], prefix?: string): any {
-        let data: any = {};
+        let data: any = {}
         if (Array.isArray(keys)) {
             for (let i = 0, len = keys.length; i < len; i++) {
                 const key = keys[i]
@@ -71,14 +70,13 @@ class MiStorage {
         }
     }
 
-     /**
+    /**
      * Change storage type.
-     * @param type 
+     * @param type
      */
     change(type?: string) {
-        this.instance = type === 'local'
-            ? localStorage
-            : (type === 'session' ? sessionStorage : localStorage)
+        this.instance =
+            type === 'local' ? localStorage : type === 'session' ? sessionStorage : localStorage
         return this
     }
 }

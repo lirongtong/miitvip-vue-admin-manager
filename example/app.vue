@@ -5,6 +5,10 @@
 <script lang="ts">
     import { defineComponent } from 'vue'
     export default defineComponent({
-        mounted() {}
+        mounted() {
+            this.$tools.setTitle()
+            this.$tools.setKeywords()
+            this.$tools.setDescription()
+        }
     })
 </script>

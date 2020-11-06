@@ -6,7 +6,6 @@ axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
 
 class MiHttp {
-
     instance: MiHttp
 
     constructor() {
@@ -16,38 +15,40 @@ class MiHttp {
 
     /**
      * Send Request.
-     * @param config 
+     * @param config
      */
     protected async send(config: AxiosRequestConfig): Promise<any> {
         if (!config.timeout) config.timeout = 60000
-        return axios(config).then(async res => {
-            res.data.ret.status = res.status
-            try {
-                return Promise.resolve({
-                    ret: res.data.ret,
-                    data: res.data.data
-                })
-            } catch (err) {
-                return Promise.reject(err)
-            }
-        }).catch(e => {
-            return Promise.reject(e)
-        })
+        return axios(config)
+            .then(async (res) => {
+                res.data.ret.status = res.status
+                try {
+                    return Promise.resolve({
+                        ret: res.data.ret,
+                        data: res.data.data
+                    })
+                } catch (err) {
+                    return Promise.reject(err)
+                }
+            })
+            .catch((e) => {
+                return Promise.reject(e)
+            })
     }
 
     /**
      * Registration of common methods.
      * Without `CONNECT`, `TRACE`.
-     * @type Promise 
+     * @type Promise
      */
     register(): void {
-        ['GET', 'POST', 'PUT', 'PATCH', 'DELETE','OPTIONS', 'HEAD'].forEach(method => {
+        ;['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'].forEach((method) => {
             this.instance[method.toLocaleLowerCase()] = (
                 url: string,
-                data: {[index: string]: any} = {},
+                data: { [index: string]: any } = {},
                 config?: AxiosRequestConfig
             ): Promise<any> => {
-                let args: {[index: string]: any} = {
+                const args: { [index: string]: any } = {
                     ...config,
                     url,
                     data,

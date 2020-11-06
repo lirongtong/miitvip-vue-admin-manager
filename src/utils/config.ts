@@ -1,6 +1,6 @@
 import { App, reactive } from 'vue'
 
-export const config = reactive({
+export const $g = reactive({
     /**
      * Independent project, or embedded project.
      * If it is an embedded project, the `header` and `sider` are not displayed, only content section is displayed.
@@ -169,7 +169,7 @@ export const config = reactive({
 
 const global = {
     install(app: App) {
-        app.config.globalProperties.$g = config
+        app.config.globalProperties.$g = $g
         return app
     }
 }
