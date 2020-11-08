@@ -12,7 +12,11 @@
 
 A unified template used to backend management based on Vue3.0 + Ant Design Vue + Vite
 
-[![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.org/package/makeit-admin-pro) [![npm_downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
+[![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.org/package/makeit-admin-pro)
+[![npm_downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
+![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
+![webpack](https://img.shields.io/badge/webpack-5.3.2-orange.svg)
+![vue](https://img.shields.io/badge/vue-3.0.2-green.svg)
 
 </div>
 

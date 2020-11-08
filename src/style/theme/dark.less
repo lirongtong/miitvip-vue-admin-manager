@@ -2,10 +2,10 @@
 @mi-prefix: mi-;
 
 @mi-font-size: 1rem;
-@mi-font-size-sm: 0.75rem;
-@mi-font-size-normal: 0.875rem;
-@mi-font-size-base: 1rem;
-@mi-spacing: 0.5rem;
+@mi-font-size-sm: 12px;
+@mi-font-size-normal: 14px;
+@mi-font-size-base: 16px;
+@mi-spacing: 8px;
 
 @mi-theme-color: #f6ca9d;
 @mi-body-color: #333333;
@@ -20,6 +20,17 @@
 @mi-info-color: #2db7f5;
 @mi-link-color: @mi-theme-color;
 @mi-primary-color: @mi-theme-color;
+
+@mi-sider-width: (@mi-spacing * 32 / @mi-font-size-base) * @mi-font-size;
+@mi-sider-width-scroll: ((@mi-spacing * 34 + 1) / @mi-font-size-base) * @mi-font-size;
+@mi-sider-width-sm: (@mi-spacing * 10 / @mi-font-size-base) * @mi-font-size;
+@mi-sider-width-sm-scroll: ((@mi-spacing * 12 + 1) / @mi-font-size-base) * @mi-font-size;
+@mi-sider-width-margin: (@mi-spacing * 2 / @mi-font-size-base) * @mi-font-size;
+@mi-sider-item-height: (@mi-spacing * 6.25 / @mi-font-size-base) * @mi-font-size;
+@mi-sider-logo-size: (@mi-spacing * 4 / @mi-font-size-base) * @mi-font-size;
+
+@mi-header-height: (@mi-spacing * 8 / @mi-font-size-base) * @mi-font-size;
+@mi-header-avatar-size: (@mi-spacing * 3 / @mi-font-size-base) * @mi-font-size;
 
 @mi-font-family: "Pingfang SC", "Microsoft YaHei", "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @mi-code-family: "Courier New", Consolas, "Source Code Pro", "Miscrosoft Yahei", "Segoe UI", "Lucida Grande", Helvetica, Arial, FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif;

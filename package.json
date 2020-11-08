@@ -41,7 +41,7 @@
     "module": "es/index.js",
     "unpkg": "dist/miitvip.min.js",
     "scripts": {
-        "dev": "vite --mode production",
+        "dev": "vite",
         "dist": "webpack --config build/webpack.build.config.js --mode production --progress --color",
         "compile": "gulp --gulpfile build/gulp.style.config.js",
         "build": "npm run compile && npm run dist && webpack --config build/webpack.dts.config.js --progress --color",

@@ -7,3 +7,53 @@ html {
     font-family: sans-serif;
     line-height: 1.15;
 }
+
+body {
+    margin: 0;
+    font-family: @mi-font-family;
+    .font-size(16);
+    line-height: 1.5;
+    color: @mi-white-color;
+    background: @mi-body-color;
+}
+
+ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+a {
+    color: @mi-theme-color;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-transition: color .4s;
+    transition: color .4s;
+    -webkit-text-decoration-skip: objects;
+
+    &:active,
+    &:hover,
+    &:link {
+        color: @mi-theme-color;
+    }
+}
+
+pre, code, kbd, samp {
+    margin: 0;
+    font-family: @mi-code-family;
+    .font-size(14);
+    tab-size: 16;
+}
+
+::selection,
+::-moz-selection {
+    color: @mi-white-color;
+    background: @mi-sider-color;
+}

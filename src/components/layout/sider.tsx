@@ -1,18 +1,25 @@
 import { defineComponent } from 'vue'
 import { Layout } from 'ant-design-vue'
+import MiLayoutSiderLogo from '../logo'
 
-export default defineComponent({
+const MiLayoutSider = defineComponent({
     name: 'MiLayoutSider',
-    setup() {
-        const slots = {
-            default: () => (
-                <div class="menu"></div>
+    render() {
+        let slots = this.$slots.default
+        if (!slots) {
+            slots = () => (
+                <MiLayoutSiderLogo></MiLayoutSiderLogo>
             )
         }
-        return () => (
+        return (
             <Layout.Sider class="mi-layout-sider" width="256" breakpoint="lg">
                 { slots }
             </Layout.Sider>
         )
     }
 })
+
+MiLayoutSider.Logo = MiLayoutSiderLogo
+export default MiLayoutSider as typeof MiLayoutSider & {
+    readonly Logo: typeof MiLayoutSiderLogo
+}

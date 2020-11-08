@@ -1,14 +1,92 @@
-@import '../../../style/theme/index';
+@import '../../../style/theme/index.less';
 
-@layout-prefix-cls: ~'@{mi-prefix}layout';
+@mi-layout: ~'@{mi-prefix}layout';
 
-.@{layout-prefix-cls} {
-    &-containt {
+.@{mi-layout} {
+    &-container {
         height: 100vh;
     }
 
     &-header {
         background: @mi-sider-color;
         transition: all .3s ease;
+        .flex(center, space-between);
+        padding-left: 0;
+        padding-right: 0;
+        z-index: 11;
+    }
+
+    &-sider {
+        background: @mi-sider-color;
+        transition: all 0.3s ease;
+        box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+        overflow: hidden;
+        z-index: 13;
+
+        &-logo {
+            .flex();
+            position: relative;
+            width: @mi-sider-width;
+            height: @mi-header-height;
+            background: @mi-sider-color;
+            border-bottom: 1px solid #2e2e2e;
+            transition: all .3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            .properties(padding-left);
+            .properties(padding-right);
+            .text-ellipsis();
+            cursor: pointer;
+            color: @mi-white-color;
+            z-index: 1000;
+
+            &-site {
+                .flex();
+                .text-ellipsis();
+
+                svg {
+                    .font-size(30);
+                    color: @mi-theme-color;
+                }
+
+                > img {
+                    width: @mi-sider-logo-size;
+                    height: @mi-sider-logo-size;
+                    .border-radius-circle();
+                }
+
+                > h1 {
+                    .text-ellipsis();
+                    color: @mi-theme-color;
+                    width: 100%;
+                    .font-size(20);
+                    font-weight: 400;
+                    .properties(margin-left, 12);
+                    transition: all .3s ease-in-out;
+                    .letter-spacing();
+                    .flex();
+                    zoom: 1;
+                }
+            }
+        }
+    }
+
+    &-content {
+        background: @mi-body-color;
+        .properties(padding, 24);
+        transition: all .3s ease;
+    }
+
+    &-footer {
+        background: @mi-body-color;
+        color: @mi-white-color;
+        .flex();
+        transition: all .3s ease;
+	    z-index: 10;
+
+        &-content {
+            .letter-spacing();
+        }
     }
 }

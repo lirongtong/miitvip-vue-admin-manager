@@ -21,7 +21,8 @@
 		"allowJs": true,
         "baseUrl": "./",
         "paths": {
-			"makeit-admin-pro": ["src/index.ts"]
+			"makeit-admin-pro": ["src/index.ts"],
+			"makeit-admin-pro/style": ["src/style.ts"]
 		},
 		"lib": [
 			"esnext",
