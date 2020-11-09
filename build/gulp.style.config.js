@@ -44,9 +44,10 @@ function transformLess(lessFile) {
 }
 
 function babelify(js, modules) {
-    babelConfig.babelrc = false;
-    delete babelConfig.cacheDirectory;
-    return js.pipe(babel(babelConfig))
+    const config = babelConfig(modules)
+    config.babelrc = false;
+    delete config.cacheDirectory;
+    return js.pipe(babel(config))
     .pipe(
         through2.obj(function(file, encoding, callback) {
             this.push(file.clone());
@@ -111,21 +112,9 @@ function compile(modules) {
     };
     tsResult.on('finish', check);
     tsResult.on('end', check);
-    const tsFileStream = modules === false
-        ? compileTs(tsResult.js)
-        : babelify(tsResult.js, modules);
+    const tsFileStream = babelify(tsResult.js, modules);
     const tsd = tsResult.dts.pipe(gulp.dest(modules === false ? esDir : libDir));
     return merge2([lessStream, tsFileStream, tsd]);
-}
-
-function compileTs(js) {
-    return js.pipe(
-        through2.obj(function(file, encoding, callback) {
-            file.path = file.path.replace(/\.[jt]sx$/, '.js');
-            this.push(file);
-            callback();
-        })
-    ).pipe(gulp.dest(esDir));
 }
 
 gulp.task('compile-with-es', gulp.series(done => {

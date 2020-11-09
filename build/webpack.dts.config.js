@@ -1,7 +1,7 @@
 const path = require('path');
 const resolve = (dir) => path.resolve(__dirname, '../', dir);
 const webpack = require('webpack');
-const babelConfig = require('./babel.common.config');
+const babelConfig = require('./babel.common.config')(false);
 const TerserPlugin = require('terser-webpack-plugin');
 const distFileName = 'makeit-admin-pro';
 

@@ -8,7 +8,7 @@ const postcssConfig = require('../postcss.config');
 const postcssOptions = Object.assign({}, postcssConfig, {
     sourceMap: true
 })
-const babelConfig = require('./babel.common.config');
+const babelConfig = require('./babel.common.config')(false);
 
 module.exports = {
     module: {
