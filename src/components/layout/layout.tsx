@@ -1,13 +1,26 @@
 import { defineComponent } from 'vue'
+import { Layout } from 'ant-design-vue'
 import MiLayoutHeader from './header'
 import MiLayoutSider from './sider'
 import MiLayoutContent from './content'
 import MiLayoutFooter from './footer'
 
-import { Layout } from 'ant-design-vue'
-
 const MiLayout = defineComponent({
     name: 'MiLayout',
+    props: {
+        embed: {
+            type: Boolean,
+            default: undefined
+        },
+        siderClassName: {
+            type: String,
+            default: undefined
+        },
+        menuClassName: {
+            type: String,
+            default: undefined
+        }
+    },
     computed: {
         hasSider() {
             return this.$g.mobile ? false : true
@@ -20,23 +33,34 @@ const MiLayout = defineComponent({
         }
     },
     render() {
-        const layoutSider = (this.$g.mobile ? null : <MiLayoutSider></MiLayoutSider>)
+        // let slots = this.$slots.default
+        // if (!slots) {
+        //     slots = () => (
+        //         <>
+        //             { this.$g.mobile ? null : <MiLayoutSider></MiLayoutSider> }
+        //             <Layout class="mi-layout-container">
+        //                 <MiLayoutHeader></MiLayoutHeader>
+        //                 <MiLayoutContent></MiLayoutContent>
+        //                 <MiLayoutFooter></MiLayoutFooter>
+        //             </Layout>
+        //         </>
+        //     )
+        // }
+
         let slots = this.$slots.default
         if (!slots) {
-            slots = () => (
+            slots = () => [(
                 <>
-                    { layoutSider }
+                    { this.$g.mobile ? null : <MiLayoutSider></MiLayoutSider> }
                     <Layout class="mi-layout-container">
-                        <MiLayoutHeader></MiLayoutHeader>
-                        <MiLayoutContent></MiLayoutContent>
-                        <MiLayoutFooter></MiLayoutFooter>
+                        { () => <MiLayoutHeader></MiLayoutHeader> }
                     </Layout>
                 </>
-            )
+            )]
         }
         return (
             <Layout hasSider={this.hasSider} class={this.layoutClass}>
-                { slots }
+                { ...slots }
             </Layout>
         )
     }

@@ -9,8 +9,13 @@ import tools from './utils/tools'
 import api from './utils/api'
 
 import { default as Layout } from './components/layout'
+import { default as Notice } from './components/notice'
+import { default as Dropdown } from './components/dropdown'
 
-const components = [config, cookie, storage, http, tools, api, Layout]
+const components = [
+    config, cookie, storage, http, tools, api,
+    Layout, Notice, Dropdown
+]
 
 let _Init = false
 const install = (app: App) => {

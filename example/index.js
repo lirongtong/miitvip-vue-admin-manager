@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 
-import 'ant-design-vue/lib/layout/style/index.less'
+import 'ant-design-vue/dist/antd.css'
 
 import 'makeit-admin-pro/style'
 import MakeitAdminPro from 'makeit-admin-pro'

@@ -14,6 +14,45 @@
         padding-left: 0;
         padding-right: 0;
         z-index: 11;
+
+        &-left,
+        &-right {
+            .flex();
+        }
+
+        &-trigger {
+            width: 100%;
+            height: @mi-header-height;
+            cursor: pointer;
+    
+            &:hover {
+                background: fade(@mi-black-color, 20%);
+            }
+            
+            .anticon {
+                width: @mi-header-height;
+                height: @mi-header-height;
+                .flex();
+                cursor: pointer;
+    
+                > svg {
+                    .properties(font-size, 18);
+                }
+            }
+    
+            &&-min {
+                .properties(padding-left, 16);
+                .properties(padding-right, 16);
+                .properties(font-size, 14);
+                .letter-spacing();
+                .flex();
+    
+                .anticon {
+                    width: auto;
+                    height: auto;
+                }
+            }
+        }
     }
 
     &-sider {

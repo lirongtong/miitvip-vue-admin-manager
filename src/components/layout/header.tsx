@@ -1,31 +1,48 @@
 import { defineComponent } from 'vue'
 import { Layout } from 'ant-design-vue'
-import { MenuFoldOutlined } from '@ant-design/icons-vue'
+import { MenuFoldOutlined, MenuUnfoldOutlined, ExpandOutlined } from '@ant-design/icons-vue'
+import MiNotice from '../notice'
+import MiDropdown from '../dropdown'
 
 export default defineComponent({
     name: 'MiLayoutHeader',
     render() {
-        const headerCls = 'mi-layout-header'
+        const headerPrefixCls = 'mi-layout-header'
         const cls = {
-            headerLeft: `${headerCls}-left`,
-            headerRight: `${headerCls}-right`,
-            headerTrigger: `${headerCls}-trigger`,
-            headerTriggerMin: `${headerCls}-trigger-min`
+            headerLeft: `${headerPrefixCls}-left`,
+            headerRight: `${headerPrefixCls}-right`,
+            headerTrigger: `${headerPrefixCls}-trigger`,
+            headerTriggerMin: `${headerPrefixCls}-trigger-min`
+        }
+        const triggerCls = `${cls.headerTrigger} ${cls.headerTriggerMin}`
+        let foldIcon = (<MenuUnfoldOutlined></MenuUnfoldOutlined>)
+        let screenIcon = (
+            <div class={triggerCls}>
+                <ExpandOutlined></ExpandOutlined>
+            </div>
+        )
+        if (this.$g.mobile) {
+            foldIcon = (<MenuFoldOutlined></MenuFoldOutlined>)
+            screenIcon = undefined
         }
         let slots = this.$slots.default
         if (!slots) {
-            slots = () => (
+            slots = () => [(
                 <>
                     <div class={cls.headerLeft}>
-                        <MenuFoldOutlined></MenuFoldOutlined>
+                        <div class={cls.headerTrigger}>{ foldIcon }</div>
                     </div>
-                    <div class={cls.headerRight}></div>
+                    <div class={cls.headerRight}>
+                        <div class={triggerCls}>{ screenIcon }</div>
+                        <div class={triggerCls}>{ <MiNotice></MiNotice> }</div>
+                        <div class={triggerCls}>{ <MiDropdown></MiDropdown> }</div>
+                    </div>
                 </>
-            )
+            )]
         }
         return (
-            <Layout.Header class={headerCls}>
-                { slots }
+            <Layout.Header class={headerPrefixCls}>
+                { ...slots }
             </Layout.Header>
         )
     }
