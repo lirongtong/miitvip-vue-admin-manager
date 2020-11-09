@@ -10,7 +10,7 @@ export default defineComponent({
             default: undefined
         },
         tabs: {
-            type: [Object || Array],
+            type: [Object, Array],
             default: undefined
         }
     },
