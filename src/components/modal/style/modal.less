@@ -3,13 +3,99 @@
 @mi-modal: ~'@{mi-prefix}modal';
 
 .@{mi-modal} {
-    &-mask {
+    &-mask, &-wrap {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, .45);
         z-index: 20201109;
+    }
+
+    &-mask {
+        background: rgba(0, 0, 0, .4);
+    }
+
+    &-wrap {
+        .flex();
+    }
+
+    &-content {
+        .properties(width, 520);
+        background: @mi-sider-color;
+        color: @mi-black-color;
+        .border-radius();
+        transition: all .3s;
+        position: relative;
+    }
+
+    &-header {
+        .flex(center, flex-start);
+        color: @mi-white-color;
+        .properties(padding-left, 24);
+        .properties(padding-right, 24);
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 16);
+        border-bottom: 1px solid #232323;
+        .letter-spacing();
+    }
+
+    &-body {
+        .properties(padding, 24);
+        .properties(font-size, 14);
+        color: fade(@mi-white-color, 85%);
+        border-bottom: 1px solid #232323;
+        .letter-spacing();
+        .border-radius();
+    }
+
+    &-footer {
+        .flex(center, flex-end);
+        .properties(padding, 16);
+        color: @mi-white-color;
+        .letter-spacing();
+
+        button {
+            .properties(margin-right, 8);
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            &.@{mi-modal}-btn {
+                color: fade(@mi-black-color, 90%);
+
+                &:active, &:hover, &:focus {
+                    color: fade(@mi-black-color, 90%);
+                    border-color: #d9d9d9;
+                }
+            }
+
+            &.@{mi-modal}-btn-primary {
+                background-color: @mi-theme-color;
+                border-color: @mi-theme-color;
+                text-shadow: none;
+                color: fade(@mi-black-color, 90%);
+            }
+        }
+    }
+
+    &-close {
+        background: transparent;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-decoration: none;
+        color: @mi-white-color;
+        transition: all .3s;
+
+        &-x {
+            .flex();
+            .properties(width, 50);
+            .properties(height, 50);
+        }
     }
 }

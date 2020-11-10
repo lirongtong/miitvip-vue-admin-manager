@@ -121,6 +121,24 @@ class MiTools {
         const regExp = $g.regExp
         return regExp.email.test(email)
     }
+
+    /**
+     * Whether the `element / params` is valid.
+     * @param value 
+     */
+    isValid(value: any): boolean {
+        return value !== undefined && value !== null && value !== ''
+    }
+
+    /**
+     * The prefix of the default class name.
+     * @param suffixCls 
+     * @param customizePrefixCls 
+     */
+    getPrefixCls(suffixCls: string, customizePrefixCls?: string) {
+        if (customizePrefixCls) return customizePrefixCls
+        return `${$g.prefix}${suffixCls}`
+    }
 }
 export const $tools: MiTools = new MiTools()
 const tools = {
