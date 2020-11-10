@@ -1,12 +1,15 @@
 import { defineComponent } from 'vue'
 import getModalPropTypes from './props'
-import { getSlot, getSlotContent } from '../../utils/props'
+import { getSlot } from '../../utils/props'
 
 export default defineComponent({
     name: 'MiPopup',
     inheritAttrs: false,
     props: {...getModalPropTypes()},
     methods: {
+        close(e: MouseEvent) {
+            this.emit('cancel', e)
+        },
         getZIndex() {
             const style: any = {}
             const props = this.$props
@@ -44,17 +47,23 @@ export default defineComponent({
 
             const style: any = {}
             if (width !== undefined) {
-                style.width = typeof width === 'number' ? `${Math.round(width / 16)}rem` : width
+                style.width = typeof width === 'number'
+                    ? `${Math.round(width / 16)}rem`
+                    : width
             }
             if (height !== undefined) {
-                style.height = typeof height === 'number' ? `${Math.round(height / 16)}rem` : height
+                style.height = typeof height === 'number'
+                    ? `${Math.round(height / 16)}rem`
+                    : height
             }
 
             let header: any
             if (title) {
                 header = (
-                    <div class={`${prefixCls}-header`} key="heaader" ref="header">
-                        { title }
+                    <div
+                        class={`${prefixCls}-header`}
+                        key="heaader"
+                        ref="header">{ title }
                     </div>
                 )
             }
@@ -62,8 +71,10 @@ export default defineComponent({
             let footer: any
             if (footerProp) {
                 footer = (
-                    <div class={`${prefixCls}-footer`} key="footer" ref="footer">
-                        { footerProp }
+                    <div
+                        class={`${prefixCls}-footer`}
+                        key="footer"
+                        ref="footer">{ footerProp }
                     </div>
                 )
             }
@@ -71,7 +82,12 @@ export default defineComponent({
             let closer: any
             if (closable) {
                 closer = (
-                    <button type="button" key="close" aria-label="close" class={`${prefixCls}-close`}>
+                    <button
+                        type="button"
+                        onClick={this.close}
+                        key="close"
+                        aria-label="close"
+                        class={`${prefixCls}-close`}>
                         { closeIcon || <span class={`${prefixCls}-close-x`}></span> }
                     </button>
                 )

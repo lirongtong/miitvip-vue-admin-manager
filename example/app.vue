@@ -1,5 +1,5 @@
 <template>
-    <mi-modal :visible="visible" :title="false" :footer="null" :closable="false">
+    <mi-modal v-model:visible="visible" title="Good Job" @cancel="cancel" @ok="ok">
         <div>Very Good</div>
     </mi-modal>
     <button @click="visible = !visible">Click Me ( Open a Modal )</button>
@@ -11,6 +11,14 @@
         data() {
             return {
                 visible: false
+            }
+        },
+        methods: {
+            cancel() {
+                console.log('cancel')
+            },
+            ok(e) {
+                console.log('ok', e)
             }
         },
         mounted() {}

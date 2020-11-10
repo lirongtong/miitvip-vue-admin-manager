@@ -12,14 +12,21 @@ const Modal = defineComponent({
     name: 'MiModal',
     inheritAttrs: false,
     props: {...getModalPropTypes()},
+    emits: ['ok', 'cancel'],
     methods: {
+        handleCancel(e: MouseEvent) {
+            this.$emit('cancel', e)
+        },
+        handleOk(e: MouseEvent) {
+            this.$emit('ok', e)
+        },
         getDefaultFooter(prefixCls: string) {
             return (
                 <div class={`${prefixCls}-btns`}>
-                    <Button type="default" class={`${prefixCls}-btn`}>
+                    <Button type="default" class={`${prefixCls}-btn`} onClick={this.handleCancel}>
                         { () => getSlotContent(this, 'cancelText') || '取消' }
                     </Button>
-                    <Button type="primary" class={`${prefixCls}-btn-primary`}>
+                    <Button type="primary" class={`${prefixCls}-btn-primary`} onClick={this.handleOk}>
                         { () => getSlotContent(this, 'okText') || '确定' }
                     </Button>
                 </div>
@@ -47,7 +54,8 @@ const Modal = defineComponent({
             prefixCls,
             title: getSlotContent(this, 'title'),
             footer: footer === undefined ? this.getDefaultFooter(prefixCls) : footer,
-            closeIcon: renderCloseIcon
+            closeIcon: renderCloseIcon,
+            cancel: this.handleCancel
         }
         if (container === false) {
             return (
