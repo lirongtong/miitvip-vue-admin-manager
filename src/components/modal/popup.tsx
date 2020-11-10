@@ -25,11 +25,15 @@ export default defineComponent({
             return {...this.getZIndex(), ...style, ...this.maskStyle}
         },
         getMaskElem() {
-            const props = this.$props
+            const { mask, prefixCls } = this.$props
             let maskElem: any
-            if (props.mask) {
+            if (mask) {
                 maskElem = (
-                    <div class="mi-modal-mask" ref="mask" style={this.getMaskStyle()} key="mi-mask"></div>
+                    <div
+                        class={`${prefixCls}-mask`}
+                        ref="mask"
+                        style={this.getMaskStyle()}
+                        key="mask" />
                 )
             }
             return maskElem

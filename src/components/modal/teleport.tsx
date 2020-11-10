@@ -32,6 +32,9 @@ export default defineComponent({
         this.createContainer()
     },
     methods: {
+        saveTeleport(elem: any) {
+            this._component = elem
+        },
         getContainer() {
             if (windowIsUndefined) return null
             const { container } = this.$props
@@ -52,9 +55,9 @@ export default defineComponent({
     render() {
         const { visible, forceRender, children } = this.$props
         const childProps = {container: this.getContainer}
-        if ((visible || forceRender) && this._container) {
+        if (visible || forceRender || this._component) {
             return (
-                <Teleport to={this._container}>
+                <Teleport to={this._container} ref={this.saveTeleport}>
                     { children(childProps) }
                 </Teleport>
             )

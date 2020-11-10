@@ -15,7 +15,7 @@
         },
         methods: {
             cancel() {
-                console.log('cancel')
+                this.visible = !this.visible
             },
             ok(e) {
                 console.log('ok', e)
