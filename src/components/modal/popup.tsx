@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, Transition, VNode, vShow, withDirectives } from 'vue'
 import getModalPropTypes from './props'
 import { getSlot } from '../../utils/props'
 
@@ -10,6 +10,11 @@ export default defineComponent({
         close(e: MouseEvent) {
             this.emit('cancel', e)
         },
+        handleAnimAfterLeave() {
+            if (this.$refs.wrap) {
+                this.$refs.wrap.style.display = 'none'
+            }
+        },
         getZIndex() {
             const style: any = {}
             const props = this.$props
@@ -20,20 +25,21 @@ export default defineComponent({
             return {...this.getZIndex()}
         },
         getMaskStyle() {
-            const style: any = {}
-            if (this.visible) style.display = null
-            return {...this.getZIndex(), ...style, ...this.maskStyle}
+            return {...this.getZIndex(), ...this.maskStyle}
         },
         getMaskElem() {
-            const { mask, prefixCls } = this.$props
-            let maskElem: any
-            if (mask) {
+            let maskElem: any = null
+            if (this.mask) {
                 maskElem = (
-                    <div
-                        class={`${prefixCls}-mask`}
-                        ref="mask"
-                        style={this.getMaskStyle()}
-                        key="mask" />
+                    <Transition key="mask" name="mi-fade" appear>
+                        { () => withDirectives((
+                            <div
+                                class={`${this.prefixCls}-mask`}
+                                style={this.getMaskStyle()}
+                                key="mask">
+                            </div>
+                        ) as VNode, [[vShow, this.visible]]) }
+                    </Transition>
                 )
             }
             return maskElem
@@ -98,32 +104,33 @@ export default defineComponent({
             }
 
             const modalElem = (
-                <div class={`${prefixCls}-content`} style={style}>
-                    { closer }
-                    { header }
-                    <div class={`${prefixCls}-body`} key="body" ref="body">{ getSlot(this) }</div>
-                    { footer }
-                </div>
+                <Transition
+                    key="content"
+                    name={`mi-${this.animation}`}
+                    onAfterLeave={this.handleAnimAfterLeave}
+                    appear>
+                    { () => withDirectives((
+                        <div class={`${prefixCls}-content`} style={style}>
+                            { closer }
+                            { header }
+                            <div class={`${prefixCls}-body`} key="body" ref="body">{ getSlot(this) }</div>
+                            { footer }
+                        </div>
+                    ) as VNode, [[vShow, this.visible]]) }
+                </Transition>
             )
             return modalElem
         }
     },
-    mounted() {
-        this.$nextTick(() => {
-            if (!this.visible) {
-                if (this.$refs.wrap) this.$refs.wrap.style.display = 'none'
-                if (this.$refs.mask) this.$refs.mask.style.display = 'none'
-            }
-        })
-    },
     render() {
+        const { prefixCls, position } = this.$props
         const style = this.getWrapStyle()
         if (this.visible) style.display = null
         return (
             <>
-                <div class="mi-modal" role="modal">
+                <div class={`${prefixCls} ${prefixCls}-anim-${this.animation}`} role="modal">
                     { this.getMaskElem() }
-                    <div class="mi-modal-wrap" ref="wrap" style={style}>
+                    <div class={`${prefixCls}-wrap ${position}`} ref="wrap" style={style}>
                         { this.getModalElem() }
                     </div>
                 </div>

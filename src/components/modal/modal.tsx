@@ -22,7 +22,7 @@ const Modal = defineComponent({
     },
     methods: {
         updatedCallback(visible: boolean) {
-            console.log(visible)
+            console.log(visible, this.visible)
         },
         handleCancel(e: MouseEvent) {
             this.$emit('cancel', e)

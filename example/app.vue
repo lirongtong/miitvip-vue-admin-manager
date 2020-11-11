@@ -1,8 +1,9 @@
 <template>
-    <mi-modal v-model:visible="visible" title="Good Job" @cancel="cancel" @ok="ok">
+    <mi-modal v-model:visible="visible" title="Good Job" @cancel="cancel" @ok="ok" animation="slit">
         <div>Very Good</div>
     </mi-modal>
-    <button @click="visible = !visible">Click Me ( Open a Modal )</button>
+    <button @click="visible = !visible" style="z-index: 202011111818;position: absolute">Click Me ( Open a Modal )</button>
+    <mi-layout></mi-layout>
 </template>
 
 <script lang="ts">
@@ -10,7 +11,8 @@
     export default defineComponent({
         data() {
             return {
-                visible: false
+                visible: false,
+                visible1: false
             }
         },
         methods: {

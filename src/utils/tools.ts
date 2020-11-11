@@ -137,7 +137,76 @@ class MiTools {
      */
     getPrefixCls(suffixCls: string, customizePrefixCls?: string) {
         if (customizePrefixCls) return customizePrefixCls
-        return `${$g.prefix}${suffixCls}`
+        return `mi-${suffixCls}`
+    }
+
+    /**
+     * Trim string spaces.
+     * @param str 
+     */
+    trim(str: string): string {
+        return (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
+    }
+
+    /**
+     * Whether the element has a specified class name.
+     * @param el 
+     * @param cls 
+     */
+    hasClass(el: HTMLElement, cls: string): boolean {
+        if (!el || !cls) return false
+        if (cls.indexOf(' ') !== -1) throw new Error('class name should not contain space.')
+        if (el.classList) {
+            return el.classList.contains(cls)
+        } else {
+            return (` ${el.className} `).indexOf(` ${cls} `) > -1
+        }
+    }
+
+    /**
+     * Add class to the element.
+     * @param el 
+     * @param cls 
+     */
+    addClass(el: HTMLElement, cls: string) {
+        if (!el) return
+        let curCls = el.className
+        const classes = (cls || '').split(' ')
+        for (let i = 0, l = classes.length; i < l; i++) {
+            const clsName = classes[i]
+            if (!clsName) continue
+            if (el.classList) {
+                el.classList.add(clsName)
+            } else {
+                if (!this.hasClass(el, clsName)) {
+                    curCls += ` ${clsName}`
+                }
+            }
+        }
+        if (!el.classList) el.className = curCls
+    }
+
+    /**
+     * Delete the specified class name in the element.
+     * @param el 
+     * @param cls 
+     */
+    removeClass(el: HTMLElement, cls: string) {
+        if (!el || !cls) return
+        const classes = cls.split(' ')
+        let curCls = ` ${el.className} `
+        for (let i = 0, l = classes.length; i < l; i++) {
+            const clsName = classes[i]
+            if (!clsName) continue
+            if (el.classList) {
+                el.classList.remove(clsName)
+            } else {
+                if (this.hasClass(el, clsName)) {
+                    curCls = curCls.replace(` ${clsName} `, '')
+                }
+            }
+        }
+        if (!el.classList) el.className = this.trim(curCls)
     }
 }
 export const $tools: MiTools = new MiTools()
