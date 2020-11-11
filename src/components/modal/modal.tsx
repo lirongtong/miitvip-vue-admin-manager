@@ -12,9 +12,10 @@ const Modal = defineComponent({
     name: 'MiModal',
     inheritAttrs: false,
     props: {...getModalPropTypes()},
-    emits: ['ok', 'cancel'],
+    emits: ['ok', 'cancel', 'update:visible'],
     methods: {
         handleCancel(e: MouseEvent) {
+            this.$emit('update:visible', false)
             this.$emit('cancel', e)
         },
         handleOk(e: MouseEvent) {
