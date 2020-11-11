@@ -1,4 +1,5 @@
 import { defineComponent, Teleport } from 'vue'
+import PropTypes from '../../utils/props'
 
 const windowIsUndefined = !(
     typeof window !== undefined &&
@@ -10,10 +11,10 @@ let openCount = 0
 export default defineComponent({
     name: 'MiTeleport',
     props: {
-        visible: Boolean,
-        container: [String, Object, Function],
-        children: Function,
-        forceRender: Boolean
+        visible: PropTypes.bool,
+        container: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+        children: PropTypes.func,
+        forceRender: PropTypes.bool
     },
     data() {
         const { visible } = this.$props
@@ -26,7 +27,21 @@ export default defineComponent({
     watch: {
         visible(val) {
             openCount = val ? openCount + 1 : openCount - 1
+        },
+        container(curr, prev) {
+            const containerIsFunc = typeof curr === 'function' && typeof prev === 'function'
+            console.log(containerIsFunc)
+            if (
+                containerIsFunc
+                    ? curr.toString() !== prev.toString()
+                    : curr !== prev
+            ) {
+                this.removeContainer();
+            }
         }
+    },
+    beforeUnmount() {
+        this.removeContainer();
     },
     mounted() {
         this.createContainer()
@@ -37,19 +52,26 @@ export default defineComponent({
         },
         getContainer() {
             if (windowIsUndefined) return null
-            const { container } = this.$props
-            const type = typeof container
-            if (type === 'function') return container()
-            if (type === 'string') return document.querySelector(container)
+            const type = typeof this.container
+            if (type === 'function') return this.container()
+            if (type === 'string') {
+                let temp = this.container
+                if (temp.indexOf('#') === -1) temp = `#${temp}`
+                return document.querySelector(temp)
+            }
             if (
                 type === 'object' &&
-                container instanceof window.HTMLElement
-            ) return container
+                this.container instanceof window.HTMLElement
+            ) return this.container
             return document.body
         },
         createContainer() {
             this._container = this.getContainer()
             this.$forceUpdate()
+        },
+        removeContainer() {
+            this.container = null
+            this._component = null
         }
     },
     render() {

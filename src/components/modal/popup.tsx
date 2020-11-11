@@ -6,20 +6,37 @@ export default defineComponent({
     name: 'MiPopup',
     inheritAttrs: false,
     props: {...getModalPropTypes()},
+    mounted() {
+        this.$nextTick(() => {
+            if ((this.forceRender || (this.container === false && !this.visible)) && this.$refs.wrap) {
+                this.$refs.wrap.style.display = 'none'
+            }
+        })
+    },
     methods: {
         close(e: MouseEvent) {
             this.emit('cancel', e)
         },
         handleAnimAfterLeave() {
-            if (this.$refs.wrap) {
-                this.$refs.wrap.style.display = 'none'
-            }
+            const { afterClose } = this
+            if (this.$refs.wrap) this.$refs.wrap.style.display = 'none'
+            if (afterClose) afterClose()
         },
         getZIndex() {
             const style: any = {}
             const props = this.$props
             if (props.zIndex !== undefined) style.zIndex = props.zIndex
             return style
+        },
+        getWrapClass() {
+            const { prefixCls, position, wrapClass } = this.$props
+            let classes = `${prefixCls}-wrap`
+            if (position !== undefined) classes += ` ${position}`
+            if (wrapClass !== undefined) {
+                if (Array.isArray(wrapClass)) classes += ` ${wrapClass.join(' ')}`
+                else classes += ` ${wrapClass}`
+            }
+            return classes
         },
         getWrapStyle() {
             return {...this.getZIndex()}
@@ -123,14 +140,14 @@ export default defineComponent({
         }
     },
     render() {
-        const { prefixCls, position } = this.$props
+        const { prefixCls } = this.$props
         const style = this.getWrapStyle()
         if (this.visible) style.display = null
         return (
             <>
                 <div class={`${prefixCls} ${prefixCls}-anim-${this.animation}`} role="modal">
                     { this.getMaskElem() }
-                    <div class={`${prefixCls}-wrap ${position}`} ref="wrap" style={style}>
+                    <div class={this.getWrapClass()} ref="wrap" style={style}>
                         { this.getModalElem() }
                     </div>
                 </div>
