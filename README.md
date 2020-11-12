@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center" color="green">
-    <a href="https://admin.makeit.vip/" target="_blank">Makeit Admin Pro</a>
+    <a href="https://admin.makeit.vip/" target="_blank" style="color: #41b995">Makeit Admin Pro</a>
 </h1>
 
 <div align="center">
@@ -17,6 +17,13 @@ A unified template used to backend management based on Vue3.0 + Ant Design Vue +
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
 ![webpack](https://img.shields.io/badge/webpack-5.3.2-orange.svg)
 ![vue](https://img.shields.io/badge/vue-3.0.2-green.svg)
+![vite](https://img.shields.io/badge/vite-1.0.0-yellow.svg)
+![axios](https://img.shields.io/badge/axios-0.21.0-red.svg)
+![ant design vue](https://img.shields.io/badge/ant%20design%20vue-2.0.0-blueviolet.svg)
+![vue router](https://img.shields.io/badge/vue%20router-4.0.0-inactive.svg)
+![vuex](https://img.shields.io/badge/vuex-4.0.0-informational.svg)
+![starts](https://img.shields.io/github/stars/lirongtong/miitvip-vue-admin-manager.svg)
+![forks](https://img.shields.io/github/forks/lirongtong/miitvip-vue-admin-manager.svg)
 
 </div>
 
