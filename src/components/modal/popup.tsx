@@ -29,9 +29,9 @@ export default defineComponent({
             return style
         },
         getWrapClass() {
-            const { prefixCls, position, wrapClass } = this.$props
+            const { prefixCls, placement, wrapClass } = this.$props
             let classes = `${prefixCls}-wrap`
-            if (position !== undefined) classes += ` ${position}`
+            if (placement !== undefined) classes += ` ${placement}`
             if (wrapClass !== undefined) {
                 if (Array.isArray(wrapClass)) classes += ` ${wrapClass.join(' ')}`
                 else classes += ` ${wrapClass}`

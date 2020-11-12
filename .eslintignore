@@ -5,4 +5,4 @@ build/
 node_modules/
 **/styles/
 *.html
-example/*.vue
+example/

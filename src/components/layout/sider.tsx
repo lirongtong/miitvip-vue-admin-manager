@@ -1,19 +1,23 @@
 import { defineComponent } from 'vue'
 import { Layout } from 'ant-design-vue'
+import PropTypes, { getSlotContent } from '../../utils/props'
 import MiLayoutSiderLogo from '../logo'
 
 const MiLayoutSider = defineComponent({
     name: 'MiLayoutSider',
-    render() {
-        let slots = this.$slots.default
-        if (!slots) {
-            slots = () => (
-                <MiLayoutSiderLogo></MiLayoutSiderLogo>
-            )
+    props: {logo: PropTypes.any},
+    methods: {
+        getLogoElem() {
+            let logo = getSlotContent(this, 'logo')
+            if (logo === undefined) logo = (<MiLayoutSiderLogo></MiLayoutSiderLogo>)
+            return logo
         }
+    },
+    render() {
+        const prefixCls = this.$tools.getPrefixCls('layout-sider')
         return (
-            <Layout.Sider class="mi-layout-sider" width="256" breakpoint="lg">
-                { slots }
+            <Layout.Sider class={prefixCls} width="256" breakpoint="lg">
+                { () => this.getLogoElem() }
             </Layout.Sider>
         )
     }

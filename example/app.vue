@@ -1,10 +1,3 @@
 <template>
-    <mi-layout></mi-layout>
+    <router-view></router-view>
 </template>
-
-<script lang="ts">
-    import { defineComponent } from 'vue'
-    export default defineComponent({
-        mounted() {}
-    })
-</script>

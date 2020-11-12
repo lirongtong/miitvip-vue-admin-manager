@@ -1,5 +1,4 @@
 import { App } from 'vue'
-import { createStore } from 'vuex'
 import baseMixins from './utils/mixins'
 
 import config from './utils/config'
@@ -19,10 +18,12 @@ const components = [
     Layout, Notice, Dropdown, Modal
 ]
 
-const env = process.env.NODE_ENV
 let _Init = false
-let _Vue: boolean | null = null
 const install = (app: App) => {
+    if (!_Init) {
+        app.mixin(baseMixins)
+        _Init = true
+    }
     components.forEach((component) => {
         app.use(
             component as typeof component & {
@@ -30,27 +31,6 @@ const install = (app: App) => {
             }
         )
     })
-    if (!_Init) {
-        app.mixin({
-            beforeMount() {
-                if (!_Vue) {
-                    try {
-                        if (!this.$store) {
-                            app.use(createStore({
-                                strict: env !== 'production'
-                            }))
-                        }
-                        //this.$store.registerModule(['layout'], layout)
-                        //this.$store.registerModule(['passport'], passport)
-                        _Vue = true
-                    } catch (e) {
-                        throw new Error('Vuex must be required. Please import vuex before makeit-admin-pro\r\n' + e)
-                    }
-                }
-            }
-        }).mixin(baseMixins)
-        _Init = true
-    }
     return app
 }
 

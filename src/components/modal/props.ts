@@ -41,7 +41,7 @@ function getModalPropTypes() {
         cancelText: PropTypes.any,
         zIndex: PropTypes.number,
         animation: PropTypes.string.def('scale'),
-        position: PropTypes.string,
+        placement: PropTypes.string,
         afterClose: PropTypes.func.def(() => {})
     }
 }

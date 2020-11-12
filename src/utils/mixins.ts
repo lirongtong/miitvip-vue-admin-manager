@@ -2,6 +2,7 @@ import axios from 'axios'
 
 let _Created = false
 let _Mounted = false
+let _beforeMount = false
 export default {
     created() {
         if (!_Created) {
@@ -30,6 +31,17 @@ export default {
                     event(...args.slice(1))
                 }
             }
+        }
+    },
+    beforeMount() {
+        if (_beforeMount) {
+            try {
+                //this.$store.registerModule(['layout'], layout)
+                //this.$store.registerModule(['passport'], passport)
+            } catch (e) {
+                throw new Error('[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' + e)
+            }
+            _beforeMount = true
         }
     },
     mounted() {

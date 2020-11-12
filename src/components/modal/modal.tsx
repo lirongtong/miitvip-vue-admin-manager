@@ -2,7 +2,6 @@ import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { install } from '../../utils/install'
-import { $tools } from '../../utils/tools'
 import { getSlot, getSlotContent } from '../../utils/props'
 import getModalPropTypes from './props'
 import MiPopup from './popup'
@@ -41,7 +40,7 @@ const Modal = defineComponent({
             container,
             forceRender
         } = this.$props
-        const prefixCls = $tools.getPrefixCls('modal', customizePrefixCls)
+        const prefixCls = this.$tools.getPrefixCls('modal', customizePrefixCls)
         const closeIcon = getSlotContent(this, 'closeIcon')
         const renderCloseIcon = (
             <span class={`${prefixCls}-close-x`}>

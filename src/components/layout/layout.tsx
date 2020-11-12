@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import { Layout } from 'ant-design-vue'
+import PropTypes, { getSlotContent } from '../../utils/props'
 import MiLayoutHeader from './header'
 import MiLayoutSider from './sider'
 import MiLayoutContent from './content'
@@ -8,59 +9,64 @@ import MiLayoutFooter from './footer'
 const MiLayout = defineComponent({
     name: 'MiLayout',
     props: {
-        embed: {
-            type: Boolean,
-            default: undefined
-        },
-        siderClassName: {
-            type: String,
-            default: undefined
-        },
-        menuClassName: {
-            type: String,
-            default: undefined
-        }
+        embed: PropTypes.bool,
+        siderClassName: PropTypes.string,
+        menuClassName: PropTypes.string,
+        sider: PropTypes.any,
+        header: PropTypes.any,
+        footer: PropTypes.any
     },
     computed: {
         hasSider() {
             return this.$g.mobile ? false : true
         },
         layoutClass() {
-            let layoutClass = 'mi-layout '
-            layoutClass += this.$g.embed ? `mi-layout-embed `: ''
-            layoutClass += this.$g.mobile ? `mi-layout-mobile ` : ''
+            let layoutClass = this.$tools.getPrefixCls('layout')
+            layoutClass += this.$g.embed ? ` ${layoutClass}-embed `: ''
+            layoutClass += this.$g.mobile ? ` ${layoutClass}-mobile ` : ''
             return layoutClass
         }
     },
-    render() {
-        // let slots = this.$slots.default
-        // if (!slots) {
-        //     slots = () => (
-        //         <>
-        //             { this.$g.mobile ? null : <MiLayoutSider></MiLayoutSider> }
-        //             <Layout class="mi-layout-container">
-        //                 <MiLayoutHeader></MiLayoutHeader>
-        //                 <MiLayoutContent></MiLayoutContent>
-        //                 <MiLayoutFooter></MiLayoutFooter>
-        //             </Layout>
-        //         </>
-        //     )
-        // }
-
-        let slots = this.$slots.default
-        if (!slots) {
-            slots = () => [(
+    methods: {
+        getSiderElem() {
+            let sider = getSlotContent(this, 'sider')
+            if (sider === undefined) sider = (<MiLayoutSider></MiLayoutSider>)
+            if (this.$g.mobile || this.embed) sider = null
+            return sider
+        },
+        getHeaderElem() {
+            let header = getSlotContent(this, 'header')
+            if (header === undefined) header = (<MiLayoutHeader></MiLayoutHeader>)
+            if (this.embed) header = null
+            return header
+        },
+        getFooterElem() {
+            let footer = getSlotContent(this, 'footer')
+            if (footer === undefined) footer = (<MiLayoutFooter></MiLayoutFooter>)
+            return footer
+        },
+        getLayoutElem() {
+            const prefixCls = this.$tools.getPrefixCls('layout')
+            return (
                 <>
-                    { this.$g.mobile ? null : <MiLayoutSider></MiLayoutSider> }
-                    <Layout class="mi-layout-container">
-                        { () => <MiLayoutHeader></MiLayoutHeader> }
+                    { this.getSiderElem() }
+                    <Layout class={`${prefixCls}-container`} hasSider={false}>
+                        { () => (
+                            <>
+                                { this.getHeaderElem() }
+                                <MiLayoutContent></MiLayoutContent>
+                                { this.getFooterElem() }
+                            </>
+                        ) }
                     </Layout>
                 </>
-            )]
+            )
         }
+    },
+    render() {
         return (
             <Layout hasSider={this.hasSider} class={this.layoutClass}>
-                { ...slots }
+                { () => this.getLayoutElem() }
             </Layout>
         )
     }

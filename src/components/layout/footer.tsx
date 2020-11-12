@@ -5,14 +5,21 @@ export default defineComponent({
     name: 'MiFooter',
     computed: {
         copyright() {
-            return this.$g.mobile ? this.$g.copyright : this.$g.footer
+            return this.$g.mobile
+                ? this.$g.copyright
+                : this.$g.footer
         }
     },
     render() {
+        const prefixCls = this.$tools.getPrefixCls('layout-footer')
         let slots = this.$slots.default
-        if (!slots) slots = () => (<div class="mi-layout-footer-content" innerHTML={this.copyright}></div>)
+        if (slots === undefined) {
+            slots = () => (
+                <div class={`${prefixCls}-content`} innerHTML={this.copyright}></div>
+            )
+        }
         return (
-            <Layout.Footer class="mi-layout-footer">
+            <Layout.Footer class={prefixCls}>
                 { slots }
             </Layout.Footer>
         )

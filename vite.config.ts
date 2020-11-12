@@ -14,7 +14,7 @@ const config = {
         }
     },
     optimizeDeps: {
-        include: ['@ant-design/colors', '@ant-design/icons-vue']
+        include: ['ant-design-vue', '@ant-design/colors', '@ant-design/icons-vue']
     },
     proxy: {
         '/v1': {
