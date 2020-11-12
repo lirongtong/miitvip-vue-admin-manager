@@ -21,7 +21,6 @@
         }
 
         &-trigger {
-            width: 100%;
             height: @mi-header-height;
             cursor: pointer;
     
@@ -33,11 +32,8 @@
                 width: @mi-header-height;
                 height: @mi-header-height;
                 .flex();
+                .properties(font-size, 18);
                 cursor: pointer;
-    
-                > svg {
-                    .properties(font-size, 18);
-                }
             }
     
             &&-min {
@@ -52,6 +48,10 @@
                     height: auto;
                 }
             }
+        }
+
+        &-notice {
+            height: @mi-header-height;
         }
     }
 

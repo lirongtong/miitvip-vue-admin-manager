@@ -14,6 +14,9 @@ export default defineComponent({
         stretchIcon: PropTypes.any
     },
     methods: {
+        getPrefixCls() {
+            return this.$tools.getPrefixCls('layout-header')
+        },
         getStretchIcon() {
             let icon = getSlotContent(this, 'stretchIcon')
             if (icon === undefined) icon = (<MenuUnfoldOutlined></MenuUnfoldOutlined>)
@@ -26,11 +29,15 @@ export default defineComponent({
             return screen
         },
         getFoldElem() {},
-        getNoticeElem() {},
+        getNoticeElem() {
+            const prefixCls = this.getPrefixCls()
+            const notice = getSlotContent(this, 'notice')
+            return (notice ?? <MiNotice class={`${prefixCls}-notice`} tabs={[{}]} data={[]}></MiNotice>)
+        },
         getDropdownElem() {}
     },
     render() {
-        const prefixCls = this.$tools.getPrefixCls('layout-header')
+        const prefixCls = this.getPrefixCls()
         const headerCls = {
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
@@ -47,7 +54,7 @@ export default defineComponent({
                         </div>
                         <div class={headerCls.right}>
                             <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>
-                            <div class={triggerCls}><MiNotice></MiNotice></div>
+                            <div class={triggerCls}>{ this.getNoticeElem() }</div>
                             <div class={triggerCls}><MiDropdown></MiDropdown></div>
                         </div>
                     </>
