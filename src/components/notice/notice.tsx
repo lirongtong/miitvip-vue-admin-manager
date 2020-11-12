@@ -1,8 +1,7 @@
-import { defineComponent, h, render } from 'vue'
+import { defineComponent } from 'vue'
 import { Popover, Badge, Tabs } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import PropTypes, { getSlot, getSlotContent } from '../../utils/props'
-import { ExpandOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
     name: 'MiNotice',
@@ -48,7 +47,7 @@ export default defineComponent({
                     const IconComponent = data[n].icon
                     icon = (
                         <div class={`${prefixCls}-icon`}>
-                            { h(<component is={IconComponent}></component>) }
+                            <component is={IconComponent}></component>
                         </div>
                     )
                 }
