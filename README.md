@@ -5,8 +5,8 @@
 </p>
 
 <h1 align="center" color="green">
-    <a href="https://admin.makeit.vip/" target="_blank">
-        <font face="微软雅黑" color="#41b995">Makeit Admin Pro</font>
+    <a href="https://admin.makeit.vip/" target="_blank" style="color: #41b995">
+        Makeit Admin Pro
     </a>
 </h1>
 
