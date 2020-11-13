@@ -34,7 +34,10 @@ export default defineComponent({
             const notice = getSlotContent(this, 'notice')
             return (notice ?? <MiNotice class={`${prefixCls}-notice`}></MiNotice>)
         },
-        getDropdownElem() {}
+        getDropdownElem() {
+            const dropdown = getSlotContent(this, 'dropdown')
+            return (dropdown ?? <MiDropdown></MiDropdown>)
+        }
     },
     render() {
         const prefixCls = this.getPrefixCls()
@@ -55,7 +58,7 @@ export default defineComponent({
                         <div class={headerCls.right}>
                             <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>
                             <div class={triggerCls}>{ this.getNoticeElem() }</div>
-                            <div class={triggerCls}><MiDropdown></MiDropdown></div>
+                            <div class={triggerCls}>{ this.getDropdownElem() }</div>
                         </div>
                     </>
                 ) }
