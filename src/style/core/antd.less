@@ -1,0 +1,43 @@
+@ant-popover: ant-popover;
+.@{ant-popover} {
+    & &-content {
+        & > .@{ant-popover}-arrow {
+            border-color: @mi-sider-color transparent transparent @mi-sider-color;
+        }
+    }
+
+    &-inner {
+        background-color: @mi-sider-color;
+        .border-radius(8);
+
+        &-content {
+            .properties(padding, 16)
+        }
+    }
+}
+
+@ant-tabs: ant-tabs;
+.@{ant-tabs} {
+    color: fade(@mi-white-color, 65%);
+
+    &-bar {
+        border-bottom-color: fade(@mi-white-color, 15%);
+    }
+
+    &-nav {
+        & .@{ant-tabs}-tab {
+            &-active,
+            &:hover {
+                color: @mi-theme-color;
+            }
+        }
+    }
+
+    &-ink-bar {
+        background-color: @mi-theme-color;
+    }
+
+    &-content {
+        color: @mi-white-color;
+    }
+}

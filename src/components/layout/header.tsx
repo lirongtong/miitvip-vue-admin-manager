@@ -32,7 +32,7 @@ export default defineComponent({
         getNoticeElem() {
             const prefixCls = this.getPrefixCls()
             const notice = getSlotContent(this, 'notice')
-            return (notice ?? <MiNotice class={`${prefixCls}-notice`} tabs={[{}]} data={[]}></MiNotice>)
+            return (notice ?? <MiNotice class={`${prefixCls}-notice`}></MiNotice>)
         },
         getDropdownElem() {}
     },

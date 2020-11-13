@@ -3,7 +3,72 @@
 @mi-notice: ~'@{mi-prefix}notice';
 
 .@{mi-notice} {
+    &-tab {
+        .properties(max-height, 550);
+        overflow: auto;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
     &-icon {
         .flex()
+    }
+
+    &-content {
+        color: @mi-white-color;
+    }
+
+    &-item {
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 16);
+        border-bottom: 1px solid fade(@mi-white-color, 2%);
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &-default {
+            .flex(center, flex-start);
+        }
+
+        &-avatar {
+            .properties(min-width, 32);
+        }
+
+        &-info {
+            .properties(max-width, 250);
+            .properties(margin-left, 12);
+            .flex(flex-start);
+            flex-direction: column;
+        }
+
+        &-title,
+        &-time {
+            .properties(max-width, 250);
+            .text-ellipsis();
+        }
+
+        &-title {
+            .properties(margin-bottom, 4);
+        }
+
+        &-time {
+            color: fade(@mi-white-color, 20%);
+            .properties(font-size, 12);
+        }
+
+        &-content {
+            .properties(margin-bottom, 4);
+            .properties(font-size, 12);
+            color: fade(@mi-white-color, 60%);
+            overflow: hidden;
+        }
+    }
+
+    &-no-data {
+        .properties(padding, 32);
+        .flex();
+        color: @mi-white-color;
     }
 }

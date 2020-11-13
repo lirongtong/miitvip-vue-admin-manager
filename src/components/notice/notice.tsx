@@ -1,21 +1,24 @@
 import { defineComponent } from 'vue'
 import { Popover, Badge, Tabs } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
+import MiNoticeTab from './tab'
+import MiNoticeItem from './item'
 import PropTypes, { getSlot, getSlotContent } from '../../utils/props'
 
-export default defineComponent({
+const MiNotice = defineComponent({
     name: 'MiNotice',
     props: {
         class: PropTypes.string,
-        tabs: PropTypes.array,
-        tabChange: PropTypes.func,
-        tabClick: PropTypes.func,
         icon: PropTypes.any,
         iconSize: PropTypes.number,
+        hasTab: PropTypes.bool.def(true),
         count: PropTypes.number.def(0),
         dot: PropTypes.bool.def(true),
-        data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-        placement: PropTypes.string.def('bottomRight')
+        placement: PropTypes.string.def('bottom'),
+        extra: PropTypes.any
+    },
+    mounted() {
+        this.$forceUpdate()
     },
     methods: {
         getPrefixCls() {
@@ -44,10 +47,10 @@ export default defineComponent({
 
                 let icon = null
                 if (data[n].icon) {
-                    const IconComponent = data[n].icon
+                    const IconComponent = `${data[n].icon}`
                     icon = (
                         <div class={`${prefixCls}-icon`}>
-                            <component is={IconComponent}></component>
+                            <IconComponent />
                         </div>
                     )
                 }
@@ -63,27 +66,28 @@ export default defineComponent({
             return [...list]
         },
         getTabPanesElem() {
-            const prefixCls = this.getPrefixCls()
+            const tabs = getSlot(this)
             const panes = []
-            const len = Array.isArray(this.tabs) ? this.tabs.length : Object.keys(this.tabs).length
-            for (let i = 0; i < len; i++) {
-                let content = [(<div class={`${prefixCls}-no-data`}>暂无有效数据</div>)]
-                const data = this.data[this.tabs[i].id]
-                if (Array.isArray(data) && data.length > 0) content = this.getListElem(data)
-                panes.push((
-                    <Tabs.TabPane key={this.tabs[i].id} tab={this.tabs[i].name}>
-                        { () => content }
-                    </Tabs.TabPane>
-                ))
+            const len = tabs.length
+            if (len > 0) {
+                for (let i = 0; i < len; i++) {
+                    const title = getSlotContent(tabs[i], 'title')
+                    panes.push(this.hasTab ? (
+                        <Tabs.TabPane key={tabs[i].props.name} tab={title}>
+                            { () => tabs[i] }
+                        </Tabs.TabPane>
+                    ) : tabs[i])
+                }
             }
             return [...panes]
         },
         getContentElem() {
             const prefixCls = this.getPrefixCls()
-            const defaultSlot = getSlot(this)
-            const content = defaultSlot.length > 0 ? defaultSlot : (
-                <Tabs>{ () => this.getTabPanesElem() }</Tabs>
-            )
+            const panes = this.getTabPanesElem()
+            let content = this.hasTab ? (<Tabs>{ () => panes }</Tabs>) : panes
+            if (panes.length <= 0) {
+                content = (<div class={`${prefixCls}-no-data`}>暂无数据 ( no data )</div>)
+            }
             return (
                 <div class={`${prefixCls}-content`}>
                     { content }
@@ -103,3 +107,10 @@ export default defineComponent({
         )
     }
 })
+
+MiNotice.Tab = MiNoticeTab
+MiNotice.Item = MiNoticeItem
+export default MiNotice as typeof MiNotice & {
+    readonly Tab: typeof MiNoticeTab,
+    readonly Item: typeof MiNoticeItem
+}
