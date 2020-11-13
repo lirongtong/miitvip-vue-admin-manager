@@ -208,6 +208,14 @@ class MiTools {
         }
         if (!el.classList) el.className = this.trim(curCls)
     }
+
+    /**
+     * errors.
+     * @param name 
+     */
+    importError(name: string) {
+        throw new Error(`[${name}] must be required. Please import and install [${name}] before makeit-admin-pro\r\n`)
+    }
 }
 export const $tools: MiTools = new MiTools()
 const tools = {

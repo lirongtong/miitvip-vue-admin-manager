@@ -4,9 +4,9 @@ import { Layout } from 'ant-design-vue'
 
 export default defineComponent({
     name: 'MiContent',
-    beforeCreate() {
+    created() {
         if (!this.$route) {
-            throw new Error('[vue-router] must be required. Please import and install [vue-router] before makeit-admin-pro\r\n')
+            this.$tools.importError('vue-router')
         }
     },
     render() {
