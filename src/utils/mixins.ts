@@ -1,8 +1,17 @@
 import axios from 'axios'
+import { layout } from '../store/layout'
+import { passport } from '../store/passport'
+import { mutations } from '../store/types'
 
 let _Created = false
 let _Mounted = false
 let _beforeMount = false
+
+/**
+ * mixin.
+ * 1. Dynamic loading state management module (eg,. `layout`, `passport`).
+ * 2. Add axios interceptor (request and response).
+ */
 export default {
     created() {
         if (!_Created) {
@@ -10,12 +19,18 @@ export default {
             this.$tools.setKeywords()
             this.$tools.setDescription()
             this.$g.mobile = this.$tools.isMobile()
+            try {
+                this.$store.registerModule(['layout'], layout)
+                this.$store.registerModule(['passport'], passport)
+            } catch (e) {
+                throw new Error('[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' + e)
+            }
             _Created = true
         }
     },
     methods: {
         redirect() {
-            //this.$store.commit(`passport/${mutations.passport.reset}`)
+            this.$store.commit(`passport/${mutations.passport.reset}`)
             if (this.$route.name !== 'login') this.$router.push({path: '/login'})
         },
         emit() {
@@ -31,17 +46,6 @@ export default {
                     event(...args.slice(1))
                 }
             }
-        }
-    },
-    beforeMount() {
-        if (_beforeMount) {
-            try {
-                //this.$store.registerModule(['layout'], layout)
-                //this.$store.registerModule(['passport'], passport)
-            } catch (e) {
-                throw new Error('[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' + e)
-            }
-            _beforeMount = true
         }
     },
     mounted() {
