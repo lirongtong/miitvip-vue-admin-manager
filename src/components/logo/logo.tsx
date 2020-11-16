@@ -1,7 +1,6 @@
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
 import { MediumOutlined } from '@ant-design/icons-vue'
-import { getSlot } from '../../utils/props'
 
 export default defineComponent({
     name: 'MiLayoutSiderLogo',
