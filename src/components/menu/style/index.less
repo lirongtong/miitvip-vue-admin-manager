@@ -6,8 +6,25 @@
 .@{mi-menu} {
     color: @mi-white-color;
     background: @mi-sider-color;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    & &-items, & &-item {
+        min-height: @mi-sider-item-height;
+        line-height: @mi-sider-item-height;
+        color: @mi-white-color;
+        transition: all .3s ease;
+        overflow: hidden;
+    }
 }
 
 .@{mi-sider-menu} {
     margin-top: @mi-header-height;
+    height: calc(100vh - @mi-header-height);
+    width: @mi-sider-width;
 }
