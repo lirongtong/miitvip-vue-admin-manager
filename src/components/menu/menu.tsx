@@ -1,6 +1,9 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
 import { Menu } from 'ant-design-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
+import MiSubMenu from './submenu'
+import MiMenuItem from './item'
 
 export default defineComponent({
     name: 'MiMenu',
@@ -9,9 +12,11 @@ export default defineComponent({
         items: PropTypes.object
     },
     setup() {
+        const store = useStore()
         const menus = reactive({})
         const data = reactive([])
-        return { menus, data }
+        const collapsed = computed(() => store.getters['layout/collapsed'])
+        return { store, menus, data, collapsed }
     },
     created() {
         this.data = this.items ?? this.$g.menus.items
@@ -54,6 +59,15 @@ export default defineComponent({
     methods: {
         getPrefixCls() {
             return this.$tools.getPrefixCls('menu')
+        },
+        getItems() {
+            const items = []
+            for (let i = 0, l = this.data.length; i < l; i++) {
+                const item = this.data[i]
+                if (item.children && item.children.length > 0) items.push(<MiSubMenu></MiSubMenu>)
+                else items.push((<MiMenuItem item={item}></MiMenuItem>))
+            }
+            return [...items]
         }
     },
     render() {
@@ -61,7 +75,7 @@ export default defineComponent({
         const cls = prefixCls + (this.className ? ` ${this.className}` : '')
         return (
             <Menu ref={prefixCls} theme="dark" mode="inline" class={cls}>
-                <Menu.Item>Nice</Menu.Item>
+                { () => this.getItems() }
             </Menu>
         )
     }
