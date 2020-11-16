@@ -66,7 +66,7 @@ class MiHttp {
         })
     }
 }
-export const $http = new MiHttp()
+export const $http = new MiHttp() as any
 const http = {
     install(app: App) {
         app.config.globalProperties.$http = $http
