@@ -239,23 +239,29 @@
         }
     }
 
+    .@{ant-submenu}-popup {
+        background: @mi-sider-color;
+        transition: none;
+    }
+
     &-dark {
         &.@{ant-submenu}-popup {
-            transition: none;
-
             .@{ant-menu} {
                 &-sub {
+                    transition: none;
                     background: @mi-sider-color;
                     color: @mi-white-color;
                 }
 
                 &-item {
+                    transition: none;
                     min-height: @mi-sider-item-height;
                     .flex(center, flex-start);
 
                     > a {
                         .flex();
                         color: @mi-white-color;
+                        transition: none;
 
                         &:hover {
                             color: @mi-theme-color;
