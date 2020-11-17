@@ -1,6 +1,8 @@
 import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
 import { Layout } from 'ant-design-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
+import { mutations } from '../../store/types'
 import MiLayoutHeader from './header'
 import MiLayoutSider from './sider'
 import MiLayoutContent from './content'
@@ -26,6 +28,16 @@ const MiLayout = defineComponent({
             layoutClass += this.$g.embed ? ` ${layoutClass}-embed `: ''
             layoutClass += this.$g.mobile ? ` ${layoutClass}-mobile ` : ''
             return layoutClass
+        }
+    },
+    setup() {
+        const store = useStore()
+        return { store }
+    },
+    created() {
+        if (this.$g.mobile) {
+            this.$g.menus.collapsed = false
+            this.store.commit(`layout/${mutations.layout.collapsed}`, false)
         }
     },
     methods: {

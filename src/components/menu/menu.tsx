@@ -81,7 +81,7 @@ export default defineComponent({
                         <MiSubMenu
                             item={item}
                             key={this.$g.prefix + item.name}
-                            top={this.$g.mobile ? false : this.collapsed}>
+                            top={this.collapsed}>
                         </MiSubMenu>
                     )
                 } else {
@@ -89,7 +89,7 @@ export default defineComponent({
                         <MiMenuItem
                             item={item}
                             key={this.$g.prefix + item.name}
-                            top={this.$g.mobile ? false : this.collapsed}>
+                            top={this.collapsed}>
                         </MiMenuItem>
                     )
                 }
@@ -112,9 +112,9 @@ export default defineComponent({
                     const last = openKeys[openKeys.length - 1]
                     if (this.menus[first] && !this.menus[first][last]) opens = [last]
                 }
-                this.store.commit(`layout/${mutations.layout.opens}`, opens)
-                this.$g.menus.opens = opens
             }
+            this.store.commit(`layout/${mutations.layout.opens}`, opens)
+            this.$g.menus.opens = opens
         },
         getRelationshipChain() {
             const path = this.$route.path
