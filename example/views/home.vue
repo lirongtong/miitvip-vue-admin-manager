@@ -5,8 +5,10 @@
 <script lang="ts">
     import { defineComponent, createVNode } from 'vue'
     import {
-        ThunderboltOutlined, VerifiedOutlined,
-        LoginOutlined, LogoutOutlined
+        ThunderboltOutlined, VerifiedOutlined, AlignLeftOutlined,
+        LoginOutlined, LogoutOutlined, OrderedListOutlined, CreditCardOutlined,
+        ShoppingCartOutlined, ToolOutlined, FormOutlined, CheckSquareOutlined,
+        MessageOutlined, MailOutlined
     } from '@ant-design/icons-vue'
     export default defineComponent({
         created() {
@@ -43,6 +45,83 @@
                         subTitle: 'Register',
                         icon: createVNode(LogoutOutlined)
                     }
+                }]
+            }, {
+                name: 'list',
+                path: '/list',
+                meta: {
+                    title: '列表页面',
+                    subTitle: 'List',
+                    icon: createVNode(OrderedListOutlined)
+                },
+                children: [{
+                    name: 'normal',
+                    path: '/list/normal',
+                    meta: {
+                        title: '基础列表',
+                        subTitle: 'Normal',
+                        icon: createVNode(AlignLeftOutlined)
+                    }
+                }, {
+                    name: 'card',
+                    path: '/list/card',
+                    meta: {
+                        title: '卡片列表',
+                        subTitle: 'Card',
+                        icon: createVNode(CreditCardOutlined)
+                    }
+                }, {
+                    name: 'goods',
+                    path: '/list/goods',
+                    meta: {
+                        title: '商品列表',
+                        subTitle: 'Goods',
+                        icon: createVNode(ShoppingCartOutlined),
+                        tag: {icon: 'FireFilled', color: '#ed4014'}
+                    }
+                }]
+            }, {
+                name: 'tools',
+                path: '/tools',
+                meta: {
+                    title: '常用工具',
+                    subTitle: 'Tools',
+                    icon: createVNode(ToolOutlined)
+                },
+                children: [{
+                    name: 'editor',
+                    path: '/tools/editor',
+                    meta: {
+                        title: '编辑器',
+                        subTitle: 'Editor',
+                        icon: createVNode(FormOutlined)
+                    }
+                }, {
+                    name: 'captcha',
+                    path: '/tools/captcha',
+                    meta: {
+                        title: '验证码',
+                        subTitle: 'Captcha',
+                        icon: createVNode(CheckSquareOutlined)
+                    },
+                    children: [{
+                        name: 'captcha-message',
+                        path: '/tools/captcha/message',
+                        meta: {
+                            title: '短信验证码',
+                            subTitle: 'Message',
+                            icon: createVNode(MessageOutlined),
+                            tag: {icon: 'PhoneOutlined', color: 'green'}
+                        }
+                    }, {
+                        name: 'captcha-email',
+                        path: 'https://admin.makeit.vip/tools/captcha/email',
+                        meta: {
+                            title: '邮箱验证码',
+                            subTitle: 'Email',
+                            icon: createVNode(MailOutlined)
+                        }
+                    }]
                 }]
             }]
         }

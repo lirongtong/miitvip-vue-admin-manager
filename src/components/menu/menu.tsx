@@ -151,7 +151,7 @@ export default defineComponent({
                 this.$g.menus.relationshipChain = [...relation]
                 this.$g.menus.active = [relation[relation.length - 1]]
                 this.store.commit(`layout/${mutations.layout.active}`, relation[relation.length - 1])
-                if (!this.collapsed) {
+                if (!this.collapsed && this.$g.menus.accordion) {
                     relation.pop()
                     this.$g.menus.opens = [...relation]
                     this.store.commit(`layout/${mutations.layout.opens}`, [...relation])
