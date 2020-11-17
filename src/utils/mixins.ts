@@ -5,7 +5,6 @@ import { mutations } from '../store/types'
 
 let _Created = false
 let _Mounted = false
-let _beforeMount = false
 
 /**
  * mixin.

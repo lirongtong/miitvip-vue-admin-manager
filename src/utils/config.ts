@@ -1,5 +1,30 @@
 import { App, reactive } from 'vue'
 
+export declare interface MenuItems {
+    /**
+     * Path of the record. Should start with `/` unless the record is the child of
+     * another record.
+     * 
+     * @example `/users/:id` matches `/users/1` as well as `/users/posva`.
+     */
+    path: string;
+
+    /**
+     * Name for the item.
+     */
+    name: string;
+
+    /**
+     * Interface to type `meta` fields in items records.
+     */
+    meta?: Record<string | number, any>;
+
+    /**
+     * Array of nested menu items.
+     */
+    children?: MenuItems[];
+}
+
 export const $g = reactive({
     /**
      * Independent project, or embedded project.

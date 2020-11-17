@@ -1,9 +1,10 @@
 import { defineComponent, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { Menu } from 'ant-design-vue'
-import PropTypes, { getSlotContent } from '../../utils/props'
+import PropTypes from '../../utils/props'
 import MiSubMenu from './submenu'
 import MiMenuItem from './item'
+import { MenuItems } from '../../utils/config'
 
 export default defineComponent({
     name: 'MiMenu',
@@ -13,18 +14,18 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        const menus = reactive({})
-        const data = reactive([])
+        const menus: any = reactive({})
+        const data: MenuItems[] = reactive([])
         const collapsed = computed(() => store.getters['layout/collapsed'])
         return { store, menus, data, collapsed }
     },
     created() {
-        this.data = this.items ?? this.$g.menus.items
+        this.data = (this.items ?? this.$g.menus.items) as MenuItems[]
         const path = this.$route.path
         let find = false
         let relation: string[] = []
         let allChildren: {[index: string]: any} = {}
-        const getChildren = (item: any[], parent: string) => {
+        const getChildren = (item: MenuItems[], parent: string) => {
             for (let k = 0; k < item.length; k++) {
                 const name = this.$g.prefix + item[k].name
                 if (!find) {
@@ -64,8 +65,23 @@ export default defineComponent({
             const items = []
             for (let i = 0, l = this.data.length; i < l; i++) {
                 const item = this.data[i]
-                if (item.children && item.children.length > 0) items.push(<MiSubMenu></MiSubMenu>)
-                else items.push((<MiMenuItem item={item}></MiMenuItem>))
+                if (item.children && item.children.length > 0) {
+                    items.push(
+                        <MiSubMenu
+                            item={item}
+                            key={this.$g.prefix + item.name}
+                            top={this.collapsed}>
+                        </MiSubMenu>
+                    )
+                } else {
+                    items.push(
+                        <MiMenuItem
+                            item={item}
+                            key={this.$g.prefix + item.name}
+                            top={this.collapsed}>
+                        </MiMenuItem>
+                    )
+                }
             }
             return [...items]
         }

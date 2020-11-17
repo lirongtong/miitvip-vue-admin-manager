@@ -14,12 +14,48 @@
     overflow-x: hidden;
     overflow-y: scroll;
 
-    & &-items, & &-item {
+    & &-items,
+    & &-item {
         min-height: @mi-sider-item-height;
         line-height: @mi-sider-item-height;
         color: @mi-white-color;
         transition: all .3s ease;
         overflow: hidden;
+    }
+
+    &-item {
+        &-title {
+            .flex(flex-start, center);
+            height: @mi-sider-item-height;
+            .properties(line-height, 18);
+            flex-direction: column;
+    
+            .sub {
+                .properties(font-size, 12);
+                color: @mi-subsidiary-color;
+            }
+        }
+
+        &-tag {
+            .tag();
+            position: absolute;
+            .properties(right, 36);
+            .properties(top, 14);
+            margin: 0;
+        }
+    
+        &-icon {
+            position: absolute;
+            .properties(right, 36);
+            .properties(top, 18);
+            color: @mi-theme-color;
+            margin-right: 0
+        }
+
+        & &-link {
+            .flex(center, flex-start);
+            color: @mi-white-color;
+        }
     }
 }
 

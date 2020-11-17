@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
 import { Menu } from 'ant-design-vue'
+import { RouterLink } from 'vue-router'
 import PropTypes from '../../utils/props'
-import { $g } from '../../utils/config'
-import { $tools } from '../../utils/tools'
+import MiMenuItemLink from './link'
 
 export default defineComponent({
     name: 'MiMenuItem',
@@ -17,13 +17,29 @@ export default defineComponent({
         },
         getMenuItemElem() {
             const prefixCls = this.getPrefixCls()
-            let link
-            if (!$g.regExp.url.test(this.item.path)) {
-
+            let link: any = null
+            if (!this.$g.regExp.url.test(this.item.path)) {
+                link = (
+                    <RouterLink
+                        to={this.item.path}
+                        class={`${prefixCls}-link`}>
+                        { () => <MiMenuItemLink
+                            item={this.item}
+                            top={this.top}
+                            title={this.title}>
+                        </MiMenuItemLink> }
+                    </RouterLink>
+                )
             } else {
                 link = (
-                    <a class={`${prefixCls}-link`} target={this.item.meta.target ?? '_blank'}>
-                        
+                    <a href={this.item.path}
+                        class={`${prefixCls}-link`}
+                        target={this.item.meta.target ?? '_blank'}>
+                        <MiMenuItemLink
+                            item={this.item}
+                            top={this.top}
+                            title={this.title}>
+                        </MiMenuItemLink>
                     </a>
                 )
             }
@@ -32,8 +48,9 @@ export default defineComponent({
     },
     render() {
         const prefixCls = this.getPrefixCls()
+        const key = this.$g.prefix + (this.item ? this.item.name : this.$tools.uid())
         return (
-            <Menu.Item class={prefixCls} key={$g.prefix + (this.item ? this.item.name : $tools.uid())}>
+            <Menu.Item class={prefixCls} key={key}>
                 { () => this.getMenuItemElem() }
             </Menu.Item>
         )
