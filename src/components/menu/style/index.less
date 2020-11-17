@@ -337,16 +337,14 @@
     min-height: 0;
 }
 
-.@{mi-menu} {
+.@{mi-sider-menu} {
+    margin-top: @mi-header-height;
+    height: calc(100vh - @mi-header-height);
+    width: @mi-sider-width;
+
     &-drawer {
         .ant-drawer-body {
             padding: 0;
         }
     }
-}
-
-.@{mi-sider-menu} {
-    margin-top: @mi-header-height;
-    height: calc(100vh - @mi-header-height);
-    width: @mi-sider-width;
 }

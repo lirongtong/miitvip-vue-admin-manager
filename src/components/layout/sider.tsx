@@ -22,7 +22,7 @@ const MiLayoutSider = defineComponent({
         },
         getLogoElem() {
             let logo = getSlotContent(this, 'logo')
-            if (logo === undefined) logo = (<MiLayoutSiderLogo></MiLayoutSiderLogo>)
+            if (logo === undefined && !this.$g.mobile) logo = (<MiLayoutSiderLogo></MiLayoutSiderLogo>)
             return logo
         },
         getMenuElem() {

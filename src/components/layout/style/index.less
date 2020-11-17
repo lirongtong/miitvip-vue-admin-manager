@@ -141,3 +141,25 @@
         }
     }
 }
+
+.ant-layout-sider {
+    &-collapsed {
+        .@{mi-layout} {
+            &-sider {
+                &-logo {
+                    width: @mi-sider-width-sm;
+
+                    &-site,
+                    .anticon {
+                        .flex();
+                        margin-right: 0;
+                    }
+
+                    h1 {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

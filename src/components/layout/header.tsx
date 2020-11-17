@@ -1,7 +1,9 @@
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { Layout } from 'ant-design-vue'
+import { useStore } from 'vuex'
 import { MenuFoldOutlined, MenuUnfoldOutlined, ExpandOutlined } from '@ant-design/icons-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
+import { mutations } from '../../store/types'
 import MiNotice from '../notice'
 import MiDropdown from '../dropdown'
 
@@ -13,14 +15,22 @@ export default defineComponent({
         dropdown: PropTypes.any,
         stretchIcon: PropTypes.any
     },
+    setup() {
+        const store = useStore()
+        const collapsed = computed(() => store.getters['layout/collapsed'])
+        return {collapsed, store}
+    },
     methods: {
         getPrefixCls() {
             return this.$tools.getPrefixCls('layout-header')
         },
         getStretchIcon() {
             let icon = getSlotContent(this, 'stretchIcon')
-            if (icon === undefined) icon = (<MenuUnfoldOutlined></MenuUnfoldOutlined>)
-            if (this.$g.mobile) icon = (<MenuFoldOutlined></MenuFoldOutlined>)
+            if (icon === undefined) {
+                if (this.$g.mobile) icon = <MenuUnfoldOutlined />
+                else if (!this.collapsed) icon = <MenuFoldOutlined />
+                else icon = <MenuUnfoldOutlined />
+            }
             return icon
         },
         getDefaultScreenIcon() {
@@ -37,6 +47,15 @@ export default defineComponent({
         getDropdownElem() {
             const dropdown = getSlotContent(this, 'dropdown')
             return (dropdown ?? <MiDropdown></MiDropdown>)
+        },
+        setCollapsed() {
+            if (this.$g.mobile) {
+                this.$g.menus.drawer = !this.$g.menus.drawer
+            } else {
+                const collapse = !this.collapsed
+                this.$g.menus.collapsed = collapse
+                this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
+            }
         }
     },
     render() {
@@ -53,7 +72,9 @@ export default defineComponent({
                 { () => (
                     <>
                         <div class={headerCls.left}>
-                            <div class={headerCls.trigger}>{ this.getStretchIcon() }</div>
+                            <div class={headerCls.trigger} onClick={this.setCollapsed}>
+                                { this.getStretchIcon() }
+                            </div>
                         </div>
                         <div class={headerCls.right}>
                             <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>

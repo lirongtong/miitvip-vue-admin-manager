@@ -5,6 +5,7 @@ import MiLayoutHeader from './header'
 import MiLayoutSider from './sider'
 import MiLayoutContent from './content'
 import MiLayoutFooter from './footer'
+import MiMenuDrawer from '../menu/drawer'
 
 const MiLayout = defineComponent({
     name: 'MiLayout',
@@ -64,10 +65,14 @@ const MiLayout = defineComponent({
         }
     },
     render() {
+        const drawer = this.$g.mobile ? (<MiMenuDrawer></MiMenuDrawer>) : null
         return (
-            <Layout hasSider={this.hasSider} class={this.layoutClass}>
-                { () => this.getLayoutElem() }
-            </Layout>
+            <>
+                <Layout hasSider={this.hasSider} class={this.layoutClass}>
+                    { () => this.getLayoutElem() }
+                </Layout>
+                { drawer }
+            </>
         )
     }
 })
