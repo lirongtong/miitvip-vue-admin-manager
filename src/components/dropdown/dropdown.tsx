@@ -1,15 +1,17 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { Dropdown, Avatar, Menu } from 'ant-design-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
 
 export default defineComponent({
     name: 'MiDropdown',
     props: {
-        title: PropTypes.any
+        title: PropTypes.any,
+        placement: PropTypes.string.def('bottomCenter')
     },
     setup() {
         const menus = reactive([])
-        return { menus }
+        const visible = ref(false)
+        return { menus, visible }
     },
     methods: {
         getPrefixCls() {
@@ -18,9 +20,14 @@ export default defineComponent({
         getOverlayElem() {
             return (
                 <Menu theme="dark">
-                    <Menu.Item key="1">Good Job</Menu.Item>
+                    { () => <Menu.Item key="1">
+                        { () => 'Good Job' }
+                    </Menu.Item> }
                 </Menu>
             )
+        },
+        handleUpdateVisible() {
+            this.visible = !this.visible
         }
     },
     render() {
@@ -35,7 +42,10 @@ export default defineComponent({
             )
         }
         return (
-            <Dropdown placement="bottomCenter" trigger={['click']} overlay={ this.getOverlayElem() }>
+            <Dropdown
+                placement={this.placement}
+                trigger={['click']}
+                overlay={ this.getOverlayElem() }>
                 { () => title }
             </Dropdown>
         )
