@@ -2,21 +2,21 @@ import { PropType, VNodeTypes, CSSProperties } from 'vue'
 import PropTypes from '../../utils/props'
 
 export interface ModalProps {
-    prefixCls?: string;
-    visible?: boolean;
-    title?: VNodeTypes;
-    class?: string;
-    content?: VNodeTypes;
-    okText?: VNodeTypes;
-    ok?: (...args: any[]) => any;
-    cancelText?: VNodeTypes;
-    cancel?: (...args: any[]) => any;
-    mask?: boolean;
-    maskStyle?: CSSProperties;
-    maskClosable?: boolean;
-    icon?: VNodeTypes;
-    width?: string | number;
-    zIndex?: number;
+    prefixCls?: string
+    visible?: boolean
+    title?: VNodeTypes
+    class?: string
+    content?: VNodeTypes
+    okText?: VNodeTypes
+    ok?: (...args: any[]) => any
+    cancelText?: VNodeTypes
+    cancel?: (...args: any[]) => any
+    mask?: boolean
+    maskStyle?: CSSProperties
+    maskClosable?: boolean
+    icon?: VNodeTypes
+    width?: string | number
+    zIndex?: number
 }
 
 function getModalPropTypes() {
@@ -36,8 +36,8 @@ function getModalPropTypes() {
         footer: PropTypes.any,
         closeIcon: PropTypes.any,
         okText: PropTypes.any,
-        ok: {type: Function as PropType<(e: MouseEvent) => void>},
-        cancel: {type: Function as PropType<(e: MouseEvent) => void>},
+        ok: { type: Function as PropType<(e: MouseEvent) => void> },
+        cancel: { type: Function as PropType<(e: MouseEvent) => void> },
         cancelText: PropTypes.any,
         zIndex: PropTypes.number,
         animation: PropTypes.string.def('scale'),

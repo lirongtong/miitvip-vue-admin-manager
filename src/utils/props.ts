@@ -13,7 +13,7 @@ const isEmptyElement = (elem: any) => {
 const flattenChildren = (children = []) => {
     children = Array.isArray(children) ? children : [children]
     const res = []
-    children.forEach(child => {
+    children.forEach((child) => {
         if (Array.isArray(child)) {
             res.push(...flattenChildren(child))
         } else if (child && child.type === Fragment) {
@@ -37,7 +37,7 @@ const getSlot = (instance: any, name = 'default', options = {}) => {
             return []
         }
     } else {
-        let res = instance.$slots[name] && instance.$slots[name](options)
+        const res = instance.$slots[name] && instance.$slots[name](options)
         return flattenChildren(res)
     }
 }

@@ -13,10 +13,7 @@ import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
 
-const components = [
-    config, cookie, storage, http, tools, api,
-    Layout, Notice, Dropdown, Modal
-]
+const components = [config, cookie, storage, http, tools, api, Layout, Notice, Dropdown, Modal]
 
 let _Init = false
 const install = (app: App) => {

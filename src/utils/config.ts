@@ -4,25 +4,25 @@ export declare interface MenuItems {
     /**
      * Path of the record. Should start with `/` unless the record is the child of
      * another record.
-     * 
+     *
      * @example `/users/:id` matches `/users/1` as well as `/users/posva`.
      */
-    path: string;
+    path: string
 
     /**
      * Name for the item.
      */
-    name: string;
+    name: string
 
     /**
      * Interface to type `meta` fields in items records.
      */
-    meta?: Record<string | number, any>;
+    meta?: Record<string | number, any>
 
     /**
      * Array of nested menu items.
      */
-    children?: MenuItems[];
+    children?: MenuItems[]
 }
 
 export const $g = reactive({

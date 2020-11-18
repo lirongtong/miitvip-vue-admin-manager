@@ -11,22 +11,22 @@ export const getters: GetterTree<LayoutState, RootState> = {
     },
 
     opens: (state): string[] => {
-		return state.opens;
+        return state.opens
     },
-    
+
     active: (state): string[] | null => {
-		return state.active;
-	},
-	
-	drawer: (state): boolean => {
-		return state.drawer;
+        return state.active
     },
-    
-    routes: (state): {} => {
-		let routes = state.routes;
-		if (Object.keys(routes).length <= 0) {
-			routes = JSON.parse($storage.get($g.caches.storages.routes) ?? '{}');
-		}
-		return routes;
-	}
+
+    drawer: (state): boolean => {
+        return state.drawer
+    },
+
+    routes: (state): any => {
+        let routes = state.routes
+        if (Object.keys(routes).length <= 0) {
+            routes = JSON.parse($storage.get($g.caches.storages.routes) ?? '{}')
+        }
+        return routes
+    }
 }

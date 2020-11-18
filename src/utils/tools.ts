@@ -124,7 +124,7 @@ class MiTools {
 
     /**
      * Whether the `element / params` is valid.
-     * @param value 
+     * @param value
      */
     isValid(value: any): boolean {
         return value !== undefined && value !== null && value !== ''
@@ -132,8 +132,8 @@ class MiTools {
 
     /**
      * The prefix of the default class name.
-     * @param suffixCls 
-     * @param customizePrefixCls 
+     * @param suffixCls
+     * @param customizePrefixCls
      */
     getPrefixCls(suffixCls: string, customizePrefixCls?: string) {
         if (customizePrefixCls) return customizePrefixCls
@@ -142,7 +142,7 @@ class MiTools {
 
     /**
      * Trim string spaces.
-     * @param str 
+     * @param str
      */
     trim(str: string): string {
         return (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
@@ -150,8 +150,8 @@ class MiTools {
 
     /**
      * Whether the element has a specified class name.
-     * @param el 
-     * @param cls 
+     * @param el
+     * @param cls
      */
     hasClass(el: HTMLElement, cls: string): boolean {
         if (!el || !cls) return false
@@ -159,14 +159,14 @@ class MiTools {
         if (el.classList) {
             return el.classList.contains(cls)
         } else {
-            return (` ${el.className} `).indexOf(` ${cls} `) > -1
+            return ` ${el.className} `.indexOf(` ${cls} `) > -1
         }
     }
 
     /**
      * Add class to the element.
-     * @param el 
-     * @param cls 
+     * @param el
+     * @param cls
      */
     addClass(el: HTMLElement, cls: string) {
         if (!el) return
@@ -188,8 +188,8 @@ class MiTools {
 
     /**
      * Delete the specified class name in the element.
-     * @param el 
-     * @param cls 
+     * @param el
+     * @param cls
      */
     removeClass(el: HTMLElement, cls: string) {
         if (!el || !cls) return
@@ -211,10 +211,12 @@ class MiTools {
 
     /**
      * errors.
-     * @param name 
+     * @param name
      */
     importError(name: string) {
-        throw new Error(`[${name}] must be required. Please import and install [${name}] before makeit-admin-pro\r\n`)
+        throw new Error(
+            `[${name}] must be required. Please import and install [${name}] before makeit-admin-pro\r\n`
+        )
     }
 }
 export const $tools: MiTools = new MiTools()

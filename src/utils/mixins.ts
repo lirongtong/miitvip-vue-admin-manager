@@ -22,7 +22,10 @@ export default {
                 this.$store.registerModule(['layout'], layout)
                 this.$store.registerModule(['passport'], passport)
             } catch (e) {
-                throw new Error('[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' + e)
+                throw new Error(
+                    '[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' +
+                        e
+                )
             }
             _Created = true
         }
@@ -30,11 +33,11 @@ export default {
     methods: {
         redirect() {
             this.$store.commit(`passport/${mutations.passport.reset}`)
-            if (this.$route.name !== 'login') this.$router.push({path: '/login'})
+            if (this.$route.name !== 'login') this.$router.push({ path: '/login' })
         },
-        emit() {
-            const args = [].slice.call(arguments, 0)
-            let eventName = args[0]
+        emit(...params: any) {
+            const args = [].slice.call(params, 0)
+            const eventName = args[0]
             const event = this.$props[eventName] || this.$attrs[eventName]
             if (args.length && event) {
                 if (Array.isArray(event)) {
