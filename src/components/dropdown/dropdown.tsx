@@ -1,12 +1,16 @@
 import { defineComponent, reactive, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import { Dropdown, Avatar, Menu } from 'ant-design-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
+import MiDropdownItem from './item'
 
 export default defineComponent({
     name: 'MiDropdown',
     props: {
         title: PropTypes.any,
-        placement: PropTypes.string.def('bottomCenter')
+        placement: PropTypes.string.def('bottomCenter'),
+        items: PropTypes.array,
+        overlay: PropTypes.any
     },
     setup() {
         const menus = reactive([])
@@ -17,14 +21,51 @@ export default defineComponent({
         getPrefixCls() {
             return this.$tools.getPrefixCls('layout-header-dropdown')
         },
+        getItemElem() {
+            const items = this.items ?? this.$g.menus.dropdown
+            const links = []
+            for (let i = 0, l = items.length; i < l; i++) {
+                const item = items[i]
+                let link: any = null
+                if (item.path) {
+                    if (!this.$g.regExp.url.test(item.path)) {
+                        link = (
+                            <RouterLink to={{path: item.path}}>
+                                <MiDropdownItem item={item}></MiDropdownItem>
+                            </RouterLink>
+                        )
+                    } else {
+                        link = (
+                            <a href={item.path} target="_blank">
+                                <MiDropdownItem item={item}></MiDropdownItem>
+                            </a>
+                        )
+                    }
+                } else {
+                    link = (
+                        <a onClick={(e) => item.callback ? item.callback.call(this.e) : e}>
+                            <MiDropdownItem item={item}></MiDropdownItem>
+                        </a>
+                    )
+                }
+                links.push(
+                    <Menu.Item key={this.$g.prefix + item.name}>
+                        { () => link }
+                    </Menu.Item>
+                )
+            }
+            return links
+        },
         getOverlayElem() {
-            return (
-                <Menu theme="dark">
-                    { () => <Menu.Item key="1">
-                        { () => 'Good Job' }
-                    </Menu.Item> }
-                </Menu>
-            )
+            let overlay = this.$slots.default
+            if (!overlay) {
+                overlay = (
+                    <Menu theme="dark">
+                        { () => this.getItemElem() }
+                    </Menu>
+                )
+            }
+            return overlay
         },
         handleUpdateVisible() {
             this.visible = !this.visible
@@ -44,6 +85,8 @@ export default defineComponent({
         return (
             <Dropdown
                 placement={this.placement}
+                visible={this.visible}
+                onVisibleChange={() => this.visible = !this.visible}
                 trigger={['click']}
                 overlay={ this.getOverlayElem() }>
                 { () => title }

@@ -12,8 +12,21 @@ import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
+import { default as Menu } from './components/menu'
 
-const components = [config, cookie, storage, http, tools, api, Layout, Notice, Dropdown, Modal]
+const components = [
+    config,
+    cookie,
+    storage,
+    http,
+    tools,
+    api,
+    Layout,
+    Notice,
+    Dropdown,
+    Modal,
+    Menu
+]
 
 let _Init = false
 const install = (app: App) => {
@@ -31,7 +44,7 @@ const install = (app: App) => {
     return app
 }
 
-export { config, cookie, storage, http, tools, api, Layout }
+export { config, cookie, storage, http, tools, api, Layout, Notice, Dropdown, Modal, Menu }
 
 export default {
     version: `${process.env.VERSION}`,

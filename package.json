@@ -50,7 +50,7 @@
         "lint:fix": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts ./src"
     },
     "dependencies": {
-        "ant-design-vue": "^2.0.0-beta.15",
+        "ant-design-vue": "^2.0.0-rc.1",
         "axios": "^0.21.0",
         "vue": "^3.0.2",
         "vue-router": "^4.0.0-rc.2",

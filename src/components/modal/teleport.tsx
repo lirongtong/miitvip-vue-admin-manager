@@ -30,7 +30,6 @@ export default defineComponent({
         },
         container(curr, prev) {
             const containerIsFunc = typeof curr === 'function' && typeof prev === 'function'
-            console.log(containerIsFunc)
             if (
                 containerIsFunc
                     ? curr.toString() !== prev.toString()

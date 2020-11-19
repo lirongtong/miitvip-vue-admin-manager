@@ -8,10 +8,26 @@
         ThunderboltOutlined, VerifiedOutlined, AlignLeftOutlined,
         LoginOutlined, LogoutOutlined, OrderedListOutlined, CreditCardOutlined,
         ShoppingCartOutlined, ToolOutlined, FormOutlined, CheckSquareOutlined,
-        MessageOutlined, MailOutlined
+        MessageOutlined, MailOutlined, SettingOutlined,
+        UserOutlined, PoweroffOutlined
     } from '@ant-design/icons-vue'
     export default defineComponent({
         created() {
+            this.$g.menus.dropdown = [{
+                name: 'personal',
+                path: 'https://admin.makeit.vip/profile',
+                title: '个人中心',
+                icon: createVNode(UserOutlined)
+            }, {
+                name: 'setting',
+                path: 'https://admin.makeit.vip/setting',
+                title: '系统设置',
+                icon: createVNode(SettingOutlined)
+            }, {
+                name: 'logout',
+                title: '退出登录',
+                icon: createVNode(PoweroffOutlined)
+            }]
             this.$g.menus.items = [{
                 name: 'start',
                 path: '/start',
