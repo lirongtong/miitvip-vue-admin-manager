@@ -8,6 +8,7 @@ import http from './utils/http'
 import tools from './utils/tools'
 import api from './utils/api'
 
+import { default as Login } from './components/login'
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
@@ -21,6 +22,7 @@ const components = [
     http,
     tools,
     api,
+    Login,
     Layout,
     Notice,
     Dropdown,
@@ -44,7 +46,7 @@ const install = (app: App) => {
     return app
 }
 
-export { config, cookie, storage, http, tools, api, Layout, Notice, Dropdown, Modal, Menu }
+export { config, cookie, storage, http, tools, api, Login, Layout, Notice, Dropdown, Modal, Menu }
 
 export default {
     version: `${process.env.VERSION}`,

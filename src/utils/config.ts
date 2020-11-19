@@ -40,6 +40,12 @@ export const $g = reactive({
     title: '中后台管理系统',
 
     /**
+     * Website name.
+     * @type {string}
+     */
+    site: '麦可易特网',
+
+    /**
      * Website author.
      * @type {string}
      */
