@@ -1,6 +1,10 @@
 import { defineComponent, createVNode } from 'vue'
-import { Form, Row, Col, Input } from 'ant-design-vue'
-import { UserOutlined, LockOutlined, UnlockOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons-vue'
+import { RouterLink } from 'vue-router'
+import { Form, Row, Col, Input, Checkbox } from 'ant-design-vue'
+import {
+    UserOutlined, LockOutlined, UnlockOutlined,
+    EyeOutlined, EyeInvisibleOutlined, QuestionCircleOutlined
+} from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
 
 const Login = defineComponent({
@@ -65,6 +69,8 @@ const Login = defineComponent({
                             <>
                                 { this.getUserNameElem() }
                                 { this.getPasswordElem() }
+                                { this.getCaptchaElem() }
+                                { this.getRememberBtnElem() }
                             </>
                         ) }
                     </Form>
@@ -77,11 +83,11 @@ const Login = defineComponent({
                     { () => (
                         <Input
                             prefix={createVNode(UserOutlined)}
-                            type="text"
                             value={this.form.validate.username}
                             maxlength={256}
                             size="large"
-                            placeholder="请输入用户名 / 邮箱地址 / 手机号码" />
+                            placeholder="请输入用户名 / 邮箱地址 / 手机号码">
+                        </Input>
                     ) }
                 </Form.Item>
             )
@@ -89,24 +95,26 @@ const Login = defineComponent({
         getPasswordElem() {
             let password: any = null
             if (this.password) {
+                const suffix = (<EyeInvisibleOutlined onClick={this.handlePasswordVisible} />)
                 password = (
                     <Input
                         type="password"
                         maxlength={32}
                         size="large"
                         prefix={createVNode(LockOutlined)}
-                        suffix={createVNode(EyeInvisibleOutlined)}
+                        suffix={suffix}
                         value={this.form.validate.password}
                         placeholder="请输入登录密码" />
                 )
             } else {
+                const suffix = (<EyeOutlined onClick={this.handlePasswordVisible} />)
                 password = (
                     <Input
                         type="text"
                         maxlength={32}
                         size="large"
                         prefix={createVNode(UnlockOutlined)}
-                        suffix={createVNode(EyeOutlined)}
+                        suffix={suffix}
                         value={this.form.validate.password}
                         placeholder="请输入登录密码" />
                 )
@@ -117,8 +125,35 @@ const Login = defineComponent({
                 </Form.Item>
             )
         },
+        getCaptchaElem() {
+            if (
+                this.captchaInitAction &&
+                this.captchaVerifyAction
+            ) {
+                const prefixCls = this.getPrefixCls()
+                return (
+                    <Form.Item class={`${prefixCls}-captcha`}></Form.Item>
+                )
+            }
+            return null
+        },
+        getRememberBtnElem() {
+            const prefixCls = this.getPrefixCls()
+            return (
+                <Form.Item class={`${prefixCls}-remember`}>
+                    { () => (
+                        <>
+                            <Checkbox checked={this.form.validate.remember}>{ () => '保持登录' }</Checkbox>
+                            <RouterLink to={{path: '/'}} class={`${prefixCls}-forget`}>
+                                { () => (<><QuestionCircleOutlined />忘记密码</>) }
+                            </RouterLink>
+                        </>
+                    ) }
+                </Form.Item>
+            )
+        },
         handlePasswordVisible() {
-
+            this.password = !this.password
         }
     },
     render() {
