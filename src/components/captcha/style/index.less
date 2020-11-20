@@ -1,0 +1,24 @@
+@mi-captcha: ~'@{mi-prefix}captcha';
+.@{mi-captcha} {
+    width: 100%;
+    .properties(height, 42);
+    font-family: @mi-font-family;
+
+    &-content {
+		width: 100%;
+		height: 100%;
+		position: relative;
+    }
+    
+    &-radar {
+        position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		cursor: pointer;
+		border-color: @mi-sider-color;
+        background: @mi-white-color;
+        .properties(min-width, 160);
+    }
+}

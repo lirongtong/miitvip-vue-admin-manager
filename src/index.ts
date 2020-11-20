@@ -14,6 +14,7 @@ import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
 import { default as Menu } from './components/menu'
+import { default as Captcha } from './components/captcha'
 
 const components = [
     config,
@@ -27,7 +28,8 @@ const components = [
     Notice,
     Dropdown,
     Modal,
-    Menu
+    Menu,
+    Captcha
 ]
 
 let _Init = false
@@ -46,7 +48,21 @@ const install = (app: App) => {
     return app
 }
 
-export { config, cookie, storage, http, tools, api, Login, Layout, Notice, Dropdown, Modal, Menu }
+export {
+    config,
+    cookie,
+    storage,
+    http,
+    tools,
+    api,
+    Login,
+    Layout,
+    Notice,
+    Dropdown,
+    Modal,
+    Menu,
+    Captcha
+}
 
 export default {
     version: `${process.env.VERSION}`,
