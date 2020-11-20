@@ -23,7 +23,8 @@ export default defineComponent({
     data() {
         return {
             init: false,
-            tip: this.text ? JSON.parse(JSON.stringify(this.text)) : '点击按钮进行验证',
+            failed: false,
+            tip: this.text ? JSON.parse(JSON.stringify(this.text)) : '正在初始化验证码 ......',
             status: {
                 ready: true,
                 scanning: false,
@@ -41,6 +42,23 @@ export default defineComponent({
         }
     },
     methods: {
+        initCaptcha() {
+            this.$http.get(this.initAction ?? this.api.captcha.init).then((res: any) => {
+                if (res.ret.code === 1) {
+                    this.failed = false
+                    this.init = true
+                    this.$storage.set(this.$g.caches.storages.captcha.login, res.data.key)
+                } else {
+                    this.init = false
+                    this.failed = true
+                    this.tip = '验证码初始化失败，请刷新后再试'
+                }
+            }).catch(() => {
+                this.failed = true
+                this.init = false
+                this.tip = '初始化接口有误，请稍候再试'
+            })
+        },
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha')
         },
@@ -92,6 +110,9 @@ export default defineComponent({
                 </div>
             )
         }
+    },
+    mounted() {
+        this.initCaptcha()
     },
     render() {
         const prefixCls = this.getPrefixCls()
