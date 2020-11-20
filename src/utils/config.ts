@@ -1,4 +1,5 @@
-import { App, reactive } from 'vue'
+import { App, reactive, createVNode } from 'vue'
+import { GithubOutlined, GoogleOutlined, QqOutlined, WeiboCircleOutlined } from '@ant-design/icons-vue'
 
 export declare interface MenuItems {
     /**
@@ -161,6 +162,16 @@ export const $g = reactive({
                 refresh: 'refresh-token'
             }
         }
+    },
+
+    socialites: {
+        domain: 'https://account.makeit.vip/v1/oauth',
+        items: [
+            {name: 'github', icon: createVNode(GithubOutlined), iconSize: 18},
+            {name: 'weibo', icon: createVNode(WeiboCircleOutlined), iconSize: 18},
+            {name: 'qq', icon: createVNode(QqOutlined), iconSize: 18},
+            {name: 'google', icon: createVNode(GoogleOutlined), iconSize: 18}
+        ]
     },
 
     /**

@@ -6,6 +6,7 @@ import {
     EyeOutlined, EyeInvisibleOutlined, QuestionCircleOutlined
 } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
+import MiLoginQuick from './quick'
 
 const Login = defineComponent({
     name: 'MiLogin',
@@ -65,7 +66,6 @@ const Login = defineComponent({
         getFormElem() {
             const prefixCls = this.getPrefixCls()
             const formPrefixCls = this.$tools.getPrefixCls('form')
-            Form.created
             return (
                 <div class={`${prefixCls}-form`}>
                     <Form
@@ -191,7 +191,7 @@ const Login = defineComponent({
                     { () => (
                         <>
                             <div class={`${prefixCls}-socialite-register`}>没有账号？{ link }</div>
-                            <div></div>
+                            <MiLoginQuick></MiLoginQuick>
                         </>
                     ) }
                 </Form.Item>
@@ -230,4 +230,8 @@ const Login = defineComponent({
         )
     }
 })
-export default Login as typeof Login
+
+Login.Quick = MiLoginQuick
+export default Login as typeof Login & {
+    readonly Quick: typeof MiLoginQuick
+}

@@ -31,8 +31,8 @@ export default defineComponent({
         }
         return (
             <>
-                { icon }
-                <span class="title" innerHTML={this.item.title}></span>
+                <div style={this.item.iconSize ? {fontSize: `${this.item.iconSize}px`} : null}>{ icon }</div>
+                { this.item.title ? <span class="title" innerHTML={this.item.title}></span> : null }
                 { tag }
             </>
         )

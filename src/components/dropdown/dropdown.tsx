@@ -43,7 +43,7 @@ export default defineComponent({
                     }
                 } else {
                     link = (
-                        <a onClick={(e) => item.callback ? item.callback.call(this.e) : e}>
+                        <a onClick={(e) => item.callback ? item.callback.call(this, e) : e}>
                             <MiDropdownItem item={item}></MiDropdownItem>
                         </a>
                     )
@@ -86,7 +86,7 @@ export default defineComponent({
             <Dropdown
                 placement={this.placement}
                 visible={this.visible}
-                onVisibleChange={() => this.visible = !this.visible}
+                onVisibleChange={this.handleUpdateVisible}
                 trigger={['click']}
                 overlay={ this.getOverlayElem() }>
                 { () => title }

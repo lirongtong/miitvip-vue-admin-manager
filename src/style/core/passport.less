@@ -1,6 +1,7 @@
 @mi-passport: ~'@{mi-prefix}passport';
 .@{mi-passport} {
-    margin: 0 auto;
+	margin: 0 auto;
+	color: @mi-white-color;
     background-size: cover;
 	background-repeat: no-repeat;
     background-position: center center;
@@ -146,6 +147,24 @@
 				.properties(margin-bottom, 24);
 				border: none;
 				.flex();
+			}
+
+			&-quick {
+				color: @mi-white-color;
+				.flex();
+
+				.anticon {
+					.properties(font-size, 18);
+					.properties(margin-left, 12);
+					opacity: .6;
+					color: @mi-white-color;
+					cursor: pointer;
+
+					&:hover {
+						color: @mi-theme-color;
+						opacity: 1;
+					}
+				}
 			}
         }
     }
