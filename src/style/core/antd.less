@@ -90,3 +90,16 @@
         }
     }
 }
+
+[ant-click-animating-without-extra-node="true"] {
+    &:after {
+        box-shadow: 0 0 0 0 @mi-theme-color;
+    }
+}
+
+@keyframes waveEffect {
+    100% {
+        box-shadow: 0 0 0 @mi-theme-color;
+        box-shadow: 0 0 0 6px @mi-theme-color;
+    }
+}

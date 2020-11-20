@@ -1,6 +1,6 @@
 import { defineComponent, createVNode } from 'vue'
 import { RouterLink } from 'vue-router'
-import { Form, Row, Col, Input, Checkbox } from 'ant-design-vue'
+import { Form, Row, Col, Input, Checkbox, Button } from 'ant-design-vue'
 import {
     UserOutlined, LockOutlined, UnlockOutlined,
     EyeOutlined, EyeInvisibleOutlined, QuestionCircleOutlined
@@ -25,14 +25,17 @@ const Login = defineComponent({
             password: true,
             form: {
                 validate: {
-                    username: null,
+                    username: '',
                     password: null,
                     remember: false,
                     captcha: false,
                     uuid: null,
                     url: null
                 },
-                rules: {}
+                rules: {
+                    username: [{required: true, message: '请输入用户名 / 邮箱地址 / 手机号码', trigger: 'blur'}],
+                    password: [{required: true, message: '请输入登录密码', trigger: 'blur'}]
+                }
             }
         }
     },
@@ -62,15 +65,23 @@ const Login = defineComponent({
         getFormElem() {
             const prefixCls = this.getPrefixCls()
             const formPrefixCls = this.$tools.getPrefixCls('form')
+            Form.created
             return (
                 <div class={`${prefixCls}-form`}>
-                    <Form class={formPrefixCls} ref="form" model={this.form.validate} rules={this.form.rules}>
+                    <Form
+                        layout="vertical"
+                        class={formPrefixCls}
+                        ref="form"
+                        model={this.form.validate}
+                        rules={this.form.rules}>
                         { () => (
                             <>
                                 { this.getUserNameElem() }
                                 { this.getPasswordElem() }
                                 { this.getCaptchaElem() }
                                 { this.getRememberBtnElem() }
+                                { this.getButtonElem() }
+                                { this.getQuickLoginElem() }
                             </>
                         ) }
                     </Form>
@@ -80,15 +91,13 @@ const Login = defineComponent({
         getUserNameElem() {
             return (
                 <Form.Item name="username">
-                    { () => (
-                        <Input
-                            prefix={createVNode(UserOutlined)}
-                            value={this.form.validate.username}
-                            maxlength={256}
-                            size="large"
-                            placeholder="请输入用户名 / 邮箱地址 / 手机号码">
-                        </Input>
-                    ) }
+                    { () => <Input
+                        prefix={createVNode(UserOutlined)}
+                        value={this.form.validate.username}
+                        onInput={this.handleUserNameValue}
+                        maxlength={64}
+                        placeholder="请输入用户名 / 邮箱地址 / 手机号码">
+                    </Input> }
                 </Form.Item>
             )
         },
@@ -100,10 +109,10 @@ const Login = defineComponent({
                     <Input
                         type="password"
                         maxlength={32}
-                        size="large"
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
                         value={this.form.validate.password}
+                        onInput={this.handlePasswordValue}
                         placeholder="请输入登录密码" />
                 )
             } else {
@@ -112,10 +121,10 @@ const Login = defineComponent({
                     <Input
                         type="text"
                         maxlength={32}
-                        size="large"
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
                         value={this.form.validate.password}
+                        onInput={this.handlePasswordValue}
                         placeholder="请输入登录密码" />
                 )
             }
@@ -152,9 +161,52 @@ const Login = defineComponent({
                 </Form.Item>
             )
         },
+        getButtonElem() {
+            const prefixCls = this.getPrefixCls()
+            const register = this.$g.mobile ? (
+                <Button size="large" class={`${prefixCls}-submit ${prefixCls}-submit-register`}>
+                    <RouterLink to={{path: '/register'}}>
+                        { () => '没有账号？立即注册' }
+                    </RouterLink>
+                </Button>
+            ) : null
+            return (
+                <>
+                    <Button class={`${prefixCls}-submit`} onClick={this.handleLogin}>
+                        { () => '登录' }
+                    </Button>
+                    { register }
+                </>
+            )
+        },
+        getQuickLoginElem() {
+            const prefixCls = this.getPrefixCls()
+            const link = !this.registerLink ? (
+                <RouterLink to={{path: '/register'}}>{ () => '注册' }</RouterLink>
+            ) : (
+                <a href={this.registerLink} innerHTML="注册"></a>
+            )
+            return !this.$g.mobile ? (
+                <Form.Item class={`${prefixCls}-socialite`}>
+                    { () => (
+                        <>
+                            <div class={`${prefixCls}-socialite-register`}>没有账号？{ link }</div>
+                            <div></div>
+                        </>
+                    ) }
+                </Form.Item>
+            ) : null
+        },
         handlePasswordVisible() {
             this.password = !this.password
-        }
+        },
+        handleUserNameValue(e: any) {
+            this.form.validate.username = e.target.value
+        },
+        handlePasswordValue(e: any) {
+            this.form.validate.password = e.target.value
+        },
+        handleLogin() {}
     },
     render() {
         const prefixCls = this.getPrefixCls()

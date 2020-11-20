@@ -56,10 +56,96 @@
 				z-index: 100;
 				.properties(padding-top, 32);
 
-				&-error-tip {
-					.properties(padding-left);
-					.font-size(12);
+				.ant-input-affix-wrapper {
+					.border-radius(40);
+					border-color: @mi-theme-color;
+					box-shadow: none;
+
+					&:hover,
+					&:focus {
+						border-color: @mi-theme-color;
+						box-shadow: none;
+					}
+
+					> input.ant-input {
+						.letter-spacing();
+						.properties(padding-top, 5);
+						.properties(padding-bottom, 5);
+					}
+
+					.ant-input-prefix {
+						.properties(margin-right);
+					}
 				}
+
+				.has-error {
+					.ant-input-affix-wrapper {
+						border-color: @mi-error-color;
+					}
+				}
+
+				.ant-form {
+					&-explain {
+						.properties(margin-left, 12);
+					}
+
+					&-item {
+						&.mb8 {
+							.properties(margin-bottom);
+						}
+					}
+				}
+			}
+
+			&-remember {
+				.properties(margin-bottom);
+				color: @mi-white-color;
+				.properties(font-size, @mi-font-size-normal);
+				.properties(padding-left, 12);
+
+				a, a:hover {
+					color: @mi-white-color;
+					.properties(font-size, @mi-font-size-normal);
+				}
+
+				.@{mi-passport} {
+					&-forget {
+						.flex();
+
+						> span {
+							.properties(margin-right);
+						}
+					}
+				}
+			}
+
+			&-remember,
+			&-socialite {
+				.ant-form-item-children {
+					.flex(center, space-between);
+
+					.ant-checkbox-wrapper {
+						span:last-child {
+							color: @mi-white-color;
+						}
+					}
+				}
+
+				&-register {
+					color: @mi-white-color;
+				}
+			}
+
+			&-submit {
+				width: 100%;
+				background-image: linear-gradient(to right, @mi-sider-color 0%, @mi-theme-color 100%);
+				color: @mi-white-color;
+				.border-radius(32);
+				.properties(height, 42);
+				.properties(font-size, @mi-font-size-normal);
+				.properties(margin-bottom, 24);
+				border: none;
+				.flex();
 			}
         }
     }
