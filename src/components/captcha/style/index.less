@@ -1,4 +1,7 @@
+@import '../../../style/theme/index';
+
 @mi-captcha: ~'@{mi-prefix}captcha';
+
 .@{mi-captcha} {
     width: 100%;
     .properties(height, 42);
@@ -20,5 +23,74 @@
 		border-color: @mi-sider-color;
         background: @mi-white-color;
         .properties(min-width, 160);
+        .border-radius(42);
+
+        &-ready,
+		&-scan,
+		&-being,
+		&-success {
+			position: absolute;
+			transition: all .5s ease;
+			.properties(width, 30);
+			.properties(height, 30);
+			.properties(margin, 6);
+        }
+
+        &-being {
+            .flex();
+        }
+        
+        &-ring,
+		&-dot {
+			position: absolute;
+			.border-radius-circle();
+			transform: scale(.4);
+			width: 100%;
+			height: 100%;
+			box-shadow: inset 0 0 0 1px @mi-theme-color;
+			background-image: linear-gradient(115deg, rgba(0, 0, 0, 0) 50%, @mi-white-color 50%), linear-gradient(65deg, @mi-white-color 50%, rgba(0, 0, 0, 0) 50%);
+        }
+        
+        &-dot {
+			background: @mi-theme-color;
+		}
+
+		&-ring {
+			animation: mi-anim-wait 1s infinite;
+			transform: scale(1);
+        }
+
+        &-tip {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			.properties(height, 42);
+			.properties(padding-left, 48);
+			.properties(padding-right, 48);
+			.properties(font-size, @mi-font-size-normal);
+			.properties(line-height, 42);
+			color: @mi-sider-color;
+			.text-ellipsis();
+			text-align: left;
+			box-sizing: border-box;
+
+			&-error {
+				color: @mi-error-color;
+			}
+		}
+        
+        &-logo {
+			position: absolute;
+			.properties(right, 12);
+			.properties(top, 10);
+			.properties(width, 20);
+			.properties(height, 20);
+
+			img {
+				.border-radius-circle();
+				filter: grayscale(1);
+			}
+		}
     }
 }

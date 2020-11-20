@@ -5,9 +5,10 @@ import {
     UserOutlined, LockOutlined, UnlockOutlined,
     EyeOutlined, EyeInvisibleOutlined, QuestionCircleOutlined
 } from '@ant-design/icons-vue'
-import PropTypes from '../../utils/props'
+import PropTypes, { getSlotContent } from '../../utils/props'
 import MiLoginQuick from './quick'
 import MiLayout from '../layout'
+import MiCaptcha from '../captcha'
 
 const Login = defineComponent({
     name: 'MiLogin',
@@ -18,7 +19,9 @@ const Login = defineComponent({
         captchaInitAction: PropTypes.string,
         captchaVerifyAction: PropTypes.string,
         socialiteLoginDomain: PropTypes.string,
-        registerLink: PropTypes.string
+        registerLink: PropTypes.string,
+        rules: PropTypes.object,
+        content: PropTypes.any
     },
     data() {
         return {
@@ -74,7 +77,7 @@ const Login = defineComponent({
                         class={formPrefixCls}
                         ref="form"
                         model={this.form.validate}
-                        rules={this.form.rules}>
+                        rules={Object.assign({}, this.form.rules, this.rules)}>
                         { () => (
                             <>
                                 { this.getUserNameElem() }
@@ -142,7 +145,14 @@ const Login = defineComponent({
             ) {
                 const prefixCls = this.getPrefixCls()
                 return (
-                    <Form.Item class={`${prefixCls}-captcha`}></Form.Item>
+                    <Form.Item class={`${prefixCls}-captcha`}>
+                        { () => (
+                            <MiCaptcha
+                                initAction={this.captchaInitAction}
+                                verifyAction={this.captchaVerifyAction}>
+                            </MiCaptcha>
+                        ) }
+                    </Form.Item>
                 )
             }
             return null
@@ -220,6 +230,8 @@ const Login = defineComponent({
         let className = prefixCls + (this.$g.mobile ? ` ${prefixCls}-mobile` : '')
         className += this.className ? ` ${this.className}` : ''
         const style = {backgroundImage: `url('${this.background ?? this.$g.background.default}')`}
+        let formTemplate = getSlotContent(this, 'content')
+        if (!formTemplate) formTemplate = this.getFormElem()
         return (
             <div class={className} style={style}>
                 <Row class={`${prefixCls}-content`} align={this.$g.mobile ? 'top' : 'middle'}>
@@ -228,7 +240,7 @@ const Login = defineComponent({
                             <>
                                 { this.getMaskElem() }
                                 { this.getTitleElem() }
-                                { this.getFormElem() }
+                                { formTemplate }
                             </>
                         ) }
                     </Col> }
