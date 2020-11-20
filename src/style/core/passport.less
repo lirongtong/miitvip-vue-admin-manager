@@ -4,7 +4,8 @@
 	color: @mi-white-color;
     background-size: cover;
 	background-repeat: no-repeat;
-    background-position: center center;
+	background-position: center center;
+	background-color: @mi-passport-bg-color;
     height: 100%;
     overflow: hidden;
 
@@ -209,19 +210,20 @@
 			}
         }
 	}
+
+	.@{mi-prefix}layout {
+		&-footer {
+			position: fixed;
+			.properties(bottom);
+			background: @mi-passport-bg-color;
+			width: 100%;
+		}
+	}
 	
 	&-mobile {
 		.@{mi-passport} {
 			&-submit {
 				.properties(margin-bottom);
-			}
-		}
-
-		.@{mi-prefix}layout {
-			&-footer {
-				position: fixed;
-				.properties(bottom);
-				background: @mi-passport-bg-color;
 			}
 		}
 	}
