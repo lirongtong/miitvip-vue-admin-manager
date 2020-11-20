@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
 import MiLoginQuick from './quick'
+import MiLayout from '../layout'
 
 const Login = defineComponent({
     name: 'MiLogin',
@@ -165,9 +166,11 @@ const Login = defineComponent({
             const prefixCls = this.getPrefixCls()
             const register = this.$g.mobile ? (
                 <Button size="large" class={`${prefixCls}-submit ${prefixCls}-submit-register`}>
-                    <RouterLink to={{path: '/register'}}>
-                        { () => '没有账号？立即注册' }
-                    </RouterLink>
+                    { () => (
+                        <RouterLink to={{path: '/register'}}>
+                            { () => '没有账号？立即注册' }
+                        </RouterLink>
+                    ) }
                 </Button>
             ) : null
             return (
@@ -186,16 +189,20 @@ const Login = defineComponent({
             ) : (
                 <a href={this.registerLink} innerHTML="注册"></a>
             )
-            return !this.$g.mobile ? (
+            return (
                 <Form.Item class={`${prefixCls}-socialite`}>
                     { () => (
                         <>
-                            <div class={`${prefixCls}-socialite-register`}>没有账号？{ link }</div>
+                            { !this.$g.mobile ? (
+                                <div class={`${prefixCls}-socialite-register`}>
+                                    没有账号？{ link }
+                                </div>
+                            ) : null }
                             <MiLoginQuick></MiLoginQuick>
                         </>
                     ) }
                 </Form.Item>
-            ) : null
+            )
         },
         handlePasswordVisible() {
             this.password = !this.password
@@ -215,7 +222,7 @@ const Login = defineComponent({
         const style = {backgroundImage: `url('${this.background ?? this.$g.background.default}')`}
         return (
             <div class={className} style={style}>
-                <Row class={`${prefixCls}-content`}>
+                <Row class={`${prefixCls}-content`} align={this.$g.mobile ? 'top' : 'middle'}>
                     { () => <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                         { () => (
                             <>
@@ -226,6 +233,7 @@ const Login = defineComponent({
                         ) }
                     </Col> }
                 </Row>
+                <MiLayout.Footer></MiLayout.Footer>
             </div>
         )
     }

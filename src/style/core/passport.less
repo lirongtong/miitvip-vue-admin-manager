@@ -10,7 +10,8 @@
 
     &-content {
 		position: relative;
-		.flex();
+		display: flex;
+		justify-content: center;
 		.border-radius();
 		width: 100%;
         height: 100vh;
@@ -147,6 +148,10 @@
 				.properties(margin-bottom, 24);
 				border: none;
 				.flex();
+
+				&-register {
+					background-image: linear-gradient(to right, #787878 0%, @mi-sider-color 100%);
+				}
 			}
 
 			&-quick {
@@ -165,7 +170,59 @@
 						opacity: 1;
 					}
 				}
+
+				&-mobile {
+					width: 100%;
+					flex-direction: column;
+					color: #999;
+					.properties(margin-top, 32);
+				}
+
+				&-line {
+					display: block;
+					border-top: 1px solid @mi-passport-line-color;
+					position: absolute;
+					width: 100%;
+					left: 0;
+					.properties(top, 60);
+					z-index: 1;
+				}
+
+				&-title {
+					.properties(margin-top, 16);
+					background: @mi-passport-bg-color;
+					.properties(padding-left, 16);
+					.properties(padding-right, 16);
+					z-index: 2;
+				}
+
+				&-cates {
+					.flex(center, space-between);
+					.properties(margin-top, 24);
+					width: 85%;
+
+					.anticon {
+						color: @mi-passport-icon-color;
+						.properties(font-size, 28);
+					}
+				}
 			}
         }
-    }
+	}
+	
+	&-mobile {
+		.@{mi-passport} {
+			&-submit {
+				.properties(margin-bottom);
+			}
+		}
+
+		.@{mi-prefix}layout {
+			&-footer {
+				position: fixed;
+				.properties(bottom);
+				background: @mi-passport-bg-color;
+			}
+		}
+	}
 }
