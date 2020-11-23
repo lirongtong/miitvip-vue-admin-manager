@@ -11,7 +11,24 @@ export default defineComponent({
     emits: ['update:show'],
     data() {
         return {
-            loading: false
+            loading: false,
+            size: {
+                width: 260,
+                height: 160
+            },
+            block: {
+                size: 42,
+                radius: 8,
+                PI: Math.PI,
+                real: 0
+            },
+            drag: {
+                moving: false,
+                originX: 0,
+                originY: 0,
+                offset: 0
+            },
+            check: {}
         }
     },
     methods: {
@@ -58,8 +75,20 @@ export default defineComponent({
                 </div>
             ) : null
         },
-        getContentInfoElem() {},
-        getContentResultElem() {},
+        getContentInfoElem() {
+            const prefixCls = this.getPrefixCls()
+            return (
+                <div class={`${prefixCls}-info`}>
+                    <canvas width={this.size.width} height={this.size.height} ref={`${prefixCls}-image`}></canvas>
+                    <canvas width={this.size.width} height={this.size.height} ref={`${prefixCls}-block`}></canvas>
+                </div>
+            )
+        },
+        getContentResultElem() {
+            const prefixCls = this.getPrefixCls()
+            const cls = `${prefixCls}-result ${this.check.correct ? `${prefixCls}-result-success` : `${prefixCls}-result-error`}`
+            return (<div class={cls} ref={`${prefixCls}-result`} innerHTML={this.check.tip}></div>)
+        },
         getSliderTrackElem() {},
         getSliderBtnElem() {},
         getPanelActionElem() {},
