@@ -1,7 +1,8 @@
-import { defineComponent } from 'vue'
+import { defineComponent, Teleport } from 'vue'
 import { message } from 'ant-design-vue'
 import { AimOutlined, MoreOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
+import CaptchaModal from './modal'
 
 export default defineComponent({
     name: 'MiCaptcha',
@@ -31,6 +32,15 @@ export default defineComponent({
                 scanning: false,
                 being: false,
                 success: false
+            },
+            offset: {
+                top: 20,
+                left: 38
+            },
+            modal: {
+                show: false,
+                _temp: null,
+                position: {}
             }
         }
     },
@@ -44,22 +54,25 @@ export default defineComponent({
     },
     methods: {
         initCaptcha() {
-            this.$http.get(this.initAction ?? this.api.captcha.init).then((res: any) => {
-                if (res.ret.code === 1) {
-                    this.failed = false
-                    this.init = true
-                    this.tip = '点击按钮进行验证'
-                    this.$storage.set(this.$g.caches.storages.captcha.login, res.data.key)
-                } else {
-                    this.init = false
-                    this.failed = true
-                    this.tip = '验证码初始化失败，请刷新后再试'
-                }
-            }).catch(() => {
-                this.failed = true
-                this.init = false
-                this.tip = '初始化接口有误，请稍候再试'
-            })
+            // this.$http.get(this.initAction ?? this.api.captcha.init).then((res: any) => {
+            //     if (res.ret.code === 1) {
+            //         this.failed = false
+            //         this.init = true
+            //         this.tip = '点击按钮进行验证'
+            //         this.$storage.set(this.$g.caches.storages.captcha.login, res.data.key)
+            //     } else {
+            //         this.init = false
+            //         this.failed = true
+            //         this.tip = '验证码初始化失败，请刷新后再试'
+            //     }
+            // }).catch(() => {
+            //     this.failed = true
+            //     this.init = false
+            //     this.tip = '初始化接口有误，请稍候再试'
+            // })
+            this.failed = false
+            this.init = true
+            this.tip = '点击按钮进行验证'
         },
         showCaptcha() {
             if (!this.init || this.status.success) return
@@ -85,6 +98,19 @@ export default defineComponent({
             background = background ?? this.$g.background.captcha
             this.status.scanning = false
             this.status.being = true
+            this.modal.position = this.getCaptchaModalPosition()
+            this.modal.show = true
+            this.tip = '请完成验证'
+        },
+        saveCaptchaModal(elem: any) {
+            this.modal._temp = elem
+        },
+        getCaptchaModalPosition() {
+            const elem = this.$refs['mi-captcha']
+            const rect = elem.getBoundingClientRect()
+            const top = Math.round(rect.top * 1000) / 1000 + this.offset.top
+            const left = Math.round(rect.left * 1000) / 1000 + this.offset.left
+            return { top, left }
         },
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha')
@@ -153,12 +179,18 @@ export default defineComponent({
     render() {
         const prefixCls = this.getPrefixCls()
         const cls = `${prefixCls}${this.$g.mobile ? ` ${prefixCls}-mobile` : ''}`
+        const modal = this.modal.show || this.modal._temp ? (
+            <Teleport to={document.body} ref={this.saveCaptchaModal}>
+                <CaptchaModal position={this.modal.position} show={this.modal.show}></CaptchaModal>
+            </Teleport>
+        ) : null
         return (
-            <div class={cls} onClick={this.showCaptcha}>
+            <div class={cls} onClick={this.showCaptcha} ref={prefixCls}>
                 <div class={`${prefixCls}-form`}></div>
                 <div class={`${prefixCls}-content`}>
                     { this.getRadarElem() }
                 </div>
+                { modal }
             </div>
         )
     }
