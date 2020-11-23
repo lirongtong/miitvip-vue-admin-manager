@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
-import { AimOutlined } from '@ant-design/icons-vue'
+import { message } from 'ant-design-vue'
+import { AimOutlined, MoreOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
 
 export default defineComponent({
@@ -24,7 +25,7 @@ export default defineComponent({
         return {
             init: false,
             failed: false,
-            tip: this.text ? JSON.parse(JSON.stringify(this.text)) : '正在初始化验证码 ......',
+            tip: this.text ? JSON.parse(JSON.stringify(this.text)) : '正在初始化验证码 ...',
             status: {
                 ready: true,
                 scanning: false,
@@ -47,6 +48,7 @@ export default defineComponent({
                 if (res.ret.code === 1) {
                     this.failed = false
                     this.init = true
+                    this.tip = '点击按钮进行验证'
                     this.$storage.set(this.$g.caches.storages.captcha.login, res.data.key)
                 } else {
                     this.init = false
@@ -58,6 +60,31 @@ export default defineComponent({
                 this.init = false
                 this.tip = '初始化接口有误，请稍候再试'
             })
+        },
+        showCaptcha() {
+            if (!this.init || this.status.success) return
+            this.tip = '智能检测中 ...'
+            this.status.ready = false
+            this.status.scanning = true
+            if (
+                this.getImageAction &&
+                this.$g.regExp.url.test(this.getImageAction)
+            ) {
+                this.$http.get(this.getImageAction).then((res: any) => {
+                    this.initCaptchaModal(res.data)
+                }).catch((err: any) => {
+                    message.warn({
+                        content: `图片获取失败 ( ${err.message} )`,
+                        duration: 3
+                    })
+                    this.initCaptchaModal()
+                })
+            } else this.initCaptchaModal()
+        },
+        initCaptchaModal(background?: string) {
+            background = background ?? this.$g.background.captcha
+            this.status.scanning = false
+            this.status.being = true
         },
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha')
@@ -73,6 +100,7 @@ export default defineComponent({
                 <div class={cls} style={style}>
                     { this.getRadarReadyElem() }
                     { this.getRadarScanElem() }
+                    { this.getRadarBeingElem() }
                     { this.getRadarTipElem() }
                     { this.getRadarLogoElem() }
                 </div>
@@ -91,7 +119,15 @@ export default defineComponent({
             const prefixCls = this.getPrefixCls()
             return this.status.scanning ? (
                 <div class={`${prefixCls}-radar-scan`}>
-                    { () => <AimOutlined /> }
+                    <AimOutlined />
+                </div>
+            ) : null
+        },
+        getRadarBeingElem() {
+            const prefixCls = this.getPrefixCls()
+            return this.status.being ? (
+                <div class={`${prefixCls}-radar-being`}>
+                    <MoreOutlined />
                 </div>
             ) : null
         },
@@ -118,7 +154,7 @@ export default defineComponent({
         const prefixCls = this.getPrefixCls()
         const cls = `${prefixCls}${this.$g.mobile ? ` ${prefixCls}-mobile` : ''}`
         return (
-            <div class={cls}>
+            <div class={cls} onClick={this.showCaptcha}>
                 <div class={`${prefixCls}-form`}></div>
                 <div class={`${prefixCls}-content`}>
                     { this.getRadarElem() }

@@ -37,7 +37,12 @@
         }
 
         &-being {
-            .flex();
+			.flex();
+			
+			.anticon {
+				transform: rotateZ(90deg);
+    			font-size: 20px;
+			}
         }
         
         &-ring,
@@ -58,7 +63,21 @@
 		&-ring {
 			animation: mi-anim-wait 1s infinite;
 			transform: scale(1);
-        }
+		}
+		
+		&-scan {
+			.flex();
+
+			.anticon {
+				.properties(font-size, 22);
+				.properties(width, 22);
+				.properties(height, 22);
+				color: @mi-theme-color;
+				-o-animation: mi-captcha-ratote .8s linear infinite both;
+				-moz-animation: mi-captcha-ratote .8s linear infinite both;
+				animation: mi-captcha-ratote .8s linear infinite both;
+			}
+		}
 
         &-tip {
 			position: absolute;
@@ -93,4 +112,21 @@
 			}
 		}
     }
+}
+
+@keyframes mi-captcha-ratote {
+	50%{
+		-o-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
+	}
+	100% {
+		-o-transform: rotate(360deg);
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
 }
