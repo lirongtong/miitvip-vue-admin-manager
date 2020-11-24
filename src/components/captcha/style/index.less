@@ -1,6 +1,7 @@
 @import '../../../style/theme/index';
 
 @mi-captcha: ~'@{mi-prefix}captcha';
+@mi-captcha-modal: ~'@{mi-captcha}-modal';
 
 .@{mi-captcha} {
     width: 100%;
@@ -160,14 +161,186 @@
 			flex-direction: column;
 			.border-radius();
 			.properties(letter-spacing, 2);
-			color: #999;
-			background: #E5E5E5;
+			color: @mi-white-color;
+			background: @mi-captcha-bg-color;
 			.properties(font-size, @mi-font-size-normal);
 
-			.ivu-icon {
-				.properties(font-size, 30);
-				.properties(margin-bottom, 4);
-				color: #999;
+			.anticon {
+				.properties(font-size, 36);
+				.properties(margin-bottom);
+				color: @mi-white-color;
+			}
+		}
+
+		&-info {
+			canvas {
+				position: absolute;
+				.border-radius();
+			}
+		}
+
+		&-result {
+			position: absolute;
+			left: 0;
+			.properties(bottom, -32);
+			width: 100%;
+			color: @mi-white-color;
+			transition: bottom .5s ease;
+			z-index: 10;
+			.flex(center, flex-start);
+			.properties(text-indent, 12);
+			.properties(letter-spacing, 2);
+			.properties(font-size, 14);
+			.properties(height, 32);
+
+			&-success {
+				background: @mi-success-color;
+			}
+
+			&-error {
+				background: @mi-error-color;
+			}
+		}
+
+		&-slider {
+			position: relative;
+			.properties(margin-top, 16);
+			.properties(margin-bottom);
+			margin-right: 0;
+
+			&-track {
+				background: @mi-white-color;
+				border: 1px solid @mi-theme-color;
+				.flex();
+				.border-radius(20);
+				.properties(height, 38);
+				.properties(padding-left, 60);
+				overflow: hidden;
+
+				&-tip {
+					width: 100%;
+					.properties(height, 38);
+					.properties(font-size, @mi-font-size-normal);
+					color: @mi-sider-color;
+					.flex(center, flex-start);
+					flex-wrap: nowrap;
+					opacity: 1;
+					transition: opacity .3s ease;
+				}
+			}
+
+			&-btn {
+				position: absolute;
+				top: -8px;
+				left: 0;
+				.properties(width, 54);
+				.properties(height, 54);
+				.border-radius-circle();
+				border: 1px solid @mi-theme-color;
+				background: @mi-white-color;
+				.flex();
+				cursor: pointer;
+				box-shadow: 1px 1px 10px @mi-sider-color;
+
+				.anticon {
+					.properties(font-size, 24);
+					color: @mi-sider-color;
+				}
+			}
+
+			&&-moving {
+				.@{mi-captcha-modal} {
+					&-slider {
+						&-track {
+							&-tip {
+								opacity: 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&-panel {
+			position: relative;
+			border-top: 1px solid @mi-sider-border-color;
+			width: 100%;
+			.properties(height, 50);
+			.properties(padding-left, 12);
+			.properties(padding-right, 12);
+			.flex(center, space-between);
+
+			&-action{
+				.flex();
+
+				.anticon {
+					.properties(font-size, 14);
+					.properties(width, 14);
+					.properties(height, 14);
+					.properties(margin-right, 16);
+					cursor: pointer;
+					color: @mi-white-color;
+				}
+			}
+		}
+
+		&&-error {
+			animation-name: mi-anim-shake;
+			animation-duration: .4s;
+			animation-timing-function: ease-in-out;
+			animation-iteration-count: 1.5;
+		}
+
+		&-copyright {
+			.properties(font-size, 12);
+			.properties(line-height, 16);
+			color: @mi-white-color;
+			.properties(letter-spacing, 2);
+
+			&-text {
+				.flex();
+
+				a {
+					.properties(width, 25.6);
+					.properties(height, 16);
+					.properties(margin-right);
+
+					img {
+						.border-radius();
+					}
+				}
+			}
+		}
+
+		&-mask {
+			position: fixed;
+			height: 100%;
+			width: 100%;
+			left: 0;
+			top: 0;
+			display: block;
+			z-index: 20200615;
+		}
+
+		&-arrow{
+			display: block;
+			.properties(margin-left, -21);
+			.properties(margin-top, -10);
+
+			&-in{
+				position: absolute;
+				border-style: solid;
+				.properties(border-width, 10);
+				margin: 1px 0 1px 2px;
+				border-color: transparent @mi-sider-color transparent transparent;
+				z-index: 1;
+			}
+			&-out{
+				position: absolute;
+				border-style: solid;
+				border-width: 11px;
+				border-color: transparent @mi-theme-color transparent transparent;
+				z-index: 1;
 			}
 		}
 	}

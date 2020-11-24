@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { Tooltip } from 'ant-design-vue'
 import {
-    MediumOutlined, CloseCircleOutlined,
+    PictureOutlined, CloseCircleOutlined, ScanOutlined,
     ReloadOutlined, QuestionCircleOutlined
 } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
@@ -17,7 +17,7 @@ export default defineComponent({
     data() {
         return {
             prefixCls: null,
-            loading: false,
+            loading: true,
             size: {
                 width: 260,
                 height: 160
@@ -80,7 +80,7 @@ export default defineComponent({
             const loadingCls = `${this.prefixCls}-loading`
             return this.loading ? (
                 <div class={loadingCls}>
-                    <MediumOutlined />
+                    <PictureOutlined />
                     <div class={`${loadingCls}-tip`}>正在加载 ...</div>
                 </div>
             ) : null
@@ -119,7 +119,7 @@ export default defineComponent({
             const sliderBtnCls = `${this.prefixCls}-slider-btn`
             return (
                 <div class={sliderBtnCls} ref={sliderRef}>
-
+                    <ScanOutlined />
                 </div>
             )
         },
@@ -128,13 +128,13 @@ export default defineComponent({
             return (
                 <div class={panelActionCls}>
                     <Tooltip placement="top" title="关闭验证">
-                        <CloseCircleOutlined />
+                        { () => <CloseCircleOutlined /> }
                     </Tooltip>
                     <Tooltip placement="top" title="刷新验证">
-                        <ReloadOutlined />
+                        { () => <ReloadOutlined /> }
                     </Tooltip>
                     <Tooltip placement="top" title="帮助反馈">
-                        <QuestionCircleOutlined />
+                        { () => <QuestionCircleOutlined /> }
                     </Tooltip>
                 </div>
             )
@@ -144,9 +144,13 @@ export default defineComponent({
             return (
                 <div class={copyrightCls}>
                     <div class={`${copyrightCls}-text`}>
-                        <a href={$MI_HOME} target="_blank">
-                            <img src={$MI_ARATAR} alt={$MI_POWERED} />
-                        </a>
+                        <Tooltip placement="top" title={$MI_POWERED}>
+                            { () => (
+                                <a href={$MI_HOME} target="_blank">
+                                    <img src={$MI_ARATAR} alt={$MI_POWERED} />
+                                </a>
+                            ) }
+                        </Tooltip>
                         <span>提供技术支持</span>
                     </div>
                 </div>
