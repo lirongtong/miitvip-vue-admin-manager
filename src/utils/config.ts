@@ -6,6 +6,10 @@ import {
     WeiboCircleOutlined
 } from '@ant-design/icons-vue'
 
+export const $MI_HOME = 'https://www.makeit.vip'
+export const $MI_POWERED = 'Powered By makeit.vip'
+export const $MI_ARATAR = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png'
+
 export declare interface MenuItems {
     /**
      * Path of the record. Should start with `/` unless the record is the child of

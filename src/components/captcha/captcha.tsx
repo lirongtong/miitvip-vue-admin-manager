@@ -2,6 +2,7 @@ import { defineComponent, Teleport } from 'vue'
 import { message } from 'ant-design-vue'
 import { AimOutlined, MoreOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
+import { $MI_HOME, $MI_POWERED, $MI_ARATAR } from '../../utils/config'
 import CaptchaModal from './modal'
 
 export default defineComponent({
@@ -166,8 +167,8 @@ export default defineComponent({
             const prefixCls = this.getPrefixCls()
             return (
                 <div class={`${prefixCls}-radar-logo`}>
-                    <a href="https://www.makeit.vip" target="_blank">
-                        <img src={this.logo ?? this.$g.avatar} alt={this.$g.powered} />
+                    <a href={$MI_HOME} target="_blank">
+                        <img src={this.logo ?? $MI_ARATAR} alt={$MI_POWERED} />
                     </a>
                 </div>
             )

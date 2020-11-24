@@ -1,6 +1,11 @@
 import { defineComponent } from 'vue'
-import { MediumOutlined } from '@ant-design/icons-vue'
+import { Tooltip } from 'ant-design-vue'
+import {
+    MediumOutlined, CloseCircleOutlined,
+    ReloadOutlined, QuestionCircleOutlined
+} from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
+import { $MI_HOME, $MI_ARATAR, $MI_POWERED } from '../../utils/config'
 
 export default defineComponent({
     name: 'MiCaptchaModal',
@@ -11,6 +16,7 @@ export default defineComponent({
     emits: ['update:show'],
     data() {
         return {
+            prefixCls: null,
             loading: false,
             size: {
                 width: 260,
@@ -31,35 +37,39 @@ export default defineComponent({
             check: {}
         }
     },
+    created() {
+        this.prefixCls = this.getPrefixCls()
+    },
     methods: {
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha-modal')
         },
         getArrowElem() {
-            const prefixCls = this.getPrefixCls()
+            const arrowCls = `${this.prefixCls}-arrow`
             return !this.$g.mobile ? (
-                <div class={`${prefixCls}-arrow`}>
-                    <div class={`${prefixCls}-arrow-out`}></div>
-                    <div class={`${prefixCls}-arrow-in`}></div>
+                <div class={arrowCls}>
+                    <div class={`${arrowCls}-out`}></div>
+                    <div class={`${arrowCls}-in`}></div>
                 </div>
             ) : null
         },
         getContentElem() {
-            const prefixCls = this.getPrefixCls()
+            const contentCls = `${this.prefixCls}-content`
+            const sliderCls = `${this.prefixCls}-slider`
             return (
-                <div class={`${prefixCls}-content`} ref={`${prefixCls}-content`}>
-                    <div class={`${prefixCls}-wrap`}>
-                        <div class={`${prefixCls}-embed`}>
+                <div class={contentCls} ref={contentCls}>
+                    <div class={`${this.prefixCls}-wrap`}>
+                        <div class={`${this.prefixCls}-embed`}>
                             { this.getContentLoadingElem() }
                             { this.getContentInfoElem() }
                             { this.getContentResultElem() }
                         </div>
-                        <div class={`${prefixCls}-slider`}>
+                        <div class={`${sliderCls}${this.drag.moving ? ` ${sliderCls}-moving` : ''}`}>
                             { this.getSliderTrackElem() }
                             { this.getSliderBtnElem() }
                         </div>
                     </div>
-                    <div class={`${prefixCls}-panel`}>
+                    <div class={`${this.prefixCls}-panel`}>
                         { this.getPanelActionElem() }
                         { this.getPanelCopyrightElem() }
                     </div>
@@ -67,32 +77,81 @@ export default defineComponent({
             )
         },
         getContentLoadingElem() {
-            const prefixCls = this.getPrefixCls()
+            const loadingCls = `${this.prefixCls}-loading`
             return this.loading ? (
-                <div class={`${prefixCls}-loading`}>
+                <div class={loadingCls}>
                     <MediumOutlined />
-                    <div class={`${prefixCls}-loading-tip`}>正在加载 ...</div>
+                    <div class={`${loadingCls}-tip`}>正在加载 ...</div>
                 </div>
             ) : null
         },
         getContentInfoElem() {
-            const prefixCls = this.getPrefixCls()
             return (
-                <div class={`${prefixCls}-info`}>
-                    <canvas width={this.size.width} height={this.size.height} ref={`${prefixCls}-image`}></canvas>
-                    <canvas width={this.size.width} height={this.size.height} ref={`${prefixCls}-block`}></canvas>
+                <div class={`${this.prefixCls}-info`}>
+                    <canvas
+                        width={this.size.width}
+                        height={this.size.height}
+                        ref={`${this.prefixCls}-image`}>
+                    </canvas>
+                    <canvas
+                        width={this.size.width}
+                        height={this.size.height}
+                        ref={`${this.prefixCls}-block`}>
+                    </canvas>
                 </div>
             )
         },
         getContentResultElem() {
-            const prefixCls = this.getPrefixCls()
-            const cls = `${prefixCls}-result ${this.check.correct ? `${prefixCls}-result-success` : `${prefixCls}-result-error`}`
-            return (<div class={cls} ref={`${prefixCls}-result`} innerHTML={this.check.tip}></div>)
+            const resultCls = `${this.prefixCls}-result`
+            const cls = `${resultCls} ${this.check.correct ? `${resultCls}-success` : `${resultCls}-error`}`
+            return (<div class={cls} ref={resultCls} innerHTML={this.check.tip}></div>)
         },
-        getSliderTrackElem() {},
-        getSliderBtnElem() {},
-        getPanelActionElem() {},
-        getPanelCopyrightElem() {}
+        getSliderTrackElem() {
+            const sliderTrackCls = `${this.prefixCls}-slider-track`
+            return (
+                <div class={sliderTrackCls}>
+                    <span class={`${sliderTrackCls}-tip`}>拖动左边滑块完成上方拼图</span>
+                </div>
+            )
+        },
+        getSliderBtnElem() {
+            const sliderRef = `${this.prefixCls}-slider`
+            const sliderBtnCls = `${this.prefixCls}-slider-btn`
+            return (
+                <div class={sliderBtnCls} ref={sliderRef}>
+
+                </div>
+            )
+        },
+        getPanelActionElem() {
+            const panelActionCls = `${this.prefixCls}-panel-action`
+            return (
+                <div class={panelActionCls}>
+                    <Tooltip placement="top" title="关闭验证">
+                        <CloseCircleOutlined />
+                    </Tooltip>
+                    <Tooltip placement="top" title="刷新验证">
+                        <ReloadOutlined />
+                    </Tooltip>
+                    <Tooltip placement="top" title="帮助反馈">
+                        <QuestionCircleOutlined />
+                    </Tooltip>
+                </div>
+            )
+        },
+        getPanelCopyrightElem() {
+            const copyrightCls = `${this.prefixCls}-copyright`
+            return (
+                <div class={copyrightCls}>
+                    <div class={`${copyrightCls}-text`}>
+                        <a href={$MI_HOME} target="_blank">
+                            <img src={$MI_ARATAR} alt={$MI_POWERED} />
+                        </a>
+                        <span>提供技术支持</span>
+                    </div>
+                </div>
+            )
+        }
     },
     render() {
         const prefixCls = this.getPrefixCls()
