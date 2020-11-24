@@ -26,10 +26,11 @@ export default defineComponent({
         show: PropTypes.bool.def(false),
         background: PropTypes.string
     },
-    emits: ['update:show'],
+    emits: ['update:show', 'mi-captcha-modal-event'],
     data() {
         return {
             prefixCls: null,
+            eventName: null,
             loading: true,
             ctx: {
                 image: null,
@@ -71,20 +72,38 @@ export default defineComponent({
     },
     created() {
         this.prefixCls = this.getPrefixCls()
+        this.eventName = `${this.prefixCls}-event`
+    },
+    beforeUnmount() {
+        this.$tools.off(this.elements.slider, 'pointerdown', this.dragStart)
+        this.$tools.off(this.elements.slider, 'touchstart', this.dragStart)
+        this.$tools.off(this.elements.slider, 'pointermove', this.dragMoving)
+        this.$tools.off(this.elements.slider, 'touchmove', this.dragMoving)
+        this.$tools.off(this.elements.slider, 'pointerup', this.dragEnd)
+        this.$tools.off(this.elements.slider, 'touchend', this.dragEnd)
     },
     mounted() {
         this._background = this.background
         this.init()
+        this.$emitter.on(this.eventName, (data) => {
+            console.log(data)
+        })
     },
     methods: {
         init() {
-            const slider = this.$refs[selectors.slider]
+            const slider = this.$refs[`${selectors.slider}-btn`]
             const block = this.$refs[selectors.block]
             this.elements = {slider, block}
             this.block.real = this.block.size + this.block.radius * 2 + 2
             this.setCheckData()
             this.initCaptcha()
             this.initMask()
+            this.$tools.on(this.elements.slider, 'pointerdown', this.dragStart)
+            this.$tools.on(this.elements.slider, 'touchstart', this.dragStart)
+            this.$tools.on(this.elements.slider, 'pointermove', this.dragMoving)
+            this.$tools.on(this.elements.slider, 'touchmove', this.dragMoving)
+            this.$tools.on(this.elements.slider, 'pointerup', this.dragEnd)
+            this.$tools.on(this.elements.slider, 'touchend', this.dragEnd)
         },
         initCaptcha() {
             const image = this.$refs[selectors.image]
@@ -303,10 +322,96 @@ export default defineComponent({
                 })
             }
         },
+        dragStart(event: any) {
+            const x = event.clientX || event.touches[0].clientX
+            const sliderRef = this.$refs[selectors.slider]
+            const sliderBtnRef = this.$refs[`${selectors.slider}-btn`]
+            const sliderRect = this.getBoundingClientRect(sliderRef)
+            const sliderBtnRect = this.getBoundingClientRect(sliderBtnRef)
+            this.drag.originX = Math.round(sliderRect.left * 10) / 10
+            this.drag.originY = Math.round(sliderRect.top * 10) / 10
+            this.drag.offset = Math.round((x - sliderBtnRect.left) * 10) / 10
+            this.drag.moving = true
+            this.time.start = Date.now()
+        },
+        dragMoving(event: any) {
+            if (!this.drag.moving || this.check.being) return
+            const x = event.clientX || event.touches[0].clientX
+            const moveX = Math.round((x - this.drag.originX - this.drag.offset) * 10) / 10
+            if (moveX < 0 || moveX + 54 >= this.size.width) {
+                this.checkVerificationCode()
+                return false
+            }
+            this.elements.slider.style.left = `${moveX}px`
+            this.elements.block.style.left = `${moveX}px`
+            this.check.value = moveX
+        },
+        dragEnd() {
+            if (!this.drag.moving) return
+            this.time.end = Date.now()
+            this.checkVerificationCode()
+        },
+        dragReset() {
+            this.elements.slider.style.left = 0
+            this.elements.block.style.left = 0
+            this.drag.originX = 0
+            this.drag.originY = 0
+        },
+        async checkVerificationCode() {
+            const coordinateX = Math.round(this.check.value + this.coordinate.offset)
+            if (this.check.being) return
+            this.check.being = true
+            const error = (msg = null) => {
+                setTimeout(() => {
+                    this.dragReset()
+                }, 1000)
+                this.check.num++
+                this.check.correct = false
+                if (msg) this.check.tip = msg
+            }
+            if (
+                this.coordinate.x - 1 <= coordinateX &&
+                this.coordinate.x + 1 >= coordinateX
+            ) {
+                const key = this.$storage.get(this.$g.caches.storages.captcha.login)
+                await this.$http.post(this.action ?? this.api.captcha.verification, {key}).then((res: any) => {
+                    if (res.ret.code === 1) {
+                        const taking = Math.round(((this.time.end - this.time.start) / 10)) / 100
+                        this.check.tip = `${taking}s速度完成图片拼合验证`
+                        this.check.correct = true
+                        setTimeout(() => {
+                            this.close('success', res.data)
+                        }, 600)
+                    } else error(res.ret.message)
+                }).catch((err: any) => {
+                    error(err.message)
+                })
+            } else error()
+            this.$refs[selectors.result].style.bottom = 0
+            if (this.check.num <= this.check.tries) this.check.show = true
+            setTimeout(() => {
+                this.drag.moving = false
+                this.$refs[selectors.result].style.bottom = '-32px'
+            }, 1000)
+            setTimeout(() => {
+                this.check.show = false
+                this.check.being = false
+                if (this.check.num >= this.check.tries) this.close('frequently')
+            }, 1600)
+        },
         close(status = 'close', data = {}) {
             this.$emit('update:show', !this.show)
             this.initMask(true)
-
+            this.$emitter.emit(this.eventName, {
+                event: 'close',
+                status,
+                data
+            })
+        },
+        getBoundingClientRect(elem: HTMLElement, specific = null) {
+            const rect = elem.getBoundingClientRect()
+            if (specific && rect[specific]) return rect[specific]
+            return rect
         },
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha-modal')
@@ -331,7 +436,8 @@ export default defineComponent({
                             { this.getContentInfoElem() }
                             { this.getContentResultElem() }
                         </div>
-                        <div class={`${sliderCls}${this.drag.moving ? ` ${sliderCls}-moving` : ''}`}>
+                        <div ref={sliderCls}
+                            class={`${sliderCls}${this.drag.moving ? ` ${sliderCls}-moving` : ''}`}>
                             { this.getSliderTrackElem() }
                             { this.getSliderBtnElem() }
                         </div>
@@ -382,10 +488,9 @@ export default defineComponent({
             )
         },
         getSliderBtnElem() {
-            const sliderRef = `${this.prefixCls}-slider`
             const sliderBtnCls = `${this.prefixCls}-slider-btn`
             return (
-                <div class={sliderBtnCls} ref={sliderRef}>
+                <div class={sliderBtnCls} ref={sliderBtnCls}>
                     <ScanOutlined />
                 </div>
             )

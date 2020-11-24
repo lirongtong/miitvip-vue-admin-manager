@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import mitt from 'mitt'
 import baseMixins from './utils/mixins'
 
 import config from './utils/config'
@@ -45,6 +46,7 @@ const install = (app: App) => {
             }
         )
     })
+    app.config.globalProperties.$emitter = mitt()
     return app
 }
 
