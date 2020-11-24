@@ -182,7 +182,11 @@ export default defineComponent({
         const cls = `${prefixCls}${this.$g.mobile ? ` ${prefixCls}-mobile` : ''}`
         const modal = this.modal.show || this.modal._temp ? (
             <Teleport to={document.body} ref={this.saveCaptchaModal}>
-                <CaptchaModal position={this.modal.position} show={this.modal.show}></CaptchaModal>
+                <CaptchaModal
+                    position={this.modal.position}
+                    background={this.background ?? this.$g.background.captcha}
+                    show={this.modal.show}>
+                </CaptchaModal>
             </Teleport>
         ) : null
         return (
