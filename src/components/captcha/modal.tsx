@@ -273,8 +273,8 @@ export default defineComponent({
             )
             ctx.lineTo(this.coordinate.x, this.coordinate.y)
             ctx.shadowColor = '#000'
-            ctx.shadowBlur = 20
-            ctx.lineWidth = 2
+            ctx.shadowBlur = 10
+            ctx.lineWidth = 1.5
             ctx.fillStyle = 'rgba(0, 0, 0, .4)'
             ctx.strokeStyle = 'rgba(255, 255, 255, .8)'
             ctx.stroke()
@@ -291,6 +291,7 @@ export default defineComponent({
             this.coordinate.x = x
             this.coordinate.y = y
             this.drawBlock(this.ctx.image, direction, 'fill')
+            this.ctx.block.globalCompositeOperation = 'destination-over'
             this.drawBlock(this.ctx.block, direction, 'clip')
         },
         drawBlockDirection() {
