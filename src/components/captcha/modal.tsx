@@ -23,13 +23,13 @@ export default defineComponent({
     name: 'MiCaptchaModal',
     props: {
         position: PropTypes.object,
+        tries: PropTypes.number.def(5),
         show: PropTypes.bool.def(false),
         background: PropTypes.string
     },
-    emits: ['update:show', 'mi-captcha-modal-event'],
+    emits: ['update:show'],
     data() {
         return {
-            prefixCls: null,
             eventName: null,
             loading: true,
             ctx: {
@@ -65,14 +65,12 @@ export default defineComponent({
                 originY: 0,
                 offset: 0
             },
-            tries: 0,
             check: {},
             _background: null
         }
     },
     created() {
-        this.prefixCls = this.getPrefixCls()
-        this.eventName = `${this.prefixCls}-event`
+        this.eventName = `${prefixCls}-event`
     },
     beforeUnmount() {
         this.$tools.off(this.elements.slider, 'pointerdown', this.dragStart)
@@ -85,12 +83,21 @@ export default defineComponent({
     mounted() {
         this._background = this.background
         this.init()
-        this.$emitter.on(this.eventName, (data) => {
-            console.log(data)
-        })
     },
     methods: {
         init() {
+
+            // const canvas = document.createElement('canvas');
+            // canvas.width = 500
+            // canvas.height = 500
+            // document.body.appendChild(canvas)
+            // const ctx = canvas.getContext('2d');
+            // ctx.rect(10, 10, 100, 100);
+            // ctx.fill();
+            // let imageData = ctx.getImageData(60, 60, 200, 100);
+            // ctx.putImageData(imageData, 150, 10);
+
+
             const slider = this.$refs[`${selectors.slider}-btn`]
             const block = this.$refs[selectors.block]
             this.elements = {slider, block}
@@ -139,8 +146,26 @@ export default defineComponent({
             else this.initImageElem()
         },
         initImage(elem: HTMLElement) {
-            const block = this.$refs[selectors.block]
-            if (this.ctx.image) {
+            if (
+                this.ctx.image &&
+                this.ctx.block
+            ) {
+                /** block */
+                this.ctx.image.drawImage(
+					elem,
+					0,
+					0,
+					this.size.width,
+					this.size.height
+                )
+                this.drawBlockPosition()
+				this.ctx.block.drawImage(
+					elem,
+					0,
+					0,
+					this.size.width,
+					this.size.height
+                )
                 /** text */
                 this.ctx.image.beginPath()
                 this.ctx.image.fillStyle = '#FFF'
@@ -151,22 +176,6 @@ export default defineComponent({
 				this.ctx.image.font = '16px MicrosoftYaHei'
 				this.ctx.image.fillText('就能验证成功哦', 12, 55)
                 this.ctx.image.closePath()
-                /** block */
-                this.drawBlockPosition()
-                this.ctx.image.drawImage(
-					elem,
-					0,
-					0,
-					this.size.width,
-					this.size.height
-				)
-				this.ctx.block.drawImage(
-					elem,
-					0,
-					0,
-					this.size.width,
-					this.size.height
-                )
                 /** image data */
                 const coordinateY = this.coordinate.y - this.block.radius * 2 + 1
                 const imageData = this.ctx.block.getImageData(
@@ -175,6 +184,7 @@ export default defineComponent({
                     this.block.real,
                     this.block.real
                 )
+                const block = this.$refs[selectors.block]
                 block.width = this.block.real
                 this.ctx.block.putImageData(
                     imageData,
@@ -187,9 +197,7 @@ export default defineComponent({
         initImageElem() {
             const elem = new Image()
             elem.src = this._background
-            elem.onload = () => {
-                this.initImage(elem)
-            }
+            elem.onload = () => this.initImage(elem)
         },
         imageToBase64(callback: Function) {
             const elem = new Image()
@@ -216,7 +224,6 @@ export default defineComponent({
             direction: any = {},
             operation: string
         ) {
-            ctx.globalCompositeOperation = 'destination-over'
             ctx.beginPath()
             ctx.moveTo(this.coordinate.x, this.coordinate.y)
             const direct = direction.direction
@@ -266,8 +273,8 @@ export default defineComponent({
             )
             ctx.lineTo(this.coordinate.x, this.coordinate.y)
             ctx.shadowColor = '#000'
-            ctx.shadowBlur = 10
-            ctx.lineWidth = 1
+            ctx.shadowBlur = 20
+            ctx.lineWidth = 2
             ctx.fillStyle = 'rgba(0, 0, 0, .4)'
             ctx.strokeStyle = 'rgba(255, 255, 255, .8)'
             ctx.stroke()
@@ -281,7 +288,8 @@ export default defineComponent({
             )
             const y = this.$tools.randomNumberInRange(55, this.size.height - 55)
             const direction = this.drawBlockDirection()
-            this.coordinate = {x, y}
+            this.coordinate.x = x
+            this.coordinate.y = y
             this.drawBlock(this.ctx.image, direction, 'fill')
             this.drawBlock(this.ctx.block, direction, 'clip')
         },
@@ -399,9 +407,19 @@ export default defineComponent({
                 if (this.check.num >= this.check.tries) this.close('frequently')
             }, 1600)
         },
+        refreshCaptcha() {
+            this.loading = true
+            this.setCheckData()
+            const block = this.$refs[selectors.block]
+            block.width = this.size.width
+            this.ctx.image.clearRect(0, 0, this.size.width, this.size.height)
+            this.ctx.block.clearRect(0, 0, this.size.width, this.size.height)
+            this.initImageElem()
+        },
         close(status = 'close', data = {}) {
             this.$emit('update:show', !this.show)
             this.initMask(true)
+            if (typeof status === 'object') status = 'close'
             this.$emitter.emit(this.eventName, {
                 event: 'close',
                 status,
@@ -413,11 +431,8 @@ export default defineComponent({
             if (specific && rect[specific]) return rect[specific]
             return rect
         },
-        getPrefixCls() {
-            return this.$tools.getPrefixCls('captcha-modal')
-        },
         getArrowElem() {
-            const arrowCls = `${this.prefixCls}-arrow`
+            const arrowCls = `${prefixCls}-arrow`
             return !this.$g.mobile ? (
                 <div class={arrowCls}>
                     <div class={`${arrowCls}-out`}></div>
@@ -426,12 +441,12 @@ export default defineComponent({
             ) : null
         },
         getContentElem() {
-            const contentCls = `${this.prefixCls}-content`
-            const sliderCls = `${this.prefixCls}-slider`
+            const contentCls = `${prefixCls}-content`
+            const sliderCls = `${prefixCls}-slider`
             return (
                 <div class={contentCls} ref={contentCls}>
-                    <div class={`${this.prefixCls}-wrap`}>
-                        <div class={`${this.prefixCls}-embed`}>
+                    <div class={`${prefixCls}-wrap`}>
+                        <div class={`${prefixCls}-embed`}>
                             { this.getContentLoadingElem() }
                             { this.getContentInfoElem() }
                             { this.getContentResultElem() }
@@ -442,7 +457,7 @@ export default defineComponent({
                             { this.getSliderBtnElem() }
                         </div>
                     </div>
-                    <div class={`${this.prefixCls}-panel`}>
+                    <div class={`${prefixCls}-panel`}>
                         { this.getPanelActionElem() }
                         { this.getPanelCopyrightElem() }
                     </div>
@@ -450,7 +465,7 @@ export default defineComponent({
             )
         },
         getContentLoadingElem() {
-            const loadingCls = `${this.prefixCls}-loading`
+            const loadingCls = `${prefixCls}-loading`
             return this.loading ? (
                 <div class={loadingCls}>
                     <PictureOutlined />
@@ -460,27 +475,27 @@ export default defineComponent({
         },
         getContentInfoElem() {
             return (
-                <div class={`${this.prefixCls}-info`}>
+                <div class={`${prefixCls}-info`}>
                     <canvas
                         width={this.size.width}
                         height={this.size.height}
-                        ref={`${this.prefixCls}-image`}>
+                        ref={`${prefixCls}-image`}>
                     </canvas>
                     <canvas
                         width={this.size.width}
                         height={this.size.height}
-                        ref={`${this.prefixCls}-block`}>
+                        ref={`${prefixCls}-block`}>
                     </canvas>
                 </div>
             )
         },
         getContentResultElem() {
-            const resultCls = `${this.prefixCls}-result`
+            const resultCls = `${prefixCls}-result`
             const cls = `${resultCls} ${this.check.correct ? `${resultCls}-success` : `${resultCls}-error`}`
             return (<div class={cls} ref={resultCls} innerHTML={this.check.tip}></div>)
         },
         getSliderTrackElem() {
-            const sliderTrackCls = `${this.prefixCls}-slider-track`
+            const sliderTrackCls = `${prefixCls}-slider-track`
             return (
                 <div class={sliderTrackCls}>
                     <span class={`${sliderTrackCls}-tip`}>拖动左边滑块完成上方拼图</span>
@@ -488,7 +503,7 @@ export default defineComponent({
             )
         },
         getSliderBtnElem() {
-            const sliderBtnCls = `${this.prefixCls}-slider-btn`
+            const sliderBtnCls = `${prefixCls}-slider-btn`
             return (
                 <div class={sliderBtnCls} ref={sliderBtnCls}>
                     <ScanOutlined />
@@ -496,23 +511,27 @@ export default defineComponent({
             )
         },
         getPanelActionElem() {
-            const panelActionCls = `${this.prefixCls}-panel-action`
+            const panelActionCls = `${prefixCls}-panel-action`
             return (
                 <div class={panelActionCls}>
                     <Tooltip placement="top" title="关闭验证">
-                        { () => <CloseCircleOutlined /> }
+                        { () => <CloseCircleOutlined onClick={this.close} /> }
                     </Tooltip>
                     <Tooltip placement="top" title="刷新验证">
-                        { () => <ReloadOutlined /> }
+                        { () => <ReloadOutlined onClick={this.refreshCaptcha} /> }
                     </Tooltip>
                     <Tooltip placement="top" title="帮助反馈">
-                        { () => <QuestionCircleOutlined /> }
+                        { () => (
+                            <a href={$MI_HOME} target="_blank">
+                                <QuestionCircleOutlined />
+                            </a>
+                        ) }
                     </Tooltip>
                 </div>
             )
         },
         getPanelCopyrightElem() {
-            const copyrightCls = `${this.prefixCls}-copyright`
+            const copyrightCls = `${prefixCls}-copyright`
             return (
                 <div class={copyrightCls}>
                     <div class={`${copyrightCls}-text`}>
@@ -530,10 +549,14 @@ export default defineComponent({
         }
     },
     render() {
-        const prefixCls = this.getPrefixCls()
         const style = {top: `${this.position.top}px`, left: `${this.position.left}px`}
+        const cls = `${prefixCls}${
+            !this.check.correct && this.check.show
+                ? ` ${prefixCls}-error`
+                : ''
+        }`
         return this.show ? (
-            <div class={prefixCls} style={style} ref={prefixCls}>
+            <div class={cls} style={style} ref={prefixCls}>
                 { this.getArrowElem() }
                 { this.getContentElem() }
             </div>

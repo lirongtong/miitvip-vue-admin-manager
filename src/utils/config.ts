@@ -162,7 +162,12 @@ export const $g = reactive({
         storages: {
             user: 'user-info',
             collapsed: 'layout-menu-collapsed',
-            routes: 'history-routes'
+            routes: 'history-routes',
+            captcha: {
+				login: 'login-captcha-key',
+				register: 'register-captcha-key',
+				email: 'email-captcha-key'
+			}
         },
         cookies: {
             auto: 'auto-login',

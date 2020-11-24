@@ -7,7 +7,7 @@ import CaptchaModal from './modal'
 
 export default defineComponent({
     name: 'MiCaptcha',
-    emits: ['success'],
+    emits: ['onSuccess'],
     props: {
         width: PropTypes.number,
         height: PropTypes.number,
@@ -18,7 +18,7 @@ export default defineComponent({
         background: PropTypes.string,
         image: PropTypes.string,
         getImageAction: PropTypes.string,
-        maxTries: PropTypes.number,
+        maxTries: PropTypes.number.def(5),
         initAction: PropTypes.string,
         verifyAction: PropTypes.string,
         onSuccess: PropTypes.func
@@ -102,6 +102,27 @@ export default defineComponent({
             this.modal.position = this.getCaptchaModalPosition()
             this.modal.show = true
             this.tip = '请完成验证'
+            this.initCaptchaModalListener()
+        },
+        initCaptchaModalListener() {
+            const prefixCls = this.getPrefixCls()
+            this.$emitter.on(`${prefixCls}-modal-event`, (data: any) => {
+                switch (data.status) {
+                    case 'success':
+                        this.success(data.data)
+                        break
+                    case 'close':
+                        this.reset()
+                        break
+                    case 'frequently':
+                        this.reset()
+                        message.warn({
+                            content: '错误次数太过频繁，请稍候再试',
+                            duration: 3
+                        })
+                        break
+                }
+            })
         },
         saveCaptchaModal(elem: any) {
             this.modal._temp = elem
@@ -112,6 +133,23 @@ export default defineComponent({
             const top = Math.round(rect.top * 1000) / 1000 + this.offset.top
             const left = Math.round(rect.left * 1000) / 1000 + this.offset.left
             return { top, left }
+        },
+        success(data: any) {
+            this.tip = '通过验证'
+            this.$emit('onSuccess', data)
+            setTimeout(() => {
+                this.modal.show = false
+                this.status.being = false
+                this.status.success = true
+            }, 500)
+        },
+        reset() {
+            this.modal.show = false
+            this.status.being = false
+            this.status.success = false
+            this.status.scanning = false
+            this.status.ready = true
+            this.tip = '点击按钮进行验证'
         },
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha')
@@ -184,6 +222,7 @@ export default defineComponent({
             <Teleport to={document.body} ref={this.saveCaptchaModal}>
                 <CaptchaModal
                     position={this.modal.position}
+                    tries={this.maxTries}
                     background={this.background ?? this.$g.background.captcha}
                     show={this.modal.show}>
                 </CaptchaModal>
