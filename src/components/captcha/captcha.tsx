@@ -87,6 +87,7 @@ export default defineComponent({
                 this.$http.get(this.getImageAction).then((res: any) => {
                     this.initCaptchaModal(res.data)
                 }).catch((err: any) => {
+                    message.destroy()
                     message.warn({
                         content: `图片获取失败 ( ${err.message} )`,
                         duration: 3
@@ -102,27 +103,24 @@ export default defineComponent({
             this.modal.position = this.getCaptchaModalPosition()
             this.modal.show = true
             this.tip = '请完成验证'
-            this.initCaptchaModalListener()
         },
-        initCaptchaModalListener() {
-            const prefixCls = this.getPrefixCls()
-            this.$emitter.on(`${prefixCls}-modal-event`, (data: any) => {
-                switch (data.status) {
-                    case 'success':
-                        this.success(data.data)
-                        break
-                    case 'close':
-                        this.reset()
-                        break
-                    case 'frequently':
-                        this.reset()
-                        message.warn({
-                            content: '错误次数太过频繁，请稍候再试',
-                            duration: 3
-                        })
-                        break
-                }
-            })
+        handleCaptchaModalClose(data: any) {
+            switch (data.status) {
+                case 'success':
+                    this.success(data.data)
+                    break
+                case 'close':
+                    this.reset()
+                    break
+                case 'frequently':
+                    this.reset()
+                    message.destroy()
+                    message.warning({
+                        content: '错误次数太过频繁，请稍候再试',
+                        duration: 3
+                    })
+                    break
+            }
         },
         saveCaptchaModal(elem: any) {
             this.modal._temp = elem
@@ -232,14 +230,16 @@ export default defineComponent({
                     position={this.modal.position}
                     tries={this.maxTries}
                     background={this.background ?? this.$g.background.captcha}
+                    onModalClose={this.handleCaptchaModalClose}
                     show={this.modal.show}>
                 </CaptchaModal>
             </Teleport>
         ) : null
+        const style = {width: `${this.width}px`, height: `${this.height}px`}
         return (
             <div class={cls} onClick={this.showCaptcha} ref={prefixCls}>
                 <div class={`${prefixCls}-form`}></div>
-                <div class={`${prefixCls}-content`}>
+                <div class={`${prefixCls}-content`} style={style}>
                     { this.getRadarElem() }
                 </div>
                 { modal }

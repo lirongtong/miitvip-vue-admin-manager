@@ -52,7 +52,6 @@
     "dependencies": {
         "ant-design-vue": "^2.0.0-rc.1",
         "axios": "^0.21.0",
-        "mitt": "^2.1.0",
         "vue": "^3.0.2",
         "vue-router": "^4.0.0-rc.2",
         "vue-types": "^3.0.1",

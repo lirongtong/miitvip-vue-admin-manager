@@ -25,11 +25,13 @@ export default defineComponent({
         position: PropTypes.object,
         tries: PropTypes.number.def(5),
         show: PropTypes.bool.def(false),
-        background: PropTypes.string
+        background: PropTypes.string,
+        onModalClose: PropTypes.func
     },
-    emits: ['update:show'],
+    emits: ['onModalClose'],
     data() {
         return {
+            events: {},
             eventName: null,
             loading: true,
             ctx: {
@@ -421,11 +423,10 @@ export default defineComponent({
             this.initImageElem()
         },
         close(status = 'close', data = {}) {
-            this.$emit('update:show', !this.show)
             this.initMask(true)
             this.loading = true
             if (typeof status !== 'string') status = 'close'
-            this.$emitter.emit(this.eventName, {
+            this.$emit('modalClose', {
                 event: 'close',
                 status,
                 data
