@@ -13,6 +13,7 @@ import MiCaptcha from '../captcha'
 const Login = defineComponent({
     name: 'MiLogin',
     props: {
+        action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
         className: PropTypes.string,
         background: PropTypes.string,
         title: PropTypes.string,
@@ -35,7 +36,7 @@ const Login = defineComponent({
             form: {
                 validate: {
                     username: '',
-                    password: null,
+                    password: '',
                     remember: false,
                     captcha: false,
                     uuid: null,
@@ -83,7 +84,7 @@ const Login = defineComponent({
                     <Form
                         layout="vertical"
                         class={formPrefixCls}
-                        ref="form"
+                        ref={`${prefixCls}-login-form`}
                         model={this.form.validate}
                         rules={Object.assign({}, this.form.rules, this.rules)}>
                         { () => (
@@ -235,7 +236,43 @@ const Login = defineComponent({
         handlePasswordValue(e: any) {
             this.form.validate.password = e.target.value
         },
-        handleLogin() {},
+        handleLogin() {
+            if (this.loading) return 
+            this.loading = true
+            const prefixCls = this.getPrefixCls()
+            this.$refs[`${prefixCls}-login-form`].validate().then(() => {
+                if (
+                    !this.form.validate.captcha ||
+                    (this.form.validate.captcha && this.captcha)
+                ) {
+                    this.api.login = this.action
+                    this.form.validate.url = this.api.login
+                    if (typeof this.action === 'string') {
+                        this.$store.dispatch('passport/login', this.form.validate).then((res: any) => {
+                            this.loading = false
+                            if (res.ret.code === 1) {
+                                let redirect = this.$route.query.redirect
+                                if (redirect) {
+                                    redirect = redirect.toString()
+                                    if (this.$g.regExp.url.test(redirect)) window.location.href = redirect
+                                    else this.$router.push({path: redirect})
+                                } else this.$router.push({path: '/'})
+                            } else {
+                                console.log(2)
+                            }
+                        }).catch((err: any) => {
+                            console.log(err.message)
+                        })
+                    } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                } else this.reset()
+            }).catch(() => {
+                this.reset()
+            })
+        },
+        reset() {
+            this.captcha = false
+            this.loading = false
+        },
         handleCaptchaVerify(data: any) {
             if (data.uuid) this.form.validate.uuid = data.uuid
             this.captcha = true
