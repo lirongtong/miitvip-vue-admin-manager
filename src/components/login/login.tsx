@@ -31,7 +31,7 @@ const Login = defineComponent({
         content: PropTypes.any
     },
     data() {
-        const validateCaptcha = (_rule: any, value: boolean, callback: any) => {
+        const validateCaptcha = (_rule: any, value: boolean, _callback: any) => {
             if (value) {
                 if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
                 else return Promise.resolve()
