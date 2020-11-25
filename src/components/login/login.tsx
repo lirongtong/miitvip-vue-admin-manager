@@ -11,6 +11,7 @@ import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
 import MiModal from '../modal'
 
+let isVerify = false
 const Login = defineComponent({
     name: 'MiLogin',
     props: {
@@ -30,6 +31,13 @@ const Login = defineComponent({
         content: PropTypes.any
     },
     data() {
+        const validateCaptcha = (rule: any, value: boolean, callback: any) => {
+            if (value) {
+                if (!isVerify) callback(rule.message)
+                else callback()
+            }
+            callback()
+        }
         return {
             loading: false,
             captcha: false,
@@ -45,7 +53,8 @@ const Login = defineComponent({
                 },
                 rules: {
                     username: [{required: true, message: '请输入用户名 / 邮箱地址 / 手机号码', trigger: 'blur'}],
-                    password: [{required: true, message: '请输入登录密码', trigger: 'blur'}]
+                    password: [{required: true, message: '请输入登录密码', trigger: 'blur'}],
+                    captcha: [{required: true, message: '请点击按钮进行验证码校验', validator: validateCaptcha}]
                 }
             }
         }
@@ -155,7 +164,7 @@ const Login = defineComponent({
             ) {
                 const prefixCls = this.getPrefixCls()
                 return (
-                    <Form.Item class={`${prefixCls}-captcha`}>
+                    <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
                         { () => (
                             <MiCaptcha
                                 maxTries={this.captchaMaxTries}
@@ -263,18 +272,15 @@ const Login = defineComponent({
                             MiModal.error({content: err.message})
                         })
                     } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
-                } else this.reset()
+                } else this.loading = false
             }).catch(() => {
-                this.reset()
+                this.loading = false
             })
-        },
-        reset() {
-            this.captcha = false
-            this.loading = false
         },
         handleCaptchaVerify(data: any) {
             if (data.uuid) this.form.validate.uuid = data.uuid
             this.captcha = true
+            isVerify = true
             if (
                 this.captchaOnSuccess &&
                 typeof this.captchaOnSuccess === 'function'
