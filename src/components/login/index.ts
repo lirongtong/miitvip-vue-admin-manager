@@ -3,6 +3,7 @@ import Login from './login'
 
 Login.install = (app: App) => {
     app.component(Login.name, Login)
+    app.component(Login.Quick.name, Login.Quick)
     return app
 }
 

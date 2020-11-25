@@ -1,9 +1,4 @@
-import { App, Plugin } from 'vue'
-import Logo from './logo'
+import MiLogo from './logo'
+import { install } from '../../utils/install'
 
-Logo.install = (app: App) => {
-    app.component(Logo.name, Logo)
-    return app
-}
-
-export default Logo as typeof Logo & Plugin
+export default install(MiLogo)
