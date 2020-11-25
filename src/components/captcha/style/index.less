@@ -176,6 +176,14 @@
 			canvas {
 				position: absolute;
 				.border-radius();
+
+				&:first-child {
+					z-index: 100;
+				}
+
+				&:last-child {
+					z-index: 200;
+				}
 			}
 		}
 
@@ -186,7 +194,7 @@
 			width: 100%;
 			color: @mi-white-color;
 			transition: bottom .5s ease;
-			z-index: 10;
+			z-index: 220;
 			.flex(center, flex-start);
 			.properties(text-indent, 12);
 			.properties(letter-spacing, 2);

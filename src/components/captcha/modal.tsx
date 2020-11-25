@@ -86,18 +86,6 @@ export default defineComponent({
     },
     methods: {
         init() {
-
-            // const canvas = document.createElement('canvas');
-            // canvas.width = 500
-            // canvas.height = 500
-            // document.body.appendChild(canvas)
-            // const ctx = canvas.getContext('2d');
-            // ctx.rect(10, 10, 100, 100);
-            // ctx.fill();
-            // let imageData = ctx.getImageData(60, 60, 200, 100);
-            // ctx.putImageData(imageData, 150, 10);
-
-
             const slider = this.$refs[`${selectors.slider}-btn`]
             const block = this.$refs[selectors.block]
             this.elements = {slider, block}
@@ -150,16 +138,8 @@ export default defineComponent({
                 this.ctx.image &&
                 this.ctx.block
             ) {
-                /** block */
+                /** image */
                 this.ctx.image.drawImage(
-					elem,
-					0,
-					0,
-					this.size.width,
-					this.size.height
-                )
-                this.drawBlockPosition()
-				this.ctx.block.drawImage(
 					elem,
 					0,
 					0,
@@ -176,6 +156,17 @@ export default defineComponent({
 				this.ctx.image.font = '16px MicrosoftYaHei'
 				this.ctx.image.fillText('就能验证成功哦', 12, 55)
                 this.ctx.image.closePath()
+                /** block */
+                this.ctx.block.save()
+                this.ctx.block.globalCompositeOperation = 'destination-over'
+                this.drawBlockPosition()
+				this.ctx.block.drawImage(
+                    elem,
+                    0,
+                    0,
+                    this.size.width,
+                    this.size.height
+                )
                 /** image data */
                 const coordinateY = this.coordinate.y - this.block.radius * 2 + 1
                 const imageData = this.ctx.block.getImageData(
@@ -191,6 +182,7 @@ export default defineComponent({
                     this.coordinate.offset,
                     coordinateY
                 )
+                this.ctx.block.restore()
                 this.loading = false
             }
         },
@@ -272,14 +264,14 @@ export default defineComponent({
                 true
             )
             ctx.lineTo(this.coordinate.x, this.coordinate.y)
-            ctx.shadowColor = '#000'
-            ctx.shadowBlur = 10
+            ctx.shadowColor = 'rgba(0, 0, 0, .001)'
+            ctx.shadowBlur = 20
             ctx.lineWidth = 1.5
             ctx.fillStyle = 'rgba(0, 0, 0, .4)'
             ctx.strokeStyle = 'rgba(255, 255, 255, .8)'
             ctx.stroke()
-            ctx[operation]()
             ctx.closePath()
+            ctx[operation]()
         },
         drawBlockPosition() {
             const x = this.$tools.randomNumberInRange(
@@ -291,7 +283,6 @@ export default defineComponent({
             this.coordinate.x = x
             this.coordinate.y = y
             this.drawBlock(this.ctx.image, direction, 'fill')
-            this.ctx.block.globalCompositeOperation = 'destination-over'
             this.drawBlock(this.ctx.block, direction, 'clip')
         },
         drawBlockDirection() {
