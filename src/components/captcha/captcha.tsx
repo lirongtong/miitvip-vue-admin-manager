@@ -1,6 +1,6 @@
 import { defineComponent, Teleport } from 'vue'
 import { message } from 'ant-design-vue'
-import { AimOutlined, MoreOutlined } from '@ant-design/icons-vue'
+import { AimOutlined, EllipsisOutlined, CheckCircleOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
 import { $MI_HOME, $MI_POWERED, $MI_ARATAR } from '../../utils/config'
 import CaptchaModal from './modal'
@@ -55,25 +55,22 @@ export default defineComponent({
     },
     methods: {
         initCaptcha() {
-            // this.$http.get(this.initAction ?? this.api.captcha.init).then((res: any) => {
-            //     if (res.ret.code === 1) {
-            //         this.failed = false
-            //         this.init = true
-            //         this.tip = '点击按钮进行验证'
-            //         this.$storage.set(this.$g.caches.storages.captcha.login, res.data.key)
-            //     } else {
-            //         this.init = false
-            //         this.failed = true
-            //         this.tip = '验证码初始化失败，请刷新后再试'
-            //     }
-            // }).catch(() => {
-            //     this.failed = true
-            //     this.init = false
-            //     this.tip = '初始化接口有误，请稍候再试'
-            // })
-            this.failed = false
-            this.init = true
-            this.tip = '点击按钮进行验证'
+            this.$http.get(this.initAction ?? this.api.captcha.init).then((res: any) => {
+                if (res.ret.code === 1) {
+                    this.failed = false
+                    this.init = true
+                    this.tip = '点击按钮进行验证'
+                    this.$storage.set(this.$g.caches.storages.captcha.login, res.data.key)
+                } else {
+                    this.init = false
+                    this.failed = true
+                    this.tip = '验证码初始化失败，请刷新后再试'
+                }
+            }).catch(() => {
+                this.failed = true
+                this.init = false
+                this.tip = '初始化接口有误，请稍候再试'
+            })
         },
         showCaptcha() {
             if (!this.init || this.status.success) return
@@ -168,6 +165,7 @@ export default defineComponent({
                     { this.getRadarReadyElem() }
                     { this.getRadarScanElem() }
                     { this.getRadarBeingElem() }
+                    { this.getRadarSuccessElem() }
                     { this.getRadarTipElem() }
                     { this.getRadarLogoElem() }
                 </div>
@@ -194,7 +192,21 @@ export default defineComponent({
             const prefixCls = this.getPrefixCls()
             return this.status.being ? (
                 <div class={`${prefixCls}-radar-being`}>
-                    <MoreOutlined />
+                    <EllipsisOutlined />
+                </div>
+            ) : null
+        },
+        getSuccessShowElem() {
+            const prefixCls = this.getPrefixCls()
+            const cls = `${prefixCls}-success${this.status.success ? ` ${prefixCls}-success-show` : ''}`
+            const style = {borderRadius: this.radius ? `${this.radius}px` : null}
+            return (<div class={cls} style={style}></div>)
+        },
+        getRadarSuccessElem() {
+            const prefixCls = this.getPrefixCls()
+            return this.status.success ? (
+                <div class={`${prefixCls}-radar-success ${prefixCls}-radar-success-icon`}>
+                    <CheckCircleOutlined />
                 </div>
             ) : null
         },
@@ -241,6 +253,7 @@ export default defineComponent({
                 <div class={`${prefixCls}-form`}></div>
                 <div class={`${prefixCls}-content`} style={style}>
                     { this.getRadarElem() }
+                    { this.getSuccessShowElem() }
                 </div>
                 { modal }
             </div>

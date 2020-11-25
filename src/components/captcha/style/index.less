@@ -41,7 +41,6 @@
 			.flex();
 			
 			.anticon {
-				transform: rotateZ(90deg);
     			font-size: 20px;
 			}
         }
@@ -64,6 +63,24 @@
 		&-ring {
 			animation: mi-anim-wait 1s infinite;
 			transform: scale(1);
+		}
+
+		&-success {
+			.flex();
+			cursor: default;
+
+			.anticon {
+				color: @mi-theme-color;
+				.properties(font-size, 24);
+			}
+
+			&-icon {
+				animation-name: mi-captcha-success;
+				animation-timing-function: ease;
+				animation-iteration-count: 1;
+				animation-delay: .5s;
+				animation-duration: .5s;
+			}
 		}
 		
 		&-scan {
@@ -111,6 +128,36 @@
 				.border-radius-circle();
 				filter: grayscale(1);
 			}
+		}
+
+		&-pass {
+			cursor: default;
+			background: transparent;
+			
+			.@{mi-captcha} {
+				&-radar-tip {
+					cursor: default;
+					color: @mi-theme-color;
+					z-index: 100;
+				}
+			}
+		}
+	}
+
+	&-success {
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 0;
+		cursor: default;
+		transition: width .5s ease;
+		.border-radius(42);
+
+		&-show{
+			background: fade(@mi-theme-color, 30%);
+			border: 1px solid @mi-theme-color;
+			width: 100%;
 		}
 	}
 	
@@ -394,5 +441,22 @@
 		-o-transform: scale3d(1, 1, 1);
 		-ms-transform: scale3d(1, 1, 1);
 		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes mi-captcha-success {
+	25% {
+		-o-transform: (25deg);
+		-moz-transform: rotate(25deg);
+		-ms-transform: rotate(25deg);
+		-webkit-transform: rotate(25deg);
+		transform: rotate(25deg)
+	}
+	100% {
+		-o-transform: rotate(-360deg);
+		-moz-transform: rotate(-360deg);
+		-ms-transform: rotate(-360deg);
+		-webkit-transform: rotate(-360deg);
+		transform: rotate(-360deg)
 	}
 }

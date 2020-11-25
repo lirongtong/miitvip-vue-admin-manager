@@ -18,6 +18,10 @@ const Login = defineComponent({
         title: PropTypes.string,
         captchaInitAction: PropTypes.string,
         captchaVerifyAction: PropTypes.string,
+        captchaBackground: PropTypes.string,
+        captchaThemeColor: PropTypes.string,
+        captchaMaxTries: PropTypes.number.def(5),
+        captchaOnSuccess: PropTypes.func,
         socialiteLoginDomain: PropTypes.string,
         registerLink: PropTypes.string,
         rules: PropTypes.object,
@@ -47,6 +51,10 @@ const Login = defineComponent({
     beforeCreate() {
         const token = this.$cookie.get(this.$g.caches.cookies.token.access)
         if (token) this.$router.push({path: '/'})
+    },
+    mounted() {
+        this.form.validate.captcha = !!(this.captchaInitAction && this.captchaVerifyAction)
+        !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
         getPrefixCls() {
@@ -148,8 +156,12 @@ const Login = defineComponent({
                     <Form.Item class={`${prefixCls}-captcha`}>
                         { () => (
                             <MiCaptcha
+                                maxTries={this.captchaMaxTries}
+                                themeColor={this.captchaThemeColor}
+                                background={this.captchaBackground}
                                 initAction={this.captchaInitAction}
-                                verifyAction={this.captchaVerifyAction}>
+                                verifyAction={this.captchaVerifyAction}
+                                onSuccess={this.handleCaptchaVerify}>
                             </MiCaptcha>
                         ) }
                     </Form.Item>
@@ -223,7 +235,15 @@ const Login = defineComponent({
         handlePasswordValue(e: any) {
             this.form.validate.password = e.target.value
         },
-        handleLogin() {}
+        handleLogin() {},
+        handleCaptchaVerify(data: any) {
+            if (data.uuid) this.form.validate.uuid = data.uuid
+            this.captcha = true
+            if (
+                this.captchaOnSuccess &&
+                typeof this.captchaOnSuccess === 'function'
+            ) this.captchaOnSuccess.call(this, data)
+        }
     },
     render() {
         const prefixCls = this.getPrefixCls()
