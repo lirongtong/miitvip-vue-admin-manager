@@ -1,8 +1,9 @@
-import { defineComponent } from 'vue'
-import { Button } from 'ant-design-vue'
-import { CloseOutlined } from '@ant-design/icons-vue'
+import { defineComponent, createVNode } from 'vue'
+import { Button, Modal as AntModal } from 'ant-design-vue'
+import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { install } from '../../utils/install'
 import { getSlot, getSlotContent } from '../../utils/props'
+import { $tools } from '../../utils/tools'
 import getModalPropTypes from './props'
 import MiPopup from './popup'
 import MiTeleport from './teleport'
@@ -75,4 +76,40 @@ const Modal = defineComponent({
         )
     }
 })
+const prefixCls = $tools.getPrefixCls('modal')
+const defaultConfig = {
+    centered: true,
+    keyboard: true,
+    mask: true,
+    maskClosable: true,
+    width: 360,
+    okText: '知道了'
+}
+Modal.success = (config: {}) => {
+    const configuration = Object.assign(defaultConfig, {
+        class: `${prefixCls}-success`
+    }, config)
+    AntModal.success(configuration)
+}
+Modal.error = (config: {}) => {
+    const configuration = Object.assign(defaultConfig, {
+        class: `${prefixCls}-error`
+    }, config)
+    AntModal.error(configuration)
+}
+Modal.warning = (config: {}) => {
+    const configuration = Object.assign(defaultConfig, {
+        class: `${prefixCls}-warning`
+    }, config)
+    AntModal.warning(configuration)
+}
+Modal.confirm = (config: {}) => {
+    const configuration = Object.assign(defaultConfig, {
+        class: `${prefixCls}-confirm`,
+        okText: '确定',
+        cancelText: '取消',
+        icon: createVNode(QuestionCircleOutlined)
+    }, config)
+    AntModal.confirm(configuration)
+}
 export default install(Modal)

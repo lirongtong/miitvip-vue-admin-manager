@@ -9,6 +9,7 @@ import PropTypes, { getSlotContent } from '../../utils/props'
 import MiLoginQuick from './quick'
 import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
+import MiModal from '../modal'
 
 const Login = defineComponent({
     name: 'MiLogin',
@@ -257,11 +258,9 @@ const Login = defineComponent({
                                     if (this.$g.regExp.url.test(redirect)) window.location.href = redirect
                                     else this.$router.push({path: redirect})
                                 } else this.$router.push({path: '/'})
-                            } else {
-                                console.log(2)
-                            }
+                            } else MiModal.error({content: res.ret.message})
                         }).catch((err: any) => {
-                            console.log(err.message)
+                            MiModal.error({content: err.message})
                         })
                     } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
                 } else this.reset()

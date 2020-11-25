@@ -98,6 +98,27 @@
     }
 }
 
+@ant-btn: ant-btn;
+.@{ant-btn} {
+    &:hover,
+    &:active,
+    &:link,
+    &:focus {
+        border-color: @mi-theme-color;
+        color: fade(@mi-theme-color, 80%);
+    }
+
+    &-primary,
+    &-primary:hover,
+    &-primary:active,
+    &-primary:focus {
+        color: @mi-sider-color;
+        background: @mi-theme-color;
+        border-color: @mi-theme-color;
+        text-shadow: none;
+    }
+}
+
 [ant-click-animating-without-extra-node="true"] {
     &:after {
         box-shadow: 0 0 0 0 @mi-theme-color;

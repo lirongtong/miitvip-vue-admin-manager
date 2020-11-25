@@ -1,6 +1,7 @@
 @import '../../../style/theme/index.less';
 
 @mi-modal: ~'@{mi-prefix}modal';
+@ant-modal: ant-modal;
 
 .@{mi-modal} {
     &-wrap,
@@ -116,6 +117,37 @@
             .flex();
             .properties(width, 50);
             .properties(height, 50);
+        }
+    }
+
+    &-error,
+    &-success,
+    &-confirm,
+    &-warning {
+        .@{ant-modal} {
+            &-content {
+                .border-radius(6);
+                background: @mi-sider-color;
+                border: 1px solid @mi-theme-color;
+                box-shadow: 0 4px 12px fade(@mi-theme-color, 15%);
+            }
+
+            &-confirm {
+                &-content {
+                    color: @mi-white-color;
+                }
+            }
+        }
+        &.@{ant-modal} {
+            &-success {
+                .@{ant-modal} {
+                    &-confirm-body {
+                        > .anticon {
+                            color: @mi-theme-color;
+                        }
+                    }
+                }
+            }
         }
     }
 }

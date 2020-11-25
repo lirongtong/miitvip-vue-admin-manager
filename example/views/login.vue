@@ -1,14 +1,10 @@
 <template>
-    <mi-login :action="action"></mi-login>
+    <mi-login action="v1/login"></mi-login>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue'
     export default defineComponent({
-        methods: {
-            action(data: any) {
-                console.log(data)
-            }
-        }
+        methods: {}
     })
 </script>
