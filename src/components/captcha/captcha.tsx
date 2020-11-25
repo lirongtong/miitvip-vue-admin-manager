@@ -134,7 +134,7 @@ export default defineComponent({
         },
         success(data: any) {
             this.tip = '通过验证'
-            this.$emit('onSuccess', data)
+            this.$emit('success', data)
             setTimeout(() => {
                 this.modal.show = false
                 this.status.being = false
