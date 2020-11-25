@@ -151,6 +151,10 @@ export default defineComponent({
             this.status.ready = true
             this.tip = '点击按钮进行验证'
         },
+        windowResize() {
+            const position = this.getCaptchaModalPosition()
+            this.modal.position = position
+        },
         getPrefixCls() {
             return this.$tools.getPrefixCls('captcha')
         },
@@ -212,8 +216,12 @@ export default defineComponent({
             )
         }
     },
+    beforeUnmount() {
+        this.$tools.off(window, 'resize', this.windowResize)
+    },
     mounted() {
         this.initCaptcha()
+        this.$tools.on(window, 'resize', this.windowResize)
     },
     render() {
         const prefixCls = this.getPrefixCls()

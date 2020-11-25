@@ -69,6 +69,15 @@ export default defineComponent({
             _background: null
         }
     },
+    watch: {
+        show(value: boolean) {
+            if (value) {
+                this.$nextTick(() => {
+                    this.initModal()
+                })
+            }
+        }
+    },
     created() {
         this.eventName = `${prefixCls}-event`
     },
@@ -81,10 +90,13 @@ export default defineComponent({
         this.$tools.off(this.elements.slider, 'touchend', this.dragEnd)
     },
     mounted() {
-        this._background = this.background
-        this.init()
+        this.initModal()
     },
     methods: {
+        initModal() {
+            this._background = this.background
+            this.init()
+        },
         init() {
             const slider = this.$refs[`${selectors.slider}-btn`]
             const block = this.$refs[selectors.block]
@@ -411,7 +423,8 @@ export default defineComponent({
         close(status = 'close', data = {}) {
             this.$emit('update:show', !this.show)
             this.initMask(true)
-            if (typeof status === 'object') status = 'close'
+            this.loading = true
+            if (typeof status !== 'string') status = 'close'
             this.$emitter.emit(this.eventName, {
                 event: 'close',
                 status,
