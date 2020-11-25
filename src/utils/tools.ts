@@ -265,6 +265,27 @@ class MiTools {
             if (element && event && listener) (element as any).detachEvent(`on${event}`, listener)
         }
     }
+
+    /**
+     * Format string content.
+     * @param str
+     * @param formatter
+     */
+    formatEmpty(str?: string, formatter?: string): string {
+        if (this.isEmpty(str)) return formatter ?? '-'
+        return str
+    }
+
+    /**
+     * Whether the string content is empty.
+     * @param str
+     * @param format
+     */
+    isEmpty(str: any, format = false): boolean | string {
+        let result: any = str === null || str == '' || typeof str === 'undefined'
+        if (format) result = this.formatEmpty(str)
+        return result
+    }
 }
 export const $tools: MiTools = new MiTools()
 const tools = {

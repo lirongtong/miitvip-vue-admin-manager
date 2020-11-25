@@ -9,6 +9,7 @@ import tools from './utils/tools'
 import api from './utils/api'
 
 import { default as Login } from './components/login'
+import { default as Register } from './components/register'
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
@@ -24,6 +25,7 @@ const components = [
     tools,
     api,
     Login,
+    Register,
     Layout,
     Notice,
     Dropdown,
@@ -56,6 +58,7 @@ export {
     tools,
     api,
     Login,
+    Register,
     Layout,
     Notice,
     Dropdown,

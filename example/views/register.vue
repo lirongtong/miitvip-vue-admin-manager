@@ -1,3 +1,3 @@
 <template>
-    Register
+    <mi-register></mi-register>
 </template>

@@ -44,11 +44,12 @@
 				.properties(font-size, 26);
 				color: @mi-white-color;
 				.properties(letter-spacing, 4);
+				.properties(margin-right, 4);
 				z-index: 100;
 
 				img {
-					.properties(width, 32);
-					.properties(max-height, 32);
+					.properties(width, 28);
+					.properties(max-height, 28);
 					.border-radius();
 				}
             }
@@ -224,6 +225,36 @@
 		.@{mi-passport} {
 			&-submit {
 				.properties(margin-bottom);
+			}
+		}
+	}
+}
+
+.@{mi-passport} {
+	&-register {
+		&-tips {
+			.flex(flex-start, center);
+			flex-direction: column;
+			color: @mi-white-color;
+
+			.info-color {
+				color: @mi-info-color;
+			}
+
+			.red {
+				color: @mi-error-color;
+			}
+
+			.success-color {
+				color: @mi-success-color;
+			}
+
+			.theme-color {
+				color: @mi-theme-color;
+			}
+
+			p:last-child {
+				margin-bottom: 0;
 			}
 		}
 	}

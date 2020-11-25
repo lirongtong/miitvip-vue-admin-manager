@@ -31,12 +31,12 @@ const Login = defineComponent({
         content: PropTypes.any
     },
     data() {
-        const validateCaptcha = (rule: any, value: boolean, callback: any) => {
+        const validateCaptcha = (_rule: any, value: boolean, callback: any) => {
             if (value) {
-                if (!isVerify) callback(rule.message)
-                else callback()
+                if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
+                else return Promise.resolve()
             }
-            callback()
+            return Promise.resolve()
         }
         return {
             loading: false,
@@ -54,7 +54,7 @@ const Login = defineComponent({
                 rules: {
                     username: [{required: true, message: '请输入用户名 / 邮箱地址 / 手机号码', trigger: 'blur'}],
                     password: [{required: true, message: '请输入登录密码', trigger: 'blur'}],
-                    captcha: [{required: true, message: '请点击按钮进行验证码校验', validator: validateCaptcha}]
+                    captcha: [{required: true, validator: validateCaptcha}]
                 }
             }
         }

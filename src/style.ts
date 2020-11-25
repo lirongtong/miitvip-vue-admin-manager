@@ -1,6 +1,7 @@
 import './components/layout/style'
 import './components/notice/style'
 import './components/login/style'
+import './components/register/style'
 import './components/modal/style'
 import './components/menu/style'
 import './components/captcha/style'
