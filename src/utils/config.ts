@@ -8,7 +8,8 @@ import {
 
 export const $MI_HOME = 'https://www.makeit.vip'
 export const $MI_POWERED = 'Powered By makeit.vip'
-export const $MI_ARATAR = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png'
+export const $MI_ARATAR =
+    'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png'
 
 export declare interface MenuItems {
     /**
@@ -164,10 +165,10 @@ export const $g = reactive({
             collapsed: 'layout-menu-collapsed',
             routes: 'history-routes',
             captcha: {
-				login: 'login-captcha-key',
-				register: 'register-captcha-key',
-				email: 'email-captcha-key'
-			}
+                login: 'login-captcha-key',
+                register: 'register-captcha-key',
+                email: 'email-captcha-key'
+            }
         },
         cookies: {
             auto: 'auto-login',
