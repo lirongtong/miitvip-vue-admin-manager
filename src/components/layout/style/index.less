@@ -235,3 +235,26 @@
         }
     }
 }
+
+.@{mi-layout} {
+    &-mobile {
+        .@{mi-layout} {
+            &-container {
+                padding-left: 0;
+            }
+
+            &-header {
+                width: 100%;
+            }
+
+            &-breadcrumb {
+                padding-left: 0;
+            }
+
+            &-history {
+                left: 0;
+                .properties(padding-left, 16);
+            }
+        }
+    }
+}
