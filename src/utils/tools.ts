@@ -123,6 +123,35 @@ class MiTools {
     }
 
     /**
+     * Check Password by rules.
+     * @param password 
+     */
+    checkPassword(password: string): boolean {
+        const regExp = $g.regExp
+        return regExp.password.test(password)
+    }
+
+    /**
+     * Get the password strength.
+     * return a number level ( 1 - 4 ).
+     * @param password 
+     */
+    getPasswordStrength(password: string): number {
+        const reg = {
+			lower: /[a-z]/,
+			upper: /[A-Z]/,
+			number: /[\d]/,
+			character: /[~!@#$%^&*()_+=\-.,]/
+		}
+		let strength = 0
+		if(reg.lower.test(password)) strength++
+		if(reg.upper.test(password)) strength++
+		if(reg.number.test(password)) strength++
+		if(reg.character.test(password)) strength++
+		return strength
+    }
+
+    /**
      * Whether the `element / params` is valid.
      * @param value
      */

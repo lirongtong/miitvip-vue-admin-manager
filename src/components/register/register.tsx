@@ -3,9 +3,12 @@ import { Form, Row, Col, Input, Popover } from 'ant-design-vue'
 import { UserOutlined, MailOutlined } from '@ant-design/icons-vue'
 import MiLayout from '../layout'
 import MiModal from '../modal'
+import MiPassport from '../password'
+import MiCaptcha from '../captcha'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import { $tools } from '../../utils/tools'
 
+let isVerify = false
 const prefixCls = $tools.getPrefixCls('passport')
 export default defineComponent({
     name: 'MiRegister',
@@ -27,45 +30,6 @@ export default defineComponent({
     },
     data() {
         const vm = this as any
-        const checkUserName = (_rule: any, value: string, _callback: any) => {
-            if (vm.$tools.isEmpty(value)) {
-                return Promise.reject('请设置用户账号')
-            } else {
-                if (!vm.$g.regExp.username.test(value)) {
-                    return Promise.reject('仅允许字母+数字，4-16 个字符，且以字母开头')
-                } else {
-                    if (vm.usernameVerifyAction) {
-                        vm.$http.get(`${this.usernameVerifyAction}/${value}`).then((res: any) => {
-                            if (res.ret.code !== 1) {
-                                return Promise.reject(res.ret.message)
-                            } else return Promise.resolve()
-                        }).catch((err: any) => {
-                            MiModal.error({content: err.message})
-                            return Promise.reject('请设置用户账号')
-                        })
-                    } else return Promise.resolve()
-                }
-            }
-        }
-        const checkEmail = (_rule: any, value: string, _callback: any) => {
-            if (vm.$tools.isEmpty(value)) {
-                return Promise.reject('请输入邮箱地址')
-            } else {
-                if (!vm.$tools.checkEmail(value)) {
-                    return Promise.reject('请输入有效的邮箱地址')
-                } else {
-                    if (vm.emailVerifyAction) {
-                        vm.$http.get(`${this.emailVerifyAction}/${value}`).then((res: any) => {
-                            if (res.ret.code !== 1) return Promise.reject(res.ret.message)
-                            else return Promise.resolve()
-                        }).catch((err: any) => {
-                            MiModal.error(err.message)
-                            return Promise.reject('请输入邮箱地址')
-                        })
-                    } else return Promise.resolve()
-                }
-            }
-        }
         return {
             loading: false,
 				captcha: null,
@@ -79,14 +43,60 @@ export default defineComponent({
                         uuid: null
                     },
                     rules: {
-	                    username: [{required: true, validator: checkUserName, trigger: 'blur'}],
-	                    email: [{required: true, validator: checkEmail, trigger: 'blur'}],
-                        repeat: [{required: true, message: '请再次确认密码'}]
+	                    username: [{required: true, validator: vm.checkUserName}],
+                        email: [{required: true, validator: vm.checkEmail}],
+                        captcha: [{required: true, validator: vm.checkCaptcha}]
                     }
                 }
         }
     },
     methods: {
+        checkUserName(_rule: any, value: string, _callback: any) {
+            if (this.$tools.isEmpty(value)) {
+                return Promise.reject('请设置用户账号')
+            } else {
+                if (!this.$g.regExp.username.test(value)) {
+                    return Promise.reject('仅允许字母+数字，4-16 个字符，且以字母开头')
+                } else {
+                    if (this.usernameVerifyAction) {
+                        this.$http.get(`${this.usernameVerifyAction}/${value}`).then((res: any) => {
+                            if (res.ret.code !== 1) {
+                                return Promise.reject(res.ret.message)
+                            } else return Promise.resolve()
+                        }).catch((err: any) => {
+                            MiModal.error({content: err.message})
+                            return Promise.reject('请设置用户账号')
+                        })
+                    } else return Promise.resolve()
+                }
+            }
+        },
+        checkEmail(_rule: any, value: string, _callback: any) {
+            if (this.$tools.isEmpty(value)) {
+                return Promise.reject('请输入邮箱地址')
+            } else {
+                if (!this.$tools.checkEmail(value)) {
+                    return Promise.reject('请输入有效的邮箱地址')
+                } else {
+                    if (this.emailVerifyAction) {
+                        this.$http.get(`${this.emailVerifyAction}/${value}`).then((res: any) => {
+                            if (res.ret.code !== 1) return Promise.reject(res.ret.message)
+                            else return Promise.resolve()
+                        }).catch((err: any) => {
+                            MiModal.error(err.message)
+                            return Promise.reject('请输入邮箱地址')
+                        })
+                    } else return Promise.resolve()
+                }
+            }
+        },
+        checkCaptcha(_rule: any, value: boolean, _callback: any) {
+            if (value) {
+                if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
+                else return Promise.resolve()
+            }
+            return Promise.resolve()
+        },
         getMaskElem() {
             let mask: any = null
             if (!this.$g.mobile) mask = (<div class={`${prefixCls}-mask`}></div>)
@@ -120,7 +130,7 @@ export default defineComponent({
                 )
             }
             return (
-                <Form.Item name="username">
+                <Form.Item name="username" ref="username">
                     { () => template }
                 </Form.Item>
             )
@@ -141,10 +151,11 @@ export default defineComponent({
         },
         handleUserNameValue(e: any) {
             this.form.validate.username = e.target.value
+            this.$refs.username.onFieldChange()
         },
         getEmailElem() {
             return (
-                <Form.Item name="email">
+                <Form.Item name="email" ref="email">
                     { () => <Input
                         type="email"
                         prefix={createVNode(MailOutlined)}
@@ -158,6 +169,35 @@ export default defineComponent({
         },
         handleEmailValue(e: any) {
             this.form.validate.email = e.target.value
+            this.$refs.email.onFieldChange()
+        },
+        handlePasswordValue(value: string) {
+            this.form.validate.password = value
+        },
+        handlePassworRepeatValue(value: string) {
+            this.form.validate.repeat = value
+        },
+        getCaptchaElem() {
+            if (
+                this.captchaInitAction &&
+                this.captchaVerifyAction
+            ) {
+                return (
+                    <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
+                        { () => (
+                            <MiCaptcha
+                                maxTries={this.captchaMaxTries}
+                                themeColor={this.captchaThemeColor}
+                                background={this.captchaBackground}
+                                initAction={this.captchaInitAction}
+                                verifyAction={this.captchaVerifyAction}
+                                onSuccess={this.handleCaptchaVerify}>
+                            </MiCaptcha>
+                        ) }
+                    </Form.Item>
+                )
+            }
+            return null
         },
         getFormElem() {
             const formPrefixCls = this.$tools.getPrefixCls('form')
@@ -173,11 +213,27 @@ export default defineComponent({
                             <>
                                 { this.getUserNameElem() }
                                 { this.getEmailElem() }
+                                <MiPassport
+                                    repeat={true}
+                                    value={this.form.validate.password}
+                                    onRepeatChange={this.handlePassworRepeatValue}
+                                    onChange={this.handlePasswordValue}>
+                                </MiPassport>
+                                { this.getCaptchaElem() }
                             </>
                         ) }
                     </Form>
                 </div>
             )
+        },
+        handleCaptchaVerify(data: any) {
+            if (data.uuid) this.form.validate.uuid = data.uuid
+            this.captcha = true
+            isVerify = true
+            if (
+                this.captchaOnSuccess &&
+                typeof this.captchaOnSuccess === 'function'
+            ) this.captchaOnSuccess.call(this, data)
         }
     },
     render() {

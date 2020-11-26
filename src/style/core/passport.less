@@ -1,4 +1,5 @@
 @mi-passport: ~'@{mi-prefix}passport';
+@mi-password: ~'@{mi-prefix}password';
 .@{mi-passport} {
 	margin: 0 auto;
 	color: @mi-white-color;
@@ -255,6 +256,57 @@
 
 			p:last-child {
 				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+.@{mi-password} {
+	&-strength-item {
+		.flex(center, flex-start);
+		.properties(line-height, 34);
+		.properties(width, 380);
+
+		&:first-child {
+			justify-content: flex-start;
+		}
+
+		.anticon {
+			.properties(font-size, 24);
+
+			&.failed,
+			&.success {
+				.properties(font-size, 14);
+				color: @mi-error-color;
+				.properties(margin-right);
+			}
+
+			&.success {
+				color: @mi-theme-color;
+			}
+		}
+	}
+
+	&-strength-group {
+		.flex();
+		.properties(margin-left, 8);
+		.properties(margin-right, 8);
+
+		.@{mi-password} {
+			&-strength {
+				.properties(width, 40);
+				.properties(height, 12);
+				background: @mi-form-label-color;
+				display: inline-block;
+				.properties(margin-right, 8);
+
+				&:last-child {
+					.properties(margin-right, 0);
+				}
+
+				&.active {
+					background: @mi-theme-color;
+				}
 			}
 		}
 	}
