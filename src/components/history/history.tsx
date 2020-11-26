@@ -25,26 +25,23 @@ export default defineComponent({
         }
     },
     watch: {
-        collapsed() {
-            this.$nextTick(() => {
-                this.initHistoryRouteScroll()
-                this.gotoHistoryRoute(this.active)
-            })
-        },
+        collapsed() {this.$nextTick(() => {this.initHistory(false)})},
 
-        $route() {
-            this.collectHistoryRoute()
-        }
+        $route() {this.initHistory()}
     },
     beforeUnmount() {
         this.$tools.off(window, 'resize', this.windowResize)
     },
     mounted() {
-        this.initHistoryRouteScroll()
-        this.collectHistoryRoute()
+        this.initHistory()
         this.$tools.on(window, 'resize', this.windowResize)
     },
     methods: {
+        initHistory(collect = true) {
+            if (collect) this.collectHistoryRoute()
+            this.initHistoryRouteScroll()
+            this.gotoHistoryRoute(this.active)
+        },
         initHistoryRouteScroll() {
             const container = this.$refs[prefixCls]
             const list = this.$refs[`${prefixCls}-list`]
@@ -60,7 +57,6 @@ export default defineComponent({
                         this.max = itemsWidth - list.clientWidth
                     })
                 } else this.max = max > 0 ? max : 0
-                console.log(listWidth, itemsWidth)
             }
         },
         prevHistoryRoute() {
@@ -125,6 +121,7 @@ export default defineComponent({
                 const history = Object.assign({}, this.routes)
                 this.$store.commit(`layout/${mutations.layout.routes}`, history)
             }
+            this.initHistory(false)
         },
         gotoHistoryRoute(item: any) {
             const elem = this.$refs[`${prefixCls}-item-${item.name}`]
