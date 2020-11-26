@@ -4,7 +4,14 @@
 
 .@{mi-layout} {
     &-container {
-        height: 100vh;
+        .properties(padding-left, 256);
+        transition: all .3s ease;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        min-height: 100vh;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     &-header {
@@ -13,6 +20,8 @@
         .flex(center, space-between);
         padding-left: 0;
         padding-right: 0;
+        position: fixed;
+        width: calc(100vw - 256px);
         z-index: 11;
 
         &-left,
@@ -68,6 +77,7 @@
         background: @mi-sider-color;
         transition: all 0.3s ease;
         box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+        position: fixed;
         overflow: hidden;
         z-index: 13;
 
@@ -173,7 +183,9 @@
 
     &-content {
         background: @mi-body-color;
-        .properties(padding, 24);
+        .properties(padding-left, 24);
+        .properties(padding-right, 24);
+        padding-top: @mi-header-height * 2;
         transition: all .3s ease;
     }
 
@@ -206,6 +218,16 @@
                     h1 {
                         display: none;
                     }
+                }
+            }
+        }
+
+        && + .@{mi-layout} {
+            &-container {
+                .properties(padding-left, 80);
+
+                .@{mi-layout}-header {
+                    width: calc(100vw - 80px);
                 }
             }
         }

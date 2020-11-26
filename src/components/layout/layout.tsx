@@ -67,6 +67,7 @@ const MiLayout = defineComponent({
                         { () => (
                             <>
                                 { this.getHeaderElem() }
+                                
                                 <MiLayoutContent></MiLayoutContent>
                                 { this.getFooterElem() }
                             </>
