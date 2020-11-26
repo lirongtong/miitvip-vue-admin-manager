@@ -1,18 +1,22 @@
 import { defineComponent, createVNode } from 'vue'
-import { Form, Row, Col, Input, Popover } from 'ant-design-vue'
+import { Form, Row, Col, Input, Popover, Button } from 'ant-design-vue'
 import { UserOutlined, MailOutlined } from '@ant-design/icons-vue'
+import { RouterLink } from 'vue-router'
 import MiLayout from '../layout'
 import MiModal from '../modal'
 import MiPassport from '../password'
 import MiCaptcha from '../captcha'
+import MiLoginQuick from '../login/quick'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import { $tools } from '../../utils/tools'
 
 let isVerify = false
 const prefixCls = $tools.getPrefixCls('passport')
+const registerFormRef = `${prefixCls}-register-form`
 export default defineComponent({
     name: 'MiRegister',
     props: {
+        action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
         background: PropTypes.string,
         title: PropTypes.string,
         captchaInitAction: PropTypes.string,
@@ -24,6 +28,7 @@ export default defineComponent({
         usernameVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         emailVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         socialiteLoginDomain: PropTypes.string,
+        loginLink: PropTypes.string,
         rules: PropTypes.object,
         content: PropTypes.any,
         usernameTip: PropTypes.any
@@ -49,6 +54,10 @@ export default defineComponent({
                     }
                 }
         }
+    },
+    mounted() {
+        this.form.validate.captcha = !!(this.captchaInitAction && this.captchaVerifyAction)
+        !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
         checkUserName(_rule: any, value: string, _callback: any) {
@@ -199,6 +208,44 @@ export default defineComponent({
             }
             return null
         },
+        getButtonElem() {
+            const login = this.$g.mobile ? (
+                <Button size="large" class={`${prefixCls}-submit ${prefixCls}-submit-register`}>
+                    { () => (
+                        <RouterLink to={{path: '/login'}}>
+                            { () => '已有账号？前往登录' }
+                        </RouterLink>
+                    ) }
+                </Button>
+            ) : null
+            return (
+                <>
+                    <Button class={`${prefixCls}-submit`} onClick={this.handleRegister}>
+                        { () => '注册' }
+                    </Button>
+                    { login }
+                </>
+            )
+        },
+        getQuickLoginElem() {
+            const link = !this.loginLink
+                ? (<RouterLink to={{path: '/login'}}>{ () => '登录' }</RouterLink>)
+                : (<a href={this.loginLink} innerHTML="登录"></a>)
+            return (
+                <Form.Item class={`${prefixCls}-socialite`}>
+                    { () => (
+                        <>
+                            { !this.$g.mobile ? (
+                                <div class={`${prefixCls}-socialite-link`}>
+                                    已有账号？{ link }
+                                </div>
+                            ) : null }
+                            <MiLoginQuick></MiLoginQuick>
+                        </>
+                    ) }
+                </Form.Item>
+            )
+        },
         getFormElem() {
             const formPrefixCls = this.$tools.getPrefixCls('form')
             return (
@@ -206,7 +253,7 @@ export default defineComponent({
                     <Form
                         layout="vertical"
                         class={formPrefixCls}
-                        ref={`${prefixCls}-register-form`}
+                        ref={registerFormRef}
                         model={this.form.validate}
                         rules={Object.assign({}, this.form.rules, this.rules)}>
                         { () => (
@@ -215,11 +262,14 @@ export default defineComponent({
                                 { this.getEmailElem() }
                                 <MiPassport
                                     repeat={true}
+                                    loading={this.loading}
                                     value={this.form.validate.password}
                                     onRepeatChange={this.handlePassworRepeatValue}
                                     onChange={this.handlePasswordValue}>
                                 </MiPassport>
                                 { this.getCaptchaElem() }
+                                { this.getButtonElem() }
+                                { this.getQuickLoginElem() }
                             </>
                         ) }
                     </Form>
@@ -234,6 +284,28 @@ export default defineComponent({
                 this.captchaOnSuccess &&
                 typeof this.captchaOnSuccess === 'function'
             ) this.captchaOnSuccess.call(this, data)
+        },
+        handleRegister() {
+            if (this.loading) return 
+            this.loading = true
+            this.$refs[registerFormRef].validate().then(() => {
+                if (
+                    !this.form.validate.captcha ||
+                    (this.form.validate.captcha && this.captcha)
+                ) {
+                    if (typeof this.action === 'string') {
+                        this.$store.dispatch('passport/register', this.form.validate).then((res: any) => {
+                            this.loading = false
+                            if (res.ret.code === 1) this.$router.push({path: '/'})
+                            else MiModal.error({content: res.ret.message})
+                        }).catch((err: any) => {
+                            MiModal.error({content: err.message})
+                        })
+                    } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                } else this.loading = false
+            }).catch(() => {
+                this.loading = false
+            })
         }
     },
     render() {

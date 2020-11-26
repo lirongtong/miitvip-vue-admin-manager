@@ -217,17 +217,15 @@ const Login = defineComponent({
         },
         getQuickLoginElem() {
             const prefixCls = this.getPrefixCls()
-            const link = !this.registerLink ? (
-                <RouterLink to={{path: '/register'}}>{ () => '注册' }</RouterLink>
-            ) : (
-                <a href={this.registerLink} innerHTML="注册"></a>
-            )
+            const link = !this.registerLink
+                ? (<RouterLink to={{path: '/register'}}>{ () => '注册' }</RouterLink>)
+                : (<a href={this.registerLink} innerHTML="注册"></a>)
             return (
                 <Form.Item class={`${prefixCls}-socialite`}>
                     { () => (
                         <>
                             { !this.$g.mobile ? (
-                                <div class={`${prefixCls}-socialite-register`}>
+                                <div class={`${prefixCls}-socialite-link`}>
                                     没有账号？{ link }
                                 </div>
                             ) : null }

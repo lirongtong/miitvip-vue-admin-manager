@@ -5,12 +5,15 @@ import {
     CheckOutlined, CloseOutlined
 } from '@ant-design/icons-vue'
 import PropTypes from '../../utils/props'
+import { $tools } from '../../utils/tools'
 
+const formRef = $tools.getPrefixCls('password-form')
 export default defineComponent({
     name: 'MiPassword',
     props: {
         repeat: PropTypes.bool.def(false),
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        loading: PropTypes.bool.def(false),
         tips: PropTypes.any,
         rules: PropTypes.object,
         onChange: PropTypes.func,
@@ -44,6 +47,11 @@ export default defineComponent({
                     repeat: [{required: vm.repeat, validator: vm.checkRepeat}]
                 }
             }
+        }
+    },
+    watch: {
+        loading(_o: boolean, v: boolean) {
+            if (v === true) this.$refs[formRef].validate()
         }
     },
     methods: {
@@ -193,10 +201,9 @@ export default defineComponent({
         }
     },
     render() {
-        const ref = this.$tools.getPrefixCls('password-form')
         return (
             <Form
-                ref={ref}
+                ref={formRef}
                 layout="vertical"
                 model={this.form.validate}
                 rules={Object.assign({}, this.form.rules, this.rules)}>
