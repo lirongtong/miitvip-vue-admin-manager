@@ -133,7 +133,9 @@ export default defineComponent({
             let template = defaultInput
             if (content !== null) {
                 template = (
-                    <Popover placement="top" trigger="focus" content={content}>
+                    <Popover placement="top"
+                        trigger="focus"
+                        content={content}>
                         { () => defaultInput }
                     </Popover>
                 )
@@ -148,7 +150,7 @@ export default defineComponent({
             let content = getSlotContent(this, 'usernameTip')
             if (content === undefined) {
                 content = (
-                    <div class={`${prefixCls}-register-tips`}>
+                    <div class={`${prefixCls}-register-tips${this.$g.mobile ? ` ${prefixCls}-register-tips-mobile` : ''}`}>
                         <p><span class="red">&lt; 特别提醒 &gt;</span> 登录用户名，一旦设置，则无法更改。</p>
                         <p>- 由 <span class="theme-color">字母</span>、<span class="theme-color">数字</span> 或 <span class="theme-color">下划线</span> 组成。</p>
                         <p>- 只能以 <span class="theme-color">字母开头</span>，例如：makeit。</p>

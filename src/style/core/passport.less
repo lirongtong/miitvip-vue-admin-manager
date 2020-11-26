@@ -257,6 +257,10 @@
 			p:last-child {
 				margin-bottom: 0;
 			}
+
+			&-mobile {
+				.properties(font-size, @mi-font-size-sm);
+			}
 		}
 	}
 }
@@ -307,6 +311,16 @@
 				&.active {
 					background: @mi-theme-color;
 				}
+			}
+		}
+	}
+}
+
+.@{mi-passport} {
+	&-register-tips-mobile {
+		.@{mi-password} {
+			&-strength-item {
+				.properties(width, 320);
 			}
 		}
 	}

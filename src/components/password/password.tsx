@@ -144,7 +144,7 @@ export default defineComponent({
             const prefixCls = this.$tools.getPrefixCls('passport')
             const strengthCls = this.$tools.getPrefixCls('password-strength')
             return (
-                <div class={`${prefixCls}-register-tips`}>
+                <div class={`${prefixCls}-register-tips${this.$g.mobile ? ` ${prefixCls}-register-tips-mobile` : ''}`}>
                     <div class={`${strengthCls}-item`}>
                         <span>密码强度</span>
                         <div class={`${strengthCls}-group`}>
