@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import { Layout } from 'ant-design-vue'
 import MiBreadcrumb from './breadcrumb'
+import MiRouteHistory from '../history'
 
 export default defineComponent({
     name: 'MiContent',
@@ -16,6 +17,7 @@ export default defineComponent({
                 { () => (
                     <>
                         <MiBreadcrumb></MiBreadcrumb>
+                        <MiRouteHistory></MiRouteHistory>
                         <RouterView></RouterView>
                     </>
                 ) }

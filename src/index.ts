@@ -12,6 +12,7 @@ import { default as Login } from './components/login'
 import { default as Register } from './components/register'
 import { default as Password } from './components/password'
 import { default as Layout } from './components/layout'
+import { default as History } from './components/history'
 import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
@@ -29,6 +30,7 @@ const components = [
     Register,
     Password,
     Layout,
+    History,
     Notice,
     Dropdown,
     Modal,
@@ -63,6 +65,7 @@ export {
     Register,
     Password,
     Layout,
+    History,
     Notice,
     Dropdown,
     Modal,

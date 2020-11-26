@@ -1,4 +1,5 @@
 import './components/layout/style'
+import './components/history/style'
 import './components/notice/style'
 import './components/login/style'
 import './components/register/style'

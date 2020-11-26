@@ -1,0 +1,123 @@
+@import '../../../style/theme/index';
+
+@mi-layout: ~'@{mi-prefix}layout';
+@mi-history: ~'@{mi-layout}-history';
+
+.@{mi-history} {
+    position: fixed;
+    top: @mi-header-height + 3.5rem;
+    left: @mi-sider-width;
+    background: @mi-sider-color;
+    .properties(padding-left, 24);
+    .properties(padding-bottom);
+    .properties(padding-top);
+    .properties(right, 0);
+    .flex(center, flex-start);
+    transition: all .3s ease-in-out;
+
+    &-btn {
+        .properties(width, 32);
+        .properties(height, 32);
+        .flex();
+        cursor: pointer;
+
+        &&.disabled {
+            cursor: not-allowed;
+        }
+
+        .anticon {
+            .properties(font-size, 14);
+            .properties(width, 32);
+            .properties(height, 32);
+            .flex();
+        }
+    }
+
+    &-list {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &-list,
+    &-items {
+        .flex(center, flex-start);
+    }
+
+    &-items {
+        transform: translateX(0);
+        transition: all .3s ease-in-out;
+    }
+
+    &-item {
+        .properties(height, 32);
+        background: fade(@mi-white-color, 20%);
+        .flex();
+        .properties(padding-left, 16);
+        .properties(padding-right);
+        color: @mi-white-color;
+        .properties(margin-right);
+        .properties(font-size, 14);
+        .border-radius();
+        .text-ellipsis();
+        cursor: pointer;
+
+        span {
+            .properties(margin-right, 8);
+            .properties(font-size, 12);
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        &&.active {
+            color: @mi-theme-color;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &-menu {
+        .properties(width, 32);
+        .properties(height, 32);
+        .border-radius();
+        .properties(margin-right);
+        .properties(margin-left);
+        background: fade(@mi-white-color, 20%);
+        .flex();
+        cursor: pointer;
+        
+        .anticon {
+            .flex();
+            .properties(font-size, 14);
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &&-btn-disabled {
+        .properties(padding-left, 32);
+
+        .@{mi-history} {
+            &-btn {
+                display: none;
+            }
+        }
+    }
+}
+
+.ant-layout-sider {
+    &-collapsed {
+        && + .@{mi-layout} {
+            &-container {
+                .@{mi-layout} {
+                    &-history {
+                        .properties(left, 80);
+                    }
+                }
+            }
+        }
+    }
+}

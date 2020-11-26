@@ -22,6 +22,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
     meta: {title: '首页'},
     children: [{
         path: 'start',
+        name: 'start',
         meta: {title: '快速开始'},
         component: Start 
     }, {
@@ -30,10 +31,12 @@ const menuRouter: Array<RouteRecordRaw> = [{
         redirect: 'passport/login',
         children: [{
             path: 'login',
+            name: 'login',
             meta: {title: '登录页面'},
             component: Login
         }, {
             path: 'register',
+            name: 'register',
             meta: {title: '注册页面'},
             component: Register
         }]
@@ -43,6 +46,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
         redirect: 'tools/editor',
         children: [{
             path: 'editor',
+            name: 'editor',
             meta: {title: '编辑器'},
             component: ToolsEditor
         }, {
@@ -52,6 +56,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
             redirect: 'tools/captcha/message',
             children: [{
                 path: 'message',
+                name: 'message',
                 meta: {title: '短信验证码'},
                 component: ToolsCaptchaMessage
             }]
@@ -63,14 +68,17 @@ const menuRouter: Array<RouteRecordRaw> = [{
         redirect: 'list/normal',
         children: [{
             path: 'normal',
+            name: 'normal',
             meta: {title: '基础列表'},
             component: ListNormal
         }, {
             path: 'card',
+            name: 'card',
             meta: {title: '卡片列表'},
             component: ListCard
         }, {
             path: 'goods',
+            name: 'goods',
             meta: {title: '商品列表'},
             component: ListGoods
         }]
