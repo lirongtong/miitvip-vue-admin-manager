@@ -25,15 +25,15 @@ export default defineComponent({
         }
     },
     watch: {
-        collapsed() {this.$nextTick(() => {this.initHistory(false)})},
+        collapsed() {this.$nextTick(() => this.initHistory(false))},
 
-        $route() {this.initHistory()}
+        $route() {this.$nextTick(() => this.initHistory())}
     },
     beforeUnmount() {
         this.$tools.off(window, 'resize', this.windowResize)
     },
     mounted() {
-        this.initHistory()
+        this.$nextTick(() => this.initHistory())
         this.$tools.on(window, 'resize', this.windowResize)
     },
     methods: {
@@ -121,7 +121,7 @@ export default defineComponent({
                 const history = Object.assign({}, this.routes)
                 this.$store.commit(`layout/${mutations.layout.routes}`, history)
             }
-            this.initHistory(false)
+            this.$nextTick(() => this.initHistory(false))
         },
         gotoHistoryRoute(item: any) {
             const elem = this.$refs[`${prefixCls}-item-${item.name}`]
