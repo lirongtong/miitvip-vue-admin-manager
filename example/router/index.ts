@@ -87,12 +87,12 @@ const menuRouter: Array<RouteRecordRaw> = [{
 
 const passportRouter: Array<RouteRecordRaw> = [{
     path: '/login',
-    name: 'login',
+    name: 'single-login',
     meta: {title: '登录'},
     component: LoginSingle
 }, {
     path: '/register',
-    name: 'register',
+    name: 'single-register',
     meta: {title: '注册'},
     component: RegisterSingle
 }]
