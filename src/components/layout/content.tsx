@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import { Layout } from 'ant-design-vue'
+import MiBreadcrumb from './breadcrumb'
 
 export default defineComponent({
     name: 'MiContent',
@@ -12,7 +13,12 @@ export default defineComponent({
     render() {
         return (
             <Layout.Content class="mi-layout-content">
-                { () => <RouterView></RouterView> }
+                { () => (
+                    <>
+                        <MiBreadcrumb></MiBreadcrumb>
+                        <RouterView></RouterView>
+                    </>
+                ) }
             </Layout.Content>
         )
     }
