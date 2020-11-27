@@ -25,10 +25,10 @@ const Modal = defineComponent({
             return (
                 <div class={`${prefixCls}-btns`}>
                     <Button type="default" class={`${prefixCls}-btn`} onClick={this.handleCancel}>
-                        { () => getSlotContent(this, 'cancelText') || '取消' }
+                        { getSlotContent(this, 'cancelText') || '取消' }
                     </Button>
                     <Button type="primary" class={`${prefixCls}-btn-primary`} onClick={this.handleOk}>
-                        { () => getSlotContent(this, 'okText') || '确定' }
+                        { getSlotContent(this, 'okText') || '确定' }
                     </Button>
                 </div>
             )
@@ -59,9 +59,7 @@ const Modal = defineComponent({
             cancel: this.handleCancel
         }
         if (container === false) {
-            return (
-                <MiPopup {...props}>{ () => getSlot(this) }</MiPopup>
-            )
+            return <MiPopup {...props}>{ getSlot(this) }</MiPopup>
         }
         return (
             <MiTeleport
@@ -70,7 +68,7 @@ const Modal = defineComponent({
                 container={container}
                 children={(child: any) => {
                     props = {...props, ...child}
-                    return <MiPopup {...props}>{ () => getSlot(this) }</MiPopup>
+                    return <MiPopup {...props}>{ getSlot(this) }</MiPopup>
                 }}
             />
         )

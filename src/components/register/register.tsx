@@ -136,13 +136,13 @@ export default defineComponent({
                     <Popover placement="top"
                         trigger="focus"
                         content={content}>
-                        { () => defaultInput }
+                        { defaultInput }
                     </Popover>
                 )
             }
             return (
                 <Form.Item name="username" ref="username">
-                    { () => template }
+                    { template }
                 </Form.Item>
             )
         },
@@ -167,14 +167,14 @@ export default defineComponent({
         getEmailElem() {
             return (
                 <Form.Item name="email" ref="email">
-                    { () => <Input
+                    <Input
                         type="email"
                         prefix={createVNode(MailOutlined)}
                         value={this.form.validate.email}
                         onInput={this.handleEmailValue}
                         maxlength={256}
                         placeholder="请输入邮箱地址">
-                    </Input> }
+                    </Input>
                 </Form.Item>
             )
         },
@@ -195,16 +195,14 @@ export default defineComponent({
             ) {
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
-                        { () => (
-                            <MiCaptcha
-                                maxTries={this.captchaMaxTries}
-                                themeColor={this.captchaThemeColor}
-                                background={this.captchaBackground}
-                                initAction={this.captchaInitAction}
-                                verifyAction={this.captchaVerifyAction}
-                                onSuccess={this.handleCaptchaVerify}>
-                            </MiCaptcha>
-                        ) }
+                        <MiCaptcha
+                            maxTries={this.captchaMaxTries}
+                            themeColor={this.captchaThemeColor}
+                            background={this.captchaBackground}
+                            initAction={this.captchaInitAction}
+                            verifyAction={this.captchaVerifyAction}
+                            onSuccess={this.handleCaptchaVerify}>
+                        </MiCaptcha>
                     </Form.Item>
                 )
             }
@@ -213,38 +211,28 @@ export default defineComponent({
         getButtonElem() {
             const login = this.$g.mobile ? (
                 <Button size="large" class={`${prefixCls}-submit ${prefixCls}-submit-register`}>
-                    { () => (
-                        <RouterLink to={{path: '/login'}}>
-                            { () => '已有账号？前往登录' }
-                        </RouterLink>
-                    ) }
+                    <RouterLink to={{path: '/login'}}>已有账号？前往登录</RouterLink>
                 </Button>
             ) : null
             return (
                 <>
-                    <Button class={`${prefixCls}-submit`} onClick={this.handleRegister}>
-                        { () => '注册' }
-                    </Button>
+                    <Button class={`${prefixCls}-submit`} onClick={this.handleRegister}>注册</Button>
                     { login }
                 </>
             )
         },
         getQuickLoginElem() {
             const link = !this.loginLink
-                ? (<RouterLink to={{path: '/login'}}>{ () => '登录' }</RouterLink>)
+                ? (<RouterLink to={{path: '/login'}}>登录</RouterLink>)
                 : (<a href={this.loginLink} innerHTML="登录"></a>)
             return (
                 <Form.Item class={`${prefixCls}-socialite`}>
-                    { () => (
-                        <>
-                            { !this.$g.mobile ? (
-                                <div class={`${prefixCls}-socialite-link`}>
-                                    已有账号？{ link }
-                                </div>
-                            ) : null }
-                            <MiLoginQuick></MiLoginQuick>
-                        </>
-                    ) }
+                    { !this.$g.mobile ? (
+                        <div class={`${prefixCls}-socialite-link`}>
+                            已有账号？{ link }
+                        </div>
+                    ) : null }
+                    <MiLoginQuick></MiLoginQuick>
                 </Form.Item>
             )
         },
@@ -258,22 +246,18 @@ export default defineComponent({
                         ref={registerFormRef}
                         model={this.form.validate}
                         rules={Object.assign({}, this.form.rules, this.rules)}>
-                        { () => (
-                            <>
-                                { this.getUserNameElem() }
-                                { this.getEmailElem() }
-                                <MiPassport
-                                    repeat={true}
-                                    loading={this.loading}
-                                    value={this.form.validate.password}
-                                    onRepeatChange={this.handlePassworRepeatValue}
-                                    onChange={this.handlePasswordValue}>
-                                </MiPassport>
-                                { this.getCaptchaElem() }
-                                { this.getButtonElem() }
-                                { this.getQuickLoginElem() }
-                            </>
-                        ) }
+                        { this.getUserNameElem() }
+                        { this.getEmailElem() }
+                        <MiPassport
+                            repeat={true}
+                            loading={this.loading}
+                            value={this.form.validate.password}
+                            onRepeatChange={this.handlePassworRepeatValue}
+                            onChange={this.handlePasswordValue}>
+                        </MiPassport>
+                        { this.getCaptchaElem() }
+                        { this.getButtonElem() }
+                        { this.getQuickLoginElem() }
                     </Form>
                 </div>
             )
@@ -318,15 +302,11 @@ export default defineComponent({
         return (
             <div class={cls} style={style}>
                 <Row class={`${prefixCls}-content`} align={this.$g.mobile ? 'top' : 'middle'}>
-                { () => <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
-                        { () => (
-                            <>
-                                { this.getMaskElem() }
-                                { this.getTitleElem() }
-                                { formTemplate }
-                            </>
-                        ) }
-                    </Col> }
+                    <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
+                        { this.getMaskElem() }
+                        { this.getTitleElem() }
+                        { formTemplate }
+                    </Col>
                 </Row>
                 <MiLayout.Footer></MiLayout.Footer>
             </div>

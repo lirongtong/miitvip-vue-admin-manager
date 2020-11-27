@@ -23,11 +23,11 @@ export default defineComponent({
                     <RouterLink
                         to={this.item.path}
                         class={`${prefixCls}-link`}>
-                        { () => <MiMenuItemLink
+                        <MiMenuItemLink
                             item={this.item}
                             top={this.top}
                             title={this.title}>
-                        </MiMenuItemLink> }
+                        </MiMenuItemLink>
                     </RouterLink>
                 )
             } else {
@@ -51,7 +51,7 @@ export default defineComponent({
         const key = this.$g.prefix + (this.item ? this.item.name : this.$tools.uid())
         return (
             <Menu.Item class={prefixCls} key={key}>
-                { () => this.getMenuItemElem() }
+                { this.getMenuItemElem() }
             </Menu.Item>
         )
     }

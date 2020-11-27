@@ -97,16 +97,14 @@ const Login = defineComponent({
                         ref={`${prefixCls}-login-form`}
                         model={this.form.validate}
                         rules={Object.assign({}, this.form.rules, this.rules)}>
-                        { () => (
-                            <>
-                                { this.getUserNameElem() }
-                                { this.getPasswordElem() }
-                                { this.getCaptchaElem() }
-                                { this.getRememberBtnElem() }
-                                { this.getButtonElem() }
-                                { this.getQuickLoginElem() }
-                            </>
-                        ) }
+                        <>
+                            { this.getUserNameElem() }
+                            { this.getPasswordElem() }
+                            { this.getCaptchaElem() }
+                            { this.getRememberBtnElem() }
+                            { this.getButtonElem() }
+                            { this.getQuickLoginElem() }
+                        </>
                     </Form>
                 </div>
             )
@@ -114,13 +112,13 @@ const Login = defineComponent({
         getUserNameElem() {
             return (
                 <Form.Item name="username">
-                    { () => <Input
+                    <Input
                         prefix={createVNode(UserOutlined)}
                         value={this.form.validate.username}
                         onInput={this.handleUserNameValue}
                         maxlength={64}
                         placeholder="请输入用户名 / 邮箱地址 / 手机号码">
-                    </Input> }
+                    </Input>
                 </Form.Item>
             )
         },
@@ -153,7 +151,7 @@ const Login = defineComponent({
             }
             return (
                 <Form.Item name="password">
-                    { () => password }
+                    { password }
                 </Form.Item>
             )
         },
@@ -165,16 +163,14 @@ const Login = defineComponent({
                 const prefixCls = this.getPrefixCls()
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
-                        { () => (
-                            <MiCaptcha
-                                maxTries={this.captchaMaxTries}
-                                themeColor={this.captchaThemeColor}
-                                background={this.captchaBackground}
-                                initAction={this.captchaInitAction}
-                                verifyAction={this.captchaVerifyAction}
-                                onSuccess={this.handleCaptchaVerify}>
-                            </MiCaptcha>
-                        ) }
+                        <MiCaptcha
+                            maxTries={this.captchaMaxTries}
+                            themeColor={this.captchaThemeColor}
+                            background={this.captchaBackground}
+                            initAction={this.captchaInitAction}
+                            verifyAction={this.captchaVerifyAction}
+                            onSuccess={this.handleCaptchaVerify}>
+                        </MiCaptcha>
                     </Form.Item>
                 )
             }
@@ -184,14 +180,10 @@ const Login = defineComponent({
             const prefixCls = this.getPrefixCls()
             return (
                 <Form.Item class={`${prefixCls}-remember`}>
-                    { () => (
-                        <>
-                            <Checkbox checked={this.form.validate.remember}>{ () => '保持登录' }</Checkbox>
-                            <RouterLink to={{path: '/'}} class={`${prefixCls}-forget`}>
-                                { () => (<><QuestionCircleOutlined />忘记密码</>) }
-                            </RouterLink>
-                        </>
-                    ) }
+                    <Checkbox checked={this.form.validate.remember}>保持登录</Checkbox>
+                    <RouterLink to={{path: '/'}} class={`${prefixCls}-forget`}>
+                        <QuestionCircleOutlined />忘记密码
+                    </RouterLink>
                 </Form.Item>
             )
         },
@@ -199,18 +191,12 @@ const Login = defineComponent({
             const prefixCls = this.getPrefixCls()
             const register = this.$g.mobile ? (
                 <Button size="large" class={`${prefixCls}-submit ${prefixCls}-submit-register`}>
-                    { () => (
-                        <RouterLink to={{path: '/register'}}>
-                            { () => '没有账号？立即注册' }
-                        </RouterLink>
-                    ) }
+                    <RouterLink to={{path: '/register'}}>没有账号？立即注册</RouterLink>
                 </Button>
             ) : null
             return (
                 <>
-                    <Button class={`${prefixCls}-submit`} onClick={this.handleLogin}>
-                        { () => '登录' }
-                    </Button>
+                    <Button class={`${prefixCls}-submit`} onClick={this.handleLogin}>登录</Button>
                     { register }
                 </>
             )
@@ -218,20 +204,18 @@ const Login = defineComponent({
         getQuickLoginElem() {
             const prefixCls = this.getPrefixCls()
             const link = !this.registerLink
-                ? (<RouterLink to={{path: '/register'}}>{ () => '注册' }</RouterLink>)
-                : (<a href={this.registerLink} innerHTML="注册"></a>)
+                ? <RouterLink to={{path: '/register'}}>注册</RouterLink>
+                : <a href={this.registerLink} innerHTML="注册"></a>
             return (
                 <Form.Item class={`${prefixCls}-socialite`}>
-                    { () => (
-                        <>
-                            { !this.$g.mobile ? (
-                                <div class={`${prefixCls}-socialite-link`}>
-                                    没有账号？{ link }
-                                </div>
-                            ) : null }
-                            <MiLoginQuick></MiLoginQuick>
-                        </>
-                    ) }
+                    <>
+                        { !this.$g.mobile ? (
+                            <div class={`${prefixCls}-socialite-link`}>
+                                没有账号？{ link }
+                            </div>
+                        ) : null }
+                        <MiLoginQuick></MiLoginQuick>
+                    </>
                 </Form.Item>
             )
         },
@@ -295,15 +279,11 @@ const Login = defineComponent({
         return (
             <div class={className} style={style}>
                 <Row class={`${prefixCls}-content`} align={this.$g.mobile ? 'top' : 'middle'}>
-                    { () => <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
-                        { () => (
-                            <>
-                                { this.getMaskElem() }
-                                { this.getTitleElem() }
-                                { formTemplate }
-                            </>
-                        ) }
-                    </Col> }
+                    <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
+                        { this.getMaskElem() }
+                        { this.getTitleElem() }
+                        { formTemplate }
+                    </Col>
                 </Row>
                 <MiLayout.Footer></MiLayout.Footer>
             </div>

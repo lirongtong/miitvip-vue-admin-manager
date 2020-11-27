@@ -12,15 +12,13 @@ export default defineComponent({
     },
     render() {
         const prefixCls = this.$tools.getPrefixCls('layout-footer')
-        let slots = this.$slots.default
-        if (slots === undefined) {
-            slots = () => (
-                <div class={`${prefixCls}-content`} innerHTML={this.copyright}></div>
-            )
+        let defaultSlot = this.$slots.default
+        if (!defaultSlot) {
+            defaultSlot = () => <div class={`${prefixCls}-content`} innerHTML={this.copyright}></div>
         }
         return (
             <Layout.Footer class={prefixCls}>
-                { slots }
+                { defaultSlot() }
             </Layout.Footer>
         )
     }

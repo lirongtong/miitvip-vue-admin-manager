@@ -49,7 +49,7 @@ export default defineComponent({
             if (this.mask) {
                 maskElem = (
                     <Transition key="mask" name="mi-fade" appear>
-                        { () => withDirectives((
+                        { withDirectives((
                             <div
                                 class={`${this.prefixCls}-mask`}
                                 style={this.getMaskStyle()}
@@ -126,7 +126,7 @@ export default defineComponent({
                     name={`mi-${this.animation}`}
                     onAfterLeave={this.handleAnimAfterLeave}
                     appear>
-                    { () => withDirectives((
+                    { withDirectives((
                         <div class={`${prefixCls}-content`} style={style}>
                             { closer }
                             { header }
@@ -144,14 +144,12 @@ export default defineComponent({
         const style = this.getWrapStyle()
         if (this.visible) style.display = null
         return (
-            <>
-                <div class={`${prefixCls} ${prefixCls}-anim-${this.animation}`} role="modal">
-                    { this.getMaskElem() }
-                    <div class={this.getWrapClass()} ref="wrap" style={style}>
-                        { this.getModalElem() }
-                    </div>
+            <div class={`${prefixCls} ${prefixCls}-anim-${this.animation}`} role="modal">
+                { this.getMaskElem() }
+                <div class={this.getWrapClass()} ref="wrap" style={style}>
+                    { this.getModalElem() }
                 </div>
-            </>
+            </div>
         )
     }
 })

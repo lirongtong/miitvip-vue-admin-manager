@@ -14,13 +14,9 @@ export default defineComponent({
     render() {
         return (
             <Layout.Content class="mi-layout-content">
-                { () => (
-                    <>
-                        <MiBreadcrumb></MiBreadcrumb>
-                        <MiRouteHistory></MiRouteHistory>
-                        <RouterView></RouterView>
-                    </>
-                ) }
+                <MiBreadcrumb></MiBreadcrumb>
+                <MiRouteHistory></MiRouteHistory>
+                <RouterView></RouterView>
             </Layout.Content>
         )
     }

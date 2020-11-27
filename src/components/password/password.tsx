@@ -182,7 +182,7 @@ export default defineComponent({
         getRepeatElem() {
             return this.repeat ? (
                 <Form.Item name="repeat" ref="repeat">
-                    { () => this.getPasswordElem(
+                    { this.getPasswordElem(
                         this.form.validate.repeat,
                         this.handlerRepeatValue,
                         this.handleRepeatVisible,
@@ -207,22 +207,16 @@ export default defineComponent({
                 layout="vertical"
                 model={this.form.validate}
                 rules={Object.assign({}, this.form.rules, this.rules)}>
-                { () => (
-                    <>
-                        <Form.Item name="password" ref="password">
-                            { () => (
-                                <Popover trigger="focus" placement="top" content={this.getPopoverContent}>
-                                    { () => this.getPasswordElem(
-                                        this.form.validate.password,
-                                        this.handlePasswordValue,
-                                        this.handlePasswordVisible
-                                    ) }
-                                </Popover>
-                            ) }
-                        </Form.Item>
-                        { this.getRepeatElem() }
-                    </>
-                ) }
+                <Form.Item name="password" ref="password">
+                    <Popover trigger="focus" placement="top" content={this.getPopoverContent}>
+                        { this.getPasswordElem(
+                            this.form.validate.password,
+                            this.handlePasswordValue,
+                            this.handlePasswordVisible
+                        ) }
+                    </Popover>
+                </Form.Item>
+                { this.getRepeatElem() }
             </Form>
         )
     }

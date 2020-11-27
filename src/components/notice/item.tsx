@@ -32,9 +32,7 @@ export default defineComponent({
             let avatar = null
             if (this.avatar || icon) {
                 const style = this.avatarColor ? {background: this.avatarColor} : null
-                avatar = (
-                    <Avatar class={`${prefixCls}-avatar`} src={this.avatar} icon={icon} style={style}></Avatar>
-                )
+                avatar = <Avatar class={`${prefixCls}-avatar`} src={this.avatar} icon={icon} style={style}></Avatar>
             }
             return avatar
         }

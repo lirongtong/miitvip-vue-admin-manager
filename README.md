@@ -47,12 +47,18 @@ npm i makeit-admin-pro
 ## 使用
 ```ts
 import { createApp } from 'vue'
-import App from './App.vue'
-
+import { createStore } from 'vuex'
+import router from './router'
 import MakeitAdminPro from 'makeit-admin-pro'
+import App from './app.vue'
+import 'ant-design-vue/dist/antd.min.css'
 import 'makeit-admin-pro/dist/miitvip.min.css'
 
-createApp(App).use(MakeitAdminPro).mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(createStore({}))
+app.use(MakeitAdminPro)
+app.mount('#app')
 ```
 
 ## 布局
@@ -60,17 +66,21 @@ createApp(App).use(MakeitAdminPro).mount('#app')
 <template>
     <mi-layout></mi-layout>
 </template>
+```
 
-/**
- * 组件支持的参数
- * [ embed: boolean ] - 是否为嵌入模块（嵌入模块只显示 Content 区域，其它内容不显示）
- * [ siderClassName: string ] - 左侧 Sider 样式类名
- * [ menuClassName: string ] - 左侧菜单样式类名，方便自定义样式
- * [ sider: Slot | VNode ] - 通过 <template v-slot:sider></template> 的形式自定义 Sider 内容
- * [ header: Slot | VNode ] - 通过 <template v-slot:header></template> 的形式自定义 Header 内容
- * [ footer: Slot | VNode ] - 通过 <template v-slot:footer></template> 的形式自定义 Footer 内容
- */
+## 登录
+```vue
+<template>
+    <mi-login></mi-login>
+</template>
+```
+
+## 注册
+```vue
+<template>
+    <mi-register></mi-register>
+</template>
 ```
 
 ## 更多
-> 更多内容请查看示例：https://admin.makeit.vip
+> 更多内容及使用请查看在线示例：[https://admin.makeit.vip](https://admin.makeit.vip)

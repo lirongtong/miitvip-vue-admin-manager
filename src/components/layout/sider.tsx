@@ -49,12 +49,8 @@ const MiLayoutSider = defineComponent({
                 onBreakpoint={this.setCollapsed}
                 trigger={null}
                 collapsible={true}>
-                { () => (
-                    <>
-                        { this.getLogoElem() }
-                        { this.getMenuElem() }
-                    </>
-                ) }
+                { this.getLogoElem() }
+                { this.getMenuElem() }
             </Layout.Sider>
         )
     }

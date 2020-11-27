@@ -173,7 +173,7 @@ export default defineComponent({
                 openKeys={this.$g.menus.opens}
                 selectedKeys={this.$g.menus.active}
                 class={cls}>
-                { () => this.getItems() }
+                { this.getItems() }
             </Menu>
         )
     }

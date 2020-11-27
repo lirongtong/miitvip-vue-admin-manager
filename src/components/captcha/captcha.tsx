@@ -213,7 +213,7 @@ export default defineComponent({
         getRadarTipElem() {
             const prefixCls = this.getPrefixCls()
             const cls =  `${prefixCls}-radar-tip${this.failed ? ` ${prefixCls}-radar-tip-error` : ''}`
-            return (<div class={cls} innerHTML={this.tip}></div>)
+            return <div class={cls} innerHTML={this.tip}></div>
         },
         getRadarLogoElem() {
             const prefixCls = this.getPrefixCls()

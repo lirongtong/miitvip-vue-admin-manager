@@ -31,7 +31,7 @@ const MiNotice = defineComponent({
             return (
                 <div class={`${prefixCls}-icon`}>
                     <Badge count={this.count} dot={this.dot}>
-                        { () => (icon ?? <BellOutlined style={iconSize}></BellOutlined>) }
+                        { (icon ?? <BellOutlined style={iconSize}></BellOutlined>) }
                     </Badge>
                 </div>
             )
@@ -41,10 +41,7 @@ const MiNotice = defineComponent({
             const list = []
             for (let n = 0, l = data.length; n < l; n++) {
                 let title = null
-                if (data[n].title) {
-                    title = (<div class={`${prefixCls}-title`} innerHTML={data[n].title} />)
-                }
-
+                if (data[n].title) title = <div class={`${prefixCls}-title`} innerHTML={data[n].title} />
                 let icon = null
                 if (data[n].icon) {
                     const IconComponent = `${data[n].icon}`
@@ -54,7 +51,6 @@ const MiNotice = defineComponent({
                         </div>
                     )
                 }
-
                 const item = (
                     <div class={`${prefixCls}-item`}>
                         { icon }
@@ -74,7 +70,7 @@ const MiNotice = defineComponent({
                     const title = getSlotContent(tabs[i], 'title')
                     panes.push(this.hasTab ? (
                         <Tabs.TabPane key={tabs[i].props.name} tab={title}>
-                            { () => tabs[i] }
+                            { tabs[i] }
                         </Tabs.TabPane>
                     ) : tabs[i])
                 }
@@ -84,7 +80,7 @@ const MiNotice = defineComponent({
         getContentElem() {
             const prefixCls = this.getPrefixCls()
             const panes = this.getTabPanesElem()
-            let content = this.hasTab ? (<Tabs>{ () => panes }</Tabs>) : panes
+            let content = this.hasTab ? (<Tabs>{ panes }</Tabs>) : panes
             if (panes.length <= 0) {
                 content = (<div class={`${prefixCls}-no-data`}>暂无数据 ( no data )</div>)
             }
@@ -101,8 +97,8 @@ const MiNotice = defineComponent({
                 class={this.class}
                 placement={this.placement}
                 trigger="click"
-                content={() => this.getContentElem()}>
-                { () => this.getIconElem() }
+                content={ this.getContentElem() }>
+                { this.getIconElem() }
             </Popover>
         )
     }

@@ -68,12 +68,8 @@ export default defineComponent({
                 const icon = cur.icon ?? null
                 items.push(
                     <Breadcrumb.Item href={cur.path}>
-                        { () => (
-                            <>
-                                { icon }
-                                { cur.title }
-                            </>
-                        ) }
+                        { icon }
+                        { cur.title }
                     </Breadcrumb.Item>
                 )
             }
@@ -84,7 +80,7 @@ export default defineComponent({
         const prefixCls = this.$tools.getPrefixCls('layout-breadcrumb')
         return (
             <Breadcrumb class={prefixCls}>
-                { () => this.getBreadcrumbItems() }
+                { this.getBreadcrumbItems() }
             </Breadcrumb>   
         )
     }

@@ -64,7 +64,7 @@ export default defineComponent({
                 class={cls}
                 title={title}
                 key={this.$g.prefix + this.item.name}>
-                { () => this.getSubmenuItem() }
+                { this.getSubmenuItem() }
             </Menu.SubMenu>
         )
     }

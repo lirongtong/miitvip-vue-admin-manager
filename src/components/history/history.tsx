@@ -165,8 +165,8 @@ export default defineComponent({
         },
         getBtnElem(clickHandler: (...args: any) => {}, type = 'prev') {
             const icon = type === 'prev'
-                ? (<LeftOutlined />)
-                : (<RightOutlined />)
+                ? <LeftOutlined />
+                : <RightOutlined />
             return (
                 <div class={`${prefixCls}-btn`} onClick={clickHandler}>
                     { icon }

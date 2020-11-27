@@ -25,8 +25,8 @@ const MiLayout = defineComponent({
         },
         layoutClass() {
             let layoutClass = this.$tools.getPrefixCls('layout')
-            layoutClass += this.$g.embed ? ` ${layoutClass}-embed `: ''
-            layoutClass += this.$g.mobile ? ` ${layoutClass}-mobile ` : ''
+            layoutClass += this.$g.embed ? ` ${layoutClass}-embed`: ''
+            layoutClass += this.$g.mobile ? ` ${layoutClass}-mobile` : ''
             return layoutClass
         }
     },
@@ -43,19 +43,19 @@ const MiLayout = defineComponent({
     methods: {
         getSiderElem() {
             let sider = getSlotContent(this, 'sider')
-            if (sider === undefined) sider = (<MiLayoutSider></MiLayoutSider>)
+            if (sider === undefined) sider = <MiLayoutSider></MiLayoutSider>
             if (this.$g.mobile || this.embed) sider = null
             return sider
         },
         getHeaderElem() {
             let header = getSlotContent(this, 'header')
-            if (header === undefined) header = (<MiLayoutHeader></MiLayoutHeader>)
+            if (header === undefined) header = <MiLayoutHeader></MiLayoutHeader>
             if (this.embed) header = null
             return header
         },
         getFooterElem() {
             let footer = getSlotContent(this, 'footer')
-            if (footer === undefined) footer = (<MiLayoutFooter></MiLayoutFooter>)
+            if (footer === undefined) footer = <MiLayoutFooter></MiLayoutFooter>
             return footer
         },
         getLayoutElem() {
@@ -64,25 +64,20 @@ const MiLayout = defineComponent({
                 <>
                     { this.getSiderElem() }
                     <Layout class={`${prefixCls}-container`} hasSider={false}>
-                        { () => (
-                            <>
-                                { this.getHeaderElem() }
-                                
-                                <MiLayoutContent></MiLayoutContent>
-                                { this.getFooterElem() }
-                            </>
-                        ) }
+                        { this.getHeaderElem() }
+                        <MiLayoutContent></MiLayoutContent>
+                        { this.getFooterElem() }
                     </Layout>
                 </>
             )
         }
     },
     render() {
-        const drawer = this.$g.mobile ? (<MiMenuDrawer></MiMenuDrawer>) : null
+        const drawer = this.$g.mobile ? <MiMenuDrawer></MiMenuDrawer> : null
         return (
             <>
                 <Layout hasSider={this.hasSider} class={this.layoutClass}>
-                    { () => this.getLayoutElem() }
+                    { this.getLayoutElem() }
                 </Layout>
                 { drawer }
             </>

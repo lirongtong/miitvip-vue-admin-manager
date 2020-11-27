@@ -498,7 +498,7 @@ export default defineComponent({
         getContentResultElem() {
             const resultCls = `${prefixCls}-result`
             const cls = `${resultCls} ${this.check.correct ? `${resultCls}-success` : `${resultCls}-error`}`
-            return (<div class={cls} ref={resultCls} innerHTML={this.check.tip}></div>)
+            return <div class={cls} ref={resultCls} innerHTML={this.check.tip}></div>
         },
         getSliderTrackElem() {
             const sliderTrackCls = `${prefixCls}-slider-track`
@@ -521,17 +521,15 @@ export default defineComponent({
             return (
                 <div class={panelActionCls}>
                     <Tooltip placement="top" title="关闭验证">
-                        { () => <CloseCircleOutlined onClick={this.close} /> }
+                        <CloseCircleOutlined onClick={this.close} />
                     </Tooltip>
                     <Tooltip placement="top" title="刷新验证">
-                        { () => <ReloadOutlined onClick={this.refreshCaptcha} /> }
+                        <ReloadOutlined onClick={this.refreshCaptcha} />
                     </Tooltip>
                     <Tooltip placement="top" title="帮助反馈">
-                        { () => (
-                            <a href={$MI_HOME} target="_blank">
-                                <QuestionCircleOutlined />
-                            </a>
-                        ) }
+                        <a href={$MI_HOME} target="_blank">
+                            <QuestionCircleOutlined />
+                        </a>
                     </Tooltip>
                 </div>
             )
@@ -542,11 +540,9 @@ export default defineComponent({
                 <div class={copyrightCls}>
                     <div class={`${copyrightCls}-text`}>
                         <Tooltip placement="top" title={$MI_POWERED}>
-                            { () => (
-                                <a href={$MI_HOME} target="_blank">
-                                    <img src={$MI_ARATAR} alt={$MI_POWERED} />
-                                </a>
-                            ) }
+                            <a href={$MI_HOME} target="_blank">
+                                <img src={$MI_ARATAR} alt={$MI_POWERED} />
+                            </a>
                         </Tooltip>
                         <span>提供技术支持</span>
                     </div>

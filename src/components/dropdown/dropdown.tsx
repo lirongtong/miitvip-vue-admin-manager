@@ -50,7 +50,7 @@ export default defineComponent({
                 }
                 links.push(
                     <Menu.Item key={this.$g.prefix + item.name}>
-                        { () => link }
+                        { link }
                     </Menu.Item>
                 )
             }
@@ -61,7 +61,7 @@ export default defineComponent({
             if (!overlay) {
                 overlay = (
                     <Menu theme="dark">
-                        { () => this.getItemElem() }
+                        { this.getItemElem() }
                     </Menu>
                 )
             }
@@ -89,7 +89,7 @@ export default defineComponent({
                 onVisibleChange={this.handleUpdateVisible}
                 trigger={['click']}
                 overlay={ this.getOverlayElem() }>
-                { () => title }
+                { title }
             </Dropdown>
         )
     }

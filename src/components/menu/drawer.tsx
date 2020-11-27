@@ -19,20 +19,12 @@ export default defineComponent({
                 visible={this.$g.menus.drawer}
                 onClose={() => this.$g.menus.drawer = !this.$g.menus.drawer}
                 class={this.getPrefixCls('layout-sider-menu-drawer')}>
-                { () => (
-                    <Layout class={`${this.getPrefixCls()} ${this.getPrefixCls('layout-mobile')}`} hasSider={true}>
-                        { () => (
-                            <Layout.Sider width="256">
-                                { () => (
-                                    <>
-                                        <MiLayoutSiderLogo></MiLayoutSiderLogo>
-                                        <MiLayoutSiderMenu className={this.getPrefixCls('layout-sider-menu')}></MiLayoutSiderMenu>
-                                    </>
-                                ) }
-                            </Layout.Sider>
-                        ) }
-                    </Layout>
-                ) }
+                <Layout class={`${this.getPrefixCls()} ${this.getPrefixCls('layout-mobile')}`} hasSider={true}>
+                    <Layout.Sider width="256">
+                        <MiLayoutSiderLogo></MiLayoutSiderLogo>
+                        <MiLayoutSiderMenu className={this.getPrefixCls('layout-sider-menu')}></MiLayoutSiderMenu>
+                    </Layout.Sider>
+                </Layout>
             </Drawer>
         )
     }

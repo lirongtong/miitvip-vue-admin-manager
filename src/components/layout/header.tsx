@@ -34,7 +34,7 @@ export default defineComponent({
             return icon
         },
         getDefaultScreenIcon() {
-            let screen = (<ExpandOutlined></ExpandOutlined>)
+            let screen = <ExpandOutlined></ExpandOutlined>
             if (this.$g.mobile) screen = null
             return screen
         },
@@ -69,20 +69,16 @@ export default defineComponent({
         const triggerCls = `${headerCls.trigger} ${headerCls.triggerMin}`
         return (
             <Layout.Header class={`${prefixCls} ${this.className ?? ''}`}>
-                { () => (
-                    <>
-                        <div class={headerCls.left}>
-                            <div class={headerCls.trigger} onClick={this.setCollapsed}>
-                                { this.getStretchIcon() }
-                            </div>
-                        </div>
-                        <div class={headerCls.right}>
-                            <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>
-                            <div class={triggerCls}>{ this.getNoticeElem() }</div>
-                            <div class={triggerCls}>{ this.getDropdownElem() }</div>
-                        </div>
-                    </>
-                ) }
+                <div class={headerCls.left}>
+                    <div class={headerCls.trigger} onClick={this.setCollapsed}>
+                        { this.getStretchIcon() }
+                    </div>
+                </div>
+                <div class={headerCls.right}>
+                    <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>
+                    <div class={triggerCls}>{ this.getNoticeElem() }</div>
+                    <div class={triggerCls}>{ this.getDropdownElem() }</div>
+                </div>
             </Layout.Header>
         )
     }
