@@ -66,6 +66,11 @@ class MiApi {
         }
     }
 }
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        api: any
+    }
+}
 export const api: MiApi = new MiApi()
 export default {
     install(app: App) {

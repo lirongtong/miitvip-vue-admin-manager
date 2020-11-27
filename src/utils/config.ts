@@ -36,6 +36,12 @@ export declare interface MenuItems {
     children?: MenuItems[]
 }
 
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $g: any
+    }
+}
+
 export const $g = reactive({
     /**
      * Independent project, or embedded project.

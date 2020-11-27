@@ -1,6 +1,12 @@
 import { App } from 'vue'
 import { $g } from './config'
 
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $tools: MiTools
+    }
+}
+
 class MiTools {
     /**
      * Set title.
