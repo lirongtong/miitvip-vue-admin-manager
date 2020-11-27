@@ -18,7 +18,7 @@ A unified template used to backend management based on Vue3.0 + Ant Design Vue +
 [![npm_downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
 ![webpack](https://img.shields.io/badge/webpack-5.3.2-orange.svg)
-![vue](https://img.shields.io/badge/vue-3.0.2-green.svg)
+![vue](https://img.shields.io/badge/vue-3.0.3-green.svg)
 ![vite](https://img.shields.io/badge/vite-1.0.0-yellow.svg)
 ![axios](https://img.shields.io/badge/axios-0.21.0-red.svg)
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-2.0.0-blueviolet.svg)

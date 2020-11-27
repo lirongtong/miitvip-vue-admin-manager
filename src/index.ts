@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import async from './utils/async'
 import baseMixins from './utils/mixins'
 
 import config from './utils/config'
@@ -61,6 +62,7 @@ export {
     http,
     tools,
     api,
+    async,
     Login,
     Register,
     Password,
