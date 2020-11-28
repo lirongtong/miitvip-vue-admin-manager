@@ -24,13 +24,17 @@ export default defineComponent({
             const icon = createVNode(HomeOutlined)
             if (matched.length <= 1) {
                 breadcrumbs.push({
-                    title: matched[0].meta.title ?? matched[0].name,
+                    title: matched[0].meta && matched[0].meta.title
+                        ? matched[0].meta.title
+                        : matched[0].name,
                     icon
                 })
             } else {
                 for (let i = 0, len = matched.length; i < len; i++) {
                     const match = matched[i]
-                    const title = (match.meta && match.meta.title) ?? match.name
+                    const title = (match.meta && match.meta.title)
+                        ? match.meta.title
+                        : match.name
                     if (i === len - 1) {
                         /** current */
                         if (!title) {
