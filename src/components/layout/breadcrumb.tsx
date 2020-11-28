@@ -66,14 +66,15 @@ export default defineComponent({
             const breadcrumbs = this.$g.breadcrumbs
             for (let i = 0, l = breadcrumbs.length; i < l; i++) {
                 const cur = breadcrumbs[i]
-                const icon = cur.icon ?? null
                 items.push(
-                    <Breadcrumb.Item key={i}>
-                        <a href={cur.path}>
-                            { icon }
-                            { cur.title }
-                        </a>
-                    </Breadcrumb.Item>
+                    <>
+                        <Breadcrumb.Item key={i}>
+                            <a href={cur.path}>
+                                { cur.icon ?? null }
+                                { cur.title }
+                            </a>
+                        </Breadcrumb.Item>
+                    </>
                 )
             }
             return [...items]
