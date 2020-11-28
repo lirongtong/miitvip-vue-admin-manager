@@ -27,6 +27,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
         component: Start 
     }, {
         path: 'passport',
+        meta: {title: '注册登录'},
         component: Passport,
         redirect: 'passport/login',
         children: [{

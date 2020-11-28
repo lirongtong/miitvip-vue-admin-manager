@@ -14,7 +14,7 @@ export default defineComponent({
             this.getBreadcrumbs()
         }
     },
-    mounted() {
+    created() {
         this.getBreadcrumbs()
     },
     methods: {
@@ -49,14 +49,14 @@ export default defineComponent({
                             breadcrumbs.push({
                                 title,
                                 icon,
-                                path: match.path ? match.path : '/'
+                                path: match.path ?? '/'
                             })
                         } else {
                             /** other */
                             if (title) {
                                 breadcrumbs.push({
                                     title,
-                                    path: match.path
+                                    path: match.redirect ?? match.path ?? '/'
                                 })
                             }
                         }
