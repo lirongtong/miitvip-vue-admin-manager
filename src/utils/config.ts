@@ -179,6 +179,11 @@ export const $g = reactive({
         }
     },
 
+    /**
+     * Socialite login param.
+     * include `name`, `icon`.
+     * @type {object}
+     */
     socialites: {
         domain: 'https://account.makeit.vip/v1/oauth',
         items: [
@@ -208,6 +213,12 @@ export const $g = reactive({
         dropdown: [],
         relationshipChain: []
     },
+
+    /**
+     * Beradcrumbs.
+     * @type {Array}
+     */
+    breadcrumbs: [],
 
     /**
      * Used at the bottom of the website (PC browser)

@@ -4,19 +4,8 @@ import { HomeOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
     name: 'MiBreadcrumb',
-    data() {
-        return {
-            breadcrumbs: []
-        }
-    },
-    watch: {
-        $route() {
-            this.getBreadcrumbs()
-        }
-    },
-    created() {
-        this.getBreadcrumbs()
-    },
+    watch: {$route() {this.getBreadcrumbs()}},
+    created() {this.getBreadcrumbs()},
     methods: {
         getBreadcrumbs() {
             const matched = this.$route.matched
@@ -63,12 +52,12 @@ export default defineComponent({
                     }
                 }
             }
-            this.breadcrumbs = breadcrumbs
+            this.$g.breadcrumbs = breadcrumbs
         },
         getBreadcrumbItems() {
             const items = []
-            for (let i = 0, l = this.breadcrumbs.length; i < l; i++) {
-                const cur = this.breadcrumbs[i]
+            for (let i = 0, l = this.$g.breadcrumbs.length; i < l; i++) {
+                const cur = this.$g.breadcrumbs[i]
                 const icon = cur.icon ?? null
                 items.push(
                     <Breadcrumb.Item href={cur.path}>
