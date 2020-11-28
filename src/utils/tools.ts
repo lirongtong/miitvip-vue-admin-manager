@@ -1,12 +1,6 @@
 import { App } from 'vue'
 import { $g } from './config'
 
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $tools: MiTools
-    }
-}
-
 class MiTools {
     /**
      * Set title.
@@ -130,7 +124,7 @@ class MiTools {
 
     /**
      * Check Password by rules.
-     * @param password 
+     * @param password
      */
     checkPassword(password: string): boolean {
         const regExp = $g.regExp
@@ -140,21 +134,21 @@ class MiTools {
     /**
      * Get the password strength.
      * return a number level ( 1 - 4 ).
-     * @param password 
+     * @param password
      */
     getPasswordStrength(password: string): number {
         const reg = {
-			lower: /[a-z]/,
-			upper: /[A-Z]/,
-			number: /[\d]/,
-			character: /[~!@#$%^&*()_+=\-.,]/
-		}
-		let strength = 0
-		if(reg.lower.test(password)) strength++
-		if(reg.upper.test(password)) strength++
-		if(reg.number.test(password)) strength++
-		if(reg.character.test(password)) strength++
-		return strength
+            lower: /[a-z]/,
+            upper: /[A-Z]/,
+            number: /[\d]/,
+            character: /[~!@#$%^&*()_+=\-.,]/
+        }
+        let strength = 0
+        if (reg.lower.test(password)) strength++
+        if (reg.upper.test(password)) strength++
+        if (reg.number.test(password)) strength++
+        if (reg.character.test(password)) strength++
+        return strength
     }
 
     /**

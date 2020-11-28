@@ -5,12 +5,6 @@ axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
 
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $http: MiHttp
-    }
-}
-
 class MiHttp {
     instance: MiHttp
 

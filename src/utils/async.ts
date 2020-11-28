@@ -8,14 +8,7 @@ import http from './http'
 import tools from './tools'
 import api from './api'
 
-const components = [
-    config,
-    cookie,
-    storage,
-    http,
-    tools,
-    api
-]
+const components = [config, cookie, storage, http, tools, api]
 
 let _Init = false
 const install = (app: App) => {
@@ -33,4 +26,4 @@ const install = (app: App) => {
     return app
 }
 
-export default {install}
+export default { install }

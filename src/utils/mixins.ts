@@ -61,7 +61,7 @@ export default {
                     if (token) config.headers.Authorization = `Bearer ${token}`
                     return config
                 },
-                (err) => {
+                (err: any) => {
                     return Promise.reject(err)
                 }
             )
@@ -71,7 +71,7 @@ export default {
                 (response) => {
                     return response
                 },
-                (err) => {
+                (err: any) => {
                     if (err && err.response) {
                         const resent = () => {
                             const config = err.config
@@ -115,7 +115,7 @@ export default {
                             config.retryCount += 1
                             const retry = new Promise((resolve) => {
                                 setTimeout(() => {
-                                    resolve()
+                                    resolve(undefined)
                                 }, config.retryCount || 1)
                             })
                             retry.then(() => {

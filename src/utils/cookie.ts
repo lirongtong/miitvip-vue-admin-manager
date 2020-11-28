@@ -1,12 +1,6 @@
 import { App } from 'vue'
 import { $g } from './config'
 
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $cookie: MiCookie
-    }
-}
-
 class MiCookie {
     prefix = $g.prefix
 
