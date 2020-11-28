@@ -1,13 +1,13 @@
-import { defineComponent, createVNode, nextTick } from 'vue'
+import { defineComponent, createVNode } from 'vue'
 import { Breadcrumb } from 'ant-design-vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
     name: 'MiBreadcrumb',
     watch: {$route() {this.getBreadcrumbs()}},
-    created() {
+    mounted() {
         this.getBreadcrumbs()
-        nextTick(() => {
+        this.$nextTick(() => {
             this.$forceUpdate()
         })
     },
@@ -63,20 +63,16 @@ export default defineComponent({
         },
         getBreadcrumbItems() {
             const items = []
-            for (let i = 0, l = this.$g.breadcrumbs.length; i < l; i++) {
-                const cur = this.$g.breadcrumbs[i]
+            const breadcrumbs = this.$g.breadcrumbs
+            for (let i = 0, l = breadcrumbs.length; i < l; i++) {
+                const cur = breadcrumbs[i]
                 const icon = cur.icon ?? null
-                const template = <>
-                    { icon }
-                    { cur.title }
-                </>
                 items.push(
                     <Breadcrumb.Item key={i}>
-                        { cur.path ? (
-                            <a href={cur.path}>
-                                { template }
-                            </a>
-                        ) : template }
+                        <a href={cur.path}>
+                            { icon }
+                            { cur.title }
+                        </a>
                     </Breadcrumb.Item>
                 )
             }
@@ -87,7 +83,7 @@ export default defineComponent({
         const prefixCls = this.$tools.getPrefixCls('layout-breadcrumb')
         return (
             <Breadcrumb class={prefixCls}>
-                { this.getBreadcrumbItems() }
+                { ...this.getBreadcrumbItems() }
             </Breadcrumb>   
         )
     }
