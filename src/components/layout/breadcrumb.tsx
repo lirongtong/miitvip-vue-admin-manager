@@ -1,12 +1,16 @@
-import { defineComponent, createVNode } from 'vue'
+import { defineComponent, createVNode, nextTick } from 'vue'
 import { Breadcrumb } from 'ant-design-vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
-import { RouterLink } from 'vue-router'
 
 export default defineComponent({
     name: 'MiBreadcrumb',
     watch: {$route() {this.getBreadcrumbs()}},
-    created() {this.getBreadcrumbs()},
+    created() {
+        this.getBreadcrumbs()
+        nextTick(() => {
+            this.$forceUpdate()
+        })
+    },
     methods: {
         getBreadcrumbs() {
             const matched = this.$route.matched
