@@ -1,6 +1,7 @@
 import { defineComponent, createVNode } from 'vue'
 import { Breadcrumb } from 'ant-design-vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
+import { RouterLink } from 'vue-router'
 
 export default defineComponent({
     name: 'MiBreadcrumb',
@@ -43,9 +44,11 @@ export default defineComponent({
                         } else {
                             /** other */
                             if (title) {
+                                let path = match.redirect ?? match.path ?? '/'
+                                if (path.substr(0, 1) !== '/') path = `/${path}`
                                 breadcrumbs.push({
                                     title,
-                                    path: match.redirect ?? match.path ?? '/'
+                                    path
                                 })
                             }
                         }
@@ -59,10 +62,17 @@ export default defineComponent({
             for (let i = 0, l = this.$g.breadcrumbs.length; i < l; i++) {
                 const cur = this.$g.breadcrumbs[i]
                 const icon = cur.icon ?? null
+                const template = <>
+                    { icon }
+                    { cur.title }
+                </>
                 items.push(
-                    <Breadcrumb.Item href={cur.path}>
-                        { icon }
-                        { cur.title }
+                    <Breadcrumb.Item key={i}>
+                        { cur.path ? (
+                            <a href={cur.path}>
+                                { template }
+                            </a>
+                        ) : template }
                     </Breadcrumb.Item>
                 )
             }
