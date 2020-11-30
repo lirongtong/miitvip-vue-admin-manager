@@ -1,5 +1,4 @@
 import { defineComponent, createVNode } from 'vue'
-import { Breadcrumb } from 'ant-design-vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
@@ -64,17 +63,19 @@ export default defineComponent({
         getBreadcrumbItems() {
             const items = []
             const breadcrumbs = this.$g.breadcrumbs
+            const prefixCls = this.$tools.getPrefixCls('layout-breadcrumb')
             for (let i = 0, l = breadcrumbs.length; i < l; i++) {
                 const cur = breadcrumbs[i]
                 items.push(
-                    <>
-                        <Breadcrumb.Item key={i}>
+                    <span class={`${prefixCls}-item`}>
+                        <span class={`${prefixCls}-link`}>
                             <a href={cur.path}>
                                 { cur.icon ?? null }
                                 { cur.title }
                             </a>
-                        </Breadcrumb.Item>
-                    </>
+                        </span>
+                        <span class={`${prefixCls}-separator`}>/</span>
+                    </span>
                 )
             }
             return [...items]
@@ -83,9 +84,9 @@ export default defineComponent({
     render() {
         const prefixCls = this.$tools.getPrefixCls('layout-breadcrumb')
         return (
-            <Breadcrumb class={prefixCls}>
+            <div class={prefixCls}>
                 { ...this.getBreadcrumbItems() }
-            </Breadcrumb>   
+            </div>   
         )
     }
 })

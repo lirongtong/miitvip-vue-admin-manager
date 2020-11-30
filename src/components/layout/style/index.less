@@ -142,6 +142,7 @@
 	    transition: all .3s ease-in-out;
 	    width: 100%;
         .properties(height, 56);
+        .properties(font-size, 14);
         background: @mi-body-color;
 	    color: @mi-white-color;
 	    position: fixed;
@@ -176,6 +177,21 @@
 
                 a {
                     color: @mi-white-color;
+                }
+            }
+        }
+
+        &-separator {
+            .properties(margin-right);
+            .properties(margin-left);
+        }
+
+        &-item {
+            &:last-child {
+                span {
+                    &:last-child {
+                        display: none;
+                    }
                 }
             }
         }
