@@ -180,7 +180,11 @@ const Login = defineComponent({
             const prefixCls = this.getPrefixCls()
             return (
                 <Form.Item class={`${prefixCls}-remember`}>
-                    <Checkbox checked={this.form.validate.remember}>保持登录</Checkbox>
+                    <Checkbox
+                        checked={this.form.validate.remember}
+                        onChange={this.handleRememberValue}>
+                        保持登录
+                    </Checkbox>
                     <RouterLink to={{path: '/'}} class={`${prefixCls}-forget`}>
                         <QuestionCircleOutlined />忘记密码
                     </RouterLink>
@@ -227,6 +231,9 @@ const Login = defineComponent({
         },
         handlePasswordValue(e: any) {
             this.form.validate.password = e.target.value
+        },
+        handleRememberValue(e: any) {
+            this.form.validate.remember = e.target.checked
         },
         handleLogin() {
             if (this.loading) return 

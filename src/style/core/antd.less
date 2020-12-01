@@ -163,6 +163,48 @@
     }
 }
 
+@ant-checkbox: ant-checkbox;
+.@{ant-checkbox} {
+    &-wrapper {
+        & .@{ant-checkbox} {
+            &-inner {
+                border-color: @mi-theme-color;
+
+                &:hover, &:focus, &:active {
+                    border-color: @mi-theme-color;
+                }
+            }
+
+            &-checked {
+                & .@{ant-checkbox}-inner {
+                    border-color: @mi-theme-color;
+					background: @mi-theme-color;
+                }
+
+                &:after {
+                    border: 1px solid @mi-theme-color;
+                }
+            }
+        }
+
+        &:hover,
+        &:focus {
+            .@{ant-checkbox} {
+                &-inner {
+                    border-color: @mi-theme-color;
+                }
+            }
+            & + .@{ant-checkbox}-inner {
+                border-color: @mi-theme-color;
+            }
+        }
+
+        span:last-child {
+            color: @mi-white-color;
+        }
+    }
+}
+
 [ant-click-animating-without-extra-node="true"] {
     &:after {
         box-shadow: 0 0 0 0 @mi-theme-color;
