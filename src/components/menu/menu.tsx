@@ -101,6 +101,7 @@ export default defineComponent({
                 this.$g.menus.opens = []
                 this.store.commit(`layout/${mutations.layout.opens}`, [])
             }
+            this.$g.menus.active = [item.key]
             this.store.commit(`layout/${mutations.layout.active}`, [item.key])
         },
         setOpenKeys(openKeys: string[]) {
