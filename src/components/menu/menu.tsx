@@ -97,7 +97,11 @@ export default defineComponent({
             return [...items]
         },
         setActive(item: any) {
-            if (item.keyPath && item.keyPath.length <= 1) {
+            if (
+                item.keyPath &&
+                item.keyPath.length <= 1 &&
+                this.$g.menus.accordion
+            ) {
                 this.$g.menus.opens = []
                 this.store.commit(`layout/${mutations.layout.opens}`, [])
             }
