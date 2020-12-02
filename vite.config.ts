@@ -18,8 +18,7 @@ const config = {
     },
     proxy: {
         '/v1': {
-            target: 'http://local-api.makeit.vip',
-            rewrite: (path: any) => path.replace(/^\/v1/, ''),
+            target: 'http://local-account.makeit.vip',
             changeOrigin: true
         }
     }

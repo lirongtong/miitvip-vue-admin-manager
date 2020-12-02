@@ -23,7 +23,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
     children: [{
         path: 'start',
         name: 'start',
-        meta: {title: '快速开始'},
+        meta: {title: '快速开始', auth: true},
         component: Start 
     }, {
         path: 'passport',
@@ -33,12 +33,12 @@ const menuRouter: Array<RouteRecordRaw> = [{
         children: [{
             path: 'login',
             name: 'login',
-            meta: {title: '登录页面'},
+            meta: {title: '登录页面', auth: true},
             component: Login
         }, {
             path: 'register',
             name: 'register',
-            meta: {title: '注册页面'},
+            meta: {title: '注册页面', auth: true},
             component: Register
         }]
     }, {
@@ -48,7 +48,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
         children: [{
             path: 'editor',
             name: 'editor',
-            meta: {title: '编辑器'},
+            meta: {title: '编辑器', auth: true},
             component: ToolsEditor
         }, {
             path: 'captcha',
@@ -58,7 +58,7 @@ const menuRouter: Array<RouteRecordRaw> = [{
             children: [{
                 path: 'message',
                 name: 'message',
-                meta: {title: '短信验证码'},
+                meta: {title: '短信验证码', auth: true},
                 component: ToolsCaptchaMessage
             }]
         }]
@@ -70,17 +70,17 @@ const menuRouter: Array<RouteRecordRaw> = [{
         children: [{
             path: 'normal',
             name: 'normal',
-            meta: {title: '基础列表'},
+            meta: {title: '基础列表', auth: true},
             component: ListNormal
         }, {
             path: 'card',
             name: 'card',
-            meta: {title: '卡片列表'},
+            meta: {title: '卡片列表', auth: true},
             component: ListCard
         }, {
             path: 'goods',
             name: 'goods',
-            meta: {title: '商品列表'},
+            meta: {title: '商品列表', auth: true},
             component: ListGoods
         }]
     }]
