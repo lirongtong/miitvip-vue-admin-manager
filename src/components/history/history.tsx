@@ -133,7 +133,12 @@ export default defineComponent({
                 this.offset = - offset
                 this.active = item
                 this.current = item.name
-                if (this.$route.path !== item.path) this.$router.push({path: item.path})
+                if (this.$route.path !== item.path) {
+                    console.log(item)
+                    this.$router.push({path: item.path})
+                    const active = this.$g.prefix + item.name
+                    this.$g.menus.active = [active]
+                }
             }
         },
         removeHistoryRoute(item: any) {
