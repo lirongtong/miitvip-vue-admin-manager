@@ -1,11 +1,13 @@
 import { defineComponent, computed } from 'vue'
 import { Layout } from 'ant-design-vue'
 import { useStore } from 'vuex'
-import { MenuFoldOutlined, MenuUnfoldOutlined, ExpandOutlined } from '@ant-design/icons-vue'
+import screenfull from 'screenfull'
+import { MenuFoldOutlined, MenuUnfoldOutlined, ExpandOutlined, CompressOutlined } from '@ant-design/icons-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import { mutations } from '../../store/types'
 import MiNotice from '../notice'
 import MiDropdown from '../dropdown'
+import MiModal from '../modal'
 
 export default defineComponent({
     name: 'MiLayoutHeader',
@@ -18,7 +20,8 @@ export default defineComponent({
     setup() {
         const store = useStore()
         const collapsed = computed(() => store.getters['layout/collapsed'])
-        return {collapsed, store}
+        const full = false
+        return {collapsed, store, full}
     },
     methods: {
         getPrefixCls() {
@@ -34,7 +37,9 @@ export default defineComponent({
             return icon
         },
         getDefaultScreenIcon() {
-            let screen = <ExpandOutlined></ExpandOutlined>
+            let screen = !this.full
+                ? <ExpandOutlined onClick={this.screenfullQuitOrIn}></ExpandOutlined>
+                : <CompressOutlined onClick={this.screenfullQuitOrIn}></CompressOutlined>
             if (this.$g.mobile) screen = null
             return screen
         },
@@ -56,6 +61,26 @@ export default defineComponent({
                 this.$g.menus.collapsed = collapse
                 this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
             }
+        },
+        screenfullQuitOrIn() {
+            if (screenfull.isEnabled) {
+                const elem = document.body
+                if (elem) {
+                    this.full = !this.full
+                    this.$forceUpdate()
+                    if (this.full) {
+                        screenfull.request(elem)
+                        screenfull.on('error', () => MiModal.error({content: '全屏失败，请刷新后再试'}))
+                    } else screenfull.exit()
+                    screenfull.on('change', () => {
+                        const isFullscreen = (screenfull as any).isFullscreen
+                        if (isFullscreen !== this.full) {
+                            this.full = this.isFullscreen
+                            this.$forceUpdate()
+                        }
+                    })
+                } else MiModal.error({content: '未获取到要全屏展示的内容'})
+            } else MiModal.error({content: '当前浏览器不支持全屏操作'})
         }
     },
     render() {

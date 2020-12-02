@@ -52,6 +52,7 @@
     "dependencies": {
         "ant-design-vue": "^2.0.0-rc.2",
         "axios": "^0.21.0",
+        "screenfull": "^5.0.2",
         "vue": "^3.0.3",
         "vue-router": "^4.0.0-rc.5",
         "vue-types": "^3.0.1",

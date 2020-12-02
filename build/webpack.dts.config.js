@@ -63,12 +63,24 @@ module.exports = {
 				commonjs: 'axios',
 				commonjs2: 'axios',
 				amd: 'axios'
+            },
+            screenfull: {
+				root: 'Screenfull',
+				commonjs: 'screenfull',
+				commonjs2: 'screenfull',
+				amd: 'screenfull'
 			},
 			'ant-design-vue': {
 				root: 'AntDesignVue',
 				commonjs: 'ant-design-vue',
 				commonjs2: 'ant-design-vue',
 				amd: 'ant-design-vue'
+            },
+            '@ant-design/icons-vue': {
+				root: '@AntDesign/IconsVue',
+				commonjs: '@ant-design/icons-vue',
+				commonjs2: '@ant-design/icons-vue',
+				amd: '@ant-design/icons-vue'
 			}
         }
     ],

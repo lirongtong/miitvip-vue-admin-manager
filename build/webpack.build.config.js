@@ -59,6 +59,12 @@ module.exports = merge(baseConfig, {
 				commonjs2: 'axios',
 				amd: 'axios'
 			},
+			screenfull: {
+				root: 'Screenfull',
+				commonjs: 'screenfull',
+				commonjs2: 'screenfull',
+				amd: 'screenfull'
+			},
 			'ant-design-vue': {
 				root: 'AntDesignVue',
 				commonjs: 'ant-design-vue',
