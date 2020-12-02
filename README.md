@@ -71,14 +71,14 @@ app.mount('#app')
 ## 登录
 ```vue
 <template>
-    <mi-login></mi-login>
+    <mi-login :action="api.login"></mi-login>
 </template>
 ```
 
 ## 注册
 ```vue
 <template>
-    <mi-register></mi-register>
+    <mi-register :action="api.register"></mi-register>
 </template>
 ```
 
