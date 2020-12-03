@@ -8,6 +8,7 @@ import storage from './utils/storage'
 import http from './utils/http'
 import tools from './utils/tools'
 import api from './utils/api'
+import highlight from './utils/highlight'
 
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
@@ -27,6 +28,7 @@ const components = [
     http,
     tools,
     api,
+    highlight,
     Login,
     Register,
     Password,
@@ -62,6 +64,7 @@ export {
     http,
     tools,
     api,
+    highlight,
     async,
     Login,
     Register,

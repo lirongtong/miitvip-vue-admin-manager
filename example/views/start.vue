@@ -1,3 +1,3 @@
 <template>
-    <div>Getting Started</div>
+    <pre v-highlight><code>npm i makeit-admin-pro</code></pre>
 </template>
