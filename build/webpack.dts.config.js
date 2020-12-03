@@ -70,12 +70,6 @@ module.exports = {
 				commonjs2: 'screenfull',
 				amd: 'screenfull'
             },
-            'highlight.js': {
-				root: 'highlight.js',
-				commonjs: 'highlight.js',
-				commonjs2: 'highlight.js',
-				amd: 'highlight.js'
-			},
 			'ant-design-vue': {
 				root: 'AntDesignVue',
 				commonjs: 'ant-design-vue',
