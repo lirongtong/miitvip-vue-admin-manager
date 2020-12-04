@@ -31,14 +31,17 @@ export default {
                 this.$router.beforeEach((to: any, from: any, next: any) => {
                     if (to.meta.auth) {
                         const key = this.$g.caches.cookies.token.access
-                        const token = this.$store.getters['passport/access'] || this.$cookie.get(key) || this.$storage.get(key)
+                        const token =
+                            this.$store.getters['passport/access'] ||
+                            this.$cookie.get(key) ||
+                            this.$storage.get(key)
                         if (!token) {
                             if (to.path === '/login') {
                                 next()
                             } else {
                                 next({
                                     path: '/login',
-                                    query: {redirect: to.fullPath}
+                                    query: { redirect: to.fullPath }
                                 })
                             }
                         } else {
@@ -58,8 +61,10 @@ export default {
                     } else next()
                 })
             } catch (e) {
-                throw new Error('[vue-router] must be required. Please import and install [vue-router] before makeit-admin-pro\r\n' +
-                e)
+                throw new Error(
+                    '[vue-router] must be required. Please import and install [vue-router] before makeit-admin-pro\r\n' +
+                        e
+                )
             }
             _Created = true
         }
