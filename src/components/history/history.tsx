@@ -134,7 +134,6 @@ export default defineComponent({
                 this.active = item
                 this.current = item.name
                 if (this.$route.path !== item.path) {
-                    console.log(item)
                     this.$router.push({path: item.path})
                     const active = this.$g.prefix + item.name
                     this.$g.menus.active = [active]
