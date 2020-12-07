@@ -205,6 +205,31 @@
     }
 }
 
+@ant-card: ant-card;
+.@{ant-card} {
+    border: 1px solid @mi-theme-color;
+    .border-radius();
+    background: @mi-body-color;
+
+    &-head {
+        border-bottom-color: @mi-theme-color;
+
+        & .@{ant-tabs} {
+            &-bar {
+                border-bottom-color: @mi-theme-color;
+            }
+
+            &-tab {
+                color: fade(@mi-white-color, 80%);
+
+                &-active {
+                    color: @mi-theme-color;
+                }
+            }
+        }
+    }
+}
+
 [ant-click-animating-without-extra-node="true"] {
     &:after {
         box-shadow: 0 0 0 0 @mi-theme-color;
