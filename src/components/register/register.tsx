@@ -37,22 +37,22 @@ export default defineComponent({
         const vm = this as any
         return {
             loading: false,
-				captcha: null,
-				form: {
-					validate: {
-						username: '',
-                        email: '',
-                        password: '',
-                        repeat: '',
-						captcha: false,
-                        uuid: null
-                    },
-                    rules: {
-	                    username: [{required: true, validator: vm.checkUserName}],
-                        email: [{required: true, validator: vm.checkEmail}],
-                        captcha: [{required: true, validator: vm.checkCaptcha}]
-                    }
+            captcha: null,
+            form: {
+                validate: {
+                    username: '',
+                    email: '',
+                    password: '',
+                    repeat: '',
+                    captcha: false,
+                    uuid: null
+                },
+                rules: {
+                    username: [{required: true, validator: vm.checkUserName}],
+                    email: [{required: true, validator: vm.checkEmail}],
+                    captcha: [{required: true, validator: vm.checkCaptcha}]
                 }
+            }
         }
     },
     mounted() {
