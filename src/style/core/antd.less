@@ -244,11 +244,18 @@
     &-wrapper.@{mi-prefix}table {
         & .@{ant-table} {
             .border-radius();
+
+            &-body {
+                table {
+                    background: @mi-body-color;
+                }
+            }
     
             &-thead {
                 & > tr > th {
                     color: fade(@mi-white-color, 80%);
                     background: @mi-table-color;
+                    border-bottom-color: fade(@mi-theme-color, 30%);
                 }
                 
                 > tr:first-child > th:first-child {
@@ -271,6 +278,12 @@
             }
     
             &-tbody {
+                > tr > td {
+                    border-bottom-color: fade(@mi-theme-color, 30%);
+                    color: fade(@mi-white-color, 80%);
+                    background: @mi-table-td-color;
+                }
+                
                 tr:hover,
                 tr:focus,
                 tr:active,
