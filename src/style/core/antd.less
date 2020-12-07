@@ -207,86 +207,95 @@
 
 @ant-card: ant-card;
 .@{ant-card} {
-    border: 1px solid @mi-theme-color;
-    .border-radius();
-    background: @mi-body-color;
+    &.@{mi-prefix}card {
+        border: 1px solid @mi-theme-color;
+        .border-radius();
+        background: @mi-body-color;
 
-    &-head {
-        border-bottom-color: @mi-theme-color;
-
-        & .@{ant-tabs} {
-            &-bar {
-                border-bottom-color: @mi-theme-color;
-            }
-
-            &-tab {
+        .@{ant-card} {
+            &-head {
                 color: fade(@mi-white-color, 80%);
-
-                &-active {
-                    color: @mi-theme-color;
+                border-bottom-color: @mi-theme-color;
+    
+                & .@{ant-tabs} {
+                    &-bar {
+                        border-bottom-color: @mi-theme-color;
+                    }
+    
+                    &-tab {
+                        color: fade(@mi-white-color, 80%);
+    
+                        &-active {
+                            color: @mi-theme-color;
+                        }
+                    }
                 }
             }
+    
+            &-body {
+                color: fade(@mi-white-color, 80%);
+            }
         }
-    }
-
-    &-body {
-        color: fade(@mi-white-color, 80%);
     }
 }
 
 @ant-table: ant-table;
 .@{ant-table} {
-    .border-radius();
-
-    &-thead {
-        & > tr > th {
-            color: fade(@mi-white-color, 80%);
-            background: @mi-table-color;
-        }
-        
-        > tr:first-child > th:first-child {
-            .properties(border-top-left-radius, 4);
-        }
-
-        > tr:last-child > th:last-child {
-            .properties(border-top-right-radius, 4);
-        }
-
-        > tr:first-child {
-            > td:first-child {
-                .properties(border-bottom-left-radius, 4);
-            }
-            
-            > td:last-child {
-                .properties(border-bottom-right-radius, 4);
-            }
-        }
-    }
-
-    &-tbody {
-        tr:hover,
-        tr:focus,
-        tr:active,
-        tr:hover > td {
-            background: fade(@mi-theme-color, 10%);
-        }
-    }
-
-    &-bordered {
+    &-wrapper.@{mi-prefix}table {
         & .@{ant-table} {
-            &-body {
-                > table {
-                    background: @mi-body-color;
-                    border-top-color: fade(@mi-theme-color, 30%);
-                    border-left-color: fade(@mi-theme-color, 30%);
+            .border-radius();
+    
+            &-thead {
+                & > tr > th {
+                    color: fade(@mi-white-color, 80%);
+                    background: @mi-table-color;
+                }
+                
+                > tr:first-child > th:first-child {
+                    .properties(border-top-left-radius, 4);
+                }
+    
+                > tr:last-child > th:last-child {
+                    .properties(border-top-right-radius, 4);
+                }
+    
+                > tr:first-child {
+                    > td:first-child {
+                        .properties(border-bottom-left-radius, 4);
+                    }
+                    
+                    > td:last-child {
+                        .properties(border-bottom-right-radius, 4);
+                    }
                 }
             }
-
-            &-tbody > tr > td,
-            &-thead > tr > th {
-                color: fade(@mi-white-color, 80%);
-                border-right-color: fade(@mi-theme-color, 30%);
-                border-bottom-color: fade(@mi-theme-color, 30%);
+    
+            &-tbody {
+                tr:hover,
+                tr:focus,
+                tr:active,
+                tr:hover > td {
+                    background: fade(@mi-theme-color, 10%);
+                }
+            }
+    
+            &-bordered {
+                & .@{ant-table} {
+                    &-body {
+                        > table {
+                            background: @mi-body-color;
+                            border-top-color: fade(@mi-theme-color, 30%);
+                            border-left-color: fade(@mi-theme-color, 30%);
+                        }
+                    }
+    
+                    &-tbody > tr > td,
+                    &-thead > tr > th {
+                        color: fade(@mi-white-color, 80%);
+                        border-right-color: fade(@mi-theme-color, 30%);
+                        border-bottom-color: fade(@mi-theme-color, 30%);
+                    }
+                }
             }
         }
     }
