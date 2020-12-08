@@ -15,6 +15,16 @@ export default defineComponent({
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         loading: PropTypes.bool.def(false),
         tips: PropTypes.any,
+        minLength: PropTypes.number.def(6),
+        maxLength: PropTypes.number.def(32),
+        complexity: PropTypes.bool.def(true),
+        complexityTip: PropTypes.string.def('需包含字母、数字及特殊字符两种或以上组合'),
+        level: PropTypes.object.def({
+            1: '弱不禁风',
+            2: '平淡无奇',
+            3: '出神入化',
+            4: '登峰造极'
+        }),
         rules: PropTypes.object,
         onChange: PropTypes.func,
         onRepeatChange: PropTypes.func
@@ -24,12 +34,6 @@ export default defineComponent({
         return {
             visible: false,
             repeatVisible: false,
-            level: {
-                1: '弱不禁风',
-                2: '平淡无奇',
-                3: '出神入化',
-                4: '登峰造极'
-            },
             password: {
                 strength: 0,
                 tips: null,
@@ -67,24 +71,33 @@ export default defineComponent({
                 return Promise.reject('请设置密码')
             } else {
                 this.password.format = true
-                if (value.length < 6) {
+                if (value.length < this.minLength) {
                     this.password.length = false
                     this.password.strength = 0
                     this.password.tips = null
-                    return Promise.reject('密码长度至少为6个字符')
+                    return Promise.reject(`密码长度至少为${this.minLength}个字符`)
                 }
-                if (this.$tools.checkPassword(value)) {
+                if (this.complexity) {
+                    if (this.$tools.checkPassword(value)) {
+                        this.password.length = true
+                        const strength = this.$tools.getPasswordStrength(value)
+                        this.password.strength = strength
+                        this.password.tips = this.level[strength]
+                        if (strength <= 1) {
+                            this.password.complexity = false
+                            return Promise.reject(this.complexityTip)
+                        } else {
+                            this.password.complexity = true
+                            return Promise.resolve()
+                        }
+                    }
+                } else {
                     this.password.length = true
                     const strength = this.$tools.getPasswordStrength(value)
                     this.password.strength = strength
                     this.password.tips = this.level[strength]
-                    if (strength <= 1) {
-                        this.password.complexity = false
-                        return Promise.reject('需包含字母、数字及特殊字符两种或以上组合')
-                    } else {
-                        this.password.complexity = true
-                        return Promise.resolve()
-                    }
+                    this.password.complexity = true
+                    return Promise.resolve()
                 }
             }
         },
@@ -110,7 +123,7 @@ export default defineComponent({
                 password = (
                     <Input
                         type="password"
-                        maxlength={32}
+                        maxlength={this.maxLength}
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
                         value={value}
@@ -122,7 +135,7 @@ export default defineComponent({
                 password = (
                     <Input
                         type="text"
-                        maxlength={32}
+                        maxlength={this.maxLength}
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
                         value={value}
@@ -160,7 +173,7 @@ export default defineComponent({
                             ? (<CheckOutlined class="success" />)
                             : (<CloseOutlined class="failed" />)
                         }
-                        <span>6-32个字符，区分大小写，前后无空格</span>
+                        <span>{ this.minLength }-{ this.maxLength }个字符，区分大小写，前后无空格</span>
                     </div>
                     <div class={`${strengthCls}-item`}>
                         { this.password.format
@@ -169,13 +182,15 @@ export default defineComponent({
                         }
                         <span>字母、数字及英文符号 ~!@#$%^&*(.,)_+=-</span>
                     </div>
-                    <div class={`${strengthCls}-item`}>
-                        { this.password.complexity
-                            ? (<CheckOutlined class="success" />)
-                            : (<CloseOutlined class="failed" />)
-                        }
-                        <span>需包含字母、数字及特殊字符两种及以上的组合</span>
-                    </div>
+                    { this.complexity ? (
+                        <div class={`${strengthCls}-item`}>
+                            { this.password.complexity
+                                ? (<CheckOutlined class="success" />)
+                                : (<CloseOutlined class="failed" />)
+                            }
+                            <span>{ this.complexityTip }</span>
+                        </div>
+                    ) : null }
                 </div>
             )
         },
