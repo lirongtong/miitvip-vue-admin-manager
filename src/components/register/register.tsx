@@ -25,6 +25,11 @@ export default defineComponent({
         captchaThemeColor: PropTypes.string,
         captchaMaxTries: PropTypes.number.def(5),
         captchaOnSuccess: PropTypes.func,
+        passwordMinLength: PropTypes.number.def(6),
+        passwordMaxLength: PropTypes.number.def(32),
+        passwordComplexity: PropTypes.bool.def(true),
+        passwordComplexityTip: PropTypes.string,
+        passwordLevel: PropTypes.object,
         usernameVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         emailVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         socialiteLoginDomain: PropTypes.string,
@@ -254,6 +259,11 @@ export default defineComponent({
                             repeat={true}
                             loading={this.loading}
                             value={this.form.validate.password}
+                            minLength={this.passwordMinLength}
+                            maxLength={this.passwordMaxLength}
+                            complexity={this.passwordComplexity}
+                            complexityTip={this.passwordComplexityTip}
+                            level={this.passwordLevel}
                             onRepeatChange={this.handlePassworRepeatValue}
                             onChange={this.handlePasswordValue}>
                         </MiPassport>
