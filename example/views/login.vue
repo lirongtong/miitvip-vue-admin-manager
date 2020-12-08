@@ -1,5 +1,5 @@
 <template>
-    <mi-login action="v1/login"></mi-login>
+    <mi-login action="v1/login" :footer="false" :example="true"></mi-login>
 </template>
 
 <script lang="ts">

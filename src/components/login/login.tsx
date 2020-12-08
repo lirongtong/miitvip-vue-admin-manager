@@ -19,6 +19,7 @@ const Login = defineComponent({
         className: PropTypes.string,
         background: PropTypes.string,
         title: PropTypes.string,
+        footer: PropTypes.bool.def(true),
         captchaInitAction: PropTypes.string,
         captchaVerifyAction: PropTypes.string,
         captchaBackground: PropTypes.string,
@@ -28,7 +29,8 @@ const Login = defineComponent({
         socialiteLoginDomain: PropTypes.string,
         registerLink: PropTypes.string,
         rules: PropTypes.object,
-        content: PropTypes.any
+        content: PropTypes.any,
+        example: PropTypes.bool.def(false)
     },
     data() {
         const validateCaptcha = (_rule: any, value: boolean, _callback: any) => {
@@ -60,8 +62,10 @@ const Login = defineComponent({
         }
     },
     beforeCreate() {
-        const token = this.$cookie.get(this.$g.caches.cookies.token.access)
-        if (token) this.$router.push({path: '/'})
+        if (!this.example) {
+            const token = this.$cookie.get(this.$g.caches.cookies.token.access)
+            if (token) this.$router.push({path: '/'})
+        }
     },
     mounted() {
         this.form.validate.captcha = !!(this.captchaInitAction && this.captchaVerifyAction)
@@ -246,21 +250,26 @@ const Login = defineComponent({
                 ) {
                     this.api.login = this.action
                     this.form.validate.url = this.api.login
-                    if (typeof this.action === 'string') {
-                        this.$store.dispatch('passport/login', this.form.validate).then((res: any) => {
-                            this.loading = false
-                            if (res.ret.code === 1) {
-                                let redirect = this.$route.query.redirect
-                                if (redirect) {
-                                    redirect = redirect.toString()
-                                    if (this.$g.regExp.url.test(redirect)) window.location.href = redirect
-                                    else this.$router.push({path: redirect})
-                                } else this.$router.push({path: '/'})
-                            } else MiModal.error({content: res.ret.message})
-                        }).catch((err: any) => {
-                            MiModal.error({content: err.message})
-                        })
-                    } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                    if (this.example) {
+                        MiModal.success({content: '校验通过（示例不进行提交操作）'})
+                        this.loading = false
+                    } else {
+                        if (typeof this.action === 'string') {
+                            this.$store.dispatch('passport/login', this.form.validate).then((res: any) => {
+                                this.loading = false
+                                if (res.ret.code === 1) {
+                                    let redirect = this.$route.query.redirect
+                                    if (redirect) {
+                                        redirect = redirect.toString()
+                                        if (this.$g.regExp.url.test(redirect)) window.location.href = redirect
+                                        else this.$router.push({path: redirect})
+                                    } else this.$router.push({path: '/'})
+                                } else MiModal.error({content: res.ret.message})
+                            }).catch((err: any) => {
+                                MiModal.error({content: err.message})
+                            })
+                        } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                    }
                 } else this.loading = false
             }).catch(() => {
                 this.loading = false
@@ -292,7 +301,7 @@ const Login = defineComponent({
                         { formTemplate }
                     </Col>
                 </Row>
-                <MiLayout.Footer></MiLayout.Footer>
+                { this.footer ? <MiLayout.Footer></MiLayout.Footer> : null }
             </div>
         )
     }
