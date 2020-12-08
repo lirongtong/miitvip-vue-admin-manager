@@ -31,7 +31,9 @@ export default defineComponent({
         loginLink: PropTypes.string,
         rules: PropTypes.object,
         content: PropTypes.any,
-        usernameTip: PropTypes.any
+        usernameTip: PropTypes.any,
+        footer: PropTypes.bool.def(true),
+        example: PropTypes.bool.def(false)
     },
     data() {
         const vm = this as any
@@ -279,15 +281,20 @@ export default defineComponent({
                     !this.form.validate.captcha ||
                     (this.form.validate.captcha && this.captcha)
                 ) {
-                    if (typeof this.action === 'string') {
-                        this.$store.dispatch('passport/register', this.form.validate).then((res: any) => {
-                            this.loading = false
-                            if (res.ret.code === 1) this.$router.push({path: '/'})
-                            else MiModal.error({content: res.ret.message})
-                        }).catch((err: any) => {
-                            MiModal.error({content: err.message})
-                        })
-                    } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                    if (!this.example) {
+                        if (typeof this.action === 'string') {
+                            this.$store.dispatch('passport/register', this.form.validate).then((res: any) => {
+                                this.loading = false
+                                if (res.ret.code === 1) this.$router.push({path: '/'})
+                                else MiModal.error({content: res.ret.message})
+                            }).catch((err: any) => {
+                                MiModal.error({content: err.message})
+                            })
+                        } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                    } else {
+                        MiModal.success({content: '校验通过（示例不进行提交操作）'})
+                        this.loading = false
+                    }
                 } else this.loading = false
             }).catch(() => {
                 this.loading = false
@@ -308,7 +315,7 @@ export default defineComponent({
                         { formTemplate }
                     </Col>
                 </Row>
-                <MiLayout.Footer></MiLayout.Footer>
+                { this.footer ? <MiLayout.Footer></MiLayout.Footer> : null }
             </div>
         )
     }
