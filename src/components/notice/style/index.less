@@ -3,20 +3,18 @@
 @mi-notice: ~'@{mi-prefix}notice';
 
 .@{mi-notice} {
-    &-tab {
+    &-icon {
+        .flex();
+        cursor: pointer;
+    }
+
+    &-content {
+        color: @mi-white-color;
         .properties(max-height, 550);
         overflow: auto;
         &::-webkit-scrollbar {
             display: none;
         }
-    }
-
-    &-icon {
-        .flex()
-    }
-
-    &-content {
-        color: @mi-white-color;
     }
 
     &-item {
@@ -26,6 +24,11 @@
 
         &:first-child {
             padding-top: 0;
+        }
+
+        &:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
         &-default {
