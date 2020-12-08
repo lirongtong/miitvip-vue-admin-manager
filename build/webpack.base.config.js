@@ -116,6 +116,7 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.less', '.vue', '.json', '.ts', '.tsx', '.md']
     },
+    performance: {hints: false},
     plugins: [
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
