@@ -1,24 +1,21 @@
 import { defineComponent } from 'vue'
 import { Popover, Badge, Tabs } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
-import MiNoticeTab from './tab'
-import MiNoticeItem from './item'
 import PropTypes, { getSlot, getSlotContent } from '../../utils/props'
 
-const MiNotice = defineComponent({
+export default defineComponent({
     name: 'MiNotice',
     props: {
         class: PropTypes.string,
         icon: PropTypes.any,
         iconSize: PropTypes.number,
-        hasTab: PropTypes.bool.def(true),
+        hasTab: PropTypes.bool.def(false),
+        tabChange: PropTypes.func,
         count: PropTypes.number.def(0),
         dot: PropTypes.bool.def(true),
+        maxWidth: PropTypes.number.def(295),
         placement: PropTypes.string.def('bottom'),
         extra: PropTypes.any
-    },
-    mounted() {
-        this.$forceUpdate()
     },
     methods: {
         getPrefixCls() {
@@ -66,28 +63,27 @@ const MiNotice = defineComponent({
             const panes = []
             const len = tabs.length
             if (len > 0) {
-                for (let i = 0; i < len; i++) {
-                    const tab = tabs[i]
+                tabs.map((tab: any) => {
                     const title = getSlotContent(tab, 'title')
                     const content = getSlot(tab)
                     panes.push(this.hasTab ? (
                         <Tabs.TabPane key={tab.props.name} tab={title}>
-                            { content.length <= 0 ? tab : content }
+                            { content.length > 0 ? content : tab }
                         </Tabs.TabPane>
                     ) : tab)
-                }
+                })
             }
             return [...panes]
         },
         getContentElem() {
             const prefixCls = this.getPrefixCls()
             const panes = this.getTabPanesElem()
-            let content = this.hasTab ? (<Tabs>{ panes }</Tabs>) : panes
+            let content = this.hasTab ? (<Tabs onChange={this.tabChange}>{ ...panes }</Tabs>) : panes
             if (panes.length <= 0) {
                 content = (<div class={`${prefixCls}-no-data`}>暂无数据 ( no data )</div>)
             }
             return (
-                <div class={`${prefixCls}-content`}>
+                <div class={`${prefixCls}-content`} style={{maxWidth: `${this.maxWidth}px`}}>
                     { content }
                 </div>
             )
@@ -105,10 +101,3 @@ const MiNotice = defineComponent({
         )
     }
 })
-
-MiNotice.Tab = MiNoticeTab
-MiNotice.Item = MiNoticeItem
-export default MiNotice as typeof MiNotice & {
-    readonly Tab: typeof MiNoticeTab,
-    readonly Item: typeof MiNoticeItem
-}

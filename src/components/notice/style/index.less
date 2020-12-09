@@ -40,10 +40,14 @@
         }
 
         &-info {
-            .properties(max-width, 250);
-            .properties(margin-left, 12);
+            .properties(max-width, 295);
             .flex(flex-start);
             flex-direction: column;
+        }
+
+        &-avatar + &-info {
+            .properties(max-width, 250);
+            .properties(margin-left, 12);
         }
 
         &-title,

@@ -84,7 +84,7 @@ class MiTools {
             this.random()
         ).toLocaleUpperCase()
         if (prefix) str = prefix + str
-        return upper ? str.toUpperCase() : str
+        return upper ? str.toUpperCase() : str.toLowerCase()
     }
 
     /**
