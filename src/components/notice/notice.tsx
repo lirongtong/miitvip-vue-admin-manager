@@ -67,12 +67,14 @@ const MiNotice = defineComponent({
             const len = tabs.length
             if (len > 0) {
                 for (let i = 0; i < len; i++) {
-                    const title = getSlotContent(tabs[i], 'title')
+                    const tab = tabs[i]
+                    const title = getSlotContent(tab, 'title')
+                    const content = getSlot(tab)
                     panes.push(this.hasTab ? (
-                        <Tabs.TabPane key={tabs[i].props.name} tab={title}>
-                            { tabs[i] }
+                        <Tabs.TabPane key={tab.props.name} tab={title}>
+                            { content.length <= 0 ? tab : content }
                         </Tabs.TabPane>
-                    ) : tabs[i])
+                    ) : tab)
                 }
             }
             return [...panes]
