@@ -69,7 +69,7 @@ export default defineComponent({
             this.$forceUpdate()
         },
         removeContainer() {
-            this.container = null
+            this._container = null
             this._component = null
         }
     },
