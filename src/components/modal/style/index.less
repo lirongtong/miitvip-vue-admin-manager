@@ -1,4 +1,5 @@
 @import '../../../style/theme/index.less';
+@import './anim.less';
 
 @mi-modal: ~'@{mi-prefix}modal';
 @ant-modal: ant-modal;
@@ -46,6 +47,7 @@
         background: @mi-sider-color;
         color: @mi-black-color;
         .border-radius();
+        border: 1px solid @mi-theme-color;
         transition: all .3s;
         position: relative;
     }
