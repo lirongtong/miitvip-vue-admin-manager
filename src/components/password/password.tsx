@@ -16,7 +16,6 @@ export default defineComponent({
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         loading: PropTypes.bool.def(false),
-        tips: PropTypes.any,
         minLength: PropTypes.number.def(6),
         maxLength: PropTypes.number.def(32),
         complexity: PropTypes.bool.def(true),
