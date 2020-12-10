@@ -29,7 +29,7 @@ function getModalPropTypes() {
         maskClosable: PropTypes.bool.def(true),
         closable: PropTypes.bool.def(true),
         visible: PropTypes.bool.def(false),
-        container: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+        container: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).def(() => document.body),
         forceRender: PropTypes.bool,
         wrapClass: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
         title: PropTypes.any,
