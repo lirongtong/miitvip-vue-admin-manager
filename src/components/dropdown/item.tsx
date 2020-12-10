@@ -19,7 +19,7 @@ export default defineComponent({
                 tag = (<span class="tag">{ this.item.tag.content }</span>)
             } else if (this.item.tag.icon) {
                 tag = (
-                    <div style={{color: this.item.tag.color ?? '#f6ca9d'}}>
+                    <div class="icon" style={{color: this.item.tag.color ?? null}}>
                         {
                             isVNode(this.item.tag.icon)
                                 ? this.item.tag.icon
