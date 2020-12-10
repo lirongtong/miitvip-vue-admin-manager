@@ -10,9 +10,11 @@ import { $tools } from '../../utils/tools'
 const formRef = $tools.getPrefixCls('password-form')
 export default defineComponent({
     name: 'MiPassword',
+    emits: ['update:value', 'change', 'input', 'update:repeatValue'],
     props: {
         repeat: PropTypes.bool.def(false),
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         loading: PropTypes.bool.def(false),
         tips: PropTypes.any,
         minLength: PropTypes.number.def(6),
@@ -113,7 +115,7 @@ export default defineComponent({
         },
         getPasswordElem(
             value: any,
-            changeHandler: (...args: any) => {},
+            inputHandler: (...args: any) => {},
             visibleHandler: (...args: any) => {},
             placeholder = '请输入密码'
         ) {
@@ -127,7 +129,7 @@ export default defineComponent({
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
                         value={value}
-                        onChange={changeHandler}
+                        onInput={inputHandler}
                         placeholder={placeholder} />
                 )
             } else {
@@ -139,16 +141,19 @@ export default defineComponent({
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
                         value={value}
-                        onInput={changeHandler}
+                        onInput={inputHandler}
                         placeholder={placeholder} />
                 )
             }
             return password
         },
-        handlePasswordValue(e: any) {
-            this.form.validate.password = e.target.value
+        handlePasswordInput(e: any) {
+            const val = e.target.value
+            this.form.validate.password = val
             this.$refs.password.onFieldChange()
-            this.$emit('change', this.form.validate.password)
+            this.$emit('update:value', val)
+            this.$emit('change', val)
+            this.$emit('input', val)
         },
         handlePasswordVisible() {
             this.visible = !this.visible
@@ -199,16 +204,18 @@ export default defineComponent({
                 <Form.Item name="repeat" ref="repeat">
                     { this.getPasswordElem(
                         this.form.validate.repeat,
-                        this.handlerRepeatValue,
+                        this.handleRepeatInput,
                         this.handleRepeatVisible,
                         '请再次输入密码'
                     ) }
                 </Form.Item>
             ) : null
         },
-        handlerRepeatValue(e: any) {
-            this.form.validate.repeat = e.target.value
+        handleRepeatInput(e: any) {
+            const val = e.target.value
+            this.form.validate.repeat = val
             this.$refs.repeat.onFieldChange()
+            this.$emit('update:repeatValue', val)
             this.$emit('repeatChange', this.form.validate.repeat)
         },
         handleRepeatVisible() {
@@ -226,7 +233,7 @@ export default defineComponent({
                     <Popover trigger="focus" placement="top" content={this.getPopoverContent}>
                         { this.getPasswordElem(
                             this.form.validate.password,
-                            this.handlePasswordValue,
+                            this.handlePasswordInput,
                             this.handlePasswordVisible
                         ) }
                     </Popover>
