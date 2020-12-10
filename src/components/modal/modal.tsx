@@ -110,4 +110,7 @@ Modal.confirm = (config: {}) => {
     }, config)
     AntModal.confirm(configuration)
 }
+Modal.destroyAll = () => {
+    AntModal.destroyAll()
+}
 export default install(Modal)
