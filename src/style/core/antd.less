@@ -160,7 +160,8 @@
 }
 
 @ant-btn: ant-btn;
-.@{ant-btn} {
+.@{ant-btn},
+.@{mi-prefix}btn {
     &:hover,
     &:active,
     &:link,
@@ -176,6 +177,46 @@
         color: @mi-sider-color;
         background: @mi-theme-color;
         border-color: @mi-theme-color;
+        text-shadow: none;
+    }
+
+    &-danger,
+    &-danger:hover,
+    &-danger:active,
+    &-danger:focus {
+        color: @mi-white-color;
+        background: @mi-danger-color;
+        border-color: @mi-danger-color;
+        text-shadow: none;
+    }
+
+    &-default,
+    &-default:hover,
+    &-default:active,
+    &-default:focus {
+        color: @mi-sider-color;
+        background: @mi-white-color;
+        border-color: @mi-white-color;
+        text-shadow: none;
+    }
+
+    &-info,
+    &-info:hover,
+    &-info:active,
+    &-info:focus {
+        color: @mi-white-color;
+        background: @mi-info-color;
+        border-color: @mi-info-color;
+        text-shadow: none;
+    }
+
+    &-warning,
+    &-warning:hover,
+    &-warning:active,
+    &-warning:focus {
+        color: @mi-white-color;
+        background: @mi-warning-color;
+        border-color: @mi-warning-color;
         text-shadow: none;
     }
 }
