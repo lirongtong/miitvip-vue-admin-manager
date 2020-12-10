@@ -9,8 +9,8 @@ export default defineComponent({
     name: 'MiCaptcha',
     emits: ['onSuccess'],
     props: {
-        width: PropTypes.number,
-        height: PropTypes.number,
+        width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         radius: PropTypes.number,
         themeColor: PropTypes.string,
         logo: PropTypes.string,
