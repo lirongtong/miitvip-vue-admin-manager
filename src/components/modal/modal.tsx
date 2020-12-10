@@ -84,25 +84,25 @@ const defaultConfig = {
     okText: '知道了'
 }
 Modal.success = (config: {}) => {
-    const configuration = Object.assign(defaultConfig, {
+    const configuration = Object.assign({}, defaultConfig, {
         class: `${prefixCls}-success`
     }, config)
     AntModal.success(configuration)
 }
 Modal.error = (config: {}) => {
-    const configuration = Object.assign(defaultConfig, {
+    const configuration = Object.assign({}, defaultConfig, {
         class: `${prefixCls}-error`
     }, config)
     AntModal.error(configuration)
 }
 Modal.warning = (config: {}) => {
-    const configuration = Object.assign(defaultConfig, {
+    const configuration = Object.assign({}, defaultConfig, {
         class: `${prefixCls}-warning`
     }, config)
     AntModal.warning(configuration)
 }
 Modal.confirm = (config: {}) => {
-    const configuration = Object.assign(defaultConfig, {
+    const configuration = Object.assign({}, defaultConfig, {
         class: `${prefixCls}-confirm`,
         okText: '确定',
         cancelText: '取消',
