@@ -226,6 +226,21 @@
                 }
             }
         }
+
+        & .@{ant-menu} {
+            & > .@{ant-submenu} {
+                & > .@{ant-submenu}-title {
+                    .properties(padding-left, 30) !important;
+                    .properties(padding-right, 30) !important;
+
+                    .anticon {
+                        .properties(min-width, 20);
+                        .properties(font-size, 20);
+                        line-height: 0;
+                    }
+                }
+            }
+        }
     }
 }
 
