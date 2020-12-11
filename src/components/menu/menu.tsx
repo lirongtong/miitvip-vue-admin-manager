@@ -21,7 +21,7 @@ export default defineComponent({
         return { store, menus, data, collapsed }
     },
     created() {
-        this.data = (this.items ?? this.$g.menus.items) as MenuItems[]
+        this.data = (this.items ?? []) as MenuItems[]
         const path = this.$route.path
         let find = false
         let relation: string[] = []

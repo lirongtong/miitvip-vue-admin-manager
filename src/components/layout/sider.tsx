@@ -29,7 +29,7 @@ const MiLayoutSider = defineComponent({
             let menu = getSlotContent(this, 'menu')
             if (menu === undefined) {
                 const prefixCls = this.getPrefixCls()
-                menu = (<MiLayoutSiderMenu className={`${prefixCls}-menu`}></MiLayoutSiderMenu>)
+                menu = (<MiLayoutSiderMenu className={`${prefixCls}-menu`} items={this.$g.menus.items}></MiLayoutSiderMenu>)
             }
             return menu
         },
