@@ -1,8 +1,10 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useStore } from 'vuex'
 import { Dropdown, Avatar, Menu } from 'ant-design-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import MiDropdownItem from './item'
+import { mutations } from '../../store/types'
 
 export default defineComponent({
     name: 'MiDropdown',
@@ -13,9 +15,17 @@ export default defineComponent({
         overlay: PropTypes.any
     },
     setup() {
+        const store = useStore()
         const menus = reactive([])
         const visible = ref(false)
-        return { menus, visible }
+        return { store, menus, visible }
+    },
+    watch: {
+        $route: function() {
+            const active = this.$g.prefix + this.$route.name
+            this.$g.menus.active = [active]
+            this.store.commit(`layout/${mutations.layout.active}`, [active])
+        }
     },
     methods: {
         getPrefixCls() {
