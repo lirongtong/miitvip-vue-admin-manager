@@ -44,7 +44,7 @@
         "dev": "vite --mode production",
         "dist": "webpack --config build/webpack.build.config.js --mode production --progress --color",
         "compile": "gulp --gulpfile build/gulp.style.config.js",
-        "build": "npm run compile && npm run dist && webpack --config build/webpack.dts.config.js --progress --color && rm -rf dist/makeit-admin-pro.min.js",
+        "build": "rm -rf es/ dist/ lib/ && npm run compile && npm run dist && webpack --config build/webpack.dts.config.js --progress --color && rm -rf dist/makeit-admin-pro.min.js",
         "build:example": "vite build",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
         "lint:fix": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts ./src"
