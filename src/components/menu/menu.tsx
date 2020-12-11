@@ -66,7 +66,7 @@ export default defineComponent({
     watch: {
         $route: function() {
             const active = this.$g.prefix + this.$route.name
-            if (this.$g.menus.active !== [active]) this.$g.menus.active = [active]
+            this.$g.menus.active = [active]
             this.getRelationshipChain()
         }
     },
