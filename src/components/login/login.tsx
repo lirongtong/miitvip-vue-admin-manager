@@ -266,6 +266,7 @@ const Login = defineComponent({
                                     } else this.$router.push({path: '/'})
                                 } else MiModal.error({content: res.ret.message})
                             }).catch((err: any) => {
+                                this.loading = false
                                 MiModal.error({content: err.message})
                             })
                         } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
