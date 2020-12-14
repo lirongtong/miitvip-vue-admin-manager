@@ -302,9 +302,9 @@ export default defineComponent({
                                             window.location.href = this.redirect
                                         } else this.$router.push({path: this.redirect})
                                     } else this.$router.push({path: '/'})
-                                }
-                                else MiModal.error({content: res.ret.message})
+                                } else MiModal.error({content: res.ret.message})
                             }).catch((err: any) => {
+                                this.loading = false
                                 MiModal.error({content: err.message})
                             })
                         } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
