@@ -269,7 +269,10 @@ const Login = defineComponent({
                                 this.loading = false
                                 MiModal.error({content: err.message})
                             })
-                        } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                        } else if (typeof this.action === 'function') {
+                            this.loading = false
+                            this.action.call(this, this.form.validate)
+                        }
                     }
                 } else this.loading = false
             }).catch(() => {

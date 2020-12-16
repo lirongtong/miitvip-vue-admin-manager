@@ -307,7 +307,10 @@ export default defineComponent({
                                 this.loading = false
                                 MiModal.error({content: err.message})
                             })
-                        } else if (typeof this.action === 'function') this.action.call(this, this.form.validate)
+                        } else if (typeof this.action === 'function') {
+                            this.loading = false
+                            this.action.call(this, this.form.validate)
+                        }
                     } else {
                         MiModal.success({content: '校验通过（示例不进行提交操作）'})
                         this.loading = false
