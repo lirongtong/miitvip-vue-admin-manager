@@ -68,6 +68,7 @@ export default defineComponent({
             const active = this.$g.prefix + this.$route.name
             this.setActive({key: active})
             this.getRelationshipChain()
+            this.$nextTick(() => this.$tools.backtoTop())
         }
     },
     methods: {
