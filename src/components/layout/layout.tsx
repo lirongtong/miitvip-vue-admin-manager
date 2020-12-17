@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
-import { Layout } from 'ant-design-vue'
+import { Layout, BackTop } from 'ant-design-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import { mutations } from '../../store/types'
 import MiLayoutHeader from './header'
@@ -80,6 +80,7 @@ const MiLayout = defineComponent({
                     { this.getLayoutElem() }
                 </Layout>
                 { drawer }
+                { this.$g.backToTop ? <BackTop target={() => document.body}></BackTop> : null }
             </>
         )
     }

@@ -333,6 +333,14 @@ class MiTools {
         return url
     }
 
+    /**
+     * Scroll to top.
+     * @param el 
+     * @param from 
+     * @param to 
+     * @param duration 
+     * @param endCallback 
+     */
     scrollTop(
         el: any,
         from = 0,
@@ -371,6 +379,11 @@ class MiTools {
         scroll(from, to, step)
     }
 
+    /**
+     * Back to top ( default `document.body` ).
+     * @param offset 
+     * @param time 
+     */
     backtoTop(offset = 0, time = 1000) {
         const top = this.isEmpty(offset)
             ? document.documentElement.scrollTop || document.body.scrollTop

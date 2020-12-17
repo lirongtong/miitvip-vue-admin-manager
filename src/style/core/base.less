@@ -22,6 +22,12 @@ body {
     &::-webkit-scrollbar {
         display: none;
     }
+
+    &::selection,
+    &::-moz-selection {
+        color: @mi-white-color;
+        background: @mi-sider-color;
+    }
 }
 
 ol, ul {

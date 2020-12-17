@@ -130,6 +130,12 @@ export const $g = reactive({
     apiVersion: 'v1',
 
     /**
+     * whether to appear the scroll back to top button.
+     * @type {boolean}
+     */
+    backToTop: true,
+
+    /**
      * User information.
      * @type {Record}
      */
