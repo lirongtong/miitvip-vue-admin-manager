@@ -110,7 +110,7 @@ export default {
                 (response) => {
                     return response
                 },
-                (err: any) => {
+                async (err: any) => {
                     if (err && err.response) {
                         const resent = () => {
                             const config = err.config
@@ -118,7 +118,10 @@ export default {
                             return this.$http[method](
                                 config.url,
                                 method === 'get' ? config.params : config.data,
-                                { retryCount: config.retryCount }
+                                {
+                                    retry: config.retry,
+                                    retryCount: config.retryCount
+                                }
                             )
                         }
 
@@ -149,17 +152,9 @@ export default {
                             /** retry 3 times, delay 1000ms each time (by default). */
                             const config = err.config
                             if (!config || !config.retry) return Promise.reject(err.response)
-                            if (config.retryCount >= config.retry)
-                                return Promise.reject(err.response)
+                            if (config.retryCount >= config.retry) return Promise.reject(err.response)
                             config.retryCount += 1
-                            const retry = new Promise((resolve) => {
-                                setTimeout(() => {
-                                    resolve(undefined)
-                                }, config.retryCount || 1)
-                            })
-                            retry.then(() => {
-                                return resent()
-                            })
+                            await resent()
                         }
                     }
                 }

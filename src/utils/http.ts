@@ -19,20 +19,16 @@ class MiHttp {
      */
     protected async send(config: AxiosRequestConfig): Promise<any> {
         if (!config.timeout) config.timeout = 60000
-        return axios(config)
-            .then(async (res) => {
+        return await axios(config)
+            .then((res: any) => {
                 res.data.ret.status = res.status
-                try {
-                    return Promise.resolve({
-                        ret: res.data.ret,
-                        data: res.data.data
-                    })
-                } catch (err) {
-                    return Promise.reject(err)
-                }
+                return Promise.resolve({
+                    ret: res.data.ret,
+                    data: res.data.data
+                })
             })
-            .catch((e) => {
-                return Promise.reject(e)
+            .catch((err) => {
+                return Promise.reject(err)
             })
     }
 
@@ -46,22 +42,26 @@ class MiHttp {
             this.instance[method.toLocaleLowerCase()] = (
                 url: string,
                 data: { [index: string]: any } = {},
-                config?: AxiosRequestConfig
+                config?: AxiosRequestConfig & {
+                    retry?: number,
+                    retryDelay?: number,
+                    retryCount?: 0
+                }
             ): Promise<any> => {
                 const args: { [index: string]: any } = {
-                    ...config,
                     url,
                     data,
                     method: method.toUpperCase(),
-                    retry: 3,
+                    retry: 0,
                     retryDelay: 1000,
-                    retryCount: (config && (config as any).retryCount) || 0
+                    retryCount: (config && config.retryCount) || 0
                 }
                 if (method.toUpperCase() === 'GET') {
                     delete args.data
                     args.params = data
                 }
-                return this.send(args)
+                const configuration = Object.assign({}, args, config)
+                return this.send(configuration)
             }
         })
     }

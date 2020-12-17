@@ -56,8 +56,8 @@ export default defineComponent({
                     uuid: null
                 },
                 rules: {
-                    username: [{required: true, validator: vm.checkUserName}],
-                    email: [{required: true, validator: vm.checkEmail}],
+                    username: [{required: true, validator: vm.checkUserName, trigger: vm.usernameVerifyAction ? 'blur' : 'change'}],
+                    email: [{required: true, validator: vm.checkEmail, trigger: vm.emailVerifyAction ? 'blur' : 'change'}],
                     captcha: [{required: true, validator: vm.checkCaptcha}]
                 }
             }
@@ -68,7 +68,7 @@ export default defineComponent({
         !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
-        checkUserName(_rule: any, value: string, _callback: any) {
+        async checkUserName(_rule: any, value: string, _callback: any) {
             if (this.$tools.isEmpty(value)) {
                 return Promise.reject('请设置用户账号')
             } else {
@@ -76,19 +76,21 @@ export default defineComponent({
                     return Promise.reject('仅允许字母+数字，4-16 个字符，且以字母开头')
                 } else {
                     if (this.usernameVerifyAction) {
-                        this.$http.get(this.$tools.parseUrl(this.usernameVerifyAction, {name: value})).then((res: any) => {
-                            if (res.ret.code !== 1) {
-                                return Promise.reject(res.ret.message)
-                            } else return Promise.resolve()
+                        return await this.$http.get(this.$tools.parseUrl(this.usernameVerifyAction, {name: value})).then((res: any) => {
+                            if (res.ret.code !== 1) return Promise.reject(res.ret.message)
+                            else return Promise.resolve()
                         }).catch((err: any) => {
-                            MiModal.error({content: err.message})
-                            return Promise.reject('请设置用户账号')
+                            if (err.status) {
+                                const content = `[ ${err.status} ] ${err.statusText}`
+                                MiModal.error({content})
+                                return Promise.reject(content)
+                            } else return Promise.reject(err)
                         })
                     } else return Promise.resolve()
                 }
             }
         },
-        checkEmail(_rule: any, value: string, _callback: any) {
+        async checkEmail(_rule: any, value: string, _callback: any) {
             if (this.$tools.isEmpty(value)) {
                 return Promise.reject('请输入邮箱地址')
             } else {
@@ -96,12 +98,15 @@ export default defineComponent({
                     return Promise.reject('请输入有效的邮箱地址')
                 } else {
                     if (this.emailVerifyAction) {
-                        this.$http.get(this.$tools.parseUrl(this.emailVerifyAction, {email: value})).then((res: any) => {
+                        return await this.$http.get(this.$tools.parseUrl(this.emailVerifyAction, {email: value})).then((res: any) => {
                             if (res.ret.code !== 1) return Promise.reject(res.ret.message)
                             else return Promise.resolve()
                         }).catch((err: any) => {
-                            MiModal.error(err.message)
-                            return Promise.reject('请输入邮箱地址')
+                            if (err.status) {
+                                const content = `[ ${err.status} ] ${err.statusText}`
+                                MiModal.error({content})
+                                return Promise.reject(content)
+                            } else return Promise.reject(err)
                         })
                     } else return Promise.resolve()
                 }
