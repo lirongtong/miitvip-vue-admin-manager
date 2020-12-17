@@ -6,9 +6,25 @@ export class Links {
     logout = 'logout'
     register = 'register'
     refresh = 'oauth/refresh'
+    authorize = 'oauth/{socialite}/login'
     captcha = {
         init: 'captcha/init',
         verification: 'captcha/verification'
+    }
+    email = {
+        active: 'email/active/{token}',
+        resend: 'email/active/resend'
+    }
+    validator = {
+        name: 'validator/name/{name}',
+        email: 'validator/email/{email}',
+        account: 'validator/account'
+    }
+    password = {
+        forgot: 'password/forgot',
+        reset: 'password/reset',
+        captcha: 'password/captcha',
+        check: 'password/captcha/check'
     }
 }
 
