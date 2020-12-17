@@ -76,7 +76,7 @@ export default defineComponent({
                     return Promise.reject('仅允许字母+数字，4-16 个字符，且以字母开头')
                 } else {
                     if (this.usernameVerifyAction) {
-                        this.$http.get(`${this.usernameVerifyAction}/${value}`).then((res: any) => {
+                        this.$http.get(this.$tools.parseUrl(this.usernameVerifyAction, {name: value})).then((res: any) => {
                             if (res.ret.code !== 1) {
                                 return Promise.reject(res.ret.message)
                             } else return Promise.resolve()
@@ -96,7 +96,7 @@ export default defineComponent({
                     return Promise.reject('请输入有效的邮箱地址')
                 } else {
                     if (this.emailVerifyAction) {
-                        this.$http.get(`${this.emailVerifyAction}/${value}`).then((res: any) => {
+                        this.$http.get(this.$tools.parseUrl(this.emailVerifyAction, {email: value})).then((res: any) => {
                             if (res.ret.code !== 1) return Promise.reject(res.ret.message)
                             else return Promise.resolve()
                         }).catch((err: any) => {
