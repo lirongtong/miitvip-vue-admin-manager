@@ -315,6 +315,23 @@ class MiTools {
         if (format) result = this.formatEmpty(str)
         return result
     }
+
+    /**
+     * parsing url parameters.
+     * @param url 
+     * @param params 
+     */
+    parseUrl(url: string, params: {}) {
+        if (Object.keys(params).length > 0) {
+            for (const i in params) {
+                if (params.hasOwnProperty(i)) {
+                    const reg = new RegExp('\{' + i + '\}', 'gi')
+                    url = url.replace(reg, params[i])
+                }
+            }
+        }
+        return url
+    }
 }
 export const $tools: MiTools = new MiTools()
 const tools = {
