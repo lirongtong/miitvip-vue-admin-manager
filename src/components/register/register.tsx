@@ -20,6 +20,7 @@ export default defineComponent({
         background: PropTypes.string,
         title: PropTypes.string,
         redirect: PropTypes.string,
+        binding: PropTypes.bool.def(false),
         captchaInitAction: PropTypes.string,
         captchaVerifyAction: PropTypes.string,
         captchaBackground: PropTypes.string,
@@ -31,6 +32,7 @@ export default defineComponent({
         passwordComplexity: PropTypes.bool.def(true),
         passwordComplexityTip: PropTypes.string,
         passwordLevel: PropTypes.object,
+        passwordRepeat: PropTypes.bool.def(true),
         usernameVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         emailVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         socialiteLoginDomain: PropTypes.string,
@@ -76,7 +78,7 @@ export default defineComponent({
                     return Promise.reject('仅允许字母+数字，4-16 个字符，且以字母开头')
                 } else {
                     if (this.usernameVerifyAction) {
-                        return await this.$http.get(this.$tools.parseUrl(this.usernameVerifyAction, {name: value})).then((res: any) => {
+                        return await this.$http.post(this.usernameVerifyAction, {value, binding: this.binding}).then((res: any) => {
                             if (res.ret.code !== 1) return Promise.reject(res.ret.message)
                             else return Promise.resolve()
                         }).catch((err: any) => {
@@ -98,7 +100,7 @@ export default defineComponent({
                     return Promise.reject('请输入有效的邮箱地址')
                 } else {
                     if (this.emailVerifyAction) {
-                        return await this.$http.get(this.$tools.parseUrl(this.emailVerifyAction, {email: value})).then((res: any) => {
+                        return await this.$http.post(this.emailVerifyAction, {value, binding: this.binding}).then((res: any) => {
                             if (res.ret.code !== 1) return Promise.reject(res.ret.message)
                             else return Promise.resolve()
                         }).catch((err: any) => {
@@ -229,7 +231,9 @@ export default defineComponent({
             ) : null
             return (
                 <>
-                    <Button class={`${prefixCls}-submit`} onClick={this.handleRegister}>注册</Button>
+                    <Button class={`${prefixCls}-submit`} onClick={this.handleRegister}>
+                        { this.binding ? '立即绑定' : '注册' }
+                    </Button>
                     { login }
                 </>
             )
@@ -262,7 +266,7 @@ export default defineComponent({
                         { this.getUserNameElem() }
                         { this.getEmailElem() }
                         <MiPassport
-                            repeat={true}
+                            repeat={this.passwordRepeat}
                             loading={this.loading}
                             value={this.form.validate.password}
                             minLength={this.passwordMinLength}

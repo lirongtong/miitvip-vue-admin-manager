@@ -16,8 +16,8 @@ export class Links {
         resend: 'email/active/resend'
     }
     validator = {
-        name: 'validator/name/{name}',
-        email: 'validator/email/{email}',
+        name: 'validator/name',
+        email: 'validator/email',
         account: 'validator/account'
     }
     password = {
