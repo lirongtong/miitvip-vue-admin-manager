@@ -22,7 +22,7 @@ export default defineComponent({
                 <Layout class={`${this.getPrefixCls()} ${this.getPrefixCls('layout-mobile')}`} hasSider={true}>
                     <Layout.Sider width="256">
                         <MiLayoutSiderLogo></MiLayoutSiderLogo>
-                        <MiLayoutSiderMenu className={this.getPrefixCls('layout-sider-menu')}></MiLayoutSiderMenu>
+                        <MiLayoutSiderMenu className={this.getPrefixCls('layout-sider-menu')} items={this.$g.menus.items}></MiLayoutSiderMenu>
                     </Layout.Sider>
                 </Layout>
             </Drawer>

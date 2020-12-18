@@ -78,9 +78,9 @@ const MiLayout = defineComponent({
             <>
                 <Layout hasSider={this.hasSider} class={this.layoutClass}>
                     { this.getLayoutElem() }
+                    { this.$g.backToTop ? <BackTop target={() => document.body}></BackTop> : null }
                 </Layout>
                 { drawer }
-                { this.$g.backToTop ? <BackTop target={() => document.body}></BackTop> : null }
             </>
         )
     }
