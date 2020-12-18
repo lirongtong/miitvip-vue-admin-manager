@@ -126,6 +126,25 @@ export const actions: ActionTree<PassportState, RootState> = {
     },
 
     /**
+     * Authorize action.
+     * @param param0 
+     * @param data 
+     */
+    authorize({ dispatch, commit }, data: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            $http.post(data.url, {token: data.token}).then((res: any) => {
+                if (res.ret.code === 1) {
+                    commit(mutations.passport.auto, true)
+                    dispatch('user', res.data)
+                }
+                resolve(res)
+            }).catch((err: any) => {
+                reject(err)
+            })
+        })
+    },
+
+    /**
      * Refresh token action.
      * @param commit
      * @param data
