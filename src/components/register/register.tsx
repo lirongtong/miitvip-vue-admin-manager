@@ -21,12 +21,21 @@ export default defineComponent({
         title: PropTypes.string,
         redirect: PropTypes.string,
         binding: PropTypes.bool.def(false),
+        openCaptcha: PropTypes.bool.def(true),
+        captchaRadius: PropTypes.number.def(42),
+        captchaInitParams: PropTypes.object.def({}),
         captchaInitAction: PropTypes.string,
+        captchaCheckParams: PropTypes.object.def({}),
+        captchaCheckAction: PropTypes.string,
+        captchaVerifyParams: PropTypes.object.def({}),
         captchaVerifyAction: PropTypes.string,
         captchaBackground: PropTypes.string,
         captchaThemeColor: PropTypes.string,
+        captchaImage: PropTypes.string,
         captchaMaxTries: PropTypes.number.def(5),
-        captchaOnSuccess: PropTypes.func,
+        onCaptchaSuccess: PropTypes.func,
+        onCaptchaInit: PropTypes.func,
+        onCaptchaChecked: PropTypes.func,
         passwordMinLength: PropTypes.number.def(6),
         passwordMaxLength: PropTypes.number.def(32),
         passwordComplexity: PropTypes.bool.def(true),
@@ -66,7 +75,7 @@ export default defineComponent({
         }
     },
     mounted() {
-        this.form.validate.captcha = !!(this.captchaInitAction && this.captchaVerifyAction)
+        this.form.validate.captcha = this.openCaptcha
         !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
@@ -204,18 +213,22 @@ export default defineComponent({
             this.form.validate.repeat = value
         },
         getCaptchaElem() {
-            if (
-                this.captchaInitAction &&
-                this.captchaVerifyAction
-            ) {
+            if (this.openCaptcha) {
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
                         <Captcha
+                            width="100%"
+                            radius={this.captchaRadius}
                             maxTries={this.captchaMaxTries}
                             themeColor={this.captchaThemeColor}
                             image={this.captchaBackground}
+                            initParams={this.captchaInitParams}
                             initAction={this.captchaInitAction}
+                            checkParams={this.captchaCheckParams}
+                            checkAction={this.captchaCheckAction}
                             verifyAction={this.captchaVerifyAction}
+                            onInit={this.onCaptchaInit}
+                            onChecked={this.onCaptchaChecked}
                             onSuccess={this.handleCaptchaVerify}>
                         </Captcha>
                     </Form.Item>
@@ -285,13 +298,13 @@ export default defineComponent({
             )
         },
         handleCaptchaVerify(data: any) {
-            if (data.uuid) this.form.validate.uuid = data.uuid
+            if (data && data.uuid) this.form.validate.uuid = data.uuid
             this.captcha = true
             isVerify = true
             if (
-                this.captchaOnSuccess &&
-                typeof this.captchaOnSuccess === 'function'
-            ) this.captchaOnSuccess.call(this, data)
+                this.onCaptchaSuccess &&
+                typeof this.onCaptchaSuccess === 'function'
+            ) this.onCaptchaSuccess.call(this, data)
         },
         handleRegister() {
             if (this.loading) return 
