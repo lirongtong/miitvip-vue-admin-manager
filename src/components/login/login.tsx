@@ -30,7 +30,6 @@ const Login = defineComponent({
         captchaVerifyAction: PropTypes.string,
         captchaBackground: PropTypes.string,
         captchaThemeColor: PropTypes.string,
-        captchaImage: PropTypes.string,
         captchaMaxTries: PropTypes.number.def(5),
         onCaptchaSuccess: PropTypes.func,
         onCaptchaInit: PropTypes.func,
