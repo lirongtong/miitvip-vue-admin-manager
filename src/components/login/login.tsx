@@ -20,12 +20,21 @@ const Login = defineComponent({
         background: PropTypes.string,
         title: PropTypes.string,
         footer: PropTypes.bool.def(true),
+        openCaptcha: PropTypes.bool.def(true),
+        captchaRadius: PropTypes.number.def(42),
+        captchaInitParams: PropTypes.object.def({}),
         captchaInitAction: PropTypes.string,
+        captchaCheckParams: PropTypes.object.def({}),
+        captchaCheckAction: PropTypes.string,
+        captchaVerifyParams: PropTypes.object.def({}),
         captchaVerifyAction: PropTypes.string,
         captchaBackground: PropTypes.string,
         captchaThemeColor: PropTypes.string,
+        captchaImage: PropTypes.string,
         captchaMaxTries: PropTypes.number.def(5),
-        captchaOnSuccess: PropTypes.func,
+        onCaptchaSuccess: PropTypes.func,
+        onCaptchaInit: PropTypes.func,
+        onCaptchaChecked: PropTypes.func,
         socialiteLoginDomain: PropTypes.string,
         registerLink: PropTypes.string,
         rules: PropTypes.object,
@@ -68,7 +77,7 @@ const Login = defineComponent({
         }
     },
     mounted() {
-        this.form.validate.captcha = !!(this.captchaInitAction && this.captchaVerifyAction)
+        this.form.validate.captcha = this.openCaptcha
         !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
@@ -160,19 +169,23 @@ const Login = defineComponent({
             )
         },
         getCaptchaElem() {
-            if (
-                this.captchaInitAction &&
-                this.captchaVerifyAction
-            ) {
+            if (this.openCaptcha) {
                 const prefixCls = this.getPrefixCls()
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
                         <Captcha
+                            width="100%"
+                            radius={this.captchaRadius}
                             maxTries={this.captchaMaxTries}
                             themeColor={this.captchaThemeColor}
                             image={this.captchaBackground}
+                            initParams={this.captchaInitParams}
                             initAction={this.captchaInitAction}
+                            checkParams={this.captchaCheckParams}
+                            checkAction={this.captchaCheckAction}
                             verifyAction={this.captchaVerifyAction}
+                            onInit={this.onCaptchaInit}
+                            onChecked={this.onCaptchaChecked}
                             onSuccess={this.handleCaptchaVerify}>
                         </Captcha>
                     </Form.Item>
@@ -280,13 +293,13 @@ const Login = defineComponent({
             })
         },
         handleCaptchaVerify(data: any) {
-            if (data.uuid) this.form.validate.uuid = data.uuid
+            if (data && data.uuid) this.form.validate.uuid = data.uuid
             this.captcha = true
             isVerify = true
             if (
-                this.captchaOnSuccess &&
-                typeof this.captchaOnSuccess === 'function'
-            ) this.captchaOnSuccess.call(this, data)
+                this.onCaptchaSuccess &&
+                typeof this.onCaptchaSuccess === 'function'
+            ) this.onCaptchaSuccess.call(this, data)
         }
     },
     render() {
