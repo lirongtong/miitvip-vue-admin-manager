@@ -92,7 +92,7 @@ export const $g = reactive({
      * Website default avatar.
      * @type {string | null}
      */
-    avatar: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png',
+    avatar: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png',
 
     /**
      * Prefix.
