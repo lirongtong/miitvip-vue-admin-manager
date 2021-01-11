@@ -132,8 +132,7 @@ gulp.task('compile', gulp.series('compile-with-es', done => {
 gulp.task('concat-css', (done) => {
     const stream = gulp.src([
         libDir + '/**/*.css',
-        '../node_modules/makeit-captcha/dist/captcha.css',
-        '../node_modules/makeit-tooltip/dist/tooltip.css'
+        '../node_modules/makeit-captcha/dist/captcha.css'
     ])
     .pipe(less())
     .pipe(sourcemaps.init())
@@ -149,8 +148,7 @@ gulp.task('concat-css', (done) => {
 gulp.task('minify-css', (done) => {
     gulp.src([
         libDir + '/**/*.css',
-        '../node_modules/makeit-captcha/dist/captcha.css',
-        '../node_modules/makeit-tooltip/dist/tooltip.css'
+        '../node_modules/makeit-captcha/dist/captcha.css'
     ])
     .pipe(sourcemaps.init())
     .pipe(autoprefixer({
