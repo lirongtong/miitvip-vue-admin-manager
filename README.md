@@ -1,11 +1,11 @@
 <p align="center">
     <a href="https://admin.makeit.vip/">
-        <img width="200" src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7QkoCAeo6PAAARuoXj0Jc275.png">
+        <img width="200" src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png">
     </a>
 </p>
 
-<h1 align="center" color="green">
-    <a href="https://admin.makeit.vip/" target="_blank" style="color: #41b995">
+<h1 align="center">
+    <a href="https://admin.makeit.vip/" target="_blank" style="color: #f6ca9d">
         Makeit Admin Pro
     </a>
 </h1>
