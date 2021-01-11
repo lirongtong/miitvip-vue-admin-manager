@@ -1,4 +1,6 @@
 import { App } from 'vue'
+import Captcha from 'makeit-captcha'
+import Tooltip from 'makeit-tooltip'
 import async from './utils/async'
 import baseMixins from './utils/mixins'
 
@@ -18,7 +20,6 @@ import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
 import { default as Menu } from './components/menu'
-import { default as Captcha } from './components/captcha'
 
 const components = [
     config,
@@ -36,7 +37,8 @@ const components = [
     Dropdown,
     Modal,
     Menu,
-    Captcha
+    Captcha,
+    Tooltip
 ]
 
 let _Init = false

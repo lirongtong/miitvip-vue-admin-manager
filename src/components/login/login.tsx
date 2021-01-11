@@ -8,7 +8,7 @@ import {
 import PropTypes, { getSlotContent } from '../../utils/props'
 import MiLoginQuick from './quick'
 import MiLayout from '../layout'
-import MiCaptcha from '../captcha'
+import { Captcha } from 'makeit-captcha'
 import MiModal from '../modal'
 
 let isVerify = false
@@ -167,14 +167,14 @@ const Login = defineComponent({
                 const prefixCls = this.getPrefixCls()
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
-                        <MiCaptcha
+                        <Captcha
                             maxTries={this.captchaMaxTries}
                             themeColor={this.captchaThemeColor}
-                            background={this.captchaBackground}
+                            image={this.captchaBackground}
                             initAction={this.captchaInitAction}
                             verifyAction={this.captchaVerifyAction}
                             onSuccess={this.handleCaptchaVerify}>
-                        </MiCaptcha>
+                        </Captcha>
                     </Form.Item>
                 )
             }

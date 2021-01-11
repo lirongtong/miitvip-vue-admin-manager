@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 import MiLayout from '../layout'
 import MiModal from '../modal'
 import MiPassport from '../password'
-import MiCaptcha from '../captcha'
+import { Captcha } from 'makeit-captcha'
 import MiLoginQuick from '../login/quick'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import { $tools } from '../../utils/tools'
@@ -210,14 +210,14 @@ export default defineComponent({
             ) {
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
-                        <MiCaptcha
+                        <Captcha
                             maxTries={this.captchaMaxTries}
                             themeColor={this.captchaThemeColor}
-                            background={this.captchaBackground}
+                            image={this.captchaBackground}
                             initAction={this.captchaInitAction}
                             verifyAction={this.captchaVerifyAction}
                             onSuccess={this.handleCaptchaVerify}>
-                        </MiCaptcha>
+                        </Captcha>
                     </Form.Item>
                 )
             }
