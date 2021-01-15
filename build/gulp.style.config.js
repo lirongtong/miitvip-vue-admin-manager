@@ -130,12 +130,6 @@ gulp.task('compile', gulp.series('compile-with-es', done => {
     });
 }));
 
-gulp.task('fonts', (done) => {
-    gulp.src('../node_modules/makeit-captcha/fonts/*')
-    .pipe(gulp.dest(fontsDir));
-    done();
-});
-
 gulp.task('concat-css', (done) => {
     const stream = gulp.src([
         libDir + '/**/*.css',
@@ -168,4 +162,4 @@ gulp.task('minify-css', (done) => {
     done();
 });
 
-gulp.task('default', gulp.series('compile', gulp.parallel('concat-css', 'minify-css', 'fonts')));
+gulp.task('default', gulp.series('compile', gulp.parallel('concat-css', 'minify-css')));
