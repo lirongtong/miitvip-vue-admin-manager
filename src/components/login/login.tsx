@@ -76,7 +76,7 @@ const Login = defineComponent({
         }
     },
     mounted() {
-        this.form.validate.captcha = this.openCaptcha
+        this.form.validate.captcha = this.openCaptcha && (this.captchaInitAction || this.captchaVerifyAction)
         !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
