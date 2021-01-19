@@ -76,7 +76,9 @@ export {
     Dropdown,
     Modal,
     Menu,
-    Captcha
+    Captcha,
+    Tooltip,
+    Search
 }
 
 export default {
