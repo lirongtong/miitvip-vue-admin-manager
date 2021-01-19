@@ -22,6 +22,9 @@ export default defineComponent({
             if (this.$refs.wrap) this.$refs.wrap.style.display = 'none'
             if (afterClose) afterClose()
         },
+        handleWrapClick() {
+            if (this.mask && this.maskClosable) this.close()
+        },
         getZIndex() {
             const style: any = {}
             const props = this.$props
@@ -53,6 +56,7 @@ export default defineComponent({
                             <div
                                 class={`${this.prefixCls}-mask`}
                                 style={this.getMaskStyle()}
+                                onClick={this.close}
                                 key="mask">
                             </div>
                         ) as VNode, [[vShow, this.visible]]) }
@@ -146,7 +150,7 @@ export default defineComponent({
         return (
             <div class={`${prefixCls} ${prefixCls}-anim-${this.animation}`} role="modal">
                 { this.getMaskElem() }
-                <div class={this.getWrapClass()} ref="wrap" style={style}>
+                <div class={this.getWrapClass()} ref="wrap" style={style} onClick={this.handleWrapClick}>
                     { this.getModalElem() }
                 </div>
             </div>
