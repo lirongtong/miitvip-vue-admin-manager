@@ -36,6 +36,7 @@ const Login = defineComponent({
         onCaptchaChecked: PropTypes.func,
         socialiteLoginDomain: PropTypes.string,
         registerLink: PropTypes.string,
+        forgetPasswordLink: PropTypes.string,
         rules: PropTypes.object,
         content: PropTypes.any,
         example: PropTypes.bool.def(false)
@@ -194,6 +195,14 @@ const Login = defineComponent({
         },
         getRememberBtnElem() {
             const prefixCls = this.getPrefixCls()
+            const cls = `${prefixCls}-forget`
+            const link = !this.forgetPasswordLink
+                ? <RouterLink to={{path: '/password/forget'}} class={cls}>
+                    <QuestionCircleOutlined />忘记密码
+                </RouterLink>
+                : <a href={this.forgetPasswordLink} class={cls}>
+                    <QuestionCircleOutlined />忘记密码
+                </a>
             return (
                 <Form.Item class={`${prefixCls}-remember`}>
                     <Checkbox
@@ -201,9 +210,7 @@ const Login = defineComponent({
                         onChange={this.handleRememberValue}>
                         保持登录
                     </Checkbox>
-                    <RouterLink to={{path: '/'}} class={`${prefixCls}-forget`}>
-                        <QuestionCircleOutlined />忘记密码
-                    </RouterLink>
+                    { link }
                 </Form.Item>
             )
         },
