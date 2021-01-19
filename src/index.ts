@@ -1,6 +1,7 @@
 import { App } from 'vue'
 import Captcha from 'makeit-captcha'
 import Tooltip from 'makeit-tooltip'
+import Search from 'makeit-search'
 import async from './utils/async'
 import baseMixins from './utils/mixins'
 
@@ -38,7 +39,8 @@ const components = [
     Modal,
     Menu,
     Captcha,
-    Tooltip
+    Tooltip,
+    Search
 ]
 
 let _Init = false
