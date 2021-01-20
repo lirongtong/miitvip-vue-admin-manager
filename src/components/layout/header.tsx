@@ -15,7 +15,8 @@ export default defineComponent({
         className: PropTypes.string,
         notice: PropTypes.any,
         dropdown: PropTypes.any,
-        stretchIcon: PropTypes.any
+        stretchIcon: PropTypes.any,
+        extra: PropTypes.any
     },
     setup() {
         const store = useStore()
@@ -92,6 +93,7 @@ export default defineComponent({
             triggerMin: `${prefixCls}-trigger-min`
         }
         const triggerCls = `${headerCls.trigger} ${headerCls.triggerMin}`
+        const headerExtra = getSlotContent(this, 'extra')
         return (
             <Layout.Header class={`${prefixCls} ${this.className ?? ''}`}>
                 <div class={headerCls.left}>
@@ -100,6 +102,7 @@ export default defineComponent({
                     </div>
                 </div>
                 <div class={headerCls.right}>
+                    { headerExtra }
                     <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>
                     <div class={triggerCls}>{ this.getNoticeElem() }</div>
                     <div class={triggerCls}>{ this.getDropdownElem() }</div>

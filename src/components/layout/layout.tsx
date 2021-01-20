@@ -17,6 +17,7 @@ const MiLayout = defineComponent({
         menuClassName: PropTypes.string,
         sider: PropTypes.any,
         header: PropTypes.any,
+        headerExtra: PropTypes.any,
         footer: PropTypes.any
     },
     computed: {
@@ -49,7 +50,8 @@ const MiLayout = defineComponent({
         },
         getHeaderElem() {
             let header = getSlotContent(this, 'header')
-            if (header === undefined) header = <MiLayoutHeader></MiLayoutHeader>
+            const extra = getSlotContent(this, 'headerExtra')
+            if (header === undefined) header = <MiLayoutHeader extra={extra}></MiLayoutHeader>
             if (this.embed) header = null
             return header
         },
