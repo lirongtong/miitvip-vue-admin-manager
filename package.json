@@ -1,6 +1,6 @@
 {
     "name": "makeit-admin-pro",
-    "version": "1.200.604",
+    "version": "1.200.605",
     "author": {
         "url": "https://www.makeit.vip",
         "name": "lirongtong",
@@ -54,7 +54,7 @@
         "ant-design-vue": "^2.0.0-rc.8",
         "axios": "^0.21.1",
         "makeit-captcha": "^1.1.3",
-        "makeit-search": "^1.0.1",
+        "makeit-search": "^1.0.3",
         "makeit-tooltip": "^1.0.7",
         "screenfull": "^5.1.0",
         "vue": "^3.0.5",
