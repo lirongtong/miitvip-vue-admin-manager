@@ -1,7 +1,7 @@
 <template>
     <mi-layout>
         <template v-slot:headerExtra v-if="!$tools.isMobile()">
-            <mi-search class-name="mi-search-custom" :data="searchData" search-key="title" :height="64" :width="120" border-color="transparent" text-color="#f6ca9d" search-key-color="#f6ca9d" background-color="transparent" placeholder="搜索组件 ..." :list-width="320" list-border-color="#f6ca9d" :list-radius="4" :list-box-shadow="false" list-background="#1d1e23" :pagination="true" :page-size="3" page-color="rgba(255, 255, 255, .8)">
+            <mi-search class-name="mi-search-custom" :data="searchData" search-key="title" :height="64" :width="120" border-color="transparent" text-color="#f6ca9d" search-key-color="#f6ca9d" background-color="transparent" placeholder="搜索组件 ..." :list-width="320" list-border-color="#f6ca9d" :list-radius="4" :list-box-shadow="false" list-background="#1d1e23" :pagination="true" :page-size="3" page-color="rgba(255, 255, 255, .8)" @item-click="handleClickSearchItem">
                 <template v-slot:itemTemplate>
                     <div class="info">
                         <div class="title"><mi-search-key name="title"></mi-search-key></div>
@@ -267,6 +267,9 @@
                     this.src = Alipay
                 }
                 this.visible = !this.visible
+            },
+            handleClickSearchItem(data: any) {
+                if (data.link) this.$router.push({path: data.link})
             }
         }
     })
