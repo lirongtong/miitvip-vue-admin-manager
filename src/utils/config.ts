@@ -63,6 +63,12 @@ export const $g = reactive({
     author: '麦可易特网',
 
     /**
+     * Website theme.
+     * @type {string}
+     */
+    theme: 'dark',
+
+    /**
      * Website keywords.
      * @type {string}
      */

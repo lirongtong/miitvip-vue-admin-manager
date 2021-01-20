@@ -9,7 +9,7 @@
             .properties(height);
             border-style: solid;
             .properties(border-width, 1);
-            border-color: #e5bc92 transparent transparent #e5bc92;
+            border-color: @mi-theme-color transparent transparent @mi-theme-color;
             background: @mi-sider-color;
         }
     }
@@ -20,7 +20,7 @@
             .@{ant-popover} {
                 &-content {
                     & > .@{ant-popover}-arrow {
-                        border-color: transparent #e5bc92 #e5bc92 transparent;
+                        border-color: transparent @mi-theme-color @mi-theme-color transparent;
                     }
                 }
             }
@@ -31,7 +31,7 @@
             .@{ant-popover} {
                 &-content {
                     & > .@{ant-popover}-arrow {
-                        border-color: transparent transparent #e5bc92 #e5bc92;
+                        border-color: transparent transparent @mi-theme-color @mi-theme-color;
                     }
                 }
             }
@@ -42,7 +42,7 @@
             .@{ant-popover} {
                 &-content {
                     & > .@{ant-popover}-arrow {
-                        border-color: #e5bc92 #e5bc92 transparent transparent;
+                        border-color: @mi-theme-color @mi-theme-color transparent transparent;
                         transform: translateY(-50%) rotate(45deg);
                     }
                 }

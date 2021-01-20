@@ -34,7 +34,7 @@
     
             .sub {
                 .properties(font-size, 12);
-                color: @mi-subsidiary-color;
+                color: @mi-menu-sub-color;
             }
         }
 
@@ -148,15 +148,21 @@
         }
 
         > a {
-            color: @mi-white-color;
+            color: @mi-menu-color;
         }
 
         &.@{ant-menu}-item-selected {
-            background-color: @mi-black-color;
+            background-color: @mi-menu-active-color;
 
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
                 color: @mi-theme-color;
+            }
+
+            .@{mi-menu}-item-title {
+                .sub {
+                    color: @mi-menu-active-sub-color;
+                }
             }
         }
 
@@ -164,6 +170,12 @@
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
                 color: @mi-theme-color;
+            }
+
+            .@{mi-menu}-item-title {
+                .sub {
+                    color: @mi-menu-active-sub-color;
+                }
             }
         }
 
@@ -284,7 +296,7 @@
                     }
 
                     &-selected {
-                        background-color: @mi-black-color;
+                        background-color: @mi-menu-active-color;
 
                         .@{mi-menu} {
                             &-item {
@@ -293,6 +305,13 @@
                                     
                                     .anticon, .anticon + span {
                                         color: @mi-theme-color;
+                                    }
+                                }
+
+                                &-title {
+                                    .sub {
+                                        transition: all 0.3s ease;
+                                        color: @mi-menu-active-sub-color;
                                     }
                                 }
                             }
@@ -343,7 +362,7 @@
         margin-bottom: 0;
 
         > a {
-            color: @mi-white-color;
+            color: @mi-menu-color;
         }
     }
 }
@@ -353,7 +372,7 @@
 }
 
 .@{mi-sider-menu} {
-    margin-top: @mi-header-height;
+    margin-top: @mi-header-height + 0.5;
     height: calc(100vh - @mi-header-height);
     width: @mi-sider-width;
 

@@ -32,6 +32,7 @@
     export default defineComponent({
         data() {
             return {
+                theme: 'light',
                 visible: false,
                 src: Alipay,
                 animation: 'newspaper',
@@ -255,6 +256,15 @@
                     icon: createVNode(MenuOutlined)
                 }
             }]
+            if (this.theme === 'light') {
+                const menus = this.$g.menus.items
+                for (let i = 0, l = menus.length; i < l; i++) {
+                    const item = {...menus[i]}
+                    if (item && item.meta && item.meta.subTitle) delete item.meta.subTitle
+                    menus[i] = item
+                }
+                this.$g.menus.items = menus
+            }
         },
         methods: {
             handlePayModal(type: string) {

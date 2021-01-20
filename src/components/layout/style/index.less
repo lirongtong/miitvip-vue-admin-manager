@@ -15,13 +15,14 @@
     }
 
     &-header {
-        background: @mi-sider-color;
+        background: @mi-header-bg-color;
         transition: all .3s ease;
         .flex(center, space-between);
         padding-left: 0;
         padding-right: 0;
         position: fixed;
         width: calc(100vw - 256px);
+        box-shadow: 0 0 6px @mi-header-bg-color;
         z-index: 1050;
 
         &-left,
@@ -34,13 +35,14 @@
             cursor: pointer;
     
             &:hover {
-                background: fade(@mi-black-color, 20%);
+                background: fade(@mi-black-color, 10%);
             }
             
             .anticon {
                 width: @mi-header-height;
                 height: @mi-header-height;
                 .flex();
+                color: @mi-font-color;
                 .properties(font-size, 18);
                 cursor: pointer;
             }
@@ -55,6 +57,7 @@
                 .anticon {
                     width: auto;
                     height: auto;
+                    color: @mi-font-color;
                 }
             }
         }
@@ -77,7 +80,7 @@
     &-sider {
         background: @mi-sider-color;
         transition: all 0.3s ease;
-        box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+        box-shadow: 2px 0 6px fade(@mi-sider-shadow-color, 35%);
         position: fixed;
         overflow: hidden;
         z-index: 1020;
@@ -87,8 +90,8 @@
             position: relative;
             width: @mi-sider-width;
             height: @mi-header-height;
-            background: @mi-sider-color;
-            border-bottom: 1px solid #2e2e2e;
+            background: @mi-header-logo-bg-color;
+            border-bottom: 1px solid @mi-header-logo-bg-color;
             transition: all .3s ease;
             position: fixed;
             top: 0;
@@ -97,7 +100,7 @@
             .properties(padding-right);
             .text-ellipsis();
             cursor: pointer;
-            color: @mi-white-color;
+            color: @mi-header-logo-text-color;
             z-index: 1000;
 
             &-site {
@@ -106,7 +109,7 @@
 
                 svg {
                     .font-size(30);
-                    color: @mi-theme-color;
+                    color: @mi-header-logo-text-color;
                 }
 
                 > img {
@@ -117,7 +120,7 @@
 
                 > h1 {
                     .text-ellipsis();
-                    color: @mi-theme-color;
+                    color: @mi-header-logo-text-color;
                     width: 100%;
                     margin-top: 0;
                     margin-bottom: 0;
@@ -174,10 +177,10 @@
             }
 
             &:last-child {
-                color: fade(@mi-white-color, 50%);
+                color: @mi-breadcrumb-last-child-color;
 
                 a {
-                    color: @mi-white-color;
+                    color: @mi-breadcrumb-last-child-color;
                 }
             }
         }
@@ -200,6 +203,7 @@
 
     &-content {
         background: @mi-body-color;
+        color: @mi-content-text-color;
         .properties(padding-left, 24);
         .properties(padding-right, 24);
         .properties(padding-top, 188);
@@ -214,6 +218,7 @@
 	    z-index: 10;
 
         &-content {
+            color: @mi-footer-color;
             .letter-spacing();
         }
     }
