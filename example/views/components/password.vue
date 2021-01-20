@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    密码设置
 </template>

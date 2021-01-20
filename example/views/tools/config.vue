@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    全局变量
 </template>

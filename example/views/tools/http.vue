@@ -1,3 +1,3 @@
 <template>
-    Editor
+    请求响应
 </template>

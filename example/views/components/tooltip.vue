@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    气泡提示
 </template>

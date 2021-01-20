@@ -1,3 +1,3 @@
 <template>
-    Card
+    消息中心
 </template>

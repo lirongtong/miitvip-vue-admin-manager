@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    滑块验证码
 </template>

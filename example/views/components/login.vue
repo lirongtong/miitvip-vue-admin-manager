@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    登录页面
 </template>

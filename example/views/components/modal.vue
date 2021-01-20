@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    弹窗动效
 </template>

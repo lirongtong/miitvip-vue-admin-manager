@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    本地存储
 </template>

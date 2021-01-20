@@ -1,3 +1,3 @@
 <template>
-    Normal
+    注册页面
 </template>

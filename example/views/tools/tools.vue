@@ -1,3 +1,3 @@
 <template>
-    Message
+    工具函数
 </template>

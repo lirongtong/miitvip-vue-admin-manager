@@ -1,3 +1,3 @@
 <template>
-    Register
+    基础布局
 </template>

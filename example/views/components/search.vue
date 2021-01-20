@@ -1,3 +1,3 @@
 <template>
-    快速上手
+    搜索联想
 </template>

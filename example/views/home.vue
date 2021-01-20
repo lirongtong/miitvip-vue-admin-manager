@@ -1,145 +1,201 @@
 <template>
     <mi-layout></mi-layout>
+    <mi-modal v-model:visible="visible" title="您的支持，是我们最大的动力" :footer="null" :width="408" :animation="animation">
+        <img :src="src" style="border-radius: 4px;width: 366px;" />
+    </mi-modal>
 </template>
 
 <script lang="ts">
     import { defineComponent, createVNode } from 'vue'
     import {
-        ThunderboltOutlined, VerifiedOutlined, AlignLeftOutlined,
-        LoginOutlined, LogoutOutlined, OrderedListOutlined, CreditCardOutlined,
-        ShoppingCartOutlined, ToolOutlined, FormOutlined, CheckSquareOutlined,
-        MessageOutlined, MailOutlined, SettingOutlined,
-        UserOutlined, PoweroffOutlined
+        ThunderboltOutlined, GlobalOutlined, SendOutlined, SaveOutlined,
+        LoginOutlined, LayoutOutlined, OrderedListOutlined, ScheduleOutlined,
+        SwitcherOutlined, ToolOutlined, BellOutlined, ScanOutlined,
+        MessageOutlined, FireFilled, SearchOutlined, AlipayCircleOutlined,
+        SafetyCertificateOutlined, MenuOutlined, GithubOutlined, AppstoreAddOutlined,
+        WechatOutlined
     } from '@ant-design/icons-vue'
+    import Alipay from '../assets/images/alipay.jpg'
+    import Wechat from '../assets/images/wechat.jpg'
+
     export default defineComponent({
+        data() {
+            return {
+                visible: false,
+                src: Alipay,
+                animation: 'newspaper'
+            }
+        },
         created() {
             this.$g.menus.dropdown = [{
-                name: 'personal',
-                path: 'https://admin.makeit.vip/profile',
-                title: '个人中心',
-                icon: createVNode(UserOutlined)
+                name: 'github',
+                title: 'Github',
+                path: 'https://github.com/lirongtong/miitvip-vue-admin-manager',
+                icon: createVNode(GithubOutlined),
+                tag: {content: 'Hot'}
             }, {
-                name: 'setting',
-                path: 'https://admin.makeit.vip/setting',
-                title: '系统设置',
-                icon: createVNode(SettingOutlined)
+                name: 'npmjs',
+                title: 'NpmJS',
+                path: 'https://www.npmjs.com/package/makeit-admin-pro',
+                icon: createVNode(AppstoreAddOutlined),
+                tag: {icon: createVNode(FireFilled)}
             }, {
-                name: 'logout',
-                title: '退出登录',
-                icon: createVNode(PoweroffOutlined)
+                name: 'wechat',
+                title: 'Wechat',
+                callback: () => this.handlePayModal('wechat'),
+                icon: createVNode(WechatOutlined)
+            }, {
+                name: 'alipay',
+                title: 'Alipay',
+                callback: () => this.handlePayModal('alipay'),
+                icon: createVNode(AlipayCircleOutlined)
             }]
             this.$g.menus.items = [{
                 name: 'start',
                 path: '/start',
                 meta: {
                     title: '快速上手',
-                    subTitle: 'Getting Start',
+                    subTitle: 'Getting Started',
                     icon: createVNode(ThunderboltOutlined),
                     tag: {color: '#f50', content: 'Hot'}
                 }
             }, {
-                name: 'passport',
-                path: '/passport',
+                name: 'global',
+                path: '/global',
                 meta: {
-                    title: '登录注册',
-                    subTitle: 'Passport',
-                    icon: createVNode(VerifiedOutlined)
-                },
-                children: [{
-                    name: 'login',
-                    path: '/passport/login',
-                    meta: {
-                        title: '登录页面',
-                        subTitle: 'Login',
-                        icon: createVNode(LoginOutlined)
-                    }
-                }, {
-                    name: 'register',
-                    path: '/passport/register',
-                    meta: {
-                        title: '注册页面',
-                        subTitle: 'Register',
-                        icon: createVNode(LogoutOutlined)
-                    }
-                }]
+                    title: '全局变量',
+                    subTitle: 'Global Config',
+                    icon: createVNode(GlobalOutlined)
+                }
             }, {
-                name: 'list',
-                path: '/list',
+                name: 'http',
+                path: '/http',
                 meta: {
-                    title: '列表页面',
-                    subTitle: 'List',
-                    icon: createVNode(OrderedListOutlined)
-                },
-                children: [{
-                    name: 'normal',
-                    path: '/list/normal',
-                    meta: {
-                        title: '基础列表',
-                        subTitle: 'Normal',
-                        icon: createVNode(AlignLeftOutlined)
-                    }
-                }, {
-                    name: 'card',
-                    path: '/list/card',
-                    meta: {
-                        title: '卡片列表',
-                        subTitle: 'Card',
-                        icon: createVNode(CreditCardOutlined)
-                    }
-                }, {
-                    name: 'goods',
-                    path: '/list/goods',
-                    meta: {
-                        title: '商品列表',
-                        subTitle: 'Goods',
-                        icon: createVNode(ShoppingCartOutlined),
-                        tag: {icon: 'FireFilled', color: '#ed4014'}
-                    }
-                }]
+                    title: '请求响应',
+                    subTitle: 'Request / Response',
+                    icon: createVNode(SendOutlined)
+                }
+            }, {
+                name: 'caches',
+                path: '/caches',
+                meta: {
+                    title: '本地缓存',
+                    subTitle: 'Cookie Storage',
+                    icon: createVNode(SaveOutlined)
+                }
             }, {
                 name: 'tools',
                 path: '/tools',
                 meta: {
-                    title: '常用工具',
-                    subTitle: 'Tools',
+                    title: '工具函数',
+                    subTitle: 'Common Tools',
                     icon: createVNode(ToolOutlined)
-                },
-                children: [{
-                    name: 'editor',
-                    path: '/tools/editor',
-                    meta: {
-                        title: '编辑器',
-                        subTitle: 'Editor',
-                        icon: createVNode(FormOutlined)
-                    }
-                }, {
-                    name: 'captcha',
-                    path: '/tools/captcha',
-                    meta: {
-                        title: '验证码',
-                        subTitle: 'Captcha',
-                        icon: createVNode(CheckSquareOutlined)
-                    },
-                    children: [{
-                        name: 'captcha-message',
-                        path: '/tools/captcha/message',
-                        meta: {
-                            title: '短信验证码',
-                            subTitle: 'Message',
-                            icon: createVNode(MessageOutlined),
-                            tag: {icon: 'PhoneOutlined', color: 'green'}
-                        }
-                    }, {
-                        name: 'captcha-email',
-                        path: 'https://admin.makeit.vip/tools/captcha/email',
-                        meta: {
-                            title: '邮箱验证码',
-                            subTitle: 'Email',
-                            icon: createVNode(MailOutlined)
-                        }
-                    }]
-                }]
+                }
+            }, {
+                name: 'components-layout',
+                path: '/components/layout',
+                meta: {
+                    title: '基础布局',
+                    subTitle: 'Layout',
+                    icon: createVNode(LayoutOutlined)
+                }
+            }, {
+                name: 'components-menu',
+                path: '/components/menu',
+                meta: {
+                    title: '菜单选项',
+                    subTitle: 'Menus',
+                    icon: createVNode(OrderedListOutlined)
+                }
+            }, {
+                name: 'components-login',
+                path: '/components/login',
+                meta: {
+                    title: '登录页面',
+                    subTitle: 'Login',
+                    icon: createVNode(LoginOutlined)
+                }
+            }, {
+                name: 'components-register',
+                path: '/components/register',
+                meta: {
+                    title: '注册页面',
+                    subTitle: 'Register',
+                    icon: createVNode(ScheduleOutlined)
+                }
+            }, {
+                name: 'components-notice',
+                path: '/components/notice',
+                meta: {
+                    title: '消息中心',
+                    subTitle: 'Notice',
+                    icon: createVNode(BellOutlined),
+                    tag: {content: '1', color: '#f90'}
+                }
+            }, {
+                name: 'components-modal',
+                path: '/components/modal',
+                meta: {
+                    title: '弹窗动效',
+                    subTitle: 'Modal',
+                    icon: createVNode(SwitcherOutlined)
+                }
+            }, {
+                name: 'components-tooltip',
+                path: '/components/tooltip',
+                meta: {
+                    title: '气泡提示',
+                    subTitle: 'Tooltip',
+                    icon: createVNode(MessageOutlined)
+                }
+            }, {
+                name: 'components-captcha',
+                path: '/components/captcha',
+                meta: {
+                    title: '滑块验证',
+                    subTitle: 'Captcha',
+                    icon: createVNode(ScanOutlined),
+                    tag: {icon: createVNode(FireFilled), color: '#ed4014'}
+                }
+            }, {
+                name: 'components-search',
+                path: '/components/search',
+                meta: {
+                    title: '搜索联想',
+                    subTitle: 'Search',
+                    icon: createVNode(SearchOutlined),
+                    tag: {content: 'New', color: '#ed4014'}
+                }
+            }, {
+                name: 'components-password',
+                path: '/components/password',
+                meta: {
+                    title: '密码设置',
+                    subTitle: 'Password',
+                    icon: createVNode(SafetyCertificateOutlined)
+                }
+            }, {
+                name: 'components-dropdown',
+                path: '/components/dropdown',
+                meta: {
+                    title: '下拉菜单',
+                    subTitle: 'Dropdown',
+                    icon: createVNode(MenuOutlined)
+                }
             }]
+        },
+        methods: {
+            handlePayModal(type: string) {
+                if (type === 'wechat') {
+                    this.animation = 'newspaper'
+                    this.src = Wechat
+                }
+                if (type === 'alipay') {
+                    this.animation = 'slit'
+                    this.src = Alipay
+                }
+                this.visible = !this.visible
+            }
         }
     })
 </script>
