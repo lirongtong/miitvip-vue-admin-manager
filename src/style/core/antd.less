@@ -398,6 +398,23 @@
     }
 }
 
+@ant-radio: ant-radio;
+.@{ant-radio} {
+    &-wrapper {
+        color: @mi-radio-text-color;
+    }
+
+    &-checked &-inner {
+        border-color: @mi-theme-color;
+    }
+
+    &-inner {
+        &:after {
+            background-color: @mi-theme-color;
+        }
+    }
+}
+
 .ant-back-top {
     .properties(right, 20);
     .properties(bottom, 20);

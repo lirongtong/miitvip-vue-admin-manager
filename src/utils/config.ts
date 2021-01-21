@@ -66,7 +66,7 @@ export const $g = reactive({
      * Website theme.
      * @type {string}
      */
-    theme: 'dark',
+    theme: 'light',
 
     /**
      * Website keywords.
@@ -127,6 +127,14 @@ export const $g = reactive({
     background: {
         default: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7Z_ieAVz4DAAAdR-zeJvg322.svg',
         captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
+    },
+
+    /**
+     * Thumbnail.
+     * @type {{[index: string]: string}}
+     */
+    thumbnails: {
+        dark: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAJIqKARAkyAACmjWZTun0852.png'
     },
 
     /**

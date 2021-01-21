@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, createVNode } from 'vue'
+    import { defineComponent, createVNode, readonly } from 'vue'
     import {
         ThunderboltOutlined, GlobalOutlined, SendOutlined, SaveOutlined,
         LoginOutlined, LayoutOutlined, OrderedListOutlined, ScheduleOutlined,
@@ -32,10 +32,10 @@
     export default defineComponent({
         data() {
             return {
-                theme: 'dark',
                 visible: false,
                 src: Alipay,
                 animation: 'newspaper',
+                menus: [],
                 searchData: [{
                     title: '快速上手',
                     content: '安装 npm i makeit-admin-pro',
@@ -123,7 +123,7 @@
                 callback: () => this.handlePayModal('alipay'),
                 icon: createVNode(AlipayCircleOutlined)
             }]
-            this.$g.menus.items = [{
+            this.menus = [{
                 name: 'start',
                 path: '/start',
                 meta: {
@@ -256,14 +256,11 @@
                     icon: createVNode(MenuOutlined)
                 }
             }]
-            if (this.theme === 'light') {
-                const menus = this.$g.menus.items
-                for (let i = 0, l = menus.length; i < l; i++) {
-                    const item = {...menus[i]}
-                    if (item && item.meta && item.meta.subTitle) delete item.meta.subTitle
-                    menus[i] = item
-                }
-                this.$g.menus.items = menus
+            this.handleMenuItems()
+        },
+        watch: {
+            '$g.theme': function() {
+                this.handleMenuItems()
             }
         },
         methods: {
@@ -280,6 +277,21 @@
             },
             handleClickSearchItem(data: any) {
                 if (data.link) this.$router.push({path: data.link})
+            },
+            handleMenuItems() {
+                if (this.$g.theme === 'light') {
+                    const menus = [...this.menus]
+                    for (let i = 0, l = menus.length; i < l; i++) {
+                        const item = {...menus[i]}
+                        if (item && item.meta && item.meta.subTitle) {
+                            const meta = {...item.meta}
+                            delete meta.subTitle
+                            item.meta = meta
+                        }
+                        menus[i] = item
+                    }
+                    this.$g.menus.items = menus
+                } else this.$g.menus.items = [...this.menus]
             }
         }
     })

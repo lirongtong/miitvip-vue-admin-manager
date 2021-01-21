@@ -1,8 +1,11 @@
 import { defineComponent, computed } from 'vue'
-import { Layout } from 'ant-design-vue'
+import { Layout, Popover, Radio } from 'ant-design-vue'
 import { useStore } from 'vuex'
 import screenfull from 'screenfull'
-import { MenuFoldOutlined, MenuUnfoldOutlined, ExpandOutlined, CompressOutlined } from '@ant-design/icons-vue'
+import {
+    MenuFoldOutlined, MenuUnfoldOutlined, ExpandOutlined,
+    CompressOutlined, BgColorsOutlined
+} from '@ant-design/icons-vue'
 import PropTypes, { getSlotContent } from '../../utils/props'
 import { mutations } from '../../store/types'
 import MiNotice from '../notice'
@@ -15,6 +18,7 @@ export default defineComponent({
         className: PropTypes.string,
         notice: PropTypes.any,
         dropdown: PropTypes.any,
+        palette: PropTypes.any,
         stretchIcon: PropTypes.any,
         extra: PropTypes.any
     },
@@ -53,6 +57,46 @@ export default defineComponent({
         getDropdownElem() {
             const dropdown = getSlotContent(this, 'dropdown')
             return (dropdown ?? <MiDropdown></MiDropdown>)
+        },
+        handlePaletteChange() {
+            this.$g.theme = this.$g.theme === 'dark'
+                ? 'light'
+                : 'dark'
+        },
+        getPaletteContentElem() {
+            const prefixCls = `${this.getPrefixCls()}-palette`
+            return (
+                <div class={prefixCls}>
+                    <div class={`${prefixCls}-item${this.$g.theme === 'dark' ? ' active' : ''}`}
+                        onClick={this.handlePaletteChange}>
+                        <div class={`${prefixCls}-thumb`}>
+                            <img src={this.$g.thumbnails.dark} />
+                        </div>
+                        <div class={`${prefixCls}-select`}>
+                            <Radio checked={this.$g.theme === 'dark'}>深色</Radio>
+                        </div>
+                    </div>
+                    <div class={`${prefixCls}-item${this.$g.theme === 'light' ? ' active' : ''}`}
+                        onClick={this.handlePaletteChange}>
+                        <div class={`${prefixCls}-thumb`}>
+                            <img src={this.$g.thumbnails.dark} />
+                        </div>
+                        <div class={`${prefixCls}-select`}>
+                            <Radio checked={this.$g.theme === 'light'}>浅色</Radio>
+                        </div>
+                    </div>
+                </div>
+            )
+        },
+        getPaletteElem() {
+            const palette = getSlotContent(this, 'palette')
+            return palette ?? (
+                <Popover trigger="click"
+                    placement="bottom"
+                    content={this.getPaletteContentElem()}>
+                    <BgColorsOutlined />
+                </Popover>
+            )
         },
         setCollapsed() {
             if (this.$g.mobile) {
@@ -108,6 +152,7 @@ export default defineComponent({
                 <div class={headerCls.right}>
                     { headerExtra }
                     { screenfullElem }
+                    <div class={triggerCls}>{ this.getPaletteElem() }</div>
                     <div class={triggerCls}>{ this.getNoticeElem() }</div>
                     <div class={triggerCls}>{ this.getDropdownElem() }</div>
                 </div>

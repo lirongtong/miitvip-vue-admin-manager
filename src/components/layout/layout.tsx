@@ -26,8 +26,14 @@ const MiLayout = defineComponent({
         },
         layoutClass() {
             let layoutClass = this.$tools.getPrefixCls('layout')
+            const themeClass = this.$tools.getPrefixCls('theme')
             layoutClass += this.$g.embed ? ` ${layoutClass}-embed`: ''
             layoutClass += this.$g.mobile ? ` ${layoutClass}-mobile` : ''
+            layoutClass += this.$g.theme === 'dark'
+                ? ` ${themeClass}-dark`
+                : this.$g.theme === 'light'
+                    ? ` ${themeClass}-light`
+                    : ''
             return layoutClass
         }
     },

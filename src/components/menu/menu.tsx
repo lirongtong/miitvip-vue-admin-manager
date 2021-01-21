@@ -69,6 +69,9 @@ export default defineComponent({
             this.setActive({key: active})
             this.getRelationshipChain()
             this.$nextTick(() => this.$tools.backtoTop())
+        },
+        items: function() {
+            this.data = this.items
         }
     },
     methods: {
