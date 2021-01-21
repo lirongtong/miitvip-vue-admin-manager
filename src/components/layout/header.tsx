@@ -62,6 +62,7 @@ export default defineComponent({
             this.$g.theme = this.$g.theme === 'dark'
                 ? 'light'
                 : 'dark'
+            this.$tools.setThemeVariables(this.$g.theme)
         },
         getPaletteContentElem() {
             const prefixCls = `${this.getPrefixCls()}-palette`

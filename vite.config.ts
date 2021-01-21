@@ -10,10 +10,7 @@ const config = {
     },
     cssPreprocessOptions: {
         less: {
-            javascriptEnabled: true,
-            modifyVars: {
-                'theme': 'dark'
-            }
+            javascriptEnabled: true
         }
     },
     optimizeDeps: {

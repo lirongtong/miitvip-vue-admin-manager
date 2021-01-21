@@ -44,10 +44,10 @@
 
     &-content {
         .properties(width, 520);
-        background: @mi-sider-color;
+        background: var(--mi-sider-color, @mi-sider-color);
         color: @mi-black-color;
         .border-radius();
-        border: 1px solid @mi-theme-color;
+        border: 1px solid var(--mi-theme-color, @mi-theme-color);
         transition: all .3s;
         position: relative;
     }
@@ -59,7 +59,7 @@
         .properties(padding-right, 24);
         .properties(padding-top, 16);
         .properties(padding-bottom, 16);
-        border-bottom: 1px solid @mi-modal-border-inline-color;
+        border-bottom: 1px solid var(--mi-modal-border-inline-color, @mi-modal-border-inline-color);
         .letter-spacing();
     }
 
@@ -67,7 +67,7 @@
         .properties(padding, 24);
         .properties(font-size, 14);
         color: fade(@mi-modal-text-color, 85%);
-        border-bottom: 1px solid @mi-modal-border-inline-color;
+        border-bottom: 1px solid var(--mi-modal-border-inline-color, @mi-modal-border-inline-color);
         .letter-spacing();
         .border-radius();
     }
@@ -95,8 +95,8 @@
             }
 
             &.@{mi-modal}-btn-primary {
-                background-color: @mi-theme-color;
-                border-color: @mi-theme-color;
+                background-color: var(--mi-theme-color, @mi-theme-color);
+                border-color: var(--mi-theme-color, @mi-theme-color);
                 text-shadow: none;
                 color: fade(@mi-black-color, 90%);
             }
@@ -112,7 +112,7 @@
         right: 0;
         top: 0;
         text-decoration: none;
-        color: @mi-modal-text-color;
+        color: var(--mi-modal-text-color, @mi-modal-text-color);
         transition: all .3s;
 
         &-x {
@@ -129,14 +129,14 @@
         .@{ant-modal} {
             &-content {
                 .border-radius(6);
-                background: @mi-modal-bg-color;
-                border: 1px solid @mi-theme-color;
-                box-shadow: 0 4px 12px fade(@mi-theme-color, 15%);
+                background: var(--mi-modal-bg-color, @mi-modal-bg-color);
+                border: 1px solid var(--mi-theme-color, @mi-theme-color);
+                box-shadow: 0 0 10px var(--mi-modal-shadow-color, @mi-modal-shadow-color);
             }
 
             &-confirm {
                 &-content {
-                    color: @mi-modal-text-color;
+                    color: var(--mi-modal-text-color, @mi-modal-text-color);
                 }
             }
         }
@@ -145,7 +145,7 @@
                 .@{ant-modal} {
                     &-confirm-body {
                         > .anticon {
-                            color: @mi-theme-color;
+                            color: var(--mi-theme-color, @mi-theme-color);
                         }
                     }
                 }

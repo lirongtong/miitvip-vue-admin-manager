@@ -1,14 +1,14 @@
 @ant-layout: ant-layout;
 .@{ant-layout} {
     &-sider {
-        background: @mi-sider-color;
+        background: var(--mi-sider-color, @mi-sider-color);
     }
 }
 
 @ant-popover: ant-popover;
 .@{ant-popover} {
     & &-content {
-        border: 1px solid @mi-theme-color;
+        border: 1px solid var(--mi-theme-color, @mi-theme-color);
         .border-radius();
 
         & > .@{ant-popover}-arrow {
@@ -16,8 +16,8 @@
             .properties(height);
             border-style: solid;
             .properties(border-width, 1);
-            border-color: @mi-theme-color transparent transparent @mi-theme-color;
-            background: @mi-sider-color;
+            border-color: var(--mi-theme-color, @mi-theme-color) transparent transparent var(--mi-theme-color, @mi-theme-color);
+            background: var(--mi-sider-color, @mi-sider-color);
         }
     }
     &&-placement {
@@ -27,7 +27,7 @@
             .@{ant-popover} {
                 &-content {
                     & > .@{ant-popover}-arrow {
-                        border-color: transparent @mi-theme-color @mi-theme-color transparent;
+                        border-color: transparent var(--mi-theme-color, @mi-theme-color) var(--mi-theme-color, @mi-theme-color) transparent;
                     }
                 }
             }
@@ -38,7 +38,7 @@
             .@{ant-popover} {
                 &-content {
                     & > .@{ant-popover}-arrow {
-                        border-color: transparent transparent @mi-theme-color @mi-theme-color;
+                        border-color: transparent transparent var(--mi-theme-color, @mi-theme-color) var(--mi-theme-color, @mi-theme-color);
                     }
                 }
             }
@@ -49,7 +49,7 @@
             .@{ant-popover} {
                 &-content {
                     & > .@{ant-popover}-arrow {
-                        border-color: @mi-theme-color @mi-theme-color transparent transparent;
+                        border-color: var(--mi-theme-color, @mi-theme-color) var(--mi-theme-color, @mi-theme-color) transparent transparent;
                         transform: translateY(-50%) rotate(45deg);
                     }
                 }
@@ -58,7 +58,7 @@
     }
 
     &-inner {
-        background-color: @mi-popover-bg-color;
+        background-color: var(--mi-popover-bg-color, @mi-popover-bg-color);
         .border-radius(8);
 
         &-content {
@@ -79,13 +79,13 @@
         & .@{ant-tabs}-tab {
             &-active,
             &:hover {
-                color: @mi-theme-color;
+                color: var(--mi-theme-color, @mi-theme-color);
             }
         }
     }
 
     &-ink-bar {
-        background-color: @mi-theme-color;
+        background-color: var(--mi-theme-color, @mi-theme-color);
     }
 
     &-content {
@@ -114,12 +114,12 @@
 @ant-menu: ant-menu;
 .@{ant-dropdown} {
     & &-menu {
-        background: @mi-dropdown-bg-color;
+        background: var(--mi-dropdown-bg-color, @mi-dropdown-bg-color);
         .border-radius();
     }
 
     & &-menu-item {
-        color: @mi-dropdown-text-color;
+        color: var(--mi-dropdown-text-color, @mi-dropdown-text-color);
         .flex(center, flex-start);
         .properties(padding-top);
         .properties(padding-bottom);
@@ -132,7 +132,7 @@
 
         a {
             .flex(center, flex-start);
-            color: @mi-dropdown-text-color;
+            color: var(--mi-dropdown-text-color, @mi-dropdown-text-color);
             padding: 0;
             margin: 0;
 
@@ -156,20 +156,20 @@
                 }
 
                 + .icon {
-                    color: @mi-error-color;
+                    color: var(--mi-error-color, @mi-error-color);
                 }
             }
         }
 
         &-active,
         &:hover {
-            background: @mi-dropdown-item-hover-color;
-            color: @mi-theme-color;
+            background: var(--mi-dropdown-item-hover-color, @mi-dropdown-item-hover-color);
+            color: var(--mi-theme-color, @mi-theme-color);
 
             a,
             .anticon,
             .anticon + span {
-                color: @mi-theme-color;
+                color: var(--mi-theme-color, @mi-theme-color);
             }
         }
     }
@@ -182,15 +182,15 @@
     &:active,
     &:link,
     &:focus {
-        border-color: @mi-theme-color;
-        color: fade(@mi-theme-color, 80%);
+        border-color: var(--mi-theme-color, @mi-theme-color);
+        color: var(--mi-btn-default-color, @mi-btn-default-color);
     }
 
     &-default,
     &-default:hover,
     &-default:active,
     &-default:focus {
-        color: @mi-sider-color;
+        color: var(--mi-sider-color, @mi-sider-color);
         background: @mi-white-color;
         border-color: @mi-white-color;
         text-shadow: none;
@@ -201,8 +201,8 @@
     &-success:active,
     &-success:focus {
         color: @mi-white-color;
-        background: @mi-success-color;
-        border-color: @mi-success-color;
+        background: var(--mi-success-color, @mi-success-color);
+        border-color: var(--mi-success-color, @mi-success-color);
         text-shadow: none;
     }
 
@@ -210,9 +210,9 @@
     &-primary:hover,
     &-primary:active,
     &-primary:focus {
-        color: @mi-sider-color;
-        background: @mi-theme-color;
-        border-color: @mi-theme-color;
+        color: var(--mi-sider-color, @mi-sider-color);
+        background: var(--mi-theme-color, @mi-theme-color);
+        border-color: var(--mi-theme-color, @mi-theme-color);
         text-shadow: none;
     }
 
@@ -221,8 +221,8 @@
     &-danger:active,
     &-danger:focus {
         color: @mi-white-color;
-        background: @mi-danger-color;
-        border-color: @mi-danger-color;
+        background: var(--mi-danger-color, @mi-danger-color);
+        border-color: var(--mi-danger-color, @mi-danger-color);
         text-shadow: none;
     }
 
@@ -231,8 +231,8 @@
     &-info:active,
     &-info:focus {
         color: @mi-white-color;
-        background: @mi-info-color;
-        border-color: @mi-info-color;
+        background: var(--mi-info-color, @mi-info-color);
+        border-color: var(--mi-info-color, @mi-info-color);
         text-shadow: none;
     }
 
@@ -241,8 +241,8 @@
     &-warning:active,
     &-warning:focus {
         color: @mi-white-color;
-        background: @mi-warning-color;
-        border-color: @mi-warning-color;
+        background: var(--mi-warning-color, @mi-warning-color);
+        border-color: var(--mi-warning-color, @mi-warning-color);
         text-shadow: none;
     }
 }
@@ -252,21 +252,21 @@
     &-wrapper {
         & .@{ant-checkbox} {
             &-inner {
-                border-color: @mi-theme-color;
+                border-color: var(--mi-theme-color, @mi-theme-color);
 
                 &:hover, &:focus, &:active {
-                    border-color: @mi-theme-color;
+                    border-color: var(--mi-theme-color, @mi-theme-color);
                 }
             }
 
             &-checked {
                 & .@{ant-checkbox}-inner {
-                    border-color: @mi-theme-color;
-					background: @mi-theme-color;
+                    border-color: var(--mi-theme-color, @mi-theme-color);
+					background: var(--mi-theme-color, @mi-theme-color);
                 }
 
                 &:after {
-                    border: 1px solid @mi-theme-color;
+                    border: 1px solid var(--mi-theme-color, @mi-theme-color);
                 }
             }
         }
@@ -275,11 +275,11 @@
         &:focus {
             .@{ant-checkbox} {
                 &-inner {
-                    border-color: @mi-theme-color;
+                    border-color: var(--mi-theme-color, @mi-theme-color);
                 }
             }
             & + .@{ant-checkbox}-inner {
-                border-color: @mi-theme-color;
+                border-color: var(--mi-theme-color, @mi-theme-color);
             }
         }
 
@@ -292,25 +292,25 @@
 @ant-card: ant-card;
 .@{ant-card} {
     &.@{mi-prefix}card {
-        border: 1px solid @mi-theme-color;
+        border: 1px solid var(--mi-theme-color, @mi-theme-color);
         .border-radius();
-        background: @mi-body-color;
+        background: var(--mi-body-color, @mi-body-color);
 
         .@{ant-card} {
             &-head {
                 color: fade(@mi-white-color, 80%);
-                border-bottom-color: @mi-theme-color;
+                border-bottom-color: var(--mi-theme-color, @mi-theme-color);
     
                 & .@{ant-tabs} {
                     &-bar {
-                        border-bottom-color: @mi-theme-color;
+                        border-bottom-color: var(--mi-theme-color, @mi-theme-color);
                     }
     
                     &-tab {
                         color: fade(@mi-white-color, 80%);
     
                         &-active {
-                            color: @mi-theme-color;
+                            color: var(--mi-theme-color, @mi-theme-color);
                         }
                     }
                 }
@@ -331,15 +331,15 @@
 
             &-body {
                 table {
-                    background: @mi-body-color;
+                    background: var(--mi-body-color, @mi-body-color);
                 }
             }
     
             &-thead {
                 & > tr > th {
                     color: fade(@mi-white-color, 80%);
-                    background: @mi-table-color;
-                    border-bottom-color: fade(@mi-theme-color, 30%);
+                    background: var(--mi-table-color, @mi-table-color);
+                    border-bottom-color: var(--mi-table-border-color, @mi-table-border-color);
                 }
                 
                 > tr:first-child > th:first-child {
@@ -363,16 +363,16 @@
     
             &-tbody {
                 > tr > td {
-                    border-bottom-color: fade(@mi-theme-color, 30%);
+                    border-bottom-color: var(--mi-table-border-color, @mi-table-border-color);
                     color: fade(@mi-white-color, 80%);
-                    background: @mi-table-td-color;
+                    background: var(--mi-table-td-color, @mi-table-td-color);
                 }
                 
                 tr:hover,
                 tr:focus,
                 tr:active,
                 tr:hover > td {
-                    background: fade(@mi-theme-color, 10%);
+                    background: var(--mi-table-td-hover-color, @mi-table-td-hover-color);
                 }
             }
     
@@ -380,17 +380,17 @@
                 & .@{ant-table} {
                     &-body {
                         > table {
-                            background: @mi-body-color;
-                            border-top-color: fade(@mi-theme-color, 30%);
-                            border-left-color: fade(@mi-theme-color, 30%);
+                            background: var(--mi-body-color, @mi-body-color);
+                            border-top-color: var(--mi-table-border-color, @mi-table-border-color);
+                            border-left-color: var(--mi-table-border-color, @mi-table-border-color);
                         }
                     }
     
                     &-tbody > tr > td,
                     &-thead > tr > th {
                         color: fade(@mi-white-color, 80%);
-                        border-right-color: fade(@mi-theme-color, 30%);
-                        border-bottom-color: fade(@mi-theme-color, 30%);
+                        border-right-color: var(--mi-table-border-color, @mi-table-border-color);
+                        border-bottom-color: var(--mi-table-border-color, @mi-table-border-color);
                     }
                 }
             }
@@ -401,16 +401,16 @@
 @ant-radio: ant-radio;
 .@{ant-radio} {
     &-wrapper {
-        color: @mi-radio-text-color;
+        color: var(--mi-radio-text-color, @mi-radio-text-color);
     }
 
     &-checked &-inner {
-        border-color: @mi-theme-color;
+        border-color: var(--mi-theme-color, @mi-theme-color);
     }
 
     &-inner {
         &:after {
-            background-color: @mi-theme-color;
+            background-color: var(--mi-theme-color, @mi-theme-color);
         }
     }
 }
@@ -426,13 +426,13 @@
 
 [ant-click-animating-without-extra-node="true"] {
     &:after {
-        box-shadow: 0 0 0 0 @mi-theme-color;
+        box-shadow: 0 0 0 0 var(--mi-theme-color, @mi-theme-color);
     }
 }
 
 @keyframes waveEffect {
     100% {
-        box-shadow: 0 0 0 @mi-theme-color;
-        box-shadow: 0 0 0 6px @mi-theme-color;
+        box-shadow: 0 0 0 var(--mi-theme-color, @mi-theme-color);
+        box-shadow: 0 0 0 6px var(--mi-theme-color, @mi-theme-color);
     }
 }

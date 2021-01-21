@@ -6,7 +6,7 @@
     background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
-	background-color: @mi-passport-bg-color;
+	background-color: var(--mi-passport-bg-color, @mi-passport-bg-color);
     height: 100%;
     overflow: hidden;
 
@@ -21,7 +21,7 @@
     }
     
     &-mask {
-		background: @mi-passport-mask-bg-color;
+		background: var(--mi-passport-mask-bg-color, @mi-passport-mask-bg-color);
 		opacity: .15;
 		width: 100%;
 		height: 100%;
@@ -43,7 +43,7 @@
         .@{mi-passport} {
             &-title {
 				.properties(font-size, 26);
-				color: @mi-passport-color;
+				color: var(--mi-passport-color, @mi-passport-color);
 				.properties(letter-spacing, 4);
 				.properties(margin-right, 4);
 				z-index: 100;
@@ -64,12 +64,12 @@
 
 				.ant-input-affix-wrapper {
 					.border-radius(40);
-					border-color: @mi-theme-color;
+					border-color: var(--mi-theme-color, @mi-theme-color);
 					box-shadow: none;
 
 					&:hover,
 					&:focus {
-						border-color: @mi-theme-color;
+						border-color: var(--mi-theme-color, @mi-theme-color);
 						box-shadow: none;
 					}
 
@@ -86,7 +86,7 @@
 
 				.has-error {
 					.ant-input-affix-wrapper {
-						border-color: @mi-error-color;
+						border-color: var(--mi-error-color, @mi-error-color);
 					}
 				}
 
@@ -105,12 +105,12 @@
 
 			&-remember {
 				.properties(margin-bottom);
-				color: @mi-passport-remember-color;
+				color: var(--mi-passport-remember-color, @mi-passport-remember-color);
 				.properties(font-size, @mi-font-size-normal);
 				.properties(padding-left, 12);
 
 				a, a:hover {
-					color: @mi-passport-remember-color;
+					color: var(--mi-passport-remember-color, @mi-passport-remember-color);
 					.properties(font-size, @mi-font-size-normal);
 				}
 
@@ -132,14 +132,14 @@
 				}
 
 				&-link {
-					color: @mi-passport-remember-color;
+					color: var(--mi-passport-remember-color, @mi-passport-remember-color);
 				}
 			}
 
 			&-submit {
 				width: 100%;
-				background-image: linear-gradient(to right, @mi-passport-submit-gradual-start-color 0%, @mi-passport-submit-gradual-end-color 100%);
-				color: @mi-passport-submit-color;
+				background-image: linear-gradient(to right, var(--mi-passport-submit-gradual-start-color, @mi-passport-submit-gradual-start-color) 0%, var(--mi-passport-submit-gradual-end-color, @mi-passport-submit-gradual-end-color) 100%);
+				color: var(--mi-passport-submit-color, @mi-passport-submit-color);
 				.border-radius(32);
 				.properties(height, 42);
 				.properties(font-size, @mi-font-size-normal);
@@ -149,7 +149,7 @@
 				.letter-spacing();
 
 				&-register {
-					background-image: linear-gradient(to right, #787878 0%, @mi-sider-color 100%);
+					background-image: linear-gradient(to right, #787878 0%, #1d1e23 100%);
 				}
 			}
 
@@ -165,7 +165,7 @@
 					cursor: pointer;
 
 					&:hover {
-						color: @mi-theme-color;
+						color: var(--mi-theme-color, @mi-theme-color);
 						opacity: 1;
 					}
 				}
@@ -179,7 +179,7 @@
 
 				&-line {
 					display: block;
-					border-top: 1px solid @mi-passport-line-color;
+					border-top: 1px solid var(--mi-passport-line-color, @mi-passport-line-color);
 					position: absolute;
 					width: 100%;
 					left: 0;
@@ -189,7 +189,7 @@
 
 				&-title {
 					.properties(margin-top, 16);
-					background: @mi-passport-bg-color;
+					background: var(--mi-passport-bg-color, @mi-passport-bg-color);
 					.properties(padding-left, 16);
 					.properties(padding-right, 16);
 					z-index: 2;
@@ -201,7 +201,7 @@
 					width: 85%;
 
 					.anticon {
-						color: @mi-passport-icon-color;
+						color: var(--mi-passport-icon-color, @mi-passport-icon-color);
 						.properties(font-size, 28);
 					}
 				}
@@ -213,7 +213,7 @@
 		&-footer {
 			position: fixed;
 			.properties(bottom);
-			background: @mi-passport-bg-color;
+			background: var(--mi-passport-bg-color, @mi-passport-bg-color);
 			width: 100%;
 		}
 	}
@@ -232,22 +232,22 @@
 		&-tips {
 			.flex(flex-start, center);
 			flex-direction: column;
-			color: @mi-passport-text-color;
+			color: var(--mi-passport-text-color, @mi-passport-text-color);
 
 			.info-color {
-				color: @mi-info-color;
+				color: var(--mi-info-color, @mi-info-color);
 			}
 
 			.red {
-				color: @mi-error-color;
+				color: var(--mi-error-color, @mi-error-color);
 			}
 
 			.success-color {
-				color: @mi-success-color;
+				color: var(--mi-success-color, @mi-success-color);
 			}
 
 			.theme-color {
-				color: @mi-theme-color;
+				color: var(--mi-theme-color, @mi-theme-color);
 			}
 
 			p:last-child {
@@ -277,12 +277,12 @@
 			&.failed,
 			&.success {
 				.properties(font-size, 14);
-				color: @mi-error-color;
+				color: var(--mi-error-color, @mi-error-color);
 				.properties(margin-right);
 			}
 
 			&.success {
-				color: @mi-theme-color;
+				color: var(--mi-theme-color, @mi-theme-color);
 			}
 		}
 	}
@@ -296,7 +296,7 @@
 			&-strength {
 				.properties(width, 40);
 				.properties(height, 12);
-				background: @mi-passport-strength-color;
+				background: var(--mi-passport-strength-color, @mi-passport-strength-color);
 				display: inline-block;
 				.properties(margin-right, 8);
 
@@ -305,7 +305,7 @@
 				}
 
 				&.active {
-					background: @mi-theme-color;
+					background: var(--mi-theme-color, @mi-theme-color);
 				}
 			}
 		}

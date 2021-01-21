@@ -7,7 +7,7 @@
 
 .@{mi-menu} {
     color: @mi-white-color;
-    background: @mi-sider-color;
+    background: var(--mi-sider-color, @mi-sider-color);
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -34,7 +34,7 @@
     
             .sub {
                 .properties(font-size, 12);
-                color: @mi-menu-sub-color;
+                color: var(--mi-menu-sub-color, @mi-menu-sub-color);
             }
         }
 
@@ -50,7 +50,7 @@
             position: absolute;
             .properties(right, 36);
             .properties(top, 18);
-            color: @mi-theme-color;
+            color: var(--mi-theme-color, @mi-theme-color);
             margin-right: 0
         }
 
@@ -63,12 +63,12 @@
     & &-items-active {
         > .@{ant-submenu} {
             &-title {
-                color: @mi-theme-color;
+                color: var(--mi-theme-color, @mi-theme-color);
 
                 .@{ant-submenu}-arrow {
                     &:before,
                     &:after {
-                        background: @mi-theme-color;
+                        background: var(--mi-theme-color, @mi-theme-color);
                     }
                 }
             }
@@ -102,12 +102,12 @@
                 }
 
                 &:hover {
-                    color: @mi-theme-color;
+                    color: var(--mi-theme-color, @mi-theme-color);
 
                     .@{ant-submenu}-arrow {
                         &:before,
                         &:after {
-                            background: @mi-theme-color;
+                            background: var(--mi-theme-color, @mi-theme-color);
                         }
                     }
                 }
@@ -115,7 +115,7 @@
 
             &-sub {
                 transition: all .3s ease;
-                background: @mi-sider-color;
+                background: var(--mi-sider-color, @mi-sider-color);
                 box-shadow: none;
                 overflow: hidden;
                 position: relative;
@@ -135,7 +135,7 @@
 
                 &:hover {
                     .@{mi-menu}-item-link {
-                        color: @mi-theme-color;
+                        color: var(--mi-theme-color, @mi-theme-color);
                     }
                 }
             }
@@ -148,20 +148,20 @@
         }
 
         > a {
-            color: @mi-menu-color;
+            color: var(--mi-menu-color, @mi-menu-color);
         }
 
         &.@{ant-menu}-item-selected {
-            background-color: @mi-menu-active-color;
+            background-color: var(--mi-menu-active-color, @mi-menu-active-color);
 
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
-                color: @mi-theme-color;
+                color: var(--mi-theme-color, @mi-theme-color);
             }
 
             .@{mi-menu}-item-title {
                 .sub {
-                    color: @mi-menu-active-sub-color;
+                    color: var(--mi-menu-active-sub-color, @mi-menu-active-sub-color);
                 }
             }
         }
@@ -169,18 +169,18 @@
         &:hover {
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
-                color: @mi-theme-color;
+                color: var(--mi-theme-color, @mi-theme-color);
             }
 
             .@{mi-menu}-item-title {
                 .sub {
-                    color: @mi-menu-active-sub-color;
+                    color: var(--mi-menu-active-sub-color, @mi-menu-active-sub-color);
                 }
             }
         }
 
         &:after {
-            border-right: 3px solid @mi-theme-color;
+            border-right: 3px solid var(--mi-theme-color, @mi-theme-color);
         }
     }
 }
@@ -224,12 +224,12 @@
                         opacity: 1;
                         transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0s, opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
                         content: "";
-                        border-right: 3px solid @mi-theme-color;
+                        border-right: 3px solid var(--mi-theme-color, @mi-theme-color);
                     }
                 }
 
                 &-items-active.@{ant-submenu}-open {
-                    background: @mi-sider-color;
+                    background: var(--mi-sider-color, @mi-sider-color);
 
                     &:after {
                         opacity: 0;
@@ -261,13 +261,13 @@
         .@{ant-submenu} {
             &-open,
             &-active {
-                color: @mi-theme-color;
+                color: var(--mi-theme-color, @mi-theme-color);
             }
         }
     }
 
     .@{ant-submenu}-popup {
-        background: @mi-sider-color;
+        background: var(--mi-sider-color, @mi-sider-color);
         transition: none;
     }
 
@@ -276,7 +276,7 @@
             .@{ant-menu} {
                 &-sub {
                     transition: none;
-                    background: @mi-sider-color;
+                    background: var(--mi-sider-color, @mi-sider-color);
                     color: @mi-white-color;
                 }
 
@@ -291,7 +291,7 @@
                         transition: none;
 
                         &:hover {
-                            color: @mi-theme-color;
+                            color: var(--mi-theme-color, @mi-theme-color);
                         }
                     }
 
@@ -301,24 +301,24 @@
                         .@{mi-menu} {
                             &-item {
                                 &-link {
-                                    color: @mi-theme-color;
+                                    color: var(--mi-theme-color, @mi-theme-color);
                                     
                                     .anticon, .anticon + span {
-                                        color: @mi-theme-color;
+                                        color: var(--mi-theme-color, @mi-theme-color);
                                     }
                                 }
 
                                 &-title {
                                     .sub {
                                         transition: all 0.3s ease;
-                                        color: @mi-menu-active-sub-color;
+                                        color: var(--mi-menu-active-sub-color, @mi-menu-active-sub-color);
                                     }
                                 }
                             }
                          }
 
                          &:after {
-                            border-right: 3px solid @mi-theme-color;
+                            border-right: 3px solid var(--mi-theme-color, @mi-theme-color);
                             transform: scaleY(1);
                             opacity: 1;
                         }
@@ -338,12 +338,12 @@
         }
 
         &:hover {
-            color: @mi-theme-color;
+            color: var(--mi-theme-color, @mi-theme-color);
 
             .@{ant-submenu}-arrow {
                 &:before,
                 &:after {
-                    background: @mi-theme-color;
+                    background: var(--mi-theme-color, @mi-theme-color);
                 }
             }
         }
@@ -353,7 +353,7 @@
         .@{ant-submenu}-arrow {
             &:before,
             &:after {
-                background: @mi-theme-color;
+                background: var(--mi-theme-color, @mi-theme-color);
             }
         }
     }
@@ -362,7 +362,7 @@
         margin-bottom: 0;
 
         > a {
-            color: @mi-menu-color;
+            color: var(--mi-menu-color, @mi-menu-color);
         }
     }
 }

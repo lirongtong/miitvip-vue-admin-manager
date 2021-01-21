@@ -61,14 +61,14 @@
         }
 
         &-time {
-            color: fade(@mi-white-color, 20%);
+            color: var(--mi-notice-time-color, @mi-notice-time-color);
             .properties(font-size, 12);
         }
 
         &-content {
             .properties(margin-bottom, 4);
             .properties(font-size, 12);
-            color: fade(@mi-white-color, 60%);
+            color: var(--mi-notice-content-color, @mi-notice-content-color);
             overflow: hidden;
         }
     }
@@ -76,6 +76,6 @@
     &-no-data {
         .properties(padding, 32);
         .flex();
-        color: @mi-notice-text-color;
+        color: var(--mi-notice-text-color, @mi-notice-text-color);
     }
 }
