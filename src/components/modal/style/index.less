@@ -54,7 +54,7 @@
 
     &-header {
         .flex(center, flex-start);
-        color: @mi-white-color;
+        color: @mi-modal-text-color;
         .properties(padding-left, 24);
         .properties(padding-right, 24);
         .properties(padding-top, 16);
@@ -66,7 +66,7 @@
     &-body {
         .properties(padding, 24);
         .properties(font-size, 14);
-        color: fade(@mi-white-color, 85%);
+        color: fade(@mi-modal-text-color, 85%);
         border-bottom: 1px solid @mi-modal-border-inline-color;
         .letter-spacing();
         .border-radius();
@@ -112,7 +112,7 @@
         right: 0;
         top: 0;
         text-decoration: none;
-        color: @mi-white-color;
+        color: @mi-modal-text-color;
         transition: all .3s;
 
         &-x {
@@ -129,14 +129,14 @@
         .@{ant-modal} {
             &-content {
                 .border-radius(6);
-                background: @mi-sider-color;
+                background: @mi-modal-bg-color;
                 border: 1px solid @mi-theme-color;
                 box-shadow: 0 4px 12px fade(@mi-theme-color, 15%);
             }
 
             &-confirm {
                 &-content {
-                    color: @mi-white-color;
+                    color: @mi-modal-text-color;
                 }
             }
         }
