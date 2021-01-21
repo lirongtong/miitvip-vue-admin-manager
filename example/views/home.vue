@@ -32,7 +32,7 @@
     export default defineComponent({
         data() {
             return {
-                theme: 'light',
+                theme: 'dark',
                 visible: false,
                 src: Alipay,
                 animation: 'newspaper',
