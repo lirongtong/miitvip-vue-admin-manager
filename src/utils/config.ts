@@ -66,7 +66,7 @@ export const $g = reactive({
      * Website theme.
      * @type {string}
      */
-    theme: 'light',
+    theme: 'dark',
 
     /**
      * Website keywords.
