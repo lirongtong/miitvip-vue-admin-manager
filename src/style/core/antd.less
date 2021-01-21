@@ -107,12 +107,12 @@
 @ant-menu: ant-menu;
 .@{ant-dropdown} {
     & &-menu {
-        background: @mi-sider-color;
+        background: @mi-dropdown-bg-color;
         .border-radius();
     }
 
     & &-menu-item {
-        color: @mi-white-color;
+        color: @mi-dropdown-text-color;
         .flex(center, flex-start);
         .properties(padding-top);
         .properties(padding-bottom);
@@ -125,7 +125,7 @@
 
         a {
             .flex(center, flex-start);
-            color: @mi-white-color;
+            color: @mi-dropdown-text-color;
             padding: 0;
             margin: 0;
 
@@ -156,7 +156,7 @@
 
         &-active,
         &:hover {
-            background: @mi-black-color;
+            background: @mi-dropdown-item-hover-color;
             color: @mi-theme-color;
 
             a,
