@@ -21,7 +21,7 @@
     }
     
     &-mask {
-		background: @mi-black-color;
+		background: @mi-passport-mask-bg-color;
 		opacity: .15;
 		width: 100%;
 		height: 100%;
@@ -43,7 +43,7 @@
         .@{mi-passport} {
             &-title {
 				.properties(font-size, 26);
-				color: @mi-white-color;
+				color: @mi-passport-color;
 				.properties(letter-spacing, 4);
 				.properties(margin-right, 4);
 				z-index: 100;
@@ -105,12 +105,12 @@
 
 			&-remember {
 				.properties(margin-bottom);
-				color: @mi-white-color;
+				color: @mi-passport-remember-color;
 				.properties(font-size, @mi-font-size-normal);
 				.properties(padding-left, 12);
 
 				a, a:hover {
-					color: @mi-white-color;
+					color: @mi-passport-remember-color;
 					.properties(font-size, @mi-font-size-normal);
 				}
 
@@ -132,14 +132,14 @@
 				}
 
 				&-link {
-					color: @mi-white-color;
+					color: @mi-passport-remember-color;
 				}
 			}
 
 			&-submit {
 				width: 100%;
-				background-image: linear-gradient(to right, @mi-sider-color 0%, @mi-theme-color 100%);
-				color: @mi-white-color;
+				background-image: linear-gradient(to right, @mi-passport-submit-gradual-start-color 0%, @mi-passport-submit-gradual-end-color 100%);
+				color: @mi-passport-submit-color;
 				.border-radius(32);
 				.properties(height, 42);
 				.properties(font-size, @mi-font-size-normal);
