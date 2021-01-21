@@ -94,6 +94,10 @@ export default defineComponent({
         }
         const triggerCls = `${headerCls.trigger} ${headerCls.triggerMin}`
         const headerExtra = getSlotContent(this, 'extra')
+        const screenfullIcon = this.getDefaultScreenIcon()
+        const screenfullElem = screenfullIcon
+            ? <div class={triggerCls}>{ screenfullIcon }</div>
+            : null
         return (
             <Layout.Header class={`${prefixCls} ${this.className ?? ''}`}>
                 <div class={headerCls.left}>
@@ -103,7 +107,7 @@ export default defineComponent({
                 </div>
                 <div class={headerCls.right}>
                     { headerExtra }
-                    <div class={triggerCls}>{ this.getDefaultScreenIcon() }</div>
+                    { screenfullElem }
                     <div class={triggerCls}>{ this.getNoticeElem() }</div>
                     <div class={triggerCls}>{ this.getDropdownElem() }</div>
                 </div>
