@@ -134,7 +134,8 @@ export const $g = reactive({
      * @type {{[index: string]: string}}
      */
     thumbnails: {
-        dark: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAJIqKARAkyAACmjWZTun0852.png'
+        dark: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAJIqKARAkyAACmjWZTun0852.png',
+        light: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAKve-Ac7D8AAH4rA17tm0600.png'
     },
 
     /**

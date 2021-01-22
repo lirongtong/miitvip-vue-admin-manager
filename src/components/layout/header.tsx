@@ -81,7 +81,7 @@ export default defineComponent({
                     <div class={`${prefixCls}-item${this.$g.theme === 'light' ? ' active' : ''}`}
                         onClick={this.handlePaletteChange}>
                         <div class={`${prefixCls}-thumb`}>
-                            <img src={this.$g.thumbnails.dark} />
+                            <img src={this.$g.thumbnails.light} />
                         </div>
                         <div class={`${prefixCls}-select`}>
                             <Radio checked={this.$g.theme === 'light'}>浅色</Radio>
