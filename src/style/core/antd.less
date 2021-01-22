@@ -72,11 +72,13 @@
     color: fade(@mi-white-color, 65%);
 
     &-bar {
-        border-bottom-color: fade(@mi-white-color, 15%);
+        border-bottom-color: var(--mi-tab-nav-border-bottom-color, @mi-tab-nav-border-bottom-color);
     }
 
     &-nav {
         & .@{ant-tabs}-tab {
+            color: var(--mi-tab-nav-color, @mi-tab-nav-color);
+
             &-active,
             &:hover {
                 color: var(--mi-theme-color, @mi-theme-color);
