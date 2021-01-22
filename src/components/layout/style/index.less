@@ -277,29 +277,29 @@
 }
 
 .@{mi-prefix} {
-    /** Slide / Slide Left */
-    &slide-left-enter-active,
-    &slide-left-leave-active {
+    /** Slider Left */
+    &slider-left-enter-active,
+    &slider-left-leave-active {
         opacity: 1;
-        transform: translateX(0%);
+        transform: translateX(0px);
     }
 
-    &slide-left-enter-from,
-    &slide-left-leave-to {
+    &slider-left-enter-from,
+    &slider-left-leave-to {
         opacity: 0;
-        transform: translateX(-20%);
+        transform: translateX(-10px);
     }
 
-    /** Slide / Slide Right */
-    &slide-right-enter-active,
-    &slide-right-leave-active {
+    /** Slider Right */
+    &slider-right-enter-active,
+    &slider-right-leave-active {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0px);
     }
 
-    &slide-right-enter-from,
-    &slide-right-leave-to {
-        transform: translateX(20%);
+    &slider-right-enter-from,
+    &slider-right-leave-to {
+        transform: translateX(10px);
         opacity: 0
     }
 }

@@ -14,7 +14,7 @@ export default defineComponent({
     },
     data() {
         return {
-            transition: 'slide-right',
+            transition: 'slider-right',
             visible: true,
             timer: null
         }
@@ -26,11 +26,11 @@ export default defineComponent({
     mounted() {
         if (this.animation) {
             this.$router.beforeEach((_to, _from, next: any) => {
-                this.transition = this.animationName ?? 'slide-left'
+                this.transition = this.animationName ?? 'slider-left'
                 this.visible = false
                 if (this.timer) clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
-                    this.transition = this.animationName ?? 'slide-right'
+                    this.transition = this.animationName ?? 'slider-right'
                     this.visible = true
                     next()
                 }, this.animationDuration
