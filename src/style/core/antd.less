@@ -190,9 +190,9 @@
     &-default:hover,
     &-default:active,
     &-default:focus {
-        color: var(--mi-sider-color, @mi-sider-color);
-        background: @mi-white-color;
-        border-color: @mi-white-color;
+        color: var(--mi-btn-default-color, @mi-btn-default-color);
+        background: var(--mi-btn-defaul-bg-color, @mi-btn-defaul-bg-color);
+        border-color: var(--mi-btn-defaul-border-color, @mi-btn-defaul-border-color);
         text-shadow: none;
     }
 
@@ -244,6 +244,15 @@
         background: var(--mi-warning-color, @mi-warning-color);
         border-color: var(--mi-warning-color, @mi-warning-color);
         text-shadow: none;
+    }
+
+    &-ghost,
+    &-ghost:hover,
+    &-ghost:active,
+    &-ghost:focus,
+    &-background-ghost {
+        color: var(--mi-btn-ghost-text-color, @mi-btn-ghost-text-color);
+        border-color: var(--mi-btn-ghost-border-color, @mi-btn-ghost-border-color);
     }
 }
 
@@ -298,7 +307,7 @@
 
         .@{ant-card} {
             &-head {
-                color: fade(@mi-white-color, 80%);
+                color: var(--mi-card-tab-color, @mi-card-tab-color);
                 border-bottom-color: var(--mi-theme-color, @mi-theme-color);
     
                 & .@{ant-tabs} {
@@ -307,7 +316,7 @@
                     }
     
                     &-tab {
-                        color: fade(@mi-white-color, 80%);
+                        color: var(--mi-card-tab-color, @mi-card-tab-color);
     
                         &-active {
                             color: var(--mi-theme-color, @mi-theme-color);
@@ -317,7 +326,7 @@
             }
     
             &-body {
-                color: fade(@mi-white-color, 80%);
+                color: var(--mi-card-tab-color, @mi-card-tab-color);
             }
         }
     }
@@ -337,7 +346,7 @@
     
             &-thead {
                 & > tr > th {
-                    color: fade(@mi-white-color, 80%);
+                    color: var(--mi-table-text-color, @mi-table-text-color);
                     background: var(--mi-table-color, @mi-table-color);
                     border-bottom-color: var(--mi-table-border-color, @mi-table-border-color);
                 }
@@ -364,7 +373,7 @@
             &-tbody {
                 > tr > td {
                     border-bottom-color: var(--mi-table-border-color, @mi-table-border-color);
-                    color: fade(@mi-white-color, 80%);
+                    color: var(--mi-table-text-color, @mi-table-text-color);
                     background: var(--mi-table-td-color, @mi-table-td-color);
                 }
                 
@@ -388,7 +397,7 @@
     
                     &-tbody > tr > td,
                     &-thead > tr > th {
-                        color: fade(@mi-white-color, 80%);
+                        color: var(--mi-table-text-color, @mi-table-text-color);
                         border-right-color: var(--mi-table-border-color, @mi-table-border-color);
                         border-bottom-color: var(--mi-table-border-color, @mi-table-border-color);
                     }

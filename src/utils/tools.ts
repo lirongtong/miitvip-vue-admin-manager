@@ -406,10 +406,11 @@ class MiTools {
                 @mi-header-trigger-hover-color: rgba(0, 0, 0, 0.1);
                 @mi-header-paletter-item-border-color: #e1e1e1;
                 @mi-breadcrumb-last-child-color: #999;
-                @mi-table-color: #101010;
-                @mi-table-td-color: #272727;
-                @mi-table-td-hover-color: rgba(47, 150, 136, 0.1);
-                @mi-table-border-color: rgba(47, 150, 136, 0.3);
+                @mi-table-color: #e4e4e4;
+                @mi-table-text-color: #333;
+                @mi-table-td-color: #ffffff;
+                @mi-table-td-hover-color: #ffffff;
+                @mi-table-border-color: #f1f1f1;
                 @mi-sider-color: #fff;
                 @mi-sider-shadow-color: rgba(175, 175, 175, 0.35);
                 @mi-sider-border-color: #4c4c4c;
@@ -427,6 +428,7 @@ class MiTools {
                 @mi-modal-text-color: #333;
                 @mi-modal-border-inline-color: #ededed;
                 @mi-modal-shadow-color: rgba(47, 150, 136, 0.15);
+                @mi-modal-btn-primary-color: #ffffff;
                 @mi-passport-color: #ffffff;
                 @mi-passport-line-color: #3f3f3f;
                 @mi-passport-bg-color: #212121;
@@ -438,6 +440,9 @@ class MiTools {
                 @mi-passport-submit-color: #ffffff;
                 @mi-passport-submit-gradual-start-color: #000000;
                 @mi-passport-submit-gradual-end-color: #2F9688;
+                @mi-selection-color: #ffffff;
+                @mi-selection-bg-color: #dedede;
+                @mi-card-tab-color: #333;
                 @mi-popover-bg-color: #ffffff;
                 @mi-notice-text-color: #666;
                 @mi-notice-time-color: rgba(0, 0, 0, 0.05);
@@ -446,6 +451,10 @@ class MiTools {
                 @mi-footer-color: #666;
                 @mi-radio-text-color: #333;
                 @mi-btn-default-color: rgba(47, 150, 136, 0.8);
+                @mi-btn-defaul-bg-color: #ffffff;
+                @mi-btn-defaul-border-color: #b5b5b5;
+                @mi-btn-ghost-border-color: #b5b5b5;
+                @mi-btn-ghost-text-color: #666;
                 @mi-subsidiary-color: #808695;
                 @mi-form-label-color: #999;
                 @mi-error-color: #ed4014;

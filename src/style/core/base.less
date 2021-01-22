@@ -14,8 +14,8 @@ body {
     font-family: @mi-font-family;
     .font-size(16);
     line-height: 1.5;
-    color: @mi-white-color;
-    background: @mi-body-color;
+    color: var(--mi-font-color, @mi-font-color);
+    background: var(--mi-body-color, @mi-body-color);
    .letter-spacing();
    scrollbar-width: none;
     -ms-overflow-style: none;
@@ -25,8 +25,8 @@ body {
 
     &::selection,
     &::-moz-selection {
-        color: @mi-white-color;
-        background: @mi-sider-color;
+        color: var(--mi-selection-color, @mi-selection-color);
+        background: var(--mi-selection-bg-color, @mi-selection-bg-color);
     }
 }
 
@@ -42,7 +42,7 @@ img {
 }
 
 a {
-    color: @mi-theme-color;
+    color: var(--mi-theme-color, @mi-theme-color);
     background-color: transparent;
     text-decoration: none;
     outline: none;
@@ -54,7 +54,7 @@ a {
     &:active,
     &:hover,
     &:link {
-        color: @mi-theme-color;
+        color: var(--mi-theme-color, @mi-theme-color);
     }
 }
 
@@ -70,8 +70,8 @@ pre {
 
 ::selection,
 ::-moz-selection {
-    color: @mi-white-color;
-    background: @mi-sider-color;
+    color: var(--mi-selection-color, @mi-selection-color);
+    background: var(--mi-selection-bg-color, @mi-selection-bg-color);
 }
 
 @keyframes mi-anim-wait {

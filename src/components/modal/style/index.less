@@ -54,7 +54,7 @@
 
     &-header {
         .flex(center, flex-start);
-        color: @mi-modal-text-color;
+        color: var(--mi-modal-text-color, @mi-modal-text-color);
         .properties(padding-left, 24);
         .properties(padding-right, 24);
         .properties(padding-top, 16);
@@ -66,7 +66,7 @@
     &-body {
         .properties(padding, 24);
         .properties(font-size, 14);
-        color: fade(@mi-modal-text-color, 85%);
+        color: var(--mi-modal-content-color, @mi-modal-content-color);
         border-bottom: 1px solid var(--mi-modal-border-inline-color, @mi-modal-border-inline-color);
         .letter-spacing();
         .border-radius();
@@ -86,11 +86,12 @@
             }
 
             &.@{mi-modal}-btn {
-                color: fade(@mi-black-color, 90%);
+                color: var(--mi-btn-default-color, @mi-btn-default-color);
+                border-color: var(--mi-btn-defaul-border-color, @mi-btn-defaul-border-color);
 
                 &:active, &:hover, &:focus {
-                    color: fade(@mi-black-color, 90%);
-                    border-color: #d9d9d9;
+                    color: var(--mi-btn-default-color, @mi-btn-default-color);
+                    border-color: var(--mi-btn-defaul-border-color, @mi-btn-defaul-border-color);
                 }
             }
 
@@ -98,7 +99,7 @@
                 background-color: var(--mi-theme-color, @mi-theme-color);
                 border-color: var(--mi-theme-color, @mi-theme-color);
                 text-shadow: none;
-                color: fade(@mi-black-color, 90%);
+                color: var(--mi-modal-btn-primary-color, @mi-modal-btn-primary-color);
             }
         }
     }
