@@ -30,9 +30,9 @@ export default defineComponent({
                 this.visible = false
                 if (this.timer) clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
+                    next()
                     this.transition = this.animationName ?? 'slider-right'
                     this.visible = true
-                    next()
                 }, this.animationDuration
                     ? (this.animationDuration * 1000 + 60)
                     : 260
