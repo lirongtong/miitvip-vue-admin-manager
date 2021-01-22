@@ -18,6 +18,9 @@ const MiLayout = defineComponent({
         sider: PropTypes.any,
         header: PropTypes.any,
         headerExtra: PropTypes.any,
+        contentAnimation: PropTypes.bool.def(true),
+        contentAnimationName: PropTypes.string,
+        contentAnimationDuration: PropTypes.number,
         footer: PropTypes.any
     },
     computed: {
@@ -73,7 +76,11 @@ const MiLayout = defineComponent({
                     { this.getSiderElem() }
                     <Layout class={`${prefixCls}-container`} hasSider={false}>
                         { this.getHeaderElem() }
-                        <MiLayoutContent></MiLayoutContent>
+                        <MiLayoutContent
+                            animationName={this.contentAnimationName}
+                            animationDuration={this.contentAnimationDuration}
+                            animation={this.contentAnimation}>
+                        </MiLayoutContent>
                         { this.getFooterElem() }
                     </Layout>
                 </>

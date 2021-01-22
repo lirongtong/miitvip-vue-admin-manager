@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, createVNode, readonly } from 'vue'
+    import { defineComponent, createVNode } from 'vue'
     import {
         ThunderboltOutlined, GlobalOutlined, SendOutlined, SaveOutlined,
         LoginOutlined, LayoutOutlined, OrderedListOutlined, ScheduleOutlined,
