@@ -195,7 +195,8 @@ export const $g = reactive({
             token: {
                 access: 'access-token',
                 refresh: 'refresh-token'
-            }
+            },
+            theme: 'dark'
         }
     },
 

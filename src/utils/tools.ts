@@ -1,5 +1,6 @@
 import { App } from 'vue'
 import { $g } from './config'
+import { $cookie } from './cookie'
 
 class MiTools {
     /**
@@ -488,6 +489,10 @@ class MiTools {
                 style.appendChild(content)
             }
             document.head.appendChild(style)
+        }
+        if (theme === 'dark' || theme === 'light') {
+            $g.theme = theme
+            $cookie.set($g.caches.cookies.theme, $g.theme)
         }
     }
 

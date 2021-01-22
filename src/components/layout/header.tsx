@@ -63,6 +63,7 @@ export default defineComponent({
                 ? 'light'
                 : 'dark'
             this.$tools.setThemeVariables(this.$g.theme)
+            this.$cookie.set(this.$g.caches.cookies.theme, this.$g.theme)
         },
         getPaletteContentElem() {
             const prefixCls = `${this.getPrefixCls()}-palette`

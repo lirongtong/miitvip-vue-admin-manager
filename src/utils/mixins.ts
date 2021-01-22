@@ -18,6 +18,8 @@ export default {
             this.$tools.setKeywords()
             this.$tools.setDescription()
             this.$g.mobile = this.$tools.isMobile()
+            const theme = this.$cookie.get(this.$g.caches.cookies.theme)
+            if (theme) this.$tools.setThemeVariables(theme)
             try {
                 this.$store.registerModule(['layout'], layout)
                 this.$store.registerModule(['passport'], passport)
