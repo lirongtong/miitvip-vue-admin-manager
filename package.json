@@ -1,6 +1,6 @@
 {
     "name": "makeit-admin-pro",
-    "version": "1.200.620",
+    "version": "1.200.621",
     "author": {
         "url": "https://www.makeit.vip",
         "name": "lirongtong",
@@ -13,12 +13,15 @@
         "vite",
         "ant-design-vue",
         "makeit",
+        "components",
         "miitvip",
         "makeit.vip",
         "makeit-admin-management",
         "makeit-admin-pro",
         "makeit admin pro",
         "admin-manager",
+        "ui frame",
+        "ui components",
         "麦可易特网"
     ],
     "description": "A unified template used to backend management based on Vue3.0 + Ant Design Vue + Vite.",
@@ -53,9 +56,9 @@
     "dependencies": {
         "ant-design-vue": "^2.0.0-rc.8",
         "axios": "^0.21.1",
-        "makeit-captcha": "^1.1.7",
+        "makeit-captcha": "^1.1.9",
         "makeit-search": "^1.0.8",
-        "makeit-tooltip": "^1.0.9",
+        "makeit-tooltip": "^1.1.0",
         "screenfull": "^5.1.0",
         "vue": "^3.0.5",
         "vue-router": "^4.0.3",
