@@ -6,7 +6,8 @@ const config = {
         '/@/': resolve('example'),
         '/@src/': resolve('src'),
         'makeit-admin-pro': '/@src/index.ts',
-        'makeit-admin-pro/style': '/@src/style.ts'
+        'makeit-admin-pro/style': '/@src/style.ts',
+        'makeit-admin-pro/less': '/@src/style/miitvip.less'
     },
     cssPreprocessOptions: {
         less: {
