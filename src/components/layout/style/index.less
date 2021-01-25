@@ -186,7 +186,7 @@
     }
 
     &-breadcrumb {
-        .properties(padding-left);
+        .properties(padding-left, 32);
 	    .properties(padding-right);
 	    .flex(center, flex-start);
         flex-wrap: nowrap;
@@ -252,13 +252,13 @@
     &-content {
         background: var(--mi-body-color, @mi-body-color);
         color: @mi-content-text-color;
-        .properties(padding-left, 24);
         .properties(padding-right, 24);
         .properties(padding-top, 188);
         transition: all .3s ease;
     }
 
     &-custom-content {
+        .properties(padding-left, 24);
         transition: all .2s ease;
     }
 
@@ -350,7 +350,7 @@
             }
 
             &-breadcrumb {
-                padding-left: 0;
+                .properties(padding-left, 24);
             }
 
             &-history {
