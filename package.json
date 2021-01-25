@@ -53,7 +53,7 @@
     "dependencies": {
         "ant-design-vue": "^2.0.0-rc.8",
         "axios": "^0.21.1",
-        "makeit-captcha": "^1.1.6",
+        "makeit-captcha": "^1.1.7",
         "makeit-search": "^1.0.8",
         "makeit-tooltip": "^1.0.8",
         "screenfull": "^5.1.0",
