@@ -24,7 +24,7 @@
         SwitcherOutlined, ToolOutlined, BellOutlined, ScanOutlined,
         MessageOutlined, FireFilled, SearchOutlined, AlipayCircleOutlined,
         SafetyCertificateOutlined, MenuOutlined, GithubOutlined, AppstoreAddOutlined,
-        WechatOutlined
+        WechatOutlined, BorderlessTableOutlined
     } from '@ant-design/icons-vue'
     import Alipay from '../assets/images/alipay.jpg'
     import Wechat from '../assets/images/wechat.jpg'
@@ -254,6 +254,14 @@
                     title: '下拉菜单',
                     subTitle: 'Dropdown',
                     icon: createVNode(MenuOutlined)
+                }
+            }, {
+                name: 'components-anchor',
+                path: '/components/anchor',
+                meta: {
+                    title: '锚点链接',
+                    subTitle: 'Anchor',
+                    icon: createVNode(BorderlessTableOutlined)
                 }
             }]
             this.handleMenuItems()

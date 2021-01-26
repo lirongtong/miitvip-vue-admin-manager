@@ -22,6 +22,7 @@ const ComponentsPassword = () => import('../views/components/password.vue')
 const ComponentsDropdown = () => import('../views/components/dropdown.vue')
 const ComponentsUpload = () => import('../views/components/upload.vue')
 const ComponentsSearch = () => import('../views/components/search.vue')
+const ComponentsAnchor = () => import('../views/components/anchor.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
     path: '/',
@@ -124,6 +125,11 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             name: 'components-upload',
             meta: {title: '文件上传'},
             component: ComponentsUpload
+        }, {
+            path: '/components/anchor',
+            name: 'components-anchor',
+            meta: {title: '锚点链接'},
+            component: ComponentsAnchor
         }]
     }]
 }]
