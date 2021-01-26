@@ -392,6 +392,24 @@ class MiTools {
         this.scrollTop(document.body, top, 0, this.isEmpty(time) ? 1000 : time)
     }
 
+    /**
+     * Gets the actual height of the element from the top of the document.
+     * @param el 
+     */
+    getElementTop (el: HTMLElement) {
+        let actualTop = el.offsetTop
+        let current = el.offsetParent as HTMLElement
+        while (current !== null) {
+            actualTop += current.offsetTop
+            current = current.offsetParent as HTMLElement
+        }
+        return actualTop
+    }
+
+    /**
+     * The theme of light-fresh.
+     * @param theme 
+     */
     setThemeVariables(theme = 'dark') {
         const id = `${$g.prefix}theme-variables`
         const last = document.getElementById(id)
