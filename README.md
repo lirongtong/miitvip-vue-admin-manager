@@ -17,21 +17,26 @@ A unified template used to backend management based on Vue3.0 + Ant Design Vue +
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.org/package/makeit-admin-pro)
 [![npm_downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
-![webpack](https://img.shields.io/badge/webpack-5.3.2-orange.svg)
-![vue](https://img.shields.io/badge/vue-3.0.3-green.svg)
+![webpack](https://img.shields.io/badge/webpack-5.17.0-orange.svg)
+![vue](https://img.shields.io/badge/vue-3.0.5-green.svg)
 ![vite](https://img.shields.io/badge/vite-1.0.0-yellow.svg)
-![axios](https://img.shields.io/badge/axios-0.21.0-red.svg)
+![axios](https://img.shields.io/badge/axios-0.21.1-red.svg)
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-2.0.0-blueviolet.svg)
 ![vue router](https://img.shields.io/badge/vue%20router-4.0.0-inactive.svg)
 ![vuex](https://img.shields.io/badge/vuex-4.0.0-informational.svg)
 
 <a href="https://admin.makeit.vip/">
-    <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_AaACAOsS9AAKiYZr6iiw886.png">
+    <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMteAH3u5AAg_R8651XE245.png">
 </a>
 
 <a href="https://admin.makeit.vip/">
-    <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_AaAaATms4AALLSSrBvlw858.png">
+    <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMwOAM2FJAAGzeH165Ws053.png">
 </a>
+
+<a href="https://admin.makeit.vip/">
+    <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMx-ABFkCAAQKq4vcmIM480.jpg">
+</a>
+
 </div>
 
 ## 关于
