@@ -76,6 +76,24 @@ module.exports = merge(baseConfig, {
 				commonjs: '@ant-design/icons-vue',
 				commonjs2: '@ant-design/icons-vue',
 				amd: '@ant-design/icons-vue'
+			},
+			'makeit-captcha': {
+				root: 'MakeitCaptcha',
+				commonjs: 'makeit-captcha',
+				commonjs2: 'makeit-captcha',
+				amd: 'makeit-captcha'
+			},
+			'makeit-search': {
+				root: 'MakeitSearch',
+				commonjs: 'makeit-search',
+				commonjs2: 'makeit-search',
+				amd: 'makeit-search'
+			},
+			'makeit-tooltip': {
+				root: 'MakeitTooltip',
+				commonjs: 'makeit-tooltip',
+				commonjs2: 'makeit-tooltip',
+				amd: 'makeit-tooltip'
 			}
         }
     ],
