@@ -15,7 +15,11 @@ const config = {
         }
     },
     optimizeDeps: {
-        include: ['ant-design-vue', '@ant-design/colors', '@ant-design/icons-vue']
+        include: [
+            'axios', 'makeit-captcha', 'makeit-tooltip', 'makeit-search', 'vue',
+            'ant-design-vue', '@ant-design/colors', '@ant-design/icons-vue',
+            'screenfull', 'vue-router', 'vuex'
+        ]
     },
     proxy: {
         '/v1': {
