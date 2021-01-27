@@ -81,7 +81,13 @@ module.exports = {
 				commonjs: '@ant-design/icons-vue',
 				commonjs2: '@ant-design/icons-vue',
 				amd: '@ant-design/icons-vue'
-            },
+			},
+			'vue-types': {
+				root: 'VueTypes',
+				commonjs: 'vue-types',
+				commonjs2: 'vue-types',
+				amd: 'vue-types'
+			},
             'makeit-captcha': {
 				root: 'MakeitCaptcha',
 				commonjs: 'makeit-captcha',
