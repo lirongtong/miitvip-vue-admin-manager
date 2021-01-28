@@ -1,5 +1,4 @@
 import { App } from 'vue'
-import Captcha from 'makeit-captcha'
 import async from './utils/async'
 import baseMixins from './utils/mixins'
 
@@ -22,6 +21,7 @@ import { default as Menu } from './components/menu'
 import { default as Anchor } from './components/anchor'
 import { default as Tooltip } from './components/tooltip'
 import { default as Search } from './components/search'
+import { default as Captcha } from './components/captcha'
 
 const components = [
     config,

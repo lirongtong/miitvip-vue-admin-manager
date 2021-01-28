@@ -8,7 +8,7 @@ import {
 import PropTypes, { getSlotContent } from '../../utils/props'
 import MiLoginQuick from './quick'
 import MiLayout from '../layout'
-import { Captcha } from 'makeit-captcha'
+import Captcha from '../captcha/captcha'
 import MiModal from '../modal'
 
 let isVerify = false

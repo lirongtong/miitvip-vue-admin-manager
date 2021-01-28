@@ -54,10 +54,9 @@
         "lint:fix": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts ./src"
     },
     "dependencies": {
+        "@ant-design/icons-vue": "^6.0.0",
         "ant-design-vue": "^2.0.0-rc.9",
         "axios": "^0.21.1",
-        "makeit-captcha": "^1.2.1",
-        "makeit-tooltip": "^1.1.1",
         "screenfull": "^5.1.0",
         "vue": "^3.0.5",
         "vue-router": "^4.0.3",
