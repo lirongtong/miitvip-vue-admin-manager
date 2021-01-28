@@ -12,6 +12,7 @@ const Anchor = defineComponent({
         affix: PropTypes.bool,
         offsetTop: PropTypes.number.def(200),
         scrollOffset: PropTypes.number.def(80),
+        reserveOffset: PropTypes.number,
         onClick: PropTypes.func
     },
     data() {
@@ -62,6 +63,7 @@ const Anchor = defineComponent({
                         <AnchorLink id={link.id}
                             title={link.title}
                             active={this.actives[i]}
+                            reserveOffset={this.reserveOffset}
                             onClick={this.clickAnchorLink}>
                         </AnchorLink>
                     )
@@ -110,7 +112,7 @@ const Anchor = defineComponent({
             this.visible = true
         },
         documentBodyScroll() {
-            if (!this.manualActive && !this.stick) {
+            if (!this.manualActive) {
                 const scrollTop = (
                     document.documentElement.scrollTop ||
                     document.body.scrollTop
@@ -139,6 +141,7 @@ const Anchor = defineComponent({
             let container: any = document
             if (this.collectContainer) container = document.querySelector(this.collectContainer)
             this.list = this.parseList(container.querySelectorAll(this.selector))
+            console.log(this.list)
             this.linkTemplate = []
             this.$nextTick(() => {
                 const anchor = this.$refs[this.prefixCls]
