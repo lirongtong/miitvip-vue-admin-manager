@@ -12,8 +12,8 @@ MiNotice.install = (app: App) => {
     return app
 }
 
-export default MiNotice as typeof MiNotice
-& Plugin & {
-    readonly Tab: typeof MiNoticeTab,
-    readonly Item: typeof MiNoticeItem
-}
+export default MiNotice as typeof MiNotice &
+    Plugin & {
+        readonly Tab: typeof MiNoticeTab
+        readonly Item: typeof MiNoticeItem
+    }

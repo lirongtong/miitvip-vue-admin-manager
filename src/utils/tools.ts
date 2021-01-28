@@ -321,14 +321,14 @@ class MiTools {
 
     /**
      * parsing url parameters.
-     * @param url 
-     * @param params 
+     * @param url
+     * @param params
      */
-    parseUrl(url: string, params: {}) {
+    parseUrl(url: string, params = {}) {
         if (Object.keys(params).length > 0) {
             for (const i in params) {
                 if (params.hasOwnProperty(i)) {
-                    const reg = new RegExp('\{' + i + '\}', 'gi')
+                    const reg = new RegExp('{' + i + '}', 'gi')
                     url = url.replace(reg, params[i])
                 }
             }
@@ -338,43 +338,32 @@ class MiTools {
 
     /**
      * Scroll to top.
-     * @param el 
-     * @param from 
-     * @param to 
-     * @param duration 
-     * @param endCallback 
+     * @param el
+     * @param from
+     * @param to
+     * @param duration
+     * @param endCallback
      */
-    scrollTop(
-        el: any,
-        from = 0,
-        to: number,
-        duration = 500,
-        endCallback?: any
-    ) {
+    scrollTop(el: any, from = 0, to: number, duration = 500, endCallback?: any) {
         if (!window.requestAnimationFrame) {
             const w = window as any
-            w.requestAnimationFrame = (
+            w.requestAnimationFrame =
                 w.webkitRequestAnimationFrame ||
                 w.mozRequestAnimationFrame ||
                 w.msRequestAnimationFrame ||
-                function(callback: any) {
-                    return w.setTimeout(callback, 1000 / 60);
+                function (callback: any) {
+                    return w.setTimeout(callback, 1000 / 60)
                 }
-            )
         }
         const difference = Math.abs(from - to)
-        const step = Math.ceil(difference / duration * 50)
-        function scroll(
-            start: number,
-            end: number,
-            step: number
-        ) {
+        const step = Math.ceil((difference / duration) * 50)
+        function scroll(start: number, end: number, step: number) {
             if (start === end) {
                 endCallback && endCallback()
                 return
             }
-            let d = (start + step > end) ? end : start + step
-            if (start > end) d = (start - step < end) ? end : start - step
+            let d = start + step > end ? end : start + step
+            if (start > end) d = start - step < end ? end : start - step
             if (el === window) window.scrollTo(d, d)
             else el.scrollTop = d
             window.requestAnimationFrame(() => scroll(d, end, step))
@@ -384,8 +373,8 @@ class MiTools {
 
     /**
      * Back to top ( default `document.body` ).
-     * @param offset 
-     * @param time 
+     * @param offset
+     * @param time
      */
     backtoTop(offset = 0, time = 1000) {
         const top = this.isEmpty(offset)
@@ -394,6 +383,10 @@ class MiTools {
         this.scrollTop(document.body, top, 0, this.isEmpty(time) ? 1000 : time)
     }
 
+    /**
+     * Find Node.
+     * @param instance
+     */
     findDOMNode(instance: any) {
         let node = instance && (instance.$el || instance)
         while (node && !node.tagName) node = node.nextSibling
@@ -402,18 +395,18 @@ class MiTools {
 
     /**
      * Unit conversion.
-     * @param value 
-     * @param base 
+     * @param value
+     * @param base
      */
-    pxToRem(value: number, base: number = 16) {
-        return Math.round(value / base * 100) / 100
+    pxToRem(value: number, base = 16) {
+        return Math.round((value / base) * 100) / 100
     }
 
     /**
      * Gets the actual height of the element from the top of the document.
-     * @param el 
+     * @param el
      */
-    getElementActualTopLeft (el: HTMLElement, pos = 'top') {
+    getElementActualTopLeft(el: HTMLElement, pos = 'top') {
         let actual = pos === 'left' ? el.offsetLeft : el.offsetTop
         let current = el.offsetParent as HTMLElement
         while (current !== null) {
@@ -425,10 +418,10 @@ class MiTools {
 
     /**
      * Clone Node.
-     * @param vNode 
-     * @param nodeProps 
-     * @param override 
-     * @param mergeRef 
+     * @param vNode
+     * @param nodeProps
+     * @param override
+     * @param mergeRef
      */
     cloneElement(vNode: any, nodeProps = {}, override = true, mergeRef = false) {
         let elem = vNode
@@ -437,13 +430,13 @@ class MiTools {
         }
         if (!elem) return null
         const node = cloneVNode(elem, nodeProps, mergeRef)
-        node.props = override ? {...node.props, ...nodeProps} : node.props
+        node.props = override ? { ...node.props, ...nodeProps } : node.props
         return node
     }
 
     /**
      * Whether the element is empty.
-     * @param elem 
+     * @param elem
      */
     isEmptyElement(elem: any) {
         return (
@@ -455,11 +448,11 @@ class MiTools {
 
     /**
      * Filter the empty element.
-     * @param children 
+     * @param children
      */
     filterEmpty(children = []) {
         const res = []
-        children.forEach(child => {
+        children.forEach((child) => {
             if (Array.isArray(child)) {
                 res.push(...child)
             } else if (child.type === Fragment) {
@@ -468,7 +461,7 @@ class MiTools {
                 res.push(child)
             }
         })
-        return res.filter(c => !this.isEmptyElement(c))
+        return res.filter((c) => !this.isEmptyElement(c))
     }
 
     /**
@@ -476,10 +469,10 @@ class MiTools {
      */
     requestAnimationFramePolyfill() {
         let lastTime = 0
-        return function(callback: any) {
+        return function (callback: any) {
             const currTime = new Date().getTime()
             const timeToCall = Math.max(0, 16 - (currTime - lastTime))
-            const id = window.setTimeout(function() {
+            const id = window.setTimeout(function () {
                 callback(currTime + timeToCall)
             }, timeToCall)
             lastTime = currTime + timeToCall
@@ -493,14 +486,16 @@ class MiTools {
     getRequestAnimationFrame() {
         if (typeof window === 'undefined') return () => {}
         if (window.requestAnimationFrame) return window.requestAnimationFrame.bind(window)
-        const prefix = availablePrefixs.filter(key => `${key}RequestAnimationFrame` in window)[0]
-        return prefix ? window[`${prefix}RequestAnimationFrame`] : this.requestAnimationFramePolyfill()
+        const prefix = availablePrefixs.filter((key) => `${key}RequestAnimationFrame` in window)[0]
+        return prefix
+            ? window[`${prefix}RequestAnimationFrame`]
+            : this.requestAnimationFramePolyfill()
     }
 
     /**
      * Request Animation.
-     * @param callback 
-     * @param delay 
+     * @param callback
+     * @param delay
      */
     createRequestAnimationFrame(callback: any, delay: number) {
         const start = Date.now()
@@ -517,70 +512,73 @@ class MiTools {
 
     /**
      * Cancel request animation.
-     * @param id 
+     * @param id
      */
     cancelRequestAnimationFrame(id: any) {
         if (typeof window === 'undefined') return null
         if (window.cancelAnimationFrame) return window.cancelAnimationFrame(id)
         const prefix = availablePrefixs.filter(
-            key => `${key}CancelAnimationFrame` in window || `${key}CancelRequestAnimationFrame` in window
+            (key) =>
+                `${key}CancelAnimationFrame` in window ||
+                `${key}CancelRequestAnimationFrame` in window
         )[0]
-        return prefix ? (
-                window[`${prefix}CancelAnimationFrame`] ||
-                window[`${prefix}CancelRequestAnimationFrame`]
-            ).call(this, id)
+        return prefix
+            ? (
+                  window[`${prefix}CancelAnimationFrame`] ||
+                  window[`${prefix}CancelRequestAnimationFrame`]
+              ).call(this, id)
             : clearTimeout(id)
     }
 
     /**
-	 * convert color.
-	 * @param color
-	 * @param opacity
-	 */
-	colorHexToRgba(color: string, opacity = 1): string {
-		const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-		if (reg.test(color)) {
-			if (color.length === 4) {
-				let newColor = '#'
-				for (let i = 1; i < 4; i++) {
-					newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
-				}
-				color = newColor
-			}
-			const changeColor: number[] = []
-			for (let i = 1; i < 7; i += 2) {
-				changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
-			}
-			return `rgba(${changeColor.join(',')}, ${opacity})`
-		} else {
-			return color
-		}
+     * convert color.
+     * @param color
+     * @param opacity
+     */
+    colorHexToRgba(color: string, opacity = 1): string {
+        const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+        if (reg.test(color)) {
+            if (color.length === 4) {
+                let newColor = '#'
+                for (let i = 1; i < 4; i++) {
+                    newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
+                }
+                color = newColor
+            }
+            const changeColor: number[] = []
+            for (let i = 1; i < 7; i += 2) {
+                changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
+            }
+            return `rgba(${changeColor.join(',')}, ${opacity})`
+        } else {
+            return color
+        }
     }
-    
+
     /**
      * convert color.
-     * @param color 
+     * @param color
      */
     colorRgbToHex(color: string) {
         const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-        if(/^(rgb|RGB)/.test(color)){
-            var aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
-            var strHex = '#'
+        if (/^(rgb|RGB)/.test(color)) {
+            const aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
+            let strHex = '#'
             for (let i = 0; i < aColor.length; i++) {
-                var hex = Number(aColor[i]).toString(16)
-                if(hex === '0') hex += hex
+                let hex = Number(aColor[i]).toString(16)
+                if (hex === '0') hex += hex
                 strHex += hex
             }
             if (strHex.length !== 7) strHex = color
             return strHex
         } else if (reg.test(color)) {
-            var aNum = color.replace(/#/, '').split('')
+            const aNum = color.replace(/#/, '').split('')
             if (aNum.length === 6) {
                 return color
             } else if (aNum.length === 3) {
-                var numHex = '#'
+                let numHex = '#'
                 for (let i = 0; i < aNum.length; i += 1) {
-                    numHex += (aNum[i]+aNum[i])
+                    numHex += aNum[i] + aNum[i]
                 }
                 return numHex
             }
@@ -591,19 +589,19 @@ class MiTools {
 
     /**
      * Transfer.
-     * @param html 
+     * @param html
      */
     htmlEncode(html: string) {
         let temp = document.createElement('div') as HTMLDivElement
-        (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html)
-        var output = temp.innerHTML
+        temp.textContent != null ? (temp.textContent = html) : (temp.innerText = html)
+        const output = temp.innerHTML
         temp = null
         return output
     }
 
     /**
      * The theme of light-fresh.
-     * @param theme 
+     * @param theme
      */
     setThemeVariables(theme = 'dark') {
         const id = `${$g.prefix}theme-variables`

@@ -154,7 +154,8 @@ export default {
                             /** retry 3 times, delay 1000ms each time (by default). */
                             const config = err.config
                             if (!config || !config.retry) return Promise.reject(err.response)
-                            if (config.retryCount >= config.retry) return Promise.reject(err.response)
+                            if (config.retryCount >= config.retry)
+                                return Promise.reject(err.response)
                             config.retryCount += 1
                             await resent()
                         }

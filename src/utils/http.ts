@@ -43,8 +43,8 @@ class MiHttp {
                 url: string,
                 data: { [index: string]: any } = {},
                 config?: AxiosRequestConfig & {
-                    retry?: number,
-                    retryDelay?: number,
+                    retry?: number
+                    retryDelay?: number
                     retryCount?: 0
                 }
             ): Promise<any> => {

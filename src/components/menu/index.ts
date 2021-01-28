@@ -16,7 +16,7 @@ Menu.install = (app: App) => {
 }
 export default Menu as typeof Menu &
     Plugin & {
-        readonly SubMenu: typeof SubMenu,
-        readonly Item: typeof MenuItem,
+        readonly SubMenu: typeof SubMenu
+        readonly Item: typeof MenuItem
         readonly Link: typeof MenuItemLink
     }
