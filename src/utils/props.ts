@@ -2,6 +2,37 @@ import { isVNode, Fragment, Comment, Text, CSSProperties } from 'vue'
 import { createTypes, VueTypesInterface, VueTypeValidableDef } from 'vue-types'
 import { $tools } from './tools'
 
+export const tuple = <T extends string[]>(...args: T) => args
+
+const onRE = /^on[^a-z]/
+const isOn = (key: string) => onRE.test(key)
+const splitAttrs = (attrs: any) => {
+    const allAttrs = Object.keys(attrs)
+    const eventAttrs = {}
+    const onEvents = {}
+    const extraAttrs = {}
+    for (let i = 0, l = allAttrs.length; i < l; i++) {
+        const key = allAttrs[i]
+        if (isOn(key)) {
+            eventAttrs[key[2].toLowerCase() + key.slice(3)] = attrs[key]
+            onEvents[key] = attrs[key]
+        } else {
+            extraAttrs[key] = attrs[key]
+        }
+    }
+    return { onEvents, events: eventAttrs, extraAttrs }
+}
+
+const getEvents = (ele: any = {}, on = true) => {
+    let props = {}
+    if (ele.$) {
+        props = { ...props, ...ele.$attrs }
+    } else {
+        props = { ...props, ...ele.props }
+    }
+    return splitAttrs(props)[on ? 'onEvents' : 'events']
+}
+
 const isEmptyElement = (elem: any) => {
     return (
         elem.type === Comment ||
@@ -89,7 +120,7 @@ PropTypes.extend([
     }
 ])
 
-export { getSlot, getSlotContent }
+export { getSlot, getSlotContent, getEvents }
 
 export default PropTypes as VueTypesInterface & {
     readonly style: VueTypeValidableDef<CSSProperties>

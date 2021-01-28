@@ -1,6 +1,5 @@
 import { App } from 'vue'
 import Captcha from 'makeit-captcha'
-import Tooltip from 'makeit-tooltip'
 import Search from 'makeit-search'
 import async from './utils/async'
 import baseMixins from './utils/mixins'
@@ -22,6 +21,7 @@ import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
 import { default as Menu } from './components/menu'
 import { default as Anchor } from './components/anchor'
+import { default as Tooltip } from './components/tooltip'
 
 const components = [
     config,
