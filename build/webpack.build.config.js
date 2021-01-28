@@ -82,18 +82,6 @@ module.exports = merge(baseConfig, {
 				commonjs: 'vue-types',
 				commonjs2: 'vue-types',
 				amd: 'vue-types'
-			},
-			'makeit-captcha': {
-				root: 'MakeitCaptcha',
-				commonjs: 'makeit-captcha',
-				commonjs2: 'makeit-captcha',
-				amd: 'makeit-captcha'
-			},
-			'makeit-tooltip': {
-				root: 'MakeitTooltip',
-				commonjs: 'makeit-tooltip',
-				commonjs2: 'makeit-tooltip',
-				amd: 'makeit-tooltip'
 			}
         }
     ],
