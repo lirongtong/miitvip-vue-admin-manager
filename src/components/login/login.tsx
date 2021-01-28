@@ -42,12 +42,9 @@ const Login = defineComponent({
         example: PropTypes.bool.def(false)
     },
     data() {
-        const validateCaptcha = (_rule: any, value: boolean, _callback: any) => {
-            if (value) {
-                if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
-                else return Promise.resolve()
-            }
-            return Promise.resolve()
+        const validateCaptcha = (_rule: any, _value: boolean, _callback: any) => {
+            if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
+            else return Promise.resolve()
         }
         return {
             loading: false,
@@ -302,10 +299,8 @@ const Login = defineComponent({
             if (data && data.uuid) this.form.validate.uuid = data.uuid
             this.captcha = true
             isVerify = true
-            if (
-                this.onCaptchaSuccess &&
-                typeof this.onCaptchaSuccess === 'function'
-            ) this.onCaptchaSuccess.call(this, data)
+            this.$refs[`${this.getPrefixCls()}-login-form`].validateFields(['captcha'])
+            this.$emit('captchaSuccess', data)
         }
     },
     render() {

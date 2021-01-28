@@ -122,12 +122,9 @@ export default defineComponent({
                 }
             }
         },
-        checkCaptcha(_rule: any, value: boolean, _callback: any) {
-            if (value) {
-                if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
-                else return Promise.resolve()
-            }
-            return Promise.resolve()
+        checkCaptcha(_rule: any, _value: boolean, _callback: any) {
+            if (!isVerify) return Promise.reject('请点击按钮进行验证码校验')
+            else return Promise.resolve()
         },
         getMaskElem() {
             let mask: any = null
@@ -300,10 +297,8 @@ export default defineComponent({
             if (data && data.uuid) this.form.validate.uuid = data.uuid
             this.captcha = true
             isVerify = true
-            if (
-                this.onCaptchaSuccess &&
-                typeof this.onCaptchaSuccess === 'function'
-            ) this.onCaptchaSuccess.call(this, data)
+            this.$refs[registerFormRef].validateFields(['captcha'])
+            this.$emit('captchaSuccess', data)
         },
         handleRegister() {
             if (this.loading) return 
