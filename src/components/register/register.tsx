@@ -19,7 +19,7 @@ export default defineComponent({
         action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
         background: PropTypes.string,
         title: PropTypes.string,
-        redirect: PropTypes.string,
+        redirectTo: PropTypes.string,
         binding: PropTypes.bool.def(false),
         openCaptcha: PropTypes.bool.def(true),
         captchaRadius: PropTypes.number.def(42),
@@ -313,10 +313,10 @@ export default defineComponent({
                             this.$store.dispatch('passport/register', this.form.validate).then((res: any) => {
                                 this.loading = false
                                 if (res.ret.code === 1) {
-                                    if (this.redirect) {
-                                        if (this.$g.regExp.url.test(this.redirect)) {
-                                            window.location.href = this.redirect
-                                        } else this.$router.push({path: this.redirect})
+                                    if (this.redirectTo) {
+                                        if (this.$g.regExp.url.test(this.redirectTo)) {
+                                            window.location.href = this.redirectTo
+                                        } else this.$router.push({path: this.redirectTo})
                                     } else this.$router.push({path: '/'})
                                 } else MiModal.error({content: res.ret.message})
                             }).catch((err: any) => {
