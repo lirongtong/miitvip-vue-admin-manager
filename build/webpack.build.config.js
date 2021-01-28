@@ -89,12 +89,6 @@ module.exports = merge(baseConfig, {
 				commonjs2: 'makeit-captcha',
 				amd: 'makeit-captcha'
 			},
-			'makeit-search': {
-				root: 'MakeitSearch',
-				commonjs: 'makeit-search',
-				commonjs2: 'makeit-search',
-				amd: 'makeit-search'
-			},
 			'makeit-tooltip': {
 				root: 'MakeitTooltip',
 				commonjs: 'makeit-tooltip',
