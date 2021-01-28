@@ -141,7 +141,6 @@ const Anchor = defineComponent({
             let container: any = document
             if (this.collectContainer) container = document.querySelector(this.collectContainer)
             this.list = this.parseList(container.querySelectorAll(this.selector))
-            console.log(this.list)
             this.linkTemplate = []
             this.$nextTick(() => {
                 const anchor = this.$refs[this.prefixCls]
