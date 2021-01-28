@@ -211,9 +211,13 @@ export default defineComponent({
             ) : null
         },
         getRadarSuccessElem() {
+            const iconStyle = {
+                fontSize: `${this.$tools.pxToRem(20)}rem`,
+                color: this.themeColor ?? null
+            }
             return this.status.success ? (
                 <div class={`${this.prefixCls}-radar-success ${this.prefixCls}-radar-success-icon`}>
-                    <VerifiedOutlined style={{fontSize: `${this.$tools.pxToRem(20)}rem`, color: this.themeColor ?? null}} />
+                    <VerifiedOutlined style={iconStyle} />
                 </div>
             ) : null
         },

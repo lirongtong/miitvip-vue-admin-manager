@@ -19,8 +19,8 @@
 		height: 100%;
         width: 100%;
         background: #fff;
-        border: 1px solid #f6ca9d;
-        box-shadow: 0 0 4px #f6ca9d;
+        border: 1px solid var(--mi-theme-color, @mi-theme-color);
+        box-shadow: 0 0 4px var(--mi-theme-color, @mi-theme-color);
         cursor: pointer;
         .properties(min-width, 160);
 
@@ -44,12 +44,12 @@
 			transform: scale(.4);
 			width: 100%;
 			height: 100%;
-			box-shadow: inset 0 0 0 1px #f6ca9d;
+			box-shadow: inset 0 0 0 1px var(--mi-theme-color, @mi-theme-color);
 			background-image: linear-gradient(0, rgba(0, 0, 0, 0) 50%, #fff 50%), linear-gradient(0, #fff 50%, rgba(0, 0, 0, 0) 50%);
         }
 
         &-dot {
-            background: #f6ca9d;
+            background: var(--mi-theme-color, @mi-theme-color);
         }
 
         &-ring {
@@ -78,7 +78,7 @@
                     left: 3px;
                     border-radius: 50%;
                     border: 3px solid #000;
-                    border-color: #f6ca9d transparent #f6ca9d transparent;
+                    border-color: var(--mi-theme-color, @mi-theme-color) transparent var(--mi-theme-color, @mi-theme-color) transparent;
                     animation: mi-anim-rotate .8s linear infinite;
                 }
 
@@ -87,7 +87,7 @@
                     height: 14px;
                     top: 8px;
                     left: 8px;
-                    border-color: transparent #f6ca9d transparent #f6ca9d;
+                    border-color: transparent var(--mi-theme-color, @mi-theme-color) transparent var(--mi-theme-color, @mi-theme-color);
                     animation: mi-anim-rotate .5s linear infinite reverse;
                 }
             }
@@ -106,12 +106,8 @@
 			.flex();
 			cursor: default;
 
-			.@{mi-icon} {
-				color: #f6ca9d;
-				.properties(font-size, 18);
-			}
-
 			&-icon {
+                color: var(--mi-theme-color, @mi-theme-color);
 				animation-name: mi-captcha-success;
 				animation-timing-function: ease;
 				animation-iteration-count: 1;
@@ -133,7 +129,11 @@
 			&-error {
 				color: #ed4014;
 			}
-		}
+        }
+        
+        &-pass &-tip {
+            color: var(--mi-theme-color, @mi-theme-color);
+        }
         
         &-logo {
             position: absolute;
@@ -156,12 +156,12 @@
 		top: 0;
 		height: 100%;
         width: 0;
-        box-shadow: 0 0 4px fade(#f6ca9d, 20%);
+        box-shadow: 0 0 4px var(--mi-captcha-success-bg-color, @mi-captcha-success-bg-color);
 		cursor: default;
 		transition: width .5s ease;
 
 		&-show{
-			background: fade(#f6ca9d, 20%);
+			background: var(--mi-captcha-success-bg-color, @mi-captcha-success-bg-color);
 			width: 100%;
 		}
 	}
@@ -177,23 +177,23 @@
 
         &-content {
             background: #fff;
-            border-radius: 8px;
+            .border-radius(8);
             border: 1px solid fade(#000, 10%);
             box-shadow: 0 0 10px fade(#000, 20%);
             color: #ed4014;
-            font-size: 12px;
+            .properties(font-size, 12);
             padding: 8px 16px;
-            letter-spacing: 2px;
+            .letter-spacing();
             display: flex;
             align-items: center;
             justify-content: center;
-            max-width: 320px;
+            .properties(max-width, 320);
             flex-wrap: wrap;
-            line-height: 22px;
+            .properties(line-height, 22);
 
             .@{mi-icon} {
-                font-size: 14px;
-                margin-right: 8px;
+                .properties(font-size, 14);
+                .properties(margin-right);
             }
         }
     }

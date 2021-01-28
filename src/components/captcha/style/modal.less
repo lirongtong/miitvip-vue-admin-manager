@@ -38,7 +38,7 @@
 				position: absolute;
 				border-style: solid;
                 .properties(border-width, 11);
-				border-color: transparent #f6ca9d transparent transparent;
+				border-color: transparent var(--mi-theme-color, @mi-theme-color) transparent transparent;
 				z-index: 1;
 			}
         }
@@ -51,7 +51,7 @@
             .border-radius();
             background: #1d1e23;
 			box-shadow: 0 0 10px #1d1e23;
-			border: 1px solid #f6ca9d;
+			border: 1px solid var(--mi-theme-color, @mi-theme-color);
         }
 
         &-wrap {
@@ -105,7 +105,7 @@
                     .properties(width, 36);
                     .properties(height, 36);
                     border-radius: 50%;
-                    border: 6px solid #f6ca9d;
+                    border: 6px solid var(--mi-theme-color, @mi-theme-color);
                     background: transparent;
                 }
                 
@@ -113,7 +113,7 @@
                     .properties(width, 8.5);
                     .properties(height, 25.5);
                     transform: rotate(-45deg);
-                    background: #f6ca9d;
+                    background: var(--mi-theme-color, @mi-theme-color);
                     border-radius: 0 0 4px 4px;
                     position: absolute;
                     .properties(top, 34);
@@ -185,7 +185,7 @@
             
             &-track {
                 background: #fff;
-				border: 1px solid #f6ca9d;
+				border: 1px solid var(--mi-theme-color, @mi-theme-color);
 				.flex();
 				.border-radius(20);
 				.properties(height, 38);
@@ -215,7 +215,7 @@
 				.properties(width, 54);
 				.properties(height, 54);
 				.border-radius-circle();
-				border: 1px solid #f6ca9d;
+				border: 1px solid var(--mi-theme-color, @mi-theme-color);
 				background: #fff;
 				.flex();
 				cursor: pointer;
@@ -305,7 +305,7 @@
                     box-shadow: 0px 0px 30px 0px fade(#f6ca9d, 50%);
 
                     & > span {
-                        background-color: #f6ca9d;
+                        background-color: var(--mi-theme-color, @mi-theme-color);
                         display: block;
                         height: 12px;
                         border-radius: 6px;
