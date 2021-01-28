@@ -1,0 +1,172 @@
+@import '../../../style/theme/index';
+
+@mi-anchor: ~'@{mi-prefix}anchor';
+.@{mi-anchor} {
+    position: fixed;
+    max-height: calc(100vh - 360px);
+    background-color: var(--mi-anchor-bg-color, @mi-anchor-bg-color);
+    border: 1px solid var(--mi-theme-color, @mi-theme-color);
+    transition: all .3s ease;
+    .border-radius();
+    .properties(top, 200);
+    .properties(right, -1);
+    .properties(padding, 16);
+    .properties(max-width, 280);
+    overflow: auto;
+    z-index: 19900312;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f6f6f6;
+        border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #aaa;
+        border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #747474;
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: #f6f6f6;
+    }
+
+    &-title {
+        .flex();
+        .properties(margin-bottom);
+    }
+
+    &-title &-icon {
+        .properties(margin-right, 24);
+        transition: all .3s ease;
+        cursor: pointer;
+        color: var(--mi-anchor-icon-color, @mi-anchor-icon-color);
+        .properties(font-size, 14);
+
+        .anticon {
+            outline: none;
+            .properties(font-size, 12);
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &:hover {
+            color: var(--mi-theme-color, @mi-theme-color);
+        }
+    }
+
+    &-box {
+        .properties(padding-right);
+        .properties(padding-left, 16);
+        .properties(font-size, 14);
+        list-style: none;
+        .letter-spacing();
+        position: relative;
+    }
+
+    &-link {
+        .flex(center, flex-start);
+        .properties(padding-top);
+        .properties(padding-bottom);
+        .properties(font-size, 12);
+        cursor: pointer;
+        transition: all .3s ease;
+
+        a {
+            .text-ellipsis();
+            .properties(max-width, 180);
+            color: var(--mi-anchor-link-color, @mi-anchor-link-color);
+        }
+
+        .anticon {
+            outline: none;
+            color: var(--mi-anchor-link-color, @mi-anchor-link-color);
+            .properties(margin-right, 16);
+        }
+
+        &:hover {
+            a, .anticon {
+                color: var(--mi-theme-color, @mi-theme-color);
+            }
+        }
+
+        &&-active {
+            a, .anticon {
+                color: var(--mi-theme-color, @mi-theme-color);
+            }
+        }
+    }
+
+    &-stick {
+        position: fixed;
+        top: 220px;
+        right: 0;
+        .properties(right, -214);
+        z-index: 19900302;
+        background: var(--mi-anchor-stick-bg-color, @mi-anchor-stick-bg-color);
+        .properties(padding);
+        .border-radius(8);
+        .properties(height, 132);
+        .properties(width, 256);
+        cursor: pointer;
+        .flex(flex-start, flex-start);
+        flex-direction: column;
+        border: 1px solid var(--mi-theme-color, @mi-theme-color);
+        .letter-spacing();
+        transition: all .3s ease;
+
+        .anticon {
+            color: var(--mi-anchor-link-color, @mi-anchor-link-color);
+            .properties(font-size, 14);
+            position: relative;
+            top: 0;
+            .properties(left, 8);
+        }
+
+        &-text {
+            .properties(font-size, 12);
+            color: var(--mi-anchor-link-color, @mi-anchor-link-color);
+            .properties(line-height, 14);
+            transform: rotate(-90deg);
+            display: inline-block;
+            position: relative;
+            .properties(top, 42);
+            .properties(left, -28);
+        }
+    }
+}
+
+.@{mi-prefix} {
+    &anchor-enter-active,
+    &anchor-leave-active {
+        opacity: 1;
+        right: 0;
+    }
+
+    &anchor-enter-from,
+    &anchor-leave-to {
+        opacity: 0;
+        .properties(right, -100);
+    }
+
+    &anchor-stick-enter-active,
+    &anchor-stick-leave-active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    &anchor-stick-enter-from,
+    &anchor-stick-leave-to {
+        opacity: 0;
+        transform: scale(0);
+    }
+}

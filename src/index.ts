@@ -21,6 +21,7 @@ import { default as Notice } from './components/notice'
 import { default as Dropdown } from './components/dropdown'
 import { default as Modal } from './components/modal'
 import { default as Menu } from './components/menu'
+import { default as Anchor } from './components/anchor'
 
 const components = [
     config,
@@ -38,6 +39,7 @@ const components = [
     Dropdown,
     Modal,
     Menu,
+    Anchor,
     Captcha,
     Tooltip,
     Search
@@ -76,6 +78,7 @@ export {
     Dropdown,
     Modal,
     Menu,
+    Anchor,
     Captcha,
     Tooltip,
     Search

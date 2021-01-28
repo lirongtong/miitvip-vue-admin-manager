@@ -393,17 +393,26 @@ class MiTools {
     }
 
     /**
+     * Unit conversion.
+     * @param value 
+     * @param base 
+     */
+    pxToRem(value: number, base: number = 16) {
+        return Math.round(value / base * 100) / 100
+    }
+
+    /**
      * Gets the actual height of the element from the top of the document.
      * @param el 
      */
-    getElementTop (el: HTMLElement) {
-        let actualTop = el.offsetTop
+    getElementActualTopLeft (el: HTMLElement, pos = 'top') {
+        let actual = pos === 'left' ? el.offsetLeft : el.offsetTop
         let current = el.offsetParent as HTMLElement
         while (current !== null) {
-            actualTop += current.offsetTop
+            actual += pos === 'left' ? current.offsetLeft : current.offsetTop
             current = current.offsetParent as HTMLElement
         }
-        return actualTop
+        return actual
     }
 
     /**
@@ -433,6 +442,10 @@ class MiTools {
                 @mi-sider-color: #fff;
                 @mi-sider-shadow-color: rgba(175, 175, 175, 0.35);
                 @mi-sider-border-color: #4c4c4c;
+                @mi-anchor-bg-color: #fff;
+                @mi-anchor-link-color: #7b7b7b;
+                @mi-anchor-icon-color: #7b7b7b;
+                @mi-anchor-stick-bg-color: #fff;
                 @mi-menu-color: #666;
                 @mi-menu-active-color: rgba(47, 150, 136, .2);
                 @mi-menu-sub-color: #909090;

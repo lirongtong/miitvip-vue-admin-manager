@@ -4,7 +4,7 @@ import { createStore } from 'vuex'
 import { BellOutlined } from '@ant-design/icons-vue'
 import MakeitAdminPro from 'makeit-admin-pro'
 import App from './app.vue'
-import 'ant-design-vue/dist/antd.css'
+import 'ant-design-vue/dist/antd.min.css'
 import 'makeit-admin-pro/style'
 import './assets/styles/main.less'
 
