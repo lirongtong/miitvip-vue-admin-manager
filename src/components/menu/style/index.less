@@ -21,7 +21,7 @@
         min-height: @mi-sider-item-height;
         line-height: @mi-sider-item-height;
         color: @mi-white-color;
-        transition: all .3s ease;
+        transition: unset;
         overflow: hidden;
     }
 
@@ -35,6 +35,8 @@
             .sub {
                 .properties(font-size, 12);
                 color: var(--mi-menu-sub-color, @mi-menu-sub-color);
+                .properties(line-height, 16);
+                .properties(margin-top, 4);
             }
         }
 
@@ -57,36 +59,7 @@
         & &-link {
             .flex(center, flex-start);
             color: @mi-white-color;
-        }
-    }
-
-    & &-items-active {
-        > .@{ant-submenu} {
-            &-title {
-                color: var(--mi-theme-color, @mi-theme-color);
-
-                .@{ant-submenu}-arrow {
-                    &:before,
-                    &:after {
-                        background: var(--mi-theme-color, @mi-theme-color);
-                    }
-                }
-            }
-        }
-    }
-
-    & &-items-active.@{ant-submenu}-open {
-        > .@{ant-submenu} {
-            &-title {
-                color: @mi-white-color;
-
-                .@{ant-submenu}-arrow {
-                    &:before,
-                    &:after {
-                        background: @mi-white-color;
-                    }
-                }
-            }
+            transition: unset;
         }
     }
 
@@ -96,9 +69,15 @@
                 .flex(center, flex-start);
                 height: @mi-sider-item-height;
                 line-height: @mi-sider-item-height;
+                color: var(--mi-menu-color, @mi-menu-color);
+                transition: unset;
 
                 .@{ant-submenu}-arrow {
                     opacity: 1;
+                    &:before,
+                    &:after {
+                        background: var(--mi-menu-color, @mi-menu-color);
+                    }
                 }
 
                 &:hover {
@@ -114,7 +93,6 @@
             }
 
             &-sub {
-                transition: all .3s ease;
                 background: var(--mi-sider-color, @mi-sider-color);
                 box-shadow: none;
                 overflow: hidden;
@@ -126,11 +104,9 @@
             &-item {
                 height: @mi-sider-item-height;
                 line-height: @mi-sider-item-height;
-                transition: all .3s ease;
 
                 & .@{mi-menu}-item-link {
-                    transition: all .3s ease;
-                    color: @mi-white-color;
+                    color: var(--mi-menu-color, @mi-menu-color);
                 }
 
                 &:hover {
@@ -142,13 +118,47 @@
         }
     }
 
+    & &-items-active {
+        > .@{ant-submenu} {
+            &-title {
+                color: var(--mi-theme-color, @mi-theme-color);
+
+                .@{ant-submenu}-arrow {
+                    &:before,
+                    &:after {
+                        background: var(--mi-theme-color, @mi-theme-color);
+                    }
+                }
+
+                .sub {
+                    color: var(--mi-menu-active-sub-color, @mi-menu-active-sub-color);
+                }
+            }
+        }
+    }
+
+    & &-items-active.@{ant-submenu}-open {
+        > .@{ant-submenu} {
+            &-title {
+                color: var(--mi-menu-color, @mi-menu-color);
+
+                .@{ant-submenu}-arrow {
+                    &:before,
+                    &:after {
+                        background: var(--mi-menu-color, @mi-menu-color);
+                    }
+                }
+
+                .sub {
+                    color: var(--mi-menu-sub-color, @mi-menu-sub-color);
+                }
+            }
+        }
+    }
+
     &.@{ant-menu}-dark &-item {
         &:not(:last-child) {
             margin-bottom: 0;
-        }
-
-        &:last-child {
-            .properties(margin-bottom, 24);
         }
 
         > a {
@@ -187,6 +197,13 @@
             border-right: 3px solid var(--mi-theme-color, @mi-theme-color);
         }
     }
+
+    &.@{ant-menu}-dark > &-item,
+    &.@{ant-menu}-dark > .@{ant-submenu} {
+        &:last-child {
+            .properties(margin-bottom, 24);
+        }
+    }
 }
 
 .ant-layout-sider {
@@ -216,7 +233,7 @@
 
                 &-items-active {
                     position: relative;
-                    background: @mi-black-color;
+                    background: var(--mi-menu-active-color, @mi-menu-active-color);
 
                     &:after {
                         position: absolute;
@@ -226,7 +243,6 @@
                         border-right: 3px solid rgb(24, 144, 255);
                         transform: scaleY(1);
                         opacity: 1;
-                        transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0s, opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
                         content: "";
                         border-right: 3px solid var(--mi-theme-color, @mi-theme-color);
                     }
@@ -273,15 +289,18 @@
     .@{ant-submenu}-popup {
         background: var(--mi-sider-color, @mi-sider-color);
         transition: none;
+        z-index: 19900407;
     }
 
     &-dark {
         &.@{ant-submenu}-popup {
+            z-index: 19900407;
+
             .@{ant-menu} {
                 &-sub {
                     transition: none;
                     background: var(--mi-sider-color, @mi-sider-color);
-                    color: @mi-white-color;
+                    color: var(--mi-menu-color, @mi-menu-color);
                 }
 
                 &-item {
@@ -291,7 +310,7 @@
 
                     > a {
                         .flex();
-                        color: @mi-white-color;
+                        color: var(--mi-menu-color, @mi-menu-color);
                         transition: none;
 
                         &:hover {
@@ -300,7 +319,7 @@
                     }
 
                     &-selected {
-                        background-color: @mi-menu-active-color;
+                        background-color: var(--mi-menu-active-color, @mi-menu-active-color);
 
                         .@{mi-menu} {
                             &-item {

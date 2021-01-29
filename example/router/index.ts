@@ -5,15 +5,17 @@ const Login = () => import('../views/login.vue')
 const Register = () => import('../views/register.vue')
 const Start = () => import('../views/start.vue')
 const Palette = () => import('../views/palette.vue')
+const Tools = () => import('../views/tools/index.vue')
 const ToolsG = () => import('../views/tools/config.vue')
 const ToolsCaches = () => import('../views/tools/caches.vue')
 const ToolsHttp = () => import('../views/tools/http.vue')
 const ToolsTools = () => import('../views/tools/tools.vue')
+const Pages = () => import('../views/pages/index.vue')
+const PagesLogin = () => import('../views/pages/login.vue')
+const PagesRegister = () => import('../views/pages/register.vue')
 const Components = () => import('../views/components/index.vue')
 const ComponentsLayout = () => import('../views/components/layout.vue')
 const ComponentsMenu = () => import('../views/components/menu.vue')
-const ComponentsLogin = () => import('../views/components/login.vue')
-const ComponentsRegister = () => import('../views/components/register.vue')
 const ComponentsNotice = () => import('../views/components/notice.vue')
 const ComponentsModal = () => import('../views/components/modal.vue')
 const ComponentsTooltip = () => import ('../views/components/tooltip.vue')
@@ -40,25 +42,49 @@ const menuRoutes: Array<RouteRecordRaw> = [{
         meta: {title: '主题配色'},
         component: Palette
     }, {
-        path: '/global',
-        name: 'global',
-        meta: {title: '全局变量'},
-        component: ToolsG
-    }, {
-        path: '/http',
-        name: 'http',
-        meta: {title: '请求响应'},
-        component: ToolsHttp
-    }, {
-        path: '/caches',
-        name: 'caches',
-        meta: {title: '本地缓存'},
-        component: ToolsCaches
-    }, {
         path: 'tools',
         name: 'tools',
-        meta: {title: '工具函数'},
-        component: ToolsTools
+        meta: {title: '系统工具'},
+        component: Tools,
+        redirect: '/tools/global',
+        children: [{
+            path: '/tools/global',
+            name: 'tools-global',
+            meta: {title: '全局变量'},
+            component: ToolsG
+        }, {
+            path: '/tools/http',
+            name: 'tools-http',
+            meta: {title: '请求响应'},
+            component: ToolsHttp
+        }, {
+            path: '/tools/caches',
+            name: 'tools-caches',
+            meta: {title: '本地缓存'},
+            component: ToolsCaches
+        }, {
+            path: '/tools/func',
+            name: 'tools-func',
+            meta: {title: '工具函数'},
+            component: ToolsTools
+        }]
+    }, {
+        path: 'pages',
+        name: 'pages',
+        meta: {title: '基础页面'},
+        component: Pages,
+        redirect: '/pages/login',
+        children: [{
+            path: '/pages/login',
+            name: 'pages-login',
+            meta: {title: '登录页面'},
+            component: PagesLogin
+        }, {
+            path: '/pages/register',
+            name: 'pages-register',
+            meta: {title: '注册页面'},
+            component: PagesRegister
+        }]
     }, {
         path: 'components',
         name: 'components',
@@ -75,16 +101,6 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             name: 'components-menu',
             meta: {title: '左侧菜单'},
             component: ComponentsMenu
-        }, {
-            path: '/components/login',
-            name: 'components-login',
-            meta: {title: '登录页面'},
-            component: ComponentsLogin
-        }, {
-            path: '/components/register',
-            name: 'components-register',
-            meta: {title: '注册页面'},
-            component: ComponentsRegister
         }, {
             path: '/components/notice',
             name: 'components-notice',
