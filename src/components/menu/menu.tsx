@@ -1,7 +1,7 @@
 import { defineComponent, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { Menu } from 'ant-design-vue'
-import PropTypes from '../../utils/props'
+import PropTypes, { tuple } from '../../utils/props'
 import MiSubMenu from './submenu'
 import MiMenuItem from './item'
 import { MenuItems } from '../../utils/config'
@@ -11,7 +11,10 @@ export default defineComponent({
     name: 'MiMenu',
     props: {
         className: PropTypes.string,
-        items: PropTypes.object
+        items: PropTypes.object,
+        mode: PropTypes.oneOf(
+            tuple('vertical', 'inline')
+        ).def('inline')
     },
     setup() {
         const store = useStore()
@@ -176,7 +179,7 @@ export default defineComponent({
             <Menu
                 ref={prefixCls}
                 theme="dark"
-                mode="inline"
+                mode={this.mode}
                 forceSubMenuRender={true}
                 onClick={this.setActive}
                 onOpenChange={this.setOpenKeys}

@@ -89,11 +89,17 @@
                             background: var(--mi-theme-color, @mi-theme-color);
                         }
                     }
+
+                    .@{mi-menu}-item-title {
+                        .sub {
+                            color: var(--mi-theme-color, @mi-theme-color);
+                        }
+                    }
                 }
             }
 
             &-sub {
-                background: var(--mi-sider-color, @mi-sider-color);
+                background: var(--mi-menu-sub-bg-color, @mi-menu-sub-bg-color);
                 box-shadow: none;
                 overflow: hidden;
                 position: relative;
@@ -288,7 +294,6 @@
 
     .@{ant-submenu}-popup {
         background: var(--mi-sider-color, @mi-sider-color);
-        transition: none;
         z-index: 19900407;
     }
 
@@ -298,7 +303,7 @@
 
             .@{ant-menu} {
                 &-sub {
-                    transition: none;
+                    transition: unset;
                     background: var(--mi-sider-color, @mi-sider-color);
                     color: var(--mi-menu-color, @mi-menu-color);
                 }
@@ -344,6 +349,16 @@
                             border-right: 3px solid var(--mi-theme-color, @mi-theme-color);
                             transform: scaleY(1);
                             opacity: 1;
+                        }
+                    }
+
+                    .@{mi-menu}-item {
+                        &-tag {
+                            display: none;
+                        }
+
+                        &-title + .anticon {
+                            display: none;
                         }
                     }
                 }
