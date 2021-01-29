@@ -200,7 +200,7 @@
                     }
                 }]
             }, {
-                name: 'components-custom',
+                name: 'components',
                 path: '/components',
                 meta: {
                     title: '定制组件',

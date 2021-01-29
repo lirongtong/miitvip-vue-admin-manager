@@ -106,14 +106,6 @@ export default defineComponent({
             return [...items]
         },
         setActive(item: any) {
-            if (
-                item.keyPath &&
-                item.keyPath.length <= 1 &&
-                this.$g.menus.accordion
-            ) {
-                this.$g.menus.opens = []
-                this.store.commit(`layout/${mutations.layout.opens}`, [])
-            }
             this.$g.menus.active = [item.key]
             this.store.commit(`layout/${mutations.layout.active}`, [item.key])
         },
@@ -127,8 +119,8 @@ export default defineComponent({
                     if (this.menus[first] && !this.menus[first][last]) opens = [last]
                 }
             }
-            this.store.commit(`layout/${mutations.layout.opens}`, opens)
             this.$g.menus.opens = opens
+            this.store.commit(`layout/${mutations.layout.opens}`, opens)
         },
         getRelationshipChain() {
             const path = this.$route.path
@@ -181,7 +173,6 @@ export default defineComponent({
                 theme="dark"
                 mode={this.mode}
                 forceSubMenuRender={true}
-                onClick={this.setActive}
                 onOpenChange={this.setOpenKeys}
                 inlineCollapsed={this.collapsed}
                 openKeys={this.$g.menus.opens}
