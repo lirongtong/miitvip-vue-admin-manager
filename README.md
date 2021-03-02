@@ -22,7 +22,7 @@ A unified template used to backend management based on Vue3.0 + Ant Design Vue +
 ![vite](https://img.shields.io/badge/vite-1.0.0-yellow.svg)
 ![axios](https://img.shields.io/badge/axios-0.21.1-red.svg)
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-2.0.0-blueviolet.svg)
-![vue router](https://img.shields.io/badge/vue%20router-4.0.0-inactive.svg)
+![vue router](https://img.shields.io/badge/vue%20router-4.0.4-inactive.svg)
 ![vuex](https://img.shields.io/badge/vuex-4.0.0-informational.svg)
 
 <p>
