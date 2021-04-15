@@ -1,5 +1,4 @@
 import { defineComponent } from 'vue'
-import { RouterLink } from 'vue-router'
 import { MediumOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
@@ -17,10 +16,10 @@ export default defineComponent({
         let defaultSlot = this.$slots.default
         if (!defaultSlot) {
             defaultSlot = () => (
-                <RouterLink to={{path: '/'}} class={`${prefixCls}-site`}>
+                <a href="/" class={`${prefixCls}-site`}>
                     { logo }
                     <h1 innerHTML={title}></h1>
-                </RouterLink>
+                </a>
             )
         }
         return (
