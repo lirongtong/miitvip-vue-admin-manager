@@ -48,7 +48,6 @@ export default defineComponent({
             if (this.$g.mobile) screen = null
             return screen
         },
-        getFoldElem() {},
         getNoticeElem() {
             const prefixCls = this.getPrefixCls()
             const notice = getSlotContent(this, 'notice')
