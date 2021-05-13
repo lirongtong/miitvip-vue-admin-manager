@@ -5,7 +5,7 @@ import { BellOutlined } from '@ant-design/icons-vue'
 import MakeitAdminPro from 'makeit-admin-pro'
 import App from './app.vue'
 import 'ant-design-vue/dist/antd.css'
-import 'makeit-admin-pro/style'
+import 'makeit-admin-pro/style.ts'
 import './assets/styles/main.less'
 
 const app = createApp(App)

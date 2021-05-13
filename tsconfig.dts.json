@@ -19,6 +19,7 @@
 		"declaration": true,
 		"declarationDir": "lib",
 		"allowJs": true,
+		"resolveJsonModule": true,
         "baseUrl": "./",
         "paths": {
 			"makeit-admin-pro": ["src/index.ts"]

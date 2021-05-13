@@ -4,7 +4,6 @@ const Home = () => import('../views/home.vue')
 const Login = () => import('../views/login.vue')
 const Register = () => import('../views/register.vue')
 const Start = () => import('../views/start.vue')
-const Palette = () => import('../views/palette.vue')
 const Tools = () => import('../views/tools/index.vue')
 const ToolsG = () => import('../views/tools/config.vue')
 const ToolsCaches = () => import('../views/tools/caches.vue')
@@ -22,9 +21,9 @@ const ComponentsTooltip = () => import ('../views/components/tooltip.vue')
 const ComponentsCaptcha = () => import('../views/components/captcha.vue')
 const ComponentsPassword = () => import('../views/components/password.vue')
 const ComponentsDropdown = () => import('../views/components/dropdown.vue')
-const ComponentsUpload = () => import('../views/components/upload.vue')
 const ComponentsSearch = () => import('../views/components/search.vue')
 const ComponentsAnchor = () => import('../views/components/anchor.vue')
+const ComponentsUploader = () => import('../views/components/uploader.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
     path: '/',
@@ -36,11 +35,6 @@ const menuRoutes: Array<RouteRecordRaw> = [{
         name: 'start',
         meta: {title: '快速上手'},
         component: Start
-    }, {
-        path: 'palette',
-        name: 'palette',
-        meta: {title: '主题配色'},
-        component: Palette
     }, {
         path: 'tools',
         name: 'tools',
@@ -127,6 +121,11 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             meta: {title: '联想搜索'},
             component: ComponentsSearch
         }, {
+            path: '/components/uploader',
+            name: 'components-uploader',
+            meta: {title: '联想搜索'},
+            component: ComponentsUploader
+        }, {
             path: '/components/password',
             name: 'components-password',
             meta: {title: '密码设置'},
@@ -136,11 +135,6 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             name: 'components-dropdown',
             meta: {title: '下拉菜单'},
             component: ComponentsDropdown
-        }, {
-            path: '/components/upload',
-            name: 'components-upload',
-            meta: {title: '文件上传'},
-            component: ComponentsUpload
         }, {
             path: '/components/anchor',
             name: 'components-anchor',

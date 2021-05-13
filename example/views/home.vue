@@ -25,7 +25,7 @@
         MessageOutlined, FireFilled, SearchOutlined, AlipayCircleOutlined,
         SafetyCertificateOutlined, MenuOutlined, GithubOutlined, AppstoreAddOutlined,
         WechatOutlined, BorderlessTableOutlined, SisternodeOutlined,
-        LikeFilled, SnippetsOutlined
+        LikeFilled, SnippetsOutlined, CloudUploadOutlined
     } from '@ant-design/icons-vue'
     import Alipay from '../assets/images/alipay.jpg'
     import Wechat from '../assets/images/wechat.jpg'
@@ -263,7 +263,15 @@
                     meta: {
                         title: '搜索联想',
                         subTitle: 'Search',
-                        icon: createVNode(SearchOutlined),
+                        icon: createVNode(SearchOutlined)
+                    }
+                }, {
+                    name: 'components-uploader',
+                    path: '/components/uploader',
+                    meta: {
+                        title: '文件上传',
+                        subTitle: 'Uploader',
+                        icon: createVNode(CloudUploadOutlined),
                         tag: {content: 'New', color: '#ed4014'}
                     }
                 }, {

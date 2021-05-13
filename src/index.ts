@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import { version } from '../package.json'
 import async from './utils/async'
 import baseMixins from './utils/mixins'
 
@@ -22,6 +23,7 @@ import { default as Anchor } from './components/anchor'
 import { default as Tooltip } from './components/tooltip'
 import { default as Search } from './components/search'
 import { default as Captcha } from './components/captcha'
+import { default as Uploader } from './components/uploader'
 
 const components = [
     config,
@@ -42,22 +44,23 @@ const components = [
     Anchor,
     Captcha,
     Tooltip,
-    Search
+    Search,
+    Uploader
 ]
 
 let _Init = false
 const install = (app: App) => {
     if (!_Init) {
         app.mixin(baseMixins)
+        components.forEach((component) => {
+            app.use(
+                component as typeof component & {
+                    install: () => void
+                }
+            )
+        })
         _Init = true
     }
-    components.forEach((component) => {
-        app.use(
-            component as typeof component & {
-                install: () => void
-            }
-        )
-    })
     return app
 }
 
@@ -85,6 +88,6 @@ export {
 }
 
 export default {
-    version: `${process.env.VERSION}`,
+    version,
     install
 }
