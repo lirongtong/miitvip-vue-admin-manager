@@ -92,10 +92,10 @@ export default defineComponent({
     beforeUnmount() {
         this.$tools.off(this.elements.slider, 'pointerdown', this.dragStart)
         this.$tools.off(this.elements.slider, 'touchstart', this.dragStart)
-        this.$tools.off(this.elements.slider, 'pointermove', this.dragMoving)
-        this.$tools.off(this.elements.slider, 'touchmove', this.dragMoving)
-        this.$tools.off(this.elements.slider, 'pointerup', this.dragEnd)
-        this.$tools.off(this.elements.slider, 'touchend', this.dragEnd)
+        this.$tools.off(document.body, 'pointermove', this.dragMoving)
+        this.$tools.off(document.body, 'touchmove', this.dragMoving)
+        this.$tools.off(document.body, 'pointerup', this.dragEnd)
+        this.$tools.off(document.body, 'touchend', this.dragEnd)
     },
     mounted() {
         this.init()
@@ -114,10 +114,10 @@ export default defineComponent({
             this.initCaptcha()
             this.$tools.on(this.elements.slider, 'pointerdown', this.dragStart)
             this.$tools.on(this.elements.slider, 'touchstart', this.dragStart)
-            this.$tools.on(this.elements.slider, 'pointermove', this.dragMoving)
-            this.$tools.on(this.elements.slider, 'touchmove', this.dragMoving)
-            this.$tools.on(this.elements.slider, 'pointerup', this.dragEnd)
-            this.$tools.on(this.elements.slider, 'touchend', this.dragEnd)
+            this.$tools.on(document.body, 'pointermove', this.dragMoving)
+            this.$tools.on(document.body, 'touchmove', this.dragMoving)
+            this.$tools.on(document.body, 'pointerup', this.dragEnd)
+            this.$tools.on(document.body, 'touchend', this.dragEnd)
         },
         refreshCaptcha() {
             this.loading = true
