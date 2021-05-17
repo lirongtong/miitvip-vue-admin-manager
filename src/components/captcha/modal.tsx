@@ -376,8 +376,8 @@ export default defineComponent({
                 if (msg) this.check.tip = msg
             }
             if (
-                this.coordinate.x - 1 <= coordinateX &&
-                this.coordinate.x + 1 >= coordinateX
+                this.coordinate.x - 2 <= coordinateX &&
+                this.coordinate.x + 2 >= coordinateX
             ) {
                 const succcess = (data: any = {}) => {
                     setTimeout(() => {
