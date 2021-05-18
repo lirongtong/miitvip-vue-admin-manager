@@ -123,7 +123,7 @@ const menuRoutes: Array<RouteRecordRaw> = [{
         }, {
             path: '/components/uploader',
             name: 'components-uploader',
-            meta: {title: '联想搜索'},
+            meta: {title: '文件上传'},
             component: ComponentsUploader
         }, {
             path: '/components/password',
