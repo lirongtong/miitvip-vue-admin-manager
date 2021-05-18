@@ -18,11 +18,11 @@ A unified template used to backend management based on Vue3.0 + Ant Design Vue +
 [![npm_downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
 ![webpack](https://img.shields.io/badge/webpack-4.46.0-orange.svg)
-![vue](https://img.shields.io/badge/vue-3.0.5-green.svg)
-![vite](https://img.shields.io/badge/vite-1.0.0-yellow.svg)
+![vue](https://img.shields.io/badge/vue-3.0.11-green.svg)
+![vite](https://img.shields.io/badge/vite-2.3.2-yellow.svg)
 ![axios](https://img.shields.io/badge/axios-0.21.1-red.svg)
-![ant design vue](https://img.shields.io/badge/ant%20design%20vue-2.0.0-blueviolet.svg)
-![vue router](https://img.shields.io/badge/vue%20router-4.0.4-inactive.svg)
+![ant design vue](https://img.shields.io/badge/ant%20design%20vue-2.1.6-blueviolet.svg)
+![vue router](https://img.shields.io/badge/vue%20router-4.0.6-inactive.svg)
 ![vuex](https://img.shields.io/badge/vuex-4.0.0-informational.svg)
 
 <p>
