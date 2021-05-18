@@ -64,7 +64,7 @@ import { createStore } from 'vuex'
 import router from './router'
 import MakeitAdminPro from 'makeit-admin-pro'
 import App from './app.vue'
-import 'ant-design-vue/dist/antd.min.css'
+import 'ant-design-vue/dist/antd.css'
 import 'makeit-admin-pro/dist/miitvip.min.css'
 
 const app = createApp(App)
