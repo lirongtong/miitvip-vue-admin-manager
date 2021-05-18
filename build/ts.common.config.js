@@ -6,6 +6,7 @@ const configuration = (modules) => {
     const file = path.resolve(path.dirname(process.cwd()), 'tsconfig.json');
     if (fs.existsSync(file)) {
         config = require(file);
+        if (config.include && config.include instanceof Array) config.include.pop();
     }
     return Object.assign({...config.compilerOptions}, {
         noUnusedParameters: true,
