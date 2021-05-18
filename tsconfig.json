@@ -37,13 +37,13 @@
 	"include": [
 		"src/**/*.ts",
 		"src/**/*.tsx",
-		"src/**/*.vue"
+		"src/**/*.vue",
+		"example/**/*"
 	],
 	"exclude": [
 		"node_modules",
 		"dist",
 		"lib",
-		"es",
-		"example"
+		"es"
 	]
 }
