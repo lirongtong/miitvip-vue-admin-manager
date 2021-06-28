@@ -38,7 +38,6 @@ export default defineComponent({
             temp.push(item)
         }
         this.left = list
-        this.items = temp
     },
     render() {
         const prefixCls = this.getPrefixCls()
