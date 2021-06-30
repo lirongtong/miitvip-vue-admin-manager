@@ -222,6 +222,7 @@ export default defineComponent({
                             initAction={this.captchaInitAction}
                             checkParams={this.captchaCheckParams}
                             checkAction={this.captchaCheckAction}
+                            verifyParams={this.captchaVerifyParams}
                             verifyAction={this.captchaVerifyAction}
                             onInit={this.onCaptchaInit}
                             onChecked={this.onCaptchaChecked}
