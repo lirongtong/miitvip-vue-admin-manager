@@ -74,7 +74,7 @@ const Login = defineComponent({
         }
     },
     mounted() {
-        this.form.validate.captcha = this.openCaptcha && (this.captchaInitAction || this.captchaVerifyAction)
+        this.form.validate.captcha = this.openCaptcha && (this.captchaInitAction || this.captchaVerifyAction) ? true : false
         !this.form.validate.captcha && delete this.form.validate.uuid
     },
     methods: {
@@ -180,6 +180,7 @@ const Login = defineComponent({
                             initAction={this.captchaInitAction}
                             checkParams={this.captchaCheckParams}
                             checkAction={this.captchaCheckAction}
+                            verifyParams={this.captchaVerifyParams}
                             verifyAction={this.captchaVerifyAction}
                             onInit={this.onCaptchaInit}
                             onChecked={this.onCaptchaChecked}
