@@ -34,6 +34,7 @@ const Login = defineComponent({
         onCaptchaSuccess: PropTypes.func,
         onCaptchaInit: PropTypes.func,
         onCaptchaChecked: PropTypes.func,
+        onAfterLogin: PropTypes.func,
         socialiteLoginDomain: PropTypes.string,
         registerLink: PropTypes.string,
         forgetPasswordLink: PropTypes.string,
@@ -274,14 +275,21 @@ const Login = defineComponent({
                         if (typeof this.action === 'string') {
                             this.$store.dispatch('passport/login', this.form.validate).then((res: any) => {
                                 this.loading = false
-                                if (res.ret.code === 1) {
-                                    let redirect = this.$route.query.redirect
-                                    if (redirect) {
-                                        redirect = redirect.toString()
-                                        if (this.$g.regExp.url.test(redirect)) window.location.href = redirect
-                                        else this.$router.push({path: redirect})
-                                    } else this.$router.push({path: '/'})
-                                } else MiModal.error({content: res.ret.message})
+                                if (
+                                    this.onAfterLogin &&
+                                    typeof this.onAfterLogin === 'function'
+                                ) {
+                                    this.onAfterLogin.call(this, res)
+                                } else {
+                                    if (res.ret.code === 1) {
+                                        let redirect = this.$route.query.redirect
+                                        if (redirect) {
+                                            redirect = redirect.toString()
+                                            if (this.$g.regExp.url.test(redirect)) window.location.href = redirect
+                                            else this.$router.push({path: redirect})
+                                        } else this.$router.push({path: '/'})
+                                    } else MiModal.error({content: res.ret.message})
+                                }
                             }).catch((err: any) => {
                                 this.loading = false
                                 MiModal.error({content: err.message})
