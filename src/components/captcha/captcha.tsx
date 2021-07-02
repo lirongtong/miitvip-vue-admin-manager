@@ -119,7 +119,7 @@ export default defineComponent({
         closeCaptchaModal(data: any) {
             if (data) {
                 if (data.status === 'close') this.reset()
-                if (data.status === 'success') this.success()
+                if (data.status === 'success') this.success(data.data)
                 if (data.status === 'frequently') {
                     this.reset()
                     this.showMessage(`已连续错误达 ${this.maxTries} 次，请稍候再试`, 5)
