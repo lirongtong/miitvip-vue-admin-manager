@@ -314,6 +314,7 @@ export default defineComponent({
                             this.$store.dispatch('passport/register', this.form.validate).then((res: any) => {
                                 this.loading = false
                                 if (res.ret.code === 1) {
+                                    this.$storage.set(this.$g.caches.storages.email, this.form.validate.email)
                                     if (this.redirectTo) {
                                         if (this.$g.regExp.url.test(this.redirectTo)) {
                                             window.location.href = this.redirectTo

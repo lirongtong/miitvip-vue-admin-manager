@@ -183,6 +183,7 @@ export const $g = reactive({
     caches: {
         storages: {
             user: 'user-info',
+            email: 'user-email',
             collapsed: 'layout-menu-collapsed',
             routes: 'history-routes',
             captcha: {
