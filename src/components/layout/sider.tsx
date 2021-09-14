@@ -13,8 +13,9 @@ const MiLayoutSider = defineComponent({
         menu: PropTypes.any
     },
     setup() {
+        const init = true
         const store = useStore()
-        return { store }
+        return { store, init }
     },
     methods: {
         getPrefixCls() {
@@ -34,6 +35,11 @@ const MiLayoutSider = defineComponent({
             return menu
         },
         setCollapsed(collapse: boolean) {
+            if (this.init) {
+                const collapsed = this.$storage.get(this.$g.caches.storages.collapsed)
+                collapse = this.$tools.isValid(collapsed) ? collapsed : false
+                this.init = false
+            }
             this.$g.menus.collapsed = collapse
             this.store.commit(`layout/${mutations.layout.collapsed}`, collapse)
         }

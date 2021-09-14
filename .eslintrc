@@ -40,6 +40,9 @@
         "no-var": "error",
         "semi": "off",
         "camelcase": "off",
-        "no-extra-boolean-cast": "off"
+        "no-extra-boolean-cast": "off",
+        "prettier/prettier": ["error", {
+            "endOfLine": "auto"
+        }]
     }
 }

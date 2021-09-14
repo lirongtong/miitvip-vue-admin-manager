@@ -172,9 +172,7 @@ export default defineComponent({
                 ref={prefixCls}
                 theme="dark"
                 mode={this.mode}
-                forceSubMenuRender={true}
                 onOpenChange={this.setOpenKeys}
-                inlineCollapsed={this.collapsed}
                 openKeys={this.$g.menus.opens}
                 selectedKeys={this.$g.menus.active}
                 class={cls}>

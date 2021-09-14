@@ -4,6 +4,7 @@
     "printWidth": 100,
     "proseWrap": "never",
     "tabWidth": 4,
+    "endOfLine": "auto",
     "ignorePath": ".prettierrcignore",
     "trailingComma": "none",
     "overrides": [

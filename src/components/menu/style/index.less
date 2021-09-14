@@ -5,6 +5,43 @@
 @ant-menu: ant-menu;
 @ant-submenu: ant-menu-submenu;
 
+.@{ant-menu} {
+    &&-dark {
+        background: var(--mi-sider-color, @mi-sider-color);
+        
+        .@{ant-menu}-item > span > a {
+            color: var(--mi-menu-color, @mi-menu-color);
+        }
+    }
+
+    &-dark {
+        &.@{ant-submenu}-popup {
+            .@{ant-menu}-sub {
+                &::-webkit-scrollbar {
+                    width: 8px;
+                }
+
+                &::-webkit-scrollbar-track {
+                    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                    border-radius: 8px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    border-radius:10px;
+                    background: rgba(0, 0, 0, 0.1);
+                    box-shadow: inset 0 0 6px rgba(148, 148, 148, 0.5);
+                }
+            }
+        }
+
+        &&:not(.@{ant-menu}-horizontal) {
+            .@{ant-menu}-item-selected {
+                background-color: var(--mi-menu-active-color, @mi-menu-active-color);
+            }
+        }
+    }
+}
+
 .@{mi-menu} {
     color: @mi-white-color;
     background: var(--mi-sider-color, @mi-sider-color);
@@ -31,6 +68,7 @@
             height: @mi-sider-item-height;
             .properties(line-height, 18);
             flex-direction: column;
+            .properties(margin-left, 10);
     
             .sub {
                 .properties(font-size, 12);
@@ -96,6 +134,10 @@
                         }
                     }
                 }
+            }
+
+            &-title-content {
+                .flex(center, flex-start);
             }
 
             &-sub {
@@ -218,7 +260,8 @@
             width: @mi-sider-width-sm;
 
             & > .@{mi-menu} {
-                &-item, &-items {
+                &-item,
+                &-items {
                     .flex();
                     width: @mi-sider-width-sm;
 
@@ -243,9 +286,9 @@
 
                     &:after {
                         position: absolute;
-                        top: 0px;
-                        right: 0px;
-                        bottom: 0px;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
                         border-right: 3px solid rgb(24, 144, 255);
                         transform: scaleY(1);
                         opacity: 1;
@@ -266,6 +309,13 @@
         }
 
         & .@{ant-menu} {
+            &-item {
+                .anticon + span {
+                    width: 0;
+                    margin-left: 0;
+                }
+            }
+
             & > .@{ant-submenu} {
                 & > .@{ant-submenu}-title {
                     .properties(padding-left, 30) !important;
@@ -406,6 +456,14 @@
 
 .ant-tooltip-inner {
     min-height: 0;
+
+    .@{mi-menu} {
+        &-item-link {
+            .anticon + span {
+                .properties(margin-left, 6);
+            }
+        }
+    }
 }
 
 .@{mi-sider-menu} {
