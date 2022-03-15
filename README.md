@@ -51,9 +51,9 @@
 
 ## 关于
 
-> Makeit Admin Pro，基于 Vue3.x + Vite2.x 版本，并结合 Ant Design Vue 组件库开发的一套适合中后台管理项目的统一 UI 框架，内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 验证码组件 / 搜索联想组件 / 动态配置菜单等常用模块，开箱即用。集成这套框架的目的，就是为了免去中后台管理项目中，基础又重复的页面，包括布局，登录/注册忘记密码页面等等，同时也集成了项目开发中常用的工具类函数，方便调用及扩展。现阶段还在不断完善，持续开发更新中 ...
+> Makeit Admin Pro，基于 Vue3.x + Vite2.x 版本，并结合 Ant Design Vue 组件库开发的一套适合中后台管理项目的统一 UI 框架，项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（有部分组件已经单独抽离并发布于 Npm）。集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面，如页面的基础布局，登录 / 注册 / 忘记密码等页面，让开发人员能更加注重业务内容页面的开发。该框架封装了 Axios 请求 / Cookie / Storage等功能，方便开发人员直接调用，同时也非常易于扩展。现阶段还在不断完善，持续开发更新中 ...
 > >
-> 若对该框架的 UI 或功能组件的使用有更好的建议，亦或有更多的定制化需求，组件存在 `BUG`等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽快抽时间去完善，去解决 `BUG`，不胜感激。
+> 作者本人的技术水平有限，有些问题可能考虑的并不周到，若对该框架的 UI 或功能组件的使用有更好的建议，亦或有更多的定制化需求，组件存在 `BUG`等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽快抽时间去完善，去解决 `BUG`，不胜感激。
 
 ## 安装
 
@@ -65,14 +65,10 @@ npm i makeit-admin-pro
 
 ```ts
 import { createApp } from 'vue'
-import { createStore } from 'vuex'
-import router from './router'
 import MakeitAdminPro from 'makeit-admin-pro'
 import App from './app.vue'
 
 const app = createApp(App)
-app.use(router)
-app.use(createStore({}))
 app.use(MakeitAdminPro)
 app.mount('#app')
 ```
