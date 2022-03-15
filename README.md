@@ -14,19 +14,19 @@
 
 基于 Vue3.x + Vite2.x + Ant Design Vue 构建的适用于中后台管理系统的组合模板框架。
 
-( A unified template used to backend management based on Vue3.x + Vite2.x + Ant Design Vue. )
+( A unified template used to backend management built on Vue3.x + Vite2.x + Ant Design Vue. )
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
 [![npm downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
 ![npm](https://img.shields.io/badge/npm-8.1.3-orange.svg)
-![nodejs](https://img.shields.io/badge/nodejs-16.13.0-red.svg)
-![webpack](https://img.shields.io/badge/webpack-4.46.0-orange.svg)
-![vue](https://img.shields.io/badge/vue-3.2.22-green.svg)
-![vite](https://img.shields.io/badge/vite-2.6.14-yellow.svg)
-![axios](https://img.shields.io/badge/axios-0.24.0-red.svg)
+![nodejs](https://img.shields.io/badge/nodejs-17.7.1-red.svg)
+![webpack](https://img.shields.io/badge/webpack-5.70.0-orange.svg)
+![vue](https://img.shields.io/badge/vue-3.2.31-green.svg)
+![vite](https://img.shields.io/badge/vite-2.8.6-yellow.svg)
+![axios](https://img.shields.io/badge/axios-0.26.1-red.svg)
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-3.x-blueviolet.svg)
-![vue router](https://img.shields.io/badge/vue%20router-4.0.12-inactive.svg)
+![vue router](https://img.shields.io/badge/vue%20router-4.0.14-inactive.svg)
 ![vuex](https://img.shields.io/badge/vuex-4.0.2-informational.svg)
 
 <p>
