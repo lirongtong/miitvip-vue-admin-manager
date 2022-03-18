@@ -22,7 +22,7 @@ export const $g = reactive({
     embed: false,
 
     name: 'Makeit Admin Pro',
-    title: '开箱即用的中后台管理系统框架',
+    title: 'Makeit Admin Pro',
     author: 'makeit.vip',
     theme: 'dark',
     keywords: 'makeit, makeit.vip, makeit-admin, admin-manage, makeit admin pro, miitvip, vue, vue3, vite, typescript, ant-design-vue component-ui, ui frame, 麦可易特网',
