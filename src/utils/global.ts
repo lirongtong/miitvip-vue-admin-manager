@@ -82,6 +82,8 @@ export const $g = reactive({
             theme: 'theme'
         },
         storages: {
+            user: 'user-info',
+            email: 'user-email',
             routes: 'history-routes',
             captcha: {
                 login: 'login-captcha-key',

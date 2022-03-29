@@ -1,10 +1,10 @@
 import { App } from 'vue'
-import baseMixins from './utils/mixins'
-import global from './utils/global'
-import cookie from './utils/cookie'
-import storage from './utils/storage'
-import request from './utils/request'
-import tools from './utils/tools'
+import baseMixins from './mixins'
+import global from './global'
+import cookie from './cookie'
+import storage from './storage'
+import request from './request'
+import tools from './tools'
 
 const components = [
     global,
@@ -28,6 +28,4 @@ const install = (app: App) => {
     return app
 }
 
-export default {
-    install
-}
+export default { install }

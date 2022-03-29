@@ -71,7 +71,7 @@ class MiRequest {
     }
 }
 
-export const $request = new MiRequest()
+export const $request: any = new MiRequest()
 
 export default {
     install(app: App) {

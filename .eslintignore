@@ -1,0 +1,8 @@
+dist/
+lib/
+es/
+build/
+node_modules/
+**/styles/
+*.html
+example/
