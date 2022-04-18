@@ -2,6 +2,21 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const Login = () => import('@views/login.vue')
 const Register = () => import('@views/register.vue')
+const Home = () => import('@views/home.vue')
+const Dashboard = () => import('@views/dashboard.vue')
+
+const menuRoutes: Array<RouteRecordRaw> = [{
+    path: '/',
+    meta: {title: '首页'},
+    component: Home,
+    redirect: 'dashboard',
+    children: [{
+        path: 'dashboard',
+        name: 'dashboard',
+        meta: {title: '控制台'},
+        component: Dashboard
+    }]
+}]
 
 const passportRoutes: Array<RouteRecordRaw> = [{
     path: '/login',
@@ -16,6 +31,7 @@ const passportRoutes: Array<RouteRecordRaw> = [{
 }]
 
 const routes: Array<RouteRecordRaw> = [
+    ...menuRoutes,
     ...passportRoutes
 ]
 

@@ -11,16 +11,6 @@ const now = new Date().getFullYear()
  * Global variable.
  */
 export const $g = reactive({
-    /**
-     * 当前系统是否嵌入至其他系统.
-     * 嵌入形式的系统将只显示`内容`, 不显示头部&左侧&底部.
-     * 
-     * if it is an embedded project,
-     * the `header` and `sider` are not displayed,
-     * only content section is displayed.
-     */
-    embed: false,
-
     name: 'Makeit Admin Pro',
     title: 'Makeit Admin Pro',
     author: 'makeit.vip',
