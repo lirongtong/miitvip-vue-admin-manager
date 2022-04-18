@@ -1,6 +1,10 @@
 import { App } from 'vue'
 import { $g } from './global'
 
+/**
+ * cookie.
+ * @class
+ */
 class MiCookie {
     prefix = $g.prefix
 

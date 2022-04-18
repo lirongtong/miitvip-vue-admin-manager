@@ -11,6 +11,8 @@ axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;
  * 
  * 包含 `get`, `post`, `put`, `delete` 等常用的请求方法.
  * 封装了请求失败自动重试的功能 ( 默认失败不自动请求 ).
+ * 
+ * @class
  */
 class MiRequest {
 

@@ -1,6 +1,16 @@
 import { App } from 'vue'
 import { $g } from './global'
 
+/**
+ * storage ( 封装自 localstorage / sessionstorage )
+ * note: 默认类型 localstorage
+ * 
+ * eg,.
+ * ```
+ * this.$storage.change('session').set('name', 'makeit')
+ * ```
+ * @class
+ */
 class MiStorage {
     prefix: string
     instance!: Storage
@@ -8,6 +18,7 @@ class MiStorage {
     /**
      * 构造.
      * 初始化 storage ( local / session )
+     * @constructor
      * @param type 
      */
     constructor(type?: string) {
