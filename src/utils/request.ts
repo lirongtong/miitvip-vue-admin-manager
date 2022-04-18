@@ -5,12 +5,12 @@ axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
 
+type Methods = 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | 'head' | 'connect' | 'trace'
+
 /**
  * 封装请求响应的类 ( 封装自 axios 插件 ).
  * Request & Response class.
- * 
  * 包含 `get`, `post`, `put`, `delete` 等常用的请求方法.
- * 封装了请求失败自动重试的功能 ( 默认失败不自动请求 ).
  * 
  * @class
  */
@@ -26,11 +26,12 @@ class MiRequest {
     /**
      * 注册相关的请求方法 ( 不包含 connect & trace 方法 ).
      * Registration of common methods ( Without `CONNECT`, `TRACE` ).
-     * @type Promise
+     * 
+     * @return Promise
      */
-    register(): void {
-        const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD']
-        methods.forEach((method) => {
+    protected register(): void {
+        const methods: Methods[] = ['get', 'post', 'put', 'patch', 'delete', 'options', 'head']
+        methods.forEach((method: Methods) => {
             this.instance[method.toLowerCase()] = (
                 url: string,
                 data: {[index: string]: any} = {},
@@ -73,7 +74,7 @@ class MiRequest {
     }
 }
 
-export const $request: any = new MiRequest()
+export const $request: MiRequest = new MiRequest()
 
 export default {
     install(app: App) {

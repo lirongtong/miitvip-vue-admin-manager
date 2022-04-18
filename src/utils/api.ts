@@ -1,7 +1,12 @@
 import { App, reactive } from 'vue'
 import { $g } from './global'
 
-export const api = reactive({
+/**
+ * 默认常用接口地址.
+ * ( 接口地址可直接通过 this.api 进行覆盖或新增 ).
+ * @type {object}
+ */
+export const api: {} = reactive({
     login: 'login',
     logout: 'logout',
     register: 'register',
@@ -42,26 +47,28 @@ class MiApi {
      * @param _api 
      */
     parse(_api?: {[index: string]: any}) {
-        _api = _api ?? api
-        for (const i in _api) {
-            if (Object.prototype.hasOwnProperty.call(_api, i)) {
-                if (
-                    typeof _api[i] === 'object' &&
-                    Object.keys(_api[i]).length > 0
-                ) {
-                    // 递归
-                    this.parse(_api[i])
-                } else {
-                    // 校验 url ( 不带 http/ftp 等协议的全路径 )
-                    const reg = $g.regExp.url
+        if (this.version) {
+            _api = _api ?? api
+            for (const i in _api) {
+                if (Object.prototype.hasOwnProperty.call(_api, i)) {
                     if (
-                        !reg.test(_api[i]) &&
-                        this.version
+                        typeof _api[i] === 'object' &&
+                        Object.keys(_api[i]).length > 0
                     ) {
-                        // 封装API, 增加版本
-                        _api[i] = _api[i].indexOf(`${this.version}/`) !== -1
-                            ? _api[i]
-                            : `${this.version}/${_api[i]}`
+                        // 递归
+                        this.parse(_api[i])
+                    } else {
+                        // 校验 url ( 不带 http/ftp 等协议的全路径 )
+                        const reg = $g.regExp.url
+                        if (
+                            !reg.test(_api[i]) &&
+                            this.version
+                        ) {
+                            // 封装API, 增加版本
+                            _api[i] = _api[i].indexOf(`${this.version}/`) !== -1
+                                ? _api[i]
+                                : `${this.version}/${_api[i]}`
+                        }
                     }
                 }
             }

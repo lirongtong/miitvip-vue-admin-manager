@@ -75,7 +75,7 @@ class MiCookie {
     }
 }
 
-export const $cookie = new MiCookie()
+export const $cookie: MiCookie = new MiCookie()
 export default {
     install(app: App) {
         app.config.globalProperties.$cookie = $cookie
