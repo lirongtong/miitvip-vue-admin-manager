@@ -65,7 +65,7 @@ export const actions: ActionTree<PassportState, RootState> = {
      * @param data
      */
     register(
-        { },
+        {},
         data: {
             url?: string
             username: string

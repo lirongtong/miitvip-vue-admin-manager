@@ -7,10 +7,7 @@ class MiTools {
      * @param name
      * @param content
      */
-     createMeta(
-         name: string,
-         content: string
-    ): void {
+    createMeta(name: string, content: string): void {
         const head = document.getElementsByTagName('head')
         const meta = document.createElement('meta')
         meta.name = name.trim()
@@ -20,7 +17,7 @@ class MiTools {
 
     /**
      * 设置标题.
-     * @param title 
+     * @param title
      */
     setTitle(title?: string): void {
         const powered = $g.powered ?? `powered by makeit.vip`
@@ -31,13 +28,10 @@ class MiTools {
 
     /**
      * 设置关键词.
-     * @param keywords 
-     * @param overwritten 
+     * @param keywords
+     * @param overwritten
      */
-    setKeywords(
-        keywords?: string | string[],
-        overwritten?: boolean
-    ): void {
+    setKeywords(keywords?: string | string[], overwritten?: boolean): void {
         overwritten = overwritten !== undefined ? overwritten : false
         const k = $g.keywords
         const key = keywords ? (Array.isArray(keywords) ? keywords.join(', ') : keywords) : null
@@ -49,13 +43,10 @@ class MiTools {
 
     /**
      * 设置描述.
-     * @param desc 
-     * @param overwritten 
+     * @param desc
+     * @param overwritten
      */
-    setDescription(
-        desc?: string,
-        overwritten?: boolean
-    ): void {
+    setDescription(desc?: string, overwritten?: boolean): void {
         const d = $g.description
         desc = desc ? (overwritten ? desc : `${desc} ${d}`) : d
         const description = document.querySelector(`meta[name="description"]`)
@@ -66,7 +57,7 @@ class MiTools {
     /**
      * 是否为移动端.
      * Whether it is a mobile phone.
-     * @returns 
+     * @returns
      */
     isMobile(): boolean {
         const agent = navigator.userAgent

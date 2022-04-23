@@ -4,7 +4,7 @@ import { $g } from './global'
 /**
  * storage ( 封装自 localstorage / sessionstorage )
  * note: 默认类型 localstorage
- * 
+ *
  * eg,.
  * ```
  * this.$storage.change('session').set('name', 'makeit')
@@ -19,7 +19,7 @@ class MiStorage {
      * 构造.
      * 初始化 storage ( local / session )
      * @constructor
-     * @param type 
+     * @param type
      */
     constructor(type?: string) {
         this.prefix = $g.prefix
@@ -28,14 +28,11 @@ class MiStorage {
 
     /**
      * 获取 storage ( get ).
-     * @param keys 
-     * @param prefix 
-     * @returns 
+     * @param keys
+     * @param prefix
+     * @returns
      */
-    get(
-        keys: string | any[],
-        prefix?: string
-    ): any {
+    get(keys: string | any[], prefix?: string): any {
         let data: any = {}
         if (Array.isArray(keys)) {
             for (let i = 0, len = keys.length; i < len; i++) {
@@ -53,28 +50,21 @@ class MiStorage {
 
     /**
      * 设置 storage ( set ).
-     * @param key 
-     * @param value 
-     * @param prefix 
+     * @param key
+     * @param value
+     * @param prefix
      */
-    set(
-        key: string,
-        value: any,
-        prefix?: string
-    ): void {
+    set(key: string, value: any, prefix?: string): void {
         const item = `${prefix ?? this.prefix}${key}`
         this.instance.setItem(item, JSON.stringify(value))
     }
 
     /**
      * 删除 storage ( delete ).
-     * @param keys 
-     * @param prefix 
+     * @param keys
+     * @param prefix
      */
-    del(
-        keys: string | string[],
-        prefix?: string
-    ) {
+    del(keys: string | string[], prefix?: string) {
         if (Array.isArray(keys)) {
             for (let i = 0, len = keys.length; i < len; i++) {
                 const key = keys[i]
@@ -90,9 +80,9 @@ class MiStorage {
     /**
      * 切换 storage ( 默认为 localStorage ).
      * change storage type.
-     * 
-     * @param type 
-     * @returns 
+     *
+     * @param type
+     * @returns
      */
     change(type?: string) {
         this.instance =

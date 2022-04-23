@@ -10,7 +10,7 @@ export const getters: GetterTree<PassportState, RootState> = {
      * @param state
      * @returns {any}
      */
-     user: (state): any => {
+    user: (state): any => {
         let user = state.user
         if (!user) user = JSON.parse($storage.get($g.caches.storages.user) ?? '{}')
         return user
@@ -20,7 +20,7 @@ export const getters: GetterTree<PassportState, RootState> = {
      * 获取 access token.
      * @param state
      */
-     access: (state): string | null => {
+    access: (state): string | null => {
         let token = state.token.access
         if (!token) token = $cookie.get($g.caches.cookies.token.access)
         return token
@@ -30,7 +30,7 @@ export const getters: GetterTree<PassportState, RootState> = {
      * 获取 refresh token.
      * @param state
      */
-     refresh: (state) => {
+    refresh: (state) => {
         let token = state.token.refresh
         if (!token) token = $cookie.get($g.caches.cookies.token.refresh)
         return token

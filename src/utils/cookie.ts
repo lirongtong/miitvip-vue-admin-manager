@@ -10,14 +10,11 @@ class MiCookie {
 
     /**
      * 获取 cookie ( get ) .
-     * @param key 
-     * @param prefix 
-     * @returns 
+     * @param key
+     * @param prefix
+     * @returns
      */
-    get(
-        key: string,
-        prefix?: string
-    ): any {
+    get(key: string, prefix?: string): any {
         const name = `${prefix ?? this.prefix}${key}=`
         const values = document.cookie.split(';')
         const len = values.length
@@ -33,17 +30,12 @@ class MiCookie {
 
     /**
      * 设置 cookie ( set ).
-     * @param name 
-     * @param value 
-     * @param expire 
-     * @param prefix 
+     * @param name
+     * @param value
+     * @param expire
+     * @param prefix
      */
-    set(
-        name: string,
-        value: any,
-        expire?: number | null,
-        prefix?: string
-    ): void {
+    set(name: string, value: any, expire?: number | null, prefix?: string): void {
         let expires = null
         if (expire) {
             const date = new Date()
@@ -56,13 +48,10 @@ class MiCookie {
 
     /**
      * 删除 cookie ( delete ).
-     * @param names 
-     * @param prefix 
+     * @param names
+     * @param prefix
      */
-    del(
-        names: string | any[],
-        prefix?: string
-    ): void {
+    del(names: string | any[], prefix?: string): void {
         if (Array.isArray(names)) {
             const len = names.length
             for (let i = 0; i < len; i++) {

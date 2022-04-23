@@ -6,21 +6,17 @@ import storage from './storage'
 import request from './request'
 import tools from './tools'
 
-const components = [
-    global,
-    cookie,
-    storage,
-    request,
-    tools
-]
+const components = [global, cookie, storage, request, tools]
 
 let _init = false
 const install = (app: App) => {
     if (!_init) {
         components.forEach((comp) => {
-            app.use(comp as typeof comp & {
-                install: () => void
-            })
+            app.use(
+                comp as typeof comp & {
+                    install: () => void
+                }
+            )
         })
         app.mixin(baseMixins)
         _init = true
