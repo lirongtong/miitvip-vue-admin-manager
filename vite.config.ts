@@ -11,7 +11,8 @@ export default defineConfig({
         alias: {
             '@': resolve('example'),
             '@views': resolve('example/views'),
-            '@src': resolve('src')
+            '@src': resolve('src'),
+            '@utils': resolve('src/utils')
         }
     },
     css: {

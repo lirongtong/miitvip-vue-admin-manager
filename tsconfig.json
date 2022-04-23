@@ -24,7 +24,8 @@
         "paths": {
             "@/*": ["example/*"],
             "@views/*": ["example/views/*"],
-			"@src/*": ["src/*"]
+			"@src/*": ["src/*"],
+			"@utils/*": ["src/utils/*"]
 		},
 		"lib": [
 			"esnext",
