@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
+import EslintPlugin from 'vite-plugin-eslint'
 import path from 'path'
 
 const resolve = (dir: string) => path.join(__dirname, dir)
@@ -9,7 +10,8 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': resolve('example'),
-            '@views': resolve('example/views')
+            '@views': resolve('example/views'),
+            '@src': resolve('src')
         }
     },
     css: {
@@ -37,7 +39,11 @@ export default defineConfig({
             }
         }
     },
-    plugins: [vue(), VueJsx()],
+    plugins: [
+        vue(),
+        VueJsx(),
+        EslintPlugin()
+    ],
     esbuild: {
         jsxFactory: 'h',
         jsxFragment: 'Fragment'

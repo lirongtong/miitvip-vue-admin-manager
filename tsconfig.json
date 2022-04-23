@@ -23,7 +23,8 @@
         "baseUrl": "./",
         "paths": {
             "@/*": ["example/*"],
-            "@views/*": ["example/views/*"]
+            "@views/*": ["example/views/*"],
+			"@src/*": ["src/*"]
 		},
 		"lib": [
 			"esnext",

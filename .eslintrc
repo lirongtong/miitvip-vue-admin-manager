@@ -6,19 +6,23 @@
         "es6": true
     },
     "extends": [
-        "plugin:vue/recommended",
+        "plugin:vue/vue3-recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
         "prettier"
     ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2020
+        "ecmaVersion": 2020,
+        "parser": "@babel/eslint-parser"
     },
     "overrides": [
         {
             "files": ["*.ts", "*.tsx"],
             "extends": [
                 "@vue/typescript/recommended",
-                "@vue/prettier",
-                "@vue/prettier/@typescript-eslint"
+                "@vue/prettier/@typescript-eslint",
+                "@vue/prettier"
             ],
             "rules": {
                 "semi": "off",
@@ -26,11 +30,23 @@
                     "allowTemplateLiterals": true,
                     "avoidEscape": true
                 }],
+                "@typescript-eslint/ban-types": 0,
                 "@typescript-eslint/no-var-requires": "off",
                 "@typescript-eslint/no-explicit-any": "off",
                 "@typescript-eslint/explicit-module-boundary-types": "off",
                 "@typescript-eslint/no-empty-function": "off",
                 "@typescript-eslint/class-name-casing": "off"
+            }
+        },
+        {
+            "files": ["*.vue"],
+            "parser": "vue-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser"
+            },
+            "rules": {
+                "no-console": "off",
+                "semi": "off"
             }
         }
     ],
