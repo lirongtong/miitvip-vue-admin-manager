@@ -71,6 +71,14 @@ class MiTools {
         }
         return mobile
     }
+
+    /**
+     * Whether the `element / params` is valid.
+     * @param value
+     */
+    isValid(value: any): boolean {
+        return value !== undefined && value !== null && value !== ''
+    }
 }
 
 export const $tools: MiTools = new MiTools()

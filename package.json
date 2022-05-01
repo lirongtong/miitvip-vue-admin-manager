@@ -47,7 +47,7 @@
     "scripts": {
         "dev": "vite",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
-        "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts ./src"
+        "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src"
     },
     "dependencies": {
         "@ant-design/icons-vue": "^6.1.0",
@@ -55,6 +55,7 @@
         "axios": "^0.26.1",
         "vue": "^3.2.31",
         "vue-router": "^4.0.14",
+        "vue-types": "^4.1.1",
         "vuex": "^4.0.2"
     },
     "devDependencies": {
@@ -78,6 +79,7 @@
         "prettier": "^2.6.2",
         "ts-loader": "^9.2.8",
         "typescript": "^4.6.2",
+        "unplugin-vue-components": "^0.19.3",
         "vite": "^2.8.6",
         "vite-plugin-eslint": "^1.5.2",
         "vue-eslint-parser": "^8.3.0",

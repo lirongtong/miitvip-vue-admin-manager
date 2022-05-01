@@ -6,7 +6,9 @@ import storage from './utils/storage'
 import request from './utils/request'
 import tools from './utils/tools'
 
-const components = [global, cookie, storage, request, tools]
+import { default as Notice } from './components/notice'
+
+const components = [global, cookie, storage, request, tools, Notice]
 
 let _init = false
 const install = (app: App) => {
@@ -23,6 +25,8 @@ const install = (app: App) => {
     }
     return app
 }
+
+export { global, cookie, storage, request, tools, Notice }
 
 export default {
     install
