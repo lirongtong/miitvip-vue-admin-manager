@@ -1,0 +1,87 @@
+// prefix.
+@mi-prefix: mi-;
+
+// font-size.
+@mi-font-size: 1rem;
+@mi-font-size-sm: 12px;
+@mi-font-size-normal: 14px;
+@mi-font-size-base: 16px;
+
+// gap.
+@mi-gap: 8px;
+
+// color.
+@mi-color-white: #FFF;
+@mi-color-black: #000;
+
+// side menu.
+@mi-side-width: (@mi-gap * 32 / @mi-font-size-base) * @mi-font-size;
+@mi-side-width-scroll: ((@mi-gap * 34 + 1) / @mi-font-size-base) * @mi-font-size;
+@mi-side-width-sm: (@mi-gap * 10 / @mi-font-size-base) * @mi-font-size;
+@mi-side-width-sm-scroll: ((@mi-gap * 12 + 1) / @mi-font-size-base) * @mi-font-size;
+@mi-side-width-margin: (@mi-gap * 2 / @mi-font-size-base) * @mi-font-size;
+@mi-side-item-height: (@mi-gap * 6.25 / @mi-font-size-base) * @mi-font-size;
+@mi-side-logo-size: (@mi-gap * 4 / @mi-font-size-base) * @mi-font-size;
+
+// header.
+@mi-header-height: (@mi-gap * 8 / @mi-font-size-base) * @mi-font-size;
+@mi-header-avatar-size: (@mi-gap * 3 / @mi-font-size-base) * @mi-font-size;
+
+// font-family.
+@mi-font-family: "Pingfang SC", "Microsoft YaHei", "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@mi-code-family: Lucida Console, Consolas, "Courier New", "Source Code Pro", "Miscrosoft Yahei", "Segoe UI", "Lucida Grande", Helvetica, Arial, FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif;
+
+// flex.
+.flex(@align: center, @justify: center) {
+    display: flex;
+    align-items: @align;
+    justify-content: @justify;
+}
+
+// border raiuds.
+.border-radius(@raduis: 4) {
+    border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
+}
+
+.border-radius-circle() {
+    border-radius: 50%;
+}
+
+// font size
+.font-size(@size: @mi-font-size-normal){
+    font-size: (@size / @mi-font-size-base) * @mi-font-size;
+    line-height: ((@size + 4) / @mi-font-size-base) * @mi-font-size;
+}
+
+// properties
+.properties(@key, @value: @mi-gap) {
+    @{key}: (@value / @mi-font-size-base) * @mi-font-size;
+}
+
+// text overflow ellipsis.
+.text-ellipsis(@width: 'auto'){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: @width;
+}
+
+// letter spacing.
+.letter-spacing(@value: 2) {
+    .properties(letter-spacing, @value);
+}
+
+// tag
+.tag(@bgColor: '#ff5500', @txtColor: @mi-color-white) {
+    background: @bgColor;
+    margin-right: 0;
+    .border-radius(16);
+    color: @txtColor;
+    .properties(line-height, 16);
+    .properties(max-width, 64);
+    .text-ellipsis();
+    .properties(padding-left);
+    .properties(padding-right);
+    .properties(font-size, 12);
+    .properties(height, 20);
+}

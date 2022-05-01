@@ -32,7 +32,7 @@ export const $g = reactive({
     avatar: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png',
 
     /**
-     * 加密盐值.
+     * 加密盐值 ( 可自行通过 env 配置进行覆盖 ).
      * Encrypted salt.
      */
     salt: 'mi-bXrf4dJbLlf0u8X3',
