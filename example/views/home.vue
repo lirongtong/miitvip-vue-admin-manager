@@ -1,3 +1,3 @@
 <template>
-    Home
+    <mi-layout></mi-layout>
 </template>

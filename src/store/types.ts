@@ -2,6 +2,62 @@ export interface RootState {
     version: string
 }
 
+export interface LayoutState {
+    /**
+     * The left menu is to expand or collapse.
+     * @type {boolean | null}
+     */
+    collapsed: boolean | null
+
+    /**
+     * The selected menu item in the left menu.
+     * @type {string | null}
+     */
+    active: string[] | null
+
+    /**
+     * Menu expansion.
+     * @type {Array}
+     */
+    opens: string[]
+
+    /**
+     * Whether is mobile phone.
+     * @type {boolean}
+     */
+    phone: boolean
+
+    /**
+     * Whether to open the drawer menu.
+     * @type {boolean}
+     */
+    drawer: boolean
+
+    /**
+     * it's small screen, but not mobile phone.
+     * @type {boolean}
+     */
+    small: boolean
+
+    /**
+     * Screen type (xl, lg, xxl ...).
+     * @type {string | null}
+     */
+    type: string | null
+
+    /**
+     * The last routing info.
+     * @type {Object}
+     */
+    routes: any
+
+    /**
+     * current theme.
+     * @type {string}
+     */
+    theme: string
+}
+
 export interface PassportState {
     user: { [index: string]: any } | null
     token: {
@@ -12,6 +68,15 @@ export interface PassportState {
 }
 
 export const mutations = {
+    layout: {
+        collapsed: 'SET_MENU_COLLAPSED',
+        opens: 'SET_MENU_OPENS',
+        active: 'SET_MENU_ACTIVE',
+        drawer: 'IS_OPEN_DRAWER',
+        phone: 'IS_PHONE',
+        type: 'SET_SCREEN_TYPE',
+        routes: 'SET_HISTORY_ROUTES'
+    },
     passport: {
         user: 'SET_USER_INFO',
         token: {

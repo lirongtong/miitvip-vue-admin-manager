@@ -1,8 +1,16 @@
 import axios, { AxiosRequestConfig } from 'axios'
+import { layout } from '../store/layout'
+import { passport } from '../store/passport'
+import { mutations } from './../store/types'
 
 let _created = false
 let _mounted = false
 
+/**
+ * mixin.
+ * 1. Dynamic loading state management module (eg,. `layout`, `passport`).
+ * 2. Add axios interceptor (request and response).
+ */
 export default {
     created() {
         if (!_created) {
@@ -11,8 +19,20 @@ export default {
             this.$tools.setKeywords()
             this.$tools.setDescription()
 
+            // 动态导入 vuex 模块
+            try {
+                this.$store.registerModule(['layout'], layout)
+                this.$store.registerModule(['passport'], passport)
+            } catch (e) {
+                throw new Error(
+                    '[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' +
+                        e
+                )
+            }
             // 是否为移动端
-            this.$g.isMobile = this.$tools.isMobile()
+            this.$g.isPhone = this.$tools.isPhone()
+            this.$store.commit(`layout/${mutations.layout.phone}`)
+
             _created = true
         }
     },

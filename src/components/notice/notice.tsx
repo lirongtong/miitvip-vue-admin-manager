@@ -50,7 +50,9 @@ export default defineComponent({
                                 <Tabs.TabPane key={tab.props.name} tab={title}>
                                     {content ?? tab}
                                 </Tabs.TabPane>
-                            ) : tab
+                            ) : (
+                                tab
+                            )
                         )
                     })
                 }

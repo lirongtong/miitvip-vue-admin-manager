@@ -59,7 +59,7 @@ class MiTools {
      * Whether it is a mobile phone.
      * @returns
      */
-    isMobile(): boolean {
+    isPhone(): boolean {
         const agent = navigator.userAgent
         const agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod']
         let mobile = false

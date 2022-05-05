@@ -10,8 +10,10 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const prefixCls = getPrefixCls('notice-tab')
-        return <div class={prefixCls}>
-            <div class={`${prefixCls}-items`}>{getPropSlot(slots, props)}</div>
-        </div>
+        return (
+            <div class={prefixCls}>
+                <div class={`${prefixCls}-items`}>{getPropSlot(slots, props)}</div>
+            </div>
+        )
     }
 })

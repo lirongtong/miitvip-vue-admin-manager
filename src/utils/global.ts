@@ -46,7 +46,7 @@ export const $g = reactive({
     apiVersion: 'v1',
     backToTop: true,
     userInfo: {},
-    isMobile: false,
+    isPhone: false,
 
     /**
      * 常用的正则规则.
@@ -78,6 +78,7 @@ export const $g = reactive({
             user: 'user-info',
             email: 'user-email',
             routes: 'history-routes',
+            collapsed: 'layout-menu-collapsed',
             captcha: {
                 login: 'login-captcha-key',
                 register: 'register-captcha-key',
