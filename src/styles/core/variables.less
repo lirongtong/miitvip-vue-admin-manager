@@ -10,6 +10,11 @@
 // gap.
 @mi-gap: 8px;
 
+// animation duration
+@mi-anim-duration: .4s;
+
+@mi-z-index: 20220511;
+
 // color.
 @mi-white: #FFF;
 @mi-black: #000;
@@ -32,19 +37,20 @@
 @mi-code-family: Lucida Console, Consolas, "Courier New", "Source Code Pro", "Miscrosoft Yahei", "Segoe UI", "Lucida Grande", Helvetica, Arial, FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif;
 
 // flex.
-.flex(@align: center, @justify: center) {
+.flex(@align: center, @justify: center, @direction: row) {
     display: flex;
     align-items: @align;
     justify-content: @justify;
+    flex-direction: @direction;
 }
 
 // border raiuds.
-.border-radius(@raduis: 4) {
+.border-radius(@raduis: 4) when (isnumber(@radius)) {
     border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
 }
 
-.border-radius-circle() {
-    border-radius: 50%;
+.border-radius(@radius: 50%) when (ispercentage(@radius)) {
+    border-radius: @radius;
 }
 
 // font size
