@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import PropTypes from '../_utils/props-types'
-import { getPrefixCls }  from '../_utils/props-tools'
+import { getPrefixCls } from '../_utils/props-tools'
 import { Menu } from 'ant-design-vue'
 import { RouterLink } from 'vue-router'
 import { $g } from '../../utils/global'
@@ -30,7 +30,11 @@ export default defineComponent({
                 )
             } else {
                 return (
-                    <a href={props.item.path} target={props.item.meta.target ?? '_blank'} class={`${prefixCls}-link`}>
+                    <a
+                        href={props.item.path}
+                        target={props.item.meta.target ?? '_blank'}
+                        class={`${prefixCls}-link`}
+                    >
                         <MiMenuItemLink {...props} />
                     </a>
                 )
@@ -38,7 +42,7 @@ export default defineComponent({
         }
         return (
             <Menu.Item class={prefixCls} key={key}>
-                { getMenuItemElem }
+                {getMenuItemElem}
             </Menu.Item>
         )
     }

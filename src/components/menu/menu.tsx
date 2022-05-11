@@ -2,7 +2,7 @@ import { defineComponent, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import PropTypes from '../_utils/props-types'
-import { tuple, getPrefixCls }  from '../_utils/props-tools'
+import { tuple, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { mutations } from '../../store/types'
 import { Menu } from 'ant-design-vue'
@@ -11,7 +11,7 @@ import MiSubMenu from './submenu'
 
 export declare interface MenuItems {
     /**
-     * Path of the record. Should start with `/` unless 
+     * Path of the record. Should start with `/` unless
      * the record is the child of another record.
      *
      * @example `/users/:id` matches `/users/1` as well as `/users/posva`.
@@ -31,9 +31,7 @@ export declare interface MenuItems {
 export const menuProps = () => ({
     prefixCls: String,
     items: PropTypes.object,
-    mode: PropTypes.oneOf(
-        tuple('vertical', 'inline')
-    ).def('inline')
+    mode: PropTypes.oneOf(tuple('vertical', 'inline')).def('inline')
 })
 
 export default defineComponent({
@@ -51,7 +49,7 @@ export default defineComponent({
         const path = route.path
         let find = false
         let relation: string[] = []
-        let menuChildrenItems: {[index: string]: any} = {}
+        let menuChildrenItems: { [index: string]: any } = {}
         const parseMenuChildren = (items: MenuItems[], pkey: string) => {
             items.forEach((item: MenuItems) => {
                 const name = $g.prefix + item.name
@@ -74,7 +72,7 @@ export default defineComponent({
                 const active = [relation[relation.length - 1]]
                 $g.menus.active = active
                 store.commit(`layout/${mutations.layout.active}`, active)
-                if (!collapsed && $g.menus.accordion) {
+                if (!collapsed.value && $g.menus.accordion) {
                     relation.pop()
                     $g.menus.opens = [...relation]
                     store.commit(`layout/${mutations.layout.opens}`, [...relation])
@@ -108,19 +106,21 @@ export default defineComponent({
             const items = []
             data.forEach((item: MenuItems) => {
                 if (item.children && item.children.length > 0) {
-                    items.push(
-                        <MiSubMenu></MiSubMenu>
-                    )
+                    items.push(<MiSubMenu></MiSubMenu>)
                 } else {
                     items.push(
-                        <MiMenuItem item={item} topLevel={collapsed.value} key={$g.prefix + item.name} />
+                        <MiMenuItem
+                            item={item}
+                            topLevel={collapsed.value}
+                            key={$g.prefix + item.name}
+                        />
                     )
                 }
             })
             return [...items]
         }
 
-        const setOpenKeys = (openKeys: (string|number)[]) => {
+        const setOpenKeys = (openKeys: (string | number)[]) => {
             let opens: (string | number)[] = []
             if (openKeys.length > 0) {
                 opens = openKeys
@@ -135,8 +135,17 @@ export default defineComponent({
         }
 
         return (
-            <Menu class={prefixCls} ref={prefixCls} theme="dark" mode={props.mode} onOpenChange={setOpenKeys} openKeys={$g.menus.opens} selectedKeys={$g.menus.active} {...attrs}>
-                { getMenuItems }
+            <Menu
+                class={prefixCls}
+                ref={prefixCls}
+                theme="dark"
+                mode={props.mode}
+                onOpenChange={setOpenKeys}
+                openKeys={$g.menus.opens}
+                selectedKeys={$g.menus.active}
+                {...attrs}
+            >
+                {getMenuItems}
             </Menu>
         )
     }

@@ -1,6 +1,6 @@
 import { defineComponent, isVNode } from 'vue'
 import PropTypes from '../_utils/props-types'
-import { getPrefixCls }  from '../_utils/props-tools'
+import { getPrefixCls } from '../_utils/props-tools'
 import * as Icon from '@ant-design/icons-vue'
 import { $g } from '../../utils/global'
 import { Tag } from 'ant-design-vue'
@@ -20,23 +20,20 @@ export default defineComponent({
         const prefixCls = getPrefixCls('menu-item', props.prefixCls)
         const meta = props.item.meta
         const getIconElem = () => {
-            let icon = meta && meta.icon ? meta.icon : 'TagsFilled'
+            const icon = meta && meta.icon ? meta.icon : 'TagsFilled'
             const MiMenuItemLinkIcon = isVNode(icon) ? icon : Icon[icon]
             return <MiMenuItemLinkIcon />
         }
         const getTitleElem = () => {
-            
             const text = meta && meta.title ? meta.title : $g.title
-            let title: any = (<span innerHTML={text}></span>)
+            let title: any = <span innerHTML={text}></span>
             if (!props.topLevel) {
                 const subTitle = meta && meta.subTitle ? meta.subTitle : null
-                const subElem = subTitle
-                    ? (<span class="sub" innerHTML={subTitle}></span>)
-                    : null
+                const subElem = subTitle ? <span class="sub" innerHTML={subTitle}></span> : null
                 title = (
                     <div class={`${prefixCls}-title`}>
                         <span innerHTML={props.hasTitle ? text : null} />
-                        { subElem }
+                        {subElem}
                     </div>
                 )
             }
@@ -52,13 +49,18 @@ export default defineComponent({
                         </Tag>
                     )
                 } else if (meta.tag.icon) {
-                    const MiMenuItemTagIcon = isVNode(meta.tag.icon) ? meta.tag.icon : Icon[meta.tag.icon]
+                    const MiMenuItemTagIcon = isVNode(meta.tag.icon)
+                        ? meta.tag.icon
+                        : Icon[meta.tag.icon]
                     tag = (
-                        <MiMenuItemTagIcon class={`${prefixCls}-icon`} style={{
-                            color: meta.tag.color,
-                            marginRight: 0,
-                            fontSize: `${meta.tag.size ?? 14}px`
-                        }} />
+                        <MiMenuItemTagIcon
+                            class={`${prefixCls}-icon`}
+                            style={{
+                                color: meta.tag.color,
+                                marginRight: 0,
+                                fontSize: `${meta.tag.size ?? 14}px`
+                            }}
+                        />
                     )
                 }
             }
@@ -66,9 +68,9 @@ export default defineComponent({
         }
         return (
             <>
-                { getIconElem }
-                { getTitleElem }
-                { getTagElem }
+                {getIconElem}
+                {getTitleElem}
+                {getTagElem}
             </>
         )
     }

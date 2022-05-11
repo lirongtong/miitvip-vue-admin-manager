@@ -14,8 +14,9 @@ Menu.install = (app: App) => {
     app.component(Menu.Link.name, Menu.Link)
     return app
 }
-export default Menu as typeof Menu & Plugin & {
-    readonly SubMenu: typeof SubMenu,
-    readonly Item: typeof MenuItem
-    readonly Link: typeof MenuItemLink
-}
+export default Menu as typeof Menu &
+    Plugin & {
+        readonly SubMenu: typeof SubMenu
+        readonly Item: typeof MenuItem
+        readonly Link: typeof MenuItemLink
+    }
