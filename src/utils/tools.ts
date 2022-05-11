@@ -79,6 +79,44 @@ class MiTools {
     isValid(value: any): boolean {
         return value !== undefined && value !== null && value !== ''
     }
+
+    /**
+     * random.
+     * @returns {string}
+     */
+    random(): string {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+    }
+
+    /**
+     * Generate a random number within the specified range.
+     * @param start
+     * @param end
+     * @returns {number}
+     */
+    randomNumberInRange(start: number, end: number): number {
+        return Math.round(Math.random() * (end - start) + start)
+    }
+
+    /**
+     * Generate unique string.
+     * @param upper
+     * @returns {string}
+     */
+    uid(upper = false, prefix?: string): string {
+        let str = (
+            this.random() +
+            this.random() +
+            this.random() +
+            this.random() +
+            this.random() +
+            this.random() +
+            this.random() +
+            this.random()
+        ).toLocaleUpperCase()
+        if (prefix) str = prefix + str
+        return upper ? str.toUpperCase() : str.toLowerCase()
+    }
 }
 
 export const $tools: MiTools = new MiTools()
