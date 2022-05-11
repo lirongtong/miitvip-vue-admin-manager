@@ -27,7 +27,7 @@ const MiLayout = defineComponent({
         const theme = computed(() => store.getters['layout/theme'])
         const isPhone = computed(() => store.getters['layout/phone'])
         const layoutCls = computed(() => {
-            let layoutCls = getPrefixCls('layout')
+            let layoutCls = getPrefixCls('layout-container')
             const themeCls = getPrefixCls('theme')
             layoutCls += isPhone.value ? ` ${layoutCls}-phone` : ''
             layoutCls += ['dark', 'light'].includes(theme.value)
@@ -46,7 +46,7 @@ const MiLayout = defineComponent({
             return header
         }
         const getLayout = () => {
-            return <Layout class={`${prefixCls}-container`}>{getHeader}</Layout>
+            return <Layout class={`${prefixCls}`}>{getHeader}</Layout>
         }
         return () => (
             <>
