@@ -38,7 +38,7 @@ export default defineComponent({
     name: 'MiMenu',
     inheritAttrs: false,
     props: menuProps(),
-    setup(props, { slots, attrs }) {
+    setup(props, { attrs }) {
         const store = useStore()
         const route = useRoute()
         const menus: any = reactive({})

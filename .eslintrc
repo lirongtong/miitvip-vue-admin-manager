@@ -35,7 +35,11 @@
                 "@typescript-eslint/no-explicit-any": "off",
                 "@typescript-eslint/explicit-module-boundary-types": "off",
                 "@typescript-eslint/no-empty-function": "off",
-                "@typescript-eslint/class-name-casing": "off"
+                "@typescript-eslint/class-name-casing": "off",
+                "vue/html-closing-bracket-newline": ["error", {
+                    "singleline": "never",
+                    "multiline": "never"
+                }]
             }
         },
         {

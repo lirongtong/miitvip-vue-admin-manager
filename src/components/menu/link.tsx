@@ -1,7 +1,7 @@
 import { defineComponent, isVNode } from 'vue'
 import PropTypes from '../_utils/props-types'
 import { getPrefixCls } from '../_utils/props-tools'
-import * as Icon from '@ant-design/icons-vue'
+import * as Icons from '@ant-design/icons-vue'
 import { $g } from '../../utils/global'
 import { Tag } from 'ant-design-vue'
 
@@ -18,17 +18,18 @@ export default defineComponent({
     props: menuItemLinkProps(),
     setup(props) {
         const prefixCls = getPrefixCls('menu-item', props.prefixCls)
-        const meta = props.item.meta
         const getIconElem = () => {
-            const icon = meta && meta.icon ? meta.icon : 'TagsFilled'
-            const MiMenuItemLinkIcon = isVNode(icon) ? icon : Icon[icon]
+            const icon =
+                props.item.meta && props.item.meta.icon ? props.item.meta.icon : 'TagsFilled'
+            const MiMenuItemLinkIcon = isVNode(icon) ? icon : Icons[icon]
             return <MiMenuItemLinkIcon />
         }
         const getTitleElem = () => {
-            const text = meta && meta.title ? meta.title : $g.title
+            const text = props.item.meta && props.item.meta.title ? props.item.meta.title : $g.title
             let title: any = <span innerHTML={text}></span>
             if (!props.topLevel) {
-                const subTitle = meta && meta.subTitle ? meta.subTitle : null
+                const subTitle =
+                    props.item.meta && props.item.meta.subTitle ? props.item.meta.subTitle : null
                 const subElem = subTitle ? <span class="sub" innerHTML={subTitle}></span> : null
                 title = (
                     <div class={`${prefixCls}-title`}>
@@ -41,24 +42,24 @@ export default defineComponent({
         }
         const getTagElem = () => {
             let tag: any = null
-            if (meta && meta.tag && !props.topLevel) {
-                if (meta.tag.content) {
+            if (props.item.meta && props.item.meta.tag && !props.topLevel) {
+                if (props.item.meta.tag.content) {
                     tag = (
-                        <Tag class={`${prefixCls}-tag`} color={meta.tag.color}>
-                            <template innerHTML={meta.tag.content} />
+                        <Tag class={`${prefixCls}-tag`} color={props.item.meta.tag.color}>
+                            <template innerHTML={props.item.meta.tag.content} />
                         </Tag>
                     )
-                } else if (meta.tag.icon) {
-                    const MiMenuItemTagIcon = isVNode(meta.tag.icon)
-                        ? meta.tag.icon
-                        : Icon[meta.tag.icon]
+                } else if (props.item.meta.tag.icon) {
+                    const MiMenuItemTagIcon = isVNode(props.item.meta.tag.icon)
+                        ? props.item.meta.tag.icon
+                        : Icons[props.item.meta.tag.icon]
                     tag = (
                         <MiMenuItemTagIcon
                             class={`${prefixCls}-icon`}
                             style={{
-                                color: meta.tag.color,
+                                color: props.item.meta.tag.color,
                                 marginRight: 0,
-                                fontSize: `${meta.tag.size ?? 14}px`
+                                fontSize: `${props.item.meta.tag.size ?? 14}px`
                             }}
                         />
                     )
