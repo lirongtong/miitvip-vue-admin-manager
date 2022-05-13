@@ -6,13 +6,18 @@
 
 <h1 align="center">
     <a href="https://admin.makeit.vip/" target="_blank" style="color: #f6ca9d">
-        Makeit Admin Pro
+        Makeit Admin Pro 1.x
     </a>
 </h1>
 
 <div align="center">
+<a href="https://github.com/lirongtong/miitvip-vue-admin-manager/tree/master" style="color: #f6ca9d">
+    Makeit Admin Pro 2.x 正在持续更新中 ...
+</a>
 
-A unified template used to backend management based on Vue3.0 + Ant Design Vue + Vite
+基于 Vue3.x + Vite2.x + Ant Design Vue 构建的适用于中后台管理系统的组合模板框架。
+
+( A unified template used to backend management built on Vue3.x + Vite2.x + Ant Design Vue. )
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.org/package/makeit-admin-pro)
 [![npm_downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
@@ -49,7 +54,7 @@ A unified template used to backend management based on Vue3.0 + Ant Design Vue +
 
 > Makeit Admin Pro，基于 Vue3.0 + Vite 开发，结合 Ant Design Vue 组件库开发的一套适合中后台管理项目的统一 UI 框架，包含统一的页面布局 / 注册页面 / 登录页面 / 验证码 / 搜索联想 / 动态配置项目菜单等常用模块，开箱即用。集成这套框架的目的，就是为了免去那些中后台管理项目中，基础又重复的页面，包括布局，登录注册页面等等，同时也集成了项目开发中常用的工具类函数，方便调用及扩展。现阶段还在不断完善，持续开发更新中 ...
 
-> 若对框架的使用有更好的建议，或者有更多的定制化需求，亦或者组件存在 `BUG`，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽快抽时间去完善，去解决 `BUG`，不胜感激。
+> 若对框架的使用有更好的建议，或者有更多的定制化需求，亦或者组件存在 `BUG`，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽可能的抽时间去解决相应的 `BUG`，去完善合理的定制化需求。
 
 ## 安装
 
