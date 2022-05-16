@@ -3,10 +3,11 @@
 @mi-layout: ~'@{mi-prefix}layout';
 @ant: ant;
 .@{mi-layout} {
-    .properties(padding-left, 256);
     transition: all @mi-anim-duration ease;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    width: 100%;
+    .properties(padding-left, 256);
     min-height: 100vh;
     &::-webkit-scrollbar {
         display: none;
@@ -57,6 +58,69 @@
                     width: 100%;
                     height: 100%;
                     color: var(--mi-font, @mi-font);
+                }
+            }
+        }
+    }
+
+    &-side {
+        background: var(--mi-side, @mi-side);
+        transition: all 0.4s ease;
+        box-shadow: 2px 0 6px var(--mi-side-shadow, @mi-side-shadow);
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 19900407;
+
+        &-logo {
+            .flex();
+            position: relative;
+            width: @mi-side-width;
+            height: @mi-header-height;
+            background: var(--mi-header-logo-background, @mi-header-logo-background);
+            border-bottom: 1px solid var(--mi-header-logo-border-bottom, @mi-header-logo-border-bottom);
+            transition: all .4s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            .properties(padding-left);
+            .properties(padding-right);
+            .text-ellipsis();
+            cursor: pointer;
+            color: var(--mi-header-logo-text, @mi-header-logo-text);
+            z-index: 19900407;
+
+            &-site {
+                .flex();
+                .text-ellipsis();
+
+                svg {
+                    .font-size(30);
+                    color: var(--mi-header-logo-text, @mi-header-logo-text);
+                }
+
+                > img {
+                    width: @mi-side-logo-size;
+                    height: @mi-side-logo-size;
+                    .border-radius-circle();
+                }
+
+                > h1 {
+                    .text-ellipsis();
+                    color: var(--mi-header-logo-text, @mi-header-logo-text);
+                    width: 100%;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    margin-right: 0;
+                    .font-size(20);
+                    font-weight: 600;
+                    .properties(margin-left, 12);
+                    transition: all .4s ease-in-out;
+                    .letter-spacing();
+                    .flex();
+                    zoom: 1;
                 }
             }
         }

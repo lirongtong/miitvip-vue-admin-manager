@@ -45,12 +45,12 @@
 }
 
 // border raiuds.
-.border-radius(@raduis: 4) when (isnumber(@radius)) {
+.border-radius(@raduis: 4) {
     border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;
 }
 
-.border-radius(@radius: 50%) when (ispercentage(@radius)) {
-    border-radius: @radius;
+.border-radius-circle() {
+    border-radius: 50%;
 }
 
 // font size
