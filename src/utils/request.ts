@@ -89,6 +89,7 @@ export const $request: MiRequest = new MiRequest()
 export default {
     install(app: App) {
         app.config.globalProperties.$request = $request
+        app.provide('$request', $request)
         return app
     }
 }

@@ -30,8 +30,8 @@ export default {
                 )
             }
             // 是否为移动端
-            this.$g.isPhone = this.$tools.isPhone()
-            this.$store.commit(`layout/${mutations.layout.phone}`)
+            this.$g.isPisMobilehone = this.$tools.isMobile()
+            this.$store.commit(`layout/${mutations.layout.mobile}`)
 
             _created = true
         }

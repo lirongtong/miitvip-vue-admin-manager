@@ -68,6 +68,7 @@ export const $cookie: MiCookie = new MiCookie()
 export default {
     install(app: App) {
         app.config.globalProperties.$cookie = $cookie
+        app.provide('$cookie', $cookie)
         return app
     }
 }

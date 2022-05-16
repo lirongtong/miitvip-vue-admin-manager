@@ -46,14 +46,14 @@ export const $g = reactive({
     apiVersion: 'v1',
     backToTop: true,
     userInfo: {},
-    isPhone: false,
+    isMobile: false,
 
     /**
      * 常用的正则规则.
      * regular rules.
      */
     regExp: {
-        phone: /^1[3456789]\d{9}$/,
+        mobile: /^1[3456789]\d{9}$/,
         url: /^((https|http|ftp|rtsp|mms)?:\/\/)(([0-9A-Za-z_!~*'().&=+$%-]+: )?[0-9A-Za-z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9A-Za-z_!~*'()-]+.)*([0-9A-Za-z][0-9A-Za-z-]{0,61})?[0-9A-Za-z].[A-Za-z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9A-Za-z_!~*'().;?:@&=+$,%#-]+)+\/?)$/,
         password: /^[A-Za-z0-9~!@#$%^&*()_+=\-.,]{6,32}$/,
         username: /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){3,15}$/,
@@ -104,7 +104,8 @@ export const $g = reactive({
         collapsed: false,
         drawer: false,
         dropdown: [],
-        relationshipChain: []
+        relationshipChain: [],
+        width: 256
     },
 
     copyright: {
@@ -116,6 +117,7 @@ export const $g = reactive({
 export default {
     install(app: App) {
         app.config.globalProperties.$g = $g
+        app.provide('$g', $g)
         return app
     }
 }

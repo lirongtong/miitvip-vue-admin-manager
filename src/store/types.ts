@@ -22,10 +22,10 @@ export interface LayoutState {
     opens: string[]
 
     /**
-     * Whether is mobile phone.
+     * Whether is mobile mobile.
      * @type {boolean}
      */
-    phone: boolean
+    mobile: boolean
 
     /**
      * Whether to open the drawer menu.
@@ -34,7 +34,7 @@ export interface LayoutState {
     drawer: boolean
 
     /**
-     * it's small screen, but not mobile phone.
+     * it's small screen, but not mobile.
      * @type {boolean}
      */
     small: boolean
@@ -73,7 +73,7 @@ export const mutations = {
         opens: 'SET_MENU_OPENS',
         active: 'SET_MENU_ACTIVE',
         drawer: 'IS_OPEN_DRAWER',
-        phone: 'IS_PHONE',
+        mobile: 'IS_MOBILE',
         type: 'SET_SCREEN_TYPE',
         routes: 'SET_HISTORY_ROUTES'
     },

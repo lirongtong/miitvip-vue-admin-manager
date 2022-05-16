@@ -21,7 +21,7 @@ export default defineComponent({
     setup(props) {
         const prefixCls = getPrefixCls('menu-item', props.prefixCls)
         const key = $g.prefix + (props.item ? props.item.name : $tools.uid())
-        const getMenuItemElem = () => {
+        const getMenuItem = () => {
             if (!$g.regExp.url.test(props.item.path)) {
                 return (
                     <RouterLink to={props.item.path} class={`${prefixCls}-link`}>
@@ -39,9 +39,9 @@ export default defineComponent({
                 )
             }
         }
-        return (
+        return () => (
             <Menu.Item class={prefixCls} key={key}>
-                {getMenuItemElem}
+                {getMenuItem}
             </Menu.Item>
         )
     }

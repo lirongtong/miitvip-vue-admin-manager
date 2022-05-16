@@ -17,12 +17,12 @@ export default defineComponent({
     props: menuItemLinkProps(),
     setup(props) {
         const prefixCls = getPrefixCls('menu-item', props.prefixCls)
-        const getIconElem = () => {
+        const getIcon = () => {
             const icon =
                 props.item.meta && props.item.meta.icon ? props.item.meta.icon : 'TagsFilled'
             return isVNode(icon) ? icon : h(resolveComponent(icon))
         }
-        const getTitleElem = () => {
+        const getTitle = () => {
             const text = props.item.meta && props.item.meta.title ? props.item.meta.title : $g.title
             let title: any = <span innerHTML={text}></span>
             if (!props.topLevel) {
@@ -38,7 +38,7 @@ export default defineComponent({
             }
             return title
         }
-        const getTagElem = () => {
+        const getTag = () => {
             let tag: any = null
             if (props.item.meta && props.item.meta.tag && !props.topLevel) {
                 if (props.item.meta.tag.content) {
@@ -65,11 +65,11 @@ export default defineComponent({
             }
             return tag
         }
-        return (
+        return () => (
             <>
-                {getIconElem}
-                {getTitleElem}
-                {getTagElem}
+                {getIcon()}
+                {getTitle()}
+                {getTag()}
             </>
         )
     }

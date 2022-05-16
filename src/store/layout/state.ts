@@ -4,7 +4,7 @@ export const state: LayoutState = {
     collapsed: null,
     active: null,
     opens: [],
-    phone: false,
+    mobile: false,
     drawer: false,
     small: false,
     type: null,

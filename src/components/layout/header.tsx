@@ -21,7 +21,7 @@ export default defineComponent({
     setup(props, { slots, attrs }) {
         const store = useStore()
         const collapsed = computed(() => store.getters['layout/collapsed'])
-        const isPhone = computed(() => store.getters['layout/phone'])
+        const isMobile = computed(() => store.getters['layout/mobile'])
         const prefixCls = getPrefixCls('layout-header', props.prefixCls)
         const headerCls = {
             left: `${prefixCls}-left`,
@@ -32,7 +32,7 @@ export default defineComponent({
         const getStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
             if (!stretch) {
-                if (isPhone.value) stretch = <MenuUnfoldOutlined />
+                if (isMobile.value) stretch = <MenuUnfoldOutlined />
                 else if (!collapsed.value) stretch = <MenuFoldOutlined />
                 else stretch = <MenuUnfoldOutlined />
             }

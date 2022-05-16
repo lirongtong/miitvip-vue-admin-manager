@@ -13,7 +13,7 @@ const menuRoutes: Array<RouteRecordRaw> = [{
     children: [{
         path: 'dashboard',
         name: 'dashboard',
-        meta: {title: '控制台'},
+        meta: {title: '控制中心'},
         component: Dashboard
     }]
 }]

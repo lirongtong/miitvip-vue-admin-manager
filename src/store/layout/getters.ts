@@ -19,8 +19,8 @@ export const getters: GetterTree<LayoutState, RootState> = {
     drawer: (state): boolean => {
         return state.drawer
     },
-    phone: (state): boolean => {
-        return state.phone
+    mobile: (state): boolean => {
+        return state.mobile
     },
     theme: (state): string | null | undefined => {
         let theme = state.theme

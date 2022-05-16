@@ -42,14 +42,14 @@ export const mutation: MutationTree<LayoutState> = {
     },
 
     /**
-     * Whether is mobile phone.
+     * Whether is mobile.
      * The visible area on the PC browser is less than 600px, and the value is also `true`.
      * This value is synchronized with `this.$g.mobile`.
      * @param state
      * @param status
      */
-    [mutations.layout.phone](state, status: boolean) {
-        state.phone = status
+    [mutations.layout.mobile](state, status: boolean) {
+        state.mobile = status
     },
 
     /**

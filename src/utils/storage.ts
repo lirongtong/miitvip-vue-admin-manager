@@ -95,6 +95,7 @@ export const $storage: MiStorage = new MiStorage()
 export default {
     install(app: App) {
         app.config.globalProperties.$storage = $storage
+        app.provide('$storage', $storage)
         return app
     }
 }

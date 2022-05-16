@@ -112,7 +112,7 @@ export default defineComponent({
         const getMenuItems = () => {
             const items = []
             data.forEach((item: MenuItems) => {
-                if (item.children && item.children.length > 0) {
+                if (item?.children?.length > 0) {
                     items.push(<MiSubMenu></MiSubMenu>)
                 } else {
                     items.push(
@@ -144,7 +144,7 @@ export default defineComponent({
             store.commit(`layout/${mutations.layout.opens}`, opens)
         }
 
-        return (
+        return () => (
             <Menu
                 class={prefixCls}
                 ref={prefixCls}
@@ -154,7 +154,7 @@ export default defineComponent({
                 openKeys={$g.menus.opens}
                 selectedKeys={$g.menus.active}
                 {...attrs}>
-                {getMenuItems}
+                {getMenuItems()}
             </Menu>
         )
     }

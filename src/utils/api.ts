@@ -77,6 +77,8 @@ export default {
     install(app: App) {
         app.config.globalProperties.$api = $api
         app.config.globalProperties.api = api
+        app.provide('$api', $api)
+        app.provide('api', api)
         return app
     }
 }
