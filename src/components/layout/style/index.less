@@ -65,7 +65,7 @@
 
     &-side {
         background: var(--mi-side, @mi-side);
-        transition: all 0.4s ease;
+        transition: all @mi-anim-duration ease;
         box-shadow: 2px 0 6px var(--mi-side-shadow, @mi-side-shadow);
         position: fixed;
         left: 0;
@@ -80,8 +80,8 @@
             width: @mi-side-width;
             height: @mi-header-height;
             background: var(--mi-header-logo-background, @mi-header-logo-background);
-            border-bottom: 1px solid var(--mi-header-logo-border-bottom, @mi-header-logo-border-bottom);
-            transition: all .4s ease;
+            box-shadow: 0 0 6px var(--mi-header-logo-box-shadow, @mi-header-logo-box-shadow);
+            transition: all @mi-anim-duration ease;
             position: fixed;
             top: 0;
             left: 0;
@@ -117,7 +117,7 @@
                     .font-size(20);
                     font-weight: 600;
                     .properties(margin-left, 12);
-                    transition: all .4s ease-in-out;
+                    transition: all @mi-anim-duration ease-in-out;
                     .letter-spacing();
                     .flex();
                     zoom: 1;
