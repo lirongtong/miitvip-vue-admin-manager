@@ -50,7 +50,7 @@ export default defineComponent({
         let find = false
         let relation: string[] = []
         let menuChildrenItems: { [index: string]: any } = {}
-        const parseMenuChildren = (items: MenuItems[], pkey: string) => {
+        const getRelationshipChainChildren = (items: MenuItems[], pkey: string) => {
             items.forEach((item: MenuItems) => {
                 const name = $g.prefix + item.name
                 if (!find) {
@@ -62,9 +62,29 @@ export default defineComponent({
                     pkey
                 }
                 const children = item.children as MenuItems[]
-                if (children && children.length > 0) parseMenuChildren(children, name)
+                if (children && children.length > 0) getRelationshipChainChildren(children, name)
                 if (!find) relation.pop()
             })
+        }
+        const getRelationshipChain = (parse = true) => {
+            data.forEach((items: MenuItems) => {
+                const name = $g.prefix + items.name
+                if (!find) {
+                    relation.push(name)
+                    if (path === items.path) find = true
+                }
+                if (parse) menus[name] = {}
+                const children = items.children as MenuItems[]
+                if (children?.length > 0) {
+                    getRelationshipChainChildren(children, name)
+                    if (parse) {
+                        menus[name] = menuChildrenItems
+                        menuChildrenItems = {}
+                    }
+                }
+                if (!find) relation = []
+            })
+            setRelationshipChain(relation)
         }
         const setRelationshipChain = (relation: string[] = []) => {
             if (relation.length > 0) {
@@ -80,27 +100,14 @@ export default defineComponent({
                 relation = []
             }
         }
-        const parseMenu = () => {
-            data.forEach((items: MenuItems) => {
-                const name = $g.prefix + items.name
-                if (!find) {
-                    relation.push(name)
-                    if (path === items.path) find = true
-                }
-                menus[name] = {}
-                const children = items.children as MenuItems[]
-                if (children && children.length > 0) {
-                    parseMenuChildren(children, name)
-                    menus[name] = menuChildrenItems
-                    menuChildrenItems = {}
-                }
-                if (!find) relation = []
-            })
-            setRelationshipChain(relation)
-        }
-        parseMenu()
+        // init - menus
+        getRelationshipChain()
 
-        watch(route, () => {})
+        watch(route, () => {
+            const active = `${$g.prefix}${route.name as string}`
+            setActive({key: active})
+            getRelationshipChain(false)
+        })
 
         const getMenuItems = () => {
             const items = []
@@ -119,7 +126,10 @@ export default defineComponent({
             })
             return [...items]
         }
-
+        const setActive = (item: any) => {
+            $g.menus.active = [item.key]
+            store.commit(`layout/${mutations.layout.active}`, [item.key])
+        }
         const setOpenKeys = (openKeys: (string | number)[]) => {
             let opens: (string | number)[] = []
             if (openKeys.length > 0) {
