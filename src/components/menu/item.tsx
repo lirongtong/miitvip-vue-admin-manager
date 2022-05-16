@@ -33,8 +33,7 @@ export default defineComponent({
                     <a
                         href={props.item.path}
                         target={props.item.meta.target ?? '_blank'}
-                        class={`${prefixCls}-link`}
-                    >
+                        class={`${prefixCls}-link`}>
                         <MiMenuItemLink {...props} />
                     </a>
                 )

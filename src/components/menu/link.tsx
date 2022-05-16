@@ -1,7 +1,6 @@
-import { defineComponent, isVNode } from 'vue'
+import { defineComponent, isVNode, h, resolveComponent } from 'vue'
 import PropTypes from '../_utils/props-types'
 import { getPrefixCls } from '../_utils/props-tools'
-import * as Icons from '@ant-design/icons-vue'
 import { $g } from '../../utils/global'
 import { Tag } from 'ant-design-vue'
 
@@ -21,8 +20,7 @@ export default defineComponent({
         const getIconElem = () => {
             const icon =
                 props.item.meta && props.item.meta.icon ? props.item.meta.icon : 'TagsFilled'
-            const MiMenuItemLinkIcon = isVNode(icon) ? icon : Icons[icon]
-            return <MiMenuItemLinkIcon />
+            return isVNode(icon) ? icon : h(resolveComponent(icon))
         }
         const getTitleElem = () => {
             const text = props.item.meta && props.item.meta.title ? props.item.meta.title : $g.title
@@ -52,7 +50,7 @@ export default defineComponent({
                 } else if (props.item.meta.tag.icon) {
                     const MiMenuItemTagIcon = isVNode(props.item.meta.tag.icon)
                         ? props.item.meta.tag.icon
-                        : Icons[props.item.meta.tag.icon]
+                        : h(resolveComponent(props.item.meta.tag.icon))
                     tag = (
                         <MiMenuItemTagIcon
                             class={`${prefixCls}-icon`}

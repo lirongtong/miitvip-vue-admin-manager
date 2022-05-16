@@ -30,8 +30,7 @@ export default defineComponent({
                         class={`${prefixCls}-avatar`}
                         src={props.avatarLink}
                         icon={icon}
-                        style={style}
-                    ></Avatar>
+                        style={style}></Avatar>
                 )
             }
             return avatar

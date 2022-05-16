@@ -143,8 +143,7 @@ export default defineComponent({
                 onOpenChange={setOpenKeys}
                 openKeys={$g.menus.opens}
                 selectedKeys={$g.menus.active}
-                {...attrs}
-            >
+                {...attrs}>
                 {getMenuItems}
             </Menu>
         )
