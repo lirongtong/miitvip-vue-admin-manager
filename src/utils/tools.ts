@@ -60,13 +60,20 @@ class MiTools {
      * @returns
      */
      isMobile(): boolean {
-        const agent = navigator.userAgent
+        const ua = navigator.userAgent
         const agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod']
+        const isSafari = ua.indexOf('Safari') !== -1 && ua.indexOf('Version') !== -1
+        const isIPhone = ua.indexOf('iPhone') !== -1 && ua.indexOf('Version') !== -1
+        const isIPad = isSafari && !isIPhone && 'ontouchend' in document
         let mobile = false
-        for (let i = 0, len = agents.length; i < len; i++) {
-            if (agent.indexOf(agents[i]) > 0) {
-                mobile = true
-                break
+        if (isIPad) {
+            mobile = true
+        } else {
+            for (let i = 0, len = agents.length; i < len; i++) {
+                if (ua.indexOf(agents[i]) > 0) {
+                    mobile = true
+                    break
+                }
             }
         }
         return mobile
