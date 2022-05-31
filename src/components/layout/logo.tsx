@@ -8,9 +8,12 @@ export default defineComponent({
     name: 'MiLayoutSideLogo',
     inheritAttrs: false,
     props: {
-        prefixCls: String
+        prefixCls: {
+            type: String,
+            default: ''
+        }
     },
-    setup(props, {slots}) {
+    setup(props, { slots }) {
         const title = $g.title ?? '麦可易特网'
         const prefixCls = getPrefixCls('layout-side-logo', props.prefixCls)
         let logo = <MediumOutlined />
@@ -18,11 +21,11 @@ export default defineComponent({
             logo = <img src={$g.logo} alt={$g.title} />
         }
         const slot = slots?.default ?? (
-            <RouterLink to={{path: '/'}} class={`${prefixCls}-site`}>
+            <RouterLink to={{ path: '/' }} class={`${prefixCls}-site`}>
                 {logo}
                 <h1 innerHTML={title}></h1>
             </RouterLink>
         )
-        return () => <div class={prefixCls}>{ slot }</div>
+        return () => <div class={prefixCls}>{slot}</div>
     }
 })

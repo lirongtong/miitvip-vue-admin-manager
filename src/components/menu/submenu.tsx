@@ -24,9 +24,7 @@ export default defineComponent({
         const active = computed(() => {
             return $g.menus.relationshipChain.includes(`${$g.prefix}${props.item.name}`)
         })
-        const title = (
-            <MiMenuItemLink item={props.item} topLevel={props.topLevel} hasTitle={true} />
-        )
+        const title = <MiMenuItemLink item={props.item} topLevel={props.topLevel} hasTitle={true} />
         const getSubmenuItem = () => {
             const items = []
             const children = props.item.children as MenuItems[]
@@ -44,8 +42,11 @@ export default defineComponent({
             return [...items]
         }
         return (
-            <Menu.SubMenu class={`${prefixCls}${active.value}`} title={title} key={`${prefixCls}${props.item.name}`}>
-                { getSubmenuItem }
+            <Menu.SubMenu
+                class={`${prefixCls}${active.value}`}
+                title={title}
+                key={`${prefixCls}${props.item.name}`}>
+                {getSubmenuItem}
             </Menu.SubMenu>
         )
     }

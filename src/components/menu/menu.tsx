@@ -105,7 +105,7 @@ export default defineComponent({
 
         watch(route, () => {
             const active = `${$g.prefix}${route.name as string}`
-            setActive({key: active})
+            setActive({ key: active })
             getRelationshipChain(false)
         })
 

@@ -22,11 +22,11 @@
 ![npm](https://img.shields.io/badge/npm-8.1.3-orange.svg)
 ![nodejs](https://img.shields.io/badge/nodejs-17.7.1-red.svg)
 ![webpack](https://img.shields.io/badge/webpack-5.70.0-orange.svg)
-![vue](https://img.shields.io/badge/vue-3.2.31-green.svg)
-![vite](https://img.shields.io/badge/vite-2.8.6-yellow.svg)
-![axios](https://img.shields.io/badge/axios-0.26.1-red.svg)
+![vue](https://img.shields.io/badge/vue-3.2.36-green.svg)
+![vite](https://img.shields.io/badge/vite-2.9.9-yellow.svg)
+![axios](https://img.shields.io/badge/axios-0.27.2-red.svg)
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-3.x-blueviolet.svg)
-![vue router](https://img.shields.io/badge/vue%20router-4.0.14-inactive.svg)
+![vue router](https://img.shields.io/badge/vue%20router-4.0.15-inactive.svg)
 ![vuex](https://img.shields.io/badge/vuex-4.0.2-informational.svg)
 
 <p>

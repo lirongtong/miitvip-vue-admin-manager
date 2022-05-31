@@ -39,7 +39,9 @@ const MiLayout = defineComponent({
         const drawer = isMobile.value ? <div></div> : null
         const getHeader = () => {
             const extra = getPropSlot(slots, props, 'headerExtra')
-            const header = getPropSlot(slots, props, 'header') ?? <MiLayoutHeader class={props.headerClassName} extra={extra} />
+            const header = getPropSlot(slots, props, 'header') ?? (
+                <MiLayoutHeader class={props.headerClassName} extra={extra} />
+            )
             return header
         }
         const getSide = () => {
@@ -50,7 +52,7 @@ const MiLayout = defineComponent({
         const getLayout = () => {
             return (
                 <>
-                    { getSide() }
+                    {getSide()}
                     <Layout class={`${prefixCls}`}>{getHeader}</Layout>
                 </>
             )

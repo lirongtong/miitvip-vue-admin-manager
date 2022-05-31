@@ -7,7 +7,7 @@
     "endOfLine": "auto",
     "ignorePath": ".prettierrcignore",
     "trailingComma": "none",
-    "jsxBracketSameLine": true,
+    "bracketSameLine": true,
     "htmlWhitespaceSensitivity": "ignore",
     "overrides": [
         {

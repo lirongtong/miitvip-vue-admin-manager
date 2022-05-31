@@ -18,7 +18,7 @@ const MiLayoutSider = defineComponent({
     inheritAttrs: false,
     slots: ['logo', 'menu'],
     props: layoutSideProps(),
-    setup(props, {slots}) {
+    setup(props, { slots }) {
         const store = useStore()
         const isMobile = computed(() => store.getters['layout/mobile'])
         const prefixCls = getPrefixCls('layout-side', props.prefixCls)
@@ -29,10 +29,21 @@ const MiLayoutSider = defineComponent({
             return logo
         }
         const getMenu = () => {
-            return getPropSlot(slots, props, 'menu') ?? <MiLayoutSideMenu class={`${prefixCls}-menu`} items={$g.menus.items} />
+            return (
+                getPropSlot(slots, props, 'menu') ?? (
+                    <MiLayoutSideMenu class={`${prefixCls}-menu`} items={$g.menus.items} />
+                )
+            )
         }
         return () => (
-            <Layout.Sider class={prefixCls} width={$g.menus.width} breakpoint="lg" collapsed={$g.menus.collapsed} onBreakpoint={setCollapsed} trigger={null} collapsible={true}>
+            <Layout.Sider
+                class={prefixCls}
+                width={$g.menus.width}
+                breakpoint="lg"
+                collapsed={$g.menus.collapsed}
+                onBreakpoint={setCollapsed}
+                trigger={null}
+                collapsible={true}>
                 {getLogo()}
                 {getMenu()}
             </Layout.Sider>

@@ -16,8 +16,7 @@ class MiStorage {
     instance!: Storage
 
     /**
-     * 构造.
-     * 初始化 storage ( local / session )
+     * 构造 - 初始化 storage ( local / session )
      * @constructor
      * @param type
      */
@@ -79,8 +78,6 @@ class MiStorage {
 
     /**
      * 切换 storage ( 默认为 localStorage ).
-     * change storage type.
-     *
      * @param type
      * @returns
      */
