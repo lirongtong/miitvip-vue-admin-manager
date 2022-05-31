@@ -56,7 +56,7 @@ class MiTools {
 
     /**
      * 是否为移动端.
-     * Whether it is a mobile.
+     * 注: iPad Safari 获取的 ua 与 Mac Safari 一致, 需独立判断.
      * @returns
      */
      isMobile(): boolean {
