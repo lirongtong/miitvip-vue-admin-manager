@@ -82,15 +82,11 @@
             background: var(--mi-header-logo-background, @mi-header-logo-background);
             box-shadow: 0 0 6px var(--mi-header-logo-box-shadow, @mi-header-logo-box-shadow);
             transition: all @mi-anim-duration ease;
-            position: fixed;
-            top: 0;
-            left: 0;
             .properties(padding-left);
             .properties(padding-right);
             .text-ellipsis();
             cursor: pointer;
             color: var(--mi-header-logo-text, @mi-header-logo-text);
-            z-index: 19900407;
 
             &-site {
                 .flex();
@@ -109,13 +105,16 @@
 
                 > h1 {
                     .text-ellipsis();
-                    color: var(--mi-header-logo-text, @mi-header-logo-text);
+                    background: transparent linear-gradient(127deg, var(--mi-gradient-s, @mi-gradient-s) 0%, var(--mi-gradient-m, @mi-gradient-m) 52%, var(--mi-gradient-e, @mi-gradient-e) 100%);
+                    -webkit-text-fill-color: transparent;
+                    -webkit-background-clip: text;
+                    background-clip: text;
                     width: 100%;
                     margin-top: 0;
                     margin-bottom: 0;
                     margin-right: 0;
                     .font-size(20);
-                    font-weight: 600;
+                    font-weight: bold;
                     .properties(margin-left, 12);
                     transition: all @mi-anim-duration ease-in-out;
                     .letter-spacing();
@@ -123,6 +122,24 @@
                     zoom: 1;
                 }
             }
+        }
+    }
+
+    &-content {
+        background: var(--mi-body-background, @mi-body-background);
+        color: @mi-content-text;
+    }
+
+    &-footer {
+        background: var(--mi-body-background, @mi-body-background);
+        color: @mi-white;
+        .flex();
+        transition: all @mi-anim-duration ease;
+	    z-index: 10;
+
+        &-content {
+            color: var(--mi-footer, @mi-footer);
+            .letter-spacing();
         }
     }
 }

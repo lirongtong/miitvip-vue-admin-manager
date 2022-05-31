@@ -5,12 +5,15 @@ import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { Layout } from 'ant-design-vue'
 import MiLayoutHeader from './header'
 import MiLayoutSide from './side'
+import MiLayoutContent from './content'
+import MiLayoutFooter from './footer'
 
 export const layoutProps = () => ({
     prefixCls: String,
     sideClassName: PropTypes.string,
     menuClassName: PropTypes.string,
     headerClassName: PropTypes.string,
+    contentAnimName: PropTypes.string,
     side: PropTypes.any,
     header: PropTypes.any,
     headerExtra: PropTypes.any,
@@ -39,10 +42,9 @@ const MiLayout = defineComponent({
         const drawer = isMobile.value ? <div></div> : null
         const getHeader = () => {
             const extra = getPropSlot(slots, props, 'headerExtra')
-            const header = getPropSlot(slots, props, 'header') ?? (
+            return getPropSlot(slots, props, 'header') ?? (
                 <MiLayoutHeader class={props.headerClassName} extra={extra} />
             )
-            return header
         }
         const getSide = () => {
             let side = getPropSlot(slots, props, 'side') ?? <MiLayoutSide />
@@ -53,7 +55,11 @@ const MiLayout = defineComponent({
             return (
                 <>
                     {getSide()}
-                    <Layout class={`${prefixCls}`}>{getHeader}</Layout>
+                    <Layout class={`${prefixCls}`}>
+                        {getHeader()}
+                        <MiLayoutContent />
+                        {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
+                    </Layout>
                 </>
             )
         }
@@ -69,7 +75,13 @@ const MiLayout = defineComponent({
 })
 
 MiLayout.Header = MiLayoutHeader
+MiLayout.Side = MiLayoutSide
+MiLayout.Content = MiLayoutContent
+MiLayout.Footer = MiLayoutFooter
 
 export default MiLayout as typeof MiLayout & {
     readonly Header: typeof MiLayoutHeader
+    readonly Side: typeof MiLayoutSide,
+    readonly Content: typeof MiLayoutContent
+    readonly Footer: typeof MiLayoutFooter
 }

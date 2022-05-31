@@ -8,17 +8,14 @@ export default defineComponent({
     name: 'MiLayoutSideLogo',
     inheritAttrs: false,
     props: {
-        prefixCls: {
-            type: String,
-            default: ''
-        }
+        prefixCls: String
     },
     setup(props, { slots }) {
-        const title = $g.title ?? '麦可易特网'
+        const title = $g.site ?? '麦可易特网'
         const prefixCls = getPrefixCls('layout-side-logo', props.prefixCls)
         let logo = <MediumOutlined />
         if ($g.logo && $g.regExp.url.test($g.logo)) {
-            logo = <img src={$g.logo} alt={$g.title} />
+            logo = <img src={$g.logo} alt={$g.site} />
         }
         const slot = slots?.default ?? (
             <RouterLink to={{ path: '/' }} class={`${prefixCls}-site`}>

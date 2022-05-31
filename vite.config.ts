@@ -27,14 +27,7 @@ export default defineConfig({
         }
     },
     optimizeDeps: {
-        include: [
-            'vue',
-            'vuex',
-            'vue-router',
-            'ant-design-vue',
-            'axios',
-            '@ant-design/icons-vue'
-        ]
+        include: ['vue', 'vuex', 'vue-router', 'ant-design-vue', 'axios', '@ant-design/icons-vue']
     },
     server: {
         proxy: {
@@ -48,9 +41,9 @@ export default defineConfig({
         vue(),
         VueJsx(),
         EslintPlugin(),
-        Components({ 
+        Components({
             resolvers: [AntDesignVueResolver()]
-         })
+        })
     ],
     esbuild: {
         jsxFactory: 'h',
