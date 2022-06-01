@@ -10,8 +10,8 @@ export default defineComponent({
         prefixCls: String
     },
     setup(props, { slots }) {
-        const prefixCls = getPrefixCls('layout', props.prefixCls)
-        const copyright = computed(() => $g.isMobile ? $g.copyright.pc : $g.copyright.mobile)
+        const prefixCls = getPrefixCls('layout-footer', props.prefixCls)
+        const copyright = computed(() => $g.isMobile ? $g.copyright.mobile : $g.copyright.pc)
         return () => (
             <Layout.Footer class={prefixCls}>
                 {getPropSlot(slots, props) ?? <div class={`${prefixCls}-content`} innerHTML={copyright.value}></div>}

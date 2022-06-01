@@ -127,12 +127,16 @@
     &-content {
         background: var(--mi-content-bg, @mi-content-bg);
         color: @mi-content-text;
+        padding-top: @mi-header-height;
+        .properties(padding-left, 24);
+        .properties(padding-right, 24);
     }
 
     &-footer {
         background: var(--mi-footer-bg, @mi-footer-bg);
         color: @mi-footer-text;
         .flex();
+        .properties(padding, 24);
         transition: all @mi-anim-duration ease;
 	    z-index: 10;
 
