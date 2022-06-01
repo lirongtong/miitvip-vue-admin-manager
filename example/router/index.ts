@@ -4,6 +4,9 @@ const Login = () => import('@views/login.vue')
 const Register = () => import('@views/register.vue')
 const Home = () => import('@views/home.vue')
 const Dashboard = () => import('@views/dashboard.vue')
+const Tools = () => import('../views/tools/index.vue')
+const ToolsGlobal = () => import('../views/tools/global.vue')
+const ToolsRequest = () => import('../views/tools/request.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
     path: '/',
@@ -15,6 +18,23 @@ const menuRoutes: Array<RouteRecordRaw> = [{
         name: 'dashboard',
         meta: {title: '控制中心'},
         component: Dashboard
+    }, {
+        path: 'tools',
+        name: 'tools',
+        meta: {title: '系统工具'},
+        component: Tools,
+        redirect: '/tools/global',
+        children: [{
+            path: '/tools/global',
+            name: 'tools-global',
+            meta: {title: '全局变量'},
+            component: ToolsGlobal
+        }, {
+            path: '/tools/request',
+            name: 'tools-request',
+            meta: {title: '请求响应'},
+            component: ToolsRequest
+        }]
     }]
 }]
 

@@ -2,6 +2,11 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 html {
@@ -15,18 +20,13 @@ body {
     .font-size(16);
     line-height: 1.5;
     color: var(--mi-font-color, @mi-font-color);
-    background: var(--mi-body-background, @mi-body-background);
-   .letter-spacing();
-   scrollbar-width: none;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-        display: none;
-    }
+    background: var(--mi-dark-grey, @mi-dark-grey);
+    .letter-spacing();
 
     &::selection,
     &::-moz-selection {
         color: var(--mi-selection, @mi-selection);
-        background: var(--mi-selection-background, @mi-selection-background);
+        background: var(--mi-selection-bg, @mi-selection-bg);
     }
 }
 
@@ -71,7 +71,7 @@ pre {
 ::selection,
 ::-moz-selection {
     color: var(--mi-selection, @mi-selection);
-    background: var(--mi-selection-background, @mi-selection-background);
+    background: var(--mi-selection-bg, @mi-selection-bg);
 }
 
 .tag {

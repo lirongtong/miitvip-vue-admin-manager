@@ -1,8 +1,13 @@
-import { defineComponent, Transition } from 'vue'
+import { defineComponent, Transition, KeepAlive, VNode, createVNode } from 'vue'
 import { Layout } from 'ant-design-vue'
-import { RouterView } from 'vue-router'
+import { RouteLocationNormalizedLoaded, RouterView } from 'vue-router'
 import { getPrefixCls } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
+
+interface MiRouterViewSlot {
+    Component: VNode,
+    route: RouteLocationNormalizedLoaded
+}
 
 export default defineComponent({
     name: 'MiLayoutContent',
@@ -17,9 +22,19 @@ export default defineComponent({
         return () => (
             <Layout.Content class={prefixCls}>
                 <div class={`${prefixCls}-custom`}>
-                    <Transition name={animation}>
-                        <RouterView />
-                    </Transition>
+                    <RouterView v-slots={{
+                        default: ({Component}: MiRouterViewSlot) => {
+                            return () => (
+                                <>
+                                    <Transition name={animation}>
+                                        <KeepAlive>
+                                            {createVNode(Component)}
+                                        </KeepAlive>
+                                    </Transition>
+                                </>
+                            )
+                        }
+                    }} />
                 </div>
             </Layout.Content>
         )

@@ -30,7 +30,8 @@ export declare interface MenuItems {
 
 export const menuProps = () => ({
     prefixCls: String,
-    items: PropTypes.object,
+    items: PropTypes.array,
+    indent: PropTypes.number.def(16),
     mode: PropTypes.oneOf(tuple('vertical', 'inline')).def('inline')
 })
 
@@ -42,31 +43,38 @@ export default defineComponent({
         const store = useStore()
         const route = useRoute()
         const menus: any = reactive({})
-        const data: MenuItems[] = reactive((props.items ?? []) as MenuItems[])
+        let data: MenuItems[] = reactive((props.items ?? []) as MenuItems[])
         const prefixCls = getPrefixCls('menu', props.prefixCls)
         const collapsed = computed(() => store.getters['layout/collapsed'])
 
-        const path = route.path
+        let path = route.path
         let find = false
         let relation: string[] = []
         let menuChildrenItems: { [index: string]: any } = {}
-        const getRelationshipChainChildren = (items: MenuItems[], pkey: string) => {
+        
+        const getChildrenRelationshipChain = (items: MenuItems[], pkey: string, save = false) => {
             items.forEach((item: MenuItems) => {
                 const name = $g.prefix + item.name
                 if (!find) {
                     relation.push(name)
                     if (path === item.path) find = true
                 }
-                menuChildrenItems[name] = {
-                    status: true,
-                    pkey
+                if (save) {
+                    menuChildrenItems[name] = {
+                        status: true,
+                        pkey
+                    }
                 }
                 const children = item.children as MenuItems[]
-                if (children && children.length > 0) getRelationshipChainChildren(children, name)
+                if (children?.length > 0) getChildrenRelationshipChain(children, name, save)
                 if (!find) relation.pop()
             })
         }
+
         const getRelationshipChain = (parse = true) => {
+            path = route.path
+            find = false
+            relation = []
             data.forEach((items: MenuItems) => {
                 const name = $g.prefix + items.name
                 if (!find) {
@@ -76,7 +84,7 @@ export default defineComponent({
                 if (parse) menus[name] = {}
                 const children = items.children as MenuItems[]
                 if (children?.length > 0) {
-                    getRelationshipChainChildren(children, name)
+                    getChildrenRelationshipChain(children, name, parse)
                     if (parse) {
                         menus[name] = menuChildrenItems
                         menuChildrenItems = {}
@@ -86,6 +94,7 @@ export default defineComponent({
             })
             setRelationshipChain(relation)
         }
+
         const setRelationshipChain = (relation: string[] = []) => {
             if (relation.length > 0) {
                 $g.menus.relationshipChain = [...relation]
@@ -94,42 +103,43 @@ export default defineComponent({
                 store.commit(`layout/${mutations.layout.active}`, active)
                 if (!collapsed.value && $g.menus.accordion) {
                     relation.pop()
-                    $g.menus.opens = [...relation]
-                    store.commit(`layout/${mutations.layout.opens}`, [...relation])
+                    const opens = [...relation]
+                    $g.menus.opens = opens
+                    store.commit(`layout/${mutations.layout.opens}`, opens)
                 }
                 relation = []
             }
         }
-        // init - menus
         getRelationshipChain()
 
         watch(route, () => {
             const active = `${$g.prefix}${route.name as string}`
-            setActive({ key: active })
+            setActive({key: active})
             getRelationshipChain(false)
+        })
+        watch(props.items, () => {
+            data = props.items as any
         })
 
         const getMenuItems = () => {
             const items = []
             data.forEach((item: MenuItems) => {
                 if (item?.children?.length > 0) {
-                    items.push(<MiSubMenu></MiSubMenu>)
+                    items.push(<MiSubMenu item={item} topLevel={collapsed.value} key={$g.prefix + item.name} />)
                 } else {
                     items.push(
-                        <MiMenuItem
-                            item={item}
-                            topLevel={collapsed.value}
-                            key={$g.prefix + item.name}
-                        />
+                        <MiMenuItem item={item} topLevel={collapsed.value} key={$g.prefix + item.name} />
                     )
                 }
             })
             return [...items]
         }
+
         const setActive = (item: any) => {
             $g.menus.active = [item.key]
             store.commit(`layout/${mutations.layout.active}`, [item.key])
         }
+
         const setOpenKeys = (openKeys: (string | number)[]) => {
             let opens: (string | number)[] = []
             if (openKeys.length > 0) {
@@ -149,6 +159,7 @@ export default defineComponent({
                 class={prefixCls}
                 ref={prefixCls}
                 theme="dark"
+                inlineIndent={props.indent}
                 mode={props.mode}
                 onOpenChange={setOpenKeys}
                 openKeys={$g.menus.opens}

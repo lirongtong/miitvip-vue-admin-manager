@@ -8,8 +8,9 @@ import tools from './utils/tools'
 
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
+import { default as Menu } from './components/menu'
 
-const components = [global, cookie, storage, request, tools, Notice, Layout]
+const components = [global, cookie, storage, request, tools, Notice, Layout, Menu]
 
 let _init = false
 const install = (app: App) => {
@@ -27,7 +28,7 @@ const install = (app: App) => {
     return app
 }
 
-export { global, cookie, storage, request, tools, Notice, Layout }
+export { global, cookie, storage, request, tools, Notice, Layout, Menu }
 
 export default {
     install

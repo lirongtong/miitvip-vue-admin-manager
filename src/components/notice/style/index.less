@@ -9,7 +9,7 @@
     }
 
     &-content {
-        color: @mi-white;
+        color: var(--mi-white, @mi-white);
         .properties(max-height, 550);
         overflow: auto;
         &::-webkit-scrollbar {
@@ -20,7 +20,7 @@
     &-item {
         .properties(padding-top, 16);
         .properties(padding-bottom, 16);
-        border-bottom: 1px solid fade(@mi-white, 2%);
+        border-bottom: 1px solid var(--mi-notice-item-border, @mi-notice-item-border);
 
         &:first-child {
             padding-top: 0;
@@ -54,7 +54,7 @@
         &-time {
             .properties(max-width, 250);
             .text-ellipsis();
-            color: var(--mi-notice-title-color, @mi-notice-title);
+            color: var(--mi-notice-title, @mi-notice-title);
         }
 
         &-title {

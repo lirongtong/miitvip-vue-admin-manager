@@ -1,28 +1,29 @@
 @import '../core/variables.less';
 
 @mi-theme: #f6ca9d;
-@mi-gradient-s: #d2b27d;
-@mi-gradient-m: #f4d5a9;
-@mi-gradient-e: #d1a466;
 @mi-primary: @mi-theme;
-@mi-dark: #1d1e23;
-@mi-font: @mi-white;
-@mi-warning: #ff9900;
+@mi-subsidiary: #808695;
 @mi-success: #2F9688;
 @mi-error: #ff4d4f;
 @mi-danger: #ed4014;
+@mi-warning: #ff9900;
 @mi-link: @mi-primary;
-@mi-subsidiary: #808695;
+@mi-font: @mi-white;
+@mi-dark: #1d1e23;
+@mi-dark-grey: #333;
+@mi-gradient-s: #d2b27d;
+@mi-gradient-m: #f4d5a9;
+@mi-gradient-e: #d1a466;
 
 // body
-@mi-body-background: #333;
+@mi-body-bg: @mi-dark-grey;
 
 // header
-@mi-header-background: @mi-dark;
-@mi-header-logo-background: @mi-dark;
+@mi-header-bg: @mi-dark;
+@mi-header-logo-bg: @mi-dark;
 @mi-header-logo-text: @mi-theme;
+@mi-header-logo-shadow: @mi-black;
 @mi-header-logo-border-bottom: #2d2f32;
-@mi-header-logo-box-shadow: @mi-black;
 @mi-header-trigger-hover: fade(@mi-black, 20%);
 @mi-header-paletter-item-border: #3e3e3e;
 
@@ -31,22 +32,34 @@
 @mi-side-shadow: fade(#001529, 80%);
 @mi-side-border: #4c4c4c;
 
-// breadcrumb
-@mi-breadcrumb-last-child: @mi-white;
-
 // content
+@mi-content-bg: @mi-body-bg;
 @mi-content-text: fade(@mi-white, 80%);
+
+// footer
+@mi-footer: @mi-white;
+@mi-footer-bg: @mi-body-bg;
+@mi-footer-text: @mi-white;
+
+// selection
+@mi-selection: @mi-white;
+@mi-selection-bg: @mi-dark;
+
+// menu
+@mi-menu-color: @mi-white;
+@mi-menu-bg: @mi-dark;
+@mi-menu-active: @mi-black;
+@mi-menu-sub: @mi-subsidiary;
+@mi-menu-sub-bg: @mi-dark;
+@mi-menu-active-sub: @mi-theme;
+@mi-menu-scrollbar-track-shadow: fade(@mi-black, 30%);
+@mi-menu-scrollbar-thumb-bg: fade(@mi-black, 10%);
+@mi-menu-scrollbar-thumb-shadow: fade(#949494, 50%);
 
 // notice
 @mi-notice-title: @mi-white;
 @mi-notice-text: fade(@mi-white, 80%);
 @mi-notice-time: fade(@mi-white, 20%);
 @mi-notice-content: fade(@mi-white, 60%);
-
-// selection
-@mi-selection: @mi-white;
-@mi-selection-background: @mi-dark;
-
-// footer
-@mi-footer: @mi-white;
+@mi-notice-item-border: fade(@mi-white, 2%);
 
