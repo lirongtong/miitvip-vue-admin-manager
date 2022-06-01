@@ -14,24 +14,22 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         prefixCls: String,
-        animName: PropTypes.string.def('anim-slide')
+        animation: PropTypes.string.def('anim-view-slide')
     },
     setup(props) {
         const prefixCls = getPrefixCls('layout-content', props.prefixCls)
-        const animation = getPrefixCls(props.animName)
+        const animation = getPrefixCls(props.animation)
         return () => (
             <Layout.Content class={prefixCls}>
                 <div class={`${prefixCls}-custom`}>
                     <RouterView v-slots={{
                         default: ({Component}: MiRouterViewSlot) => {
-                            return () => (
-                                <>
-                                    <Transition name={animation}>
-                                        <KeepAlive>
-                                            {createVNode(Component)}
-                                        </KeepAlive>
-                                    </Transition>
-                                </>
+                            return (
+                                <Transition name={animation} mode="out-in">
+                                    <div class={`${prefixCls}-custom-wrapper`}>
+                                        <KeepAlive>{createVNode(Component)}</KeepAlive>
+                                    </div>
+                                </Transition>
                             )
                         }
                     }} />

@@ -1,5 +1,5 @@
 <template>
-    <mi-layout></mi-layout>
+    <mi-layout />
 </template>
 
 <script setup>

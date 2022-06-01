@@ -167,6 +167,18 @@
             transform-origin: 50% 0;
             opacity: 0
         }
+
+        /** route change */
+        &view-slide-enter-active,
+        &view-slide-leave-active {
+            transition: all @mi-anim-duration ease;
+        }
+
+        &view-slide-enter-from,
+        &view-slide-leave-to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
     }
 }
 
