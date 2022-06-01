@@ -127,9 +127,16 @@
     &-content {
         background: var(--mi-content-bg, @mi-content-bg);
         color: @mi-content-text;
-        padding-top: @mi-header-height;
-        .properties(padding-left, 24);
-        .properties(padding-right, 24);
+        position: relative;
+
+        &-custom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding-top: @mi-header-height;
+            .properties(padding-left, 24);
+            .properties(padding-right, 24);
+        }
     }
 
     &-footer {
