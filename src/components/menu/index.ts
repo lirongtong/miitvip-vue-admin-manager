@@ -3,7 +3,6 @@ import Menu from './menu'
 import SubMenu from './submenu'
 import MenuItem from './item'
 import MenuItemLink from './link'
-import './style'
 
 Menu.SubMenu = SubMenu
 Menu.Item = MenuItem

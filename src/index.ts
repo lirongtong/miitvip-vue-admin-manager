@@ -6,13 +6,13 @@ import storage from './utils/storage'
 import request from './utils/request'
 import tools from './utils/tools'
 import async from './utils/async'
-import './styles'
 
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Menu } from './components/menu'
+import { default as Dropdown } from './components/dropdown'
 
-const components = [global, cookie, storage, request, tools, Notice, Layout, Menu]
+const components = [global, cookie, storage, request, tools, Notice, Layout, Menu, Dropdown]
 
 let _init = false
 const install = (app: App) => {
@@ -30,7 +30,7 @@ const install = (app: App) => {
     return app
 }
 
-export { global, cookie, storage, request, tools, async, Notice, Layout, Menu }
+export { global, cookie, storage, request, tools, async, Notice, Layout, Menu, Dropdown }
 
 export default {
     install

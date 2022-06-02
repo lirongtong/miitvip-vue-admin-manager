@@ -1,4 +1,5 @@
 import { App, reactive } from 'vue'
+import { GithubOutlined, AppstoreAddOutlined, FireFilled } from '@ant-design/icons-vue'
 
 export const _MI_HOME_ = 'https://www.makeit.vip'
 export const _MI_POWERED_ = 'Powered By makeit.vip'
@@ -46,7 +47,7 @@ export const $g = reactive({
 
     apiVersion: 'v1',
     backToTop: true,
-    userInfo: {},
+    userInfo: {} as any,
     isMobile: false,
 
     /**
@@ -104,7 +105,22 @@ export const $g = reactive({
         accordion: true,
         collapsed: false,
         drawer: false,
-        dropdown: [],
+        dropdown: [
+            {
+                name: 'github',
+                title: 'Github',
+                path: 'https://github.com/lirongtong/miitvip-vue-admin-manager',
+                icon: GithubOutlined,
+                tag: { content: 'Hot' }
+            },
+            {
+                name: 'npmjs',
+                title: 'NpmJS',
+                path: 'https://www.npmjs.com/package/makeit-admin-pro',
+                icon: AppstoreAddOutlined,
+                tag: { icon: FireFilled }
+            }
+        ],
         relationshipChain: [],
         width: 256
     },

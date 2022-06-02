@@ -4,6 +4,7 @@ import { Layout } from 'ant-design-vue'
 import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
+import MiDropdown from '../dropdown'
 
 export const layoutHeaderProps = () => ({
     prefixCls: String,
@@ -29,6 +30,7 @@ export default defineComponent({
             trigger: `${prefixCls}-trigger`,
             triggerMin: `${prefixCls}-trigger-min`
         }
+
         const getStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
             if (!stretch) {
@@ -38,13 +40,18 @@ export default defineComponent({
             }
             return stretch
         }
-        const headerExtra = getPropSlot(slots, props, 'extra')
+
         return () => (
             <Layout.Header class={`${prefixCls}`} {...attrs}>
                 <div class={headerCls.left}>
                     <div class={headerCls.trigger}>{getStretch()}</div>
                 </div>
-                <div class={headerCls.right}>{headerExtra}</div>
+                <div class={headerCls.right}>
+                    {getPropSlot(slots, props, 'extra')}
+                    <div class={`${headerCls.trigger} ${headerCls.triggerMin}`}>
+                        {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown />}
+                    </div>
+                </div>
             </Layout.Header>
         )
     }

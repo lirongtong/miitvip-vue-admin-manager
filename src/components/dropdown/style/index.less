@@ -1,0 +1,10 @@
+@import '../../../styles/theme/index.less';
+
+@mi-dropdown: ~'@{mi-prefix}dropdown';
+
+.@{mi-dropdown} {
+    &-name {
+        color: var(--mi-dropdown-name, @mi-dropdown-name);
+        .properties(margin-left);
+    }
+}

@@ -2,7 +2,6 @@ import { App, Plugin } from 'vue'
 import MiNotice from './notice'
 import MiNoticeTab from './tab'
 import MiNoticeItem from './item'
-import './style'
 
 MiNotice.Tab = MiNoticeTab
 MiNotice.Item = MiNoticeItem
