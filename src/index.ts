@@ -5,6 +5,8 @@ import cookie from './utils/cookie'
 import storage from './utils/storage'
 import request from './utils/request'
 import tools from './utils/tools'
+import async from './utils/async'
+import './styles'
 
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
@@ -28,7 +30,7 @@ const install = (app: App) => {
     return app
 }
 
-export { global, cookie, storage, request, tools, Notice, Layout, Menu }
+export { global, cookie, storage, request, tools, async, Notice, Layout, Menu }
 
 export default {
     install

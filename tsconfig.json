@@ -26,8 +26,7 @@
             "@views/*": ["example/views/*"],
 			"@src/*": ["src/*"],
 			"@utils/*": ["src/utils/*"],
-			"makeit-admin-pro": ["src/index.ts"],
-			"makeit-admin-pro/style": ["src/style.ts"],
+			"makeit-admin-pro": ["src/index.ts"]
 		},
 		"lib": [
 			"esnext",

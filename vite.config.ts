@@ -15,8 +15,7 @@ export default defineConfig({
             '@views': resolve('example/views'),
             '@src': resolve('src'),
             '@utils': resolve('src/utils'),
-            'makeit-admin-pro': resolve('src'),
-            'makeit-admin-pro/style': resolve('src/style.ts')
+            'makeit-admin-pro': resolve('src')
         }
     },
     css: {
