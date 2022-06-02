@@ -4,6 +4,7 @@ import { Layout } from 'ant-design-vue'
 import { RouteLocationNormalizedLoaded, RouterView } from 'vue-router'
 import { getPrefixCls } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
+import MiBreadcrumb from './breadcrumb'
 
 interface MiRouterViewSlot {
     Component: VNode,
@@ -23,6 +24,7 @@ export default defineComponent({
         const route = useRoute()
         return () => (
             <Layout.Content class={prefixCls}>
+                <MiBreadcrumb />
                 <RouterView v-slots={{
                     default: ({Component}: MiRouterViewSlot) => {
                         return (

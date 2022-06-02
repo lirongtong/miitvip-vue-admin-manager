@@ -189,6 +189,28 @@
             transform: translateX(-100%);
             opacity: 0;
         }
+
+        /** breadcrumb change */
+        &-breadcrumb-enter-active,
+        &-breadcrumb-leave-active {
+            transition: all @mi-anim-duration linear;
+        }
+
+        &-breadcrumb-leave-from,
+        &-breadcrumb-enter-to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        &-breadcrumb-enter-from {
+            transform: translateX(-32px);
+            opacity: 0;
+        }
+
+        &-breadcrumb-leave-to {
+            transform: translateX(32px);
+            opacity: 0;
+        }
     }
 }
 
