@@ -51,7 +51,7 @@ export default defineComponent({
         let find = false
         let relation: string[] = []
         let menuChildrenItems: { [index: string]: any } = {}
-        
+
         const getChildrenRelationshipChain = (items: MenuItems[], pkey: string, save = false) => {
             items.forEach((item: MenuItems) => {
                 const name = $g.prefix + item.name
@@ -114,7 +114,7 @@ export default defineComponent({
 
         watch(route, () => {
             const active = `${$g.prefix}${route.name as string}`
-            setActive({key: active})
+            setActive({ key: active })
             getRelationshipChain(false)
         })
         watch(props.items, () => {
@@ -125,10 +125,20 @@ export default defineComponent({
             const items = []
             data.forEach((item: MenuItems) => {
                 if (item?.children?.length > 0) {
-                    items.push(<MiSubMenu item={item} topLevel={collapsed.value} key={$g.prefix + item.name} />)
+                    items.push(
+                        <MiSubMenu
+                            item={item}
+                            topLevel={collapsed.value}
+                            key={$g.prefix + item.name}
+                        />
+                    )
                 } else {
                     items.push(
-                        <MiMenuItem item={item} topLevel={collapsed.value} key={$g.prefix + item.name} />
+                        <MiMenuItem
+                            item={item}
+                            topLevel={collapsed.value}
+                            key={$g.prefix + item.name}
+                        />
                     )
                 }
             })

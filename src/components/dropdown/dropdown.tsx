@@ -9,7 +9,7 @@ import MiDropdownItem from './item'
 import { mutations } from '../../store/types'
 
 export const dropdownProps = () => ({
-    prefixCls: String,
+    prefixCls: PropTypes.string,
     title: PropTypes.any,
     placement: PropTypes.oneOf(
         tuple('bottom', 'top', 'bottomLeft', 'bottomRight', 'topLeft', 'topRight')
@@ -23,7 +23,7 @@ export default defineComponent({
     inheritAttrs: false,
     slots: ['title', 'overlay'],
     props: dropdownProps(),
-    setup(props, {slots, attrs}) {
+    setup(props, { slots, attrs }) {
         const store = useStore()
         const route = useRoute()
         const prefixCls = getPrefixCls('dropdown', props.prefixCls)
@@ -43,7 +43,7 @@ export default defineComponent({
                 if (item.path) {
                     if (!$g.regExp.url.test(item.path)) {
                         link = (
-                            <RouterLink to={{path: item.path}}>
+                            <RouterLink to={{ path: item.path }}>
                                 <MiDropdownItem item={item} />
                             </RouterLink>
                         )
@@ -56,16 +56,12 @@ export default defineComponent({
                     }
                 } else {
                     link = (
-                        <a onClick={(e) => item.callback ? item.callback.call(e) : e}>
+                        <a onClick={(e) => (item.callback ? item.callback.call(e) : e)}>
                             <MiDropdownItem item={item} />
                         </a>
                     )
                 }
-                links.push(
-                    <Menu.Item key={$g.prefix + item.name}>
-                        {link}
-                    </Menu.Item>
-                )
+                links.push(<Menu.Item key={$g.prefix + item.name}>{link}</Menu.Item>)
             })
             return links
         }
@@ -74,13 +70,13 @@ export default defineComponent({
             return (
                 getPropSlot(slots, props, 'title') ?? (
                     <div class={prefixCls}>
-                        <Avatar class={`${prefixCls}-avatar`}
+                        <Avatar
+                            class={`${prefixCls}-avatar`}
                             src={$g.avatar}
                             alt={$g.powered}
-                            size="small" />
-                        <span class={`${prefixCls}-name`}>
-                            {$g.userInfo.nickname ?? $g.author}
-                        </span>
+                            size="small"
+                        />
+                        <span class={`${prefixCls}-name`}>{$g.userInfo.nickname ?? $g.author}</span>
                     </div>
                 )
             )
@@ -89,15 +85,14 @@ export default defineComponent({
         const getOverlay = () => {
             return (
                 getPropSlot(slots, props, 'overlay') ?? (
-                    <Menu theme="dark">
-                        {...getDropdownMenu()}
-                    </Menu>
+                    <Menu theme="dark">{...getDropdownMenu()}</Menu>
                 )
             )
         }
 
         return () => (
-            <Dropdown placement={props.placement}
+            <Dropdown
+                placement={props.placement}
                 visible={visible}
                 trigger={['click']}
                 overlay={getOverlay}

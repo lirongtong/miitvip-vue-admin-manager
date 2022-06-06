@@ -2,13 +2,14 @@ import { defineComponent } from 'vue'
 import { MediumOutlined } from '@ant-design/icons-vue'
 import { $g } from '../../utils/global'
 import { getPrefixCls } from '../_utils/props-tools'
+import PropTypes from '../_utils/props-types'
 import { RouterLink } from 'vue-router'
 
 export default defineComponent({
     name: 'MiLayoutSideLogo',
     inheritAttrs: false,
     props: {
-        prefixCls: String
+        prefixCls: PropTypes.string
     },
     setup(props, { slots }) {
         const title = $g.site ?? '麦可易特网'

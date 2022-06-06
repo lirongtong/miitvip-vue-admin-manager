@@ -22,8 +22,9 @@ export default defineComponent({
     setup(props) {
         const prefixCls = getPrefixCls('menu-items', props.prefixCls)
         const active = computed(() => {
-            return $g.menus.relationshipChain.includes(`${$g.prefix + props.item.name}`) ? ` ${prefixCls}-active`
-            : ''
+            return $g.menus.relationshipChain.includes(`${$g.prefix + props.item.name}`)
+                ? ` ${prefixCls}-active`
+                : ''
         })
         const title = <MiMenuItemLink {...props} hasTitle={true} />
         const getSubmenuItem = () => {

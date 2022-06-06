@@ -9,7 +9,7 @@ export default defineComponent({
     name: 'MiBreadcrumb',
     inheritAttrs: false,
     props: {
-        prefixCls: String,
+        prefixCls: PropTypes.string,
         separator: PropTypes.string.def('/')
     },
     setup(props) {
@@ -23,22 +23,18 @@ export default defineComponent({
             const icon = createVNode(HomeOutlined)
             if (matched.length <= 1) {
                 breadcrumbs.push({
-                    title: matched[0]?.meta?.title
-                        ? matched[0].meta.title
-                        : matched[0].name,
+                    title: matched[0]?.meta?.title ? matched[0].meta.title : matched[0].name,
                     icon
                 })
             } else {
                 matched.forEach((match, idx) => {
-                    const title = (match?.meta?.title)
-                        ? match.meta.title
-                        : match.name
+                    const title = match?.meta?.title ? match.meta.title : match.name
                     if (idx === matched.length - 1) {
                         /** current */
                         if (!title) {
                             const last = breadcrumbs.pop()
-                            if (last) breadcrumbs.push({title: last.title})
-                        } else breadcrumbs.push({title})
+                            if (last) breadcrumbs.push({ title: last.title })
+                        } else breadcrumbs.push({ title })
                     } else {
                         if (idx === 0) {
                             /** home */
@@ -50,7 +46,7 @@ export default defineComponent({
                         } else {
                             /** other */
                             if (title) {
-                                let path = match.redirect ?? match.path ?? '/' as any
+                                let path = match.redirect ?? match.path ?? ('/' as any)
                                 if (path.substr(0, 1) !== '/') path = `/${path}`
                                 breadcrumbs.push({
                                     title,
@@ -73,19 +69,17 @@ export default defineComponent({
             const items = []
             const breadcrumbs = $g.breadcrumbs
             breadcrumbs.forEach((breadcrumb) => {
-                const link = $g.regExp.url.test(breadcrumb.path)
-                    ? (
-                        <RouterLink to={{path: breadcrumb.path}}>
-                            {breadcrumb.icon ?? null}
-                            {breadcrumb.title}
-                        </RouterLink>
-                    )
-                    : (
-                        <a href={breadcrumb.path}>
-                            {breadcrumb.icon ?? null}
-                            {breadcrumb.title}
-                        </a>
-                    )
+                const link = $g.regExp.url.test(breadcrumb.path) ? (
+                    <RouterLink to={{ path: breadcrumb.path }}>
+                        {breadcrumb.icon ?? null}
+                        {breadcrumb.title}
+                    </RouterLink>
+                ) : (
+                    <a href={breadcrumb.path}>
+                        {breadcrumb.icon ?? null}
+                        {breadcrumb.title}
+                    </a>
+                )
                 items.push(
                     <span class={`${prefixCls}-item`}>
                         <span class={`${prefixCls}-link`}>{link}</span>

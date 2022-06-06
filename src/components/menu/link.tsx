@@ -41,7 +41,11 @@ export default defineComponent({
             if (props.item.meta?.tag && !props.topLevel) {
                 if (props.item.meta.tag.content) {
                     tag = (
-                        <Tag class={`${prefixCls}-tag`} color={props.item.meta.tag.color} v-html={props.item.meta.tag.content} />
+                        <Tag
+                            class={`${prefixCls}-tag`}
+                            color={props.item.meta.tag.color}
+                            v-html={props.item.meta.tag.content}
+                        />
                     )
                 } else if (props.item.meta.tag.icon) {
                     const MiMenuItemTagIcon = isVNode(props.item.meta.tag.icon)
