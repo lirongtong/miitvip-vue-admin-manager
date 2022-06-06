@@ -27,7 +27,6 @@ export default defineComponent({
         const store = useStore()
         const route = useRoute()
         const prefixCls = getPrefixCls('dropdown', props.prefixCls)
-        const visible = false
 
         watch(route, () => {
             const active = [$g.prefix + String(route.name)]
@@ -84,18 +83,15 @@ export default defineComponent({
 
         const getOverlay = () => {
             return (
-                getPropSlot(slots, props, 'overlay') ?? (
-                    <Menu theme="dark">{...getDropdownMenu()}</Menu>
-                )
+                getPropSlot(slots, props, 'overlay') ?? <Menu theme="dark">{getDropdownMenu}</Menu>
             )
         }
 
         return () => (
             <Dropdown
                 placement={props.placement}
-                visible={visible}
                 trigger={['click']}
-                overlay={getOverlay}
+                overlay={getOverlay()}
                 overlayClassName={`${prefixCls}-menu`}
                 {...attrs}>
                 {getTitle}

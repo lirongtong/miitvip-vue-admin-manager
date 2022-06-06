@@ -1,10 +1,82 @@
 @import '../../../styles/theme/index.less';
 
 @mi-dropdown: ~'@{mi-prefix}dropdown';
+@ant-dropdown: ant-dropdown;
 
 .@{mi-dropdown} {
     &-name {
         color: var(--mi-dropdown-name, @mi-dropdown-name);
         .properties(margin-left);
+    }
+
+    &-menu {
+        z-index: @mi-z-index-top;
+
+        .@{ant-dropdown} {
+            &-menu {
+                background: var(--mi-dropdown-bg, @mi-dropdown-bg);
+                .border-radius();
+
+                &-item {
+                    color: var(--mi-dropdown-text, @mi-dropdown-text);
+                    .flex(center, flex-start);
+                    .properties(padding-top);
+                    .properties(padding-bottom);
+                    .properties(padding-left, 24);
+                    .properties(padding-right, 24);
+
+                    &-selected {
+                        background: transparent;
+                    }
+
+                    a {
+                        .flex(center, flex-start);
+                        color: var(--mi-dropdown-text, @mi-dropdown-text);
+                        padding: 0;
+                        margin: 0;
+
+                        .anticon {
+                            &:last-child {
+                                margin-right: 0;
+                                .properties(margin-left, 24);
+                            }
+                            
+                            &:first-child {
+                                margin-left: 0;
+                            }
+                        }
+
+                        .@{mi-dropdown}-title {
+                            .properties(margin-left);
+                        }
+
+                        .@{mi-dropdown}-tag {
+                            .tag();
+                        }
+
+                        .@{mi-dropdown}-tag,
+                        .@{mi-dropdown}-icon {
+                            .properties(margin-left, 24);
+                        }
+
+                        .@{mi-dropdown}-icon {
+                            color: var(--mi-error, @mi-error);
+                        }
+                    }
+
+                    &-active,
+                    &:hover {
+                        background: var(--mi-dropdown-item-hover, @mi-dropdown-item-hover);
+                        color: var(--mi-theme, @mi-theme);
+
+                        a,
+                        .anticon,
+                        .anticon + span {
+                            color: var(--mi-theme, @mi-theme);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

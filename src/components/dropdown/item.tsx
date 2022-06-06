@@ -35,7 +35,7 @@ export default defineComponent({
             }
         }
 
-        return (
+        return () => (
             <>
                 <div style={props.item.fontSize ? { fontSize: `${props.item.fontSize}px` } : null}>
                     {icon}
