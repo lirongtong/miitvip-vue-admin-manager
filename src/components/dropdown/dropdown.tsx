@@ -14,6 +14,9 @@ export const dropdownProps = () => ({
     placement: PropTypes.oneOf(
         tuple('bottom', 'top', 'bottomLeft', 'bottomRight', 'topLeft', 'topRight')
     ).def('bottom'),
+    trigger: PropTypes.oneOf(
+        tuple('click', 'hover')
+    ).def('click'),
     items: PropTypes.array,
     overlay: PropTypes.any
 })
@@ -23,7 +26,7 @@ export default defineComponent({
     inheritAttrs: false,
     slots: ['title', 'overlay'],
     props: dropdownProps(),
-    setup(props, { slots, attrs }) {
+    setup(props, { slots, attrs, emit }) {
         const store = useStore()
         const route = useRoute()
         const prefixCls = getPrefixCls('dropdown', props.prefixCls)
@@ -87,12 +90,18 @@ export default defineComponent({
             )
         }
 
+        const updateVisible = (val: boolean) => {
+            emit('update:visible', val)
+            emit('visibleChange', val)
+        }
+
         return () => (
             <Dropdown
                 placement={props.placement}
-                trigger={['click']}
+                trigger={[props.trigger]}
                 overlay={getOverlay()}
                 overlayClassName={`${prefixCls}-menu`}
+                onVisibleChange={updateVisible}
                 {...attrs}>
                 {getTitle}
             </Dropdown>

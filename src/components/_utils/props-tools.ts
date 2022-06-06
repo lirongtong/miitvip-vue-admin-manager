@@ -1,4 +1,5 @@
-import { isVNode, Fragment, Comment, Text } from 'vue'
+import { isVNode, Fragment, Comment, Text, PropType } from 'vue'
+import { VueTypeDef, VueTypeValidableDef } from 'vue-types'
 import { $tools } from '../../utils/tools'
 
 export const tuple = <T extends string[]>(...args: T) => args
@@ -115,6 +116,34 @@ const pxToRem = (px: number) => {
     return Math.round((px / 16) * 100) / 100
 }
 
+const initProps = <T>(
+    types: T,
+    defaultProps: {
+        [K in keyof T]?: T[K] extends VueTypeValidableDef<infer U>
+            ? U
+            : T[K] extends VueTypeDef<infer U>
+            ? U
+            : T[K] extends { type: PropType<infer U> }
+            ? U
+            : any
+    }
+): T => {
+    const propTypes: T = { ...types }
+    Object.keys(defaultProps).forEach((k) => {
+        const prop = propTypes[k] as VueTypeValidableDef
+        if (prop) {
+            if (prop.type || prop.default) {
+                prop.default = defaultProps[k]
+            } else if (prop.def) {
+                prop.def(defaultProps)
+            } else propTypes[k] = { type: prop, default: defaultProps[k] }
+        } else {
+            throw new Error(`${k} prop does not exist.`)
+        }
+    })
+    return propTypes
+}
+
 export {
     splitAttrs,
     getEvents,
@@ -124,5 +153,6 @@ export {
     getSlotContent,
     getPropSlot,
     getPrefixCls,
-    pxToRem
+    pxToRem,
+    initProps
 }
