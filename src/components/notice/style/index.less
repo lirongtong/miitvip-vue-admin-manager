@@ -1,7 +1,11 @@
 @import '../../../styles/theme/index.less';
 
 @mi-notice: ~'@{mi-prefix}notice';
+@ant-popover: ant-popover;
+
 .@{mi-notice} {
+    z-index: @mi-z-index-top;
+
     &-icon {
         .flex();
         cursor: pointer;
@@ -71,6 +75,32 @@
             .properties(font-size, 12);
             color: var(--mi-notice-content, @mi-notice-content);
             overflow: hidden;
+        }
+    }
+
+    .@{ant-popover} {
+        &-content {
+            .border-radius();
+            border: 1px solid var(--mi-theme, @mi-theme);
+        }
+
+        &-arrow {
+            .properties(top, 2.5);
+
+            &-content {
+                .properties(width, 8);
+                .properties(height, 8);
+                .properties(border-width, 1);
+                border-style: solid;
+                border-color: var(--mi-theme, @mi-theme) transparent transparent var(--mi-theme, @mi-theme);
+                background-color: var(--mi-popover-bg, @mi-popover-bg);
+            }
+        }
+
+        &-inner {
+            background-color: var(--mi-popover-bg, @mi-popover-bg);
+            .border-radius();
+            z-index: -1;
         }
     }
 }

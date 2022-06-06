@@ -5,6 +5,7 @@ import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
 import MiDropdown from '../dropdown'
+import MiNotice from '../notice'
 
 export const layoutHeaderProps = () => ({
     prefixCls: String,
@@ -48,6 +49,11 @@ export default defineComponent({
                 </div>
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
+                    <div class={`${headerCls.trigger} ${headerCls.triggerMin}`}>
+                        {getPropSlot(slots, props, 'notice') ?? (
+                            <MiNotice class={`${prefixCls}-notice`} />
+                        )}
+                    </div>
                     <div class={`${headerCls.trigger} ${headerCls.triggerMin}`}>
                         {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown />}
                     </div>

@@ -1,15 +1,15 @@
 import { defineComponent } from 'vue'
-import { Popover, Badge, Empty, Tabs } from 'ant-design-vue'
+import { Popover, Badge, Tabs } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
+import { useI18n } from 'vue-i18n'
 import { getSlot, getPropSlot, getSlotContent, getPrefixCls, pxToRem } from '../_utils/props-tools'
 
 export const noticeProps = () => ({
     prefixCls: String,
-    className: PropTypes.string,
     icon: PropTypes.any,
     iconSize: PropTypes.number,
-    noDataTip: PropTypes.string.def('No Data'),
+    noDataTip: PropTypes.string.def('No Message ~ Enjoy your day.'),
     count: PropTypes.number.def(0),
     dot: PropTypes.bool.def(true),
     tabChange: PropTypes.func,
@@ -23,10 +23,25 @@ export default defineComponent({
     inheritAttrs: false,
     props: noticeProps(),
     slots: ['icon', 'extra'],
-    setup(props, { slots }) {
+    setup(props, { slots, attrs }) {
         return () => {
             const prefixCls = getPrefixCls('notice', props.prefixCls)
-            const getIconElem = () => {
+            const { t } = useI18n()
+
+            const getEmpty = () => {
+                const date = new Date()
+                const month = date.getMonth() + 1
+                const day = String(date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+                return (
+                    <div class={`${prefixCls}-time`}>
+                        <div
+                            class={`${prefixCls}-date`}
+                            innerHTML={`${month}${t('month')}${day}${t('day')}`}></div>
+                    </div>
+                )
+            }
+
+            const getIcon = () => {
                 const icon = getPropSlot(slots, props, 'icon')
                 const size = props.iconSize ? `font-size: ${pxToRem(props.iconSize)}` : null
                 return (
@@ -37,7 +52,8 @@ export default defineComponent({
                     </div>
                 )
             }
-            const getTabPanesElem = () => {
+
+            const getTabPanes = () => {
                 const tabs = getPropSlot(slots, props)
                 const panes = []
                 if (tabs && tabs.length > 0) {
@@ -58,16 +74,21 @@ export default defineComponent({
                 }
                 return [...panes]
             }
-            const getContentElem = () => {
-                const panes = getTabPanesElem()
+
+            const getContent = () => {
+                const panes = getTabPanes()
                 const len = panes.length
                 let content = len > 1 ? <Tabs onChange={props.tabChange}>{...panes}</Tabs> : panes
-                if (len <= 0) content = <Empty description={props.noDataTip}></Empty>
+                if (len <= 0) content = getEmpty()
                 return <div class={`${prefixCls}-content`}>{content}</div>
             }
             return (
-                <Popover class={props.className} trigger={props.trigger} content={getContentElem()}>
-                    {getIconElem}
+                <Popover
+                    overlayClassName={prefixCls}
+                    trigger={props.trigger}
+                    content={getContent()}
+                    {...attrs}>
+                    {getIcon}
                 </Popover>
             )
         }

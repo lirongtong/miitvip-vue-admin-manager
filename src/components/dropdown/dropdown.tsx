@@ -14,9 +14,7 @@ export const dropdownProps = () => ({
     placement: PropTypes.oneOf(
         tuple('bottom', 'top', 'bottomLeft', 'bottomRight', 'topLeft', 'topRight')
     ).def('bottom'),
-    trigger: PropTypes.oneOf(
-        tuple('click', 'hover')
-    ).def('click'),
+    trigger: PropTypes.oneOf(tuple('click', 'hover')).def('click'),
     items: PropTypes.array,
     overlay: PropTypes.any
 })
@@ -24,8 +22,9 @@ export const dropdownProps = () => ({
 export default defineComponent({
     name: 'MiDropdown',
     inheritAttrs: false,
-    slots: ['title', 'overlay'],
     props: dropdownProps(),
+    slots: ['title', 'overlay'],
+    emits: ['update:visible', 'visibleChange'],
     setup(props, { slots, attrs, emit }) {
         const store = useStore()
         const route = useRoute()

@@ -49,6 +49,7 @@ export const $g = reactive({
     backToTop: true,
     userInfo: {} as any,
     isMobile: false,
+    locale: 'cn',
 
     /**
      * 常用的正则规则.
@@ -81,6 +82,7 @@ export const $g = reactive({
             email: 'user-email',
             routes: 'history-routes',
             collapsed: 'layout-menu-collapsed',
+            locale: 'locale-language',
             captcha: {
                 login: 'login-captcha-key',
                 register: 'register-captcha-key',

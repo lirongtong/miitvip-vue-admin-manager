@@ -4,8 +4,8 @@ import VueJsx from '@vitejs/plugin-vue-jsx'
 import EslintPlugin from 'vite-plugin-eslint'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import path from 'path'
-
 const resolve = (dir: string) => path.join(__dirname, dir)
 
 export default defineConfig({
@@ -27,7 +27,15 @@ export default defineConfig({
         }
     },
     optimizeDeps: {
-        include: ['vue', 'vuex', 'vue-router', 'ant-design-vue', 'axios', '@ant-design/icons-vue']
+        include: [
+            'vue',
+            'vuex',
+            'vue-router',
+            'ant-design-vue',
+            'axios',
+            '@ant-design/icons-vue',
+            'vue-i18n'
+        ]
     },
     server: {
         proxy: {
@@ -43,6 +51,9 @@ export default defineConfig({
         EslintPlugin(),
         Components({
             resolvers: [AntDesignVueResolver()]
+        }),
+        vueI18n({
+            include: resolve('src/locales/**')
         })
     ],
     esbuild: {

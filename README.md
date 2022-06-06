@@ -28,6 +28,7 @@
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-3.x-blueviolet.svg)
 ![vue router](https://img.shields.io/badge/vue%20router-4.0.15-inactive.svg)
 ![vuex](https://img.shields.io/badge/vuex-4.0.2-informational.svg)
+![vue-i18n](https://img.shields.io/badge/vue%20i18n-9.1.10-default.svg)
 
 <p>
     <a href="https://admin.makeit.vip/">

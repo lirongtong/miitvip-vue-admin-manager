@@ -1,4 +1,5 @@
 import { App } from 'vue'
+import i18n from './locales'
 import mixins from './utils/mixins'
 import global from './utils/global'
 import cookie from './utils/cookie'
@@ -12,7 +13,7 @@ import { default as Notice } from './components/notice'
 import { default as Menu } from './components/menu'
 import { default as Dropdown } from './components/dropdown'
 
-const components = [global, cookie, storage, request, tools, Notice, Layout, Menu, Dropdown]
+const components = [i18n, global, cookie, storage, request, tools, Notice, Layout, Menu, Dropdown]
 
 let _init = false
 const install = (app: App) => {
