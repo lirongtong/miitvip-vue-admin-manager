@@ -4,6 +4,7 @@ import { BellOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { useI18n } from 'vue-i18n'
 import { getSlot, getPropSlot, getSlotContent, getPrefixCls, pxToRem } from '../_utils/props-tools'
+import MiClock from '../clock'
 
 export const noticeProps = () => ({
     prefixCls: String,
@@ -46,6 +47,7 @@ export default defineComponent({
                             <div class={`${prefixCls}-date`}>{ times }</div>
                             <div class={`${prefixCls}-week`}>{ week }</div>
                         </div>
+                        <MiClock />
                         <div class={`${prefixCls}-title`} innerHTML={t('good-day')}></div>
                     </>
                 )

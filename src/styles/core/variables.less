@@ -59,9 +59,15 @@
 }
 
 // font size
-.font-size(@size: @mi-font-size-normal){
+.font-size(@size: @mi-font-size-normal) {
     font-size: (@size / @mi-font-size-base) * @mi-font-size;
     line-height: ((@size + 4) / @mi-font-size-base) * @mi-font-size;
+}
+
+// linear-gradient
+.linear-gradient() {
+    background: linear-gradient(127deg, var(--mi-gradient-s, @mi-gradient-s) 0%, var(--mi-gradient-m, @mi-gradient-m) 52%, var(--mi-gradient-e, @mi-gradient-e) 100%);
+    color: linear-gradient(127deg, var(--mi-gradient-s, @mi-gradient-s) 0%, var(--mi-gradient-m, @mi-gradient-m) 52%, var(--mi-gradient-e, @mi-gradient-e) 100%);
 }
 
 // properties
