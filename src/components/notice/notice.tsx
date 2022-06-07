@@ -26,18 +26,28 @@ export default defineComponent({
     setup(props, { slots, attrs }) {
         return () => {
             const prefixCls = getPrefixCls('notice', props.prefixCls)
-            const { t } = useI18n()
+            const { t, locale } = useI18n()
 
             const getEmpty = () => {
                 const date = new Date()
-                const month = date.getMonth() + 1
-                const day = String(date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+                let times = date.toDateString()
+                let week = null
+                if (['zh-cn', 'zh-tw'].includes(locale.value)) {
+                    const weeks = [t('Sun'), t('Mon'), t('Tues'), t('Wed'), t('Thur'), t('Fri'), t('Sat')]
+                    week = weeks[date.getDay()]
+                    const year = date.getFullYear()
+                    const month = date.getMonth() + 1
+                    const day = date.getDate()
+                    times = `${year}-${month > 9 ? month : `0` + month}-${day > 9 ? day : `0` + day}`
+                }
                 return (
-                    <div class={`${prefixCls}-time`}>
-                        <div
-                            class={`${prefixCls}-date`}
-                            innerHTML={`${month}${t('month')}${day}${t('day')}`}></div>
-                    </div>
+                    <>
+                        <div class={`${prefixCls}-time`}>
+                            <div class={`${prefixCls}-date`}>{ times }</div>
+                            <div class={`${prefixCls}-week`}>{ week }</div>
+                        </div>
+                        <div class={`${prefixCls}-title`} innerHTML={t('good-day')}></div>
+                    </>
                 )
             }
 
@@ -85,6 +95,7 @@ export default defineComponent({
             return (
                 <Popover
                     overlayClassName={prefixCls}
+                    destroyTooltipOnHide={true}
                     trigger={props.trigger}
                     content={getContent()}
                     {...attrs}>
