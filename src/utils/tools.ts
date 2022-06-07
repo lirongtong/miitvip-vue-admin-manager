@@ -130,23 +130,22 @@ class MiTools {
      * @param value
      * @param base
      */
-     px2Rem(value: number, base = 16) {
+    px2Rem(value: number, base = 16) {
         return Math.round((value / base) * 100) / 100
     }
 
     /**
      * requestAnimationFrame.
-     * @param callback 
-     * @returns 
+     * @param callback
+     * @returns
      */
     raf(callback: FrameRequestCallback) {
-        return window.requestAnimationFrame(callback) ||
-            window.setTimeout(callback, 1000 / 60)
+        return window.requestAnimationFrame(callback) || window.setTimeout(callback, 1000 / 60)
     }
 
     /**
      * cancelAnimationFrame.
-     * @param rid 
+     * @param rid
      */
     caf(rid: number) {
         window.cancelAnimationFrame(rid)

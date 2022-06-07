@@ -26,8 +26,8 @@ export default defineComponent({
             const radius = Math.ceil(width / 2) - offset
             const theta = phase * 2 * Math.PI
             return {
-                top: $tools.px2Rem(Math.round((-radius * Math.cos(theta)) * 100) / 100),
-                left: $tools.px2Rem(Math.round((radius * Math.sin(theta)) * 100) / 100)
+                top: $tools.px2Rem(Math.round(-radius * Math.cos(theta) * 100) / 100),
+                left: $tools.px2Rem(Math.round(radius * Math.sin(theta) * 100) / 100)
             }
         }
 
@@ -38,7 +38,8 @@ export default defineComponent({
                 if (i % 5 === 0) {
                     const point = getPosition(i / 60)
                     anchor = (
-                        <div class={`${prefixCls}-mins-text`}
+                        <div
+                            class={`${prefixCls}-mins-text`}
                             style={{
                                 left: `${point.left}rem`,
                                 top: `${point.top}rem`
@@ -48,10 +49,16 @@ export default defineComponent({
                     )
                 } else {
                     anchor = (
-                        <div class={`${prefixCls}-anchor`} style={{transform: `rotate(${i * 6}deg)`}}>
-                            <div class={`${prefixCls}-mins-line`} style={{
-                                transform: `translate(-50%, -100%) translateY(-${$tools.px2Rem(width / 2 - 10)}rem)`
-                            }}></div>
+                        <div
+                            class={`${prefixCls}-anchor`}
+                            style={{ transform: `rotate(${i * 6}deg)` }}>
+                            <div
+                                class={`${prefixCls}-mins-line`}
+                                style={{
+                                    transform: `translate(-50%, -100%) translateY(-${$tools.px2Rem(
+                                        width / 2 - 10
+                                    )}rem)`
+                                }}></div>
                         </div>
                     )
                 }
@@ -65,10 +72,14 @@ export default defineComponent({
             for (let i = 1; i <= 12; i++) {
                 const point = getPosition(i / 12, 36)
                 hours.push(
-                    <div class={`${prefixCls}-hour-text`} style={{
-                        left: `${point.left}rem`,
-                        top: `${point.top}rem`
-                    }}>{i}</div>
+                    <div
+                        class={`${prefixCls}-hour-text`}
+                        style={{
+                            left: `${point.left}rem`,
+                            top: `${point.top}rem`
+                        }}>
+                        {i}
+                    </div>
                 )
             }
             return hours
@@ -76,7 +87,8 @@ export default defineComponent({
 
         const runClock = () => {
             const now = new Date()
-            const time = now.getHours() * 3600 +
+            const time =
+                now.getHours() * 3600 +
                 now.getMinutes() * 60 +
                 now.getSeconds() * 1 +
                 now.getMilliseconds() / 1000
@@ -92,37 +104,51 @@ export default defineComponent({
         })
 
         return () => (
-            <div class={prefixCls} style={{
-                width: `${$tools.px2Rem(width)}rem`,
-                height: `${$tools.px2Rem(width)}rem`
-            }}>
+            <div
+                class={prefixCls}
+                style={{
+                    width: `${$tools.px2Rem(width)}rem`,
+                    height: `${$tools.px2Rem(width)}rem`
+                }}>
                 <div class={`${prefixCls}-calibration`}>
                     {getCalibrationAnchor()}
                     {getCalibrationHour()}
                 </div>
                 <div class={`${prefixCls}-pointer`}></div>
-                <div class={`${prefixCls}-point ${prefixCls}-point-hour`} style={{
-                    transform: rotates.hour
-                }}>
+                <div
+                    class={`${prefixCls}-point ${prefixCls}-point-hour`}
+                    style={{
+                        transform: rotates.hour
+                    }}>
                     <div class={`${prefixCls}-hand`}></div>
-                    <div class={`${prefixCls}-hand ${prefixCls}-hand-fat`} style={{
-                        height: `${$tools.px2Rem(width / 6)}rem`
-                    }}></div>
+                    <div
+                        class={`${prefixCls}-hand ${prefixCls}-hand-fat`}
+                        style={{
+                            height: `${$tools.px2Rem(width / 6)}rem`
+                        }}></div>
                 </div>
-                <div class={`${prefixCls}-point ${prefixCls}-point-minute`} style={{
-                    transform: rotates.minute
-                }}>
+                <div
+                    class={`${prefixCls}-point ${prefixCls}-point-minute`}
+                    style={{
+                        transform: rotates.minute
+                    }}>
                     <div class={`${prefixCls}-hand`}></div>
-                    <div class={`${prefixCls}-hand ${prefixCls}-hand-fat`} style={{
-                        height: `${$tools.px2Rem(width / 4)}rem`
-                    }}></div>
+                    <div
+                        class={`${prefixCls}-hand ${prefixCls}-hand-fat`}
+                        style={{
+                            height: `${$tools.px2Rem(width / 4)}rem`
+                        }}></div>
                 </div>
-                <div class={`${prefixCls}-point ${prefixCls}-point-second`} style={{
-                    transform: rotates.second
-                }}>
-                    <div class={`${prefixCls}-hand ${prefixCls}-hand-second`} style={{
-                        height: `${$tools.px2Rem(width / 2)}rem`
-                    }}></div>
+                <div
+                    class={`${prefixCls}-point ${prefixCls}-point-second`}
+                    style={{
+                        transform: rotates.second
+                    }}>
+                    <div
+                        class={`${prefixCls}-hand ${prefixCls}-hand-second`}
+                        style={{
+                            height: `${$tools.px2Rem(width / 2)}rem`
+                        }}></div>
                 </div>
                 <div class={`${prefixCls}-pointer ${prefixCls}-pointer-mid`}></div>
                 <div class={`${prefixCls}-pointer ${prefixCls}-pointer-top`}></div>
