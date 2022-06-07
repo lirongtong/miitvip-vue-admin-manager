@@ -8,11 +8,12 @@ import en from './en.json'
 const DEFAULT_LANG = $g.locale
 const LOCALE_KEY = $g.caches.storages.locale
 
+const locales = { cn, en }
 const i18n = createI18n({
     legacy: false,
     locale: DEFAULT_LANG,
     fallbackLocale: DEFAULT_LANG,
-    globalInjection: true,
+    silentTranslationWarn: true,
     messages: {
         cn: { ...cn },
         en: { ...en }
@@ -22,8 +23,9 @@ const i18n = createI18n({
 const setLocale = (locale?: string, message?: {}) => {
     if (locale === undefined) locale = $storage.get(LOCALE_KEY) || DEFAULT_LANG
     $storage.set(LOCALE_KEY, locale)
+    if (locales[locale]) i18n.global.mergeLocaleMessage(locale, message)
+    else i18n.global.setLocaleMessage(locale, message)
     i18n.global.locale.value = locale
-    i18n.global.messages[locale] = Object.assign({}, i18n.global.messages[locale], message)
 }
 setLocale()
 
