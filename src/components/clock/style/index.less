@@ -3,107 +3,99 @@
 @mi-clock: ~'@{mi-prefix}clock';
 
 .@{mi-clock} {
-    .properties(width, 200);
-    .properties(height, 200);
+    .properties(width, 240);
+    .properties(height, 240);
     .border-radius-circle();
-    .linear-gradient();
-    box-shadow:  0 0 10px var(--mi-clock-shadow, @mi-clock-shadow);
-    box-shadow: 20px 20px 30px -10px rgba(0, 0, 0, .4), inset 10px 10px 20px rgba(0, 0, 0, .2);
-    border: 16px solid #373b44;
+    background: var(--mi-clock-bg, @mi-clock-bg);
+    font-family: Avenir Next, Helvetica, Arial, sans-serif;
     position: relative;
 
-    &-num {
-        color: var(--mi-clock-text, @mi-clock-text);
-        font-weight: bold;
+    &-calibration {
         position: absolute;
-
-        &-3,
-        &-9 {
-            .properties(right, 24);
-            top: calc(50% - 8px);
-        }
-
-        &-6 {
-            .properties(bottom, 24);
-            left: calc(50% - 5px);
-        }
-
-        &-9 {
-            right: unset;
-            .properties(left, 24);
-        }
-
-        &-12 {
-            .properties(top, 24);
-            left: calc(50% - 10px);
-        }
+        top: 50%;
+        left: 50%;
     }
 
-    &-hour-pointer,
-    &-minute-pointer,
-    &-second-pointer {
+    &-anchor {
         position: absolute;
-        left: calc(50% - 5px);
-        .properties(width, 10);
-        .properties(height, 200);
-        z-index: 20;
-
-        &:after {
-            .properties(width, 6);
-            .properties(height, 60);
-            content: '';
-            position: absolute;
-            .properties(top, 60);
-            .properties(left, 2);
-            .border-radius(8);
-            background: var(--mi-clock-pointer-bg, @mi-clock-pointer-bg);
-            z-index: -1;
-        }
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
     }
 
-    &-minute-pointer:after {
-        .properties(width, 4);
-        .properties(height, 65);
-        .properties(left, 3);
-        background: var(--mi-clock-pointer-bg, @mi-clock-pointer-bg);
-    }
-
-    &-second-pointer:after {
+    &-mins-line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: var(--mi-clock-minute-line, @mi-clock-minute-line);
         .properties(width, 1);
-        .properties(height, 80);
-        .properties(left, 4);
+        .properties(height, 10);
+    }
+
+    &-mins-text,
+    &-hour-text {
+        color: var(--mi-clock-text, @mi-clock-text);
+        transform: translate(-50%, -50%);
+        .properties(font-size, 12);
+        position: absolute;
+    }
+
+    &-hour-text {
+        color: var(--mi-clock-text, @mi-clock-text);
+        .properties(font-size, 28);
+    }
+
+    &-pointer {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        .properties(width, 12);
+        .properties(height, 12);
         background: var(--mi-clock-pointer-bg, @mi-clock-pointer-bg);
+        transform: translate(-50%, -50%);
+        .border-radius-circle();
+
+        &-mid {
+            .properties(width, 8);
+            .properties(height, 8);
+            background: var(--mi-theme, @mi-theme);
+        }
+
+        &-top {
+            .properties(width, 4);
+            .properties(height, 4);
+            background: var(--mi-clock-pointer-top-bg, @mi-clock-pointer-top-bg);
+        }
     }
 
     &-point {
-        .properties(width, 16);
-        .properties(height, 16);
-        .border-radius-circle();
-        box-shadow: 0 3px 8px -1px var(--mi-clock-point-shadow, @mi-clock-point-shadow);
         position: absolute;
-        left: calc(50% - 8px);
-        top: calc(50% - 8px);
-        z-index: 100;
+        left: 50%;
+        top: 50%;
+        width: 0;
+        height: 0;
+    }
 
-        &:before,
-        &:after {
-            content: '';
-            .properties(width, 16);
-            .properties(height, 16);
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: var(--mi-clock-point-bg, @mi-clock-point-bg);
-            .border-radius-circle();
-            z-index: 1;
+    &-hand {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -100%);
+        .properties(width, 4);
+        .properties(height, 50);
+        background: var(--mi-clock-pointer-hand-bg, @mi-clock-pointer-hand-bg);
+
+        &-fat {
+            .properties(width, 10);
+            .border-radius(10);
+            transform: translate(-50%,-100%) translateY(-1.125rem);
         }
 
-        &:after {
-            .properties(width, 10);
-            .properties(height, 10);
-            background: @mi-white;
-            .properties(top, 3);
-            .properties(left, 3);
+        &-second {
+            background: var(--mi-theme, @mi-theme);
+            .properties(width, 2);
+            transform: translate(-50%, -100%) translateY(1.5rem);
         }
     }
 }

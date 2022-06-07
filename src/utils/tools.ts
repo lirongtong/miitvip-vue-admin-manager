@@ -124,6 +124,33 @@ class MiTools {
         if (prefix) str = prefix + str
         return upper ? str.toUpperCase() : str.toLowerCase()
     }
+
+    /**
+     * Unit conversion.
+     * @param value
+     * @param base
+     */
+     px2Rem(value: number, base = 16) {
+        return Math.round((value / base) * 100) / 100
+    }
+
+    /**
+     * requestAnimationFrame.
+     * @param callback 
+     * @returns 
+     */
+    raf(callback: FrameRequestCallback) {
+        return window.requestAnimationFrame(callback) ||
+            window.setTimeout(callback, 1000 / 60)
+    }
+
+    /**
+     * cancelAnimationFrame.
+     * @param rid 
+     */
+    caf(rid: number) {
+        window.cancelAnimationFrame(rid)
+    }
 }
 
 export const $tools: MiTools = new MiTools()
