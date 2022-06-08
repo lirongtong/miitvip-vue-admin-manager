@@ -58,7 +58,7 @@
         &-time {
             .properties(max-width, 250);
             .text-ellipsis();
-            color: var(--mi-notice-title, @mi-notice-title);
+            color: var(--mi-font, @mi-font);
         }
 
         &-title {
@@ -108,12 +108,12 @@
                 .properties(border-width, 1);
                 border-style: solid;
                 border-color: var(--mi-theme, @mi-theme) transparent transparent var(--mi-theme, @mi-theme);
-                background-color: var(--mi-popover-bg, @mi-popover-bg);
+                background-color: var(--mi-dark, @mi-dark);
             }
         }
 
         &-inner {
-            background-color: var(--mi-popover-bg, @mi-popover-bg);
+            background-color: var(--mi-dark, @mi-dark);
             .border-radius();
             z-index: -1;
         }

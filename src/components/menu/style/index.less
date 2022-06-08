@@ -7,7 +7,7 @@
 
 .@{ant-menu} {
     &&-dark {
-        background: var(--mi-menu-bg, @mi-menu-bg);
+        background: var(--mi-dark, @mi-dark);
         
         .@{ant-menu}-item > span > a {
             color: var(--mi-menu-color, @mi-menu-color);
@@ -36,8 +36,8 @@
 
         &&:not(.@{ant-menu}-horizontal) {
             .@{ant-menu}-item-selected {
-                background: var(--mi-menu-active-bg, @mi-menu-active-bg);
-                background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
+                background: var(--mi-ink, @mi-ink);
+                background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
             }
         }
     }
@@ -45,7 +45,7 @@
 
 .@{mi-menu} {
     color: var(--mi-menu-color, @mi-menu-color);
-    background: var(--mi-menu-bg, @mi-menu-bg);
+    background: var(--mi-dark, @mi-dark);
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -72,7 +72,7 @@
     
             .sub {
                 .properties(font-size, 12);
-                color: var(--mi-menu-sub, @mi-menu-sub);
+                color: var(--mi-subsidiary, @mi-subsidiary);
                 .properties(line-height, 16);
                 .properties(margin-top, 4);
             }
@@ -141,7 +141,7 @@
             }
 
             &-sub {
-                background: var(--mi-menu-sub-bg, @mi-menu-sub-bg);
+                background: var(--mi-dark, @mi-dark);
                 box-shadow: none;
                 overflow: hidden;
                 position: relative;
@@ -179,7 +179,7 @@
                 }
 
                 .sub {
-                    color: var(--mi-menu-active-sub, @mi-menu-active-sub);
+                    color: var(--mi-theme, @mi-theme);
                 }
             }
         }
@@ -198,7 +198,7 @@
                 }
 
                 .sub {
-                    color: var(--mi-menu-sub, @mi-menu-sub);
+                    color: var(--mi-subsidiary, @mi-subsidiary);
                 }
             }
         }
@@ -214,8 +214,8 @@
         }
 
         &.@{ant-menu}-item-selected {
-            background: var(--mi-menu-active-bg, @mi-menu-active-bg);
-            background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
+            background: var(--mi-ink, @mi-ink);
+            background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
 
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
@@ -224,7 +224,7 @@
 
             .@{mi-menu}-item-title {
                 .sub {
-                    color: var(--mi-menu-active-sub, @mi-menu-active-sub);
+                    color: var(--mi-theme, @mi-theme);
                 }
             }
         }
@@ -237,7 +237,7 @@
 
             .@{mi-menu}-item-title {
                 .sub {
-                    color: var(--mi-menu-active-sub, @mi-menu-active-sub);
+                    color: var(--mi-theme, @mi-theme);
                 }
             }
         }
@@ -283,8 +283,8 @@
 
                 &-items-active {
                     position: relative;
-                    background: var(--mi-menu-active-bg, @mi-menu-active-bg);
-                    background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
+                    background: var(--mi-ink, @mi-ink);
+                    background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
 
                     &:after {
                         position: absolute;
@@ -299,7 +299,7 @@
                 }
 
                 &-items-active.@{ant-submenu}-open {
-                    background: var(--mi-menu-bg, @mi-menu-bg);
+                    background: var(--mi-dark, @mi-dark);
 
                     &:after {
                         opacity: 0;
@@ -344,7 +344,7 @@
     }
 
     .@{ant-submenu}-popup {
-        background: var(--mi-menu-bg, @mi-menu-bg);
+        background: var(--mi-dark, @mi-dark);
         z-index: @mi-z-index;
     }
 
@@ -355,7 +355,7 @@
             .@{ant-menu} {
                 &-sub {
                     transition: unset;
-                    background: var(--mi-menu-bg, @mi-menu-bg);
+                    background: var(--mi-dark, @mi-dark);
                     color: var(--mi-menu-color, @mi-menu-color);
                 }
 
@@ -375,8 +375,8 @@
                     }
 
                     &-selected {
-                        background: var(--mi-menu-active-bg, @mi-menu-active-bg);
-                        background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
+                        background: var(--mi-ink, @mi-ink);
+                        background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
 
                         .@{mi-menu} {
                             &-item {
@@ -390,7 +390,7 @@
 
                                 &-title {
                                     .sub {
-                                        color: var(--mi-menu-active-sub, @mi-menu-active-sub);
+                                        color: var(--mi-theme, @mi-theme);
                                     }
                                 }
                             }

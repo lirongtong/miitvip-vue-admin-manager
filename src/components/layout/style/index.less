@@ -22,8 +22,8 @@
         width: calc(100% - @mi-side-width - 2rem);
         height: @mi-header-height;
         line-height: unset;
-        background-color: var(--mi-header-bg, @mi-header-bg);
-        background-image: linear-gradient(315deg, var(--mi-header-bg-start, @mi-header-bg-start) 0%, var(--mi-header-bg-end, @mi-header-bg-end) 74%);
+        background-color: var(--mi-dark, @mi-dark);
+        background-image: linear-gradient(315deg, var(--mi-black, @mi-black) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
         .properties(margin, 16);
         .properties(padding-left, 16);
         .properties(padding-right, 16);
@@ -79,7 +79,7 @@
     }
 
     &-side {
-        background: var(--mi-side, @mi-side);
+        background: var(--mi-dark, @mi-dark);
         transition: all @mi-anim-duration ease;
         position: fixed;
         left: 0;
@@ -93,18 +93,20 @@
             position: relative;
             width: @mi-side-width;
             height: @mi-side-height;
-            background: var(--mi-header-logo-bg, @mi-header-logo-bg);
+            background: var(--mi-dark, @mi-dark);
             transition: all @mi-anim-duration ease;
             .properties(padding-left);
             .properties(padding-right);
             .text-ellipsis();
             cursor: pointer;
-            color: var(--mi-header-logo-text, @mi-header-logo-text);
+            color: var(--mi-theme, @mi-theme);
 
             &-img {
                 width: @mi-side-logo-size;
                 height: @mi-side-logo-size;
                 .border-radius-circle();
+                background-color: var(--mi-dark, @mi-dark);
+                background-image: linear-gradient(315deg, var(--mi-black, @mi-black) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
                 overflow: hidden;
 
                 > img {
@@ -122,7 +124,7 @@
 
                 svg {
                     .font-size(30);
-                    color: var(--mi-header-logo-text, @mi-header-logo-text);
+                    color: var(--mi-theme, @mi-theme);
                 }
 
                 > h1 {
@@ -177,7 +179,7 @@
         z-index: @mi-z-index;
 
         span {
-            color: var(--mi-breadcrumb-text, @mi-breadcrumb-text);
+            color: var(--mi-font, @mi-font);
             .flex(center, flex-start);
 
             a {
@@ -196,14 +198,14 @@
                 .font-size(14);
                 .properties(margin-right, 6);
                 vertical-align: -1px;
-                color: var(--mi-breadcrumb-text, @mi-breadcrumb-text);
+                color: var(--mi-font, @mi-font);
             }
 
             &:last-child {
-                color: var(--mi-breadcrumb-last-child, @mi-breadcrumb-last-child);
+                color: var(--mi-font, @mi-font);
 
                 a {
-                    color: var(--mi-breadcrumb-last-child, @mi-breadcrumb-last-child);
+                    color: var(--mi-font, @mi-font);
                 }
             }
         }
@@ -225,7 +227,7 @@
     }
 
     &-content {
-        background: var(--mi-content-bg, @mi-content-bg);
+        background: var(--mi-dark-grey, @mi-dark-grey);
         color: @mi-content-text;
         position: relative;
 
@@ -240,15 +242,15 @@
     }
 
     &-footer {
-        background: var(--mi-footer-bg, @mi-footer-bg);
-        color: @mi-footer-text;
+        background: var(--mi-dark-grey, @mi-dark-grey);
+        color: var(--mi-font, @mi-font);
         .flex();
         .properties(padding, 24);
         transition: all @mi-anim-duration ease;
 	    z-index: @mi-z-index;
 
         &-content {
-            color: var(--mi-footer, @mi-footer);
+            color: var(--mi-font, @mi-font);
             .letter-spacing();
         }
     }
