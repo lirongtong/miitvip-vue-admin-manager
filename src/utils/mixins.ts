@@ -18,7 +18,7 @@ export default {
             this.$tools.setTitle()
             this.$tools.setKeywords()
             this.$tools.setDescription()
-            this.$cookie.set(this.$g.caches.cookies.theme, this.$g.theme)
+            this.$cookie.set(this.$g.caches.cookies.theme, this.$g.theme.active)
 
             // 动态导入 vuex 模块
             try {

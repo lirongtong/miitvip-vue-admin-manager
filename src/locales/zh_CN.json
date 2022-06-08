@@ -9,5 +9,7 @@
     "Fri": "周五",
     "Sat": "周六",
     "Sun": "周日",
-    "good-day": "美好的一天"
+    "good-day": "美好的一天",
+    "theme-dark": "深色",
+    "theme-light": "浅色"
 }

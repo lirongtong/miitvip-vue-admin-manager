@@ -9,5 +9,7 @@
     "Fri": "Friday",
     "Sat": "Saturday",
     "Sun": "Sunday",
-    "good-day": "Good Day"
+    "good-day": "Good Day",
+    "theme-dark": "Dark",
+    "theme-light": "Light"
 }

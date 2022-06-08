@@ -1,9 +1,11 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
-import { Layout } from 'ant-design-vue'
+import { useI18n } from 'vue-i18n'
+import { Layout, Popover, Radio } from 'ant-design-vue'
 import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
+import { $g } from '../../utils/global'
+import { MenuFoldOutlined, MenuUnfoldOutlined, BgColorsOutlined } from '@ant-design/icons-vue'
 import MiDropdown from '../dropdown'
 import MiNotice from '../notice'
 
@@ -22,6 +24,7 @@ export default defineComponent({
     slots: ['stretch', 'notice', 'dropdown', 'extra'],
     setup(props, { slots, attrs }) {
         const store = useStore()
+        const { t } = useI18n()
         const collapsed = computed(() => store.getters['layout/collapsed'])
         const isMobile = computed(() => store.getters['layout/mobile'])
         const prefixCls = getPrefixCls('layout-header', props.prefixCls)
@@ -29,8 +32,7 @@ export default defineComponent({
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
             trigger: `${prefixCls}-trigger`,
-            triggerMin: `${prefixCls}-trigger-min`,
-            triggerNoBg: `${prefixCls}-trigger-no-bg`
+            palette: `${prefixCls}-palette`
         }
 
         const getStretch = () => {
@@ -43,19 +45,54 @@ export default defineComponent({
             return stretch
         }
 
+        const getPalette = () => {
+            const getPaletteContent = () => {
+                return (
+                    <div class={headerCls.palette}>
+                        <div class={`${headerCls.palette}-item`}>
+                            <div class={`${headerCls.palette}-thumb`}>
+                                <img src={$g.theme.thumbnails.dark} />
+                            </div>
+                            <div class={`${headerCls.palette}-radio`}>
+                                <Radio>{t('theme-dark')}</Radio>
+                            </div>
+                        </div>
+                        <div class={`${headerCls.palette}-item`}>
+                            <div class={`${headerCls.palette}-thumb`}>
+                                <img src={$g.theme.thumbnails.light} />
+                            </div>
+                            <div class={`${headerCls.palette}-radio`}>
+                                <Radio>{t('theme-light')}</Radio>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            return getPropSlot(slots, props, 'stretch') ?? (
+                <Popover trigger={['click']}
+                    overlayClassName={`${prefixCls}-popover`}
+                    placement={'bottom'}
+                    content={getPaletteContent()}>
+                    <BgColorsOutlined />
+                </Popover>
+            )
+        }
+
         return () => (
             <Layout.Header class={`${prefixCls}`} {...attrs}>
                 <div class={headerCls.left}>
-                    <div class={`${headerCls.trigger} ${headerCls.triggerNoBg}`}>{getStretch()}</div>
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-no-bg`}>{getStretch()}</div>
                 </div>
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
-                    <div class={`${headerCls.trigger} ${headerCls.triggerMin}`}>
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
                         {getPropSlot(slots, props, 'notice') ?? (
                             <MiNotice class={`${prefixCls}-notice`} />
                         )}
                     </div>
-                    <div class={`${headerCls.trigger} ${headerCls.triggerMin}`}>
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>{getPalette()}</div>
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
                         {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown />}
                     </div>
                 </div>
