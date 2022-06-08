@@ -24,6 +24,7 @@
                     .properties(padding-bottom);
                     .properties(padding-left, 24);
                     .properties(padding-right, 24);
+                    transition: none;
 
                     &-selected {
                         background: transparent;
@@ -66,7 +67,8 @@
 
                     &-active,
                     &:hover {
-                        background: var(--mi-dropdown-item-hover, @mi-dropdown-item-hover);
+                        background-color: var(--mi-dropdown-item-hover-start, @mi-dropdown-item-hover-start);
+                        background-image: linear-gradient(315deg, var(--mi-dropdown-item-hover-start, @mi-dropdown-item-hover-start) 0%, var(--mi-dropdown-item-hover-end, @mi-dropdown-item-hover-end) 74%);
                         color: var(--mi-theme, @mi-theme);
 
                         a,
