@@ -29,7 +29,8 @@ export default defineComponent({
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
             trigger: `${prefixCls}-trigger`,
-            triggerMin: `${prefixCls}-trigger-min`
+            triggerMin: `${prefixCls}-trigger-min`,
+            triggerNoBg: `${prefixCls}-trigger-no-bg`
         }
 
         const getStretch = () => {
@@ -45,7 +46,7 @@ export default defineComponent({
         return () => (
             <Layout.Header class={`${prefixCls}`} {...attrs}>
                 <div class={headerCls.left}>
-                    <div class={headerCls.trigger}>{getStretch()}</div>
+                    <div class={`${headerCls.trigger} ${headerCls.triggerNoBg}`}>{getStretch()}</div>
                 </div>
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}

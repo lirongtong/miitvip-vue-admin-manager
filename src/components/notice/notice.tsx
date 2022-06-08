@@ -3,7 +3,7 @@ import { Popover, Badge, Tabs } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { useI18n } from 'vue-i18n'
-import { getSlot, getPropSlot, getSlotContent, getPrefixCls, pxToRem } from '../_utils/props-tools'
+import { getSlot, getPropSlot, getSlotContent, getPrefixCls, pxToRem, tuple } from '../_utils/props-tools'
 import MiClock from '../clock'
 
 export const noticeProps = () => ({
@@ -15,7 +15,9 @@ export const noticeProps = () => ({
     dot: PropTypes.bool.def(true),
     tabChange: PropTypes.func,
     trigger: PropTypes.any.def('click'),
-    placement: PropTypes.string.def('bottom'),
+    placement: PropTypes.oneOf(
+        tuple('top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom')
+    ).def('bottom'),
     extra: PropTypes.any
 })
 
@@ -105,10 +107,10 @@ export default defineComponent({
                 return <div class={`${prefixCls}-content`}>{content}</div>
             }
             return (
-                <Popover
-                    overlayClassName={prefixCls}
+                <Popover overlayClassName={prefixCls}
                     destroyTooltipOnHide={true}
                     trigger={props.trigger}
+                    placement={props.placement}
                     content={getContent()}
                     {...attrs}>
                     {getIcon}

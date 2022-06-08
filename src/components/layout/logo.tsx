@@ -10,24 +10,29 @@ export default defineComponent({
     name: 'MiLayoutSideLogo',
     inheritAttrs: false,
     props: {
-        prefixCls: PropTypes.string
+        prefixCls: PropTypes.string,
+        column: PropTypes.bool.def(true)
     },
     setup(props, { slots }) {
         const { t } = useI18n()
         const title = $g.site ?? t('site')
         const prefixCls = getPrefixCls('layout-side-logo', props.prefixCls)
+
         let logo = <MediumOutlined />
         if ($g.logo && $g.regExp.url.test($g.logo)) {
             logo = <div class={`${prefixCls}-img`}>
                 <img src={$g.logo} alt={$g.site} />
             </div>
         }
+
         const slot = slots?.default ?? (
             <RouterLink to={{ path: '/' }} class={`${prefixCls}-site`}>
                 {logo}
                 <h1 innerHTML={title}></h1>
             </RouterLink>
         )
-        return () => <div class={prefixCls}>{slot}</div>
+        return () => <div class={`${prefixCls}${props.column ? ` ${prefixCls}-column` : ''}`}>
+            {slot}
+        </div>
     }
 })
