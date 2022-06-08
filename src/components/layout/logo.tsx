@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue'
 import { MediumOutlined } from '@ant-design/icons-vue'
 import { $g } from '../../utils/global'
+import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
 import { RouterLink } from 'vue-router'
@@ -12,11 +13,14 @@ export default defineComponent({
         prefixCls: PropTypes.string
     },
     setup(props, { slots }) {
-        const title = $g.site ?? '麦可易特网'
+        const { t } = useI18n()
+        const title = $g.site ?? t('site')
         const prefixCls = getPrefixCls('layout-side-logo', props.prefixCls)
         let logo = <MediumOutlined />
         if ($g.logo && $g.regExp.url.test($g.logo)) {
-            logo = <img src={$g.logo} alt={$g.site} />
+            logo = <div class={`${prefixCls}-img`}>
+                <img src={$g.logo} alt={$g.site} />
+            </div>
         }
         const slot = slots?.default ?? (
             <RouterLink to={{ path: '/' }} class={`${prefixCls}-site`}>

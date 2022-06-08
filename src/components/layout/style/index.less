@@ -14,16 +14,15 @@
     }
 
     &-header {
-        background: var(--mi-header-bg, @mi-header-bg);
+        background: transparent;
         transition: all @mi-anim-duration ease;
         .flex(center, space-between);
         padding-left: 0;
-        padding-right: 0;
+        .properties(padding-right, 16);
         position: fixed;
         top: 0;
         left: @mi-side-width;
         width: calc(100% - @mi-side-width);
-        box-shadow: 0 0 6px var(--mi-header-bg, @mi-header-bg);
         z-index: @mi-z-index;
 
         &-left,
@@ -35,10 +34,6 @@
             height: @mi-header-height;
             cursor: pointer;
             transition: all @mi-anim-duration ease;
-
-            &:hover {
-                background-color: var(--mi-header-trigger-hover, @mi-header-trigger-hover);
-            }
 
             .@{ant}icon {
                 width: @mi-header-height;
@@ -86,7 +81,6 @@
             width: @mi-side-width;
             height: @mi-header-height;
             background: var(--mi-header-logo-bg, @mi-header-logo-bg);
-            box-shadow: 0 0 6px var(--mi-header-logo-shadow, @mi-header-logo-shadow);
             transition: all @mi-anim-duration ease;
             .properties(padding-left);
             .properties(padding-right);
@@ -103,19 +97,12 @@
                     color: var(--mi-header-logo-text, @mi-header-logo-text);
                 }
 
-                > img {
-                    width: @mi-side-logo-size;
-                    height: @mi-side-logo-size;
-                    .border-radius-circle();
-                }
-
                 > h1 {
                     .text-ellipsis();
                     background: transparent linear-gradient(127deg, var(--mi-gradient-s, @mi-gradient-s) 0%, var(--mi-gradient-m, @mi-gradient-m) 52%, var(--mi-gradient-e, @mi-gradient-e) 100%);
                     -webkit-text-fill-color: transparent;
                     -webkit-background-clip: text;
                     background-clip: text;
-                    width: 100%;
                     margin-top: 0;
                     margin-bottom: 0;
                     margin-right: 0;
@@ -125,6 +112,21 @@
                     transition: all @mi-anim-duration ease-in-out;
                     .flex();
                     zoom: 1;
+                }
+            }
+
+            &-img {
+                width: @mi-side-logo-size;
+                height: @mi-side-logo-size;
+                .border-radius-circle();
+                overflow: hidden;
+
+                > img {
+                    width: 100%;
+                    height: 100%;
+                    .border-radius-circle();
+                    transform: scale(1.1);
+                    object-fit: cover;
                 }
             }
         }

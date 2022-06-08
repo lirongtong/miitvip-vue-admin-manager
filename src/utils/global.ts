@@ -30,7 +30,7 @@ export const $g = reactive({
      */
     prefix: 'mi-',
 
-    logo: null,
+    logo: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png',
     avatar: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png',
 
     /**
