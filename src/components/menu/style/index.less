@@ -36,7 +36,8 @@
 
         &&:not(.@{ant-menu}-horizontal) {
             .@{ant-menu}-item-selected {
-                background-color: var(--mi-menu-active, @mi-menu-active);
+                background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+                background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
             }
         }
     }
@@ -213,7 +214,8 @@
         }
 
         &.@{ant-menu}-item-selected {
-            background-color: var(--mi-menu-active, @mi-menu-active);
+            background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+            background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
 
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
@@ -281,7 +283,8 @@
 
                 &-items-active {
                     position: relative;
-                    background: var(--mi-menu-active, @mi-menu-active);
+                    background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+                    background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
 
                     &:after {
                         position: absolute;
@@ -372,7 +375,8 @@
                     }
 
                     &-selected {
-                        background-color: var(--mi-menu-active, @mi-menu-active);
+                        background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+                        background-image: linear-gradient(315deg, var(--mi-menu-active-bg-s, @mi-menu-active-bg-s) 0%, var(--mi-menu-active-bg-e, @mi-menu-active-bg-e) 74%);
 
                         .@{mi-menu} {
                             &-item {
