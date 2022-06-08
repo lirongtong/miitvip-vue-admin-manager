@@ -92,30 +92,4 @@
         .properties(font-size, 32);
         font-weight: bold;
     }
-
-    .@{ant-popover} {
-        &-content {
-            .border-radius();
-            border: 1px solid var(--mi-theme, @mi-theme);
-        }
-
-        &-arrow {
-            .properties(top, 2.5);
-
-            &-content {
-                .properties(width, 8);
-                .properties(height, 8);
-                .properties(border-width, 1);
-                border-style: solid;
-                border-color: var(--mi-theme, @mi-theme) transparent transparent var(--mi-theme, @mi-theme);
-                background-color: var(--mi-dark, @mi-dark);
-            }
-        }
-
-        &-inner {
-            background-color: var(--mi-dark, @mi-dark);
-            .border-radius();
-            z-index: -1;
-        }
-    }
 }

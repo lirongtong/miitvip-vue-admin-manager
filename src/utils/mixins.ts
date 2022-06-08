@@ -26,7 +26,7 @@ export default {
                 this.$store.registerModule(['passport'], passport)
             } catch (e) {
                 throw new Error(
-                    '[vuex] must be required. Please import and install [vuex] before makeit-admin-pro\r\n' +
+                    '[vuex] must be required. Please install and import [vuex] before makeit-admin-pro\r\n' +
                         e
                 )
             }
@@ -103,6 +103,7 @@ export default {
                     }
                 }
             )
+            
             _mounted = true
         }
     }

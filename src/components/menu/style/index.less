@@ -64,6 +64,8 @@
     }
 
     &-item {
+        transition: unset;
+
         &-title {
             .flex(flex-start, center, column);
             height: @mi-side-item-height;
@@ -145,6 +147,7 @@
                 box-shadow: none;
                 overflow: hidden;
                 position: relative;
+                transition: unset;
             }
         }
 
@@ -205,6 +208,8 @@
     }
 
     &.@{ant-menu}-dark &-item {
+        transition: unset;
+        
         &:not(:last-child) {
             margin-bottom: 0;
         }

@@ -25,9 +25,10 @@ export default defineComponent({
     setup(props, { slots, attrs }) {
         const store = useStore()
         const { t } = useI18n()
+        const prefixCls = getPrefixCls('layout-header', props.prefixCls)
+        const popoverCls = getPrefixCls('popover', props.prefixCls)
         const collapsed = computed(() => store.getters['layout/collapsed'])
         const isMobile = computed(() => store.getters['layout/mobile'])
-        const prefixCls = getPrefixCls('layout-header', props.prefixCls)
         const headerCls = {
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
@@ -45,24 +46,28 @@ export default defineComponent({
             return stretch
         }
 
+        const changePalette = (theme = 'dark') => {
+            $g.theme.active = theme
+        }
+
         const getPalette = () => {
             const getPaletteContent = () => {
                 return (
                     <div class={headerCls.palette}>
-                        <div class={`${headerCls.palette}-item`}>
+                        <div class={`${headerCls.palette}-item${$g.theme.active === 'dark' ? ` ${headerCls.palette}-active` : ''}`} onClick={() => changePalette('dark')}>
                             <div class={`${headerCls.palette}-thumb`}>
                                 <img src={$g.theme.thumbnails.dark} />
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio>{t('theme-dark')}</Radio>
+                                <Radio checked={$g.theme.active === 'dark'}>{t('theme-dark')}</Radio>
                             </div>
                         </div>
-                        <div class={`${headerCls.palette}-item`}>
+                        <div class={`${headerCls.palette}-item${$g.theme.active === 'light' ? ` ${headerCls.palette}-active` : ''}`} onClick={() => changePalette('light')}>
                             <div class={`${headerCls.palette}-thumb`}>
                                 <img src={$g.theme.thumbnails.light} />
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio>{t('theme-light')}</Radio>
+                                <Radio checked={$g.theme.active === 'light'}>{t('theme-light')}</Radio>
                             </div>
                         </div>
                     </div>
@@ -71,7 +76,7 @@ export default defineComponent({
 
             return getPropSlot(slots, props, 'stretch') ?? (
                 <Popover trigger={['click']}
-                    overlayClassName={`${prefixCls}-popover`}
+                    overlayClassName={popoverCls}
                     placement={'bottom'}
                     content={getPaletteContent()}>
                     <BgColorsOutlined />

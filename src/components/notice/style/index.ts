@@ -1,5 +1,5 @@
 import 'ant-design-vue/es/badge/style'
-import 'ant-design-vue/es/popover/style'
-import 'ant-design-vue/es/empty/style'
 import 'ant-design-vue/es/tabs/style'
+import 'ant-design-vue/es/popover/style'
+import '../../../styles/antd/popover.less'
 import './index.less'

@@ -1,0 +1,31 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-popover: ant-popover;
+.@{ant-popover} {
+    z-index: @mi-z-index-top;
+
+    &-content {
+        .border-radius();
+        border: 1px solid var(--mi-theme, @mi-theme);
+    }
+
+    &-content &-arrow {
+        .properties(top, 3);
+
+        &-content {
+            .properties(width, 8);
+            .properties(height, 8);
+            .properties(border-width, 1);
+            border-style: solid;
+            border-color: var(--mi-theme, @mi-theme) transparent transparent var(--mi-theme, @mi-theme);
+            background-color: var(--mi-dark, @mi-dark);
+        }
+    }
+
+    &-inner {
+        background-color: var(--mi-dark, @mi-dark);
+        .border-radius();
+        z-index: -1;
+    }
+}
