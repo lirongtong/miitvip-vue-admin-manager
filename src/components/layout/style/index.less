@@ -110,9 +110,10 @@
 
             &-active &-thumb > img {
                 box-shadow: 0 0 10px var(--mi-theme, @mi-theme);
+                transition: all @mi-anim-duration ease;
             }
 
-            &-select {
+            &-radio {
                 width: 100%;
                 .flex();
 
@@ -150,6 +151,7 @@
                 width: @mi-side-logo-size;
                 height: @mi-side-logo-size;
                 .border-radius-circle();
+                border: 2px solid var(--mi-theme, @mi-theme);
                 background-color: var(--mi-dark, @mi-dark);
                 background-image: linear-gradient(315deg, var(--mi-black, @mi-black) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
                 overflow: hidden;
