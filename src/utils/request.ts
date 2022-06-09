@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
@@ -75,10 +75,10 @@ class MiRequest {
     protected async send(config: AxiosRequestConfig): Promise<any> {
         if (!config.timeout) config.timeout = 60000
         return await axios(config)
-            .then((res: any) => {
+            .then((res: AxiosResponse) => {
                 return Promise.resolve(res.data)
             })
-            .catch((err) => {
+            .catch((err: any) => {
                 return Promise.reject(err)
             })
     }

@@ -13,6 +13,7 @@ import { default as Notice } from './components/notice'
 import { default as Menu } from './components/menu'
 import { default as Dropdown } from './components/dropdown'
 import { default as Clock } from './components/clock'
+import { default as Search } from './components/search'
 
 const components = [
     i18n,
@@ -25,7 +26,8 @@ const components = [
     Layout,
     Menu,
     Dropdown,
-    Clock
+    Clock,
+    Search
 ]
 
 let _init = false
@@ -44,7 +46,20 @@ const install = (app: App) => {
     return app
 }
 
-export { global, cookie, storage, request, tools, async, Notice, Layout, Menu, Dropdown, Clock }
+export {
+    global,
+    cookie,
+    storage,
+    request,
+    tools,
+    async,
+    Notice,
+    Layout,
+    Menu,
+    Dropdown,
+    Clock,
+    Search
+}
 
 export default {
     install

@@ -1,4 +1,4 @@
-import { isVNode, Fragment, Comment, Text, PropType } from 'vue'
+import { isVNode, Fragment, Comment, Text, PropType, Slots } from 'vue'
 import { VueTypeDef, VueTypeValidableDef } from 'vue-types'
 import { $tools } from '../../utils/tools'
 
@@ -103,17 +103,13 @@ const getSlotContent = (instance: any, prop = 'default', options = instance, exe
     return content
 }
 
-const getPropSlot = (slots, props, prop = 'default') => {
+const getPropSlot = (slots: Slots, props: any, prop = 'default') => {
     return props[prop] ?? slots[prop]?.()
 }
 
 const getPrefixCls = (suffixCls: string, prefixCls?: string, customizeCls?: string) => {
     if (customizeCls) return customizeCls
     return `${prefixCls ?? 'mi'}-${suffixCls}`
-}
-
-const pxToRem = (px: number) => {
-    return Math.round((px / 16) * 100) / 100
 }
 
 const initProps = <T>(
@@ -153,6 +149,5 @@ export {
     getSlotContent,
     getPropSlot,
     getPrefixCls,
-    pxToRem,
     initProps
 }

@@ -11,5 +11,12 @@
     "Sun": "Sunday",
     "good-day": "Good Day",
     "theme-dark": "Dark",
-    "theme-light": "Light"
+    "theme-light": "Light",
+    "no-data": "No data yet",
+    "searching": "Searching ···",
+    "search-key": "Please enter keywords to search",
+    "search-fail-msg": "Search could not be completed without source data",
+    "search-fail-code": "Error code: ",
+    "search-fail-reason": "Wrong reason: ",
+    "search-fail-api": "Unknowable error"
 }

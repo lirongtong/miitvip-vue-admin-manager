@@ -3,7 +3,8 @@ import { Popover, Badge, Tabs } from 'ant-design-vue'
 import { BellOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { useI18n } from 'vue-i18n'
-import { getSlot, getPropSlot, getSlotContent, getPrefixCls, pxToRem, tuple } from '../_utils/props-tools'
+import { getSlot, getPropSlot, getSlotContent, getPrefixCls, tuple } from '../_utils/props-tools'
+import { $tools } from '../../utils/tools'
 import MiClock from '../clock'
 
 export const noticeProps = () => ({
@@ -67,7 +68,7 @@ export default defineComponent({
 
             const getIcon = () => {
                 const icon = getPropSlot(slots, props, 'icon')
-                const size = props.iconSize ? `font-size: ${pxToRem(props.iconSize)}` : null
+                const size = props.iconSize ? `font-size: ${$tools.px2Rem(props.iconSize)}` : null
                 return (
                     <div class={`${prefixCls}-icon`}>
                         <Badge count={props.count} dot={props.dot}>

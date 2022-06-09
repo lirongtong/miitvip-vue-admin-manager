@@ -150,6 +150,96 @@ class MiTools {
     caf(rid: number) {
         window.cancelAnimationFrame(rid)
     }
+
+    /**
+     * scroll to top ( animation ).
+     * @param el
+     * @param from
+     * @param to
+     * @param duration
+     * @param endCallback
+     */
+    scrollTop(el: any, from = 0, to: number, duration = 800, endCallback?: Function) {
+        const difference = Math.abs(from - to)
+        const step = Math.ceil((difference / duration) * 50)
+        let rid: number
+        function scroll(start: number, end: number, step: number) {
+            if (start === end) {
+                if (rid) this.caf(rid)
+                endCallback && endCallback()
+                return
+            }
+            let d = start + step > end ? end : start + step
+            if (start > end) d = start - step < end ? end : start - step
+            if (el === window) window.scrollTo(d, d)
+            else el.scrollTop = d
+            rid = this.raf(() => scroll(d, end, step))
+        }
+        scroll(from, to, step)
+    }
+
+    /**
+     * back to top.
+     * @param offset
+     * @param duration
+     */
+    back2top(offset = 0, duration = 1000) {
+        const top = offset ?? (document.documentElement.scrollTop || document.body.scrollTop)
+        this.scrollTop(document.body, top, 0, duration)
+    }
+
+    /**
+     * add event listener.
+     * @param el
+     * @param event
+     * @param listener
+     * @param useCapture
+     */
+    on(
+        el: Window | HTMLElement,
+        event: keyof HTMLElementEventMap,
+        listener: (this: HTMLElement, evt: HTMLElementEventMap[keyof HTMLElementEventMap]) => any,
+        useCapture: false
+    ) {
+        if (!!document.addEventListener) {
+            if (el && event && listener) el.addEventListener(event, listener, useCapture)
+        } else {
+            if (el && event && listener) (el as any).attachEvent(`on${event}`, listener)
+        }
+    }
+
+    /**
+     * remove event listener.
+     * @param el
+     * @param event
+     * @param listener
+     * @param useCapture
+     */
+    off(
+        el: Window | HTMLElement,
+        event: keyof HTMLElementEventMap,
+        listener: (this: HTMLElement, evt: HTMLElementEventMap[keyof HTMLElementEventMap]) => any,
+        useCapture: false
+    ) {
+        if (!!document.addEventListener) {
+            if (el && event && listener) el.removeEventListener(event, listener, useCapture)
+        } else {
+            if (el && event && listener) (el as any).detachEvent(`on${event}`, listener)
+        }
+    }
+
+    /**
+     * transfer.
+     * @param html
+     * @returns
+     */
+    htmlEncode(html: string) {
+        let temp = document.createElement('div') as HTMLDivElement
+        temp.textContent !== null ? (temp.textContent = html) : (temp.innerText = html)
+        const output = temp.innerHTML
+        temp = null
+        return output
+    }
 }
 
 export const $tools: MiTools = new MiTools()

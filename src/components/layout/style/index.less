@@ -80,10 +80,7 @@
 
         &-palette {
             .flex();
-            .properties(padding-top);
-            .properties(padding-bottom);
-            .properties(padding-left);
-            .properties(padding-right);
+            .properties(padding, 16);
 
             &-item {
                 .flex(center, center, column);
@@ -105,12 +102,15 @@
                     .properties(width, 80);
                     .properties(height, 120);
                     .border-radius();
+                    transition: all @mi-anim-duration ease;
                 }
             }
 
-            &-active &-thumb > img {
-                box-shadow: 0 0 10px var(--mi-theme, @mi-theme);
-                transition: all @mi-anim-duration ease;
+            &-active &-thumb {
+                > img {
+                    box-shadow: 0 0 10px var(--mi-theme, @mi-theme);
+                    transform: scale(1.1);
+                }
             }
 
             &-radio {

@@ -11,5 +11,12 @@
     "Sun": "周日",
     "good-day": "美好的一天",
     "theme-dark": "深色",
-    "theme-light": "浅色"
+    "theme-light": "浅色",
+    "no-data": "暂无符合条件的数据",
+    "searching": "搜索中 ···",
+    "search-key": "请输入要搜索的关键词",
+    "search-fail-msg": "源数据获取失败，无法完成搜索",
+    "search-fail-code": "错误代码：",
+    "search-fail-reason": "错误原因：",
+    "search-fail-api": "接口发生了不可预知的错误"
 }
