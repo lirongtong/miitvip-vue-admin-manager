@@ -18,5 +18,11 @@
     "search-fail-msg": "源数据获取失败，无法完成搜索",
     "search-fail-code": "错误代码：",
     "search-fail-reason": "错误原因：",
-    "search-fail-api": "接口发生了不可预知的错误"
+    "search-fail-api": "接口发生了不可预知的错误",
+    "page-prev": "上一页",
+    "page-next": "下一页",
+    "page-prefix": "第",
+    "page-unit": "页",
+    "page-strip": "条",
+    "page-total": "共"
 }

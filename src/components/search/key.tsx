@@ -15,13 +15,21 @@ export default defineComponent({
     inheritAttrs: false,
     props: searchKeyProps(),
     setup(props) {
-        const elem = props.type === 'text'
-            ? h(<props.tag innerHTML={props.data} key={props.name} />)
-            : props.type === 'image'
-                ? h(<props.tag src={props.data} key={props.name} />)
-                : props.type === 'link'
-                    ? h(<props.tag href={props.data} innerHTML={props.data} key={props.name} />)
-                    : h(<props.tag innerHTML={props.data} key={props.name} />)
-        return props.data ? elem : null
+        let elem = null
+        switch(props.type) {
+            case 'text':
+                elem = h(<props.tag innerHTML={props.data} />)
+                break
+            case 'image':
+                elem = h(<props.tag src={props.data} alt={props.name} />)
+                break
+            case 'link':
+                elem = h(<props.tag href={props.data} innerHTML={props.data} />)
+                break
+            default:
+                elem = h(<props.tag innerHTML={props.data} />)
+                break
+        }
+        return props.data ? () => elem : null
     }
 })

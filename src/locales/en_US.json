@@ -18,5 +18,11 @@
     "search-fail-msg": "Search could not be completed without source data",
     "search-fail-code": "Error code: ",
     "search-fail-reason": "Wrong reason: ",
-    "search-fail-api": "Unknowable error"
+    "search-fail-api": "Unknowable error",
+    "page-prev": "previous page",
+    "page-next": "next page",
+    "page-prefix": "No.",
+    "page-unit": "",
+    "page-strip": "",
+    "page-total": "Total:"
 }

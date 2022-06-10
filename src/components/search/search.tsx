@@ -1,6 +1,12 @@
-import { defineComponent, Transition, reactive, isVNode, VNode, cloneVNode, Component } from 'vue'
+import {
+    defineComponent, Transition, reactive,
+    isVNode, VNode, cloneVNode, Component, h
+} from 'vue'
 import MiSearchKey from './key'
-import { FormOutlined, FrownOutlined } from '@ant-design/icons-vue'
+import {
+    FormOutlined, FrownOutlined,
+    LeftCircleOutlined, RightCircleOutlined
+} from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { getPrefixCls, tuple, getPropSlot } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
@@ -43,9 +49,10 @@ export const searchProps = () => ({
     listBoxShadowBlur: PropTypes.number.def(6),
     listNoDataText: PropTypes.string,
     listNoDataColor: PropTypes.string.def('#000'),
-    pagination: PropTypes.bool.def(false),
+    pagination: PropTypes.bool.def(true),
     pageSize: PropTypes.number.def(10),
-    pageColor: PropTypes.string
+    pageColor: PropTypes.string,
+    colseAfterItemClick: PropTypes.bool.def(false)
 })
 
 const MiSearch = defineComponent({
@@ -58,7 +65,8 @@ const MiSearch = defineComponent({
         const { t } = useI18n()
         const prefixCls = getPrefixCls('search', props.prefixCls)
         const prefixIdx = getPrefixCls('index')
-        const animation = getPrefixCls(`anim-${props.listShowAnimation}`)
+        const listAnim = getPrefixCls(`anim-${props.listShowAnimation}`)
+        const itemAnim = getPrefixCls('anim-slide')
         const params = reactive({
             loading: false,
             keyword: '',
@@ -77,7 +85,7 @@ const MiSearch = defineComponent({
         const renderList = () => {
             const style = {
                 width: props.listWidth ? `${$tools.px2Rem(props.listWidth)}rem` : null,
-                height: props.listHeight ? `${$tools.px2Rem(props.listHeight)}rem` : null,
+                height: props.listHeight ? `${$tools.px2Rem(props.listHeight > 164 ? props.listHeight : 164)}rem` : null,
                 top: props.height ? `${$tools.px2Rem(props.height)}rem` : null,
                 background: props.listBackground ?? null,
                 borderColor: props.listBorderColor ?? props.borderColor ?? null,
@@ -95,7 +103,7 @@ const MiSearch = defineComponent({
                 <div class={`${prefixCls}-error`}>{params.error}</div>
             ) : null
             return (
-                <Transition name={animation} appear={true}>
+                <Transition name={listAnim} appear={true}>
                     <div class={`${prefixCls}-list`} style={style}>
                         {noData}
                         {error}
@@ -116,13 +124,15 @@ const MiSearch = defineComponent({
                 min = (params.page.active - 1) * props.pageSize
                 max = params.page.active * props.pageSize
             }
+            const key = getPrefixCls(`item-${min}-${max}`, props.prefixCls)
             const pushResultItem = (item: {}, elem: any) => {
                 res.push(
                     <div class={`${prefixCls}-item`}
                         style={{color: props.itemColor ?? null}}
                         onClick={
-                            (e: Event) => handleListItemClick(
-                                params.datas[item[prefixIdx]] ?? item, e
+                            (evt: Event) => handleListItemClick(
+                                params.datas[item[prefixIdx]] ?? item,
+                                evt
                             )
                         }>
                         {elem}
@@ -148,7 +158,11 @@ const MiSearch = defineComponent({
                 })
             }
             return res.length > 0 ? (
-                <div class={`${prefixCls}-items`}>{...res}</div>
+                <Transition name={itemAnim} appear={true}>
+                    <div class={`${prefixCls}-items`} key={key}>
+                        {res}
+                    </div>
+                </Transition>
             ) : null
         }
 
@@ -158,17 +172,23 @@ const MiSearch = defineComponent({
                     <img src={item.avatar} alt={item.name ?? $g.powered} />
                 </div>
             ) : null
+            let icon = null
+            if (item.icon) {
+                const IconTag = isVNode(item.icon) ? item.icon : h(item.icon)
+                icon = <IconTag />
+            }
             const width = props.width ? (
                 (avatar ? `${$tools.px2Rem(props.width > 260 ? 180 : props.width - 80)}rem` : null)
             ) : null
             const info = (
-                <div class={`${prefixCls}-item-info`} style={{width}}>
-                    {item[props.searchKey]}
+                <div class={`${prefixCls}-item-info${item.content ? ` ${prefixCls}-item-info-has-content` : ''}`} style={{width}}>
+                    <div innerHTML={item[props.searchKey]} />
+                    <div innerHTML={item.content ?? null} />
                 </div>
             )
             return (
                 <>
-                    {avatar}
+                    {avatar ?? icon ?? null}
                     {info}
                 </>
             )
@@ -220,7 +240,8 @@ const MiSearch = defineComponent({
                             ? $tools.htmlEncode(item[name])
                             : item[name]
                     }
-                    type={type} />
+                    type={type}
+                    key={item[name] ?? Math.random()} />
             )
         }
 
@@ -242,7 +263,66 @@ const MiSearch = defineComponent({
             ) : null
         }
 
-        const renderPagination = () => {}
+        const renderPagination = () => {
+            const len = params.list.length
+            if (
+                props.pagination &&
+                !params.error &&
+                !params.loading &&
+                len > 0
+            ) {
+                const total = Math.ceil(len / props.pageSize)
+                params.page.total = total
+                return (
+                    <div class={`${prefixCls}-pagination`}>
+                        <div class={`${prefixCls}-pagination-page`} style={style.page}>
+                            <span class={`prev${params.page.active <= 1 ? ' disabled' : ''}`}
+                                title={t('page-prev')}
+                                onClick={handlePagePrev}>
+                                <LeftCircleOutlined />
+                            </span>
+                            {t('page-prefix')}
+                            <input min={1} max={total}
+                                type="mumber"
+                                value={params.page.active}
+                                onInput={handlePageInputChange}
+                                onBlur={handlePageInputBlur}
+                                onKeydown={handlePageInputKeydown} />
+                            / {total} {t('page-unit')}
+                            <span class={`next${params.page.active >= params.page.total ? ' disabled' : ''}`}
+                                title={t('page-next')}
+                                onClick={handlePageNext}>
+                                <RightCircleOutlined />
+                            </span>
+                        </div>
+                        <div class={`${prefixCls}-pagination-total`} style={style.page}>
+                            {t('page-total')}<span>{len}</span>{t('page-strip')}
+                        </div>
+                    </div>
+                )
+            }
+        }
+
+        const handlePagePrev = () => {
+            if (params.page.active > 1) params.page.active--
+        }
+        const handlePageNext = () => {
+            const next = params.page.active + 1
+            if (next <= params.page.total) params.page.active = next
+        }
+        const handlePageInputChange = (evt: Event) => {
+            const value = parseInt((evt.target as HTMLInputElement).value)
+            if (value) params.page.active = value
+            if (value > params.page.total) params.page.active = params.page.total
+            if (!value) params.page.active = 1
+
+        }
+        const handlePageInputBlur = (evt: Event) => {
+            handlePageInputChange(evt)
+        }
+        const handlePageInputKeydown = (evt: KeyboardEvent) => {
+            if (evt.key === 'Enter') handlePageInputChange(evt)
+        }
 
         const handleSearch = () => {
             const search = () => {
@@ -294,9 +374,7 @@ const MiSearch = defineComponent({
                     const temp = {...data}
                     temp[props.searchKey] = data[props.searchKey].replace(
                         reg,
-                        `<span class="${prefixCls}-key" style="color: ${props.searchKeyColor ?? null}">
-                            ${params.keyword}
-                        </span>`
+                        `<span class="${prefixCls}-key" ${style.keyword ? `style="${style.keyword}"` : ''}>${params.keyword}</span>`
                     )
                     temp[prefixIdx] = idx
                     params.list.push(temp)
@@ -306,6 +384,7 @@ const MiSearch = defineComponent({
 
         const handleListItemClick = (data: any, evt?: any) => {
             emit('itemClick', data, evt)
+            if (props.colseAfterItemClick) params.show = false
         }
 
         const handleOnFocus = (evt: Event) => {
@@ -356,7 +435,9 @@ const MiSearch = defineComponent({
                 borderColor: props.borderColor ?? null,
                 color: props.textColor ?? null,
                 boxShadow: props.boxShadow ? `0 0 ${$tools.px2Rem(props.boxShadowBlur)}rem ${props.boxShadowColor}` : null
-            }
+            },
+            keyword: props.searchKeyColor ? `color: ${props.searchKeyColor}` : null,
+            page: {color: props.pageColor ?? null}
         }
 
         return () => (
