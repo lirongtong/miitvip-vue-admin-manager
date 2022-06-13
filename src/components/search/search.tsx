@@ -51,6 +51,7 @@ export const searchProps = () => ({
     listBoxShadowBlur: PropTypes.number.def(6),
     listNoDataText: PropTypes.string,
     listNoDataColor: PropTypes.string.def('#000'),
+    listDestroyOnHide: PropTypes.bool.def(false),
     pagination: PropTypes.bool.def(true),
     pageSize: PropTypes.number.def(10),
     pageColor: PropTypes.string,
@@ -95,25 +96,42 @@ const MiSearch = defineComponent({
                 boxShadow: props.listBoxShadow && props.listBoxShadowColor ? `0 0 ${$tools.px2Rem(props.listBoxShadowBlur)}rem ${props.listBoxShadowColor}` : null,
                 marginTop: props.gap ? `${$tools.px2Rem(props.gap)}rem` : null
             }
-            const noData = params.list.length <= 0 && !params.loading && !params.error
-                ? (
-                    <div class={`${prefixCls}-no-data`}>
-                        <FormOutlined />
-                        <p>{props.listNoDataText ?? t('no-data')}</p>
+            const elem = (
+                <>
+                    {/* no data */}
+                    {(
+                        params.list.length <= 0 &&
+                        !params.loading &&
+                        !params.error
+                    ) ? (
+                        <div class={`${prefixCls}-no-data`}>
+                            <FormOutlined />
+                            <p>{props.listNoDataText ?? t('no-data')}</p>
+                        </div>
+                    ) : null}
+                    {/* error */}
+                    {params.error ? (
+                        <div class={`${prefixCls}-error`}>{params.error}</div>
+                    ) : null}
+                    {renderLoading()}
+                    {renderResultList()}
+                    {renderPagination()}
+                </>
+            )
+            const res = props.listDestroyOnHide ? (
+                params.show ? (
+                    <div class={`${prefixCls}-list`} style={style}>
+                        {elem}
                     </div>
                 ) : null
-            const error = params.error ? (
-                <div class={`${prefixCls}-error`}>{params.error}</div>
-            ) : null
+            ) : (
+                <div class={`${prefixCls}-list`} style={style} v-show={params.show}>
+                    {elem}
+                </div>
+            )
             return (
                 <Transition name={listAnim} appear={true}>
-                    <div class={`${prefixCls}-list`} style={style}>
-                        {noData}
-                        {error}
-                        {renderLoading()}
-                        {renderResultList()}
-                        {renderPagination()}
-                    </div>
+                    {res}
                 </Transition>
             )
         }
@@ -482,7 +500,7 @@ const MiSearch = defineComponent({
                         onKeyup={handleOnKeyup}
                         style={style.input} />
                     { suffixTag }
-                    { params.show ? renderList() : null }
+                    { renderList() }
                 </div>
                 <Teleport to="body">
                     <div class={`${prefixCls}-mask`}
