@@ -267,3 +267,44 @@
     66.66% { transform: translate(21px, 51px) }
     100% { transform: translate(1px, 1px) }
 }
+
+@keyframes mi-anim-rotate {
+    0% { transform: rotate(0) }
+    100% { transform: rotate(360deg) }
+}
+
+@keyframes mi-captcha-modal-open {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(0, 0, 1);
+		-moz-transform: scale3d(0, 0, 1);
+		-o-transform: scale3d(0, 0, 1);
+		-ms-transform: scale3d(0, 0, 1);
+		transform: scale3d(0, 0, 1);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
+		-moz-transform: scale3d(1, 1, 1);
+		-o-transform: scale3d(1, 1, 1);
+		-ms-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes mi-captcha-success {
+	25% {
+		-o-transform: (25deg);
+		-moz-transform: rotate(25deg);
+		-ms-transform: rotate(25deg);
+		-webkit-transform: rotate(25deg);
+		transform: rotate(25deg)
+	}
+	100% {
+		-o-transform: rotate(-360deg);
+		-moz-transform: rotate(-360deg);
+		-ms-transform: rotate(-360deg);
+		-webkit-transform: rotate(-360deg);
+		transform: rotate(-360deg)
+	}
+}

@@ -1,0 +1,158 @@
+@import '../../../styles/theme/index.less';
+
+@mi-captcha: ~'@{mi-prefix}captcha';
+@mi-icon: ~'@{mi-prefix}icon';
+
+.@{mi-captcha} {
+    width: 100%;
+    .properties(height, 42);
+    font-family: @mi-font-family;
+    .letter-spacing();
+
+    &-content {
+		width: 100%;
+		height: 100%;
+		position: relative;
+    }
+
+    &-radar {
+        .flex(center, flex-start);
+		height: 100%;
+        width: 100%;
+        .linear-gradient-background();
+        border: 1px solid var(--mi-theme, @mi-theme);
+        box-shadow: 0 0 4px var(--mi-theme, @mi-theme);
+        cursor: pointer;
+        .properties(min-width, 160);
+        position: relative;
+
+        &-ready,
+		&-scan,
+		&-being,
+		&-success {
+            .flex();
+            flex-wrap: nowrap;
+            position: relative;
+			transition: all @mi-anim-duration ease;
+			.properties(width, 30);
+			.properties(height, 30);
+			.properties(margin, 6);
+        }
+
+        &-ring,
+		&-dot {
+			position: absolute;
+			.border-radius-circle();
+			transform: scale(.4);
+			width: 100%;
+			height: 100%;
+			box-shadow: inset 0 0 0 1px var(--mi-theme, @mi-theme);
+			background-image: linear-gradient(0, rgba(0, 0, 0, 0) 50%, #fff 50%), linear-gradient(0, #fff 50%, rgba(0, 0, 0, 0) 50%);
+        }
+
+        &-dot {
+            background: var(--mi-theme, @mi-theme);
+        }
+
+        &-ring {
+			animation: mi-anim-wait 1s infinite;
+			transform: scale(1);
+        }
+
+        &-scan {
+            .double-ring {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                transform: translateZ(0) scale(1);
+                backface-visibility: hidden;
+                transform-origin: 0 0;
+
+                > div {
+                    position: absolute;
+                    .properties(width, 24);
+                    .properties(height, 24);
+                    .properties(top, 3);
+                    .properties(left, 3);
+                    .border-radius-circle();
+                    border: 3px solid var(--mi-ink, @mi-ink);
+                    border-color: var(--mi-theme, @mi-theme) transparent var(--mi-theme, @mi-theme) transparent;
+                    animation: mi-anim-rotate .8s linear infinite;
+                }
+
+                > div:nth-child(2) {
+                    .properties(width, 14);
+                    .properties(height, 14);
+                    .properties(top, 8);
+                    .properties(left, 8);
+                    border-color: transparent var(--mi-theme, @mi-theme) transparent var(--mi-theme, @mi-theme);
+                    animation: mi-anim-rotate .5s linear infinite reverse;
+                }
+            }
+        }
+
+        &-being {
+            .flex();
+            .properties(font-size, 14);
+            font-weight: 600;
+            color: var(--mi-font, @mi-font);
+            text-align: center;
+        }
+
+        &-success {
+			.flex();
+			cursor: default;
+
+			&-icon {
+                color: var(--mi-theme, @mi-theme);
+				animation-name: mi-captcha-success;
+				animation-timing-function: ease;
+				animation-iteration-count: 1;
+				animation-delay: .5s;
+				animation-duration: .5s;
+			}
+		}
+
+        &-tip {
+            .flex(center, flex-start);
+			.properties(height, 42);
+			.properties(padding-left, 2);
+			.properties(font-size, @mi-font-size-normal);
+			color: var(--mi-font, @mi-font);
+			.text-ellipsis();
+			text-align: left;
+
+			&-error {
+				color: var(--mi-danger, @mi-danger);
+			}
+        }
+        
+        &-pass &-tip {
+            color: var(--mi-theme, @mi-theme);
+        }
+
+        &-logo {
+            position: absolute;
+            .properties(right);
+            .properties(top, 10);
+			.properties(width, 20);
+			.properties(height, 20);
+            border: 1px solid var(--mi-theme, @mi-theme);
+            .linear-gradient-background();
+            .border-radius-circle();
+            overflow: hidden;
+
+            > a {
+                .flex();
+            }
+
+			img {
+                width: 100%;
+                height: 100%;
+                transform: scale(1.1);
+			}
+		}
+    }
+}
+
+@import './modal.less';

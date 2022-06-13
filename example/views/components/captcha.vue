@@ -1,3 +1,3 @@
 <template>
-    Captcha
+    <mi-captcha />
 </template>

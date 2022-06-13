@@ -14,6 +14,7 @@ import { default as Menu } from './components/menu'
 import { default as Dropdown } from './components/dropdown'
 import { default as Clock } from './components/clock'
 import { default as Search } from './components/search'
+import { default as Captcha } from './components/captcha'
 
 const components = [
     i18n,
@@ -27,7 +28,8 @@ const components = [
     Menu,
     Dropdown,
     Clock,
-    Search
+    Search,
+    Captcha
 ]
 
 let _init = false
@@ -58,7 +60,8 @@ export {
     Menu,
     Dropdown,
     Clock,
-    Search
+    Search,
+    Captcha
 }
 
 export default {

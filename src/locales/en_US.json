@@ -37,5 +37,20 @@
         "error": "Full screen failed, please refresh and try again",
         "capture": "No content to display in full screen",
         "support": "The current browser does not support full screen operation"
+    },
+    "captcha": {
+        "loading": "Loading verification code ···",
+        "init": "Initializing verification code ···",
+        "click": "Click the button to verify",
+        "checking": "Intelligent detection ···",
+        "pass": "Approved",
+        "tip": "Error message",
+        "error": "Error {num} times in a row, please try again later",
+        "move": "Please move the slider to complete the verification",
+        "drag": "Drag the slider on the left to complete the puzzle",
+        "close": "Close verification",
+        "refresh": "Refresh verification",
+        "feedback": "Help feedback",
+        "provide": "provide technical support"
     }
 }
