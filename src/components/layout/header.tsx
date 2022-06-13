@@ -9,6 +9,7 @@ import {
     MenuFoldOutlined, MenuUnfoldOutlined, BgColorsOutlined,
     ExpandOutlined, CompressOutlined
 } from '@ant-design/icons-vue'
+import { mutations } from '../../store/types'
 import MiDropdown from '../dropdown'
 import MiNotice from '../notice'
 import screenfull from 'screenfull'
@@ -113,11 +114,27 @@ export default defineComponent({
             } else console.log(t('screenfull.support'))
         }
 
+        const setCollapsed = () => {
+            if (isMobile.value) {
+                $g.menus.drawer = !$g.menus.drawer
+            } else {
+                const collapse = !collapsed.value
+                $g.menus.collapsed = collapse
+                store.commit(`layout/${mutations.layout.collapsed}`, collapse)
+                console.log(collapse)
+            }
+        }
+
         return () => (
             <Layout.Header class={`${prefixCls}`} {...attrs}>
+                {/* left */}
                 <div class={headerCls.left}>
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-no-bg`}>{getStretch()}</div>
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-no-bg`}
+                        onClick={setCollapsed}>
+                        {getStretch()}
+                    </div>
                 </div>
+                {/* right */}
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
                     <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
