@@ -38,13 +38,13 @@ export default defineComponent({
                 let week = null
                 if (['zh-cn', 'zh-tw'].includes(locale.value)) {
                     const weeks = [
-                        t('Sun'),
-                        t('Mon'),
-                        t('Tues'),
-                        t('Wed'),
-                        t('Thur'),
-                        t('Fri'),
-                        t('Sat')
+                        t('week.sun'),
+                        t('week.mon'),
+                        t('week.tues'),
+                        t('week.wed'),
+                        t('week.thur'),
+                        t('week.fri'),
+                        t('week.sat')
                     ]
                     week = weeks[date.getDay()]
                     const year = date.getFullYear()

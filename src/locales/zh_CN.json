@@ -1,28 +1,41 @@
 {
     "site": "麦可易特网",
-    "month": "月",
-    "day": "日",
-    "Mon": "周一",
-    "Tues": "周二",
-    "Wed": "周三",
-    "Thur": "周四",
-    "Fri": "周五",
-    "Sat": "周六",
-    "Sun": "周日",
+    "week": {
+        "mon": "周一",
+        "tues": "周二",
+        "wed": "周三",
+        "thur": "周四",
+        "fri": "周五",
+        "sat": "周六",
+        "sun": "周日"
+    },
     "good-day": "美好的一天",
-    "theme-dark": "深色",
-    "theme-light": "浅色",
     "no-data": "暂无符合条件的数据",
-    "searching": "搜索中 ···",
-    "search-key": "请输入要搜索的关键词",
-    "search-fail-msg": "源数据获取失败，无法完成搜索",
-    "search-fail-code": "错误代码：",
-    "search-fail-reason": "错误原因：",
-    "search-fail-api": "接口发生了不可预知的错误",
-    "page-prev": "上一页",
-    "page-next": "下一页",
-    "page-prefix": "第",
-    "page-unit": "页",
-    "page-strip": "条",
-    "page-total": "共"
+    "theme": {
+        "light": "浅色",
+        "dark": "深色"
+    },
+    "search": {
+        "searching": "搜索中 ···",
+        "key": "请输入要搜索的关键词",
+        "fail": {
+            "message": "源数据获取失败，无法完成搜索",
+            "code": "错误代码：",
+            "reason": "错误原因：",
+            "api": "接口发生了不可预知的错误"
+        }
+    },
+    "page": {
+        "prefix": "第",
+        "prev": "上一页",
+        "next": "下一页",
+        "unit": "页",
+        "strip": "条",
+        "total": "共"
+    },
+    "screenfull": {
+        "error": "全屏失败，请刷新后再试",
+        "capture": "未获取到要全屏展示的内容",
+        "support": "当前浏览器不支持全屏操作"
+    }
 }

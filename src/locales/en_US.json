@@ -1,28 +1,41 @@
 {
     "site": "makeit.vip",
-    "month": "",
-    "day": "",
-    "Mon": "Monday",
-    "Tues": "Tuesday",
-    "Wed": "Wednesday",
-    "Thur": "Thursday",
-    "Fri": "Friday",
-    "Sat": "Saturday",
-    "Sun": "Sunday",
     "good-day": "Good Day",
-    "theme-dark": "Dark",
-    "theme-light": "Light",
     "no-data": "No data yet",
-    "searching": "Searching ···",
-    "search-key": "Please enter keywords to search",
-    "search-fail-msg": "Search could not be completed without source data",
-    "search-fail-code": "Error code: ",
-    "search-fail-reason": "Wrong reason: ",
-    "search-fail-api": "Unknowable error",
-    "page-prev": "previous page",
-    "page-next": "next page",
-    "page-prefix": "No.",
-    "page-unit": "",
-    "page-strip": "",
-    "page-total": "Total:"
+    "week": {
+        "mon": "Monday",
+        "tues": "Tuesday",
+        "wed": "Wednesday",
+        "thur": "Thursday",
+        "fri": "Friday",
+        "sat": "Saturday",
+        "sun": "Sunday"
+    },
+    "theme": {
+        "light": "Light",
+        "dark": "Dark"
+    },
+    "search": {
+        "searching": "Searching ···",
+        "key": "Please enter keywords to search",
+        "fail": {
+            "message": "Search could not be completed without source data",
+            "code": "Error code: ",
+            "reason": "Wrong reason: ",
+            "api": "Unknowable error"
+        }
+    },
+    "page": {
+        "prefix": "No.",
+        "prev": "previous page",
+        "next": "next page",
+        "unit": "",
+        "strip": "",
+        "total": "Total:"
+    },
+    "screenfull": {
+        "error": "Full screen failed, please refresh and try again",
+        "capture": "No content to display in full screen",
+        "support": "The current browser does not support full screen operation"
+    }
 }

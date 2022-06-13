@@ -262,7 +262,7 @@ const MiSearch = defineComponent({
                             </div>
                         </div>
                     </div>
-                    <div class={`${prefixCls}-loading-text`}>{t('searching')}</div>
+                    <div class={`${prefixCls}-loading-text`}>{t('search.searching')}</div>
                 </div>
             ) : null
         }
@@ -281,26 +281,26 @@ const MiSearch = defineComponent({
                     <div class={`${prefixCls}-pagination`}>
                         <div class={`${prefixCls}-pagination-page`} style={style.page}>
                             <span class={`prev${params.page.active <= 1 ? ' disabled' : ''}`}
-                                title={t('page-prev')}
+                                title={t('page.prev')}
                                 onClick={handlePagePrev}>
                                 <LeftCircleOutlined />
                             </span>
-                            {t('page-prefix')}
+                            {t('page.prefix')}
                             <input min={1} max={total}
                                 type="mumber"
                                 value={params.page.active}
                                 onInput={handlePageInputChange}
                                 onBlur={handlePageInputBlur}
                                 onKeydown={handlePageInputKeydown} />
-                            / {total} {t('page-unit')}
+                            / {total} {t('page.unit')}
                             <span class={`next${params.page.active >= params.page.total ? ' disabled' : ''}`}
-                                title={t('page-next')}
+                                title={t('page.next')}
                                 onClick={handlePageNext}>
                                 <RightCircleOutlined />
                             </span>
                         </div>
                         <div class={`${prefixCls}-pagination-total`} style={style.page}>
-                            {t('page-total')}<span>{len}</span>{t('page-strip')}
+                            {t('page.total')}<span>{len}</span>{t('page.strip')}
                         </div>
                     </div>
                 )
@@ -341,9 +341,9 @@ const MiSearch = defineComponent({
                             params.error = (
                                 <>
                                     <FrownOutlined />
-                                    <p>{t('search-fail-msg')}</p>
-                                    <p>{t('search-fail-code') + res.ret.code}</p>
-                                    <p>{t('search-fail-reason') + res.ret.message}</p>
+                                    <p>{t('search.fail.message')}</p>
+                                    <p>{t('search.fail.code') + res.ret.code}</p>
+                                    <p>{t('search.fail.reason') + res.ret.message}</p>
                                 </>
                             )
                         }
@@ -354,7 +354,7 @@ const MiSearch = defineComponent({
                             params.error = (
                                 <>
                                     <FrownOutlined />
-                                    <p>{t('search-fail-api')}</p>
+                                    <p>{t('search.fail.api')}</p>
                                     <p>{err.message}</p>
                                 </>
                             )
@@ -473,7 +473,7 @@ const MiSearch = defineComponent({
                     <input class={`${prefixCls}-input${props.suffix ? ` ${prefixCls}-has-suffix` : ''}`}
                         name={prefixCls}
                         ref={prefixCls}
-                        placeholder={props.placeholder ?? t('search-key')}
+                        placeholder={props.placeholder ?? t('search.key')}
                         value={params.keyword}
                         onFocus={handleOnFocus}
                         onBlur={handleOnBlur}

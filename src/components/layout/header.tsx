@@ -1,13 +1,17 @@
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { Layout, Popover, Radio } from 'ant-design-vue'
 import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
-import { MenuFoldOutlined, MenuUnfoldOutlined, BgColorsOutlined } from '@ant-design/icons-vue'
+import {
+    MenuFoldOutlined, MenuUnfoldOutlined, BgColorsOutlined,
+    ExpandOutlined, CompressOutlined
+} from '@ant-design/icons-vue'
 import MiDropdown from '../dropdown'
 import MiNotice from '../notice'
+import screenfull from 'screenfull'
 
 export const layoutHeaderProps = () => ({
     prefixCls: String,
@@ -35,6 +39,7 @@ export default defineComponent({
             trigger: `${prefixCls}-trigger`,
             palette: `${prefixCls}-palette`
         }
+        const full = ref<boolean>(false)
 
         const getStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
@@ -44,6 +49,14 @@ export default defineComponent({
                 else stretch = <MenuUnfoldOutlined />
             }
             return stretch
+        }
+
+        const getScreenfull = () => {
+            let elem = !full.value
+                ? <ExpandOutlined onClick={screenfullQuitOrIn} />
+                : <CompressOutlined onClick={screenfullQuitOrIn} />
+            if (isMobile.value) elem = null
+            return elem
         }
 
         const changePalette = (theme = 'dark') => {
@@ -59,7 +72,7 @@ export default defineComponent({
                                 <img src={$g.theme.thumbnails.dark} />
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio checked={$g.theme.active === 'dark'}>{t('theme-dark')}</Radio>
+                                <Radio checked={$g.theme.active === 'dark'}>{t('theme.dark')}</Radio>
                             </div>
                         </div>
                         <div class={`${headerCls.palette}-item${$g.theme.active === 'light' ? ` ${headerCls.palette}-active` : ''}`} onClick={() => changePalette('light')}>
@@ -67,7 +80,7 @@ export default defineComponent({
                                 <img src={$g.theme.thumbnails.light} />
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio checked={$g.theme.active === 'light'}>{t('theme-light')}</Radio>
+                                <Radio checked={$g.theme.active === 'light'}>{t('theme.light')}</Radio>
                             </div>
                         </div>
                     </div>
@@ -84,6 +97,22 @@ export default defineComponent({
             )
         }
 
+        const screenfullQuitOrIn = () => {
+            if (screenfull.isEnabled) {
+                const elem = document.body
+                if (elem) {
+                    full.value = !full.value
+                    if (full.value) {
+                        screenfull.request(elem)
+                        screenfull.on('error', () => console.log(t('screenfull.error')))
+                    } else screenfull.exit()
+                    screenfull.onchange(() => {
+                        full.value = screenfull.isFullscreen
+                    })
+                } else console.log(t('screenfull.capture'))
+            } else console.log(t('screenfull.support'))
+        }
+
         return () => (
             <Layout.Header class={`${prefixCls}`} {...attrs}>
                 <div class={headerCls.left}>
@@ -91,6 +120,9 @@ export default defineComponent({
                 </div>
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
+                        { getScreenfull() ??  null }
+                    </div>
                     <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
                         {getPropSlot(slots, props, 'notice') ?? (
                             <MiNotice class={`${prefixCls}-notice`} />
