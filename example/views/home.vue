@@ -11,7 +11,10 @@ import { inject, createVNode } from 'vue'
 import {
     DashboardOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined,
     LayoutOutlined, LoginOutlined, ScheduleOutlined, ThunderboltOutlined,
-    CrownOutlined, SaveOutlined, ToolOutlined
+    CrownOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, QuestionCircleOutlined,
+    AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
+    SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
+    CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled
 } from '@ant-design/icons-vue'
 const $g = inject('$g')
 $g.menus.items = [{
@@ -36,7 +39,7 @@ $g.menus.items = [{
     path: '/theme',
     meta: {
         title: '主题定制',
-        subTitle: 'Theme Customization',
+        subTitle: 'Custom Theme',
         icon: CrownOutlined
     }
 }, {
@@ -44,7 +47,7 @@ $g.menus.items = [{
     path: '/tools',
     meta: {
         title: '系统工具',
-        subTitle: 'Tools',
+        subTitle: 'System Tools',
         icon: SisternodeOutlined
     },
     children: [{
@@ -80,6 +83,138 @@ $g.menus.items = [{
             icon: ToolOutlined
         }
     }]
+}, {
+    name: 'pages',
+    path: '/pages',
+    meta: {
+        title: '基础页面',
+        subTitle: 'Base Pages',
+        icon: SnippetsOutlined
+    },
+    children: [{
+        name: 'pages-login',
+        path: '/pages/login',
+        meta: {
+            title: '登录页面',
+            subTitle: 'Log In',
+            icon: LoginOutlined
+        }
+    }, {
+        name: 'pages-register',
+        path: '/pages/register',
+        meta: {
+            title: '注册页面',
+            subTitle: 'Register',
+            icon: ScheduleOutlined
+        }
+    }, {
+        name: 'pages-forgot',
+        path: '/pages/forgot',
+        meta: {
+            title: '忘记密码',
+            subTitle: 'Forgot Password',
+            icon: QuestionCircleOutlined
+        }
+    }]
+}, {
+    name: 'components',
+    path: '/components',
+    meta: {
+        title: '定制组件',
+        subTitle: 'Custom Components',
+        icon: AppstoreAddOutlined,
+        tag: {icon: FireFilled, color: '#ed4014'}
+    },
+    children: [{
+        name: 'components-layout',
+        path: '/components/layout',
+        meta: {
+            title: '基础布局',
+            subTitle: 'Layout',
+            icon: LayoutOutlined
+        }
+    }, {
+        name: 'components-notice',
+        path: '/components/notice',
+        meta: {
+            title: '消息中心',
+            subTitle: 'Notice',
+            icon: BellOutlined
+        }
+    }, {
+        name: 'components-modal',
+        path: '/components/modal',
+        meta: {
+            title: '弹窗提示',
+            subTitle: 'Modal',
+            icon: SwitcherOutlined
+        }
+    }, {
+        name: 'components-captcha',
+        path: '/components/captcha',
+        meta: {
+            title: '滑块验证',
+            subTitle: 'Captcha',
+            icon: ScanOutlined,
+            tag: {icon: LikeFilled, color: '#4caf50'}
+        }
+    }, {
+        name: 'components-search',
+        path: '/components/search',
+        meta: {
+            title: '搜索联想',
+            subTitle: 'Search',
+            icon: SearchOutlined
+        }
+    }, {
+        name: 'components-password',
+        path: '/components/password',
+        meta: {
+            title: '密码设置',
+            subTitle: 'Password',
+            icon: SafetyCertificateOutlined
+        }
+    }, {
+        name: 'components-upload',
+        path: '/components/upload',
+        meta: {
+            title: '文件上传',
+            subTitle: 'Upload',
+            icon: CloudUploadOutlined
+        }
+    }, {
+        name: 'components-anchor',
+        path: '/components/anchor',
+        meta: {
+            title: '锚点链接',
+            subTitle: 'Anchor',
+            icon: BorderlessTableOutlined
+        }
+    }, {
+        name: 'components-menu',
+        path: '/components/menu',
+        meta: {
+            title: '左侧菜单',
+            subTitle: 'Menu',
+            icon: OrderedListOutlined
+        }
+    }, {
+        name: 'components-dropdown',
+        path: '/components/dropdown',
+        meta: {
+            title: '下拉菜单',
+            subTitle: 'Dropdown',
+            icon: MenuOutlined
+        }
+    }]
+}, {
+    name: 'advanced',
+    path: '/advanced',
+    meta: {
+        title: '高级应用',
+        subTitle: 'Advanced Application',
+        icon: GooglePlusOutlined
+    }
 }]
 const searchData = [{
     title: '页面布局',
@@ -94,7 +229,7 @@ const searchData = [{
 }, {
     title: '注册页面',
     content: '快速构建精美「注册页面」',
-    link: '/login',
+    link: '/register',
     icon: ScheduleOutlined
 }]
 </script>

@@ -23,18 +23,14 @@ export default defineComponent({
         }
         const getTitle = () => {
             const text = props.item.meta?.title ?? $g.title
-            let title: any = <span innerHTML={text} />
-            if (!props.topLevel) {
-                const subTitle = props.item.meta?.subTitle ?? null
-                const subElem = subTitle ? <span class="sub" innerHTML={subTitle} /> : null
-                title = (
-                    <div class={`${prefixCls}-title`}>
-                        <span innerHTML={props.hasTitle ? text : null} />
-                        {subElem}
-                    </div>
-                )
-            }
-            return title
+            const subTitle = props.item.meta?.subTitle ?? null
+            const subElem = subTitle ? <span class="sub" innerHTML={subTitle} /> : null
+            return (
+                <div class={`${prefixCls}-title`}>
+                    <span innerHTML={props.hasTitle ? text : null} />
+                    {subElem}
+                </div>
+            )
         }
         const getTag = () => {
             let tag: any = null

@@ -14,7 +14,19 @@ const ToolsFunctions = () => import('../views/tools/functions.vue')
 const Pages = () => import('@views/pages/index.vue')
 const PagesLogin = () => import('@views/pages/login.vue')
 const PagesRegister = () => import('@views/pages/register.vue')
-const PagesForget = () => import('@views/pages/forget.vue')
+const PagesForgot = () => import('@views/pages/forget.vue')
+const Components = () => import('@views/components/index.vue')
+const ComponentsLayout = () => import('@views/components/layout.vue')
+const ComponentsMenu = () => import('@views/components/menu.vue')
+const ComponentsDropdown = () => import('@views/components/dropdown.vue')
+const ComponentsNotice = () => import('@views/components/notice.vue')
+const ComponentsModal = () => import('@views/components/modal.vue')
+const ComponentsCaptcha = () => import('@views/components/captcha.vue')
+const ComponentsSearch = () => import('@views/components/search.vue')
+const ComponentsPassword = () => import('@views/components/password.vue')
+const ComponentsUpload = () => import('@views/components/upload.vue')
+const ComponentsAnchor = () => import('@views/components/anchor.vue')
+const Advanced = () => import('@views/advanced/index.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
     path: '/',
@@ -80,11 +92,73 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             meta: {title: '注册页面'},
             component: PagesRegister
         }, {
-            path: '/pages/forget',
-            name: 'pages-forget',
+            path: '/pages/forgot',
+            name: 'pages-forgot',
             meta: {title: '忘记密码'},
-            component: PagesForget
+            component: PagesForgot
         }]
+    }, {
+        path: '/components',
+        name: 'components',
+        meta: {title: '定制组件'},
+        component: Components,
+        redirect: '/components/layout',
+        children: [{
+            path: '/components/layout',
+            name: 'components-layout',
+            meta: {title: '基础布局'},
+            component: ComponentsLayout
+        }, {
+            path: '/components/menu',
+            name: 'components-menu',
+            meta: {title: '左侧菜单'},
+            component: ComponentsMenu
+        }, {
+            path: '/components/notice',
+            name: 'components-notice',
+            meta: {title: '消息中心'},
+            component: ComponentsNotice
+        }, {
+            path: '/components/modal',
+            name: 'components-modal',
+            meta: {title: '弹窗提示'},
+            component: ComponentsModal
+        }, {
+            path: '/components/captcha',
+            name: 'components-captcha',
+            meta: {title: '滑块验证'},
+            component: ComponentsCaptcha
+        }, {
+            path: '/components/search',
+            name: 'components-search',
+            meta: {title: '搜索联想'},
+            component: ComponentsSearch
+        }, {
+            path: '/components/password',
+            name: 'components-password',
+            meta: {title: '密码设置'},
+            component: ComponentsPassword
+        }, {
+            path: '/components/dropdown',
+            name: 'components-dropdown',
+            meta: {title: '下拉菜单'},
+            component: ComponentsDropdown
+        }, {
+            path: '/components/upload',
+            name: 'components-upload',
+            meta: {title: '文件上传'},
+            component: ComponentsUpload
+        }, {
+            path: '/components/anchor',
+            name: 'components-anchor',
+            meta: {title: '锚点链接'},
+            component: ComponentsAnchor
+        }]
+    }, {
+        path: '/advanced',
+        name: 'advanced',
+        meta: {title: '高级应用'},
+        component: Advanced
     }]
 }]
 

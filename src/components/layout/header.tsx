@@ -121,7 +121,6 @@ export default defineComponent({
                 const collapse = !collapsed.value
                 $g.menus.collapsed = collapse
                 store.commit(`layout/${mutations.layout.collapsed}`, collapse)
-                console.log(collapse)
             }
         }
 
