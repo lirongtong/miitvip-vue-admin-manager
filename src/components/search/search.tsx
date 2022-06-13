@@ -21,6 +21,7 @@ export const searchProps = () => ({
     radius: PropTypes.number.def(48),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.string,
+    suffix: PropTypes.any,
     borderColor: PropTypes.string,
     textColor: PropTypes.string,
     backgroundColor: PropTypes.string,
@@ -59,7 +60,7 @@ const MiSearch = defineComponent({
     name: 'MiSearch',
     inheritAttrs: false,
     props: searchProps(),
-    slots: ['itemTemplate'],
+    slots: ['itemTemplate', 'suffix'],
     emits: ['focus', 'blur', 'keydown', 'keyup', 'pressEnter', 'itemClick', 'input', 'change', 'update:value', 'close'],
     setup(props, {slots, attrs, emit}) {
         const { t } = useI18n()
@@ -434,6 +435,13 @@ const MiSearch = defineComponent({
             emit('close')
         }
 
+        const handleSearchOnClickBtn = () => {
+            if (params.keyword) {
+                params.loading = true
+                handleSearch()
+            }
+        }
+
         const style = {
             box: {
                 width: props.width ? `${$tools.px2Rem(props.width)}rem` : null,
@@ -450,10 +458,17 @@ const MiSearch = defineComponent({
             page: {color: props.pageColor ?? null}
         }
 
+        const suffix = getPropSlot(slots, props, 'suffix')
+        const suffixTag = props.suffix ? (
+            <div class={`${prefixCls}-suffix`} onClick={handleSearchOnClickBtn}>
+                {isVNode(suffix) ? suffix : h(suffix)}
+            </div>
+        ) : null
+
         return () => (
             <>
                 <div class={prefixCls} {...attrs} style={style.box}>
-                    <input class={`${prefixCls}-input`}
+                    <input class={`${prefixCls}-input${props.suffix ? ` ${prefixCls}-has-suffix` : ''}`}
                         name={prefixCls}
                         ref={prefixCls}
                         placeholder={props.placeholder ?? t('search-key')}
@@ -464,6 +479,7 @@ const MiSearch = defineComponent({
                         onKeydown={handleOnKeydown}
                         onKeyup={handleOnKeyup}
                         style={style.input} />
+                    { suffixTag }
                     { params.show ? renderList() : null }
                 </div>
                 <Teleport to="body">

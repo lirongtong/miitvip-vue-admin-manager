@@ -14,8 +14,8 @@
         .text-ellipsis();
         .properties(padding-top, 6);
         .properties(padding-bottom, 6);
-        .properties(padding-left, 12);
-        .properties(padding-right, 12);
+        .properties(padding-left, 16);
+        .properties(padding-right, 16);
         color: var(--mi-search-text, @mi-search-text);
         border: 1px solid var(--mi-theme, @mi-theme);
         background-color: var(--mi-ink, @mi-ink);
@@ -34,6 +34,16 @@
             outline: 0;
             border-color: var(--mi-theme, @mi-theme);
         }
+    }
+
+    &-has-suffix {
+        .properties(padding-right, 42);
+    }
+
+    &-suffix {
+        position: absolute;
+        .properties(right, 16);
+        cursor: pointer;
     }
 
     &-list {

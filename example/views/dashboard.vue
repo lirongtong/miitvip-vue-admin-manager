@@ -1,9 +1,9 @@
 <template>
-    <mi-search search-key="title" :data="data" @item-click="itemClick"></mi-search>
+    <mi-search search-key="title" :data="data" @item-click="itemClick" :suffix="SearchOutlined"></mi-search>
 </template>
 
 <script setup>
-import { DashboardOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, SearchOutlined } from '@ant-design/icons-vue'
 
 const data = [{
     title: '快速上手',
