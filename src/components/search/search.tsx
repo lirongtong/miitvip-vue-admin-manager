@@ -1,5 +1,5 @@
 import {
-    defineComponent, Transition, reactive,
+    defineComponent, Transition, reactive, Teleport,
     isVNode, VNode, cloneVNode, Component, h
 } from 'vue'
 import MiSearchKey from './key'
@@ -60,7 +60,7 @@ const MiSearch = defineComponent({
     inheritAttrs: false,
     props: searchProps(),
     slots: ['itemTemplate'],
-    emits: ['focus', 'blur', 'keydown', 'keyup', 'pressEnter', 'itemClick', 'input', 'change', 'update:value'],
+    emits: ['focus', 'blur', 'keydown', 'keyup', 'pressEnter', 'itemClick', 'input', 'change', 'update:value', 'close'],
     setup(props, {slots, attrs, emit}) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('search', props.prefixCls)
@@ -232,6 +232,7 @@ const MiSearch = defineComponent({
             const tag = node.props.tag
             const name = node.props.name
             const type = node.props.type
+            const key = $tools.uid(false, $g.prefix)
             return (
                 <MiSearchKey name={name}
                     tag={tag}
@@ -241,7 +242,7 @@ const MiSearch = defineComponent({
                             : item[name]
                     }
                     type={type}
-                    key={item[name] ?? Math.random()} />
+                    key={key} />
             )
         }
 
@@ -384,7 +385,10 @@ const MiSearch = defineComponent({
 
         const handleListItemClick = (data: any, evt?: any) => {
             emit('itemClick', data, evt)
-            if (props.colseAfterItemClick) params.show = false
+            if (props.colseAfterItemClick) {
+                params.show = false
+                emit('close')
+            }
         }
 
         const handleOnFocus = (evt: Event) => {
@@ -424,6 +428,12 @@ const MiSearch = defineComponent({
             emit('keyup', evt)
         }
 
+        const handleMaskClick = () => {
+            params.show = false
+            params.focused = false
+            emit('close')
+        }
+
         const style = {
             box: {
                 width: props.width ? `${$tools.px2Rem(props.width)}rem` : null,
@@ -441,20 +451,28 @@ const MiSearch = defineComponent({
         }
 
         return () => (
-            <div class={prefixCls} {...attrs} style={style.box}>
-                <input class={`${prefixCls}-input`}
-                    name={prefixCls}
-                    ref={prefixCls}
-                    placeholder={props.placeholder ?? t('search-key')}
-                    value={params.keyword}
-                    onFocus={handleOnFocus}
-                    onBlur={handleOnBlur}
-                    onInput={handleOnInput}
-                    onKeydown={handleOnKeydown}
-                    onKeyup={handleOnKeyup}
-                    style={style.input} />
-                { params.show ? renderList() : null }
-            </div>
+            <>
+                <div class={prefixCls} {...attrs} style={style.box}>
+                    <input class={`${prefixCls}-input`}
+                        name={prefixCls}
+                        ref={prefixCls}
+                        placeholder={props.placeholder ?? t('search-key')}
+                        value={params.keyword}
+                        onFocus={handleOnFocus}
+                        onBlur={handleOnBlur}
+                        onInput={handleOnInput}
+                        onKeydown={handleOnKeydown}
+                        onKeyup={handleOnKeyup}
+                        style={style.input} />
+                    { params.show ? renderList() : null }
+                </div>
+                <Teleport to="body">
+                    <div class={`${prefixCls}-mask`}
+                        onClick={handleMaskClick}
+                        key={$tools.uid(false, $g.prefix)}
+                        style={{display: params.show ? null : 'none'}} />
+                </Teleport>
+            </>
         )
     }
 })

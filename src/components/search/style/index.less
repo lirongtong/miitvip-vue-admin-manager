@@ -6,6 +6,7 @@
     .properties(height, 42);
     .properties(width, 360);
     position: relative;
+    z-index: @mi-z-index-top;
 
     &-input {
         width: 100%;
@@ -288,5 +289,16 @@
 
     &-key {
         color: var(--mi-theme, @mi-theme);
+    }
+
+    &-mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vh;
+        height: 100vh;
+        overflow: hidden;
+        z-index: @mi-z-index;
+        cursor: pointer;
     }
 }
