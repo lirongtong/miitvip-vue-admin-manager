@@ -1,3 +1,3 @@
 <template>
-    Dashboard
+    Caches
 </template>

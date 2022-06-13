@@ -22,6 +22,7 @@ export const searchProps = () => ({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.string,
     suffix: PropTypes.any,
+    gap: PropTypes.number.def(0),
     borderColor: PropTypes.string,
     textColor: PropTypes.string,
     backgroundColor: PropTypes.string,
@@ -89,9 +90,10 @@ const MiSearch = defineComponent({
                 height: props.listHeight ? `${$tools.px2Rem(props.listHeight > 164 ? props.listHeight : 164)}rem` : null,
                 top: props.height ? `${$tools.px2Rem(props.height)}rem` : null,
                 background: props.listBackground ?? null,
-                borderColor: props.listBorderColor ?? props.borderColor ?? null,
+                borderColor: props.listBorderColor ?? null,
                 borderRadius: props.listRadius ? `${$tools.px2Rem(props.listRadius)}rem` : null,
-                boxShadow: props.listBoxShadow && props.listBoxShadowColor ? `0 0 ${$tools.px2Rem(props.listBoxShadowBlur)}rem ${props.listBoxShadowColor}` : null
+                boxShadow: props.listBoxShadow && props.listBoxShadowColor ? `0 0 ${$tools.px2Rem(props.listBoxShadowBlur)}rem ${props.listBoxShadowColor}` : null,
+                marginTop: props.gap ? `${$tools.px2Rem(props.gap)}rem` : null
             }
             const noData = params.list.length <= 0 && !params.loading && !params.error
                 ? (
@@ -448,7 +450,7 @@ const MiSearch = defineComponent({
                 height: props.height ? `${$tools.px2Rem(props.height)}rem` : null
             },
             input: {
-                backgroundColor: props.backgroundColor ?? null,
+                background: props.backgroundColor ?? null,
                 borderRadius: props.radius ? `${$tools.px2Rem(props.radius)}rem` : null,
                 borderColor: props.borderColor ?? null,
                 color: props.textColor ?? null,
