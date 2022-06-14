@@ -1,5 +1,6 @@
 // prefix.
 @mi-prefix: mi-;
+@mi-lang-en: ~'@{mi-prefix}lang-en-us';
 
 // font-size.
 @mi-font-size: 1rem;
@@ -68,6 +69,13 @@
 .linear-gradient-background() {
     background-color: var(--mi-dark, @mi-dark);
     background-image: linear-gradient(315deg, var(--mi-black, @mi-black) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+}
+
+.linear-gradient-text() {
+    background: transparent linear-gradient(127deg, var(--mi-gradient-s, @mi-gradient-s) 0%, var(--mi-gradient-m, @mi-gradient-m) 52%, var(--mi-gradient-e, @mi-gradient-e) 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 // font size

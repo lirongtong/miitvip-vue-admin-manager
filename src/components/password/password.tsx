@@ -36,7 +36,7 @@ export default defineComponent({
         const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('password', props.prefixCls)
         const prefixKey = getPrefixCls('password-key', props.prefixCls)
-        const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
+        const langCls = getPrefixCls(`lang-${locale.value}`)
         const prefixId = `${prefixKey}-${$tools.uid()}`
         const level = props.level ?? {
             1: t('password.lv1'),

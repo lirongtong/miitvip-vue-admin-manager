@@ -1,6 +1,5 @@
 {
     "site": "makeit.vip",
-    "good-day": "Good Day",
     "no-data": "No data yet",
     "week": {
         "mon": "Monday",
@@ -14,6 +13,13 @@
     "theme": {
         "light": "Light",
         "dark": "Dark"
+    },
+    "notice": {
+        "good-day": "Good Day",
+        "no-bugs": "No Bugs",
+        "no-meeting": "No Meeting",
+        "no-business": "No business needs",
+        "fine": "Everything is find"
     },
     "search": {
         "searching": "Searching ···",

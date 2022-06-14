@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
-import { Popover, Badge, Tabs } from 'ant-design-vue'
-import { BellOutlined } from '@ant-design/icons-vue'
+import { Popover, Badge, Tabs, Checkbox } from 'ant-design-vue'
+import { BellOutlined, ShoppingOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { useI18n } from 'vue-i18n'
 import { getSlot, getPropSlot, getSlotContent, getPrefixCls, tuple } from '../_utils/props-tools'
@@ -42,8 +42,10 @@ export default defineComponent({
     slots: ['icon', 'extra'],
     setup(props, { slots, attrs }) {
         return () => {
-            const prefixCls = getPrefixCls('notice', props.prefixCls)
             const { t, locale } = useI18n()
+            const prefixCls = getPrefixCls('notice', props.prefixCls)
+            const langCls = getPrefixCls(`lang-${locale.value}`)
+            const emptyCls = `${prefixCls}-empty`
 
             const getEmpty = () => {
                 const date = new Date()
@@ -69,12 +71,33 @@ export default defineComponent({
                 }
                 return (
                     <>
-                        <div class={`${prefixCls}-time`}>
-                            <div class={`${prefixCls}-date`}>{times}</div>
-                            <div class={`${prefixCls}-week`}>{week}</div>
+                        <div class={`${emptyCls}-time`}>
+                            <div class={`${emptyCls}-date`}>{times}</div>
+                            <div class={`${emptyCls}-week`}>{week}</div>
                         </div>
                         <MiClock />
-                        <div class={`${prefixCls}-title`} innerHTML={t('good-day')}></div>
+                        <div class={`${emptyCls}-title`} innerHTML={t('notice.good-day')} />
+                        <div class={`${emptyCls}-items`}>
+                            <div class={`${emptyCls}-item`}>
+                                <Checkbox checked={true} disabled={true}>
+                                    {t('notice.no-bugs')}
+                                </Checkbox>
+                            </div>
+                            <div class={`${emptyCls}-item`}>
+                                <Checkbox checked={true} disabled={true}>
+                                    {t('notice.no-meeting')}
+                                </Checkbox>
+                            </div>
+                            <div class={`${emptyCls}-item`}>
+                                <Checkbox checked={true} disabled={true}>
+                                    {t('notice.no-business')}
+                                </Checkbox>
+                            </div>
+                        </div>
+                        <div class={`${emptyCls}-fine`}>
+                            <ShoppingOutlined />
+                            <span class="yes" innerHTML={t('notice.fine')}></span>
+                        </div>
                     </>
                 )
             }
@@ -118,11 +141,11 @@ export default defineComponent({
                 const len = panes.length
                 let content = len > 1 ? <Tabs onChange={props.tabChange}>{...panes}</Tabs> : panes
                 if (len <= 0) content = getEmpty()
-                return <div class={`${prefixCls}-content`}>{content}</div>
+                return <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>{content}</div>
             }
             return (
                 <Popover
-                    overlayClassName={prefixCls}
+                    overlayClassName={`${prefixCls} ${langCls}`}
                     destroyTooltipOnHide={true}
                     trigger={props.trigger}
                     placement={props.placement}

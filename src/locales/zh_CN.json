@@ -9,11 +9,17 @@
         "sat": "周六",
         "sun": "周日"
     },
-    "good-day": "美好的一天",
     "no-data": "暂无符合条件的数据",
     "theme": {
         "light": "浅色",
         "dark": "深色"
+    },
+    "notice": {
+        "good-day": "美好的一天",
+        "no-bugs": "无缺陷",
+        "no-meeting": "无会议",
+        "no-business": "无需求",
+        "fine": "诸事皆宜"
     },
     "search": {
         "searching": "搜索中 ···",

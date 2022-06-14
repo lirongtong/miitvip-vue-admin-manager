@@ -1,5 +1,6 @@
 import 'ant-design-vue/es/badge/style'
 import 'ant-design-vue/es/tabs/style'
 import 'ant-design-vue/es/popover/style'
+import 'ant-design-vue/es/checkbox/style'
 import '../../../styles/antd/popover.less'
 import './index.less'
