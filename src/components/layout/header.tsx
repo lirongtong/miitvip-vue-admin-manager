@@ -6,8 +6,11 @@ import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import {
-    MenuFoldOutlined, MenuUnfoldOutlined, BgColorsOutlined,
-    ExpandOutlined, CompressOutlined
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    BgColorsOutlined,
+    ExpandOutlined,
+    CompressOutlined
 } from '@ant-design/icons-vue'
 import { mutations } from '../../store/types'
 import MiDropdown from '../dropdown'
@@ -53,9 +56,11 @@ export default defineComponent({
         }
 
         const getScreenfull = () => {
-            let elem = !full.value
-                ? <ExpandOutlined onClick={screenfullQuitOrIn} />
-                : <CompressOutlined onClick={screenfullQuitOrIn} />
+            let elem = !full.value ? (
+                <ExpandOutlined onClick={screenfullQuitOrIn} />
+            ) : (
+                <CompressOutlined onClick={screenfullQuitOrIn} />
+            )
             if (isMobile.value) elem = null
             return elem
         }
@@ -68,33 +73,48 @@ export default defineComponent({
             const getPaletteContent = () => {
                 return (
                     <div class={headerCls.palette}>
-                        <div class={`${headerCls.palette}-item${$g.theme.active === 'dark' ? ` ${headerCls.palette}-active` : ''}`} onClick={() => changePalette('dark')}>
+                        <div
+                            class={`${headerCls.palette}-item${
+                                $g.theme.active === 'dark' ? ` ${headerCls.palette}-active` : ''
+                            }`}
+                            onClick={() => changePalette('dark')}>
                             <div class={`${headerCls.palette}-thumb`}>
                                 <img src={$g.theme.thumbnails.dark} />
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio checked={$g.theme.active === 'dark'}>{t('theme.dark')}</Radio>
+                                <Radio checked={$g.theme.active === 'dark'}>
+                                    {t('theme.dark')}
+                                </Radio>
                             </div>
                         </div>
-                        <div class={`${headerCls.palette}-item${$g.theme.active === 'light' ? ` ${headerCls.palette}-active` : ''}`} onClick={() => changePalette('light')}>
+                        <div
+                            class={`${headerCls.palette}-item${
+                                $g.theme.active === 'light' ? ` ${headerCls.palette}-active` : ''
+                            }`}
+                            onClick={() => changePalette('light')}>
                             <div class={`${headerCls.palette}-thumb`}>
                                 <img src={$g.theme.thumbnails.light} />
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio checked={$g.theme.active === 'light'}>{t('theme.light')}</Radio>
+                                <Radio checked={$g.theme.active === 'light'}>
+                                    {t('theme.light')}
+                                </Radio>
                             </div>
                         </div>
                     </div>
                 )
             }
 
-            return getPropSlot(slots, props, 'stretch') ?? (
-                <Popover trigger={['click']}
-                    overlayClassName={popoverCls}
-                    placement={'bottom'}
-                    content={getPaletteContent()}>
-                    <BgColorsOutlined />
-                </Popover>
+            return (
+                getPropSlot(slots, props, 'stretch') ?? (
+                    <Popover
+                        trigger={['click']}
+                        overlayClassName={popoverCls}
+                        placement={'bottom'}
+                        content={getPaletteContent()}>
+                        <BgColorsOutlined />
+                    </Popover>
+                )
             )
         }
 
@@ -128,7 +148,8 @@ export default defineComponent({
             <Layout.Header class={`${prefixCls}`} {...attrs}>
                 {/* left */}
                 <div class={headerCls.left}>
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-no-bg`}
+                    <div
+                        class={`${headerCls.trigger} ${headerCls.trigger}-no-bg`}
                         onClick={setCollapsed}>
                         {getStretch()}
                     </div>
@@ -137,14 +158,16 @@ export default defineComponent({
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
                     <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
-                        { getScreenfull() ??  null }
+                        {getScreenfull() ?? null}
                     </div>
                     <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
                         {getPropSlot(slots, props, 'notice') ?? (
                             <MiNotice class={`${prefixCls}-notice`} />
                         )}
                     </div>
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>{getPalette()}</div>
+                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
+                        {getPalette()}
+                    </div>
                     <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
                         {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown />}
                     </div>

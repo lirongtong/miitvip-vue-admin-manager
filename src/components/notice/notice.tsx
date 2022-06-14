@@ -17,7 +17,20 @@ export const noticeProps = () => ({
     tabChange: PropTypes.func,
     trigger: PropTypes.any.def('click'),
     placement: PropTypes.oneOf(
-        tuple('top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom')
+        tuple(
+            'top',
+            'left',
+            'right',
+            'bottom',
+            'topLeft',
+            'topRight',
+            'bottomLeft',
+            'bottomRight',
+            'leftTop',
+            'leftBottom',
+            'rightTop',
+            'rightBottom'
+        )
     ).def('bottom'),
     extra: PropTypes.any
 })
@@ -108,7 +121,8 @@ export default defineComponent({
                 return <div class={`${prefixCls}-content`}>{content}</div>
             }
             return (
-                <Popover overlayClassName={prefixCls}
+                <Popover
+                    overlayClassName={prefixCls}
                     destroyTooltipOnHide={true}
                     trigger={props.trigger}
                     placement={props.placement}

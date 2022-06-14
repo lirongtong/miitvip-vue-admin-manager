@@ -1,11 +1,20 @@
 import {
-    defineComponent, Transition, reactive, Teleport,
-    isVNode, VNode, cloneVNode, Component, h
+    defineComponent,
+    Transition,
+    reactive,
+    Teleport,
+    isVNode,
+    VNode,
+    cloneVNode,
+    Component,
+    h
 } from 'vue'
 import MiSearchKey from './key'
 import {
-    FormOutlined, FrownOutlined,
-    LeftCircleOutlined, RightCircleOutlined
+    FormOutlined,
+    FrownOutlined,
+    LeftCircleOutlined,
+    RightCircleOutlined
 } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { getPrefixCls, tuple, getPropSlot } from '../_utils/props-tools'
@@ -37,7 +46,22 @@ export const searchProps = () => ({
     searchDelay: PropTypes.number,
     data: PropTypes.array,
     listShowAnimation: PropTypes.oneOf(
-        tuple('fade', 'scale', 'slide', 'slide-right', 'slide-bottom', 'slide-fall', 'newspaper', 'sticky', 'flip', 'flip-horizontal', 'flip-vertical', 'fall', 'rotate', 'sign')
+        tuple(
+            'fade',
+            'scale',
+            'slide',
+            'slide-right',
+            'slide-bottom',
+            'slide-fall',
+            'newspaper',
+            'sticky',
+            'flip',
+            'flip-horizontal',
+            'flip-vertical',
+            'fall',
+            'rotate',
+            'sign'
+        )
     ).def('scale'),
     itemTemplate: PropTypes.any,
     itemColor: PropTypes.string,
@@ -63,8 +87,19 @@ const MiSearch = defineComponent({
     inheritAttrs: false,
     props: searchProps(),
     slots: ['itemTemplate', 'suffix'],
-    emits: ['focus', 'blur', 'keydown', 'keyup', 'pressEnter', 'itemClick', 'input', 'change', 'update:value', 'close'],
-    setup(props, {slots, attrs, emit}) {
+    emits: [
+        'focus',
+        'blur',
+        'keydown',
+        'keyup',
+        'pressEnter',
+        'itemClick',
+        'input',
+        'change',
+        'update:value',
+        'close'
+    ],
+    setup(props, { slots, attrs, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('search', props.prefixCls)
         const prefixIdx = getPrefixCls('index')
@@ -88,31 +123,32 @@ const MiSearch = defineComponent({
         const renderList = () => {
             const style = {
                 width: props.listWidth ? `${$tools.px2Rem(props.listWidth)}rem` : null,
-                height: props.listHeight ? `${$tools.px2Rem(props.listHeight > 164 ? props.listHeight : 164)}rem` : null,
+                height: props.listHeight
+                    ? `${$tools.px2Rem(props.listHeight > 164 ? props.listHeight : 164)}rem`
+                    : null,
                 top: props.height ? `${$tools.px2Rem(props.height)}rem` : null,
                 background: props.listBackground ?? null,
                 borderColor: props.listBorderColor ?? null,
                 borderRadius: props.listRadius ? `${$tools.px2Rem(props.listRadius)}rem` : null,
-                boxShadow: props.listBoxShadow && props.listBoxShadowColor ? `0 0 ${$tools.px2Rem(props.listBoxShadowBlur)}rem ${props.listBoxShadowColor}` : null,
+                boxShadow:
+                    props.listBoxShadow && props.listBoxShadowColor
+                        ? `0 0 ${$tools.px2Rem(props.listBoxShadowBlur)}rem ${
+                              props.listBoxShadowColor
+                          }`
+                        : null,
                 marginTop: props.gap ? `${$tools.px2Rem(props.gap)}rem` : null
             }
             const elem = (
                 <>
                     {/* no data */}
-                    {(
-                        params.list.length <= 0 &&
-                        !params.loading &&
-                        !params.error
-                    ) ? (
+                    {params.list.length <= 0 && !params.loading && !params.error ? (
                         <div class={`${prefixCls}-no-data`}>
                             <FormOutlined />
                             <p>{props.listNoDataText ?? t('no-data')}</p>
                         </div>
                     ) : null}
                     {/* error */}
-                    {params.error ? (
-                        <div class={`${prefixCls}-error`}>{params.error}</div>
-                    ) : null}
+                    {params.error ? <div class={`${prefixCls}-error`}>{params.error}</div> : null}
                     {renderLoading()}
                     {renderResultList()}
                     {renderPagination()}
@@ -148,13 +184,11 @@ const MiSearch = defineComponent({
             const key = getPrefixCls(`item-${min}-${max}`, props.prefixCls)
             const pushResultItem = (item: {}, elem: any) => {
                 res.push(
-                    <div class={`${prefixCls}-item`}
-                        style={{color: props.itemColor ?? null}}
-                        onClick={
-                            (evt: Event) => handleListItemClick(
-                                params.datas[item[prefixIdx]] ?? item,
-                                evt
-                            )
+                    <div
+                        class={`${prefixCls}-item`}
+                        style={{ color: props.itemColor ?? null }}
+                        onClick={(evt: Event) =>
+                            handleListItemClick(params.datas[item[prefixIdx]] ?? item, evt)
                         }>
                         {elem}
                     </div>
@@ -198,11 +232,17 @@ const MiSearch = defineComponent({
                 const IconTag = isVNode(item.icon) ? item.icon : h(item.icon)
                 icon = <IconTag />
             }
-            const width = props.width ? (
-                (avatar ? `${$tools.px2Rem(props.width > 260 ? 180 : props.width - 80)}rem` : null)
-            ) : null
+            const width = props.width
+                ? avatar
+                    ? `${$tools.px2Rem(props.width > 260 ? 180 : props.width - 80)}rem`
+                    : null
+                : null
             const info = (
-                <div class={`${prefixCls}-item-info${item.content ? ` ${prefixCls}-item-info-has-content` : ''}`} style={{width}}>
+                <div
+                    class={`${prefixCls}-item-info${
+                        item.content ? ` ${prefixCls}-item-info-has-content` : ''
+                    }`}
+                    style={{ width }}>
                     <div innerHTML={item[props.searchKey]} />
                     <div innerHTML={item.content ?? null} />
                 </div>
@@ -232,7 +272,7 @@ const MiSearch = defineComponent({
 
         const renderCustomResultListItem = (node: VNode, item: object) => {
             if (node?.children?.length > 0) {
-                const data = {...item}
+                const data = { ...item }
                 const children = []
                 for (let i = 0, l = node.children.length; i < l; i++) {
                     const cur = node.children[i]
@@ -255,15 +295,13 @@ const MiSearch = defineComponent({
             const type = node.props.type
             const key = $tools.uid(false, $g.prefix)
             return (
-                <MiSearchKey name={name}
+                <MiSearchKey
+                    name={name}
                     tag={tag}
-                    data={
-                        name !== props.searchKey
-                            ? $tools.htmlEncode(item[name])
-                            : item[name]
-                    }
+                    data={name !== props.searchKey ? $tools.htmlEncode(item[name]) : item[name]}
                     type={type}
-                    key={key} />
+                    key={key}
+                />
             )
         }
 
@@ -274,8 +312,8 @@ const MiSearch = defineComponent({
                         <div class={`${prefixCls}-loading-anim`}>
                             <div>
                                 <div>
-                                    <div style={{borderColor: props.borderColor ?? null}}></div>
-                                    <div style={{background: props.borderColor ?? null}}></div>
+                                    <div style={{ borderColor: props.borderColor ?? null }}></div>
+                                    <div style={{ background: props.borderColor ?? null }}></div>
                                 </div>
                             </div>
                         </div>
@@ -287,38 +325,42 @@ const MiSearch = defineComponent({
 
         const renderPagination = () => {
             const len = params.list.length
-            if (
-                props.pagination &&
-                !params.error &&
-                !params.loading &&
-                len > 0
-            ) {
+            if (props.pagination && !params.error && !params.loading && len > 0) {
                 const total = Math.ceil(len / props.pageSize)
                 params.page.total = total
                 return (
                     <div class={`${prefixCls}-pagination`}>
                         <div class={`${prefixCls}-pagination-page`} style={style.page}>
-                            <span class={`prev${params.page.active <= 1 ? ' disabled' : ''}`}
+                            <span
+                                class={`prev${params.page.active <= 1 ? ' disabled' : ''}`}
                                 title={t('page.prev')}
                                 onClick={handlePagePrev}>
                                 <LeftCircleOutlined />
                             </span>
                             {t('page.prefix')}
-                            <input min={1} max={total}
+                            <input
+                                min={1}
+                                max={total}
                                 type="mumber"
                                 value={params.page.active}
                                 onInput={handlePageInputChange}
                                 onBlur={handlePageInputBlur}
-                                onKeydown={handlePageInputKeydown} />
+                                onKeydown={handlePageInputKeydown}
+                            />
                             / {total} {t('page.unit')}
-                            <span class={`next${params.page.active >= params.page.total ? ' disabled' : ''}`}
+                            <span
+                                class={`next${
+                                    params.page.active >= params.page.total ? ' disabled' : ''
+                                }`}
                                 title={t('page.next')}
                                 onClick={handlePageNext}>
                                 <RightCircleOutlined />
                             </span>
                         </div>
                         <div class={`${prefixCls}-pagination-total`} style={style.page}>
-                            {t('page.total')}<span>{len}</span>{t('page.strip')}
+                            {t('page.total')}
+                            <span>{len}</span>
+                            {t('page.strip')}
                         </div>
                     </div>
                 )
@@ -337,7 +379,6 @@ const MiSearch = defineComponent({
             if (value) params.page.active = value
             if (value > params.page.total) params.page.active = params.page.total
             if (!value) params.page.active = 1
-
         }
         const handlePageInputBlur = (evt: Event) => {
             handlePageInputChange(evt)
@@ -349,35 +390,38 @@ const MiSearch = defineComponent({
         const handleSearch = () => {
             const search = () => {
                 if (props.searchAction) {
-                    $request[props.searchMethod.toLowerCase()](props.searchAction, props.searchParams)
-                    .then((res: any) => {
-                        params.loading = false
-                        if (res.ret.code === 200) {
-                            params.datas = res.data
-                            handleSearchResult()
-                        } else {
-                            params.error = (
-                                <>
-                                    <FrownOutlined />
-                                    <p>{t('search.fail.message')}</p>
-                                    <p>{t('search.fail.code') + res.ret.code}</p>
-                                    <p>{t('search.fail.reason') + res.ret.message}</p>
-                                </>
-                            )
-                        }
-                    })
-                    .catch((err: any) => {
-                        if (params.loading) {
+                    $request[props.searchMethod.toLowerCase()](
+                        props.searchAction,
+                        props.searchParams
+                    )
+                        .then((res: any) => {
                             params.loading = false
-                            params.error = (
-                                <>
-                                    <FrownOutlined />
-                                    <p>{t('search.fail.api')}</p>
-                                    <p>{err.message}</p>
-                                </>
-                            )
-                        }
-                    })
+                            if (res.ret.code === 200) {
+                                params.datas = res.data
+                                handleSearchResult()
+                            } else {
+                                params.error = (
+                                    <>
+                                        <FrownOutlined />
+                                        <p>{t('search.fail.message')}</p>
+                                        <p>{t('search.fail.code') + res.ret.code}</p>
+                                        <p>{t('search.fail.reason') + res.ret.message}</p>
+                                    </>
+                                )
+                            }
+                        })
+                        .catch((err: any) => {
+                            if (params.loading) {
+                                params.loading = false
+                                params.error = (
+                                    <>
+                                        <FrownOutlined />
+                                        <p>{t('search.fail.api')}</p>
+                                        <p>{err.message}</p>
+                                    </>
+                                )
+                            }
+                        })
                 } else {
                     params.loading = false
                     handleSearchResult()
@@ -393,10 +437,12 @@ const MiSearch = defineComponent({
             const reg = new RegExp(params.keyword, 'ig')
             params.datas?.forEach((data: {}, idx: number) => {
                 if (data[props.searchKey] && reg.test(data[props.searchKey])) {
-                    const temp = {...data}
+                    const temp = { ...data }
                     temp[props.searchKey] = data[props.searchKey].replace(
                         reg,
-                        `<span class="${prefixCls}-key" ${style.keyword ? `style="${style.keyword}"` : ''}>${params.keyword}</span>`
+                        `<span class="${prefixCls}-key" ${
+                            style.keyword ? `style="${style.keyword}"` : ''
+                        }>${params.keyword}</span>`
                     )
                     temp[prefixIdx] = idx
                     params.list.push(temp)
@@ -472,10 +518,12 @@ const MiSearch = defineComponent({
                 borderRadius: props.radius ? `${$tools.px2Rem(props.radius)}rem` : null,
                 borderColor: props.borderColor ?? null,
                 color: props.textColor ?? null,
-                boxShadow: props.boxShadow ? `0 0 ${$tools.px2Rem(props.boxShadowBlur)}rem ${props.boxShadowColor}` : null
+                boxShadow: props.boxShadow
+                    ? `0 0 ${$tools.px2Rem(props.boxShadowBlur)}rem ${props.boxShadowColor}`
+                    : null
             },
             keyword: props.searchKeyColor ? `color: ${props.searchKeyColor}` : null,
-            page: {color: props.pageColor ?? null}
+            page: { color: props.pageColor ?? null }
         }
 
         const suffix = getPropSlot(slots, props, 'suffix')
@@ -488,7 +536,10 @@ const MiSearch = defineComponent({
         return () => (
             <>
                 <div class={prefixCls} {...attrs} style={style.box}>
-                    <input class={`${prefixCls}-input${props.suffix ? ` ${prefixCls}-has-suffix` : ''}`}
+                    <input
+                        class={`${prefixCls}-input${
+                            props.suffix ? ` ${prefixCls}-has-suffix` : ''
+                        }`}
                         name={prefixCls}
                         ref={prefixCls}
                         placeholder={props.placeholder ?? t('search.key')}
@@ -498,16 +549,21 @@ const MiSearch = defineComponent({
                         onInput={handleOnInput}
                         onKeydown={handleOnKeydown}
                         onKeyup={handleOnKeyup}
-                        style={style.input} />
-                    { suffixTag }
-                    { renderList() }
+                        style={style.input}
+                    />
+                    {suffixTag}
+                    {renderList()}
                 </div>
-                <Teleport to="body">
-                    <div class={`${prefixCls}-mask`}
-                        onClick={handleMaskClick}
-                        key={$tools.uid(false, $g.prefix)}
-                        style={{display: params.show ? null : 'none'}} />
-                </Teleport>
+                { params.show ? (
+                    <Teleport to="body">
+                        <div
+                            class={`${prefixCls}-mask`}
+                            onClick={handleMaskClick}
+                            key={$tools.uid(false, $g.prefix)}
+                            style={{ display: params.show ? null : 'none' }}
+                        />
+                    </Teleport>
+                ) : null}
             </>
         )
     }

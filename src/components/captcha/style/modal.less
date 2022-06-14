@@ -2,11 +2,9 @@
     &-modal {
         position: absolute;
         display: block;
-        animation-name: mi-captcha-modal-open;
-		animation-fill-mode: forwards;
-        animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
-        .letter-spacing();
-        z-index: @mi-z-index-top;
+        transition: all @mi-anim-duration ease;
+        transform-origin: left center;
+        z-index: @mi-z-index-modal;
 
         &-mask {
             position: fixed;
@@ -15,7 +13,7 @@
             width: 100%;
             height: 100%;
             background: transparent;
-            z-index: @mi-z-index;
+            z-index: @mi-z-index-mask;
             overflow: hidden;
         }
 
@@ -164,7 +162,6 @@
 			transition: bottom @mi-anim-duration ease;
 			.flex(center, flex-start);
 			.properties(text-indent, 12);
-            .letter-spacing();
 			.properties(font-size, 14);
             .properties(height, 32);
             z-index: 220;
@@ -227,7 +224,6 @@
                     .properties(height, 24);
                     border: 2px solid var(--mi-dark, @mi-dark);
                     .border-radius();
-                    box-shadow: 0 0 2px var(--mi-dark, @mi-dark);
                     position: relative;
                 }
 
@@ -249,7 +245,6 @@
                     .properties(left, 2);
                     .properties(top, 11);
                     transition: all .5 ease;
-                    box-shadow: 0 0 2px var(--mi-dark, @mi-dark);
                     animation: mi-anim-scan 1.5s linear infinite;
                     z-index: 20;
                 }
@@ -340,7 +335,6 @@
 			.properties(font-size, 12);
 			.properties(line-height, 16);
             color: #fff;
-			.letter-spacing();
 
 			&-text {
 				.flex();
@@ -349,12 +343,21 @@
 					.properties(width, 20);
 					.properties(height, 20);
 					.properties(margin-right);
+                    border: 1px solid var(--mi-theme, @mi-theme);
+                    .border-radius-circle();
+                    .linear-gradient-background();
+                    overflow: hidden;
 
 					img {
-						.border-radius();
+                        transform: scale(1.1);
+						.border-radius-circle();
 					}
 				}
 			}
+        }
+
+        &-tooltip {
+            z-index: @mi-z-index-top;
         }
     }
 }

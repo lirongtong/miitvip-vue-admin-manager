@@ -48,9 +48,13 @@
         "error": "Error {num} times in a row, please try again later",
         "move": "Please move the slider to complete the verification",
         "drag": "Drag the slider on the left to complete the puzzle",
+        "dragging": "Drag the slider to flatten the floating image correctly",
         "close": "Close verification",
         "refresh": "Refresh verification",
         "feedback": "Help feedback",
-        "provide": "provide technical support"
+        "provide": "provide technical support",
+        "success": "It took {take} seconds to complete the image stitching verification",
+        "flatten": "Drag the slider to flatten the picture",
+        "verify": "It can be verified successfully"
     }
 }

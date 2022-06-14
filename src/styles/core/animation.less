@@ -223,6 +223,18 @@
     }
 }
 
+@keyframes mi-anim-scan {
+    0% {
+        .properties(top, 6);
+    }
+    50% {
+        .properties(top, 14);
+    }
+    100% {
+        .properties(top, 6);
+    }
+}
+
 @keyframes mi-anim-shake {
     0% {
         -webkit-transform: translate(0, 0) rotate(0);
@@ -307,4 +319,15 @@
 		-webkit-transform: rotate(-360deg);
 		transform: rotate(-360deg)
 	}
+}
+
+@keyframes mi-captcha-downtip {
+    0% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

@@ -71,10 +71,12 @@ export default defineComponent({
             return (
                 getPropSlot(slots, props, 'title') ?? (
                     <div class={prefixCls}>
-                        <Avatar class={`${prefixCls}-avatar`}
+                        <Avatar
+                            class={`${prefixCls}-avatar`}
                             src={$g.avatar}
                             alt={$g.powered}
-                            size="small"/>
+                            size="small"
+                        />
                     </div>
                 )
             )

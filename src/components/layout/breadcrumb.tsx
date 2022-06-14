@@ -69,17 +69,18 @@ export default defineComponent({
             const items = []
             const breadcrumbs = $g.breadcrumbs
             breadcrumbs.forEach((breadcrumb) => {
-                const link = breadcrumb.path && !$g.regExp.url.test(breadcrumb.path) ? (
-                    <RouterLink to={{ path: breadcrumb.path }} key={breadcrumb.title}>
-                        {breadcrumb.icon ?? null}
-                        {breadcrumb.title}
-                    </RouterLink>
-                ) : (
-                    <a href={breadcrumb.path}>
-                        {breadcrumb.icon ?? null}
-                        {breadcrumb.title}
-                    </a>
-                )
+                const link =
+                    breadcrumb.path && !$g.regExp.url.test(breadcrumb.path) ? (
+                        <RouterLink to={{ path: breadcrumb.path }} key={breadcrumb.title}>
+                            {breadcrumb.icon ?? null}
+                            {breadcrumb.title}
+                        </RouterLink>
+                    ) : (
+                        <a href={breadcrumb.path}>
+                            {breadcrumb.icon ?? null}
+                            {breadcrumb.title}
+                        </a>
+                    )
                 items.push(
                     <span class={`${prefixCls}-item`}>
                         <span class={`${prefixCls}-link`}>{link}</span>

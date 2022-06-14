@@ -7,7 +7,6 @@
     width: 100%;
     .properties(height, 42);
     font-family: @mi-font-family;
-    .letter-spacing();
 
     &-content {
 		width: 100%;
@@ -109,7 +108,7 @@
 				animation-timing-function: ease;
 				animation-iteration-count: 1;
 				animation-delay: .5s;
-				animation-duration: .5s;
+				animation-duration: @mi-anim-duration;
 			}
 		}
 
@@ -152,6 +151,51 @@
                 transform: scale(1.1);
 			}
 		}
+    }
+
+    &-success {
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+        width: 0;
+        box-shadow: 0 0 4px var(--mi-captcha-success-bg, @mi-captcha-success-bg);
+		cursor: default;
+		transition: width @mi-anim-duration ease;
+        overflow: hidden;
+
+		&-show{
+			background: var(--mi-captcha-success-bg, @mi-captcha-success-bg);
+			width: 100%;
+		}
+	}
+
+    &-message {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: @mi-z-index-modal;
+
+        &-content {
+            .linear-gradient-background();
+            .border-radius(32);
+            border: 1px solid var(--mi-theme, @mi-theme);
+            color: var(--mi-danger, @mi-danger);
+            .properties(padding-top);
+            .properties(padding-bottom);
+            .properties(padding-left, 16);
+            .properties(padding-right, 16);
+            .flex();
+            .properties(line-height, 22);
+            animation-name: mi-captcha-downtip;
+            animation-duration: @mi-anim-duration;
+            animation-timing-function: ease;
+            animation-fill-mode: forwards;
+        }
     }
 }
 

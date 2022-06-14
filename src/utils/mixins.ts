@@ -103,7 +103,7 @@ export default {
                     }
                 }
             )
-            
+
             _mounted = true
         }
     }

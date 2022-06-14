@@ -91,7 +91,7 @@ class MiTools {
      * Whether it is a number.
      * @param number
      */
-     isNumber(number: any): boolean {
+    isNumber(number: any): boolean {
         return typeof number === 'number' && isFinite(number)
     }
 
@@ -144,19 +144,17 @@ class MiTools {
 
     /**
      * 转成rem.
-     * @param num 
-     * @returns 
+     * @param num
+     * @returns
      */
     convert2Rem(num: number | string) {
         return $tools.isNumber(num)
             ? `${this.px2Rem(parseInt(num.toString()))}rem`
-            : (
-                num ? (
-                    (/%/g.test(num.toString())
-                        ? num
-                        : `${this.px2Rem(parseInt(num.toString()))}rem`)
-                ) : null
-            )
+            : num
+            ? /%/g.test(num.toString())
+                ? num
+                : `${this.px2Rem(parseInt(num.toString()))}rem`
+            : null
     }
 
     /**
@@ -164,7 +162,7 @@ class MiTools {
      * @param color
      * @param opacity
      */
-     colorHex2Rgba(color: string, opacity = 1): string {
+    colorHex2Rgba(color: string, opacity = 1): string {
         const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
         if (reg.test(color)) {
             if (color.length === 4) {
@@ -188,7 +186,7 @@ class MiTools {
      * convert color.
      * @param color
      */
-     colorRgb2Hex(color: string) {
+    colorRgb2Hex(color: string) {
         const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
         if (/^(rgb|RGB)/.test(color)) {
             const aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
@@ -281,7 +279,7 @@ class MiTools {
         el: Window | HTMLElement,
         event: keyof HTMLElementEventMap,
         listener: (this: HTMLElement, evt: HTMLElementEventMap[keyof HTMLElementEventMap]) => any,
-        useCapture: false
+        useCapture?: false
     ) {
         if (!!document.addEventListener) {
             if (el && event && listener) el.addEventListener(event, listener, useCapture)
@@ -301,7 +299,7 @@ class MiTools {
         el: Window | HTMLElement,
         event: keyof HTMLElementEventMap,
         listener: (this: HTMLElement, evt: HTMLElementEventMap[keyof HTMLElementEventMap]) => any,
-        useCapture: false
+        useCapture?: false
     ) {
         if (!!document.addEventListener) {
             if (el && event && listener) el.removeEventListener(event, listener, useCapture)

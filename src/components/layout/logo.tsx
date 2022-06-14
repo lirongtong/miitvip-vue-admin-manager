@@ -20,9 +20,11 @@ export default defineComponent({
 
         let logo = <MediumOutlined />
         if ($g.logo && $g.regExp.url.test($g.logo)) {
-            logo = <div class={`${prefixCls}-img`}>
-                <img src={$g.logo} alt={$g.site} />
-            </div>
+            logo = (
+                <div class={`${prefixCls}-img`}>
+                    <img src={$g.logo} alt={$g.site} />
+                </div>
+            )
         }
 
         const slot = slots?.default ?? (
@@ -31,8 +33,8 @@ export default defineComponent({
                 <h1 innerHTML={title}></h1>
             </RouterLink>
         )
-        return () => <div class={`${prefixCls}${props.column ? ` ${prefixCls}-column` : ''}`}>
-            {slot}
-        </div>
+        return () => (
+            <div class={`${prefixCls}${props.column ? ` ${prefixCls}-column` : ''}`}>{slot}</div>
+        )
     }
 })

@@ -10,7 +10,6 @@ import { mutations } from '../../store/types'
 import MiLayoutSideLogo from './logo'
 import MiLayoutSideMenu from '../menu'
 
-
 export const layoutSideProps = () => ({
     prefixCls: String,
     logo: PropTypes.any,

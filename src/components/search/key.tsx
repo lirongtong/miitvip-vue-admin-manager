@@ -16,7 +16,7 @@ export default defineComponent({
     props: searchKeyProps(),
     setup(props) {
         let elem = null
-        switch(props.type) {
+        switch (props.type) {
             case 'text':
                 elem = h(<props.tag innerHTML={props.data} />)
                 break
