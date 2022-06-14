@@ -47,7 +47,7 @@ export default defineComponent({
             const langCls = getPrefixCls(`lang-${locale.value}`)
             const emptyCls = `${prefixCls}-empty`
 
-            const getEmpty = () => {
+            const renderEmpty = () => {
                 const date = new Date()
                 let times = date.toDateString()
                 let week = null
@@ -102,7 +102,7 @@ export default defineComponent({
                 )
             }
 
-            const getIcon = () => {
+            const renderIcon = () => {
                 const icon = getPropSlot(slots, props, 'icon')
                 const size = props.iconSize ? `font-size: ${$tools.px2Rem(props.iconSize)}` : null
                 return (
@@ -114,7 +114,7 @@ export default defineComponent({
                 )
             }
 
-            const getTabPanes = () => {
+            const renderTabPanes = () => {
                 const tabs = getPropSlot(slots, props)
                 const panes = []
                 if (tabs && tabs.length > 0) {
@@ -136,11 +136,11 @@ export default defineComponent({
                 return [...panes]
             }
 
-            const getContent = () => {
-                const panes = getTabPanes()
+            const renderContent = () => {
+                const panes = renderTabPanes()
                 const len = panes.length
                 let content = len > 1 ? <Tabs onChange={props.tabChange}>{...panes}</Tabs> : panes
-                if (len <= 0) content = getEmpty()
+                if (len <= 0) content = renderEmpty()
                 return <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>{content}</div>
             }
             return (
@@ -149,9 +149,9 @@ export default defineComponent({
                     destroyTooltipOnHide={true}
                     trigger={props.trigger}
                     placement={props.placement}
-                    content={getContent()}
+                    content={renderContent()}
                     {...attrs}>
-                    {getIcon}
+                    {renderIcon}
                 </Popover>
             )
         }
