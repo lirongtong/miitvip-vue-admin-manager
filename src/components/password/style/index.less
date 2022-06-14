@@ -1,0 +1,60 @@
+@import '../../../styles/theme/index.less';
+@mi-password: ~'@{mi-prefix}password';
+
+.@{mi-password} {
+    &-tips {
+        .flex(flex-start, center, column);
+        color: var(--mi-font, @mi-font);
+    }
+
+    &-strength  {
+        &-item {
+            .flex(center, flex-start);
+            .properties(line-height, 34);
+            .properties(width, 380);
+
+            &:first-child {
+                justify-content: flex-start;
+            }
+
+            .anticon {
+                .properties(font-size, 24);
+
+                &.failed,
+                &.success {
+                    .properties(font-size, 14);
+                    color: var(--mi-error, @mi-error);
+                    .properties(margin-right);
+                }
+
+                &.success {
+                    color: var(--mi-theme, @mi-theme);
+                }
+            }
+        }
+
+        &-group {
+            .flex();
+            .properties(margin-left);
+            .properties(margin-right);
+
+            .@{mi-password} {
+                &-strength {
+                    .properties(width, 40);
+                    .properties(height, 12);
+                    background: var(--mi-passport-strength, @mi-passport-strength);
+                    display: inline-block;
+                    .properties(margin-right);
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    &.active {
+                        background: var(--mi-theme, @mi-theme);
+                    }
+                }
+            }
+        }
+    }
+}

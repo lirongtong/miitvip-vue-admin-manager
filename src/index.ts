@@ -15,6 +15,7 @@ import { default as Dropdown } from './components/dropdown'
 import { default as Clock } from './components/clock'
 import { default as Search } from './components/search'
 import { default as Captcha } from './components/captcha'
+import { default as Password } from './components/password'
 
 const components = [
     i18n,
@@ -29,7 +30,8 @@ const components = [
     Dropdown,
     Clock,
     Search,
-    Captcha
+    Captcha,
+    Password
 ]
 
 let _init = false
@@ -61,7 +63,8 @@ export {
     Dropdown,
     Clock,
     Search,
-    Captcha
+    Captcha,
+    Password
 }
 
 export default {

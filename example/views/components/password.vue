@@ -1,3 +1,3 @@
 <template>
-    Password
+    <mi-password />
 </template>

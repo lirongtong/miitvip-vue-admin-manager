@@ -56,5 +56,20 @@
         "success": "It took {take} seconds to complete the image stitching verification",
         "flatten": "Drag the slider to flatten the picture",
         "verify": "It can be verified successfully"
+    },
+    "password": {
+        "lv1": "Weak",
+        "lv2": "General",
+        "lv3": "Good",
+        "lv4": "Great",
+        "tip": "Must contain two or more combinations of letters, numbers and special characters",
+        "placeholder": "Please enter password",
+        "repeat": "Please enter the password again",
+        "strong": "password strength",
+        "size": "{min}-{max} characters, case sensitive, no spaces before or after",
+        "format": "Letters, numbers, English and special characters",
+        "different": "Inconsistent password entered twice",
+        "setting": "Please set your password",
+        "least": "Password must be at least {min} characters long"
     }
 }

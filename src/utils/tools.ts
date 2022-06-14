@@ -80,6 +80,27 @@ class MiTools {
     }
 
     /**
+     * Format string content.
+     * @param str
+     * @param formatter
+     */
+    formatEmpty(str?: string, formatter?: string): string {
+        if (this.isEmpty(str)) return formatter ?? '-'
+        return str
+    }
+
+    /**
+     * Whether the string content is empty.
+     * @param str
+     * @param format
+     */
+    isEmpty(str: any, format = false): boolean | string {
+        let result: any = str === null || str == '' || typeof str === 'undefined'
+        if (format) result = this.formatEmpty(str)
+        return result
+    }
+
+    /**
      * Whether the `element / params` is valid.
      * @param value
      */
@@ -93,6 +114,45 @@ class MiTools {
      */
     isNumber(number: any): boolean {
         return typeof number === 'number' && isFinite(number)
+    }
+
+    /**
+     * Check the validity of the email.
+     * @param email
+     * @returns {boolean}
+     */
+    checkEmail(email: string): boolean {
+        const regExp = $g.regExp
+        return regExp.email.test(email)
+    }
+
+    /**
+     * Check Password by rules.
+     * @param password
+     */
+    checkPassword(password: string): boolean {
+        const regExp = $g.regExp
+        return regExp.password.test(password)
+    }
+
+    /**
+     * Get the password strength.
+     * return a number level ( 1 - 4 ).
+     * @param password
+     */
+    getPasswordStrength(password: string): number {
+        const reg = {
+            lower: /[a-z]/,
+            upper: /[A-Z]/,
+            number: /[\d]/,
+            character: /[~!@#$%^&*()_+=\-.,]/
+        }
+        let strength = 0
+        if (reg.lower.test(password)) strength++
+        if (reg.upper.test(password)) strength++
+        if (reg.number.test(password)) strength++
+        if (reg.character.test(password)) strength++
+        return strength
     }
 
     /**
