@@ -54,7 +54,7 @@ export const $g = reactive({
     backToTop: true,
     userInfo: {} as any,
     isMobile: false,
-    locale: 'zh-cn',
+    locale: 'en-us',
 
     /**
      * 常用的正则规则.

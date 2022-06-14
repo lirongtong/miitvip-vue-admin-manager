@@ -12,7 +12,7 @@ import { $tools } from '../../utils/tools'
 export const passwordProps = () => ({
     prefixCls: PropTypes.string,
     repeat: PropTypes.bool.def(false),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     loading: PropTypes.bool.def(false),
     minLength: PropTypes.number.def(6),
@@ -20,18 +20,24 @@ export const passwordProps = () => ({
     complexity: PropTypes.bool.def(true),
     complexityTip: PropTypes.string,
     level: PropTypes.object,
-    rules: PropTypes.object
-
+    rules: PropTypes.object,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(360),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(42),
+    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(48),
+    bgColor: PropTypes.string
 })
 
 export default defineComponent({
     name: 'MiPassword',
     inheritAttrs: false,
     props: passwordProps(),
-    emits: ['change', 'repeatChange', 'update:value', 'update:repeatValue', 'input'],
+    emits: ['change', 'repeatChange', 'update:modelValue', 'update:repeatValue', 'input'],
     setup(props, {emit}) {
+        const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('password', props.prefixCls)
-        const { t } = useI18n()
+        const prefixKey = getPrefixCls('password-key', props.prefixCls)
+        const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
+        const prefixId = `${prefixKey}-${$tools.uid()}`
         const level = props.level ?? {
             1: t('password.lv1'),
             2: t('password.lv2'),
@@ -122,20 +128,36 @@ export default defineComponent({
         const onInput = (evt: any) => {
             const val = evt.target.value
             params.form.validate.password = val
-            emit('update:value', val)
+            emit('update:modelValue', val)
             emit('change', val)
             emit('input', val)
+            if (
+                props.repeat &&
+                params.form.validate.repeat
+            ) formRef.value.validateFields('repeat')
         }
 
         const onVisible = () => {
             params.visible = !params.visible
         }
 
+        const onRepeatInput = (evt: any) => {
+            const val = evt.target.value
+            params.form.validate.repeat = val
+            emit('update:repeatValue', val)
+            emit('repeatChange', val)
+        }
+
+        const onRepeatVisible = () => {
+            params.repeatVisible = !params.repeatVisible
+        }
+
         const renderPassword = (
             value: any,
             inputHandler: (...args: any) => any,
             visibleHandler: (...args: any) => any,
-            placeholder?:string
+            placeholder?: string,
+            key?: string
         ) => {
             placeholder = placeholder ?? t('password.placeholder')
             let password: any = null
@@ -143,25 +165,39 @@ export default defineComponent({
                 const suffix = <EyeInvisibleOutlined onClick={visibleHandler} />
                 password = (
                     <Input maxlength={props.maxLength}
+                        class={`${prefixCls}-input`}
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
                         value={value}
                         onInput={inputHandler}
                         placeholder={placeholder}
                         autocomplete="off"
+                        id={key ?? prefixId}
+                        style={{
+                            width: $tools.convert2Rem(props.width),
+                            height: $tools.convert2Rem(props.height),
+                            borderRadius: $tools.convert2Rem(props.radius),
+                            background: props.bgColor ?? null
+                        }}
                         type="password" />
                 )
             } else {
                 const suffix = (<EyeOutlined onClick={visibleHandler} />)
                 password = (
-                    <Input
-                        type="text"
+                    <Input type="text"
                         maxlength={props.maxLength}
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
                         value={value}
                         onInput={inputHandler}
                         autocomplete="off"
+                        id={key ?? prefixId}
+                        style={{
+                            width: $tools.convert2Rem(props.width),
+                            height: $tools.convert2Rem(props.height),
+                            borderRadius: $tools.convert2Rem(props.radius),
+                            background: props.bgColor ?? null
+                        }}
                         placeholder={placeholder} />
                 )
             }
@@ -215,9 +251,10 @@ export default defineComponent({
                     {
                         renderPassword(
                             params.form.validate.repeat,
-                            onInput,
-                            onVisible,
-                            t('password.repeat')
+                            onRepeatInput,
+                            onRepeatVisible,
+                            t('password.repeat'),
+                            `${prefixKey}-${$tools.uid()}`
                         )
                     }
                 </Form.Item>
@@ -227,10 +264,11 @@ export default defineComponent({
         return () => (
             <Form ref={formRef}
                 layout="vertical"
+                name={`${prefixCls}-form`}
                 model={params.form.validate}
                 rules={Object.assign({}, params.form.rules, props.rules)}>
                 <Form.Item name="password" ref={passwordRef}>
-                    <Popover trigger="focus" placement="top" content={renderPopover()}>
+                    <Popover trigger="focus" placement="top" content={renderPopover()} overlayClassName={langCls}>
                         {
                             renderPassword(
                                 params.form.validate.password,

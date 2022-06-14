@@ -1,3 +1,3 @@
 <template>
-    <mi-password />
+    <mi-captcha />
 </template>

@@ -1,5 +1,6 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { Layout } from 'ant-design-vue'
@@ -26,6 +27,8 @@ const MiLayout = defineComponent({
     slots: ['side', 'header', 'headerExtra', 'footer'],
     props: layoutProps(),
     setup(props, { slots }) {
+        const { locale } = useI18n()
+        const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
         const prefixCls = getPrefixCls('layout', props.prefixCls)
         const store = useStore()
         const theme = computed(() => store.getters['layout/theme'])
@@ -67,7 +70,7 @@ const MiLayout = defineComponent({
         }
         return () => (
             <>
-                <Layout class={layoutCls.value} hasSider={!isMobile.value}>
+                <Layout class={`${layoutCls.value} ${langCls}`} hasSider={!isMobile.value}>
                     {getLayout}
                 </Layout>
                 {drawer}

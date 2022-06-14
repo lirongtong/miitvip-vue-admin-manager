@@ -207,7 +207,7 @@ class MiTools {
      * @param num
      * @returns
      */
-    convert2Rem(num: number | string) {
+    convert2Rem(num: number | string): any {
         return $tools.isNumber(num)
             ? `${this.px2Rem(parseInt(num.toString()))}rem`
             : num

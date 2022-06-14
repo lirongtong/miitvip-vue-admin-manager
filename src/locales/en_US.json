@@ -46,30 +46,30 @@
         "pass": "Approved",
         "tip": "Error message",
         "error": "Error {num} times in a row, please try again later",
-        "move": "Please move the slider to complete the verification",
-        "drag": "Drag the slider on the left to complete the puzzle",
+        "move": "Move the slider",
+        "drag": "Drag the circle slider",
         "dragging": "Drag the slider to flatten the floating image correctly",
         "close": "Close verification",
         "refresh": "Refresh verification",
         "feedback": "Help feedback",
-        "provide": "provide technical support",
+        "provide": "makeit.vip provide technical support",
         "success": "It took {take} seconds to complete the image stitching verification",
-        "flatten": "Drag the slider to flatten the picture",
-        "verify": "It can be verified successfully"
+        "flatten": "Drag the slider",
+        "verify": "To complete verification"
     },
     "password": {
         "lv1": "Weak",
         "lv2": "General",
         "lv3": "Good",
         "lv4": "Great",
-        "tip": "Must contain two or more combinations of letters, numbers and special characters",
+        "tip": "Must contain two or more combinations of letters, numbers and special characters.",
         "placeholder": "Please enter password",
         "repeat": "Please enter the password again",
         "strong": "password strength",
-        "size": "{min}-{max} characters, case sensitive, no spaces before or after",
-        "format": "Letters, numbers, English and special characters",
-        "different": "Inconsistent password entered twice",
+        "size": "{min}-{max} characters, case sensitive, no spaces before or after.",
+        "format": "Letters, numbers, English and special characters.",
+        "different": "Different passwords",
         "setting": "Please set your password",
-        "least": "Password must be at least {min} characters long"
+        "least": "At least {min} characters"
     }
 }

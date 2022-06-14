@@ -37,8 +37,9 @@ export default defineComponent({
     props: captchaModalProps(),
     emits: ['modalClose'],
     setup(props, {emit}) {
-        const { t } = useI18n()
+        const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('captcha-modal', props.prefixCls)
+        const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
         const animation = getPrefixCls('anim-scale')
 
         const modalRef = ref<InstanceType<typeof HTMLElement>>(null)
@@ -470,7 +471,7 @@ export default defineComponent({
             if (params.check.num <= params.check.tries) params.check.show = true
             setTimeout(() => {
                 params.drag.moving = false
-                if (result) result.style.bottom = '-32px'
+                if (result) result.style.bottom = locale.value === 'en-us' ? $tools.convert2Rem(-48) : $tools.convert2Rem(-32)
             }, 1000)
             setTimeout(() => {
                 params.check.show = false
@@ -642,10 +643,28 @@ export default defineComponent({
             return (
                 <div class={copyrightCls}>
                     <div class={`${copyrightCls}-text`}>
-                        <a href={params.target} target="_blank">
-                            <img src={params.avatar} alt={params.powered} />
-                        </a>
-                        <span>{t('captcha.provide')}</span>
+                        {
+                            locale.value === 'en-us' ? (
+                                <>
+                                    <Tooltip
+                                        title={t('captcha.provide')}
+                                        autoAdjustOverflow={false}
+                                        overlayClassName={`${prefixCls}-tooltip`}
+                                        color={props.themeColor}>
+                                        <a href={params.target} target="_blank">
+                                            <img src={params.avatar} alt={params.powered} />
+                                        </a>
+                                    </Tooltip>
+                                </>
+                            ) : (
+                                <>
+                                    <a href={params.target} target="_blank">
+                                        <img src={params.avatar} alt={params.powered} />
+                                    </a>
+                                    <span>{t('captcha.provide')}</span>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             )
@@ -655,7 +674,7 @@ export default defineComponent({
             <>
                 {renderMask()}
                 <Transition name={animation} appear={true}>
-                    <div class={`${prefixCls}${
+                    <div class={`${prefixCls} ${langCls}${
                             !params.check.correct && params.check.show
                                 ? ` ${prefixCls}-error`
                                 : ''
@@ -664,7 +683,7 @@ export default defineComponent({
                             top: `${$tools.convert2Rem(props.position.top)}`,
                             left: `${$tools.convert2Rem(props.position.left)}`
                         }}
-                        vShow={show.value}
+                        v-show={show.value}
                         ref={modalRef}>
                         {renderArrow()}
                         {renderContent()}

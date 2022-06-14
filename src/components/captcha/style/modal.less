@@ -357,7 +357,29 @@
         }
 
         &-tooltip {
-            z-index: @mi-z-index-top;
+            z-index: @mi-z-index-modal;
+
+            .ant-tooltip {
+                &-inner {
+                    .border-radius(8);
+                    .linear-gradient-background();
+                }
+            }
+        }
+    }
+}
+
+.@{mi-lang} {
+    .@{mi-captcha} {
+        &-modal {
+            &-result {
+                &-error {
+                    .properties(bottom, -48);
+                    .properties(height, 48);
+                    .properties(padding-left, 8);
+                    .properties(padding-right, 8);
+                }
+            }
         }
     }
 }
