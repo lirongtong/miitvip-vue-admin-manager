@@ -23,7 +23,7 @@
     },
     "search": {
         "searching": "Searching ···",
-        "key": "Please enter keywords to search",
+        "key": "Please enter keywords",
         "fail": {
             "message": "Search could not be completed without source data",
             "code": "Error code: ",
