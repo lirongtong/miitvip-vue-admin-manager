@@ -10,6 +10,7 @@ export default defineComponent({
     emits: ['cancel'],
     setup(props, { slots, emit }) {
         const modalAnim = getPrefixCls(`anim-${props.animation}`)
+        const modalKey = getPrefixCls(`${props.prefixCls}-${$tools.uid()}`)
         const maskAnim = getPrefixCls('anim-fade')
         const wrapRef = ref(null)
         const headerRef = ref(null)
@@ -91,7 +92,7 @@ export default defineComponent({
         }
 
         return () => (
-            <div class={`${props.prefixCls}`}>
+            <div class={`${props.prefixCls}`} key={modalKey}>
                 {renderMask()}
                 <Transition name={modalAnim} onAfterLeave={handleAnimAfterLeave} appear>
                     <div

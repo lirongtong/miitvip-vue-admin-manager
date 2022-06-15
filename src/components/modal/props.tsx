@@ -1,4 +1,5 @@
 import { PropType, VNodeTypes, CSSProperties } from 'vue'
+import { tuple } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
 
 export interface ModalProps {
@@ -40,6 +41,6 @@ export const modalProps = () => ({
     cancelText: PropTypes.any,
     zIndex: PropTypes.number,
     animation: PropTypes.string.def('scale'),
-    placement: PropTypes.string,
+    placement: PropTypes.oneOf(tuple('left', 'top', 'right', 'bottom', 'center')).def('center'),
     afterClose: PropTypes.func.def(() => {})
 })
