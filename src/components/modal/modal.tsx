@@ -1,6 +1,6 @@
-import { defineComponent, reactive } from 'vue'
-import { Button } from 'ant-design-vue'
-import { CloseOutlined } from '@ant-design/icons-vue'
+import { defineComponent, reactive, createVNode } from 'vue'
+import { Button, Modal as AntModal } from 'ant-design-vue'
+import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { install } from '../../utils/install'
 import { modalProps } from './props'
@@ -77,4 +77,44 @@ const Modal = defineComponent({
         }
     }
 })
+
+const prefixCls = getPrefixCls('modal')
+const defaultConfig = {
+    centered: true,
+    keyboard: true,
+    mask: true,
+    maskClosable: true,
+    width: 360
+}
+
+const mergeConfig = (config: string | {}, type = 'success') => {
+    if (typeof config === 'string') config = {content: config}
+    return Object.assign({}, defaultConfig, {
+        class: `${prefixCls}-${type}`
+    }, config)
+}
+
+Modal.success = (config: string | {}) => {
+    AntModal.success(mergeConfig(config, 'success'))
+}
+
+Modal.error = (config: string | {}) => {
+    AntModal.error(mergeConfig(config, 'error'))
+}
+
+Modal.warning = (config: string | {}) => {
+    AntModal.warning(mergeConfig(config, 'warning'))
+}
+
+Modal.confirm = (config: string | {}) => {
+    const configuration = Object.assign({}, {
+        icon: createVNode(QuestionCircleOutlined)
+    }, mergeConfig(config, 'confirm'))
+    AntModal.confirm(configuration)
+}
+
+Modal.destroyAll = () => {
+    AntModal.destroyAll()
+}
+
 export default install(Modal)

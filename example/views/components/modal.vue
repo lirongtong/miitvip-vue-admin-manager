@@ -6,6 +6,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 const visible = ref(false)
+const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
+vm.$miModal.confirm('Nice')
 </script>

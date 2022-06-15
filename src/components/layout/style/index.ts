@@ -1,6 +1,6 @@
 import 'ant-design-vue/es/layout/style'
 import 'ant-design-vue/es/popover/style'
-import 'ant-design-vue/es/radio/style'
 import '../../../styles/antd/popover.less'
+import 'ant-design-vue/es/radio/style'
 import '../../../styles/antd/radio.less'
 import './index.less'

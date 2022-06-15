@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { inject, createVNode } from 'vue'
+import { inject, createVNode, getCurrentInstance } from 'vue'
 import {
     DashboardOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined,
     LayoutOutlined, LoginOutlined, ScheduleOutlined, ThunderboltOutlined,
@@ -16,8 +16,8 @@ import {
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
     CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled
 } from '@ant-design/icons-vue'
-const $g = inject('$g')
-$g.menus.items = [{
+const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
+vm.$g.menus.items = [{
     name: 'dashboard',
     path: '/dashboard',
     meta: {
