@@ -211,6 +211,19 @@
             transform: translateX(32px);
             opacity: 0;
         }
+
+        /** anchor */
+        &-anchor-enter-active,
+        &-anchor-leave-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        &-anchor-enter-from,
+        &-anchor-leave-to {
+            opacity: 0;
+            transform: translateX(5rem);
+        }
     }
 }
 

@@ -292,6 +292,22 @@ class MiTools {
     }
 
     /**
+     * Gets the actual height of the element from the top of the document.
+     * @param el
+     * @param pos
+     * @returns
+     */
+    getElementActualTopOrLeft(el: HTMLElement, pos = 'top') {
+        let actual = pos === 'left' ? el.offsetLeft : el.offsetTop
+        let current = el.offsetParent as HTMLElement
+        while (current !== null) {
+            actual += pos === 'left' ? current.offsetLeft : current.offsetTop
+            current = current.offsetParent as HTMLElement
+        }
+        return actual
+    }
+
+    /**
      * scroll to top ( animation ).
      * @param el
      * @param from
@@ -303,9 +319,9 @@ class MiTools {
         const difference = Math.abs(from - to)
         const step = Math.ceil((difference / duration) * 50)
         let rid: number
-        function scroll(start: number, end: number, step: number) {
+        function scroll(start: number, end: number, step: number, vm) {
             if (start === end) {
-                if (rid) this.caf(rid)
+                if (rid) vm.caf(rid)
                 endCallback && endCallback()
                 return
             }
@@ -313,9 +329,9 @@ class MiTools {
             if (start > end) d = start - step < end ? end : start - step
             if (el === window) window.scrollTo(d, d)
             else el.scrollTop = d
-            rid = this.raf(() => scroll(d, end, step))
+            rid = vm.raf(() => scroll(d, end, step, vm))
         }
-        scroll(from, to, step)
+        scroll(from, to, step, this)
     }
 
     /**

@@ -16,6 +16,7 @@ import { default as Clock } from './components/clock'
 import { default as Search } from './components/search'
 import { default as Captcha } from './components/captcha'
 import { default as Password } from './components/password'
+import { default as Anchor } from './components/anchor'
 
 const components = [
     i18n,
@@ -31,7 +32,8 @@ const components = [
     Clock,
     Search,
     Captcha,
-    Password
+    Password,
+    Anchor
 ]
 
 let _init = false
@@ -64,7 +66,8 @@ export {
     Clock,
     Search,
     Captcha,
-    Password
+    Password,
+    Anchor
 }
 
 export default {

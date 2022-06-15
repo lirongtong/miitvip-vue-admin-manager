@@ -77,5 +77,13 @@
         "different": "Different passwords",
         "setting": "Please set your password",
         "least": "At least {min} characters"
+    },
+    "anchor": {
+        "text": "Anchor Link",
+        "close": "Close Anchor Link",
+        "stick": {
+            "yes": "Enable suspension",
+            "no": "Cancel suspension"
+        }
     }
 }

@@ -77,5 +77,13 @@
         "different": "两次密码输入不一致",
         "setting": "请设置密码",
         "least": "密码长度至少为{min}个字符"
+    },
+    "anchor": {
+        "text": "锚点 Anchor",
+        "close": "关闭锚点链接",
+        "stick": {
+            "yes": "开启固定悬浮",
+            "no": "取消固定悬浮"
+        }
     }
 }
