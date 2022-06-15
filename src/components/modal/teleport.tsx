@@ -25,19 +25,22 @@ export default defineComponent({
         const _container = ref(null)
 
         onBeforeMount(() => removeContainer())
-        onMounted(() => _container.value = createContainer())
+        onMounted(() => (_container.value = createContainer()))
 
-        watch(() => props.visible, (n) => {
-            openCount.value = n ? openCount.value + 1 : openCount.value - 1
-        })
-        watch(() => props.container, (curr, prev) => {
-            const containerIsFunc = typeof curr === 'function' && typeof prev === 'function'
-            if (
-                containerIsFunc
-                    ? curr.toString() !== prev.toString()
-                    : curr !== prev
-            ) removeContainer()
-        })
+        watch(
+            () => props.visible,
+            (n) => {
+                openCount.value = n ? openCount.value + 1 : openCount.value - 1
+            }
+        )
+        watch(
+            () => props.container,
+            (curr, prev) => {
+                const containerIsFunc = typeof curr === 'function' && typeof prev === 'function'
+                if (containerIsFunc ? curr.toString() !== prev.toString() : curr !== prev)
+                    removeContainer()
+            }
+        )
 
         const createContainer = () => {
             if (windowIsUndefined) return null
@@ -48,10 +51,8 @@ export default defineComponent({
                 if (temp.indexOf('#') === -1) temp = `#${temp}`
                 return document.querySelector(temp)
             }
-            if (
-                type === 'object' &&
-                props.container instanceof window.HTMLElement
-            ) return props.container
+            if (type === 'object' && props.container instanceof window.HTMLElement)
+                return props.container
             return document.body
         }
 
@@ -60,14 +61,8 @@ export default defineComponent({
         }
 
         return () => {
-            const childProps = {container: createContainer()}
-            return (
-                (
-                    props.visible ||
-                    props.forceRender ||
-                    teleportRef.value
-                ) && _container.value
-            ) ? (
+            const childProps = { container: createContainer() }
+            return (props.visible || props.forceRender || teleportRef.value) && _container.value ? (
                 <Teleport to={_container.value} ref={teleportRef}>
                     {props.children(childProps)}
                 </Teleport>

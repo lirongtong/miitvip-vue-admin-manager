@@ -17,9 +17,9 @@ export const anchorLinkProps = () => ({
 export default defineComponent({
     name: 'MiAnchorLink',
     inheritAttrs: false,
-    emits: ['click'],
     props: anchorLinkProps(),
-    setup(props, {emit}) {
+    emits: ['click'],
+    setup(props, { emit }) {
         const prefixCls = getPrefixCls('anchor-link', props.prefixCls)
 
         const handleClick = (evt: Event) => {
@@ -37,7 +37,8 @@ export default defineComponent({
         }
 
         return () => (
-            <div class={`${prefixCls}${props.active ? ` ${prefixCls}-active` : ''}`}
+            <div
+                class={`${prefixCls}${props.active ? ` ${prefixCls}-active` : ''}`}
                 onClick={handleClick}>
                 {props.active ? <StarOutlined /> : <TagOutlined />}
                 <a class={`${prefixCls}-title`} title={props.title}>

@@ -14,7 +14,7 @@ const Modal = defineComponent({
     props: modalProps(),
     emits: ['ok', 'cancel', 'update:visible'],
     slots: ['title', 'closeIcon', 'footer', 'okText', 'cancelText'],
-    setup(props, {slots, attrs, emit}) {
+    setup(props, { slots, attrs, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('modal', props.prefixCls)
 
@@ -30,10 +30,9 @@ const Modal = defineComponent({
         const renderClose = () => {
             return (
                 <span class={`${prefixCls}-close-x`}>
-                    {
-                        getPropSlot(slots, props, 'closeIcon')
-                            ?? <CloseOutlined class={`${prefixCls}-close-icon`} />
-                    }
+                    {getPropSlot(slots, props, 'closeIcon') ?? (
+                        <CloseOutlined class={`${prefixCls}-close-icon`} />
+                    )}
                 </span>
             )
         }
@@ -63,21 +62,17 @@ const Modal = defineComponent({
             })
 
             return props.container === false ? (
-                <MiPopup {...propties}>
-                    {getPropSlot(slots, props)}
-                </MiPopup>
+                <MiPopup {...propties}>{getPropSlot(slots, props)}</MiPopup>
             ) : (
-                <MiTeleport visible={props.visible}
+                <MiTeleport
+                    visible={props.visible}
                     forceRender={props.forceRender}
                     container={props.container}
                     children={(child: any) => {
-                        propties = {...propties, ...child}
-                        return (
-                            <MiPopup {...propties}>
-                                {getPropSlot(slots, props)}
-                            </MiPopup>
-                        )
-                }} />
+                        propties = { ...propties, ...child }
+                        return <MiPopup {...propties}>{getPropSlot(slots, props)}</MiPopup>
+                    }}
+                />
             )
         }
     }

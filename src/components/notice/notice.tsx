@@ -141,7 +141,11 @@ export default defineComponent({
                 const len = panes.length
                 let content = len > 1 ? <Tabs onChange={props.tabChange}>{...panes}</Tabs> : panes
                 if (len <= 0) content = renderEmpty()
-                return <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>{content}</div>
+                return (
+                    <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>
+                        {content}
+                    </div>
+                )
             }
             return (
                 <Popover

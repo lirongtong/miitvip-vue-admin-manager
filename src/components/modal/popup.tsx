@@ -8,7 +8,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: modalProps(),
     emits: ['cancel'],
-    setup(props, {slots, emit}) {
+    setup(props, { slots, emit }) {
         const modalAnim = getPrefixCls(`anim-${props.animation}`)
         const maskAnim = getPrefixCls('anim-fade')
         const wrapRef = ref(null)
@@ -18,7 +18,7 @@ export default defineComponent({
         const handleCloseClick = (evt?: Event) => {
             emit('cancel', evt)
         }
-        
+
         const handleWrapClick = () => {
             if (props.mask && props.maskClosable) handleCloseClick()
         }
@@ -40,10 +40,12 @@ export default defineComponent({
         const renderMask = () => {
             return props.mask ? (
                 <Transition name={maskAnim} appear={true}>
-                    <div class={`${props.prefixCls}-mask`}
-                        style={{zIndex: props.zIndex ?? null, ...props.maskStyle}}
+                    <div
+                        class={`${props.prefixCls}-mask`}
+                        style={{ zIndex: props.zIndex ?? null, ...props.maskStyle }}
                         onClick={handleCloseClick}
-                        v-show={props.visible} />
+                        v-show={props.visible}
+                    />
                 </Transition>
             ) : null
         }
@@ -54,21 +56,24 @@ export default defineComponent({
                 height: props.height ? $tools.convert2Rem(props.height) : null
             }
             const header = props.title ? (
-                <div class={`${props.prefixCls}-header`}
+                <div
+                    class={`${props.prefixCls}-header`}
                     key={`${props.prefixCls}-header`}
                     ref={headerRef}>
                     {props.title}
                 </div>
             ) : null
             const footers = props.footer ? (
-                <div class={`${props.prefixCls}-footer`}
+                <div
+                    class={`${props.prefixCls}-footer`}
                     key={`${props.prefixCls}-footer`}
                     ref={footerRef}>
                     {props.footer}
                 </div>
             ) : null
             const closer = props.closable ? (
-                <button type="button"
+                <button
+                    type="button"
                     onClick={handleCloseClick}
                     key={`${props.prefixCls}-close`}
                     class={`${props.prefixCls}-close`}>
@@ -76,13 +81,10 @@ export default defineComponent({
                 </button>
             ) : null
             return (
-                <div class={`${props.prefixCls}-content`}
-                    style={style}>
+                <div class={`${props.prefixCls}-content`} style={style}>
                     {closer}
                     {header}
-                    <div class={`${props.prefixCls}-body`}>
-                        {getPropSlot(slots, props)}
-                    </div>
+                    <div class={`${props.prefixCls}-body`}>{getPropSlot(slots, props)}</div>
                     {footers}
                 </div>
             )
@@ -92,9 +94,10 @@ export default defineComponent({
             <div class={`${props.prefixCls}`}>
                 {renderMask()}
                 <Transition name={modalAnim} onAfterLeave={handleAnimAfterLeave} appear>
-                    <div class={getWrapClass()}
+                    <div
+                        class={getWrapClass()}
                         ref={wrapRef}
-                        style={{zIndex: props.zIndex ?? null}}
+                        style={{ zIndex: props.zIndex ?? null }}
                         onClick={handleWrapClick}
                         v-show={props.visible}>
                         {renderModal()}

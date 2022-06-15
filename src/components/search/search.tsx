@@ -554,7 +554,7 @@ const MiSearch = defineComponent({
                     {suffixTag}
                     {renderList()}
                 </div>
-                { params.show ? (
+                {params.show ? (
                     <Teleport to="body">
                         <div
                             class={`${prefixCls}-mask`}

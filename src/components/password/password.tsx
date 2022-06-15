@@ -2,8 +2,12 @@ import { defineComponent, reactive, ref, createVNode } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Form, Input, Popover } from 'ant-design-vue'
 import {
-    EyeInvisibleOutlined, EyeOutlined, LockOutlined, UnlockOutlined,
-    CheckOutlined, CloseOutlined
+    EyeInvisibleOutlined,
+    EyeOutlined,
+    LockOutlined,
+    UnlockOutlined,
+    CheckOutlined,
+    CloseOutlined
 } from '@ant-design/icons-vue'
 import { getPrefixCls } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
@@ -32,7 +36,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: passwordProps(),
     emits: ['change', 'repeatChange', 'update:modelValue', 'update:repeatValue', 'input'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('password', props.prefixCls)
         const prefixKey = getPrefixCls('password-key', props.prefixCls)
@@ -49,7 +53,7 @@ export default defineComponent({
         const passwordRef = ref<InstanceType<typeof HTMLDivElement>>(null)
         const repeatRef = ref<InstanceType<typeof HTMLDivElement>>(null)
 
-        const checkPassword = (_rule: any, value: string, _callback) => {
+        const checkPassword = (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
                 params.password = {
                     strength: 0,
@@ -65,7 +69,7 @@ export default defineComponent({
                     params.password.length = false
                     params.password.strength = 0
                     params.password.tips = null
-                    return Promise.reject(t('password.least', {min: props.minLength}))
+                    return Promise.reject(t('password.least', { min: props.minLength }))
                 }
                 if (props.complexity) {
                     if ($tools.checkPassword(value)) {
@@ -92,7 +96,7 @@ export default defineComponent({
             }
         }
 
-        const checkRepeat = (_rule: any, value: string, _callback: any) => {
+        const checkRepeat = (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
                 return Promise.reject(t('password.repeat'))
             } else {
@@ -119,8 +123,8 @@ export default defineComponent({
                     repeat: null
                 },
                 rules: {
-                    password: [{required: true, validator: checkPassword}],
-                    repeat: [{required: props.repeat, validator: checkRepeat}]
+                    password: [{ required: true, validator: checkPassword }],
+                    repeat: [{ required: props.repeat, validator: checkRepeat }]
                 }
             }
         })
@@ -131,10 +135,7 @@ export default defineComponent({
             emit('update:modelValue', val)
             emit('change', val)
             emit('input', val)
-            if (
-                props.repeat &&
-                params.form.validate.repeat
-            ) formRef.value.validateFields('repeat')
+            if (props.repeat && params.form.validate.repeat) formRef.value.validateFields('repeat')
         }
 
         const onVisible = () => {
@@ -164,7 +165,8 @@ export default defineComponent({
             if (!params.visible) {
                 const suffix = <EyeInvisibleOutlined onClick={visibleHandler} />
                 password = (
-                    <Input maxlength={props.maxLength}
+                    <Input
+                        maxlength={props.maxLength}
                         class={`${prefixCls}-input`}
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
@@ -179,12 +181,14 @@ export default defineComponent({
                             borderRadius: $tools.convert2Rem(props.radius),
                             background: props.bgColor ?? null
                         }}
-                        type="password" />
+                        type="password"
+                    />
                 )
             } else {
-                const suffix = (<EyeOutlined onClick={visibleHandler} />)
+                const suffix = <EyeOutlined onClick={visibleHandler} />
                 password = (
-                    <Input type="text"
+                    <Input
+                        type="text"
                         maxlength={props.maxLength}
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
@@ -198,7 +202,8 @@ export default defineComponent({
                             borderRadius: $tools.convert2Rem(props.radius),
                             background: props.bgColor ?? null
                         }}
-                        placeholder={placeholder} />
+                        placeholder={placeholder}
+                    />
                 )
             }
             return password
@@ -211,36 +216,53 @@ export default defineComponent({
                     <div class={`${strengthCls}-item`}>
                         <span>{t('password.strong')}</span>
                         <div class={`${strengthCls}-group`}>
-                            <i class={`${strengthCls}${params.password.strength > 0 ? ' active' : ''}`}></i>
-                            <i class={`${strengthCls}${params.password.strength > 1 ? ' active' : ''}`}></i>
-                            <i class={`${strengthCls}${params.password.strength > 2 ? ' active' : ''}`}></i>
-                            <i class={`${strengthCls}${params.password.strength > 3 ? ' active' : ''}`}></i>
+                            <i
+                                class={`${strengthCls}${
+                                    params.password.strength > 0 ? ' active' : ''
+                                }`}></i>
+                            <i
+                                class={`${strengthCls}${
+                                    params.password.strength > 1 ? ' active' : ''
+                                }`}></i>
+                            <i
+                                class={`${strengthCls}${
+                                    params.password.strength > 2 ? ' active' : ''
+                                }`}></i>
+                            <i
+                                class={`${strengthCls}${
+                                    params.password.strength > 3 ? ' active' : ''
+                                }`}></i>
                         </div>
                         <span class="theme-color" innerHTML={params.password.tips}></span>
                     </div>
                     <div class={`${strengthCls}-item`}>
-                        { params.password.length
-                            ? (<CheckOutlined class="success" />)
-                            : (<CloseOutlined class="failed" />)
-                        }
-                        <span>{t('password.size', {min: props.minLength, max: props.maxLength})}</span>
+                        {params.password.length ? (
+                            <CheckOutlined class="success" />
+                        ) : (
+                            <CloseOutlined class="failed" />
+                        )}
+                        <span>
+                            {t('password.size', { min: props.minLength, max: props.maxLength })}
+                        </span>
                     </div>
                     <div class={`${strengthCls}-item`}>
-                        { params.password.format
-                            ? (<CheckOutlined class="success" />)
-                            : (<CloseOutlined class="failed" />)
-                        }
+                        {params.password.format ? (
+                            <CheckOutlined class="success" />
+                        ) : (
+                            <CloseOutlined class="failed" />
+                        )}
                         <span>{t('password.format')}</span>
                     </div>
-                    { props.complexity ? (
+                    {props.complexity ? (
                         <div class={`${strengthCls}-item`}>
-                            { params.password.complexity
-                                ? (<CheckOutlined class="success" />)
-                                : (<CloseOutlined class="failed" />)
-                            }
-                            <span>{ tip }</span>
+                            {params.password.complexity ? (
+                                <CheckOutlined class="success" />
+                            ) : (
+                                <CloseOutlined class="failed" />
+                            )}
+                            <span>{tip}</span>
                         </div>
-                    ) : null }
+                    ) : null}
                 </div>
             )
         }
@@ -248,34 +270,31 @@ export default defineComponent({
         const renderRepeat = () => {
             return props.repeat ? (
                 <Form.Item name="repeat" ref={repeatRef}>
-                    {
-                        renderPassword(
-                            params.form.validate.repeat,
-                            onRepeatInput,
-                            onRepeatVisible,
-                            t('password.repeat'),
-                            `${prefixKey}-${$tools.uid()}`
-                        )
-                    }
+                    {renderPassword(
+                        params.form.validate.repeat,
+                        onRepeatInput,
+                        onRepeatVisible,
+                        t('password.repeat'),
+                        `${prefixKey}-${$tools.uid()}`
+                    )}
                 </Form.Item>
             ) : null
         }
 
         return () => (
-            <Form ref={formRef}
+            <Form
+                ref={formRef}
                 layout="vertical"
                 name={`${prefixCls}-form`}
                 model={params.form.validate}
                 rules={Object.assign({}, params.form.rules, props.rules)}>
                 <Form.Item name="password" ref={passwordRef}>
-                    <Popover trigger="focus" placement="top" content={renderPopover()} overlayClassName={langCls}>
-                        {
-                            renderPassword(
-                                params.form.validate.password,
-                                onInput,
-                                onVisible
-                            )
-                        }
+                    <Popover
+                        trigger="focus"
+                        placement="top"
+                        content={renderPopover()}
+                        overlayClassName={langCls}>
+                        {renderPassword(params.form.validate.password, onInput, onVisible)}
                     </Popover>
                 </Form.Item>
                 {renderRepeat()}

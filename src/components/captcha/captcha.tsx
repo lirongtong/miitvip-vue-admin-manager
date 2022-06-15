@@ -109,8 +109,7 @@ export default defineComponent({
             } else initCaptchaModal()
         }
 
-        const initCaptchaModal = (image?: string) => {
-            image = image ?? props.image
+        const initCaptchaModal = () => {
             params.status.scanning = false
             params.status.being = true
             params.modal.pos = getCaptchaModalPosition()
@@ -158,7 +157,7 @@ export default defineComponent({
                 background: backgroundColor,
                 borderColor: props.themeColor ?? null
             }
-            return (<div class={cls} style={style}></div>)
+            return <div class={cls} style={style}></div>
         }
 
         const showMessage = (msg = t('captcha.tip'), duration = 3) => {
@@ -202,24 +201,25 @@ export default defineComponent({
         const renderContent = () => {
             const width = $tools.convert2Rem(props.width)
             const height = $tools.convert2Rem(props.height)
-            const modal =
-                params.modal.show ? (
-                    <Teleport to="body" ref={captchaModalRef}>
-                        <MiCaptchaModal position={params.modal.pos}
-                            maxTries={props.maxTries}
-                            show={params.modal.show}
-                            mask={props.mask}
-                            maskClosable={props.maskClosable}
-                            boxShadow={props.modalBoxShadow}
-                            boxShadowBlur={props.modalBoxShadowBlur}
-                            boxShadowColor={props.modalBoxShadowColor}
-                            themeColor={props.themeColor}
-                            bgColor={props.modalBgColor}
-                            verifyParams={props.verifyParams}
-                            onModalClose={closeCaptchaModal}
-                            image={props.image} />
-                    </Teleport>
-                ) : null
+            const modal = params.modal.show ? (
+                <Teleport to="body" ref={captchaModalRef}>
+                    <MiCaptchaModal
+                        position={params.modal.pos}
+                        maxTries={props.maxTries}
+                        show={params.modal.show}
+                        mask={props.mask}
+                        maskClosable={props.maskClosable}
+                        boxShadow={props.modalBoxShadow}
+                        boxShadowBlur={props.modalBoxShadowBlur}
+                        boxShadowColor={props.modalBoxShadowColor}
+                        themeColor={props.themeColor}
+                        bgColor={props.modalBgColor}
+                        verifyParams={props.verifyParams}
+                        onModalClose={closeCaptchaModal}
+                        image={props.image}
+                    />
+                </Teleport>
+            ) : null
             return (
                 <>
                     <div class={`${prefixCls}-content`} style={{ width, height }}>
@@ -331,7 +331,8 @@ export default defineComponent({
         }
 
         return () => (
-            <div class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`}
+            <div
+                class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`}
                 {...attrs}
                 onClick={showCaptchaModal}
                 key={`${prefixCls}-${$tools.uid()}`}

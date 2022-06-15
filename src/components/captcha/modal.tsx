@@ -36,7 +36,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: captchaModalProps(),
     emits: ['modalClose'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('captcha-modal', props.prefixCls)
         const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
@@ -164,7 +164,7 @@ export default defineComponent({
             const block = blockRef.value as HTMLCanvasElement
             const imageCtx = image ? image.getContext('2d') : null
             const blockCtx = block ? block.getContext('2d') : null
-            params.ctx = {image: imageCtx, block: blockCtx}
+            params.ctx = { image: imageCtx, block: blockCtx }
             /**
              * 图片统一转为 base64, 避免跨域问题.
              * 也可采用xhr异步请求图片地址.
@@ -189,8 +189,8 @@ export default defineComponent({
              * }
              * ```
              */
-             if ($g.regExp.url.test(params._background)) image2Base64(initImageElem)
-             else initImageElem()
+            if ($g.regExp.url.test(params._background)) image2Base64(initImageElem)
+            else initImageElem()
         }
 
         const refreshCaptcha = () => {
@@ -203,7 +203,7 @@ export default defineComponent({
             initImageElem()
         }
 
-        const closeModal = (status?:any, data?: any) => {
+        const closeModal = (status?: any, data?: any) => {
             params.loading = true
             if (typeof status !== 'string') status = 'close'
             if (props.maskClosable) {
@@ -226,52 +226,31 @@ export default defineComponent({
             elem.crossOrigin = ''
             elem.src = params._background
             elem.onload = () => {
-                ctx.drawImage(
-                    elem,
-                    0,
-                    0,
-                    params.size.width,
-                    params.size.height
-                )
+                ctx.drawImage(elem, 0, 0, params.size.width, params.size.height)
                 params._background = canvas.toDataURL()
                 callback && callback()
             }
         }
 
         const initImage = (elem: HTMLElement) => {
-            if (
-                params.ctx.image &&
-                params.ctx.block
-            ) {
+            if (params.ctx.image && params.ctx.block) {
                 /** image */
-                params.ctx.image.drawImage(
-					elem,
-					0,
-					0,
-					params.size.width,
-					params.size.height
-                )
+                params.ctx.image.drawImage(elem, 0, 0, params.size.width, params.size.height)
                 /** text */
                 params.ctx.image.beginPath()
                 params.ctx.image.fillStyle = '#FFF'
-				params.ctx.image.shadowColor = 'transparent'
-				params.ctx.image.shadowBlur = 0
-				params.ctx.image.font = 'bold 24px MicrosoftYaHei'
-				params.ctx.image.fillText(t('captcha.flatten'), 12, 30)
-				params.ctx.image.font = '16px MicrosoftYaHei'
-				params.ctx.image.fillText(t('captcha.verify'), 12, 55)
+                params.ctx.image.shadowColor = 'transparent'
+                params.ctx.image.shadowBlur = 0
+                params.ctx.image.font = 'bold 24px MicrosoftYaHei'
+                params.ctx.image.fillText(t('captcha.flatten'), 12, 30)
+                params.ctx.image.font = '16px MicrosoftYaHei'
+                params.ctx.image.fillText(t('captcha.verify'), 12, 55)
                 params.ctx.image.closePath()
                 /** block */
                 params.ctx.block.save()
                 params.ctx.block.globalCompositeOperation = 'destination-over'
                 drawBlockPosition()
-				params.ctx.block.drawImage(
-                    elem,
-                    0,
-                    0,
-                    params.size.width,
-                    params.size.height
-                )
+                params.ctx.block.drawImage(elem, 0, 0, params.size.width, params.size.height)
                 /** image data */
                 const coordinateY = params.coordinate.y - params.block.radius * 2 + 1
                 const imageData = params.ctx.block.getImageData(
@@ -282,11 +261,7 @@ export default defineComponent({
                 )
                 const block = blockRef.value as HTMLCanvasElement
                 if (block) block.width = params.block.real
-                params.ctx.block.putImageData(
-                    imageData,
-                    params.coordinate.offset,
-                    coordinateY
-                )
+                params.ctx.block.putImageData(imageData, params.coordinate.offset, coordinateY)
                 params.ctx.block.restore()
                 params.loading = false
             }
@@ -330,7 +305,10 @@ export default defineComponent({
                     type === 'inner'
                 )
             }
-            ctx.lineTo(params.coordinate.x + params.block.size, params.coordinate.y + params.block.size)
+            ctx.lineTo(
+                params.coordinate.x + params.block.size,
+                params.coordinate.y + params.block.size
+            )
             /** bottom */
             ctx.arc(
                 params.coordinate.x + params.block.size / 2,
@@ -375,7 +353,7 @@ export default defineComponent({
         }
 
         const drawBlockDirection = () => {
-            const direction = {top: 'top', right: 'right'}
+            const direction = { top: 'top', right: 'right' }
             const from = ['inner', 'outer']
             const result: any = {}
             const keys = Object.keys(direction)
@@ -440,27 +418,29 @@ export default defineComponent({
                 params.check.correct = false
                 if (msg) params.check.tip = msg
             }
-            if (
-                params.coordinate.x - 2 <= coordinateX &&
-                params.coordinate.x + 2 >= coordinateX
-            ) {
+            if (params.coordinate.x - 2 <= coordinateX && params.coordinate.x + 2 >= coordinateX) {
                 const succcess = (data: any = {}) => {
                     setTimeout(() => {
                         closeModal('success', data)
                     }, 500)
                 }
-                const take = Math.round(((params.time.end - params.time.start) / 10)) / 100
-                params.check.tip = t('captcha.success', {take})
+                const take = Math.round((params.time.end - params.time.start) / 10) / 100
+                params.check.tip = t('captcha.success', { take })
                 if (props.verifyAction) {
-                    await $request[props.verifyParams.toLowerCase()](props.verifyAction, props.verifyParams).then((res: any) => {
-                        const response = res.data
-                        if (response.ret.code === 1) {
-                            params.check.correct = true
-                            succcess(response.data)
-                        } else error(response.ret.message)
-                    }).catch((err: any) => {
-                        error(err.message)
-                    })
+                    await $request[props.verifyParams.toLowerCase()](
+                        props.verifyAction,
+                        props.verifyParams
+                    )
+                        .then((res: any) => {
+                            const response = res.data
+                            if (response.ret.code === 1) {
+                                params.check.correct = true
+                                succcess(response.data)
+                            } else error(response.ret.message)
+                        })
+                        .catch((err: any) => {
+                            error(err.message)
+                        })
                 } else {
                     params.check.correct = true
                     succcess()
@@ -471,7 +451,9 @@ export default defineComponent({
             if (params.check.num <= params.check.tries) params.check.show = true
             setTimeout(() => {
                 params.drag.moving = false
-                if (result) result.style.bottom = locale.value === 'en-us' ? $tools.convert2Rem(-48) : $tools.convert2Rem(-32)
+                if (result)
+                    result.style.bottom =
+                        locale.value === 'en-us' ? $tools.convert2Rem(-48) : $tools.convert2Rem(-32)
             }, 1000)
             setTimeout(() => {
                 params.check.show = false
@@ -520,7 +502,8 @@ export default defineComponent({
                             {renderContentInfo()}
                             {renderContentResult()}
                         </div>
-                        <div ref={sliderRef}
+                        <div
+                            ref={sliderRef}
                             class={`${classes.slider}${
                                 params.drag.moving ? ` ${classes.slider}-moving` : ''
                             }`}>
@@ -598,8 +581,10 @@ export default defineComponent({
                 <div class={sliderBtnCls} style={style} ref={sliderBtnRef}>
                     <div class={`${sliderBtnCls}-icon`} style={style}>
                         <div class={`${sliderBtnCls}-vertical`} />
-                        <div class={`${sliderBtnCls}-horizontal`}
-                            style={{ background: props.themeColor ?? null }} />
+                        <div
+                            class={`${sliderBtnCls}-horizontal`}
+                            style={{ background: props.themeColor ?? null }}
+                        />
                     </div>
                 </div>
             )
@@ -643,28 +628,26 @@ export default defineComponent({
             return (
                 <div class={copyrightCls}>
                     <div class={`${copyrightCls}-text`}>
-                        {
-                            locale.value === 'en-us' ? (
-                                <>
-                                    <Tooltip
-                                        title={t('captcha.provide')}
-                                        autoAdjustOverflow={false}
-                                        overlayClassName={`${prefixCls}-tooltip`}
-                                        color={props.themeColor}>
-                                        <a href={params.target} target="_blank">
-                                            <img src={params.avatar} alt={params.powered} />
-                                        </a>
-                                    </Tooltip>
-                                </>
-                            ) : (
-                                <>
+                        {locale.value === 'en-us' ? (
+                            <>
+                                <Tooltip
+                                    title={t('captcha.provide')}
+                                    autoAdjustOverflow={false}
+                                    overlayClassName={`${prefixCls}-tooltip`}
+                                    color={props.themeColor}>
                                     <a href={params.target} target="_blank">
                                         <img src={params.avatar} alt={params.powered} />
                                     </a>
-                                    <span>{t('captcha.provide')}</span>
-                                </>
-                            )
-                        }
+                                </Tooltip>
+                            </>
+                        ) : (
+                            <>
+                                <a href={params.target} target="_blank">
+                                    <img src={params.avatar} alt={params.powered} />
+                                </a>
+                                <span>{t('captcha.provide')}</span>
+                            </>
+                        )}
                     </div>
                 </div>
             )
@@ -674,10 +657,9 @@ export default defineComponent({
             <>
                 {renderMask()}
                 <Transition name={animation} appear={true}>
-                    <div class={`${prefixCls} ${langCls}${
-                            !params.check.correct && params.check.show
-                                ? ` ${prefixCls}-error`
-                                : ''
+                    <div
+                        class={`${prefixCls} ${langCls}${
+                            !params.check.correct && params.check.show ? ` ${prefixCls}-error` : ''
                         }`}
                         style={{
                             top: `${$tools.convert2Rem(props.position.top)}`,

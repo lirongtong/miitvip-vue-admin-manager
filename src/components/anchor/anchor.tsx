@@ -7,8 +7,8 @@ import PropTypes from '../_utils/props-types'
 import AnchorLink from './link'
 
 export type AnchorLinkItem = {
-    id: string,
-    title: string,
+    id: string
+    title: string
     elem: Event
 }
 
@@ -28,7 +28,7 @@ const Anchor = defineComponent({
     inheritAttrs: false,
     props: anchorProps(),
     emits: ['click'],
-    setup(props, {slots, emit}) {
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('anchor', props.prefixCls)
         const prefixAnchorKey = getPrefixCls(`anchor-${$tools.uid()}`, props.prefixCls)
@@ -55,14 +55,15 @@ const Anchor = defineComponent({
         onMounted(() => {
             nextTick(() => {
                 let container: any = document
-                if (props.collectContainer) container = document.querySelector(props.collectContainer)
+                if (props.collectContainer)
+                    container = document.querySelector(props.collectContainer)
                 params.list = parseAnchorData(container.querySelectorAll(props.selector))
                 params.linkTemplate = []
                 nextTick(() => {
                     if (anchorRef.value) {
                         const height = anchorRef.value.clientHeight
                         const offset = $tools.getElementActualTopOrLeft(anchorRef.value)
-                        params.stickTop = Math.round((offset + (height / 2) - 66) * 100) / 100
+                        params.stickTop = Math.round((offset + height / 2 - 66) * 100) / 100
                     }
                     if (!params.hover) {
                         params.visible = false
@@ -97,18 +98,15 @@ const Anchor = defineComponent({
 
         const scrollBody = () => {
             if (!params.manualActive) {
-                const scrollTop = (
-                    document.documentElement.scrollTop ||
-                    document.body.scrollTop
-                ) + props.scrollOffset
+                const scrollTop =
+                    (document.documentElement.scrollTop || document.body.scrollTop) +
+                    props.scrollOffset
                 params.list.forEach((item, idx) => {
                     const next = params.list[idx + 1]
                     params.actives[idx] = false
                     if (next) {
-                        if (
-                            item.offset <= scrollTop &&
-                            next.offset >= scrollTop
-                        ) params.actives[idx] = true
+                        if (item.offset <= scrollTop && next.offset >= scrollTop)
+                            params.actives[idx] = true
                     } else if (item.offset <= scrollTop) params.actives[idx] = true
                 })
             }
@@ -137,7 +135,7 @@ const Anchor = defineComponent({
             params.linkTemplate = []
             params.manualActive = true
             if (params.manualTimer) clearTimeout(params.manualTimer)
-            setTimeout(() => params.manualActive = false, 400)
+            setTimeout(() => (params.manualActive = false), 400)
             emit('click', evt)
         }
 
@@ -159,11 +157,13 @@ const Anchor = defineComponent({
             const links = []
             params?.list.forEach((link: HTMLElement, idx: number) => {
                 links.push(
-                    <AnchorLink id={link.id}
+                    <AnchorLink
+                        id={link.id}
                         title={link.title}
                         active={params.actives[idx]}
                         reserveOffset={props.reserveOffset}
-                        onClick={clickAnchorLink} />
+                        onClick={clickAnchorLink}
+                    />
                 )
             })
             return links
@@ -172,18 +172,16 @@ const Anchor = defineComponent({
         return () => {
             params.linkTemplate = getPropSlot(slots, props)
             const style = {
-                anchor: {top: $tools.convert2Rem(props.offsetTop)},
-                stick: {top: $tools.convert2Rem(params.stickTop)}
+                anchor: { top: $tools.convert2Rem(props.offsetTop) },
+                stick: { top: $tools.convert2Rem(params.stickTop) }
             }
             const rotate = params.hover ? -45 : 0
             const title = params.hover ? t('anchor.stick.no') : t('anchor.stick.yes')
-            return (
-                    params.linkTemplate ||
-                    params?.list?.length > 0
-                ) ? (
+            return params.linkTemplate || params?.list?.length > 0 ? (
                 <>
                     <Transition name={animation} appear={true}>
-                        <div class={prefixCls}
+                        <div
+                            class={prefixCls}
                             style={style.anchor}
                             ref={anchorRef}
                             key={prefixAnchorKey}
@@ -191,13 +189,17 @@ const Anchor = defineComponent({
                             onMouseleave={mouseLeaveAnchor}>
                             <div class={`${prefixCls}-title`}>
                                 <div class={`${prefixCls}-icon`}>
-                                    <PushpinOutlined title={title}
+                                    <PushpinOutlined
+                                        title={title}
                                         rotate={rotate}
-                                        onClick={clickAnchorAffix} />
+                                        onClick={clickAnchorAffix}
+                                    />
                                 </div>
                                 <div class={`${prefixCls}-icon`}>
-                                    <CloseCircleOutlined title={t('anchor.close')}
-                                        onClick={clickAnchorClose} />
+                                    <CloseCircleOutlined
+                                        title={t('anchor.close')}
+                                        onClick={clickAnchorClose}
+                                    />
                                 </div>
                             </div>
                             <div class={`${prefixCls}-box`}>
@@ -206,7 +208,8 @@ const Anchor = defineComponent({
                         </div>
                     </Transition>
                     <Transition name={animation} appear={true}>
-                        <div class={`${prefixCls}-stick`}
+                        <div
+                            class={`${prefixCls}-stick`}
                             style={style.stick}
                             ref={stickRef}
                             key={prefixStickKey}
