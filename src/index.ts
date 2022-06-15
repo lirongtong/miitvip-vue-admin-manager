@@ -17,6 +17,7 @@ import { default as Search } from './components/search'
 import { default as Captcha } from './components/captcha'
 import { default as Password } from './components/password'
 import { default as Anchor } from './components/anchor'
+import { default as Modal } from './components/modal'
 
 const components = [
     i18n,
@@ -33,7 +34,8 @@ const components = [
     Search,
     Captcha,
     Password,
-    Anchor
+    Anchor,
+    Modal
 ]
 
 let _init = false
@@ -67,7 +69,8 @@ export {
     Search,
     Captcha,
     Password,
-    Anchor
+    Anchor,
+    Modal
 }
 
 export default {

@@ -1,6 +1,8 @@
 {
     "site": "makeit.vip",
-    "no-data": "No data yet",
+    "ok": "Ok",
+    "cancel": "Cancel",
+    "kind-tips": "Kind Tips",
     "week": {
         "mon": "Monday",
         "tues": "Tuesday",
@@ -10,6 +12,7 @@
         "sat": "Saturday",
         "sun": "Sunday"
     },
+    "no-data": "No data yet",
     "theme": {
         "light": "Light",
         "dark": "Dark"
