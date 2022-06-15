@@ -58,7 +58,7 @@ const Modal = defineComponent({
                 title: getPropSlot(slots, props, 'title') ?? t('kind-tips'),
                 footer: getPropSlot(slots, props, 'footer') ?? renderFooter(),
                 closeIcon: renderClose(),
-                cancel: handleCancel
+                onCancel: handleCancel
             })
 
             return props.container === false ? (
