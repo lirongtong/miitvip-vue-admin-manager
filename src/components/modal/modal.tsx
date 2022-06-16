@@ -1,12 +1,16 @@
-import { defineComponent, reactive, createVNode } from 'vue'
-import { Button, Modal as AntModal } from 'ant-design-vue'
+import { defineComponent, reactive, createVNode, Plugin } from 'vue'
+import { Button, Modal as AntModal, ModalFuncProps } from 'ant-design-vue'
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { install } from '../../utils/install'
 import { modalProps } from './props'
 import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
 import MiTeleport from './teleport'
 import MiPopup from './popup'
+
+export type ModalFunc = (props: ModalFuncProps) => {
+    destroy: () => void
+    update: (newConfig: ModalFuncProps) => void
+}
 
 const Modal = defineComponent({
     name: 'MiModal',
@@ -87,11 +91,15 @@ const defaultConfig = {
     width: 360
 }
 
-const mergeConfig = (config: string | {}, type = 'success') => {
+const mergeConfig = (config: string | {}, type: string) => {
     if (typeof config === 'string') config = {content: config}
     return Object.assign({}, defaultConfig, {
         class: `${prefixCls}-${type}`
     }, config)
+}
+
+Modal.info = (config: string | {}) => {
+    AntModal.info(mergeConfig(config, 'info'))
 }
 
 Modal.success = (config: string | {}) => {
@@ -100,6 +108,10 @@ Modal.success = (config: string | {}) => {
 
 Modal.error = (config: string | {}) => {
     AntModal.error(mergeConfig(config, 'error'))
+}
+
+Modal.warn = (config: string | {}) => {
+    AntModal.warning(mergeConfig(config, 'warning'))
 }
 
 Modal.warning = (config: string | {}) => {
@@ -117,4 +129,12 @@ Modal.destroyAll = () => {
     AntModal.destroyAll()
 }
 
-export default install(Modal)
+export default Modal as typeof Modal & Plugin & {
+    readonly info: ModalFunc,
+    readonly success: ModalFunc,
+    readonly error: ModalFunc,
+    readonly warn: ModalFunc,
+    readonly warning: ModalFunc,
+    readonly confirm: ModalFunc,
+    readonly destroyAll: ModalFunc
+}

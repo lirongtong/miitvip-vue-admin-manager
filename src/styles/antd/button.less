@@ -3,7 +3,8 @@
 
 @ant-btn: ant-btn;
 .@{ant-btn},
-.@{mi-prefix}btn {
+.@{mi-prefix}btn,
+[class*="@{mi-prefix}modal-"] .@{ant-btn} {
     color: var(--mi-dark, @mi-dark);
     background: var(--mi-font, @mi-font);
     border-color: var(--mi-font, @mi-font);
