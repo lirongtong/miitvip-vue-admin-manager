@@ -88,7 +88,8 @@ const defaultConfig = {
     keyboard: true,
     mask: true,
     maskClosable: true,
-    width: 360
+    width: 360,
+    okText: '知道了'
 }
 
 const mergeConfig = (config: string | {}, type: string) => {
@@ -119,9 +120,11 @@ Modal.warning = (config: string | {}) => {
 }
 
 Modal.confirm = (config: string | {}) => {
-    const configuration = Object.assign({}, {
-        icon: createVNode(QuestionCircleOutlined)
-    }, mergeConfig(config, 'confirm'))
+    const configuration = Object.assign({}, mergeConfig(config, 'confirm'), {
+        icon: createVNode(QuestionCircleOutlined),
+        okText: '确定',
+        cancelText: '取消'
+    })
     AntModal.confirm(configuration)
 }
 
