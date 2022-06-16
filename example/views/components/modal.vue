@@ -9,5 +9,5 @@
 import { ref, getCurrentInstance } from 'vue'
 const visible = ref(false)
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
-vm.$miModal.confirm('Nice')
+vm.$modal.confirm('Nice')
 </script>
