@@ -5,6 +5,7 @@ const Start = () => import('@views/start.vue')
 const Theme = () => import('@views/theme.vue')
 const Login = () => import('@views/login.vue')
 const Register = () => import('@views/register.vue')
+const Forgot = () => import('@views/forgot.vue')
 const Home = () => import('@views/home.vue')
 const Tools = () => import('../views/tools/index.vue')
 const ToolsGlobal = () => import('../views/tools/global.vue')
@@ -172,6 +173,11 @@ const passportRoutes: Array<RouteRecordRaw> = [{
     name: 'single-register',
     meta: {title: '注册'},
     component: Register
+}, {
+    path: '/forgot',
+    name: 'single-forgot',
+    meta: {title: '忘记密码'},
+    component: Forgot
 }]
 
 const routes: Array<RouteRecordRaw> = [

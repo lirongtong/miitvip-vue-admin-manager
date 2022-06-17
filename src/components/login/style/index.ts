@@ -1,1 +1,7 @@
+import 'ant-design-vue/es/form/style'
+import 'ant-design-vue/es/grid/style'
+import 'ant-design-vue/es/input/style'
+import 'ant-design-vue/es/checkbox/style'
+import 'ant-design-vue/es/button/style'
+import '../../../styles/antd/button.less'
 import './index.less'

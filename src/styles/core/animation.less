@@ -179,11 +179,11 @@
 
         /** shake */
         &-shake-enter-active {
-            animation: mi-anim-shake @mi-anim-duration forwards linear;
+            animation: mi-anim-modal-shake @mi-anim-duration forwards linear;
         }
 
         &-shake-leave-active {
-            animation: mi-anim-shake @mi-anim-duration forwards linear reverse;
+            animation: mi-anim-modal-shake @mi-anim-duration forwards linear reverse;
         }
 
         /** route change */
@@ -380,7 +380,7 @@
     }
 }
 
-@keyframes mi-anim-shake {
+@keyframes mi-anim-modal-shake {
 	0% {
 		opacity: 0;
 		-webkit-transform: matrix3d(0.7, 0, 0, 0, 0, 0.7, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);

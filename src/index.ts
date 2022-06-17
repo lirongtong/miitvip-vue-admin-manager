@@ -1,6 +1,7 @@
 import { App } from 'vue'
 import i18n from './locales'
 import mixins from './utils/mixins'
+import api from './utils/api'
 import global from './utils/global'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
@@ -22,6 +23,7 @@ import { default as Login } from './components/login'
 
 const components = [
     i18n,
+    api,
     global,
     cookie,
     storage,

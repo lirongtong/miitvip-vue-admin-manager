@@ -1,3 +1,5 @@
 <template>
-    <mi-login />
+    <mi-login :action="api.login" />
 </template>
+
+<script setup></script>

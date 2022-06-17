@@ -89,5 +89,19 @@
             "yes": "Enable suspension",
             "no": "Cancel suspension"
         }
+    },
+    "passport": {
+        "forgot": "Forgot password",
+        "remember": "Remember Me",
+        "no-account": "No account? ",
+        "login": {
+            "title": "Log in",
+            "sign": "Sign up now",
+            "username": "Please enter username / email address / mobile number",
+            "password": "Please enter the password"
+        },
+        "register": {
+            "title": "Register"
+        }
     }
 }
