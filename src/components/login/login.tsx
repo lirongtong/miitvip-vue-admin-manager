@@ -44,8 +44,8 @@ const Login = defineComponent({
                     url: null
                 },
                 rules: {
-                    username: [{required: true, message: '请输入用户名 / 邮箱地址 / 手机号码', trigger: 'blur'}],
-                    password: [{required: true, message: '请输入登录密码', trigger: 'blur'}],
+                    username: [{required: true, message: t('passport.login.username'), trigger: 'blur'}],
+                    password: [{required: true, message: t('passport.login.password'), trigger: 'blur'}],
                     captcha: [{required: true, validator: validateCaptcha}]
                 }
             }
