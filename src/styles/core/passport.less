@@ -88,7 +88,100 @@
 						.properties(margin-right);
 					}
 				}
+
+				.has-error {
+					.ant-input-affix-wrapper {
+						border-color: var(--mi-error, @mi-error);
+					}
+				}
+
+				.ant-form {
+					&-item {
+						&-explain-error {
+							.properties(text-indent, 16);
+							.properties(font-size, @mi-font-size-sm);
+						}
+
+						&.mb8 {
+							.properties(margin-bottom);
+						}
+					}
+				}
             }
+
+			&-remember {
+				.properties(margin-bottom);
+				color: var(--mi-font, @mi-font);
+				.properties(font-size, @mi-font-size-normal);
+				.properties(padding-left, 12);
+
+				a,
+				a:hover {
+					color: var(--mi-font, @mi-font);
+					.properties(font-size, @mi-font-size-normal);
+				}
+
+				.@{mi-passport} {
+					&-forget {
+						.flex();
+
+						> span {
+							.properties(margin-right);
+						}
+					}
+				}
+			}
+
+			&-remember,
+			&-socialite {
+				.ant-form-item-control-input-content {
+					.flex(center, space-between);
+				}
+
+				.ant-checkbox + span,
+				&-link {
+					color: var(--mi-font, @mi-font);
+				}
+			}
+
+			&-forgot {
+				.anticon {
+					.properties(margin-right);
+				}
+			}
+
+			&-submit {
+				width: 100%;
+				.linear-gradient-background-theme();
+				color: var(--mi-ink, @mi-ink);
+				.border-radius(32);
+				.properties(height, 42);
+				.properties(font-size, @mi-font-size-normal);
+				.properties(margin-bottom, 24);
+				border: none;
+				.flex();
+
+				&-register {
+					background-image: linear-gradient(to right, #787878 0%, #1d1e23 100%);
+				}
+			}
         }
     }
+
+	.@{mi-prefix}layout {
+		&-footer {
+			position: fixed;
+			.properties(bottom);
+			background: transparent;
+			width: 100%;
+		}
+	}
+	
+	&-mobile {
+		.@{mi-passport} {
+			&-submit {
+				.properties(margin-bottom);
+			}
+		}
+	}
 }

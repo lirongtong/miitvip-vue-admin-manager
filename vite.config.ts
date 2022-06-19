@@ -13,6 +13,7 @@ export default defineConfig({
         alias: {
             '@': resolve('example'),
             '@views': resolve('example/views'),
+            '@images': resolve('example/assets/images'),
             '@src': resolve('src'),
             '@utils': resolve('src/utils'),
             'makeit-admin-pro': resolve('src'),

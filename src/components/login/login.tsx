@@ -149,7 +149,9 @@ const Login = defineComponent({
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
                         <MiCaptcha width="100%"
                             radius={props.captchaRadius}
-                            image={props.captchaBackground}
+                            image={props.captchaImage}
+                            bgColor={props.captchaBackground}
+                            textColor={props.captchaTextColor}
                             maxTries={props.captchaMaxTries}
                             themeColor={props.captchaThemeColor}
                             initParams={props.captchaInitParams}

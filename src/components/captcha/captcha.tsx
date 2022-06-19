@@ -290,7 +290,7 @@ export default defineComponent({
         }
 
         const renderRadarBeing = () => {
-            return params.status.being ? <div class={`${prefixCls}-radar-being`}>···</div> : null
+            return params.status.being ? <div class={`${prefixCls}-radar-being`} style={{color: props.textColor ?? null}}>···</div> : null
         }
 
         const renderRadarSuccess = () => {
@@ -312,7 +312,7 @@ export default defineComponent({
             const cls = `${radarTipCls}${errCls}`
             const style = {
                 height: $tools.convert2Rem(props.height),
-                color: params.status.success && props.themeColor ? props.themeColor : null
+                color: params.status.success && props.themeColor ? props.themeColor : (props.textColor ?? null)
             }
             return <div class={cls} style={style} innerHTML={params.tip} />
         }

@@ -24,6 +24,7 @@
         "paths": {
             "@/*": ["example/*"],
             "@views/*": ["example/views/*"],
+			"@images/*": ["example/assets/images/*"],
 			"@src/*": ["src/*"],
 			"@utils/*": ["src/utils/*"],
 			"makeit-admin-pro": ["src/index.ts"],

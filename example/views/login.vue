@@ -1,5 +1,7 @@
 <template>
-    <mi-login :action="api.login" />
+    <mi-login :action="api.login" :background="bg" />
 </template>
 
-<script setup></script>
+<script setup>
+import bg from '@images/login-bg.jpg'
+</script>

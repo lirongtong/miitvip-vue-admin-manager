@@ -1,5 +1,5 @@
 import { App, reactive } from 'vue'
-import { GithubOutlined, AppstoreAddOutlined, FireFilled } from '@ant-design/icons-vue'
+import { GithubOutlined, AppstoreAddOutlined, FireFilled, WeiboCircleOutlined, QqOutlined, GoogleOutlined } from '@ant-design/icons-vue'
 
 export const MI_POWERED = 'Powered By makeit.vip'
 export const MI_AVATAT = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png'
@@ -98,6 +98,16 @@ export const $g = reactive({
                 email: 'email-captcha-key'
             }
         }
+    },
+
+    socialites: {
+        domain: 'https://account.makeit.vip/v1/oauth',
+        items: [
+            {name: 'github', icon: GithubOutlined},
+            {name: 'weibo', icon: WeiboCircleOutlined},
+            {name: 'qq', icon: QqOutlined},
+            {name: 'google', icon: GoogleOutlined}
+        ]
     },
 
     /**
