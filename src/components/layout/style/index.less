@@ -98,6 +98,9 @@
                 .properties(height, 120);
                 .border-radius();
                 .linear-gradient-background();
+                border: 1px solid transparent;
+                overflow: hidden;
+                position: relative;
 
                 > img {
                     .properties(width, 80);
@@ -108,9 +111,30 @@
             }
 
             &-active &-thumb {
-                > img {
-                    box-shadow: 0 0 10px var(--mi-theme, @mi-theme);
-                    transform: scale(1.1);
+                border-color: var(--mi-theme, @mi-theme);
+                
+                &:before {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    border: 1rem solid var(--mi-theme, @mi-theme);
+                    border-top-color: transparent;
+                    border-left-color: transparent;
+                    display: block;
+                    content: '';
+                }
+
+                &:after {
+                    position: absolute;
+                    .properties(right, 6);
+                    .properties(bottom, 6);
+                    content: '';
+                    .properties(width, 6);
+                    .properties(height, 12);
+                    border: 2px solid var(--mi-font, @mi-font);
+                    border-top-color: transparent;
+                    border-left-color: transparent;
+                    transform: rotate(45deg);
                 }
             }
 
@@ -349,5 +373,11 @@
                 }
             }
         }
+    }
+
+    &::selection,
+    &::-moz-selection {
+        color: var(--mi-font, @mi-font);
+        background: var(--mi-theme, @mi-theme);
     }
 }

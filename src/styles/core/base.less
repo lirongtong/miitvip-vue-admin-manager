@@ -23,12 +23,6 @@ body {
     color: var(--mi-font-color, @mi-font-color);
     background: var(--mi-dark-grey, @mi-dark-grey);
     .letter-spacing();
-
-    &::selection,
-    &::-moz-selection {
-        color: var(--mi-font, @mi-font);
-        background: var(--mi-dark, @mi-dark);
-    }
 }
 
 ol, ul {
@@ -67,12 +61,6 @@ pre, code, kbd, samp {
 
 pre {
     .border-radius();
-}
-
-::selection,
-::-moz-selection {
-    color: var(--mi-font, @mi-font);
-    background: var(--mi-dark, @mi-dark);
 }
 
 .tag {
