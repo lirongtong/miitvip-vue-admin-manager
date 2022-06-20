@@ -94,15 +94,29 @@
         "forgot": "忘记密码",
         "remember": "保持登录",
         "no-account": "没有账号？",
+        "has-account": "已有帐号？",
         "verify": "请点击按钮进行验证码校验",
+        "username": "请输入用户名 / 邮箱地址 / 手机号码",
+        "email": "请输入邮箱地址",
+        "password": "请输入登录密码",
+        "binding": "立即绑定",
         "login": {
             "title": "登录",
-            "username": "请输入用户名 / 邮箱地址 / 手机号码",
-            "password": "请输入登录密码",
+            "sign": "立即注册",
             "socialite": "其它登录方式"
         },
         "register": {
-            "title": "注册"
+            "title": "注册",
+            "sign": "前往登录",
+            "account": "请设置用户账号",
+            "email-valid": "请输入有效的邮箱地址",
+            "format": "仅允许字母+数字，4-16 个字符，且以字母开头",
+            "tips": {
+                "special": "<span class='red'>&lt; 特别提醒 &gt;</span> 登录用户名，一旦设置，则无法更改。",
+                "structure": "- 由 <span class='theme'>字母</span>、<span class='theme'>数字</span> 或 <span class='theme'>下划线</span> 组成。",
+                "start": "- 只能以 <span class='theme'>字母开头</span>，例如：makeit。",
+                "length": "- 用户名长度为 <span class='theme'>4-16</span> 个字符。"
+            }
         }
     }
 }

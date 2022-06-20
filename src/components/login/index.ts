@@ -3,6 +3,7 @@ import Login from './login'
 
 Login.install = (app: App) => {
     app.component(Login.name, Login)
+    app.component(Login.Socialite.name, Login.Socialite)
     return app
 }
 

@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref, createVNode } from 'vue'
+import { defineComponent, reactive, ref, createVNode, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Form, Input, Popover } from 'ant-design-vue'
 import {
@@ -18,14 +18,14 @@ export const passwordProps = () => ({
     repeat: PropTypes.bool.def(false),
     modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    loading: PropTypes.bool.def(false),
+    manualVerify: PropTypes.bool.def(false),
     minLength: PropTypes.number.def(6),
     maxLength: PropTypes.number.def(32),
     complexity: PropTypes.bool.def(true),
     complexityTip: PropTypes.string,
     level: PropTypes.object,
     rules: PropTypes.object,
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(360),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(42),
     radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(48),
     bgColor: PropTypes.string
@@ -50,8 +50,6 @@ export default defineComponent({
         }
         const tip = props.complexityTip ?? t('password.tip')
         const formRef = ref<InstanceType<typeof HTMLFormElement>>(null)
-        const passwordRef = ref<InstanceType<typeof HTMLDivElement>>(null)
-        const repeatRef = ref<InstanceType<typeof HTMLDivElement>>(null)
 
         const checkPassword = (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -106,6 +104,10 @@ export default defineComponent({
                 return Promise.resolve()
             }
         }
+
+        watch(() => props.manualVerify, (n) => {
+            if (n) formRef.value.validate()
+        })
 
         const params = reactive({
             visible: false,
@@ -269,7 +271,7 @@ export default defineComponent({
 
         const renderRepeat = () => {
             return props.repeat ? (
-                <Form.Item name="repeat" ref={repeatRef}>
+                <Form.Item name="repeat">
                     {renderPassword(
                         params.form.validate.repeat,
                         onRepeatInput,
@@ -282,13 +284,12 @@ export default defineComponent({
         }
 
         return () => (
-            <Form
-                ref={formRef}
+            <Form ref={formRef}
                 layout="vertical"
                 name={`${prefixCls}-form`}
                 model={params.form.validate}
                 rules={Object.assign({}, params.form.rules, props.rules)}>
-                <Form.Item name="password" ref={passwordRef}>
+                <Form.Item name="password">
                     <Popover
                         trigger="focus"
                         placement="top"

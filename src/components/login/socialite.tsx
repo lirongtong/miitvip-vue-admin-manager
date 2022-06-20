@@ -9,7 +9,7 @@ import MiDropdown from '../dropdown'
 import MiDropdownItem from '../dropdown/item'
 
 export default defineComponent({
-    name: 'MiLoginSocialte',
+    name: 'MiPassportSocialite',
     props: {
         prefixCls: PropTypes.string,
         domain: PropTypes.string,

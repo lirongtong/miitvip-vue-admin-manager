@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref, reactive, createVNode, Plugin } from 'vue'
+import { defineComponent, computed, ref, reactive, createVNode } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { RouterLink } from 'vue-router'
@@ -12,7 +12,7 @@ import { api } from '../../utils/api'
 import PropTypes from '../_utils/props-types'
 import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
-import MiLoginSocialite from './socialite'
+import MiPassportSocialite from './socialite'
 import MiModal from '../modal'
 
 const Login = defineComponent({
@@ -52,8 +52,8 @@ const Login = defineComponent({
                     url: null
                 },
                 rules: {
-                    username: [{required: true, message: t('passport.login.username')}],
-                    password: [{required: true, message: t('passport.login.password')}],
+                    username: [{required: true, message: t('passport.username')}],
+                    password: [{required: true, message: t('passport.password')}],
                     captcha: [{required: true, validator: validateCaptcha}]
                 }
             }
@@ -148,7 +148,8 @@ const Login = defineComponent({
                     <Input prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
                         maxlength={64}
-                        placeholder={t('passport.login.username')} />
+                        autocomplete="off"
+                        placeholder={t('passport.username')} />
                 </Form.Item>
             )
         }
@@ -162,8 +163,9 @@ const Login = defineComponent({
                         maxlength={32}
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
+                        autocomplete="off"
                         v-model:value={params.form.validate.password}
-                        placeholder={t('passport.login.password')} />
+                        placeholder={t('passport.password')} />
                 )
             } else {
                 const suffix = (<EyeOutlined onClick={() => params.password = !params.password} />)
@@ -172,8 +174,9 @@ const Login = defineComponent({
                         maxlength={32}
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
+                        autocomplete="off"
                         v-model:value={params.form.validate.password}
-                        placeholder={t('passport.login.password')} />
+                        placeholder={t('passport.password')} />
                 )
             }
             return (
@@ -274,7 +277,7 @@ const Login = defineComponent({
                             </div>
                         ) : null
                     }
-                    <MiLoginSocialite />
+                    <MiPassportSocialite />
                 </Form.Item>
             )
         }
@@ -299,7 +302,7 @@ const Login = defineComponent({
     }
 })
 
-Login.Socialite = MiLoginSocialite
-export default Login as typeof Login & Plugin & {
-    readonly Socialite: typeof MiLoginSocialite
+Login.Socialite = MiPassportSocialite
+export default Login as typeof Login & {
+    readonly Socialite: typeof MiPassportSocialite
 }

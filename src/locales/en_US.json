@@ -94,16 +94,29 @@
         "forgot": "Forgot password",
         "remember": "Remember Me",
         "no-account": "No account? ",
+        "has-account": "Already have account? ",
         "verify": "Please click the button to verify",
+        "username": "Please enter username / email address / mobile number",
+        "email": "Please input the email address",
+        "password": "Please enter the password",
+        "binding": "bind now",
         "login": {
             "title": "Log in",
             "sign": "Sign up now",
-            "username": "Please enter username / email address / mobile number",
-            "password": "Please enter the password",
             "socialite": "Others"
         },
         "register": {
-            "title": "Register"
+            "title": "Register",
+            "sign": "go to login",
+            "account": "Please set up a user account",
+            "email-valid": "please enter a valid email address",
+            "format": "Only letters + numbers are allowed, 4-16 characters, and start with a letter",
+            "tips": {
+                "special": "<span class='red'>&lt; Note &gt;</span> Login username, once set, it can't be changed.",
+                "structure": "- Consists of <span class='theme'>letters</span>、<span class='theme'>numbers</span> or <span class='theme'>underscores</span>.",
+                "start": "- Only <span class='theme'>start with a letter</span>, for example: makeit.",
+                "length": "- Username length is <span class='theme'>4-16</span> characters."
+            }
         }
     }
 }

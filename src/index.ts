@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import i18n from './locales'
 import mixins from './utils/mixins'
-import api from './utils/api'
+import { default as api } from './utils/api'
 import global from './utils/global'
 import cookie from './utils/cookie'
 import storage from './utils/storage'
@@ -20,6 +20,7 @@ import { default as Password } from './components/password'
 import { default as Anchor } from './components/anchor'
 import { default as Modal } from './components/modal'
 import { default as Login } from './components/login'
+import { default as Register } from './components/register'
 
 const components = [
     i18n,
@@ -39,7 +40,8 @@ const components = [
     Password,
     Anchor,
     Modal,
-    Login
+    Login,
+    Register
 ]
 
 let _init = false
@@ -75,7 +77,8 @@ export {
     Password,
     Anchor,
     Modal,
-    Login
+    Login,
+    Register
 }
 
 export default {
