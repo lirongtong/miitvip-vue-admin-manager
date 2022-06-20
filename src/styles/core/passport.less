@@ -165,6 +165,59 @@
 					background-image: linear-gradient(to right, #787878 0%, #1d1e23 100%);
 				}
 			}
+
+			&-socialite {
+				.flex();
+				color: var(--mi-font, @mi-font);
+
+				.anticon {
+					.properties(font-size, 18);
+					.properties(margin-left, 12);
+					color: @mi-font;
+					cursor: pointer;
+
+					&:hover {
+						color: var(--mi-theme, @mi-theme);
+						opacity: 1;
+					}
+				}
+
+				&-mobile {
+					width: 100%;
+					flex-direction: column;
+					color: #999;
+					.properties(margin-top, 32);
+				}
+
+				&-line {
+					display: block;
+					border-top: 1px solid var(--mi-night, @mi-night);
+					position: absolute;
+					width: 100%;
+					left: 0;
+					.properties(top, 60);
+					z-index: 1;
+				}
+
+				&-title {
+					.properties(margin-top, 16);
+					background: var(--mi-deep, @mi-deep);
+					.properties(padding-left, 16);
+					.properties(padding-right, 16);
+					z-index: 2;
+				}
+
+				&-cates {
+					.flex(center, space-between);
+					.properties(margin-top, 24);
+					width: 85%;
+
+					.anticon {
+						color: var(--mi-light-grey, @mi-light-grey);
+						.properties(font-size, 28);
+					}
+				}
+			}
         }
     }
 

@@ -53,15 +53,6 @@ const Login = defineComponent({
 
         const login = () => {}
 
-        const passwordVisible = () => {
-            params.password = !params.password
-        }
-
-        const rememberStateChange = () => {}
-
-        const onInputUserName = () => {}
-        const onInputPassword = () => {}
-
         const renderMask = () => {
             return isMobile.value ? null : (
                 <div class={`${prefixCls}-mask`} />
@@ -103,8 +94,7 @@ const Login = defineComponent({
             return (
                 <Form.Item name="username">
                     <Input prefix={createVNode(UserOutlined)}
-                        value={params.form.validate.username}
-                        onInput={onInputUserName}
+                        v-model:value={params.form.validate.username}
                         maxlength={64}
                         placeholder={t('passport.login.username')} />
                 </Form.Item>
@@ -114,25 +104,23 @@ const Login = defineComponent({
         const renderPassword = () => {
             let password: any = null
             if (params.password) {
-                const suffix = (<EyeInvisibleOutlined onClick={passwordVisible} />)
+                const suffix = (<EyeInvisibleOutlined onClick={() => params.password = !params.password} />)
                 password = (
                     <Input type="password"
                         maxlength={32}
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
-                        value={params.form.validate.password}
-                        onInput={onInputPassword}
+                        v-model:value={params.form.validate.password}
                         placeholder={t('passport.login.password')} />
                 )
             } else {
-                const suffix = (<EyeOutlined onClick={passwordVisible} />)
+                const suffix = (<EyeOutlined onClick={() => params.password = !params.password} />)
                 password = (
                     <Input type="text"
                         maxlength={32}
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
-                        value={params.form.validate.password}
-                        onInput={onInputPassword}
+                        v-model:value={params.form.validate.password}
                         placeholder={t('passport.login.password')} />
                 )
             }
@@ -187,9 +175,7 @@ const Login = defineComponent({
                 )
             return (
                 <Form.Item class={`${prefixCls}-remember`}>
-                    <Checkbox checked={params.form.validate.remember}
-                        value={params.form.validate.remember}
-                        onChange={rememberStateChange}>
+                    <Checkbox v-model:checked={params.form.validate.remember}>
                         {t('passport.remember')}
                     </Checkbox>
                     {link}
@@ -229,7 +215,7 @@ const Login = defineComponent({
             return (
                 <Form.Item class={`${cls}`}>
                     {
-                        isMobile.value ? (
+                        !isMobile.value ? (
                             <div class={`${cls}-link`}>
                                 {t('passport.no-account')}
                                 {link}

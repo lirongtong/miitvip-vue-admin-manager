@@ -97,7 +97,8 @@
         "login": {
             "title": "登录",
             "username": "请输入用户名 / 邮箱地址 / 手机号码",
-            "password": "请输入登录密码"
+            "password": "请输入登录密码",
+            "socialite": "其它登录方式"
         },
         "register": {
             "title": "注册"

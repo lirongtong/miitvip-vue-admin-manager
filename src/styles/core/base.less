@@ -23,6 +23,16 @@ body {
     color: var(--mi-font-color, @mi-font-color);
     background: var(--mi-dark-grey, @mi-dark-grey);
     .letter-spacing();
+
+    ::selection {
+        color: var(--mi-font, @mi-font);
+        background: var(--mi-selection, @mi-selection);
+    }
+    
+    ::-moz-selection {
+        color: var(--mi-font, @mi-font);
+        background: var(--mi-selection, @mi-selection);
+    }
 }
 
 ol, ul {

@@ -98,7 +98,8 @@
             "title": "Log in",
             "sign": "Sign up now",
             "username": "Please enter username / email address / mobile number",
-            "password": "Please enter the password"
+            "password": "Please enter the password",
+            "socialite": "Others"
         },
         "register": {
             "title": "Register"
