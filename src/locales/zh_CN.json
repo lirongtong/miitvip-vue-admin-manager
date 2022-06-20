@@ -4,6 +4,10 @@
     "cancel": "取消",
     "kind-tips": "温馨提示",
     "understood": "知道了",
+    "step": {
+        "prev": "上一步",
+        "next": "下一步"
+    },
     "week": {
         "mon": "周一",
         "tues": "周二",

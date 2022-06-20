@@ -202,7 +202,9 @@ export default defineComponent({
                 <div class={`${prefixCls}-title`}>
                     <span innerHTML={props.title ?? $g.site} />
                     <sup>
-                        <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
+                        <RouterLink to={{path: '/'}}>
+                            <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
+                        </RouterLink>
                     </sup>
                 </div>
             )

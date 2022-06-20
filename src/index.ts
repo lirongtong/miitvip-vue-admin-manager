@@ -21,6 +21,7 @@ import { default as Anchor } from './components/anchor'
 import { default as Modal } from './components/modal'
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
+import { default as Forgot } from './components/forgot'
 
 const components = [
     i18n,
@@ -41,7 +42,8 @@ const components = [
     Anchor,
     Modal,
     Login,
-    Register
+    Register,
+    Forgot
 ]
 
 let _init = false
@@ -78,7 +80,8 @@ export {
     Anchor,
     Modal,
     Login,
-    Register
+    Register,
+    Forgot
 }
 
 export default {

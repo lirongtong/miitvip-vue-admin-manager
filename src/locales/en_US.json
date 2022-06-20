@@ -4,6 +4,10 @@
     "cancel": "Cancel",
     "kind-tips": "Kind Tips",
     "understood": "Understood",
+    "step": {
+        "prev": "Previous",
+        "next": "Next"
+    },
     "week": {
         "mon": "Monday",
         "tues": "Tuesday",

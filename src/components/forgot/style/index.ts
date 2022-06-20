@@ -1,0 +1,5 @@
+import 'ant-design-vue/es/grid/style'
+import 'ant-design-vue/es/form/style'
+import 'ant-design-vue/es/input/style'
+import 'ant-design-vue/es/button/style'
+import './index.less'

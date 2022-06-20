@@ -116,7 +116,9 @@ const Login = defineComponent({
                 <div class={`${prefixCls}-title`}>
                     <span innerHTML={props.title ?? $g.site} />
                     <sup>
-                        <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
+                        <RouterLink to={{path: '/'}}>
+                            <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
+                        </RouterLink>
                     </sup>
                 </div>
             )
@@ -282,23 +284,20 @@ const Login = defineComponent({
             )
         }
 
-        return () => {
-            const formTemplate = getPropSlot(slots, props, 'content') ?? renderForm()
-            return (
-                <div class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`} style={{
-                    backgroundImage: `url(${props.background ?? $g.background.default})`
-                }} {...attrs}>
-                    <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
-                        <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
-                            {renderMask()}
-                            {renderTitle()}
-                            {formTemplate}
-                        </Col>
-                    </Row>
-                    {getPropSlot(slots, props, 'footer') ?? <MiLayout.Footer />}
-                </div>
-            )
-        }
+        return () => (
+            <div class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`} style={{
+                backgroundImage: `url(${props.background ?? $g.background.default})`
+            }} {...attrs}>
+                <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
+                    <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
+                        {renderMask()}
+                        {renderTitle()}
+                        {getPropSlot(slots, props, 'content') ?? renderForm()}
+                    </Col>
+                </Row>
+                {getPropSlot(slots, props, 'footer') ?? <MiLayout.Footer />}
+            </div>
+        )
     }
 })
 
