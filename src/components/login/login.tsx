@@ -1,5 +1,6 @@
-import { defineComponent, computed, ref, reactive, createVNode } from 'vue'
+import { defineComponent, computed, ref, reactive, createVNode, Plugin } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 import { RouterLink } from 'vue-router'
 import { Form, Row, Col, Input, Checkbox, Button } from 'ant-design-vue'
 import { UserOutlined, EyeInvisibleOutlined, EyeOutlined, LockOutlined, UnlockOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
@@ -7,28 +8,35 @@ import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
 import { passportProps } from '../_utils/props-passport'
 import { $g } from '../../utils/global'
 import { useI18n } from 'vue-i18n'
+import { api } from '../../utils/api'
 import PropTypes from '../_utils/props-types'
 import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
 import MiLoginSocialite from './socialite'
+import MiModal from '../modal'
 
 const Login = defineComponent({
     name: 'MiLogin',
     inheritAttrs: false,
     props: Object.assign({...passportProps()}, {
         registerLink: PropTypes.string,
-        forgetPasswordLink: PropTypes.string
+        forgetPasswordLink: PropTypes.string,
+        onAfterLogin: PropTypes.func
     }),
-    emits: ['afterLogin'],
     slots: ['content'],
-    setup(props, {slots, attrs}) {
+    setup(props, {slots, attrs, emit}) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const store = useStore()
+        const route = useRoute()
+        const router = useRouter()
         const isMobile = computed(() => store.getters['layout/mobile'])
         const formRef = ref(null)
 
-        const validateCaptcha = () => {}
+        const validateCaptcha = () => {
+            if (!params.captcha) return Promise.reject(t('passport.verify'))
+            else return Promise.resolve()
+        }
 
         const params = reactive({
             loading: false,
@@ -44,14 +52,58 @@ const Login = defineComponent({
                     url: null
                 },
                 rules: {
-                    username: [{required: true, message: t('passport.login.username'), trigger: 'blur'}],
-                    password: [{required: true, message: t('passport.login.password'), trigger: 'blur'}],
+                    username: [{required: true, message: t('passport.login.username')}],
+                    password: [{required: true, message: t('passport.login.password')}],
                     captcha: [{required: true, validator: validateCaptcha}]
                 }
             }
         })
 
-        const login = () => {}
+        const captchaVerify = (data: any) => {
+            if (data?.uuid) params.form.validate.uuid = data.uuid
+            params.captcha = true
+            formRef.value.validateFields(['captcha'])
+            emit('captchaSuccess', data)
+        }
+
+        const login = () => {
+            if (params.loading) return
+            params.loading = true
+            formRef.value.validate().then(() => {
+                if (
+                    !params.form.validate.captcha ||
+                    (params.form.validate.captcha && params.captcha)
+                ) {
+                    api.login = props.action
+                    params.form.validate.url = api.login
+                    if (typeof props.action === 'string') {
+                        store.dispatch('passport/login', params.form.validate).then((res: any) => {
+                            params.loading = false
+                            if (
+                                props.onAfterLogin &&
+                                typeof props.onAfterLogin === 'function'
+                            ) {
+                                // custom
+                                props.onAfterLogin(res)
+                            } else {
+                                // default
+                                if (res.ret.code === 1) {
+                                    let redirect = route.query.redirect
+                                    if (redirect) {
+                                        redirect = redirect.toString()
+                                        if ($g.regExp.url.test(redirect)) window.location.href = redirect
+                                        else router.push({path: redirect})
+                                    } else router.push({path: '/'})
+                                } else MiModal.error(res.ret.message)
+                            }
+                        })
+                    } else if (typeof props.action === 'function') {
+                        params.loading = false
+                        props.action(params.form.validate)
+                    }
+                } else params.loading = false
+            }).catch(() => params.loading = false)
+        }
 
         const renderMask = () => {
             return isMobile.value ? null : (
@@ -150,7 +202,7 @@ const Login = defineComponent({
                             verifyAction={props.captchaVerifyAction}
                             onInit={props.onCaptchaInit}
                             onChecked={props.onCaptchaChecked}
-                            onSuccess={props.onCaptchaSuccess} />
+                            onSuccess={captchaVerify} />
                     </Form.Item>
                 )
             }
@@ -247,4 +299,7 @@ const Login = defineComponent({
     }
 })
 
-export default Login
+Login.Socialite = MiLoginSocialite
+export default Login as typeof Login & Plugin & {
+    readonly Socialite: typeof MiLoginSocialite
+}

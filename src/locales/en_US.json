@@ -94,6 +94,7 @@
         "forgot": "Forgot password",
         "remember": "Remember Me",
         "no-account": "No account? ",
+        "verify": "Please click the button to verify",
         "login": {
             "title": "Log in",
             "sign": "Sign up now",
