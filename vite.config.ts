@@ -41,7 +41,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/v1': {
-                target: 'http://local-admin.makeit.vip',
+                target: 'http://local-api.makeit.vip',
                 changeOrigin: true
             }
         }
