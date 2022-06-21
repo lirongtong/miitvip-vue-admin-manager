@@ -61,7 +61,10 @@ class MiRequest {
                     delete args.data
                     args.params = data
                 }
-                const configuration = Object.assign(args, config)
+                const configuration = {
+                    ...args,
+                    ...config
+                }
                 return this.send(configuration)
             }
         })
@@ -76,7 +79,7 @@ class MiRequest {
         if (!config.timeout) config.timeout = 60000
         return await axios(config)
             .then((res: AxiosResponse) => {
-                return Promise.resolve(res.data)
+                return Promise.resolve(res?.data)
             })
             .catch((err: any) => {
                 return Promise.reject(err)

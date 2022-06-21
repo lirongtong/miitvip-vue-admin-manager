@@ -3,9 +3,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const Dashboard = () => import('@views/dashboard.vue')
 const Start = () => import('@views/start.vue')
 const Theme = () => import('@views/theme.vue')
-const Login = () => import('@views/login.vue')
-const Register = () => import('@views/register.vue')
-const Forgot = () => import('@views/forgot.vue')
+const PassportLogin = () => import('@views/passport/login.vue')
+const PassportRegister = () => import('@views/passport/register.vue')
+const PassportForgot = () => import('@views/passport/forgot.vue')
+const PassportUpdate = () => import('@views/passport/update.vue')
 const Home = () => import('@views/home.vue')
 const Tools = () => import('../views/tools/index.vue')
 const ToolsGlobal = () => import('../views/tools/global.vue')
@@ -15,7 +16,7 @@ const ToolsFunctions = () => import('../views/tools/functions.vue')
 const Pages = () => import('@views/pages/index.vue')
 const PagesLogin = () => import('@views/pages/login.vue')
 const PagesRegister = () => import('@views/pages/register.vue')
-const PagesForgot = () => import('@views/pages/forget.vue')
+const PagesForgot = () => import('@views/password/forgot.vue')
 const Components = () => import('@views/components/index.vue')
 const ComponentsLayout = () => import('@views/components/layout.vue')
 const ComponentsMenu = () => import('@views/components/menu.vue')
@@ -167,17 +168,22 @@ const passportRoutes: Array<RouteRecordRaw> = [{
     path: '/login',
     name: 'single-login',
     meta: {title: '登录'},
-    component: Login
+    component: PassportLogin
 }, {
     path: '/register',
     name: 'single-register',
     meta: {title: '注册'},
-    component: Register
+    component: PassportRegister
 }, {
-    path: '/forgot',
+    path: '/passport/forgot',
     name: 'single-forgot',
     meta: {title: '忘记密码'},
-    component: Forgot
+    component: PassportForgot
+}, {
+    path: '/passport/update',
+    name: 'single-update',
+    meta: {title: '修改密码'},
+    component: PassportUpdate
 }]
 
 const routes: Array<RouteRecordRaw> = [

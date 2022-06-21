@@ -1,3 +1,3 @@
 <template>
-    Forget
+    <router-view />
 </template>

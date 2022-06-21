@@ -104,6 +104,8 @@
         "email": "Please input the email address",
         "password": "Please enter the password",
         "binding": "bind now",
+        "code": "please enter verification code",
+        "sent": "Verification code has been sent ( can be resent after {sec}s )",
         "login": {
             "title": "Log in",
             "sign": "Sign up now",

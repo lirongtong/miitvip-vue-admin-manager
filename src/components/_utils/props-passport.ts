@@ -2,7 +2,6 @@ import PropTypes from './props-types'
 
 export const passportProps = () => ({
     prefixCls: PropTypes.string,
-    action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
     background: PropTypes.string,
     title: PropTypes.string,
     rules: PropTypes.object,
@@ -23,6 +22,5 @@ export const passportProps = () => ({
     captchaMaxTries: PropTypes.number.def(5),
     onCaptchaInit: PropTypes.func,
     onCaptchaChecked: PropTypes.func,
-    onCaptchaSuccess: PropTypes.func,
-    socialiteLoginDomain: PropTypes.string
+    onCaptchaSuccess: PropTypes.func
 })

@@ -24,6 +24,7 @@ export default defineComponent({
     name: 'MiRegister',
     inheritAttrs: false,
     props: Object.assign({...passportProps()}, {
+        action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
         redirectTo: PropTypes.string,
         binding: PropTypes.bool.def(false),
         passwordMinLength: PropTypes.number.def(6),
@@ -38,7 +39,8 @@ export default defineComponent({
         emailVerifyMethod: PropTypes.oneOf(tuple(...METHODS)).def('post'),
         loginLink: PropTypes.string,
         usernameTip: PropTypes.any,
-        onAfterRegister: PropTypes.func
+        onAfterRegister: PropTypes.func,
+        socialiteLoginDomain: PropTypes.string
     }),
     slots: ['content', 'usernameTip', 'footer'],
     setup(props, {slots, emit}) {

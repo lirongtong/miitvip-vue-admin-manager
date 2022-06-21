@@ -19,9 +19,11 @@ const Login = defineComponent({
     name: 'MiLogin',
     inheritAttrs: false,
     props: Object.assign({...passportProps()}, {
+        action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
         registerLink: PropTypes.string,
         forgetPasswordLink: PropTypes.string,
-        onAfterLogin: PropTypes.func
+        onAfterLogin: PropTypes.func,
+        socialiteLoginDomain: PropTypes.string
     }),
     slots: ['content'],
     setup(props, {slots, attrs, emit}) {
@@ -225,7 +227,7 @@ const Login = defineComponent({
                     </a>
                 )
                 : (
-                    <RouterLink to={{path: 'forgot'}}
+                    <RouterLink to={{path: '/passport/forgot'}}
                         class={`${cls}`}>
                         <QuestionCircleOutlined />{title}
                     </RouterLink>

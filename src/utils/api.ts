@@ -30,7 +30,7 @@ export const api: {
     password: {
         forgot: 'password/forgot',
         reset: 'password/reset',
-        captcha: 'password/captcha',
+        captcha: 'password/captcha/send',
         check: 'password/captcha/check'
     }
 })
