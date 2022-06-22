@@ -60,7 +60,7 @@ export default defineComponent({
                         return await $request[props.usernameVerifyMethod](props.usernameVerifyAction, {
                             value, binding: props.binding
                         }).then((res: any) => {
-                            if (res.ret.code !== 1) return Promise.reject(res.ret.message)
+                            if (res.ret.code !== 200) return Promise.reject(res.ret.message)
                             else return Promise.resolve()
                         }).catch((err: any) => {
                             if (err.status) {
@@ -85,7 +85,7 @@ export default defineComponent({
                         return await $request[props.emailVerifyMethod](props.emailVerifyAction, {
                             value, binding: props.binding
                         }).then((res: any) => {
-                            if (res.ret.code !== 1) return Promise.reject(res.ret.message)
+                            if (res.ret.code !== 200) return Promise.reject(res.ret.message)
                             else return Promise.resolve()
                         }).catch((err: any) => {
                             if (err.status) {
@@ -170,7 +170,7 @@ export default defineComponent({
                                 // custom
                                 props.onAfterRegister(res)
                             } else {
-                                if (res.ret.code === 1) {
+                                if (res.ret.code === 200) {
                                     $storage.set($g.caches.storages.email, params.form.validate.email)
                                     if (props.redirectTo) {
                                         if ($g.regExp.url.test(props.redirectTo)) {

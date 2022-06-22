@@ -14,105 +14,109 @@ import { mutations } from './../store/types'
  * 1. Dynamic loading state management module (eg,. `layout`, `passport`).
  * 2. Add axios interceptor (request and response).
  */
+let _init = false
 export default {
-    setup() {
-        const store = useStore()
-        const router = useRouter()
+    created() {
+        if (!_init) {
+            const store = useStore()
+            const router = useRouter()
 
-        $tools.setTitle()
-        $tools.setKeywords()
-        $tools.setDescription()
-        $cookie.set($g.caches.cookies.theme, $g.theme.active)
+            $tools.setTitle()
+            $tools.setKeywords()
+            $tools.setDescription()
+            $cookie.set($g.caches.cookies.theme, $g.theme.active)
 
-        try {
-            store.registerModule(['layout'], layout)
-            store.registerModule(['passport'], passport)
-        } catch (e) {
-            throw new Error(
-                '[vuex] must be required. Please install and import [vuex] before makeit-admin-pro\r\n' +
-                    e
+            try {
+                store.registerModule(['layout'], layout)
+                store.registerModule(['passport'], passport)
+            } catch (e) {
+                throw new Error(
+                    '[vuex] must be required. Please install and import [vuex] before makeit-admin-pro\r\n' +
+                        e
+                )
+            }
+            // 是否为移动端
+            $g.isMobile = $tools.isMobile()
+            store.commit(`layout/${mutations.layout.mobile}`)
+
+            // 回登录页
+            const redirect = () => {
+                store.commit(`passport/${mutations.passport.reset}`)
+                router.push({
+                    path: '/login'
+                })
+            }
+
+            // 请求拦截器 ( Bearer token )
+            axios.interceptors.request.use(
+                (config: AxiosRequestConfig) => {
+                    const token = $cookie.get($g.caches.cookies.token.access)
+                    if (token) config.headers.Authorization = `Bearer ${token}`
+                    return config
+                },
+                (err) => {
+                    return Promise.reject(err)
+                }
             )
-        }
-        // 是否为移动端
-        $g.isMobile = $tools.isMobile()
-        store.commit(`layout/${mutations.layout.mobile}`)
 
-        // 回登录页
-        const redirect = () => {
-            store.commit(`passport/${mutations.passport.reset}`)
-            router.push({
-                path: '/login'
-            })
-        }
-
-        // 请求拦截器 ( Bearer token )
-        axios.interceptors.request.use(
-            (config: AxiosRequestConfig) => {
-                const token = $cookie.get($g.caches.cookies.token.access)
-                if (token) config.headers.Authorization = `Bearer ${token}`
-                return config
-            },
-            (err) => {
-                return Promise.reject(err)
-            }
-        )
-
-        // 响应拦截器 ( 错误则请求重试 )
-        let regranting = false
-        axios.interceptors.response.use(
-            (response) => {
-                return response
-            },
-            async (err: any) => {
-                // 重试
-                const resend = () => {
-                    const config = err.config
-                    const method = config.method.toLowerCase()
-                    return $request[method](
-                        config.url,
-                        method === 'get' ? config.params : config.data,
-                        {
-                            retry: config.retry,
-                            retryCount: config.retryCount
-                        }
-                    )
-                }
-                // 未授权 ( unauthorized ).
-                if (err.response.status === 401) {
-                    if (!regranting) {
-                        regranting = true
-                        const refreshToken = $cookie.get($g.caches.cookies.token.refresh)
-                        if (refreshToken) {
-                            // token 过期, 重新获取.
-                            store
-                                .dispatch('passport/refresh', { refreshToken })
-                                .then((res: any) => {
-                                    regranting = false
-                                    if (res.ret.code === 200) return resend()
-                                    else redirect()
-                                })
-                                .catch(() => {
-                                    regranting = false
-                                })
-                        } else {
-                            // 授权失败, 无 refreshtoken.
-                            regranting = false
-                            redirect()
-                        }
+            // 响应拦截器 ( 错误则请求重试 )
+            let regranting = false
+            axios.interceptors.response.use(
+                (response) => {
+                    return response
+                },
+                async (err: any) => {
+                    // 重试
+                    const resend = () => {
+                        const config = err.config
+                        const method = config.method.toLowerCase()
+                        return $request[method](
+                            config.url,
+                            method === 'get' ? config.params : config.data,
+                            {
+                                retry: config.retry,
+                                retryCount: config.retryCount
+                            }
+                        )
                     }
-                } else {
-                    /**
-                     * 请求重试.
-                     * 设置了 retry 且重试次数少于设定值 retryCount.
-                     * request retry and delay 1000ms each time.
-                     */
-                    const config = err.config
-                    if (!config?.retry) return Promise.reject(err.response)
-                    if (config.retryCount >= config.retry) return Promise.reject(err.response)
-                    config.retryCount += 1
-                    await resend()
+                    // 未授权 ( unauthorized ).
+                    if (err.response.status === 401) {
+                        if (!regranting) {
+                            regranting = true
+                            const refreshToken = $cookie.get($g.caches.cookies.token.refresh)
+                            if (refreshToken) {
+                                // token 过期, 重新获取.
+                                store
+                                    .dispatch('passport/refresh', { refreshToken })
+                                    .then((res: any) => {
+                                        regranting = false
+                                        if (res.ret.code === 200) return resend()
+                                        else redirect()
+                                    })
+                                    .catch(() => {
+                                        regranting = false
+                                    })
+                            } else {
+                                // 授权失败, 无 refreshtoken.
+                                regranting = false
+                                redirect()
+                            }
+                        }
+                    } else {
+                        /**
+                         * 请求重试.
+                         * 设置了 retry 且重试次数少于设定值 retryCount.
+                         * request retry and delay 1000ms each time.
+                         */
+                        const config = err.config
+                        if (!config?.retry) return Promise.reject(err.response)
+                        if (config.retryCount >= config.retry) return Promise.reject(err.response)
+                        config.retryCount += 1
+                        await resend()
+                    }
                 }
-            }
-        )
+            )
+            _init = true
+        }
     }
 }

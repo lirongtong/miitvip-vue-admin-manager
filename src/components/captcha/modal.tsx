@@ -427,20 +427,17 @@ export default defineComponent({
                 const take = Math.round((params.time.end - params.time.start) / 10) / 100
                 params.check.tip = t('captcha.success', { take })
                 if (props.verifyAction) {
-                    await $request[props.verifyParams.toLowerCase()](
+                    await $request[props.verifyMethod.toLowerCase()](
                         props.verifyAction,
                         props.verifyParams
-                    )
-                        .then((res: any) => {
-                            const response = res.data
-                            if (response.ret.code === 1) {
-                                params.check.correct = true
-                                succcess(response.data)
-                            } else error(response.ret.message)
-                        })
-                        .catch((err: any) => {
-                            error(err.message)
-                        })
+                    ).then((res: any) => {
+                        if (res.ret.code === 200) {
+                            params.check.correct = true
+                            succcess(res.data)
+                        } else error(res.ret.message)
+                    }).catch((err: any) => {
+                        error(err.message)
+                    })
                 } else {
                     params.check.correct = true
                     succcess()

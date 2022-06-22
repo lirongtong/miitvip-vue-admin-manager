@@ -37,13 +37,13 @@ export const captchaProps = () => ({
     maxTries: PropTypes.number.def(5),
     initParams: PropTypes.object.def({}),
     initAction: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-    initActionMethod: PropTypes.oneOf(tuple(...$g.methods)).def('get'),
+    initMethod: PropTypes.oneOf(tuple(...$g.methods)).def('get'),
     verifyParams: PropTypes.object.def({}),
     verifyAction: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-    verifyActionMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
+    verifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
     checkParams: PropTypes.object.def({}),
     checkAction: PropTypes.string,
-    checkActionMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post')
+    checkMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post')
 })
 
 export default defineComponent({
@@ -88,7 +88,8 @@ export default defineComponent({
             modal: {
                 show: false,
                 pos: {}
-            }
+            },
+            verifyParams: {...props.verifyParams}
         })
 
         onBeforeUnmount(() => {
@@ -112,16 +113,16 @@ export default defineComponent({
                     afterInit()
                     props.initAction()
                 } else {
-                    $request[props.initActionMethod.toLowerCase()](
+                    $request[props.initMethod.toLowerCase()](
                         props.initAction,
                         props.initParams
                     )
                     .then((res: any) => {
                         afterInit()
-                        emit('init', res?.data)
+                        if (res?.data?.key && !params.verifyParams.key) params.verifyParams.key = res.data.key
+                        emit('init', res)
                     })
                     .catch(() => {
-                        console.log(2)
                         afterInit(t('init-error'))
                     })
                 }
@@ -129,19 +130,19 @@ export default defineComponent({
         }
 
         const showCaptchaModal = () => {
-            if (params.init || params.status.success) return
+            if (!params.init || params.status.success) return
             params.tip = t('captcha.checking')
             params.status.ready = false
             params.status.scanning = true
             if (props.checkAction) {
-                $request[props.checkActionMethod.toLowerCase()](
+                $request[props.checkMethod.toLowerCase()](
                     props.checkAction,
                     props.checkParams
                 )
                 .then((res: any) => {
                     if (res.data.pass) params.pass = true
                     else initCaptchaModal()
-                    emit('checked', res.data)
+                    emit('checked', res)
                 })
                 .catch(() => {
                     params.pass = false
@@ -259,7 +260,9 @@ export default defineComponent({
                         boxShadowColor={props.modalBoxShadowColor}
                         themeColor={props.themeColor}
                         bgColor={props.modalBgColor}
-                        verifyParams={props.verifyParams}
+                        verifyMethod={props.verifyMethod}
+                        verifyParams={params.verifyParams}
+                        verifyAction={props.verifyAction}
                         onModalClose={closeCaptchaModal}
                         image={props.image}
                     />

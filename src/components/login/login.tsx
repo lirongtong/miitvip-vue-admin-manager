@@ -89,7 +89,7 @@ const Login = defineComponent({
                                 props.onAfterLogin(res)
                             } else {
                                 // default
-                                if (res.ret.code === 1) {
+                                if (res.ret.code === 200) {
                                     let redirect = route.query.redirect
                                     if (redirect) {
                                         redirect = redirect.toString()
@@ -168,6 +168,7 @@ const Login = defineComponent({
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
                         autocomplete="off"
+                        onPressEnter={login}
                         v-model:value={params.form.validate.password}
                         placeholder={t('passport.password')} />
                 )
@@ -179,6 +180,7 @@ const Login = defineComponent({
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
                         autocomplete="off"
+                        onPressEnter={login}
                         v-model:value={params.form.validate.password}
                         placeholder={t('passport.password')} />
                 )
@@ -203,13 +205,13 @@ const Login = defineComponent({
                             themeColor={props.captchaThemeColor}
                             initParams={props.captchaInitParams}
                             initAction={props.captchaInitAction}
-                            initActionMethod={props.captchaInitMethod}
+                            initMethod={props.captchaInitMethod}
                             checkParams={props.captchaCheckParams}
                             checkAction={props.captchaCheckAction}
-                            checkActionMethod={props.captchaCheckMethod}
+                            checkMethod={props.captchaCheckMethod}
                             verifyParams={props.captchaVerifyParams}
                             verifyAction={props.captchaVerifyAction}
-                            verifyActionMethod={props.captchaVerifyMethod}
+                            verifyMethod={props.captchaVerifyMethod}
                             onInit={props.onCaptchaInit}
                             onChecked={props.onCaptchaChecked}
                             onSuccess={captchaVerify} />
