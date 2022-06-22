@@ -16,7 +16,7 @@ export const api: {
     authorize: 'oauth/{socialite}/login',
     captcha: {
         init: 'captcha/init',
-        verification: 'captcha/verification'
+        verify: 'captcha/verify'
     },
     email: {
         active: 'email/active/{token}',

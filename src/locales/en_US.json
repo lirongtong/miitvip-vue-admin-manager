@@ -55,6 +55,7 @@
     "captcha": {
         "loading": "Loading verification code ···",
         "init": "Initializing verification code ···",
+        "init-error": "Error in init, please try again later",
         "click": "Click the button to verify",
         "checking": "Intelligent detection ···",
         "pass": "Approved",

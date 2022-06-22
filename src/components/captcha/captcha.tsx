@@ -1,12 +1,14 @@
-import { defineComponent, computed, reactive, Teleport, ref } from 'vue'
+import { defineComponent, computed, reactive, Teleport, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { VerifiedOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
-import { getPrefixCls } from '../_utils/props-tools'
+import { getPrefixCls, tuple } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
+import { $g } from '../../utils/global'
 import { $request } from '../../utils/request'
 import MiCaptchaModal from './modal'
+
 
 const POWERED = 'Powered By makeit.vip'
 const AVATAR = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png'
@@ -34,12 +36,14 @@ export const captchaProps = () => ({
     maskClosable: PropTypes.bool.def(true),
     maxTries: PropTypes.number.def(5),
     initParams: PropTypes.object.def({}),
-    initAction: PropTypes.string,
+    initAction: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    initActionMethod: PropTypes.oneOf(tuple(...$g.methods)).def('get'),
     verifyParams: PropTypes.object.def({}),
-    verifyAction: PropTypes.string,
+    verifyAction: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    verifyActionMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
     checkParams: PropTypes.object.def({}),
     checkAction: PropTypes.string,
-    checkActionMethod: PropTypes.string.def('post')
+    checkActionMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post')
 })
 
 export default defineComponent({
@@ -87,6 +91,43 @@ export default defineComponent({
             }
         })
 
+        onBeforeUnmount(() => {
+            closeCaptchaModal({status: 'close'})
+            $tools.off(window, 'resize', resize)
+        })
+
+        onMounted(() => {
+            initCaptcha()
+            $tools.on(window, 'resize', resize)
+        })
+
+        const initCaptcha = () => {
+            const afterInit = (tip = t('captcha.click')) => {
+                params.failed = false
+                params.init = true
+                params.tip = tip
+            }
+            if (props.initAction) {
+                if (typeof props.initAction === 'function') {
+                    afterInit()
+                    props.initAction()
+                } else {
+                    $request[props.initActionMethod.toLowerCase()](
+                        props.initAction,
+                        props.initParams
+                    )
+                    .then((res: any) => {
+                        afterInit()
+                        emit('init', res?.data)
+                    })
+                    .catch(() => {
+                        console.log(2)
+                        afterInit(t('init-error'))
+                    })
+                }
+            } else afterInit()
+        }
+
         const showCaptchaModal = () => {
             if (params.init || params.status.success) return
             params.tip = t('captcha.checking')
@@ -97,15 +138,15 @@ export default defineComponent({
                     props.checkAction,
                     props.checkParams
                 )
-                    .then((res: any) => {
-                        if (res.data.pass) params.pass = true
-                        else initCaptchaModal()
-                        emit('checked', res.data)
-                    })
-                    .catch(() => {
-                        params.pass = false
-                        initCaptchaModal()
-                    })
+                .then((res: any) => {
+                    if (res.data.pass) params.pass = true
+                    else initCaptchaModal()
+                    emit('checked', res.data)
+                })
+                .catch(() => {
+                    params.pass = false
+                    initCaptchaModal()
+                })
             } else initCaptchaModal()
         }
 
@@ -196,6 +237,10 @@ export default defineComponent({
             params.status.scanning = false
             params.status.ready = true
             params.tip = t('captcha.click')
+        }
+
+        const resize = () => {
+            params.modal.pos = getCaptchaModalPosition()
         }
 
         const renderContent = () => {

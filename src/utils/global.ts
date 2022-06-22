@@ -66,6 +66,7 @@ export const $g = reactive({
     userInfo: {} as any,
     isMobile: false,
     locale: 'zh-cn',
+    methods: ['get', 'post', 'put', 'patch', 'delete', 'options', 'head'],
 
     /**
      * 常用的正则规则.

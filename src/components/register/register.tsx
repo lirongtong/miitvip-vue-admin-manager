@@ -18,8 +18,6 @@ import MiPassword from '../password'
 import MiCaptcha from '../captcha'
 import MiPassportSocialite from '../login/socialite'
 
-const METHODS = ['get', 'post', 'put', 'patch', 'delete', 'options', 'head']
-
 export default defineComponent({
     name: 'MiRegister',
     inheritAttrs: false,
@@ -34,9 +32,9 @@ export default defineComponent({
         passwordLevel: PropTypes.object,
         passwordRepeat: PropTypes.bool.def(true),
         usernameVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-        usernameVerifyMethod: PropTypes.oneOf(tuple(...METHODS)).def('post'),
+        usernameVerifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
         emailVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-        emailVerifyMethod: PropTypes.oneOf(tuple(...METHODS)).def('post'),
+        emailVerifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
         loginLink: PropTypes.string,
         usernameTip: PropTypes.any,
         onAfterRegister: PropTypes.func,
