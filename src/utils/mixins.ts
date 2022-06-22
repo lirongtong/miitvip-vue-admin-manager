@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
+import { useRouter } from 'vue-router'
 import { $tools } from './tools'
 import { $g } from './global'
 import { $cookie } from './cookie'
@@ -16,6 +17,7 @@ import { mutations } from './../store/types'
 export default {
     setup() {
         const store = useStore()
+        const router = useRouter()
 
         $tools.setTitle()
         $tools.setKeywords()
@@ -34,6 +36,14 @@ export default {
         // 是否为移动端
         $g.isMobile = $tools.isMobile()
         store.commit(`layout/${mutations.layout.mobile}`)
+
+        // 回登录页
+        const redirect = () => {
+            store.commit(`passport/${mutations.passport.reset}`)
+            router.push({
+                path: '/login'
+            })
+        }
 
         // 请求拦截器 ( Bearer token )
         axios.interceptors.request.use(
@@ -74,9 +84,20 @@ export default {
                         const refreshToken = $cookie.get($g.caches.cookies.token.refresh)
                         if (refreshToken) {
                             // token 过期, 重新获取.
+                            store
+                                .dispatch('passport/refresh', { refreshToken })
+                                .then((res: any) => {
+                                    regranting = false
+                                    if (res.ret.code === 200) return resend()
+                                    else redirect()
+                                })
+                                .catch(() => {
+                                    regranting = false
+                                })
                         } else {
                             // 授权失败, 无 refreshtoken.
                             regranting = false
+                            redirect()
                         }
                     }
                 } else {

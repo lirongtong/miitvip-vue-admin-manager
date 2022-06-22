@@ -1,27 +1,15 @@
 import { App } from 'vue'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 
 axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
 
-type Methods =
-    | 'get'
-    | 'post'
-    | 'put'
-    | 'delete'
-    | 'patch'
-    | 'options'
-    | 'head'
-    | 'connect'
-    | 'trace'
-
 /**
  * 封装请求响应的类 ( 封装自 axios 插件 ).
+ * - 请求/响应拦截器 `mixin.ts`
  * Request & Response class.
  * 包含 `get`, `post`, `put`, `delete` 等常用的请求方法.
- *
- * @class
  */
 class MiRequest {
     instance: MiRequest
@@ -37,9 +25,20 @@ class MiRequest {
      *
      * @return Promise
      */
-    protected register(): void {
-        const methods: Methods[] = ['get', 'post', 'put', 'patch', 'delete', 'options', 'head']
-        methods.forEach((method: Methods) => {
+    private register(): void {
+        const methods: Method[] = [
+            'get',
+            'post',
+            'put',
+            'patch',
+            'delete',
+            'options',
+            'head',
+            'link',
+            'unlink',
+            'purge'
+        ]
+        methods.forEach((method: Method) => {
             this.instance[method.toLowerCase()] = (
                 url: string,
                 data: { [index: string]: any } = {},
@@ -75,7 +74,7 @@ class MiRequest {
      * @param config
      * @returns Promise
      */
-    protected async send(config: AxiosRequestConfig): Promise<any> {
+    private async send(config: AxiosRequestConfig): Promise<any> {
         if (!config.timeout) config.timeout = 60000
         return await axios(config)
             .then((res: AxiosResponse) => {
@@ -87,7 +86,7 @@ class MiRequest {
     }
 }
 
-export const $request: MiRequest = new MiRequest()
+export const $request = new MiRequest() as any
 
 export default {
     install(app: App) {
