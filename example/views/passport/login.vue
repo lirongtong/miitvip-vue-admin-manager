@@ -1,6 +1,5 @@
 <template>
     <mi-login :action="api.login"
-        :open-captcha="false"
         :background="bg"
         :captcha-init-action="api.captcha.init"
         :captcha-verify-action="api.captcha.verify" />

@@ -49,8 +49,8 @@ const Login = defineComponent({
                     username: '',
                     password: '',
                     remember: false,
-                    captcha: false,
-                    uuid: null,
+                    captcha: props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction),
+                    cuid: null,
                     url: null
                 },
                 rules: {
@@ -60,9 +60,10 @@ const Login = defineComponent({
                 }
             }
         })
+        !params.form.validate.captcha && delete params.form.validate.cuid
 
         const captchaVerify = (data: any) => {
-            if (data?.uuid) params.form.validate.uuid = data.uuid
+            if (data?.cuid) params.form.validate.cuid = data.cuid
             params.captcha = true
             formRef.value.validateFields(['captcha'])
             emit('captchaSuccess', data)
@@ -153,6 +154,7 @@ const Login = defineComponent({
                         v-model:value={params.form.validate.username}
                         maxlength={64}
                         autocomplete="off"
+                        onPressEnter={login}
                         placeholder={t('passport.username')} />
                 </Form.Item>
             )

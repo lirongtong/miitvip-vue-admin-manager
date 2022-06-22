@@ -116,7 +116,7 @@ export default defineComponent({
                     password: '',
                     repeat: '',
                     captcha: false,
-                    uuid: null
+                    cuid: null
                 },
                 rules: {
                     username: [
@@ -139,7 +139,7 @@ export default defineComponent({
         })
 
         const captchaVerify = (data: any) => {
-            if (data?.uuid) params.form.validate.uuid = data.uuid
+            if (data?.cuid) params.form.validate.cuid = data.cuid
             params.captcha = true
             formRef.value.validateFields(['captcha'])
             emit('captchaSuccess', data)

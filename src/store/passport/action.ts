@@ -18,7 +18,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             password: string
             remember: boolean | number
             captcha: boolean
-            uuid: string
+            cuid: string
         }
     ): Promise<any> {
         const url = data.url ?? api.login
@@ -73,7 +73,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             password: string
             repeat: string
             captcha: boolean
-            uuid: string
+            cuid: string
         }
     ): Promise<any> {
         const url = data.url ?? api.register
@@ -103,7 +103,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             username: string
             email: string
             password: string
-            uuid: string
+            cuid: string
             token: string
             type: string
         }
