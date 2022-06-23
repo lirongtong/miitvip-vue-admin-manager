@@ -99,7 +99,7 @@ const Login = defineComponent({
                                     } else router.push({path: '/'})
                                 } else MiModal.error(res.ret.message)
                             }
-                        })
+                        }).catch(() => params.loading = false)
                     } else if (typeof props.action === 'function') {
                         params.loading = false
                         props.action(params.form.validate)
