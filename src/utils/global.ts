@@ -120,7 +120,7 @@ export const $g = reactive({
     },
 
     socialites: {
-        domain: 'https://account.makeit.vip/v1/oauth',
+        domain: 'http://local-api.makeit.vip/auth',
         items: [
             {
                 name: 'github',
