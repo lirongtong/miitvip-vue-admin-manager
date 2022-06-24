@@ -7,6 +7,7 @@ import { UserOutlined, EyeInvisibleOutlined, EyeOutlined, LockOutlined, UnlockOu
 import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
 import { passportProps } from '../_utils/props-passport'
 import { $g } from '../../utils/global'
+import { $tools } from '../../utils/tools'
 import { useI18n } from 'vue-i18n'
 import { api } from '../../utils/api'
 import PropTypes from '../_utils/props-types'
@@ -23,6 +24,7 @@ const Login = defineComponent({
         registerLink: PropTypes.string,
         forgetPasswordLink: PropTypes.string,
         onAfterLogin: PropTypes.func,
+        socialiteLogin: PropTypes.bool.def(false),
         socialiteLoginDomain: PropTypes.string
     }),
     slots: ['content'],
@@ -293,20 +295,31 @@ const Login = defineComponent({
             )
         }
 
-        return () => (
-            <div class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`} style={{
-                backgroundImage: `url(${props.background ?? $g.background.default})`
-            }} {...attrs}>
-                <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
-                    <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
-                        {renderMask()}
-                        {renderTitle()}
-                        {getPropSlot(slots, props, 'content') ?? renderForm()}
-                    </Col>
-                </Row>
-                {getPropSlot(slots, props, 'footer') ?? <MiLayout.Footer />}
-            </div>
-        )
+        return () => {
+            if (props.socialiteLogin) {
+                const socialite = route.params.socialite
+                const token = route.params.token
+                const url = $tools.replaceUrlParams(api.authorize, {socialite})
+                store.dispatch('passport/authorize', {url, token}).then((res: any) => {
+                    if (res.ret.code === 200) router.push({path: '/'})
+                    else router.push({path: '/login'})
+                }).catch((err: any) => MiModal.$error(err.message))
+            }
+            return props.socialiteLogin ? null : (
+                <div class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`} style={{
+                    backgroundImage: `url(${props.background ?? $g.background.default})`
+                }} {...attrs}>
+                    <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
+                        <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
+                            {renderMask()}
+                            {renderTitle()}
+                            {getPropSlot(slots, props, 'content') ?? renderForm()}
+                        </Col>
+                    </Row>
+                    {getPropSlot(slots, props, 'footer') ?? <MiLayout.Footer />}
+                </div>
+            )
+        }
     }
 })
 

@@ -194,6 +194,24 @@ class MiTools {
     }
 
     /**
+     * replace url parameters.
+     * @param url
+     * @param params
+     * @returns
+     */
+    replaceUrlParams(url: string, params?: { [index: string]: any }) {
+        if (Object.keys(params).length > 0) {
+            for (const i in params) {
+                if (params.hasOwnProperty(i)) {
+                    const reg = new RegExp('{' + i + '}', 'gi')
+                    url = url.replace(reg, params[i])
+                }
+            }
+        }
+        return url
+    }
+
+    /**
      * Unit conversion.
      * @param value
      * @param base

@@ -7,6 +7,7 @@ const PassportLogin = () => import('@views/passport/login.vue')
 const PassportRegister = () => import('@views/passport/register.vue')
 const PassportForgot = () => import('@views/passport/forgot.vue')
 const PassportUpdate = () => import('@views/passport/update.vue')
+const SocialiteLogin = () => import('@views/socialite/login.vue')
 const Home = () => import('@views/home.vue')
 const Tools = () => import('../views/tools/index.vue')
 const ToolsGlobal = () => import('../views/tools/global.vue')
@@ -170,6 +171,11 @@ const passportRoutes: Array<RouteRecordRaw> = [{
     meta: {title: '登录'},
     component: PassportLogin
 }, {
+    path: '/login/:socialite/:token',
+    name: 'socialite-login',
+    meta: {name: '社会化登录'},
+    component: SocialiteLogin
+}, {
     path: '/register',
     name: 'single-register',
     meta: {title: '注册'},
@@ -177,12 +183,12 @@ const passportRoutes: Array<RouteRecordRaw> = [{
 }, {
     path: '/passport/forgot',
     name: 'single-forgot',
-    meta: {title: '忘记密码'},
+    meta: {title: '找回密码'},
     component: PassportForgot
 }, {
     path: '/passport/update',
     name: 'single-update',
-    meta: {title: '修改密码'},
+    meta: {title: '重置密码'},
     component: PassportUpdate
 }]
 

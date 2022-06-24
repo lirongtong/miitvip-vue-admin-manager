@@ -6,9 +6,7 @@ import { $g } from './global'
  * ( 接口地址可直接通过 this.api 进行覆盖或新增 ).
  * @type {object}
  */
-export const api: {
-    [index: string]: {}
-} = reactive({
+export const api: any = reactive({
     login: 'login',
     logout: 'logout',
     register: 'register',
