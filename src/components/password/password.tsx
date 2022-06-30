@@ -105,9 +105,12 @@ export default defineComponent({
             }
         }
 
-        watch(() => props.manualVerify, (n) => {
-            if (n) formRef.value.validate()
-        })
+        watch(
+            () => props.manualVerify,
+            (n) => {
+                if (n) formRef.value.validate()
+            }
+        )
 
         const params = reactive({
             visible: false,
@@ -284,7 +287,8 @@ export default defineComponent({
         }
 
         return () => (
-            <Form ref={formRef}
+            <Form
+                ref={formRef}
                 layout="vertical"
                 name={`${prefixCls}-form`}
                 model={params.form.validate}

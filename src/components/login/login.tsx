@@ -1,9 +1,16 @@
 import { defineComponent, computed, ref, reactive, createVNode } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-import { RouterLink } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
+
 import { Form, Row, Col, Input, Checkbox, Button } from 'ant-design-vue'
-import { UserOutlined, EyeInvisibleOutlined, EyeOutlined, LockOutlined, UnlockOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
+import {
+    UserOutlined,
+    EyeInvisibleOutlined,
+    EyeOutlined,
+    LockOutlined,
+    UnlockOutlined,
+    QuestionCircleOutlined
+} from '@ant-design/icons-vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
 import { passportProps } from '../_utils/props-passport'
 import { $g } from '../../utils/global'
@@ -19,16 +26,20 @@ import MiModal from '../modal'
 const Login = defineComponent({
     name: 'MiLogin',
     inheritAttrs: false,
-    props: Object.assign({...passportProps()}, {
-        action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-        registerLink: PropTypes.string,
-        forgetPasswordLink: PropTypes.string,
-        onAfterLogin: PropTypes.func,
-        socialiteLogin: PropTypes.bool.def(false),
-        socialiteLoginDomain: PropTypes.string
-    }),
+    props: Object.assign(
+        { ...passportProps() },
+        {
+            action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+            registerLink: PropTypes.string,
+            forgetPasswordLink: PropTypes.string,
+            onAfterLogin: PropTypes.func,
+            socialiteLogin: PropTypes.bool.def(false),
+            socialiteLoginDomain: PropTypes.string
+        }
+    ),
+    emits: ['captchaSuccess'],
     slots: ['content'],
-    setup(props, {slots, attrs, emit}) {
+    setup(props, { slots, attrs, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const store = useStore()
@@ -51,14 +62,15 @@ const Login = defineComponent({
                     username: '',
                     password: '',
                     remember: false,
-                    captcha: props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction),
+                    captcha:
+                        props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction),
                     cuid: null,
                     url: null
                 },
                 rules: {
-                    username: [{required: true, message: t('passport.username')}],
-                    password: [{required: true, message: t('passport.password')}],
-                    captcha: [{required: true, validator: validateCaptcha}]
+                    username: [{ required: true, message: t('passport.username') }],
+                    password: [{ required: true, message: t('passport.password') }],
+                    captcha: [{ required: true, validator: validateCaptcha }]
                 }
             }
         })
@@ -74,46 +86,51 @@ const Login = defineComponent({
         const login = () => {
             if (params.loading) return
             params.loading = true
-            formRef.value.validate().then(() => {
-                if (
-                    !params.form.validate.captcha ||
-                    (params.form.validate.captcha && params.captcha)
-                ) {
-                    api.login = props.action
-                    params.form.validate.url = api.login
-                    if (typeof props.action === 'string') {
-                        store.dispatch('passport/login', params.form.validate).then((res: any) => {
+            formRef.value
+                .validate()
+                .then(() => {
+                    if (
+                        !params.form.validate.captcha ||
+                        (params.form.validate.captcha && params.captcha)
+                    ) {
+                        api.login = props.action
+                        params.form.validate.url = api.login
+                        if (typeof props.action === 'string') {
+                            store
+                                .dispatch('passport/login', params.form.validate)
+                                .then((res: any) => {
+                                    params.loading = false
+                                    if (
+                                        props.onAfterLogin &&
+                                        typeof props.onAfterLogin === 'function'
+                                    ) {
+                                        // custom
+                                        props.onAfterLogin(res)
+                                    } else {
+                                        // default
+                                        if (res.ret.code === 200) {
+                                            let redirect = route.query.redirect
+                                            if (redirect) {
+                                                redirect = redirect.toString()
+                                                if ($g.regExp.url.test(redirect))
+                                                    window.location.href = redirect
+                                                else router.push({ path: redirect })
+                                            } else router.push({ path: '/' })
+                                        } else MiModal.error(res.ret.message)
+                                    }
+                                })
+                                .catch(() => (params.loading = false))
+                        } else if (typeof props.action === 'function') {
                             params.loading = false
-                            if (
-                                props.onAfterLogin &&
-                                typeof props.onAfterLogin === 'function'
-                            ) {
-                                // custom
-                                props.onAfterLogin(res)
-                            } else {
-                                // default
-                                if (res.ret.code === 200) {
-                                    let redirect = route.query.redirect
-                                    if (redirect) {
-                                        redirect = redirect.toString()
-                                        if ($g.regExp.url.test(redirect)) window.location.href = redirect
-                                        else router.push({path: redirect})
-                                    } else router.push({path: '/'})
-                                } else MiModal.error(res.ret.message)
-                            }
-                        }).catch(() => params.loading = false)
-                    } else if (typeof props.action === 'function') {
-                        params.loading = false
-                        props.action(params.form.validate)
-                    }
-                } else params.loading = false
-            }).catch(() => params.loading = false)
+                            props.action(params.form.validate)
+                        }
+                    } else params.loading = false
+                })
+                .catch(() => (params.loading = false))
         }
 
         const renderMask = () => {
-            return isMobile.value ? null : (
-                <div class={`${prefixCls}-mask`} />
-            )
+            return isMobile.value ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -121,7 +138,7 @@ const Login = defineComponent({
                 <div class={`${prefixCls}-title`}>
                     <span innerHTML={props.title ?? $g.site} />
                     <sup>
-                        <RouterLink to={{path: '/'}}>
+                        <RouterLink to={{ path: '/' }}>
                             <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
                         </RouterLink>
                     </sup>
@@ -133,7 +150,8 @@ const Login = defineComponent({
             const cls = getPrefixCls('form')
             return (
                 <div class={`${prefixCls}-form`}>
-                    <Form layout="vertical"
+                    <Form
+                        layout="vertical"
                         class={cls}
                         ref={formRef}
                         model={params.form.validate}
@@ -152,12 +170,14 @@ const Login = defineComponent({
         const renderUserName = () => {
             return (
                 <Form.Item name="username">
-                    <Input prefix={createVNode(UserOutlined)}
+                    <Input
+                        prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
                         maxlength={64}
                         autocomplete="off"
                         onPressEnter={login}
-                        placeholder={t('passport.username')} />
+                        placeholder={t('passport.username')}
+                    />
                 </Form.Item>
             )
         }
@@ -165,42 +185,45 @@ const Login = defineComponent({
         const renderPassword = () => {
             let password: any = null
             if (params.password) {
-                const suffix = (<EyeInvisibleOutlined onClick={() => params.password = !params.password} />)
+                const suffix = (
+                    <EyeInvisibleOutlined onClick={() => (params.password = !params.password)} />
+                )
                 password = (
-                    <Input type="password"
+                    <Input
+                        type="password"
                         maxlength={32}
                         prefix={createVNode(LockOutlined)}
                         suffix={suffix}
                         autocomplete="off"
                         onPressEnter={login}
                         v-model:value={params.form.validate.password}
-                        placeholder={t('passport.password')} />
+                        placeholder={t('passport.password')}
+                    />
                 )
             } else {
-                const suffix = (<EyeOutlined onClick={() => params.password = !params.password} />)
+                const suffix = <EyeOutlined onClick={() => (params.password = !params.password)} />
                 password = (
-                    <Input type="text"
+                    <Input
+                        type="text"
                         maxlength={32}
                         prefix={createVNode(UnlockOutlined)}
                         suffix={suffix}
                         autocomplete="off"
                         onPressEnter={login}
                         v-model:value={params.form.validate.password}
-                        placeholder={t('passport.password')} />
+                        placeholder={t('passport.password')}
+                    />
                 )
             }
-            return (
-                <Form.Item name="password">
-                    {password}
-                </Form.Item>
-            )
+            return <Form.Item name="password">{password}</Form.Item>
         }
 
         const renderCaptcha = () => {
             if (props.openCaptcha) {
                 return (
                     <Form.Item name="captcha" class={`${prefixCls}-captcha`}>
-                        <MiCaptcha width="100%"
+                        <MiCaptcha
+                            width="100%"
                             radius={props.captchaRadius}
                             image={props.captchaImage}
                             bgColor={props.captchaBackground}
@@ -218,7 +241,8 @@ const Login = defineComponent({
                             verifyMethod={props.captchaVerifyMethod}
                             onInit={props.onCaptchaInit}
                             onChecked={props.onCaptchaChecked}
-                            onSuccess={captchaVerify} />
+                            onSuccess={captchaVerify}
+                        />
                     </Form.Item>
                 )
             }
@@ -228,19 +252,17 @@ const Login = defineComponent({
         const renderRememberBtn = () => {
             const cls = `${prefixCls}-forgot`
             const title = t('passport.forgot')
-            const link = props.forgetPasswordLink
-                ? (
-                    <a href={props.forgetPasswordLink}
-                        class={`${cls}`}>
-                        <QuestionCircleOutlined />{title}
-                    </a>
-                )
-                : (
-                    <RouterLink to={{path: '/passport/forgot'}}
-                        class={`${cls}`}>
-                        <QuestionCircleOutlined />{title}
-                    </RouterLink>
-                )
+            const link = props.forgetPasswordLink ? (
+                <a href={props.forgetPasswordLink} class={`${cls}`}>
+                    <QuestionCircleOutlined />
+                    {title}
+                </a>
+            ) : (
+                <RouterLink to={{ path: '/passport/forgot' }} class={`${cls}`}>
+                    <QuestionCircleOutlined />
+                    {title}
+                </RouterLink>
+            )
             return (
                 <Form.Item class={`${prefixCls}-remember`}>
                     <Checkbox v-model:checked={params.form.validate.remember}>
@@ -254,10 +276,10 @@ const Login = defineComponent({
         const renderButton = () => {
             const cls = `${prefixCls}-submit`
             const register = isMobile.value ? (
-                <Button size="large"
-                    class={`${cls} ${cls}-register`}>
-                    <RouterLink to={{path: 'register'}}>
-                        {t('passport.no-account')}{t('passport.login.sign')}
+                <Button size="large" class={`${cls} ${cls}-register`}>
+                    <RouterLink to={{ path: 'register' }}>
+                        {t('passport.no-account')}
+                        {t('passport.login.sign')}
                     </RouterLink>
                 </Button>
             ) : null
@@ -273,23 +295,19 @@ const Login = defineComponent({
 
         const renderSocialiteLogin = () => {
             const link = !props.registerLink ? (
-                <RouterLink to={{path: 'register'}}>
-                    {t('passport.register.title')}
-                </RouterLink>
+                <RouterLink to={{ path: 'register' }}>{t('passport.register.title')}</RouterLink>
             ) : (
                 <a href={props.registerLink} innerHTML={t('passport.register.title')} />
             )
             const cls = `${prefixCls}-socialite`
             return (
                 <Form.Item class={`${cls}`}>
-                    {
-                        !isMobile.value ? (
-                            <div class={`${cls}-link`}>
-                                {t('passport.no-account')}
-                                {link}
-                            </div>
-                        ) : null
-                    }
+                    {!isMobile.value ? (
+                        <div class={`${cls}-link`}>
+                            {t('passport.no-account')}
+                            {link}
+                        </div>
+                    ) : null}
                     <MiPassportSocialite />
                 </Form.Item>
             )
@@ -299,16 +317,22 @@ const Login = defineComponent({
             if (props.socialiteLogin) {
                 const socialite = route.params.socialite
                 const token = route.params.token
-                const url = $tools.replaceUrlParams(api.authorize, {socialite})
-                store.dispatch('passport/authorize', {url, token}).then((res: any) => {
-                    if (res.ret.code === 200) router.push({path: '/'})
-                    else router.push({path: '/login'})
-                }).catch((err: any) => MiModal.$error(err.message))
+                const url = $tools.replaceUrlParams(api.authorize, { socialite })
+                store
+                    .dispatch('passport/authorize', { url, token })
+                    .then((res: any) => {
+                        if (res.ret.code === 200) router.push({ path: '/' })
+                        else router.push({ path: '/login' })
+                    })
+                    .catch((err: any) => MiModal.$error(err.message))
             }
             return props.socialiteLogin ? null : (
-                <div class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`} style={{
-                    backgroundImage: `url(${props.background ?? $g.background.default})`
-                }} {...attrs}>
+                <div
+                    class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`}
+                    style={{
+                        backgroundImage: `url(${props.background ?? $g.background.default})`
+                    }}
+                    {...attrs}>
                     <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
                         <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                             {renderMask()}

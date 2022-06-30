@@ -126,5 +126,13 @@
                 "length": "- Username length is <span class='theme'>4-16</span> characters."
             }
         }
+    },
+    "history": {
+        "close": {
+            "all": "close all",
+            "left": "close left",
+            "right": "close right",
+            "other": "close other"
+        }
     }
 }

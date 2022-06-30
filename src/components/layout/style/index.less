@@ -43,6 +43,7 @@
             cursor: pointer;
             height: @mi-header-height;
             transition: all @mi-anim-duration ease;
+            position: relative;
 
             .@{ant}icon {
                 .properties(width, 32);
@@ -378,5 +379,34 @@
                 }
             }
         }
+    }
+
+    &-header {
+        &-trigger {
+            .@{mi-layout}-breadcrumb {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: transparent;
+                width: auto;
+                height: @mi-header-height;
+                .properties(padding-left, 24);
+                .properties(padding-right, 16);
+                padding-top: 0;
+                padding-bottom: 0;
+
+                &-item:first-child {
+                    .anticon {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1199px) {
+    .@{mi-layout}-breadcrumb {
+        display: none;
     }
 }

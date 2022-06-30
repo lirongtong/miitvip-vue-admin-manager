@@ -126,5 +126,13 @@
                 "length": "- 用户名长度为 <span class='theme'>4-16</span> 个字符。"
             }
         }
+    },
+    "history": {
+        "close": {
+            "all": "关闭全部",
+            "left": "关闭左侧",
+            "right": "关闭右侧",
+            "other": "关闭其它"
+        }
     }
 }

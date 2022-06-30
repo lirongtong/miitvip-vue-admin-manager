@@ -47,10 +47,10 @@ export default defineComponent({
             let elem: any = null
             if (isMobile.value) {
                 const icons = []
-                const items = [{...params.first}].concat(params.left)
+                const items = [{ ...params.first }].concat(params.left)
                 items.forEach((item: any) => {
                     icons.push(
-                        <a onClick={(e) => item.callback ? item.callback(e) : e}>
+                        <a onClick={(e) => (item.callback ? item.callback(e) : e)}>
                             <MiDropdownItem item={item} />
                         </a>
                     )
@@ -58,24 +58,30 @@ export default defineComponent({
                 elem = (
                     <div class={`${prefixCls} ${prefixCls}-mobile`}>
                         <div class={`${prefixCls}-line`}></div>
-                        <div class={`${prefixCls}-title`} innerHTML={t('passport.login.socialite')} />
-                        <div class={`${prefixCls}-cates`}>
-                            {...icons}
-                        </div>
+                        <div
+                            class={`${prefixCls}-title`}
+                            innerHTML={t('passport.login.socialite')}
+                        />
+                        <div class={`${prefixCls}-cates`}>{...icons}</div>
                     </div>
                 )
             } else {
                 const title = <MoreOutlined />
-                const hasCallback = params.first?.callback && typeof params.first.callback === 'function'
+                const hasCallback =
+                    params.first?.callback && typeof params.first.callback === 'function'
                 elem = (
                     <div class={prefixCls}>
                         {t('passport.login.socialite')}
-                        <div onClick={(e) => hasCallback ? params.first.callback(e) : e}>
+                        <div onClick={(e) => (hasCallback ? params.first.callback(e) : e)}>
                             {params.first ? (
-                                isVNode(params.first.icon)
-                                    ? params.first.icon
-                                    : h(params.first.icon)
-                            ) : <GithubOutlined />}
+                                isVNode(params.first.icon) ? (
+                                    params.first.icon
+                                ) : (
+                                    h(params.first.icon)
+                                )
+                            ) : (
+                                <GithubOutlined />
+                            )}
                         </div>
                         <MiDropdown title={title} items={params.left} />
                     </div>

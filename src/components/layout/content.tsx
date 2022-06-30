@@ -3,7 +3,7 @@ import { useRoute, RouteLocationNormalizedLoaded, RouterView } from 'vue-router'
 import { Layout } from 'ant-design-vue'
 import { getPrefixCls } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
-import MiBreadcrumb from './breadcrumb'
+import MiRouteHistory from '../history'
 
 interface MiRouterViewSlot {
     Component: VNode
@@ -15,7 +15,8 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         prefixCls: PropTypes.string,
-        animation: PropTypes.string.def('page-slide')
+        animation: PropTypes.string.def('page-slide'),
+        showRouteHistory: PropTypes.bool.def(true)
     },
     setup(props) {
         const prefixCls = getPrefixCls('layout-content', props.prefixCls)
@@ -23,7 +24,7 @@ export default defineComponent({
         const route = useRoute()
         return () => (
             <Layout.Content class={prefixCls}>
-                <MiBreadcrumb />
+                {props.showRouteHistory ? <MiRouteHistory /> : null}
                 <RouterView
                     v-slots={{
                         default: ({ Component }: MiRouterViewSlot) => {

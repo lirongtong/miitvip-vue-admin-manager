@@ -21,27 +21,31 @@ import MiPassportSocialite from '../login/socialite'
 export default defineComponent({
     name: 'MiRegister',
     inheritAttrs: false,
-    props: Object.assign({...passportProps()}, {
-        action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-        redirectTo: PropTypes.string,
-        binding: PropTypes.bool.def(false),
-        passwordMinLength: PropTypes.number.def(6),
-        passwordMaxLength: PropTypes.number.def(32),
-        passwordComplexity: PropTypes.bool.def(true),
-        passwordComplexityTip: PropTypes.string,
-        passwordLevel: PropTypes.object,
-        passwordRepeat: PropTypes.bool.def(true),
-        usernameVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-        usernameVerifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
-        emailVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-        emailVerifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
-        loginLink: PropTypes.string,
-        usernameTip: PropTypes.any,
-        onAfterRegister: PropTypes.func,
-        socialiteLoginDomain: PropTypes.string
-    }),
+    props: Object.assign(
+        { ...passportProps() },
+        {
+            action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+            redirectTo: PropTypes.string,
+            binding: PropTypes.bool.def(false),
+            passwordMinLength: PropTypes.number.def(6),
+            passwordMaxLength: PropTypes.number.def(32),
+            passwordComplexity: PropTypes.bool.def(true),
+            passwordComplexityTip: PropTypes.string,
+            passwordLevel: PropTypes.object,
+            passwordRepeat: PropTypes.bool.def(true),
+            usernameVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+            usernameVerifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
+            emailVerifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+            emailVerifyMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
+            loginLink: PropTypes.string,
+            usernameTip: PropTypes.any,
+            onAfterRegister: PropTypes.func,
+            socialiteLoginDomain: PropTypes.string
+        }
+    ),
+    emits: ['captchaSuccess'],
     slots: ['content', 'usernameTip', 'footer'],
-    setup(props, {slots, emit}) {
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
         const store = useStore()
         const router = useRouter()
@@ -57,18 +61,24 @@ export default defineComponent({
                     return Promise.reject(t('passport.register.format'))
                 } else {
                     if (props.usernameVerifyAction) {
-                        return await $request[props.usernameVerifyMethod](props.usernameVerifyAction, {
-                            value, binding: props.binding
-                        }).then((res: any) => {
-                            if (res.ret.code !== 200) return Promise.reject(res.ret.message)
-                            else return Promise.resolve()
-                        }).catch((err: any) => {
-                            if (err.status) {
-                                const content = `[ ${err.status} ] ${err.statusText}`
-                                MiModal.error({content})
-                                return Promise.reject(content)
-                            } else return Promise.reject(err)
-                        })
+                        return await $request[props.usernameVerifyMethod](
+                            props.usernameVerifyAction,
+                            {
+                                value,
+                                binding: props.binding
+                            }
+                        )
+                            .then((res: any) => {
+                                if (res.ret.code !== 200) return Promise.reject(res.ret.message)
+                                else return Promise.resolve()
+                            })
+                            .catch((err: any) => {
+                                if (err.status) {
+                                    const content = `[ ${err.status} ] ${err.statusText}`
+                                    MiModal.error({ content })
+                                    return Promise.reject(content)
+                                } else return Promise.reject(err)
+                            })
                     } else return Promise.resolve()
                 }
             }
@@ -83,17 +93,20 @@ export default defineComponent({
                 } else {
                     if (props.emailVerifyAction) {
                         return await $request[props.emailVerifyMethod](props.emailVerifyAction, {
-                            value, binding: props.binding
-                        }).then((res: any) => {
-                            if (res.ret.code !== 200) return Promise.reject(res.ret.message)
-                            else return Promise.resolve()
-                        }).catch((err: any) => {
-                            if (err.status) {
-                                const content = `[ ${err.status} ] ${err.statusText}`
-                                MiModal.error({content})
-                                return Promise.reject(content)
-                            } else return Promise.reject(err)
+                            value,
+                            binding: props.binding
                         })
+                            .then((res: any) => {
+                                if (res.ret.code !== 200) return Promise.reject(res.ret.message)
+                                else return Promise.resolve()
+                            })
+                            .catch((err: any) => {
+                                if (err.status) {
+                                    const content = `[ ${err.status} ] ${err.statusText}`
+                                    MiModal.error({ content })
+                                    return Promise.reject(content)
+                                } else return Promise.reject(err)
+                            })
                     } else return Promise.resolve()
                 }
             }
@@ -133,7 +146,7 @@ export default defineComponent({
                             trigger: props.emailVerifyAction ? 'blur' : 'change'
                         }
                     ],
-                    captcha: [{required: true, validator: checkCaptcha}]
+                    captcha: [{ required: true, validator: checkCaptcha }]
                 }
             }
         })
@@ -153,48 +166,55 @@ export default defineComponent({
                 params.loading = false
                 params.passwordManualVerify = false
             }
-            formRef.value.validate().then(() => {
-                if (
-                    !params.form.validate.captcha ||
-                    (params.form.validate.captcha && params.captcha)
-                ) {
-                    api.register = props.action
-                    params.form.validate.url = api.register
-                    if (typeof props.action === 'string') {
-                        store.dispatch('passport/register', params.form.validate).then((res: any) => {
-                            reset()
-                            if (
-                                props.onAfterRegister &&
-                                typeof props.onAfterRegister === 'function'
-                            ) {
-                                // custom
-                                props.onAfterRegister(res)
-                            } else {
-                                if (res.ret.code === 200) {
-                                    $storage.set($g.caches.storages.email, params.form.validate.email)
-                                    if (props.redirectTo) {
-                                        if ($g.regExp.url.test(props.redirectTo)) {
-                                            window.location.href = props.redirectTo
-                                        } else router.push({path: '/'})
+            formRef.value
+                .validate()
+                .then(() => {
+                    if (
+                        !params.form.validate.captcha ||
+                        (params.form.validate.captcha && params.captcha)
+                    ) {
+                        api.register = props.action
+                        params.form.validate.url = api.register
+                        if (typeof props.action === 'string') {
+                            store
+                                .dispatch('passport/register', params.form.validate)
+                                .then((res: any) => {
+                                    reset()
+                                    if (
+                                        props.onAfterRegister &&
+                                        typeof props.onAfterRegister === 'function'
+                                    ) {
+                                        // custom
+                                        props.onAfterRegister(res)
+                                    } else {
+                                        if (res.ret.code === 200) {
+                                            $storage.set(
+                                                $g.caches.storages.email,
+                                                params.form.validate.email
+                                            )
+                                            if (props.redirectTo) {
+                                                if ($g.regExp.url.test(props.redirectTo)) {
+                                                    window.location.href = props.redirectTo
+                                                } else router.push({ path: '/' })
+                                            }
+                                        } else MiModal.error(res.ret.message)
                                     }
-                                } else MiModal.error(res.ret.message)
-                            }
-                        }).catch((err: any) => {
+                                })
+                                .catch((err: any) => {
+                                    reset()
+                                    MiModal.error(err.message)
+                                })
+                        } else if (typeof props.action === 'function') {
                             reset()
-                            MiModal.error(err.message)
-                        })
-                    } else if (typeof props.action === 'function') {
-                        reset()
-                        props.action(params.form.validate)
-                    }
-                } else reset()
-            }).catch(() => reset())
+                            props.action(params.form.validate)
+                        }
+                    } else reset()
+                })
+                .catch(() => reset())
         }
 
         const renderMask = () => {
-            return isMobile.value ? null : (
-                <div class={`${prefixCls}-mask`} />
-            )
+            return isMobile.value ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -202,7 +222,7 @@ export default defineComponent({
                 <div class={`${prefixCls}-title`}>
                     <span innerHTML={props.title ?? $g.site} />
                     <sup>
-                        <RouterLink to={{path: '/'}}>
+                        <RouterLink to={{ path: '/' }}>
                             <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
                         </RouterLink>
                     </sup>
@@ -213,57 +233,58 @@ export default defineComponent({
         const renderUserName = () => {
             const content = renderUserNameTip()
             const defaultInput = (
-                <Input prefix={createVNode(UserOutlined)}
+                <Input
+                    prefix={createVNode(UserOutlined)}
                     v-model:value={params.form.validate.username}
                     maxlength={16}
                     autocomplete="off"
-                    placeholder={t('passport.username')} />
+                    placeholder={t('passport.username')}
+                />
             )
             let template = defaultInput
             if (content) {
                 template = (
-                    <Popover placement="top"
-                        trigger={['focus']}
-                        content={content}>
+                    <Popover placement="top" trigger={['focus']} content={content}>
                         {defaultInput}
                     </Popover>
                 )
             }
-            return (
-                <Form.Item name="username">
-                    {template}
-                </Form.Item>
-            )
+            return <Form.Item name="username">{template}</Form.Item>
         }
 
         const renderUserNameTip = () => {
             const cls = `${prefixCls}-register-tips`
-            return getPropSlot(slots, props, 'usernameTip') ?? (
-                <div class={`${cls}${isMobile.value ? `${cls}-mobile` : ''}`}>
-                    <p innerHTML={t('passport.register.tips.special')} />
-                    <p innerHTML={t('passport.register.tips.structure')} />
-                    <p innerHTML={t('passport.register.tips.start')} />
-                    <p innerHTML={t('passport.register.tips.length')} />
-                </div>
+            return (
+                getPropSlot(slots, props, 'usernameTip') ?? (
+                    <div class={`${cls}${isMobile.value ? `${cls}-mobile` : ''}`}>
+                        <p innerHTML={t('passport.register.tips.special')} />
+                        <p innerHTML={t('passport.register.tips.structure')} />
+                        <p innerHTML={t('passport.register.tips.start')} />
+                        <p innerHTML={t('passport.register.tips.length')} />
+                    </div>
+                )
             )
         }
 
         const renderEmail = () => {
             return (
                 <Form.Item name="email">
-                    <Input type="email"
+                    <Input
+                        type="email"
                         prefix={createVNode(MailOutlined)}
                         v-model:value={params.form.validate.email}
                         maxlength={256}
                         autocomplete="off"
-                        placeholder={t('passport.email')} />
+                        placeholder={t('passport.email')}
+                    />
                 </Form.Item>
             )
         }
 
         const renderPassword = () => {
             return (
-                <MiPassword repeat={props.passwordRepeat}
+                <MiPassword
+                    repeat={props.passwordRepeat}
                     manualVerify={params.passwordManualVerify}
                     v-model:value={params.form.validate.password}
                     v-model:repeatValue={params.form.validate.repeat}
@@ -271,14 +292,16 @@ export default defineComponent({
                     maxLength={props.passwordMaxLength}
                     complexity={props.passwordComplexity}
                     complexityTip={props.passwordComplexityTip}
-                    level={props.passwordLevel} />
+                    level={props.passwordLevel}
+                />
             )
         }
 
         const renderCaptcha = () => {
             return props.openCaptcha ? (
                 <Form.Item name="captcha">
-                    <MiCaptcha width="100%"
+                    <MiCaptcha
+                        width="100%"
                         radius={props.captchaRadius}
                         image={props.captchaImage}
                         bgColor={props.captchaBackground}
@@ -293,7 +316,8 @@ export default defineComponent({
                         verifyAction={props.captchaVerifyAction}
                         onInit={props.onCaptchaInit}
                         onChecked={props.onCaptchaChecked}
-                        onSuccess={captchaVerify} />
+                        onSuccess={captchaVerify}
+                    />
                 </Form.Item>
             ) : null
         }
@@ -301,10 +325,10 @@ export default defineComponent({
         const renderButton = () => {
             const cls = `${prefixCls}-submit`
             const login = isMobile.value ? (
-                <Button size="large"
-                    class={`${cls} ${cls}-register`}>
-                    <RouterLink to={{path: 'register'}}>
-                        {t('passport.has-account')}{t('passport.register.sign')}
+                <Button size="large" class={`${cls} ${cls}-register`}>
+                    <RouterLink to={{ path: 'register' }}>
+                        {t('passport.has-account')}
+                        {t('passport.register.sign')}
                     </RouterLink>
                 </Button>
             ) : null
@@ -320,23 +344,19 @@ export default defineComponent({
 
         const renderSocialiteRegister = () => {
             const link = !props.loginLink ? (
-                <RouterLink to={{path: 'login'}}>
-                    {t('passport.login.title')}
-                </RouterLink>
+                <RouterLink to={{ path: 'login' }}>{t('passport.login.title')}</RouterLink>
             ) : (
                 <a href={props.loginLink} innerHTML={t('passport.login.title')} />
             )
             const cls = `${prefixCls}-socialite`
             return (
                 <Form.Item class={`${cls}`}>
-                    {
-                        !isMobile.value ? (
-                            <div class={`${cls}-link`}>
-                                {t('passport.has-account')}
-                                {link}
-                            </div>
-                        ) : null
-                    }
+                    {!isMobile.value ? (
+                        <div class={`${cls}-link`}>
+                            {t('passport.has-account')}
+                            {link}
+                        </div>
+                    ) : null}
                     <MiPassportSocialite />
                 </Form.Item>
             )
@@ -346,7 +366,8 @@ export default defineComponent({
             const cls = getPrefixCls('form')
             return (
                 <div class={`${prefixCls}-form`}>
-                    <Form layout="vertical"
+                    <Form
+                        layout="vertical"
                         class={cls}
                         ref={formRef}
                         model={params.form.validate}
@@ -363,18 +384,19 @@ export default defineComponent({
         }
 
         return () => (
-            <div class={`${prefixCls}${isMobile.value ? `${prefixCls}-mobile` : ''}`}
+            <div
+                class={`${prefixCls}${isMobile.value ? `${prefixCls}-mobile` : ''}`}
                 style={{
                     backgroundImage: `url(${props.background ?? $g.background.default})`
                 }}>
-                    <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
-                        <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
-                            {renderMask()}
-                            {renderTitle()}
-                            {getPropSlot(slots, props, 'content') ?? renderForm()}
-                        </Col>
-                    </Row>
-                    {getPropSlot(slots, props, 'footer') ?? <MiLayout.Footer />}
+                <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
+                    <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
+                        {renderMask()}
+                        {renderTitle()}
+                        {getPropSlot(slots, props, 'content') ?? renderForm()}
+                    </Col>
+                </Row>
+                {getPropSlot(slots, props, 'footer') ?? <MiLayout.Footer />}
             </div>
         )
     }

@@ -93,10 +93,15 @@ const defaultConfig = {
 }
 
 const mergeConfig = (config: string | {}, type: string) => {
-    if (typeof config === 'string') config = {content: config}
-    return Object.assign({}, defaultConfig, {
-        class: `${prefixCls}-${type}`
-    }, config)
+    if (typeof config === 'string') config = { content: config }
+    return Object.assign(
+        {},
+        defaultConfig,
+        {
+            class: `${prefixCls}-${type}`
+        },
+        config
+    )
 }
 
 Modal.info = (config: string | {}) => {
@@ -132,12 +137,13 @@ Modal.destroyAll = () => {
     AntModal.destroyAll()
 }
 
-export default Modal as typeof Modal & Plugin & {
-    readonly info: ModalFunc,
-    readonly success: ModalFunc,
-    readonly error: ModalFunc,
-    readonly warn: ModalFunc,
-    readonly warning: ModalFunc,
-    readonly confirm: ModalFunc,
-    readonly destroyAll: ModalFunc
-}
+export default Modal as typeof Modal &
+    Plugin & {
+        readonly info: ModalFunc
+        readonly success: ModalFunc
+        readonly error: ModalFunc
+        readonly warn: ModalFunc
+        readonly warning: ModalFunc
+        readonly confirm: ModalFunc
+        readonly destroyAll: ModalFunc
+    }

@@ -118,10 +118,10 @@ const initProps = <T>(
         [K in keyof T]?: T[K] extends VueTypeValidableDef<infer U>
             ? U
             : T[K] extends VueTypeDef<infer U>
-                ? U
-                : T[K] extends { type: PropType<infer U> }
-                    ? U
-                    : any
+            ? U
+            : T[K] extends { type: PropType<infer U> }
+            ? U
+            : any
     }
 ): T => {
     const propTypes: T = { ...types }

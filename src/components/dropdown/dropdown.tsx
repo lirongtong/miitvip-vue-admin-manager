@@ -1,4 +1,4 @@
-import { defineComponent, watch } from 'vue'
+import { defineComponent, isVNode, watch, h } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
 import { Dropdown, Avatar, Menu } from 'ant-design-vue'
@@ -68,8 +68,9 @@ export default defineComponent({
         }
 
         const getTitle = () => {
+            const title = getPropSlot(slots, props, 'title')
             return (
-                getPropSlot(slots, props, 'title') ?? (
+                title ? (isVNode(title) ? title : h(title)) : (
                     <div class={prefixCls}>
                         <Avatar
                             class={`${prefixCls}-avatar`}

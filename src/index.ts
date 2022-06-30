@@ -22,6 +22,7 @@ import { default as Modal } from './components/modal'
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
 import { default as Forgot } from './components/forgot'
+import { default as History } from './components/history'
 
 const components = [
     i18n,
@@ -43,7 +44,8 @@ const components = [
     Modal,
     Login,
     Register,
-    Forgot
+    Forgot,
+    History
 ]
 
 let _init = false
@@ -81,7 +83,8 @@ export {
     Modal,
     Login,
     Register,
-    Forgot
+    Forgot,
+    History
 }
 
 export default {

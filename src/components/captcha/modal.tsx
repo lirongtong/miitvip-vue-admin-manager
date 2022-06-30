@@ -430,14 +430,16 @@ export default defineComponent({
                     await $request[props.verifyMethod.toLowerCase()](
                         props.verifyAction,
                         props.verifyParams
-                    ).then((res: any) => {
-                        if (res.ret.code === 200) {
-                            params.check.correct = true
-                            succcess(res.data)
-                        } else error(res.ret.message)
-                    }).catch((err: any) => {
-                        error(err.message)
-                    })
+                    )
+                        .then((res: any) => {
+                            if (res.ret.code === 200) {
+                                params.check.correct = true
+                                succcess(res.data)
+                            } else error(res.ret.message)
+                        })
+                        .catch((err: any) => {
+                            error(err.message)
+                        })
                 } else {
                     params.check.correct = true
                     succcess()

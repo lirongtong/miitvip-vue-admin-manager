@@ -1,0 +1,12 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-tooltip: ant-tooltip;
+.@{ant-tooltip} {
+    z-index: @mi-z-index-top;
+
+    &-inner {
+        .border-radius(8);
+        .linear-gradient-background();
+    }
+}

@@ -15,6 +15,7 @@ export const layoutProps = () => ({
     menuClassName: PropTypes.string,
     headerClassName: PropTypes.string,
     contentAnimation: PropTypes.string.def('page-slide'),
+    showRouteHistory: PropTypes.bool.def(true),
     side: PropTypes.any,
     header: PropTypes.any,
     headerExtra: PropTypes.any,
@@ -62,7 +63,9 @@ const MiLayout = defineComponent({
                     {getSide()}
                     <Layout class={`${prefixCls}`}>
                         {getHeader()}
-                        <MiLayoutContent animation={props.contentAnimation} />
+                        <MiLayoutContent
+                            animation={props.contentAnimation}
+                            showRouteHistory={props.showRouteHistory} />
                         {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
                     </Layout>
                 </>

@@ -9,7 +9,6 @@ import { $g } from '../../utils/global'
 import { $request } from '../../utils/request'
 import MiCaptchaModal from './modal'
 
-
 const POWERED = 'Powered By makeit.vip'
 const AVATAR = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png'
 const TARGET = 'https://admin.makeit.vip/components/captcha'
@@ -89,11 +88,11 @@ export default defineComponent({
                 show: false,
                 pos: {}
             },
-            verifyParams: {...props.verifyParams}
+            verifyParams: { ...props.verifyParams }
         })
 
         onBeforeUnmount(() => {
-            closeCaptchaModal({status: 'close'})
+            closeCaptchaModal({ status: 'close' })
             $tools.off(window, 'resize', resize)
         })
 
@@ -113,18 +112,16 @@ export default defineComponent({
                     afterInit()
                     props.initAction()
                 } else {
-                    $request[props.initMethod.toLowerCase()](
-                        props.initAction,
-                        props.initParams
-                    )
-                    .then((res: any) => {
-                        afterInit()
-                        if (res?.data?.key && !params.verifyParams.key) params.verifyParams.key = res.data.key
-                        emit('init', res)
-                    })
-                    .catch(() => {
-                        afterInit(t('init-error'))
-                    })
+                    $request[props.initMethod.toLowerCase()](props.initAction, props.initParams)
+                        .then((res: any) => {
+                            afterInit()
+                            if (res?.data?.key && !params.verifyParams.key)
+                                params.verifyParams.key = res.data.key
+                            emit('init', res)
+                        })
+                        .catch(() => {
+                            afterInit(t('init-error'))
+                        })
                 }
             } else afterInit()
         }
@@ -135,19 +132,16 @@ export default defineComponent({
             params.status.ready = false
             params.status.scanning = true
             if (props.checkAction) {
-                $request[props.checkMethod.toLowerCase()](
-                    props.checkAction,
-                    props.checkParams
-                )
-                .then((res: any) => {
-                    if (res.data.pass) params.pass = true
-                    else initCaptchaModal()
-                    emit('checked', res)
-                })
-                .catch(() => {
-                    params.pass = false
-                    initCaptchaModal()
-                })
+                $request[props.checkMethod.toLowerCase()](props.checkAction, props.checkParams)
+                    .then((res: any) => {
+                        if (res.data.pass) params.pass = true
+                        else initCaptchaModal()
+                        emit('checked', res)
+                    })
+                    .catch(() => {
+                        params.pass = false
+                        initCaptchaModal()
+                    })
             } else initCaptchaModal()
         }
 
@@ -338,7 +332,11 @@ export default defineComponent({
         }
 
         const renderRadarBeing = () => {
-            return params.status.being ? <div class={`${prefixCls}-radar-being`} style={{color: props.textColor ?? null}}>···</div> : null
+            return params.status.being ? (
+                <div class={`${prefixCls}-radar-being`} style={{ color: props.textColor ?? null }}>
+                    ···
+                </div>
+            ) : null
         }
 
         const renderRadarSuccess = () => {
@@ -360,7 +358,10 @@ export default defineComponent({
             const cls = `${radarTipCls}${errCls}`
             const style = {
                 height: $tools.convert2Rem(props.height),
-                color: params.status.success && props.themeColor ? props.themeColor : (props.textColor ?? null)
+                color:
+                    params.status.success && props.themeColor
+                        ? props.themeColor
+                        : props.textColor ?? null
             }
             return <div class={cls} style={style} innerHTML={params.tip} />
         }

@@ -15,6 +15,7 @@ import {
 import { mutations } from '../../store/types'
 import MiDropdown from '../dropdown'
 import MiNotice from '../notice'
+import MiBreadcrumb from './breadcrumb'
 import screenfull from 'screenfull'
 
 export const layoutHeaderProps = () => ({
@@ -155,6 +156,9 @@ export default defineComponent({
                         onClick={setCollapsed}>
                         {getStretch()}
                     </div>
+                    <div class={`${headerCls.trigger}`}>
+                        <MiBreadcrumb />
+                    </div>
                 </div>
                 {/* right */}
                 <div class={headerCls.right}>
@@ -167,7 +171,9 @@ export default defineComponent({
                     </div>
                     <div class={triggerCls}>{getPalette()}</div>
                     <div class={triggerCls}>
-                        {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown class={`${prefixCls}-dropdown`} />}
+                        {getPropSlot(slots, props, 'dropdown') ?? (
+                            <MiDropdown class={`${prefixCls}-dropdown`} />
+                        )}
                     </div>
                 </div>
             </Layout.Header>

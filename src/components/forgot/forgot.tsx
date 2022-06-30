@@ -17,16 +17,20 @@ import PropTypes from '../_utils/props-types'
 export default defineComponent({
     name: 'MiForgot',
     inheritAttrs: false,
-    props: Object.assign({...passportProps()}, {
-        sendCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-        sendCodeMethod: PropTypes.string.def('post'),
-        checkCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-        checkCodeMethod: PropTypes.string.def('post'),
-        resetPasswordAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-        resetPasswordMethod: PropTypes.string.def('put')
-    }),
+    props: Object.assign(
+        { ...passportProps() },
+        {
+            sendCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+            sendCodeMethod: PropTypes.string.def('post'),
+            checkCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+            checkCodeMethod: PropTypes.string.def('post'),
+            resetPasswordAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+            resetPasswordMethod: PropTypes.string.def('put')
+        }
+    ),
+    emits: ['captchaSuccess'],
     slots: ['content', 'footer'],
-    setup(props, {slots, emit}) {
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const store = useStore()
@@ -58,9 +62,9 @@ export default defineComponent({
                     code: null
                 },
                 rules: {
-                    username: [{required: true, message: t('passport.username')}],
-                    code: [{required: true, validator: validateCode}],
-                    captcha: [{required: true, validator: validateCaptcha}]
+                    username: [{ required: true, message: t('passport.username') }],
+                    code: [{ required: true, validator: validateCode }],
+                    captcha: [{ required: true, validator: validateCaptcha }]
                 }
             }
         })
@@ -75,39 +79,44 @@ export default defineComponent({
         const nextStep = () => {
             if (params.loading) return
             params.loading = true
-            formRef.value.validate().then(() => {
-                if (params.sent) {
-                    // check code
-                    $request[props.checkCodeMethod](props.checkCodeAction, params.form.validate)
-                    .then(() => {
-                        
-                    })
-                } else {
-                    // send code
-                    if (typeof props.sendCodeAction === 'string') {
-                        $request[props.sendCodeMethod](props.sendCodeAction, params.form.validate)
-                        .then((res: any) => {
-                            params.loading = false
-                            if (res?.ret?.code === 200) {
-                                params.sent = true
-                                params.tip = t('passport.sent')
-                            } else MiModal.error(res?.ret?.mesasge)
-                        }).catch((err: any) => {
-                            params.loading = false
-                            MiModal.error(err.message)
-                        })
-                    } else if (typeof props.sendCodeAction === 'function') {
-                        props.sendCodeAction(params.form.validate)
+            formRef.value
+                .validate()
+                .then(() => {
+                    if (params.sent) {
+                        // check code
+                        $request[props.checkCodeMethod](
+                            props.checkCodeAction,
+                            params.form.validate
+                        ).then(() => {})
+                    } else {
+                        // send code
+                        if (typeof props.sendCodeAction === 'string') {
+                            $request[props.sendCodeMethod](
+                                props.sendCodeAction,
+                                params.form.validate
+                            )
+                                .then((res: any) => {
+                                    params.loading = false
+                                    if (res?.ret?.code === 200) {
+                                        params.sent = true
+                                        params.tip = t('passport.sent')
+                                    } else MiModal.error(res?.ret?.mesasge)
+                                })
+                                .catch((err: any) => {
+                                    params.loading = false
+                                    MiModal.error(err.message)
+                                })
+                        } else if (typeof props.sendCodeAction === 'function') {
+                            props.sendCodeAction(params.form.validate)
+                        }
+                        params.sent = true
                     }
-                    params.sent = true
-                }
-            }).catch(() => params.loading = false)
+                })
+                .catch(() => (params.loading = false))
         }
 
         const renderMask = () => {
-            return isMobile.value ? null : (
-                <div class={`${prefixCls}-mask`} />
-            )
+            return isMobile.value ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -115,7 +124,7 @@ export default defineComponent({
                 <div class={`${prefixCls}-title`}>
                     <span innerHTML={props.title ?? $g.site} />
                     <sup>
-                        <RouterLink to={{path: '/'}}>
+                        <RouterLink to={{ path: '/' }}>
                             <img src={$g.avatar} class={`${prefixCls}-logo`} alt={$g.powered} />
                         </RouterLink>
                     </sup>
@@ -126,11 +135,13 @@ export default defineComponent({
         const renderUserName = () => {
             return (
                 <Form.Item name="username">
-                    <Input prefix={createVNode(UserOutlined)}
+                    <Input
+                        prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
                         maxlength={16}
                         autocomplete="off"
-                        placeholder={t('passport.username')} />
+                        placeholder={t('passport.username')}
+                    />
                 </Form.Item>
             )
         }
@@ -139,11 +150,13 @@ export default defineComponent({
             return params.sent ? (
                 <Transition name={anim} appear={true}>
                     <Form.Item name="code" class="mi-anim" v-show={params.sent}>
-                        <Input prefix={createVNode(PropertySafetyOutlined)}
+                        <Input
+                            prefix={createVNode(PropertySafetyOutlined)}
                             v-model:value={params.form.validate.code}
                             maxlength={16}
                             autocomplete="off"
-                            placeholder={t('passport.code')} />
+                            placeholder={t('passport.code')}
+                        />
                     </Form.Item>
                 </Transition>
             ) : null
@@ -152,7 +165,8 @@ export default defineComponent({
         const renderCaptcha = () => {
             return props.openCaptcha ? (
                 <Form.Item name="captcha">
-                    <MiCaptcha width="100%"
+                    <MiCaptcha
+                        width="100%"
                         radius={props.captchaRadius}
                         image={props.captchaImage}
                         bgColor={props.captchaBackground}
@@ -167,7 +181,8 @@ export default defineComponent({
                         verifyAction={props.captchaVerifyAction}
                         onInit={props.onCaptchaInit}
                         onChecked={props.onCaptchaChecked}
-                        onSuccess={captchaVerify} />
+                        onSuccess={captchaVerify}
+                    />
                 </Form.Item>
             ) : null
         }
@@ -187,7 +202,8 @@ export default defineComponent({
             const cls = getPrefixCls('form')
             return (
                 <div class={`${prefixCls}-form`}>
-                    <Form layout="vertical"
+                    <Form
+                        layout="vertical"
                         class={cls}
                         ref={formRef}
                         model={params.form.validate}
@@ -202,10 +218,11 @@ export default defineComponent({
         }
 
         return () => (
-            <div class={`${prefixCls}${isMobile.value ? `${prefixCls}-mobile` : ''}`}
-            style={{
-                backgroundImage: `url(${props.background ?? $g.background.default})`
-            }}>
+            <div
+                class={`${prefixCls}${isMobile.value ? `${prefixCls}-mobile` : ''}`}
+                style={{
+                    backgroundImage: `url(${props.background ?? $g.background.default})`
+                }}>
                 <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
                     <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                         {renderMask()}
