@@ -108,7 +108,7 @@ export default defineComponent({
                     params.scroll = max > 0
                     params.scrollOffset = params.scroll ? 96 : 48
                     params.middle = Math.floor((listWidth - (params.scrollInit ? 0 : params.scrollOffset)) / 2)
-                    if (params.scroll) params.max = itemsWidth - listRef.value.clientWidth + (params.scrollInit ? 0 : params.scrollOffset)
+                    if (params.scroll) params.max = itemsWidth - listRef.value.clientWidth + (params.scrollInit ? 8 : params.scrollOffset)
                     else params.max = max > 0 ? max : 0
                     if (!params.scrollInit) params.scrollInit = true
                 }
