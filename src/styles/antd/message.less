@@ -1,0 +1,13 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-message: ant-message;
+.@{ant-message} {
+    z-index: @mi-z-index-top;
+
+    &-notice-content {
+        .linear-gradient-background();
+        color: var(--mi-theme, @mi-theme);
+        .border-radius(42);
+    }
+}

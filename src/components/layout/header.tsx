@@ -1,7 +1,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-import { Layout, Popover, Radio } from 'ant-design-vue'
+import { Layout, Popover, Radio, message } from 'ant-design-vue'
 import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
@@ -125,13 +125,13 @@ export default defineComponent({
                     full.value = !full.value
                     if (full.value) {
                         screenfull.request(elem)
-                        screenfull.on('error', () => console.log(t('screenfull.error')))
+                        screenfull.on('error', () => message.error(t('screenfull.error')))
                     } else screenfull.exit()
                     screenfull.onchange(() => {
                         full.value = screenfull.isFullscreen
                     })
-                } else console.log(t('screenfull.capture'))
-            } else console.log(t('screenfull.support'))
+                } else message.warning(t('screenfull.capture'))
+            } else message.warning(t('screenfull.support'))
         }
 
         const setCollapsed = () => {
@@ -143,6 +143,8 @@ export default defineComponent({
                 store.commit(`layout/${mutations.layout.collapsed}`, collapse)
             }
         }
+
+        const triggerCls = `${headerCls.trigger} ${headerCls.trigger}-min`
 
         return () => (
             <Layout.Header class={`${prefixCls}`} {...attrs}>
@@ -157,19 +159,15 @@ export default defineComponent({
                 {/* right */}
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
-                        {getScreenfull() ?? null}
-                    </div>
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
+                    <div class={triggerCls}>{getScreenfull() ?? null}</div>
+                    <div class={triggerCls}>
                         {getPropSlot(slots, props, 'notice') ?? (
                             <MiNotice class={`${prefixCls}-notice`} />
                         )}
                     </div>
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
-                        {getPalette()}
-                    </div>
-                    <div class={`${headerCls.trigger} ${headerCls.trigger}-min`}>
-                        {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown />}
+                    <div class={triggerCls}>{getPalette()}</div>
+                    <div class={triggerCls}>
+                        {getPropSlot(slots, props, 'dropdown') ?? <MiDropdown class={`${prefixCls}-dropdown`} />}
                     </div>
                 </div>
             </Layout.Header>
