@@ -65,7 +65,8 @@ const MiLayout = defineComponent({
                         {getHeader()}
                         <MiLayoutContent
                             animation={props.contentAnimation}
-                            showRouteHistory={props.showRouteHistory} />
+                            showRouteHistory={props.showRouteHistory}
+                        />
                         {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
                     </Layout>
                 </>

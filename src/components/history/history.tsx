@@ -107,8 +107,14 @@ export default defineComponent({
                     const max = itemsWidth - listWidth
                     params.scroll = max > 0
                     params.scrollOffset = params.scroll ? 96 : 48
-                    params.middle = Math.floor((listWidth - (params.scrollInit ? 0 : params.scrollOffset)) / 2)
-                    if (params.scroll) params.max = itemsWidth - listRef.value.clientWidth + (params.scrollInit ? 8 : params.scrollOffset)
+                    params.middle = Math.floor(
+                        (listWidth - (params.scrollInit ? 0 : params.scrollOffset)) / 2
+                    )
+                    if (params.scroll)
+                        params.max =
+                            itemsWidth -
+                            listRef.value.clientWidth +
+                            (params.scrollInit ? 8 : params.scrollOffset)
                     else params.max = max > 0 ? max : 0
                     if (!params.scrollInit) params.scrollInit = true
                 }
@@ -123,7 +129,7 @@ export default defineComponent({
                     const offsetLeft = elem.offsetLeft + halfWidth
                     const diff = offsetLeft - params.middle
                     const offset = diff < 0 ? 0 : diff > params.max ? params.max : diff
-                    params.offset = - offset
+                    params.offset = -offset
                     params.active = item
                     params.current = item.name
                     if (route.path !== item.path) {
@@ -151,7 +157,7 @@ export default defineComponent({
             if (item.name === params.current) {
                 if (len > 1) {
                     params.active = prev ?? next ?? null
-                    params.current = prev ? prev.name : (next ? next.name : null)
+                    params.current = prev ? prev.name : next ? next.name : null
                     router.push({ path: params.active.path })
                 }
             }
@@ -216,12 +222,24 @@ export default defineComponent({
         }
 
         const renderBtn = (clickHandler: (...args: any) => any, type = 'prev') => {
-            const icon = type === 'prev'
-                ? <Tooltip title={t('page.prev')}><LeftOutlined /></Tooltip>
-                : <Tooltip title={t('page.next')}><RightOutlined /></Tooltip>
-            const disabled = type === 'prev'
-                ? params.offset === 0 ? ' disabled' : ''
-                : Math.abs(params.offset) >= params.max ? ' disabled' : ''
+            const icon =
+                type === 'prev' ? (
+                    <Tooltip title={t('page.prev')}>
+                        <LeftOutlined />
+                    </Tooltip>
+                ) : (
+                    <Tooltip title={t('page.next')}>
+                        <RightOutlined />
+                    </Tooltip>
+                )
+            const disabled =
+                type === 'prev'
+                    ? params.offset === 0
+                        ? ' disabled'
+                        : ''
+                    : Math.abs(params.offset) >= params.max
+                    ? ' disabled'
+                    : ''
             return (
                 <div class={`${prefixCls}-btn${disabled}`} onClick={clickHandler}>
                     {icon}
@@ -237,11 +255,14 @@ export default defineComponent({
                     const cls = `${prefixCls}-item${params.current === item.name ? ' active' : ''}`
                     items.push(
                         <Transition name={animation} appear={true}>
-                            <div class={cls}
-                                key={name}
-                                id={`${prefixCls}-item-${item.name}`}>
-                                <span innerHTML={item.title} onClick={() => redirectRouteHistory(item)} />
-                                <CloseOutlined onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)} />
+                            <div class={cls} key={name} id={`${prefixCls}-item-${item.name}`}>
+                                <span
+                                    innerHTML={item.title}
+                                    onClick={() => redirectRouteHistory(item)}
+                                />
+                                <CloseOutlined
+                                    onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)}
+                                />
                             </div>
                         </Transition>
                     )
@@ -249,9 +270,10 @@ export default defineComponent({
             }
             return (
                 <div class={`${prefixCls}-list`} ref={listRef}>
-                    <div class={`${prefixCls}-items`}
+                    <div
+                        class={`${prefixCls}-items`}
                         ref={itemsRef}
-                        style={{transform: `translateX(${$tools.convert2Rem(params.offset)})`}}>
+                        style={{ transform: `translateX(${$tools.convert2Rem(params.offset)})` }}>
                         {items}
                     </div>
                 </div>

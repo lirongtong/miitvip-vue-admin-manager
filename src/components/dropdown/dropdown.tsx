@@ -69,17 +69,21 @@ export default defineComponent({
 
         const getTitle = () => {
             const title = getPropSlot(slots, props, 'title')
-            return (
-                title ? (isVNode(title) ? title : h(title)) : (
-                    <div class={prefixCls}>
-                        <Avatar
-                            class={`${prefixCls}-avatar`}
-                            src={$g.avatar}
-                            alt={$g.powered}
-                            size="small"
-                        />
-                    </div>
+            return title ? (
+                isVNode(title) ? (
+                    title
+                ) : (
+                    h(title)
                 )
+            ) : (
+                <div class={prefixCls}>
+                    <Avatar
+                        class={`${prefixCls}-avatar`}
+                        src={$g.avatar}
+                        alt={$g.powered}
+                        size="small"
+                    />
+                </div>
             )
         }
 
