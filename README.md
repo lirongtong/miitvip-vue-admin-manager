@@ -78,7 +78,7 @@ app.mount('#app')
 
 ```vue
 <template>
-    <mi-layout></mi-layout>
+    <mi-layout />
 </template>
 ```
 
@@ -86,7 +86,7 @@ app.mount('#app')
 
 ```vue
 <template>
-    <mi-login :action="api.login"></mi-login>
+    <mi-login :action="api.login" />
 </template>
 ```
 
@@ -94,7 +94,7 @@ app.mount('#app')
 
 ```vue
 <template>
-    <mi-register :action="api.register"></mi-register>
+    <mi-register :action="api.register" />
 </template>
 ```
 
