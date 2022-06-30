@@ -350,10 +350,14 @@
                 padding-left: @mi-side-width-sm;
 
                 .@{mi-layout} {
-                    &-breadcrumb,
                     &-header {
                         left: @mi-side-width-sm;
                         width: calc(100% - @mi-side-width-sm - 2rem);
+                    }
+
+                    &-route-history {
+                        left: @mi-side-width-sm;
+                        width: calc(100% - @mi-side-width-sm);
                     }
                 }
             }

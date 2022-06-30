@@ -17,7 +17,7 @@ const ToolsFunctions = () => import('../views/tools/functions.vue')
 const Pages = () => import('@views/pages/index.vue')
 const PagesLogin = () => import('@views/pages/login.vue')
 const PagesRegister = () => import('@views/pages/register.vue')
-const PagesForgot = () => import('@views/password/forgot.vue')
+const PagesForgot = () => import('@views/pages/forgot.vue')
 const Components = () => import('@views/components/index.vue')
 const ComponentsLayout = () => import('@views/components/layout.vue')
 const ComponentsMenu = () => import('@views/components/menu.vue')
@@ -29,6 +29,7 @@ const ComponentsSearch = () => import('@views/components/search.vue')
 const ComponentsPassword = () => import('@views/components/password.vue')
 const ComponentsUpload = () => import('@views/components/upload.vue')
 const ComponentsAnchor = () => import('@views/components/anchor.vue')
+const ComponentsHistory = () => import('@views/components/history.vue')
 const Advanced = () => import('@views/advanced/index.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
@@ -156,6 +157,11 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             name: 'components-anchor',
             meta: {title: '锚点链接'},
             component: ComponentsAnchor
+        }, {
+            path: '/components/history',
+            name: 'components-history',
+            meta: {title: '历史路由'},
+            component: ComponentsHistory
         }]
     }, {
         path: '/advanced',

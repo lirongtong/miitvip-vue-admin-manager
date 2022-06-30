@@ -14,7 +14,7 @@ import {
     CrownOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, QuestionCircleOutlined,
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
-    CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled
+    CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined
 } from '@ant-design/icons-vue'
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
 vm.$g.menus.items = [{
@@ -205,6 +205,14 @@ vm.$g.menus.items = [{
             title: '下拉菜单',
             subTitle: 'Dropdown',
             icon: MenuOutlined
+        }
+    }, {
+        name: 'components-history',
+        path: '/components/history',
+        meta: {
+            title: '历史路由',
+            subTitle: 'Route History',
+            icon: RetweetOutlined
         }
     }]
 }, {
