@@ -51,4 +51,12 @@
     &-input:focus + .@{ant-checkbox}-inner {
         border-color: var(--mi-theme, @mi-theme);
     }
+
+    &-disabled {
+        .@{ant-checkbox} {
+            &-inner {
+                background: var(--mi-checkbox-disabled, @mi-checkbox-disabled) !important;
+            }
+        }
+    }
 }

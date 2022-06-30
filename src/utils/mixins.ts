@@ -8,6 +8,8 @@ import { useStore } from 'vuex'
 import { layout } from '../store/layout'
 import { passport } from '../store/passport'
 import { mutations } from './../store/types'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 /**
  * mixin.
@@ -21,11 +23,13 @@ export default {
             const store = useStore()
             const router = useRouter()
 
+            // 基础设定
             $tools.setTitle()
             $tools.setKeywords()
             $tools.setDescription()
             $cookie.set($g.caches.cookies.theme, $g.theme.active)
 
+            // 动态加载 vuex 模块
             try {
                 store.registerModule(['layout'], layout)
                 store.registerModule(['passport'], passport)
@@ -35,6 +39,7 @@ export default {
                         e
                 )
             }
+
             // 是否为移动端
             $g.isMobile = $tools.isMobile()
             store.commit(`layout/${mutations.layout.mobile}`)
@@ -116,6 +121,21 @@ export default {
                     }
                 }
             )
+
+            // 路由监听
+            NProgress.configure({
+                easing: 'ease',
+                speed: 1000,
+                showSpinner: false,
+                trickleSpeed: 200
+            })
+
+            router.beforeEach((_to, _from, next) => {
+                NProgress.start()
+                next()
+            })
+            router.afterEach(() => NProgress.done())
+
             _init = true
         }
     }

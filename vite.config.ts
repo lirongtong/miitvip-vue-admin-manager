@@ -35,7 +35,8 @@ export default defineConfig({
             'ant-design-vue',
             'axios',
             '@ant-design/icons-vue',
-            'vue-i18n'
+            'vue-i18n',
+            'nprogress'
         ]
     },
     server: {

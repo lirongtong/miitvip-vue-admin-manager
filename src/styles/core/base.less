@@ -83,3 +83,20 @@ pre {
 [class*=mi-] {
     box-sizing: border-box;
 }
+
+#nprogress {
+    .bar {
+        .linear-gradient-background-theme();
+        z-index: @mi-z-index-modal;
+        .border-radius(8);
+    }
+
+    .peg {
+        box-shadow: none;
+    }
+
+    .spinner-icon {
+        border-top-color: var(--mi-theme, @mi-theme);
+        border-left-color: var(--mi-theme, @mi-theme);
+    }
+}
