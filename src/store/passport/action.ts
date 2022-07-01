@@ -27,7 +27,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             $request
                 .post(url, data)
                 .then((res: any) => {
-                    if (res.ret.code === 200) {
+                    if (res?.ret?.code === 200) {
                         commit(mutations.passport.auto, data.remember ?? false)
                         dispatch('user', res.data)
                     }
@@ -45,12 +45,12 @@ export const actions: ActionTree<PassportState, RootState> = {
      * @param data
      */
     logout({ commit }, data: any) {
-        const url = data.url ?? api.logout
+        const url = data?.url ?? api.logout
         return new Promise((resolve, reject) => {
             $request
                 .get(url)
                 .then((res: any) => {
-                    if (res.ret.code === 200) commit(mutations.passport.reset)
+                    if (res?.ret?.code === 200) commit(mutations.passport.reset)
                     resolve(res)
                 })
                 .catch((err: any) => {
@@ -113,7 +113,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             $request
                 .post(url, data)
                 .then((res: any) => {
-                    if (res.ret.code === 200) {
+                    if (res?.ret?.code === 200) {
                         commit(mutations.passport.auto, true)
                         dispatch('user', res.data)
                     }
@@ -135,7 +135,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             $request
                 .post(data.url, { token: data.token })
                 .then((res: any) => {
-                    if (res.ret.code === 200) {
+                    if (res?.ret?.code === 200) {
                         commit(mutations.passport.auto, true)
                         dispatch('user', res.data)
                     }
@@ -160,7 +160,7 @@ export const actions: ActionTree<PassportState, RootState> = {
             $request
                 .post(url, data)
                 .then((res: any) => {
-                    if (res.ret.code === 200) {
+                    if (res?.ret?.code === 200) {
                         commit(mutations.passport.token.access, res.data.access_token)
                         commit(mutations.passport.token.refresh, res.data.refresh_token)
                     }

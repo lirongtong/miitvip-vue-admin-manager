@@ -1,8 +1,6 @@
 import { App, reactive } from 'vue'
 import {
     GithubOutlined,
-    AppstoreAddOutlined,
-    FireFilled,
     WeiboCircleOutlined,
     QqOutlined,
     GoogleOutlined
@@ -158,22 +156,7 @@ export const $g = reactive({
         accordion: true,
         collapsed: false,
         drawer: false,
-        dropdown: [
-            {
-                name: 'github',
-                title: 'Github',
-                path: 'https://github.com/lirongtong/miitvip-vue-admin-manager',
-                icon: GithubOutlined,
-                tag: { content: 'Hot' }
-            },
-            {
-                name: 'npmjs',
-                title: 'NpmJS',
-                path: 'https://www.npmjs.com/package/makeit-admin-pro',
-                icon: AppstoreAddOutlined,
-                tag: { icon: FireFilled }
-            }
-        ],
+        dropdown: [],
         relationshipChain: [],
         width: 256
     },

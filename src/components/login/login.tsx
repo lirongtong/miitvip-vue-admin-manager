@@ -1,8 +1,7 @@
 import { defineComponent, computed, ref, reactive, createVNode } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
-
-import { Form, Row, Col, Input, Checkbox, Button } from 'ant-design-vue'
+import { Form, Row, Col, Input, Checkbox, Button, message } from 'ant-design-vue'
 import {
     UserOutlined,
     EyeInvisibleOutlined,
@@ -21,7 +20,6 @@ import PropTypes from '../_utils/props-types'
 import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
 import MiPassportSocialite from './socialite'
-import MiModal from '../modal'
 
 const Login = defineComponent({
     name: 'MiLogin',
@@ -63,7 +61,7 @@ const Login = defineComponent({
                     password: '',
                     remember: false,
                     captcha:
-                        props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction),
+                        props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction) ? true : false,
                     cuid: null,
                     url: null
                 },
@@ -116,7 +114,7 @@ const Login = defineComponent({
                                                     window.location.href = redirect
                                                 else router.push({ path: redirect })
                                             } else router.push({ path: '/' })
-                                        } else MiModal.error(res.ret.message)
+                                        } else message.error(res.ret.message)
                                     }
                                 })
                                 .catch(() => (params.loading = false))
@@ -324,7 +322,7 @@ const Login = defineComponent({
                         if (res?.ret?.code === 200) router.push({ path: '/' })
                         else router.push({ path: '/login' })
                     })
-                    .catch((err: any) => MiModal.error(err.message))
+                    .catch((err: any) => message.error(err.message))
             }
             return props.socialiteLogin ? null : (
                 <div

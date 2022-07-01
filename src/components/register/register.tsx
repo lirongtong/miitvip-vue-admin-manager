@@ -1,7 +1,7 @@
 import { defineComponent, computed, ref, createVNode, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { RouterLink, useRouter } from 'vue-router'
-import { Form, Row, Col, Button, Popover, Input } from 'ant-design-vue'
+import { Form, Row, Col, Button, Popover, Input, message } from 'ant-design-vue'
 import { MailOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { passportProps } from '../_utils/props-passport'
 import { getPrefixCls, tuple, getPropSlot } from '../_utils/props-tools'
@@ -13,7 +13,6 @@ import { $request } from '../../utils/request'
 import { $storage } from '../../utils/storage'
 import PropTypes from '../_utils/props-types'
 import MiLayout from '../layout'
-import MiModal from '../modal'
 import MiPassword from '../password'
 import MiCaptcha from '../captcha'
 import MiPassportSocialite from '../login/socialite'
@@ -194,12 +193,12 @@ export default defineComponent({
                                                     window.location.href = props.redirectTo
                                                 } else router.push({ path: '/' })
                                             } router.push({ path: '/' })
-                                        } else MiModal.error(res.ret.message)
+                                        } else message.error(res.ret.message)
                                     }
                                 })
                                 .catch((err: any) => {
                                     reset()
-                                    MiModal.error(err.message)
+                                    message.error(err.message)
                                 })
                         } else if (typeof props.action === 'function') {
                             reset()

@@ -8,15 +8,23 @@
 
 <script setup>
 import { inject, createVNode, getCurrentInstance } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
 import {
     DashboardOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined,
     LayoutOutlined, LoginOutlined, ScheduleOutlined, ThunderboltOutlined,
     CrownOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, QuestionCircleOutlined,
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
-    CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined
+    CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined,
+    GithubOutlined, LogoutOutlined
 } from '@ant-design/icons-vue'
+
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
+const store = useStore()
+const router = useRouter()
+
 vm.$g.menus.items = [{
     name: 'dashboard',
     path: '/dashboard',
@@ -224,6 +232,38 @@ vm.$g.menus.items = [{
         icon: GooglePlusOutlined
     }
 }]
+
+vm.$g.menus.dropdown = [{
+    name: 'github',
+    title: 'Github',
+    path: 'https://github.com/lirongtong/miitvip-vue-admin-manager',
+    icon: GithubOutlined,
+    tag: { content: 'Hot' }
+},
+{
+    name: 'npmjs',
+    title: 'NpmJS',
+    path: 'https://www.npmjs.com/package/makeit-admin-pro',
+    icon: AppstoreAddOutlined,
+    tag: { icon: FireFilled }
+},
+{
+    name: 'logout',
+    title: '退出登录',
+    icon: LogoutOutlined,
+    callback: () => {
+        vm.$modal.confirm({
+            content: '确定退出当前系统 ? ',
+            onOk: () => {
+                store.dispatch('passport/logout').then((res) => {
+                    if (res?.ret?.code === 200) router.push({path: '/login'})
+                    else message.error(res?.ret?.message)
+                }).catch((err) => message.error(err.message))
+            }
+        })
+    }
+}]
+
 const searchData = [{
     title: '页面布局',
     content: '基于 Layout 组件的二次定制',

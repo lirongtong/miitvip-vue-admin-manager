@@ -57,7 +57,7 @@ export default defineComponent({
                     }
                 } else {
                     link = (
-                        <a onClick={(e) => (item.callback ? item.callback.call(e) : e)}>
+                        <a onClick={item.callback ? (evt) => item.callback(evt) : null}>
                             <MiDropdownItem item={item} />
                         </a>
                     )
