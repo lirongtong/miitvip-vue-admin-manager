@@ -29,7 +29,7 @@ const Login = defineComponent({
     props: Object.assign(
         { ...passportProps() },
         {
-            action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+            action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
             registerLink: PropTypes.string,
             forgetPasswordLink: PropTypes.string,
             onAfterLogin: PropTypes.func,
@@ -93,9 +93,9 @@ const Login = defineComponent({
                         !params.form.validate.captcha ||
                         (params.form.validate.captcha && params.captcha)
                     ) {
-                        api.login = props.action
-                        params.form.validate.url = api.login
                         if (typeof props.action === 'string') {
+                            api.login = props.action
+                            params.form.validate.url = api.login
                             store
                                 .dispatch('passport/login', params.form.validate)
                                 .then((res: any) => {
@@ -321,10 +321,10 @@ const Login = defineComponent({
                 store
                     .dispatch('passport/authorize', { url, token })
                     .then((res: any) => {
-                        if (res.ret.code === 200) router.push({ path: '/' })
+                        if (res?.ret?.code === 200) router.push({ path: '/' })
                         else router.push({ path: '/login' })
                     })
-                    .catch((err: any) => MiModal.$error(err.message))
+                    .catch((err: any) => MiModal.error(err.message))
             }
             return props.socialiteLogin ? null : (
                 <div

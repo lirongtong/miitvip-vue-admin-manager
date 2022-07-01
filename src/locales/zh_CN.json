@@ -111,7 +111,7 @@
         "login": {
             "title": "登录",
             "sign": "立即注册",
-            "socialite": "其它登录方式"
+            "socialite": "快捷登录方式"
         },
         "register": {
             "title": "注册",
