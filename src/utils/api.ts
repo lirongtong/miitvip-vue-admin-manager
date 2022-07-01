@@ -23,7 +23,7 @@ export const api: any = reactive({
     validator: {
         name: 'validator/name',
         email: 'validator/email',
-        account: 'validator/account'
+        user: 'validator/user'
     },
     password: {
         forgot: 'password/forgot',

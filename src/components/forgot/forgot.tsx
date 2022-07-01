@@ -5,10 +5,11 @@ import { RouterLink } from 'vue-router'
 import { Form, Row, Col, Input, Button } from 'ant-design-vue'
 import { UserOutlined, PropertySafetyOutlined } from '@ant-design/icons-vue'
 import { passportProps } from '../_utils/props-passport'
-import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
+import { getPrefixCls, getPropSlot, tuple } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { $request } from '../../utils/request'
+import { $storage } from '../../utils/storage'
 import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
 import MiModal from '../modal'
@@ -21,11 +22,13 @@ export default defineComponent({
         { ...passportProps() },
         {
             sendCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-            sendCodeMethod: PropTypes.string.def('post'),
+            sendCodeMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
+            checkInputAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+            checkInputMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
             checkCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-            checkCodeMethod: PropTypes.string.def('post'),
+            checkCodeMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
             resetPasswordAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-            resetPasswordMethod: PropTypes.string.def('put')
+            resetPasswordMethod: PropTypes.oneOf(tuple(...$g.methods)).def('put')
         }
     ),
     emits: ['captchaSuccess'],
@@ -37,6 +40,14 @@ export default defineComponent({
         const isMobile = computed(() => store.getters['layout/mobile'])
         const formRef = ref(null)
         const anim = getPrefixCls('anim-slide')
+
+        const validateInput = async (_rule: any, value: string) => {
+            if (!$tools.isEmpty(value)) {
+                if (params.inputTip) return Promise.reject(params.inputTip)
+                return Promise.resolve()
+            }
+            return Promise.reject(t('passport.username'))
+        }
 
         const validateCode = (_rule: any, value: string) => {
             if (params.sent) {
@@ -52,9 +63,11 @@ export default defineComponent({
 
         const params = reactive({
             captcha: false,
-            sent: false,
+            sent: $storage.get($g.caches.storages.captcha.time) ?? null,
             loading: false,
             tip: t('step.next'),
+            inputTip: null,
+            captchaTip: null,
             form: {
                 validate: {
                     username: null,
@@ -62,9 +75,9 @@ export default defineComponent({
                     code: null
                 },
                 rules: {
-                    username: [{ required: true, message: t('passport.username') }],
+                    username: [{ required: true, validator: validateInput }],
                     code: [{ required: true, validator: validateCode }],
-                    captcha: [{ required: true, validator: validateCaptcha }]
+                    cuid: [{ required: true, validator: validateCaptcha }]
                 }
             }
         })
@@ -76,29 +89,46 @@ export default defineComponent({
             emit('captchaSuccess', data)
         }
 
+        const checkUser = async () => {
+            if ($tools.isEmpty(params.form.validate.username)) return
+            if (props.checkInputAction) {
+                await $request[props.checkInputMethod.toLowerCase()](
+                    props.checkInputAction,
+                    {data: params.form.validate.username}
+                ).then((res: any) => {
+                    if (res?.ret?.code !== 200) params.inputTip = res?.ret?.message
+                    else params.inputTip = null
+                }).catch((err: any) => params.inputTip = err.message)
+                formRef.value.validateFields(['username'])
+            } else params.inputTip = null
+        }
+
         const nextStep = () => {
             if (params.loading) return
             params.loading = true
             formRef.value
                 .validate()
                 .then(() => {
-                    if (params.sent) {
+                    const time = Date.now()
+                    const diff = time - (params.sent ?? time)
+                    if (diff > 120) {
                         // check code
-                        $request[props.checkCodeMethod](
+                        $request[props.checkCodeMethod.toLowerCase()](
                             props.checkCodeAction,
                             params.form.validate
                         ).then(() => {})
                     } else {
                         // send code
                         if (typeof props.sendCodeAction === 'string') {
-                            $request[props.sendCodeMethod](
+                            $request[props.sendCodeMethod.toLowerCase()](
                                 props.sendCodeAction,
                                 params.form.validate
                             )
                                 .then((res: any) => {
                                     params.loading = false
                                     if (res?.ret?.code === 200) {
-                                        params.sent = true
+                                        params.sent = Date.now()
+                                        $storage.set($g.caches.storages.captcha.time, params.sent)
                                         params.tip = t('passport.sent')
                                     } else MiModal.error(res?.ret?.mesasge)
                                 })
@@ -109,7 +139,6 @@ export default defineComponent({
                         } else if (typeof props.sendCodeAction === 'function') {
                             props.sendCodeAction(params.form.validate)
                         }
-                        params.sent = true
                     }
                 })
                 .catch(() => (params.loading = false))
@@ -139,6 +168,7 @@ export default defineComponent({
                         prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
                         maxlength={16}
+                        onBlur={checkUser}
                         autocomplete="off"
                         placeholder={t('passport.username')}
                     />
@@ -153,7 +183,7 @@ export default defineComponent({
                         <Input
                             prefix={createVNode(PropertySafetyOutlined)}
                             v-model:value={params.form.validate.code}
-                            maxlength={16}
+                            maxlength={64}
                             autocomplete="off"
                             placeholder={t('passport.code')}
                         />

@@ -53,33 +53,15 @@ export default defineComponent({
         const formRef = ref(null)
         const isMobile = computed(() => store.getters['layout/mobile'])
 
-        const checkUserName = async (_rule: any, value: string) => {
+        const checkUsername = async (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
                 return Promise.reject(t('passport.register.account'))
             } else {
                 if (!$g.regExp.username.test(value)) {
                     return Promise.reject(t('passport.register.format'))
                 } else {
-                    if (props.usernameVerifyAction) {
-                        return await $request[props.usernameVerifyMethod](
-                            props.usernameVerifyAction,
-                            {
-                                value,
-                                binding: props.binding
-                            }
-                        )
-                            .then((res: any) => {
-                                if (res.ret.code !== 200) return Promise.reject(res.ret.message)
-                                else return Promise.resolve()
-                            })
-                            .catch((err: any) => {
-                                if (err.status) {
-                                    const content = `[ ${err.status} ] ${err.statusText}`
-                                    MiModal.error({ content })
-                                    return Promise.reject(content)
-                                } else return Promise.reject(err)
-                            })
-                    } else return Promise.resolve()
+                    if (params.tips.username) return Promise.reject(params.tips.username)
+                    else return Promise.resolve()
                 }
             }
         }
@@ -91,23 +73,8 @@ export default defineComponent({
                 if (!$tools.checkEmail(value)) {
                     return Promise.reject(t('passport.register.email-valid'))
                 } else {
-                    if (props.emailVerifyAction) {
-                        return await $request[props.emailVerifyMethod](props.emailVerifyAction, {
-                            value,
-                            binding: props.binding
-                        })
-                            .then((res: any) => {
-                                if (res.ret.code !== 200) return Promise.reject(res.ret.message)
-                                else return Promise.resolve()
-                            })
-                            .catch((err: any) => {
-                                if (err.status) {
-                                    const content = `[ ${err.status} ] ${err.statusText}`
-                                    MiModal.error({ content })
-                                    return Promise.reject(content)
-                                } else return Promise.reject(err)
-                            })
-                    } else return Promise.resolve()
+                    if (params.tips.email) return Promise.reject(params.tips.email)
+                    else return Promise.resolve()
                 }
             }
         }
@@ -135,21 +102,51 @@ export default defineComponent({
                     username: [
                         {
                             required: true,
-                            validator: checkUserName,
-                            trigger: props.usernameVerifyAction ? 'blur' : 'change'
+                            validator: checkUsername
                         }
                     ],
                     email: [
                         {
                             required: true,
-                            validator: checkEmail,
-                            trigger: props.emailVerifyAction ? 'blur' : 'change'
+                            validator: checkEmail
                         }
                     ],
                     captcha: [{ required: true, validator: checkCaptcha }]
                 }
+            },
+            tips: {
+                username: null,
+                email: null
             }
         })
+
+        const checkName = async () => {
+            if ($tools.isEmpty(params.form.validate.username)) return
+            if (props.usernameVerifyAction) {
+                await $request[props.usernameVerifyMethod](
+                    props.usernameVerifyAction,
+                    {data: params.form.validate.username}
+                ).then((res: any) => {
+                    if (res?.ret?.code === 200) params.tips.username = null
+                    else params.tips.username = res?.ret?.message
+                }).catch((err: any) => params.tips.username = err?.message)
+                formRef.value.validateFields(['username'])
+            } else params.tips.username = null
+        }
+
+        const checkMail = async () => {
+            if ($tools.isEmpty(params.form.validate.email)) return
+            if (props.emailVerifyAction) {
+                await $request[props.emailVerifyMethod](
+                    props.emailVerifyAction,
+                    {data: params.form.validate.email}
+                ).then((res: any) => {
+                    if (res?.ret?.code === 200) params.tips.email = null
+                    else params.tips.email = res?.ret?.message
+                }).catch((err: any) => params.tips.email = err?.message)
+                formRef.value.validateFields(['email'])
+            } else params.tips.email = null
+        }
 
         const captchaVerify = (data: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
@@ -196,7 +193,7 @@ export default defineComponent({
                                                 if ($g.regExp.url.test(props.redirectTo)) {
                                                     window.location.href = props.redirectTo
                                                 } else router.push({ path: '/' })
-                                            }
+                                            } router.push({ path: '/' })
                                         } else MiModal.error(res.ret.message)
                                     }
                                 })
@@ -236,7 +233,8 @@ export default defineComponent({
                 <Input
                     prefix={createVNode(UserOutlined)}
                     v-model:value={params.form.validate.username}
-                    maxlength={16}
+                    maxlength={32}
+                    onBlur={checkName}
                     autocomplete="off"
                     placeholder={t('passport.username')}
                 />
@@ -273,6 +271,7 @@ export default defineComponent({
                         type="email"
                         prefix={createVNode(MailOutlined)}
                         v-model:value={params.form.validate.email}
+                        onBlur={checkMail}
                         maxlength={256}
                         autocomplete="off"
                         placeholder={t('passport.email')}

@@ -35,7 +35,7 @@ export default defineComponent({
     name: 'MiPassword',
     inheritAttrs: false,
     props: passwordProps(),
-    emits: ['change', 'repeatChange', 'update:modelValue', 'update:repeatValue', 'input'],
+    emits: ['change', 'repeatChange', 'update:value', 'update:modelValue', 'update:repeatValue', 'input'],
     setup(props, { emit }) {
         const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('password', props.prefixCls)
@@ -137,6 +137,7 @@ export default defineComponent({
         const onInput = (evt: any) => {
             const val = evt.target.value
             params.form.validate.password = val
+            emit('update:value', val)
             emit('update:modelValue', val)
             emit('change', val)
             emit('input', val)
