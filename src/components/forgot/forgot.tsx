@@ -167,7 +167,7 @@ export default defineComponent({
                     <Input
                         prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
-                        maxlength={16}
+                        maxlength={64}
                         onBlur={checkUser}
                         autocomplete="off"
                         placeholder={t('passport.username')}
@@ -180,10 +180,10 @@ export default defineComponent({
             return params.sent ? (
                 <Transition name={anim} appear={true}>
                     <Form.Item name="code" class="mi-anim" v-show={params.sent}>
-                        <Input
+                        <Input type="number"
                             prefix={createVNode(PropertySafetyOutlined)}
                             v-model:value={params.form.validate.code}
-                            maxlength={64}
+                            maxlength={6}
                             autocomplete="off"
                             placeholder={t('passport.code')}
                         />
