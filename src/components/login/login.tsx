@@ -61,7 +61,9 @@ const Login = defineComponent({
                     password: '',
                     remember: false,
                     captcha:
-                        props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction) ? true : false,
+                        props.openCaptcha && (props.captchaInitAction || props.captchaVerifyAction)
+                            ? true
+                            : false,
                     cuid: null,
                     url: null
                 },
@@ -248,15 +250,15 @@ const Login = defineComponent({
         }
 
         const renderRememberBtn = () => {
-            const cls = `${prefixCls}-forgot`
-            const title = t('passport.forgot')
+            const cls = `${prefixCls}-forget`
+            const title = t('passport.forget')
             const link = props.forgetPasswordLink ? (
                 <a href={props.forgetPasswordLink} class={`${cls}`}>
                     <QuestionCircleOutlined />
                     {title}
                 </a>
             ) : (
-                <RouterLink to={{ path: '/passport/forgot' }} class={`${cls}`}>
+                <RouterLink to={{ path: '/passport/forget' }} class={`${cls}`}>
                     <QuestionCircleOutlined />
                     {title}
                 </RouterLink>

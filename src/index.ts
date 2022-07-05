@@ -21,7 +21,7 @@ import { default as Anchor } from './components/anchor'
 import { default as Modal } from './components/modal'
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
-import { default as Forgot } from './components/forgot'
+import { default as Forget } from './components/forget'
 import { default as History } from './components/history'
 
 const components = [
@@ -44,7 +44,7 @@ const components = [
     Modal,
     Login,
     Register,
-    Forgot,
+    Forget,
     History
 ]
 
@@ -83,7 +83,7 @@ export {
     Modal,
     Login,
     Register,
-    Forgot,
+    Forget,
     History
 }
 

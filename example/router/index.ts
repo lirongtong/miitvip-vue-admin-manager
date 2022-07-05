@@ -5,7 +5,7 @@ const Start = () => import('@views/start.vue')
 const Theme = () => import('@views/theme.vue')
 const PassportLogin = () => import('@views/passport/login.vue')
 const PassportRegister = () => import('@views/passport/register.vue')
-const PassportForgot = () => import('@views/passport/forgot.vue')
+const PassportForget = () => import('@views/passport/forget.vue')
 const PassportUpdate = () => import('@views/passport/update.vue')
 const SocialiteLogin = () => import('@views/socialite/login.vue')
 const Home = () => import('@views/home.vue')
@@ -17,7 +17,7 @@ const ToolsFunctions = () => import('../views/tools/functions.vue')
 const Pages = () => import('@views/pages/index.vue')
 const PagesLogin = () => import('@views/pages/login.vue')
 const PagesRegister = () => import('@views/pages/register.vue')
-const PagesForgot = () => import('@views/pages/forgot.vue')
+const PagesForget = () => import('@/views/pages/forget.vue')
 const Components = () => import('@views/components/index.vue')
 const ComponentsLayout = () => import('@views/components/layout.vue')
 const ComponentsMenu = () => import('@views/components/menu.vue')
@@ -96,10 +96,10 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             meta: {title: '注册页面'},
             component: PagesRegister
         }, {
-            path: '/pages/forgot',
-            name: 'pages-forgot',
+            path: '/pages/forget',
+            name: 'pages-forget',
             meta: {title: '忘记密码'},
-            component: PagesForgot
+            component: PagesForget
         }]
     }, {
         path: '/components',
@@ -187,10 +187,10 @@ const passportRoutes: Array<RouteRecordRaw> = [{
     meta: {title: '注册'},
     component: PassportRegister
 }, {
-    path: '/passport/forgot',
-    name: 'single-forgot',
+    path: '/passport/forget',
+    name: 'single-forget',
     meta: {title: '找回密码'},
-    component: PassportForgot
+    component: PassportForget
 }, {
     path: '/passport/update',
     name: 'single-update',

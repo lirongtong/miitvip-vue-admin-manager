@@ -1,5 +1,5 @@
 <template>
-    <mi-forgot :background="bg"
+    <mi-forget :background="bg"
         :check-input-action="api.validator.user"
         :send-code-action="api.password.captcha"
         :check-code-action="api.password.check"

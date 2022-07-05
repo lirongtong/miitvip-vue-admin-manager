@@ -97,7 +97,7 @@
         }
     },
     "passport": {
-        "forgot": "Forgot password",
+        "forget": "Forget password",
         "remember": "Remember Me",
         "no-account": "No account? ",
         "has-account": "Already have account? ",

@@ -16,7 +16,7 @@ import MiModal from '../modal'
 import PropTypes from '../_utils/props-types'
 
 export default defineComponent({
-    name: 'MiForgot',
+    name: 'MiForget',
     inheritAttrs: false,
     props: Object.assign(
         { ...passportProps() },
@@ -92,13 +92,14 @@ export default defineComponent({
         const checkUser = async () => {
             if ($tools.isEmpty(params.form.validate.username)) return
             if (props.checkInputAction) {
-                await $request[props.checkInputMethod.toLowerCase()](
-                    props.checkInputAction,
-                    {data: params.form.validate.username}
-                ).then((res: any) => {
-                    if (res?.ret?.code !== 200) params.inputTip = res?.ret?.message
-                    else params.inputTip = null
-                }).catch((err: any) => params.inputTip = err.message)
+                await $request[props.checkInputMethod.toLowerCase()](props.checkInputAction, {
+                    data: params.form.validate.username
+                })
+                    .then((res: any) => {
+                        if (res?.ret?.code !== 200) params.inputTip = res?.ret?.message
+                        else params.inputTip = null
+                    })
+                    .catch((err: any) => (params.inputTip = err.message))
                 formRef.value.validateFields(['username'])
             } else params.inputTip = null
         }
@@ -180,7 +181,8 @@ export default defineComponent({
             return params.sent ? (
                 <Transition name={anim} appear={true}>
                     <Form.Item name="code" class="mi-anim" v-show={params.sent}>
-                        <Input type="number"
+                        <Input
+                            type="number"
                             prefix={createVNode(PropertySafetyOutlined)}
                             v-model:value={params.form.validate.code}
                             maxlength={6}

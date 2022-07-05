@@ -116,11 +116,11 @@ vm.$g.menus.items = [{
             icon: ScheduleOutlined
         }
     }, {
-        name: 'pages-forgot',
-        path: '/pages/forgot',
+        name: 'pages-forget',
+        path: '/pages/forget',
         meta: {
             title: '忘记密码',
-            subTitle: 'Forgot Password',
+            subTitle: 'Forget Password',
             icon: QuestionCircleOutlined
         }
     }]

@@ -122,13 +122,14 @@ export default defineComponent({
         const checkName = async () => {
             if ($tools.isEmpty(params.form.validate.username)) return
             if (props.usernameVerifyAction) {
-                await $request[props.usernameVerifyMethod](
-                    props.usernameVerifyAction,
-                    {data: params.form.validate.username}
-                ).then((res: any) => {
-                    if (res?.ret?.code === 200) params.tips.username = null
-                    else params.tips.username = res?.ret?.message
-                }).catch((err: any) => params.tips.username = err?.message)
+                await $request[props.usernameVerifyMethod](props.usernameVerifyAction, {
+                    data: params.form.validate.username
+                })
+                    .then((res: any) => {
+                        if (res?.ret?.code === 200) params.tips.username = null
+                        else params.tips.username = res?.ret?.message
+                    })
+                    .catch((err: any) => (params.tips.username = err?.message))
                 formRef.value.validateFields(['username'])
             } else params.tips.username = null
         }
@@ -136,13 +137,14 @@ export default defineComponent({
         const checkMail = async () => {
             if ($tools.isEmpty(params.form.validate.email)) return
             if (props.emailVerifyAction) {
-                await $request[props.emailVerifyMethod](
-                    props.emailVerifyAction,
-                    {data: params.form.validate.email}
-                ).then((res: any) => {
-                    if (res?.ret?.code === 200) params.tips.email = null
-                    else params.tips.email = res?.ret?.message
-                }).catch((err: any) => params.tips.email = err?.message)
+                await $request[props.emailVerifyMethod](props.emailVerifyAction, {
+                    data: params.form.validate.email
+                })
+                    .then((res: any) => {
+                        if (res?.ret?.code === 200) params.tips.email = null
+                        else params.tips.email = res?.ret?.message
+                    })
+                    .catch((err: any) => (params.tips.email = err?.message))
                 formRef.value.validateFields(['email'])
             } else params.tips.email = null
         }
@@ -192,7 +194,8 @@ export default defineComponent({
                                                 if ($g.regExp.url.test(props.redirectTo)) {
                                                     window.location.href = props.redirectTo
                                                 } else router.push({ path: '/' })
-                                            } router.push({ path: '/' })
+                                            }
+                                            router.push({ path: '/' })
                                         } else message.error(res.ret.message)
                                     }
                                 })

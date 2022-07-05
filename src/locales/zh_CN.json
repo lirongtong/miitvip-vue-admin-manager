@@ -97,7 +97,7 @@
         }
     },
     "passport": {
-        "forgot": "忘记密码",
+        "forget": "忘记密码",
         "remember": "保持登录",
         "no-account": "没有账号？",
         "has-account": "已有帐号？",

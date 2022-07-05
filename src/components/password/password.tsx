@@ -35,7 +35,14 @@ export default defineComponent({
     name: 'MiPassword',
     inheritAttrs: false,
     props: passwordProps(),
-    emits: ['change', 'repeatChange', 'update:value', 'update:modelValue', 'update:repeatValue', 'input'],
+    emits: [
+        'change',
+        'repeatChange',
+        'update:value',
+        'update:modelValue',
+        'update:repeatValue',
+        'input'
+    ],
     setup(props, { emit }) {
         const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('password', props.prefixCls)

@@ -1,3 +1,3 @@
 <template>
-    Forgot
+    Forget
 </template>
