@@ -27,7 +27,8 @@ export default defineComponent({
             checkCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
             checkCodeMethod: PropTypes.oneOf(tuple(...$g.methods)).def('post'),
             resetPasswordAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-            resetPasswordMethod: PropTypes.oneOf(tuple(...$g.methods)).def('put')
+            resetPasswordMethod: PropTypes.oneOf(tuple(...$g.methods)).def('put'),
+            resendDowntimeMax: PropTypes.number.def(120)
         }
     ),
     emits: ['captchaSuccess'],
@@ -51,7 +52,7 @@ export default defineComponent({
         const validateCode = (_rule: any, value: string) => {
             if (params.sent) {
                 if ($tools.isEmpty(value)) return Promise.reject(t('passport.code'))
-                else Promise.resolve()
+                else return Promise.resolve()
             } else return Promise.resolve()
         }
 
@@ -64,7 +65,6 @@ export default defineComponent({
             captcha: false,
             sent: $storage.get($g.caches.storages.password.time) ?? null,
             downtime: 0,
-            downtimeMax: 120,
             downtimeHandler: null,
             showUpdateForm: false,
             loading: false,
@@ -73,14 +73,14 @@ export default defineComponent({
             captchaTip: null,
             form: {
                 validate: {
-                    username: null,
+                    input: null,
                     captcha: true,
                     cuid: null,
                     code: null,
-                    uuid: null
+                    uuid: $g.caches.storages.password.uid ?? null
                 },
                 rules: {
-                    username: [{ required: true, validator: validateInput }],
+                    input: [{ required: true, validator: validateInput }],
                     code: [{ required: true, validator: validateCode }],
                     captcha: [{ required: true, validator: validateCaptcha }]
                 }
@@ -103,31 +103,31 @@ export default defineComponent({
         }
 
         const checkUser = async () => {
-            if ($tools.isEmpty(params.form.validate.username)) return
+            if ($tools.isEmpty(params.form.validate.input)) return
             if (props.checkInputAction) {
                 await $request[props.checkInputMethod.toLowerCase()](props.checkInputAction, {
-                    data: params.form.validate.username
+                    data: params.form.validate.input
                 })
                     .then((res: any) => {
                         if (res?.ret?.code !== 200) params.inputTip = res?.ret?.message
                         else params.inputTip = null
                     })
                     .catch((err: any) => (params.inputTip = err.message))
-                formRef.value.validateFields(['username'])
+                formRef.value.validateFields(['input'])
             } else params.inputTip = null
         }
 
         const startDownTime = () => {
             if (params.sent) {
                 const seconds = Math.floor(Date.now() / 1000)
-                params.downtime = params.downtimeMax - (seconds - (params.sent ?? 0))
+                params.downtime = props.resendDowntimeMax - (seconds - (params.sent ?? 0))
                 if (params.downtime > 0) {
                     if (params.downtimeHandler) clearInterval(params.downtimeHandler)
                     params.downtimeHandler = setInterval(() => {
                         params.downtime--
                         if (params.downtime <= 0) clearInterval(params.downtimeHandler)
                     }, 1000)
-                }
+                } else params.downtime = 0
             }
         }
         startDownTime()
@@ -138,30 +138,31 @@ export default defineComponent({
             formRef.value
                 .validate()
                 .then(() => {
-                    if (params.sent) {
-                        // check code
-                        $request[props.checkCodeMethod.toLowerCase()](
-                            props.checkCodeAction,
-                            {
-                                code: params.form.validate.code,
-                                uuid: params.form.validate.uuid
-                            }
-                        ).then((res: any) => {
-                            params.loading = false
-                            if (res?.ret?.code === 200) {
-                                if (res?.data?.token) {
-                                    $storage.set($g.caches.storages.password.token, res.data.token)
-                                }
-                                params.showUpdateForm = true
-                            }
-                            else message.error(res?.ret?.message)
-                        }).catch((err: any) => {
-                            params.loading = false
-                            message.error(err?.data?.message)
-                        })
-                    } else sendVerificationCode()
+                    if (params.sent) checkVerificationCode()
+                    else sendVerificationCode()
                 })
                 .catch(() => (params.loading = false))
+        }
+
+        const checkVerificationCode = () => {
+            $request[props.checkCodeMethod.toLowerCase()](
+                props.checkCodeAction,
+                {
+                    code: params.form.validate.code,
+                    uuid: params.form.validate.uuid
+                }
+            ).then((res: any) => {
+                params.loading = false
+                if (res?.ret?.code === 200) {
+                    if (res?.data?.token) {
+                        $storage.set($g.caches.storages.password.token, res.data.token)
+                    }
+                    params.showUpdateForm = true
+                } else message.error(res?.ret?.message)
+            }).catch((err: any) => {
+                params.loading = false
+                message.error(err?.data?.message)
+            })
         }
 
         const sendVerificationCode = () => {
@@ -173,9 +174,17 @@ export default defineComponent({
                     .then((res: any) => {
                         params.loading = false
                         if (res?.ret?.code === 200) {
-                            params.sent = res?.data?.time
+                            params.sent = res?.data?.time ?? Math.floor(Date.now() / 1000)
                             $storage.set($g.caches.storages.password.time, params.sent)
-                            params.form.validate.uuid = res?.data?.uuid
+                            if (res?.data?.uuid) {
+                                params.form.validate.uuid = res.data.uuid
+                                $storage.set($g.caches.storages.password.uid, res.data.uuid)
+                                $storage.set($g.caches.storages.password.input, params.form.validate.input)
+                                if (res.data.email) message.success({
+                                    content: t('passport.resend-tip', {email: res.data.email}),
+                                    duration: 6
+                                })
+                            }
                             startDownTime()
                         } else message.error(res?.ret?.message)
                     })
@@ -184,20 +193,20 @@ export default defineComponent({
                         message.error(err?.data?.message)
                     })
             } else if (typeof props.sendCodeAction === 'function') {
+                params.loading = false
                 props.sendCodeAction(params.form.validate)
-            }
+            } else params.loading = false
         }
 
         const resendVerificationCode = () => {
             if (params.loading) return
             params.loading = true
-            formRef.value.validateFields(['username', 'captcha']).then(() => {
+            formRef.value.validateFields(['input', 'captcha']).then(() => {
                 sendVerificationCode()
             }).catch(() => params.loading = false)
         }
 
         const setPasswordManualVerifyState = (state: boolean) => {
-            console.log(state)
             params.passwordManualVerifyState = state
         }
 
@@ -211,7 +220,11 @@ export default defineComponent({
                     if (typeof props.resetPasswordAction === 'string') {
                         $request[props.resetPasswordMethod.toLowerCase()](
                             props.resetPasswordAction,
-                            params.updateForm.validate
+                            {
+                                token: $storage.get($g.caches.storages.password.token) ?? null,
+                                input: $storage.get($g.caches.storages.password.input) ?? null,
+                                ...params.updateForm.validate
+                            }
                         )
                             .then((res: any) => {
                                 params.loading = false
@@ -220,6 +233,7 @@ export default defineComponent({
                                         content: t('passport.success'),
                                         duration: 3
                                     })
+                                    $storage.del(Object.values({...$g.caches.storages.password}))
                                     setTimeout(() => router.push({path: '/login'}), 3000)
                                 } else message.error(res?.ret?.message)
                             })
@@ -228,6 +242,7 @@ export default defineComponent({
                                 message.error(err?.data?.message)
                             })
                     } else if (typeof props.sendCodeAction === 'function') {
+                        params.loading = false
                         props.resetPasswordAction(params.updateForm.validate)
                     }
                 } else {
@@ -254,12 +269,12 @@ export default defineComponent({
             )
         }
 
-        const renderUserName = () => {
+        const renderInput = () => {
             return (
-                <Form.Item name="username">
+                <Form.Item name="input">
                     <Input
                         prefix={createVNode(UserOutlined)}
-                        v-model:value={params.form.validate.username}
+                        v-model:value={params.form.validate.input}
                         maxlength={64}
                         onBlur={checkUser}
                         autocomplete="off"
@@ -372,7 +387,7 @@ export default defineComponent({
                     ref={formRef}
                     model={params.form.validate}
                     rules={Object.assign({}, params.form.rules, props.rules)}>
-                    {renderUserName()}
+                    {renderInput()}
                     {renderVerificationCode()}
                     {renderCaptcha()}
                     {renderButton()}

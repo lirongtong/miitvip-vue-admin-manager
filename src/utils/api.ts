@@ -26,7 +26,6 @@ export const api: any = reactive({
         user: 'validator/user'
     },
     password: {
-        forget: 'password/forget',
         reset: 'password/reset',
         captcha: 'password/captcha/send',
         check: 'password/captcha/check'

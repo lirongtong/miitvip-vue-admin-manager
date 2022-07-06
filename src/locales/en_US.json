@@ -109,10 +109,11 @@
         "code": "please enter verification code",
         "sent": "Verification code has been sent",
         "resend-downtime": "Resend after {sec}s",
+        "resend-tip": "The verification code has been sent to {email}",
         "resend": "Resend",
         "update": "Update Password",
         "success": "Password reset successful",
-        "illegal": "当前操作不被允许",
+        "illegal": "The operation is not allowed",
         "login": {
             "title": "Log in",
             "sign": "Sign up now",

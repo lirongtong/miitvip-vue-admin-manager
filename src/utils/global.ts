@@ -116,7 +116,9 @@ export const $g = reactive({
             },
             password: {
                 time: 'password-reset-code-sent-time',
-                token: 'password-reset-verify-token'
+                token: 'password-reset-verify-token',
+                uid: 'password-reset-uid',
+                input: 'password-reset-input'
             }
         }
     },
