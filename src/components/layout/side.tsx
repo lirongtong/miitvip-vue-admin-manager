@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import { Layout } from 'ant-design-vue'
 import PropTypes from '../_utils/props-types'
@@ -23,7 +23,6 @@ const MiLayoutSider = defineComponent({
     props: layoutSideProps(),
     setup(props, { slots }) {
         const store = useStore()
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const prefixCls = getPrefixCls('layout-side', props.prefixCls)
         const init = ref<boolean>(true)
         const setCollapsed = (collapse: boolean) => {
@@ -37,7 +36,7 @@ const MiLayoutSider = defineComponent({
         }
         const getLogo = () => {
             let logo = getPropSlot(slots, props, 'logo')
-            if (!logo && !isMobile.value) logo = <MiLayoutSideLogo />
+            if (!logo && !$g.isMobile) logo = <MiLayoutSideLogo />
             return logo
         }
         const getMenu = () => {

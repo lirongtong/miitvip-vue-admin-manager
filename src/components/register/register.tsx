@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref, createVNode, reactive } from 'vue'
+import { defineComponent, ref, createVNode, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { RouterLink, useRouter } from 'vue-router'
 import { Form, Row, Col, Button, Popover, Input, message } from 'ant-design-vue'
@@ -50,7 +50,6 @@ export default defineComponent({
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const formRef = ref(null)
-        const isMobile = computed(() => store.getters['layout/mobile'])
 
         const checkUsername = async (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -213,7 +212,7 @@ export default defineComponent({
         }
 
         const renderMask = () => {
-            return isMobile.value ? null : <div class={`${prefixCls}-mask`} />
+            return $g.isMobile ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -256,7 +255,7 @@ export default defineComponent({
             const cls = `${prefixCls}-register-tips`
             return (
                 getPropSlot(slots, props, 'usernameTip') ?? (
-                    <div class={`${cls}${isMobile.value ? `${cls}-mobile` : ''}`}>
+                    <div class={`${cls}${$g.isMobile ? `${cls}-mobile` : ''}`}>
                         <p innerHTML={t('passport.register.tips.special')} />
                         <p innerHTML={t('passport.register.tips.structure')} />
                         <p innerHTML={t('passport.register.tips.start')} />
@@ -325,7 +324,7 @@ export default defineComponent({
 
         const renderButton = () => {
             const cls = `${prefixCls}-submit`
-            const login = isMobile.value ? (
+            const login = $g.isMobile ? (
                 <Button size="large" class={`${cls} ${cls}-register`}>
                     <RouterLink to={{ path: 'register' }}>
                         {t('passport.has-account')}
@@ -352,7 +351,7 @@ export default defineComponent({
             const cls = `${prefixCls}-socialite`
             return (
                 <Form.Item class={`${cls}`}>
-                    {!isMobile.value ? (
+                    {!$g.isMobile ? (
                         <div class={`${cls}-link`}>
                             {t('passport.has-account')}
                             {link}
@@ -386,11 +385,11 @@ export default defineComponent({
 
         return () => (
             <div
-                class={`${prefixCls}${isMobile.value ? `${prefixCls}-mobile` : ''}`}
+                class={`${prefixCls}${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
                 style={{
                     backgroundImage: `url(${props.background ?? $g.background.default})`
                 }}>
-                <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
+                <Row class={`${prefixCls}-content`} align={$g.isMobile ? 'top' : 'middle'}>
                     <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                         {renderMask()}
                         {renderTitle()}

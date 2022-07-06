@@ -1,5 +1,4 @@
-import { defineComponent, computed, ref, createVNode, reactive, Transition } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, ref, createVNode, reactive, Transition } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Form, Row, Col, Input, Button } from 'ant-design-vue'
@@ -36,8 +35,6 @@ export default defineComponent({
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
-        const store = useStore()
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const formRef = ref(null)
         const anim = getPrefixCls('anim-slide')
 
@@ -146,7 +143,7 @@ export default defineComponent({
         }
 
         const renderMask = () => {
-            return isMobile.value ? null : <div class={`${prefixCls}-mask`} />
+            return $g.isMobile ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -251,11 +248,11 @@ export default defineComponent({
 
         return () => (
             <div
-                class={`${prefixCls}${isMobile.value ? `${prefixCls}-mobile` : ''}`}
+                class={`${prefixCls}${$g.isMobile ? `${prefixCls}-mobile` : ''}`}
                 style={{
                     backgroundImage: `url(${props.background ?? $g.background.default})`
                 }}>
-                <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
+                <Row class={`${prefixCls}-content`} align={$g.isMobile ? 'top' : 'middle'}>
                     <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                         {renderMask()}
                         {renderTitle()}

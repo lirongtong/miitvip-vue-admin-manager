@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import PropTypes from '../_utils/props-types'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { Layout } from 'ant-design-vue'
+import { $g } from '../../utils/global'
 import MiLayoutHeader from './header'
 import MiLayoutSide from './side'
 import MiLayoutContent from './content'
@@ -33,17 +34,16 @@ const MiLayout = defineComponent({
         const prefixCls = getPrefixCls('layout', props.prefixCls)
         const store = useStore()
         const theme = computed(() => store.getters['layout/theme'])
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const layoutCls = computed(() => {
             let layoutCls = getPrefixCls('layout-container')
             const themeCls = getPrefixCls('theme')
-            layoutCls += isMobile.value ? ` ${layoutCls}-mobile` : ''
+            layoutCls += $g.isMobile ? ` ${layoutCls}-mobile` : ''
             layoutCls += ['dark', 'light'].includes(theme.value)
                 ? ` ${themeCls}-${theme.value}`
                 : ''
             return layoutCls
         })
-        const drawer = isMobile.value ? <div></div> : null
+        const drawer = $g.isMobile ? <div></div> : null
         const getHeader = () => {
             const extra = getPropSlot(slots, props, 'headerExtra')
             return (
@@ -54,7 +54,7 @@ const MiLayout = defineComponent({
         }
         const getSide = () => {
             let side = getPropSlot(slots, props, 'side') ?? <MiLayoutSide />
-            if (isMobile.value) side = null
+            if ($g.isMobile) side = null
             return side
         }
         const getLayout = () => {
@@ -74,7 +74,7 @@ const MiLayout = defineComponent({
         }
         return () => (
             <>
-                <Layout class={`${layoutCls.value} ${langCls}`} hasSider={!isMobile.value}>
+                <Layout class={`${layoutCls.value} ${langCls}`} hasSider={!$g.isMobile}>
                     {getLayout}
                 </Layout>
                 {drawer}

@@ -1,6 +1,7 @@
 @import './variables.less';
 @import '../theme/dark.less';
 @mi-passport: ~'@{mi-prefix}passport';
+@mi-layout: ~'@{mi-prefix}layout';
 
 .@{mi-passport} {
     margin: 0 auto;
@@ -171,7 +172,12 @@
 				.flex();
 
 				&-register {
-					background-image: linear-gradient(to right, #787878 0%, #1d1e23 100%);
+					.linear-gradient-background();
+
+					a,
+					a:hover {
+						color: var(--mi-font, @mi-font);
+					}
 				}
 			}
 
@@ -200,19 +206,24 @@
 
 				&-line {
 					display: block;
-					border-top: 1px solid var(--mi-night, @mi-night);
+					border-top: 1px solid var(--mi-theme, @mi-theme);
 					position: absolute;
 					width: 100%;
 					left: 0;
-					.properties(top, 60);
+					.properties(top, 68);
 					z-index: 1;
 				}
 
 				&-title {
 					.properties(margin-top, 16);
-					background: var(--mi-deep, @mi-deep);
+					.linear-gradient-background-theme();
+					.border-radius(32);
 					.properties(padding-left, 16);
 					.properties(padding-right, 16);
+					.properties(padding-top);
+					.properties(padding-bottom);
+					.properties(font-size, 12);
+					color: var(--mi-ink, @mi-ink);
 					z-index: 2;
 				}
 
@@ -222,7 +233,7 @@
 					width: 85%;
 
 					.anticon {
-						color: var(--mi-light-grey, @mi-light-grey);
+						color: var(--mi-theme, @mi-theme);
 						.properties(font-size, 28);
 					}
 				}
@@ -232,10 +243,10 @@
 
 	.@{mi-prefix}layout {
 		&-footer {
-			position: fixed;
-			.properties(bottom);
 			background: transparent;
 			width: 100%;
+			position: relative;
+			.properties(margin-top, -70);
 		}
 	}
 	
@@ -252,15 +263,23 @@
 	.@{mi-passport} {
 		&-content {
 			align-items: flex-start;
+			background: var(--mi-passport-mask, rgba(255, 255, 255, 0.1));
+			backdrop-filter: blur(2rem);
 		}
 
 		&-box {
 			margin: 0;
+			height: 100%;
+			min-height: 100vh;
+			justify-content: flex-start;
 		}
 
 		&-mask {
-			min-height: 100vh;
-			border-radius: 0;
+			display: none;
+		}
+
+		&-form {
+			.properties(margin-bottom, 70);
 		}
 	}
 }

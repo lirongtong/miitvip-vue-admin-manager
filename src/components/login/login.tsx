@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref, reactive, createVNode } from 'vue'
+import { defineComponent, ref, reactive, createVNode } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { Form, Row, Col, Input, Checkbox, Button, message } from 'ant-design-vue'
@@ -43,7 +43,6 @@ const Login = defineComponent({
         const store = useStore()
         const route = useRoute()
         const router = useRouter()
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const formRef = ref(null)
 
         const validateCaptcha = () => {
@@ -130,7 +129,7 @@ const Login = defineComponent({
         }
 
         const renderMask = () => {
-            return isMobile.value ? null : <div class={`${prefixCls}-mask`} />
+            return $g.isMobile ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -275,7 +274,7 @@ const Login = defineComponent({
 
         const renderButton = () => {
             const cls = `${prefixCls}-submit`
-            const register = isMobile.value ? (
+            const register = $g.isMobile ? (
                 <Button size="large" class={`${cls} ${cls}-register`}>
                     <RouterLink to={{ path: 'register' }}>
                         {t('passport.no-account')}
@@ -302,7 +301,7 @@ const Login = defineComponent({
             const cls = `${prefixCls}-socialite`
             return (
                 <Form.Item class={`${cls}`}>
-                    {!isMobile.value ? (
+                    {!$g.isMobile ? (
                         <div class={`${cls}-link`}>
                             {t('passport.no-account')}
                             {link}
@@ -328,12 +327,12 @@ const Login = defineComponent({
             }
             return props.socialiteLogin ? null : (
                 <div
-                    class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`}
+                    class={`${prefixCls}${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
                     style={{
                         backgroundImage: `url(${props.background ?? $g.background.default})`
                     }}
                     {...attrs}>
-                    <Row class={`${prefixCls}-content`} align={isMobile.value ? 'top' : 'middle'}>
+                    <Row class={`${prefixCls}-content`} align={$g.isMobile ? 'top' : 'middle'}>
                         <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                             {renderMask()}
                             {renderTitle()}

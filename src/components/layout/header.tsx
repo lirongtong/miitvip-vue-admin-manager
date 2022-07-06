@@ -37,7 +37,6 @@ export default defineComponent({
         const prefixCls = getPrefixCls('layout-header', props.prefixCls)
         const popoverCls = getPrefixCls('popover', props.prefixCls)
         const collapsed = computed(() => store.getters['layout/collapsed'])
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const headerCls = {
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
@@ -49,7 +48,7 @@ export default defineComponent({
         const getStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
             if (!stretch) {
-                if (isMobile.value) stretch = <MenuUnfoldOutlined />
+                if ($g.isMobile) stretch = <MenuUnfoldOutlined />
                 else if (!collapsed.value) stretch = <MenuFoldOutlined />
                 else stretch = <MenuUnfoldOutlined />
             }
@@ -62,7 +61,7 @@ export default defineComponent({
             ) : (
                 <CompressOutlined onClick={screenfullQuitOrIn} />
             )
-            if (isMobile.value) elem = null
+            if ($g.isMobile) elem = null
             return elem
         }
 
@@ -136,7 +135,7 @@ export default defineComponent({
         }
 
         const setCollapsed = () => {
-            if (isMobile.value) {
+            if ($g.isMobile) {
                 $g.menus.drawer = !$g.menus.drawer
             } else {
                 const collapse = !collapsed.value

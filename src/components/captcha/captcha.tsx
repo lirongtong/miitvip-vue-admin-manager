@@ -1,5 +1,4 @@
 import { defineComponent, computed, reactive, Teleport, ref, onMounted, onBeforeUnmount } from 'vue'
-import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { VerifiedOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
@@ -55,8 +54,6 @@ export default defineComponent({
         const captchaRef = ref<InstanceType<typeof HTMLDivElement>>(null)
         const captchaModalRef = ref<InstanceType<typeof HTMLDivElement>>(null)
         const { t } = useI18n()
-        const store = useStore()
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const themeColorStyle = computed(() => {
             return props.themeColor
                 ? {
@@ -381,7 +378,7 @@ export default defineComponent({
 
         return () => (
             <div
-                class={`${prefixCls}${isMobile.value ? ` ${prefixCls}-mobile` : ''}`}
+                class={`${prefixCls}${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
                 {...attrs}
                 onClick={showCaptchaModal}
                 key={`${prefixCls}-${$tools.uid()}`}

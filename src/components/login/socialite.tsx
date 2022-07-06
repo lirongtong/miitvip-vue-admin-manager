@@ -1,5 +1,4 @@
-import { defineComponent, reactive, computed, isVNode, h } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, reactive, isVNode, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { MoreOutlined, GithubOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '../_utils/props-tools'
@@ -17,9 +16,7 @@ export default defineComponent({
     },
     setup(props) {
         const prefixCls = getPrefixCls('passport-socialite')
-        const store = useStore()
         const { t } = useI18n()
-        const isMobile = computed(() => store.getters['layout/mobile'])
         const params = reactive({
             left: [],
             first: {} as any
@@ -45,7 +42,7 @@ export default defineComponent({
 
         return () => {
             let elem: any = null
-            if (isMobile.value) {
+            if ($g.isMobile) {
                 const icons = []
                 const items = [{ ...params.first }].concat(params.left)
                 items.forEach((item: any) => {
