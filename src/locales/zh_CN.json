@@ -107,7 +107,12 @@
         "password": "请输入登录密码",
         "binding": "立即绑定",
         "code": "请输入验证码",
-        "sent": "验证码已发送 ( {sec}s后可重新发送 )",
+        "sent": "验证码已发送",
+        "resend-downtime": "{sec}s后可重新发送",
+        "resend": "重新发送",
+        "update": "更新密码",
+        "success": "密码重置成功",
+        "illegal": "The operation is not allowed",
         "login": {
             "title": "登录",
             "sign": "立即注册",

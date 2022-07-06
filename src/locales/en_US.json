@@ -107,7 +107,12 @@
         "password": "Please enter the password",
         "binding": "bind now",
         "code": "please enter verification code",
-        "sent": "Verification code has been sent ( can be resent after {sec}s )",
+        "sent": "Verification code has been sent",
+        "resend-downtime": "Resend after {sec}s",
+        "resend": "Resend",
+        "update": "Update Password",
+        "success": "Password reset successful",
+        "illegal": "当前操作不被允许",
         "login": {
             "title": "Log in",
             "sign": "Sign up now",

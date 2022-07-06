@@ -158,6 +158,28 @@
 				.anticon {
 					.properties(margin-right);
 				}
+
+				&-suffix {
+					.linear-gradient-background();
+					.border-radius(32);
+					.properties(padding-left, 16);
+					.properties(padding-right, 16);
+					.properties(padding-top, 4);
+					.properties(padding-bottom, 4);
+
+					span {
+						.properties(font-size, 12);
+						color: var(--mi-font, @mi-font);
+					}
+				}
+
+				&-resend {
+					.linear-gradient-background-theme();
+
+					span {
+						color: var(--mi-ink, @mi-ink);
+					}
+				}
 			}
 
 			&-submit {
@@ -280,6 +302,14 @@
 
 		&-form {
 			.properties(margin-bottom, 70);
+		}
+
+		&&-forget &-content {
+			align-items: center;
+		}
+
+		&&-forget &-box {
+			justify-content: center;
 		}
 	}
 }

@@ -41,7 +41,8 @@ export default defineComponent({
         'update:value',
         'update:modelValue',
         'update:repeatValue',
-        'input'
+        'input',
+        'afterVerify'
     ],
     setup(props, { emit }) {
         const { t, locale } = useI18n()
@@ -116,6 +117,8 @@ export default defineComponent({
             () => props.manualVerify,
             (n) => {
                 if (n) formRef.value.validate()
+                    .then(() => emit('afterVerify', true))
+                    .catch(() => emit('afterVerify', false))
             }
         )
 
@@ -148,7 +151,7 @@ export default defineComponent({
             emit('update:modelValue', val)
             emit('change', val)
             emit('input', val)
-            if (props.repeat && params.form.validate.repeat) formRef.value.validateFields('repeat')
+            if (props.repeat && params.form.validate.repeat) formRef.value.validateFields(['repeat'])
         }
 
         const onVisible = () => {

@@ -112,8 +112,11 @@ export const $g = reactive({
             captcha: {
                 login: 'login-captcha-key',
                 register: 'register-captcha-key',
-                email: 'email-captcha-key',
-                time: 'password-reset-code-sent-time'
+                email: 'email-captcha-key'
+            },
+            password: {
+                time: 'password-reset-code-sent-time',
+                token: 'password-reset-verify-token'
             }
         }
     },
