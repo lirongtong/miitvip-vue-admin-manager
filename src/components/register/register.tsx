@@ -326,7 +326,7 @@ export default defineComponent({
             const cls = `${prefixCls}-submit`
             const login = $g.isMobile ? (
                 <Button size="large" class={`${cls} ${cls}-register`}>
-                    <RouterLink to={{ path: 'register' }}>
+                    <RouterLink to={{ path: 'login' }}>
                         {t('passport.has-account')}
                         {t('passport.register.sign')}
                     </RouterLink>
