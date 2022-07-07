@@ -216,37 +216,47 @@ export default defineComponent({
         const updatePassword = async () => {
             if (params.loading) return
             params.loading = true
-            const token = $storage.get($g.caches.storages.password.time) ?? null
-            if (token) {
-                if (typeof props.resetPasswordAction === 'string') {
-                    $request[props.resetPasswordMethod.toLowerCase()](props.resetPasswordAction, {
-                        token: $storage.get($g.caches.storages.password.token) ?? null,
-                        input: $storage.get($g.caches.storages.password.input) ?? null,
-                        ...params.updateForm.validate
-                    })
-                        .then((res: any) => {
-                            params.loading = false
-                            if (res?.ret?.code === 200) {
-                                message.success({
-                                    content: t('passport.success'),
-                                    duration: 3
-                                })
-                                $storage.del(Object.values({ ...$g.caches.storages.password }))
-                                setTimeout(() => router.push({ path: '/login' }), 3000)
-                            } else message.error(res?.ret?.message)
+            const passwordState = await passwordFormRef.value
+                .validate()
+                .then(() => {
+                    return true
+                })
+                .catch(() => {
+                    return false
+                })
+            if (passwordState) {
+                const token = $storage.get($g.caches.storages.password.time) ?? null
+                if (token) {
+                    if (typeof props.resetPasswordAction === 'string') {
+                        $request[props.resetPasswordMethod.toLowerCase()](props.resetPasswordAction, {
+                            token: $storage.get($g.caches.storages.password.token) ?? null,
+                            input: $storage.get($g.caches.storages.password.input) ?? null,
+                            ...params.updateForm.validate
                         })
-                        .catch((err: any) => {
-                            params.loading = false
-                            message.error(err?.data?.message)
-                        })
-                } else if (typeof props.sendCodeAction === 'function') {
+                            .then((res: any) => {
+                                params.loading = false
+                                if (res?.ret?.code === 200) {
+                                    message.success({
+                                        content: t('passport.success'),
+                                        duration: 3
+                                    })
+                                    $storage.del(Object.values({ ...$g.caches.storages.password }))
+                                    setTimeout(() => router.push({ path: '/login' }), 3000)
+                                } else message.error(res?.ret?.message)
+                            })
+                            .catch((err: any) => {
+                                params.loading = false
+                                message.error(err?.data?.message)
+                            })
+                    } else if (typeof props.sendCodeAction === 'function') {
+                        params.loading = false
+                        props.resetPasswordAction(params.updateForm.validate)
+                    }
+                } else {
                     params.loading = false
-                    props.resetPasswordAction(params.updateForm.validate)
+                    message.error(t('passport.illegal'))
                 }
-            } else {
-                params.loading = false
-                message.error(t('passport.illegal'))
-            }
+            } else params.loading = false
         }
 
         const renderMask = () => {
