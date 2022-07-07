@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref, createVNode, watch } from 'vue'
+import { defineComponent, reactive, ref, createVNode } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Form, Input, Popover } from 'ant-design-vue'
 import {
@@ -19,6 +19,7 @@ export const passwordProps = () => ({
     modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     manualVerify: PropTypes.bool.def(false),
+    refCallback: PropTypes.any.def(null),
     minLength: PropTypes.number.def(6),
     maxLength: PropTypes.number.def(32),
     complexity: PropTypes.bool.def(true),
@@ -41,8 +42,7 @@ export default defineComponent({
         'update:value',
         'update:modelValue',
         'update:repeatValue',
-        'input',
-        'afterVerify'
+        'input'
     ],
     setup(props, { emit }) {
         const { t, locale } = useI18n()
@@ -57,7 +57,7 @@ export default defineComponent({
             4: t('password.lv4')
         }
         const tip = props.complexityTip ?? t('password.tip')
-        const formRef = ref<InstanceType<typeof HTMLFormElement>>(null)
+        const passwordFormRef = props.refCallback ?? ref<InstanceType<typeof HTMLFormElement>>(null)
 
         const checkPassword = (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -113,15 +113,6 @@ export default defineComponent({
             }
         }
 
-        watch(
-            () => props.manualVerify,
-            (n) => {
-                if (n) formRef.value.validate()
-                    .then(() => emit('afterVerify', true))
-                    .catch(() => emit('afterVerify', false))
-            }
-        )
-
         const params = reactive({
             visible: false,
             repeatVisible: false,
@@ -151,7 +142,8 @@ export default defineComponent({
             emit('update:modelValue', val)
             emit('change', val)
             emit('input', val)
-            if (props.repeat && params.form.validate.repeat) formRef.value.validateFields(['repeat'])
+            if (props.repeat && params.form.validate.repeat)
+                passwordFormRef.value.validateFields(['repeat'])
         }
 
         const onVisible = () => {
@@ -299,7 +291,7 @@ export default defineComponent({
 
         return () => (
             <Form
-                ref={formRef}
+                ref={passwordFormRef}
                 layout="vertical"
                 name={`${prefixCls}-form`}
                 model={params.form.validate}

@@ -38,6 +38,7 @@ export default defineComponent({
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const formRef = ref(null)
+        const passwordFormRef = ref(null)
         const updateForm = ref(null)
         const anim = getPrefixCls('anim-slide')
 
@@ -85,8 +86,6 @@ export default defineComponent({
                     captcha: [{ required: true, validator: validateCaptcha }]
                 }
             },
-            passwordManualVerify: false,
-            passwordManualVerifyState: false,
             updateForm: {
                 validate: {
                     password: null,
@@ -145,24 +144,23 @@ export default defineComponent({
         }
 
         const checkVerificationCode = () => {
-            $request[props.checkCodeMethod.toLowerCase()](
-                props.checkCodeAction,
-                {
-                    code: params.form.validate.code,
-                    uuid: params.form.validate.uuid
-                }
-            ).then((res: any) => {
-                params.loading = false
-                if (res?.ret?.code === 200) {
-                    if (res?.data?.token) {
-                        $storage.set($g.caches.storages.password.token, res.data.token)
-                    }
-                    params.showUpdateForm = true
-                } else message.error(res?.ret?.message)
-            }).catch((err: any) => {
-                params.loading = false
-                message.error(err?.data?.message)
+            $request[props.checkCodeMethod.toLowerCase()](props.checkCodeAction, {
+                code: params.form.validate.code,
+                uuid: params.form.validate.uuid
             })
+                .then((res: any) => {
+                    params.loading = false
+                    if (res?.ret?.code === 200) {
+                        if (res?.data?.token) {
+                            $storage.set($g.caches.storages.password.token, res.data.token)
+                        }
+                        params.showUpdateForm = true
+                    } else message.error(res?.ret?.message)
+                })
+                .catch((err: any) => {
+                    params.loading = false
+                    message.error(err?.data?.message)
+                })
         }
 
         const sendVerificationCode = () => {
@@ -179,11 +177,17 @@ export default defineComponent({
                             if (res?.data?.uuid) {
                                 params.form.validate.uuid = res.data.uuid
                                 $storage.set($g.caches.storages.password.uid, res.data.uuid)
-                                $storage.set($g.caches.storages.password.input, params.form.validate.input)
-                                if (res.data.email) message.success({
-                                    content: t('passport.resend-tip', {email: res.data.email}),
-                                    duration: 6
-                                })
+                                $storage.set(
+                                    $g.caches.storages.password.input,
+                                    params.form.validate.input
+                                )
+                                if (res.data.email)
+                                    message.success({
+                                        content: t('passport.resend-tip', {
+                                            email: res.data.email
+                                        }),
+                                        duration: 6
+                                    })
                             }
                             startDownTime()
                         } else message.error(res?.ret?.message)
@@ -201,55 +205,48 @@ export default defineComponent({
         const resendVerificationCode = () => {
             if (params.loading) return
             params.loading = true
-            formRef.value.validateFields(['input', 'captcha']).then(() => {
-                sendVerificationCode()
-            }).catch(() => params.loading = false)
+            formRef.value
+                .validateFields(['input', 'captcha'])
+                .then(() => {
+                    sendVerificationCode()
+                })
+                .catch(() => (params.loading = false))
         }
 
-        const setPasswordManualVerifyState = (state: boolean) => {
-            params.passwordManualVerifyState = state
-        }
-
-        const updatePassword = () => {
+        const updatePassword = async () => {
             if (params.loading) return
             params.loading = true
-            params.passwordManualVerify = !params.passwordManualVerify
-            if (params.passwordManualVerifyState) {
-                const token = $storage.get($g.caches.storages.password.time) ?? null
-                if (token) {
-                    if (typeof props.resetPasswordAction === 'string') {
-                        $request[props.resetPasswordMethod.toLowerCase()](
-                            props.resetPasswordAction,
-                            {
-                                token: $storage.get($g.caches.storages.password.token) ?? null,
-                                input: $storage.get($g.caches.storages.password.input) ?? null,
-                                ...params.updateForm.validate
-                            }
-                        )
-                            .then((res: any) => {
-                                params.loading = false
-                                if (res?.ret?.code === 200) {
-                                    message.success({
-                                        content: t('passport.success'),
-                                        duration: 3
-                                    })
-                                    $storage.del(Object.values({...$g.caches.storages.password}))
-                                    setTimeout(() => router.push({path: '/login'}), 3000)
-                                } else message.error(res?.ret?.message)
-                            })
-                            .catch((err: any) => {
-                                params.loading = false
-                                message.error(err?.data?.message)
-                            })
-                    } else if (typeof props.sendCodeAction === 'function') {
-                        params.loading = false
-                        props.resetPasswordAction(params.updateForm.validate)
-                    }
-                } else {
+            const token = $storage.get($g.caches.storages.password.time) ?? null
+            if (token) {
+                if (typeof props.resetPasswordAction === 'string') {
+                    $request[props.resetPasswordMethod.toLowerCase()](props.resetPasswordAction, {
+                        token: $storage.get($g.caches.storages.password.token) ?? null,
+                        input: $storage.get($g.caches.storages.password.input) ?? null,
+                        ...params.updateForm.validate
+                    })
+                        .then((res: any) => {
+                            params.loading = false
+                            if (res?.ret?.code === 200) {
+                                message.success({
+                                    content: t('passport.success'),
+                                    duration: 3
+                                })
+                                $storage.del(Object.values({ ...$g.caches.storages.password }))
+                                setTimeout(() => router.push({ path: '/login' }), 3000)
+                            } else message.error(res?.ret?.message)
+                        })
+                        .catch((err: any) => {
+                            params.loading = false
+                            message.error(err?.data?.message)
+                        })
+                } else if (typeof props.sendCodeAction === 'function') {
                     params.loading = false
-                    message.error(t('passport.illegal'))
+                    props.resetPasswordAction(params.updateForm.validate)
                 }
-            } else params.loading = false
+            } else {
+                params.loading = false
+                message.error(t('passport.illegal'))
+            }
         }
 
         const renderMask = () => {
@@ -285,13 +282,18 @@ export default defineComponent({
         }
 
         const renderVerificationCodeSuffix = () => {
-            const tip = params.downtime <= 0 ? (
-                <span innerHTML={t('passport.resend')}></span>
-            ) : (
-                <span innerHTML={t('passport.resend-downtime', {sec: params.downtime})}></span>
-            )
+            const tip =
+                params.downtime <= 0 ? (
+                    <span innerHTML={t('passport.resend')}></span>
+                ) : (
+                    <span
+                        innerHTML={t('passport.resend-downtime', { sec: params.downtime })}></span>
+                )
             return (
-                <div class={`${prefixCls}-forget-suffix${params.downtime <= 0 ? ` ${prefixCls}-forget-resend` : ''}`}
+                <div
+                    class={`${prefixCls}-forget-suffix${
+                        params.downtime <= 0 ? ` ${prefixCls}-forget-resend` : ''
+                    }`}
                     onClick={resendVerificationCode}>
                     {tip}
                 </div>
@@ -372,12 +374,13 @@ export default defineComponent({
                     ref={formRef}
                     model={params.form.validate}
                     rules={Object.assign({}, params.form.rules, props.rules)}>
-                    <MiPassword repeat={true}
+                    <MiPassword
+                        repeat={true}
                         ref={updateForm}
-                        manualVerify={params.passwordManualVerify}
-                        onAfterVerify={setPasswordManualVerifyState}
+                        refCallback={(ref: any) => (passwordFormRef.value = ref)}
                         v-model:value={params.updateForm.validate.password}
-                        v-model:repeatValue={params.updateForm.validate.repeat} />
+                        v-model:repeatValue={params.updateForm.validate.repeat}
+                    />
                     {renderUpdateButton()}
                 </Form>
             ) : (
@@ -404,7 +407,9 @@ export default defineComponent({
 
         return () => (
             <div
-                class={`${prefixCls} ${prefixCls}-forget${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
+                class={`${prefixCls} ${prefixCls}-forget${
+                    $g.isMobile ? ` ${prefixCls}-mobile` : ''
+                }`}
                 style={{
                     backgroundImage: `url(${props.background ?? $g.background.default})`
                 }}>

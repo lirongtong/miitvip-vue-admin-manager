@@ -50,6 +50,7 @@ export default defineComponent({
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const formRef = ref(null)
+        const passwordFormRef = ref(null)
 
         const checkUsername = async (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -84,7 +85,6 @@ export default defineComponent({
 
         const params = reactive({
             loading: false,
-            passwordManualVerify: false,
             captcha: null,
             form: {
                 validate: {
@@ -155,20 +155,24 @@ export default defineComponent({
             emit('captchaSuccess', data)
         }
 
-        const register = () => {
+        const register = async () => {
             if (params.loading) return
             params.loading = true
-            params.passwordManualVerify = true
-            const reset = () => {
-                params.loading = false
-                params.passwordManualVerify = false
-            }
+            const passwordState = await passwordFormRef.value
+                .validate()
+                .then(() => {
+                    return true
+                })
+                .catch(() => {
+                    return false
+                })
             formRef.value
                 .validate()
                 .then(() => {
                     if (
-                        !params.form.validate.captcha ||
-                        (params.form.validate.captcha && params.captcha)
+                        passwordState &&
+                        (!params.form.validate.captcha ||
+                            (params.form.validate.captcha && params.captcha))
                     ) {
                         api.register = props.action
                         params.form.validate.url = api.register
@@ -176,7 +180,7 @@ export default defineComponent({
                             store
                                 .dispatch('passport/register', params.form.validate)
                                 .then((res: any) => {
-                                    reset()
+                                    params.loading = false
                                     if (
                                         props.onAfterRegister &&
                                         typeof props.onAfterRegister === 'function'
@@ -199,16 +203,16 @@ export default defineComponent({
                                     }
                                 })
                                 .catch((err: any) => {
-                                    reset()
+                                    params.loading = false
                                     message.error(err.message)
                                 })
                         } else if (typeof props.action === 'function') {
-                            reset()
+                            params.loading = false
                             props.action(params.form.validate)
                         }
-                    } else reset()
+                    } else params.loading = false
                 })
-                .catch(() => reset())
+                .catch(() => (params.loading = false))
         }
 
         const renderMask = () => {
@@ -285,7 +289,7 @@ export default defineComponent({
             return (
                 <MiPassword
                     repeat={props.passwordRepeat}
-                    manualVerify={params.passwordManualVerify}
+                    refCallback={(ref: any) => (passwordFormRef.value = ref)}
                     v-model:value={params.form.validate.password}
                     v-model:repeatValue={params.form.validate.repeat}
                     minLength={props.passwordMinLength}
