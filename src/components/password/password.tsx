@@ -18,7 +18,6 @@ export const passwordProps = () => ({
     repeat: PropTypes.bool.def(false),
     modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    refCallback: PropTypes.any.def(null),
     minLength: PropTypes.number.def(6),
     maxLength: PropTypes.number.def(32),
     complexity: PropTypes.bool.def(true),
@@ -43,7 +42,7 @@ export default defineComponent({
         'update:repeatValue',
         'input'
     ],
-    setup(props, { emit }) {
+    setup(props, { emit, expose }) {
         const { t, locale } = useI18n()
         const prefixCls = getPrefixCls('password', props.prefixCls)
         const prefixKey = getPrefixCls('password-key', props.prefixCls)
@@ -56,7 +55,7 @@ export default defineComponent({
             4: t('password.lv4')
         }
         const tip = props.complexityTip ?? t('password.tip')
-        const passwordFormRef = props.refCallback ?? ref<InstanceType<typeof HTMLFormElement>>(null)
+        const passwordFormRef = ref(null)
 
         const checkPassword = (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -287,6 +286,14 @@ export default defineComponent({
                 </Form.Item>
             ) : null
         }
+
+        const validate = () => {
+            return passwordFormRef.value.validate()
+        }
+        const validateFields = (fields: []) => {
+            return passwordFormRef.value.validate(fields)
+        }
+        expose({ validate, validateFields })
 
         return () => (
             <Form

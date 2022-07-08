@@ -159,7 +159,7 @@ export default defineComponent({
             if (params.loading) return
             params.loading = true
             const passwordState = await passwordFormRef.value
-                .validate()
+                ?.validate()
                 .then(() => {
                     return true
                 })
@@ -289,7 +289,7 @@ export default defineComponent({
             return (
                 <MiPassword
                     repeat={props.passwordRepeat}
-                    refCallback={(ref: any) => (passwordFormRef.value = ref)}
+                    ref={passwordFormRef}
                     v-model:value={params.form.validate.password}
                     v-model:repeatValue={params.form.validate.repeat}
                     minLength={props.passwordMinLength}

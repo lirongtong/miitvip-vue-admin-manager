@@ -49,10 +49,10 @@ export default defineComponent({
     inheritAttrs: false,
     props: captchaProps(),
     emits: ['init', 'checked', 'success'],
-    setup(props, { emit, attrs }) {
+    setup(props, { emit, attrs, expose }) {
         const prefixCls = getPrefixCls('captcha', props.prefixCls)
-        const captchaRef = ref<InstanceType<typeof HTMLDivElement>>(null)
-        const captchaModalRef = ref<InstanceType<typeof HTMLDivElement>>(null)
+        const captchaRef = ref(null)
+        const captchaModalRef = ref(null)
         const { t } = useI18n()
         const themeColorStyle = computed(() => {
             return props.themeColor
@@ -375,6 +375,12 @@ export default defineComponent({
                 </div>
             )
         }
+
+        const resetCaptcha = (reinit = true) => {
+            reset()
+            if (reinit) initCaptcha()
+        }
+        expose({ reset: (reinit = true) => resetCaptcha(reinit) })
 
         return () => (
             <div

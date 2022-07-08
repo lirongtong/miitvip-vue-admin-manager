@@ -38,7 +38,6 @@ export default defineComponent({
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const formRef = ref(null)
-        const passwordFormRef = ref(null)
         const updateForm = ref(null)
         const anim = getPrefixCls('anim-slide')
 
@@ -216,8 +215,8 @@ export default defineComponent({
         const updatePassword = async () => {
             if (params.loading) return
             params.loading = true
-            const passwordState = await passwordFormRef.value
-                .validate()
+            const passwordState = await updateForm.value
+                ?.validate()
                 .then(() => {
                     return true
                 })
@@ -404,7 +403,6 @@ export default defineComponent({
                     <MiPassword
                         repeat={true}
                         ref={updateForm}
-                        refCallback={(ref: any) => (passwordFormRef.value = ref)}
                         v-model:value={params.updateForm.validate.password}
                         v-model:repeatValue={params.updateForm.validate.repeat}
                     />
