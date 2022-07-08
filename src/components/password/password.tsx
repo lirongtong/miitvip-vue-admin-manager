@@ -18,7 +18,6 @@ export const passwordProps = () => ({
     repeat: PropTypes.bool.def(false),
     modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     repeatValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    manualVerify: PropTypes.bool.def(false),
     refCallback: PropTypes.any.def(null),
     minLength: PropTypes.number.def(6),
     maxLength: PropTypes.number.def(32),

@@ -228,11 +228,14 @@ export default defineComponent({
                 const token = $storage.get($g.caches.storages.password.time) ?? null
                 if (token) {
                     if (typeof props.resetPasswordAction === 'string') {
-                        $request[props.resetPasswordMethod.toLowerCase()](props.resetPasswordAction, {
-                            token: $storage.get($g.caches.storages.password.token) ?? null,
-                            input: $storage.get($g.caches.storages.password.input) ?? null,
-                            ...params.updateForm.validate
-                        })
+                        $request[props.resetPasswordMethod.toLowerCase()](
+                            props.resetPasswordAction,
+                            {
+                                token: $storage.get($g.caches.storages.password.token) ?? null,
+                                input: $storage.get($g.caches.storages.password.input) ?? null,
+                                ...params.updateForm.validate
+                            }
+                        )
                             .then((res: any) => {
                                 params.loading = false
                                 if (res?.ret?.code === 200) {
@@ -364,6 +367,20 @@ export default defineComponent({
             )
         }
 
+        const renderOtherButton = () => {
+            const cls = `${prefixCls}-links`
+            return (
+                <>
+                    <div class={cls}>
+                        <RouterLink to={{ path: '/login' }}>{t('passport.login.back')}</RouterLink>
+                        <RouterLink to={{ path: '/register' }}>
+                            {t('passport.register.go')}
+                        </RouterLink>
+                    </div>
+                </>
+            )
+        }
+
         const renderUpdateButton = () => {
             const cls = `${prefixCls}-submit`
             return (
@@ -404,6 +421,7 @@ export default defineComponent({
                     {renderVerificationCode()}
                     {renderCaptcha()}
                     {renderButton()}
+                    {renderOtherButton()}
                 </Form>
             )
             return (

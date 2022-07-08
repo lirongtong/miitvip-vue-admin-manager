@@ -204,9 +204,21 @@
 				}
 			}
 
+			&-links {
+				.flex(center, space-between);
+				.properties(padding-left, 4);
+				.properties(padding-right, 4);
+
+				a,
+				a:hover {
+					color: var(--mi-theme, @mi-theme);
+				}
+			}
+
 			&-socialite {
 				.flex();
 				color: var(--mi-font, @mi-font);
+				.properties(padding-left, 4);
 
 				.anticon {
 					.properties(font-size, 18);

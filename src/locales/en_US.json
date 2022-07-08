@@ -117,7 +117,8 @@
         "login": {
             "title": "Log in",
             "sign": "Sign up now",
-            "socialite": "Others"
+            "socialite": "Others",
+            "back": "Back to login"
         },
         "register": {
             "title": "Register",
@@ -125,6 +126,7 @@
             "account": "Please set up a user account",
             "email-valid": "please enter a valid email address",
             "format": "Only letters + numbers are allowed, 4-16 characters, and start with a letter",
+            "go": "Go to register",
             "tips": {
                 "special": "<span class='red'>&lt; Note &gt;</span> Login username, once set, it can't be changed.",
                 "structure": "- Consists of <span class='theme'>letters</span>、<span class='theme'>numbers</span> or <span class='theme'>underscores</span>.",

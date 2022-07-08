@@ -117,7 +117,8 @@
         "login": {
             "title": "登录",
             "sign": "立即注册",
-            "socialite": "快捷登录方式"
+            "socialite": "快捷登录方式",
+            "back": "返回登录"
         },
         "register": {
             "title": "注册",
@@ -125,6 +126,7 @@
             "account": "请设置用户账号",
             "email-valid": "请输入有效的邮箱地址",
             "format": "仅允许字母+数字，4-16 个字符，且以字母开头",
+            "go": "前往注册",
             "tips": {
                 "special": "<span class='red'>&lt; 特别提醒 &gt;</span> 登录用户名，一旦设置，则无法更改。",
                 "structure": "- 由 <span class='theme'>字母</span>、<span class='theme'>数字</span> 或 <span class='theme'>下划线</span> 组成。",
