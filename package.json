@@ -47,7 +47,8 @@
     "scripts": {
         "dev": "vite",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
-        "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src"
+        "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src",
+        "compile": "gulp --gulpfile build/gulp.style.config.js"
     },
     "dependencies": {
         "@ant-design/icons-vue": "^6.1.0",
@@ -76,6 +77,7 @@
         "@vue/compiler-sfc": "^3.2.31",
         "@vue/eslint-config-prettier": "^6.0.0",
         "@vue/eslint-config-typescript": "^10.0.0",
+        "autoprefixer": "^10.4.7",
         "eslint": "^8.11.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-import": "^2.26.0",
@@ -84,9 +86,19 @@
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^8.0.0",
         "gulp-babel": "^8.0.0",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-less": "^5.0.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-typescript": "^6.0.0-alpha.1",
         "less": "^4.1.2",
         "less-loader": "^10.2.0",
+        "less-plugin-npm-import": "^2.1.0",
+        "merge2": "^1.4.1",
+        "postcss": "^8.4.14",
         "prettier": "^2.6.2",
+        "rimraf": "^3.0.2",
+        "through2": "^4.0.2",
         "ts-loader": "^9.2.8",
         "typescript": "^4.7.2",
         "unplugin-vue-components": "^0.19.6",
