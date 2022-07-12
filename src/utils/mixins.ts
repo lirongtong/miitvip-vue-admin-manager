@@ -54,7 +54,7 @@ export default {
 
             // 请求拦截器 ( Bearer token )
             axios.interceptors.request.use(
-                (config: AxiosRequestConfig) => {
+                (config: AxiosRequestConfig | { [index: string]: any }) => {
                     const token = $cookie.get($g.caches.cookies.token.access)
                     if (token) config.headers.Authorization = `Bearer ${token}`
                     return config

@@ -22,7 +22,7 @@ export default defineComponent({
         }
         const getAvatarElem = () => {
             const icon = getPropSlot(slots, props, 'avatarIcon')
-            let avatar = null
+            let avatar: any = null
             if (props.avatarLink || icon) {
                 const style = props.avatarColor ? { background: props.avatarColor } : null
                 avatar = (

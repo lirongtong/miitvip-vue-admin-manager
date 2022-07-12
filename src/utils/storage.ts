@@ -32,17 +32,17 @@ class MiStorage {
      * @returns
      */
     get(keys: string | any[], prefix?: string): any {
-        let data: any = {}
+        let data: { [index: string]: any } | null = {}
         if (Array.isArray(keys)) {
             for (let i = 0, len = keys.length; i < len; i++) {
                 const key = keys[i]
                 const item = `${prefix ?? this.prefix}${key}`
-                data[key] = JSON.parse(this.instance.getItem(item))
+                data[key] = JSON.parse(this.instance.getItem(item) as string) as any
             }
         } else {
             data = null
             const key = `${prefix ?? this.prefix}${keys}`
-            if (keys) data = JSON.parse(this.instance.getItem(key))
+            if (keys) data = JSON.parse(this.instance.getItem(key) as string) as any
         }
         return data
     }

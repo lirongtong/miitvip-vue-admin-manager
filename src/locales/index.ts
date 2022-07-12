@@ -2,8 +2,8 @@ import { App } from 'vue'
 import { createI18n } from 'vue-i18n/index'
 import { $g } from '../utils/global'
 import { $storage } from '../utils/storage'
-import zhCN from './zh_CN.json'
-import enUS from './en_US.json'
+import zhCN from './zh_CN'
+import enUS from './en_US'
 
 const DEFAULT_LANG = $g.locale
 const LOCALE_KEY = $g.caches.storages.locale
@@ -22,7 +22,7 @@ const i18n = createI18n({
 
 const setLocale = (locale?: string, message?: {}) => {
     if (locale === undefined) locale = $storage.get(LOCALE_KEY) || DEFAULT_LANG
-    if (locales[locale]) {
+    if (locales[locale as string]) {
         i18n.global.mergeLocaleMessage(locale, message || {})
     } else if (Object.keys(message || {}).length > 0) {
         i18n.global.setLocaleMessage(locale, message)

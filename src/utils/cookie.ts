@@ -36,7 +36,7 @@ class MiCookie {
      * @param prefix
      */
     set(name: string, value: any, expire?: number | null, prefix?: string): void {
-        let expires = null
+        let expires: string | null = null
         if (expire) {
             const date = new Date()
             date.setTime(date.getTime() + expire * 24 * 60 * 60 * 1000)

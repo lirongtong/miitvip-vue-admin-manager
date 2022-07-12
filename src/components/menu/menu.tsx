@@ -123,7 +123,7 @@ export default defineComponent({
 
         const getMenuItems = () => {
             const items: any[] = []
-            data?.forEach((item: MenuItems) => {
+            data?.forEach((item: MenuItems | any) => {
                 if (item?.children?.length > 0) {
                     items.push(
                         <MiSubMenu

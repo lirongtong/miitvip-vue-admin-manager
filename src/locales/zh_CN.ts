@@ -1,4 +1,4 @@
-{
+export default {
     "site": "麦可易特网",
     "ok": "确定",
     "cancel": "取消",

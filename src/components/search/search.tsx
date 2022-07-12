@@ -197,7 +197,7 @@ const MiSearch = defineComponent({
             if (template) {
                 const templates = isVNode(template) ? [template] : template
                 params.list?.forEach((item: {}, idx: number) => {
-                    let elems = []
+                    let elems: any[] = []
                     if (props.pagination) {
                         if (idx >= min && idx < max) elems = renderCustomResultList(templates, item)
                     } else elems = renderCustomResultList(templates, item)
@@ -272,7 +272,7 @@ const MiSearch = defineComponent({
             return elems
         }
 
-        const renderCustomResultListItem = (node: VNode, item: object) => {
+        const renderCustomResultListItem = (node: VNode | any, item: object) => {
             if (node?.children?.length > 0) {
                 const data = { ...item }
                 const children: any[] = []
@@ -292,9 +292,9 @@ const MiSearch = defineComponent({
         }
 
         const renderSearchKey = (node: VNode, item: {}) => {
-            const tag = node.props.tag
-            const name = node.props.name
-            const type = node.props.type
+            const tag = (node.props as any).tag
+            const name = (node.props as any).name
+            const type = (node.props as any).type
             const key = $tools.uid(false, $g.prefix)
             return (
                 <MiSearchKey
@@ -526,7 +526,7 @@ const MiSearch = defineComponent({
             },
             keyword: props.searchKeyColor ? `color: ${props.searchKeyColor}` : null,
             page: { color: props.pageColor ?? null }
-        }
+        } as { [index: string]: any }
 
         const suffix = getPropSlot(slots, props, 'suffix')
         const suffixTag = props.suffix ? (
@@ -562,7 +562,7 @@ const MiSearch = defineComponent({
                             class={`${prefixCls}-mask`}
                             onClick={handleMaskClick}
                             key={$tools.uid(false, $g.prefix)}
-                            style={{ display: params.show ? null : 'none' }}
+                            style={{ display: params.show ? null : 'none' } as any}
                         />
                     </Teleport>
                 ) : null}

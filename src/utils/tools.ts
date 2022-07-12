@@ -84,7 +84,7 @@ class MiTools {
      * @param str
      * @param formatter
      */
-    formatEmpty(str?: string, formatter?: string): string {
+    formatEmpty(str?: string, formatter?: string): string | undefined {
         if (this.isEmpty(str)) return formatter ?? '-'
         return str
     }
@@ -200,7 +200,7 @@ class MiTools {
      * @returns
      */
     replaceUrlParams(url: string, params?: { [index: string]: any }) {
-        if (Object.keys(params).length > 0) {
+        if (Object.keys(params as {}).length > 0) {
             for (const i in params) {
                 if (params.hasOwnProperty(i)) {
                     const reg = new RegExp('{' + i + '}', 'gi')
@@ -216,8 +216,8 @@ class MiTools {
      * @param value
      * @param base
      */
-    px2Rem(value: number, base = 16) {
-        return Math.round((value / base) * 100) / 100
+    px2Rem(value: number | undefined, base = 16): number | undefined {
+        return value ? Math.round((value / base) * 100) / 100 : value
     }
 
     /**
@@ -225,7 +225,7 @@ class MiTools {
      * @param num
      * @returns
      */
-    convert2Rem(num: number | string | null | undefined): any {
+    convert2Rem(num: any): any {
         return $tools.isNumber(num)
             ? `${this.px2Rem(parseInt(num.toString()))}rem`
             : num
@@ -240,24 +240,24 @@ class MiTools {
      * @param color
      * @param opacity
      */
-    colorHex2Rgba(color: string | undefined, opacity = 1): string {
-        const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-        if (reg.test(color)) {
-            if (color.length === 4) {
-                let newColor = '#'
-                for (let i = 1; i < 4; i++) {
-                    newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
+    colorHex2Rgba(color: string | undefined, opacity = 1): string | undefined {
+        if (color) {
+            const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+            if (reg.test(color)) {
+                if (color.length === 4) {
+                    let newColor = '#'
+                    for (let i = 1; i < 4; i++) {
+                        newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
+                    }
+                    color = newColor
                 }
-                color = newColor
+                const changeColor: number[] = []
+                for (let i = 1; i < 7; i += 2) {
+                    changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
+                }
+                return `rgba(${changeColor.join(',')}, ${opacity})`
             }
-            const changeColor: number[] = []
-            for (let i = 1; i < 7; i += 2) {
-                changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
-            }
-            return `rgba(${changeColor.join(',')}, ${opacity})`
-        } else {
-            return color
-        }
+        } else return color
     }
 
     /**
@@ -265,31 +265,31 @@ class MiTools {
      * @param color
      */
     colorRgb2Hex(color: string | undefined) {
-        const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-        if (/^(rgb|RGB)/.test(color)) {
-            const aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
-            let strHex = '#'
-            for (let i = 0; i < aColor.length; i++) {
-                let hex = Number(aColor[i]).toString(16)
-                if (hex === '0') hex += hex
-                strHex += hex
-            }
-            if (strHex.length !== 7) strHex = color
-            return strHex
-        } else if (reg.test(color)) {
-            const aNum = color.replace(/#/, '').split('')
-            if (aNum.length === 6) {
-                return color
-            } else if (aNum.length === 3) {
-                let numHex = '#'
-                for (let i = 0; i < aNum.length; i += 1) {
-                    numHex += aNum[i] + aNum[i]
+        if (color) {
+            const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+            if (/^(rgb|RGB)/.test(color)) {
+                const aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
+                let strHex = '#'
+                for (let i = 0; i < aColor.length; i++) {
+                    let hex = Number(aColor[i]).toString(16)
+                    if (hex === '0') hex += hex
+                    strHex += hex
                 }
-                return numHex
+                if (strHex.length !== 7) strHex = color
+                return strHex
+            } else if (reg.test(color)) {
+                const aNum = color.replace(/#/, '').split('')
+                if (aNum.length === 6) {
+                    return color
+                } else if (aNum.length === 3) {
+                    let numHex = '#'
+                    for (let i = 0; i < aNum.length; i += 1) {
+                        numHex += aNum[i] + aNum[i]
+                    }
+                    return numHex
+                }
             }
-        } else {
-            return color
-        }
+        } else return color
     }
 
     /**
@@ -408,7 +408,7 @@ class MiTools {
      * @returns
      */
     htmlEncode(html: string) {
-        let temp = document.createElement('div') as HTMLDivElement
+        let temp: HTMLDivElement | null = document.createElement('div') as HTMLDivElement
         temp.textContent !== null ? (temp.textContent = html) : (temp.innerText = html)
         const output = temp.innerHTML
         temp = null

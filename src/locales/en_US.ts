@@ -1,4 +1,4 @@
-{
+export default {
     "site": "makeit.vip",
     "ok": "OK",
     "cancel": "Cancel",

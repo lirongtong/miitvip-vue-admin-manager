@@ -71,7 +71,7 @@ const babelify = (js, modules) => {
         .pipe(gulp.dest(modules === false ? dirs.es : dirs.lib))
 }
 
-const compile = (modules) => {
+const compile = async (modules) => {
     rimraf.sync(modules === false ? dirs.es : dirs.lib)
     const lessStream = gulp.src(['../src/**/*.less', '../src/**/**/*.less'])
         .pipe(
@@ -79,7 +79,9 @@ const compile = (modules) => {
                 this.push(file.clone())
                 if (
                     file.path.match(/\\style\\index\.less$/) ||
-                    file.path.match(/\/style\/index\.less$/)
+                    file.path.match(/\/style\/index\.less$/) ||
+                    file.path.match(/\\index\.less$/) ||
+                    file.path.match(/\/index\.less$/)
                 ) {
                     transformLess(file.path)
                         .then(css => {
@@ -121,20 +123,18 @@ const compile = (modules) => {
     return merge2([lessStream, tsFileStream, tsd])
 }
 
-gulp.task('compile-with-es', gulp.series(done => {
-    compile(false).on('finish', () => {
-        done()
-    })
+gulp.task('compile-with-es', gulp.series(async done => {
+    await compile(false)
+    done()
 }))
 
-gulp.task('compile', gulp.series('compile-with-es', done => {
-    compile().on('finish', () => {
-        done()
-    })
+gulp.task('compile', gulp.series('compile-with-es', async done => {
+    await compile()
+    done()
 }))
 
 gulp.task('concat-css', (done) => {
-    const stream = gulp.src([dirs.lib + '/**/*.css'])
+    gulp.src([dirs.lib + '/**/*.css'])
         .pipe(less())
         .pipe(sourcemaps.init())
         .pipe(autoPrefixer({

@@ -30,7 +30,7 @@ export default defineComponent({
         const getSubmenuItem = () => {
             const items: any[] = []
             const children = props.item.children as MenuItems[]
-            children?.forEach((child: MenuItems) => {
+            children?.forEach((child: MenuItems | any) => {
                 if (child?.children?.length > 0) {
                     items.push(<MiSubMenu item={child} key={`${$g.prefix + child.name}`} />)
                 } else {
