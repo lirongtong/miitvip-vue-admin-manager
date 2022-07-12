@@ -31,14 +31,14 @@ export default defineComponent({
         const prefixCls = getPrefixCls('dropdown', props.prefixCls)
 
         watch(route, () => {
-            const active = [$g.prefix + String(route.name)]
+            const active = [$g.prefix + String(route.name)] as any[]
             $g.menus.active = active
             store.commit(`layout/${mutations.layout.active}`, active)
         })
 
         const getDropdownMenu = () => {
             const items = props.items ?? $g.menus.dropdown
-            const links = []
+            const links: any[] = []
             items?.forEach((item: any) => {
                 let link: any = null
                 if (item.path) {
@@ -57,7 +57,7 @@ export default defineComponent({
                     }
                 } else {
                     link = (
-                        <a onClick={item.callback ? (evt) => item.callback(evt) : null}>
+                        <a onClick={item.callback ? (evt) => item.callback(evt) : undefined}>
                             <MiDropdownItem item={item} />
                         </a>
                     )

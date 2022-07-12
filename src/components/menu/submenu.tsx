@@ -28,7 +28,7 @@ export default defineComponent({
         })
         const title = <MiMenuItemLink {...props} hasTitle={true} />
         const getSubmenuItem = () => {
-            const items = []
+            const items: any[] = []
             const children = props.item.children as MenuItems[]
             children?.forEach((child: MenuItems) => {
                 if (child?.children?.length > 0) {

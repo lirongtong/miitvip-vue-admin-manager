@@ -42,14 +42,14 @@ export default defineComponent({
         const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
         const animation = getPrefixCls('anim-scale')
 
-        const modalRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const maskRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const contentRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const sliderRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const sliderBtnRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const imageRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const blockRef = ref<InstanceType<typeof HTMLElement>>(null)
-        const resultRef = ref<InstanceType<typeof HTMLElement>>(null)
+        const modalRef = ref(null)
+        const maskRef = ref(null)
+        const contentRef = ref(null)
+        const sliderRef = ref(null)
+        const sliderBtnRef = ref(null)
+        const imageRef = ref(null)
+        const blockRef = ref(null)
+        const resultRef = ref(null)
 
         const show = ref<boolean>(props.show)
 
@@ -61,7 +61,7 @@ export default defineComponent({
             mask: `${prefixCls}-mask`,
             result: `${prefixCls}-result`,
             content: `${prefixCls}-content`
-        }
+        } as { [index: string]: any }
         const params = reactive({
             loading: true,
             background: BACKGROUND,
@@ -111,7 +111,7 @@ export default defineComponent({
                 value: null
             },
             _background: null
-        })
+        }) as { [index: string]: any }
 
         onMounted(() => {
             init()
@@ -133,8 +133,8 @@ export default defineComponent({
 
         const initModal = () => {
             params.elements = {
-                slider: sliderBtnRef.value,
-                block: blockRef.value
+                slider: sliderBtnRef.value as any,
+                block: blockRef.value as any
             }
             params.block.real = params.block.size + params.block.radius * 2 + 2
             setCheckData()
@@ -160,8 +160,8 @@ export default defineComponent({
         }
 
         const initCaptcha = () => {
-            const image = imageRef.value as HTMLCanvasElement
-            const block = blockRef.value as HTMLCanvasElement
+            const image = imageRef.value as HTMLCanvasElement | null
+            const block = blockRef.value as HTMLCanvasElement | null
             const imageCtx = image ? image.getContext('2d') : null
             const blockCtx = block ? block.getContext('2d') : null
             params.ctx = { image: imageCtx, block: blockCtx }
@@ -196,7 +196,7 @@ export default defineComponent({
         const refreshCaptcha = () => {
             params.loading = true
             setCheckData()
-            const block = blockRef.value as HTMLCanvasElement
+            const block = blockRef.value as any
             block.width = params.size.width
             params.ctx.image.clearRect(0, 0, params.size.width, params.size.height)
             params.ctx.block.clearRect(0, 0, params.size.width, params.size.height)
@@ -218,9 +218,9 @@ export default defineComponent({
         }
 
         const image2Base64 = (callback: Function) => {
-            const elem = new Image()
+            const elem = new Image() as HTMLImageElement
             const canvas = document.createElement('canvas')
-            const ctx = canvas.getContext('2d')
+            const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
             canvas.width = params.size.width
             canvas.height = params.size.height
             elem.crossOrigin = ''
@@ -259,7 +259,7 @@ export default defineComponent({
                     params.block.real,
                     params.block.real
                 )
-                const block = blockRef.value as HTMLCanvasElement
+                const block = blockRef.value as HTMLCanvasElement | null
                 if (block) block.width = params.block.real
                 params.ctx.block.putImageData(imageData, params.coordinate.offset, coordinateY)
                 params.ctx.block.restore()
@@ -371,8 +371,8 @@ export default defineComponent({
 
         const dragStart = (evt: any) => {
             const x = evt.clientX || evt.touches[0].clientX
-            const sliderRect = getBoundingClientRect(sliderRef.value)
-            const sliderBtnRect = getBoundingClientRect(sliderBtnRef.value)
+            const sliderRect = getBoundingClientRect(sliderRef.value as any)
+            const sliderBtnRect = getBoundingClientRect(sliderBtnRef.value as any)
             params.drag.originX = Math.round(sliderRect.left * 10) / 10
             params.drag.originY = Math.round(sliderRect.top * 10) / 10
             params.drag.offset = Math.round((x - sliderBtnRect.left) * 10) / 10
@@ -445,7 +445,7 @@ export default defineComponent({
                     succcess()
                 }
             } else error()
-            const result = resultRef.value
+            const result = resultRef.value as HTMLElement | null
             if (result) result.style.bottom = '0'
             if (params.check.num <= params.check.tries) params.check.show = true
             setTimeout(() => {
@@ -473,7 +473,7 @@ export default defineComponent({
                 borderColor: props.themeColor
                     ? `transparent ${props.themeColor} transparent transparent`
                     : null
-            }
+            } as { [index: string]: any }
             return (
                 <div class={arrowCls}>
                     <div class={`${arrowCls}-out`} style={style} />
@@ -492,7 +492,7 @@ export default defineComponent({
                               props.boxShadowColor || props.themeColor
                           }`
                         : null
-            }
+            } as { [index: string]: any }
             return (
                 <div class={classes.content} style={style} ref={contentRef}>
                     <div class={`${prefixCls}-wrap`}>

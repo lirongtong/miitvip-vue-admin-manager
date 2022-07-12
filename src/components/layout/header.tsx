@@ -56,7 +56,7 @@ export default defineComponent({
         }
 
         const getScreenfull = () => {
-            let elem = !full.value ? (
+            let elem: any = !full.value ? (
                 <ExpandOutlined onClick={screenfullQuitOrIn} />
             ) : (
                 <CompressOutlined onClick={screenfullQuitOrIn} />

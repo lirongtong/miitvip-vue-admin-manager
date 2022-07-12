@@ -35,11 +35,10 @@ export default defineComponent({
             }
         }
 
+        const style = (props.item.fontSize ? { fontSize: `${props.item.fontSize}px` } : null) as any
         return () => (
             <>
-                <div style={props.item.fontSize ? { fontSize: `${props.item.fontSize}px` } : null}>
-                    {icon}
-                </div>
+                <div style={style}>{icon}</div>
                 {props.item.title ? (
                     <span class={`${prefixCls}-title`} innerHTML={props.item.title}></span>
                 ) : null}

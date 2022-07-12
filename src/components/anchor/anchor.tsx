@@ -33,8 +33,8 @@ const Anchor = defineComponent({
         const prefixCls = getPrefixCls('anchor', props.prefixCls)
         const prefixAnchorKey = getPrefixCls(`anchor-${$tools.uid()}`, props.prefixCls)
         const prefixStickKey = getPrefixCls(`anchor-stick-${$tools.uid()}`, props.prefixCls)
-        const anchorRef = ref<InstanceType<typeof HTMLDivElement>>(null)
-        const stickRef = ref<InstanceType<typeof HTMLDivElement>>(null)
+        const anchorRef = ref(null)
+        const stickRef = ref(null)
         const animation = getPrefixCls('anim-anchor')
         const params = reactive({
             visible: true,
@@ -46,7 +46,7 @@ const Anchor = defineComponent({
             stickTop: props.offsetTop,
             manualActive: false,
             manualTimer: null
-        })
+        }) as { [index: string]: any }
 
         onBeforeMount(() => {
             $tools.off(document.body, 'scroll', scrollBody)
@@ -56,12 +56,12 @@ const Anchor = defineComponent({
             nextTick(() => {
                 let container: any = document
                 if (props.collectContainer)
-                    container = document.querySelector(props.collectContainer)
+                    container = document.querySelector(props.collectContainer) as HTMLElement
                 params.list = parseAnchorData(container.querySelectorAll(props.selector))
                 params.linkTemplate = []
                 nextTick(() => {
                     if (anchorRef.value) {
-                        const height = anchorRef.value.clientHeight
+                        const height = (anchorRef.value as HTMLElement).clientHeight
                         const offset = $tools.getElementActualTopOrLeft(anchorRef.value)
                         params.stickTop = Math.round((offset + height / 2 - 66) * 100) / 100
                     }
@@ -75,7 +75,7 @@ const Anchor = defineComponent({
         })
 
         const parseAnchorData = (nodes: HTMLElement[]) => {
-            const data = []
+            const data: any[] = []
             nodes.forEach((node) => {
                 const setAttr = (item: HTMLElement) => {
                     let id = $tools.uid()
@@ -101,7 +101,7 @@ const Anchor = defineComponent({
                 const scrollTop =
                     (document.documentElement.scrollTop || document.body.scrollTop) +
                     props.scrollOffset
-                params.list.forEach((item, idx) => {
+                params.list.forEach((item: { [index: string]: any }, idx: number) => {
                     const next = params.list[idx + 1]
                     params.actives[idx] = false
                     if (next) {
@@ -125,7 +125,7 @@ const Anchor = defineComponent({
         }
 
         const clickAnchorLink = (evt: AnchorLinkItem) => {
-            params?.list?.forEach((item, idx) => {
+            params?.list?.forEach((item: { [index: string]: any }, idx: number) => {
                 params.actives[idx] = false
                 if (item.id === evt.id) {
                     params.actives[idx] = true
@@ -148,13 +148,13 @@ const Anchor = defineComponent({
             params.visible = false
             params.stick = false
             setTimeout(() => {
-                if (anchorRef.value) anchorRef.value.remove()
-                if (stickRef.value) stickRef.value.remove()
+                if (anchorRef.value) (anchorRef.value as HTMLElement).remove()
+                if (stickRef.value) (stickRef.value as HTMLElement).remove()
             }, 400)
         }
 
         const renderList = () => {
-            const links = []
+            const links: any[] = []
             params?.list.forEach((link: HTMLElement, idx: number) => {
                 links.push(
                     <AnchorLink
@@ -174,7 +174,7 @@ const Anchor = defineComponent({
             const style = {
                 anchor: { top: $tools.convert2Rem(props.offsetTop) },
                 stick: { top: $tools.convert2Rem(params.stickTop) }
-            }
+            } as { [index: string]: any }
             const rotate = params.hover ? -45 : 0
             const title = params.hover ? t('anchor.stick.no') : t('anchor.stick.yes')
             return params.linkTemplate || params?.list?.length > 0 ? (

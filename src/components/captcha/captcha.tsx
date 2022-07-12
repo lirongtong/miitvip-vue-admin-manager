@@ -55,12 +55,14 @@ export default defineComponent({
         const captchaModalRef = ref(null)
         const { t } = useI18n()
         const themeColorStyle = computed(() => {
-            return props.themeColor
-                ? {
-                      backgroundColor: props.themeColor,
-                      boxShadow: `inset 0 0 0 1px ${props.themeColor}`
-                  }
-                : null
+            return (
+                props.themeColor
+                    ? {
+                          backgroundColor: props.themeColor,
+                          boxShadow: `inset 0 0 0 1px ${props.themeColor}`
+                      }
+                    : null
+            ) as any
         })
         const params = reactive({
             avatar: AVATAR,
@@ -86,7 +88,7 @@ export default defineComponent({
                 pos: {}
             },
             verifyParams: { ...props.verifyParams }
-        })
+        }) as { [index: string]: any }
 
         onBeforeUnmount(() => {
             closeCaptchaModal({ status: 'close' })
@@ -162,7 +164,7 @@ export default defineComponent({
         }
 
         const getCaptchaModalPosition = () => {
-            const elem = captchaRef.value
+            const elem = captchaRef.value as any
             let pos = { left: 0, top: 0 }
             if (elem) {
                 const rect = elem.getBoundingClientRect()
@@ -189,7 +191,7 @@ export default defineComponent({
                 borderRadius: props.radius ? $tools.convert2Rem(props.radius) : null,
                 background: backgroundColor,
                 borderColor: props.themeColor ?? null
-            }
+            } as { [index: string]: any }
             return <div class={cls} style={style}></div>
         }
 
@@ -197,7 +199,7 @@ export default defineComponent({
             const name = `${prefixCls}-message`
             const exist = document.getElementById(name)
             if (exist) exist.remove()
-            const elem = document.createElement('div')
+            const elem = document.createElement('div') as HTMLElement
             elem.id = name
             elem.className = name
             elem.innerHTML = `
@@ -312,12 +314,16 @@ export default defineComponent({
         }
 
         const renderRadarScan = () => {
-            const borderColor = props.themeColor
-                ? `${props.themeColor} transparent ${props.themeColor} transparent`
-                : null
-            const borderColor2 = props.themeColor
-                ? `transparent ${props.themeColor} transparent ${props.themeColor}`
-                : null
+            const borderColor = (
+                props.themeColor
+                    ? `${props.themeColor} transparent ${props.themeColor} transparent`
+                    : null
+            ) as any
+            const borderColor2 = (
+                props.themeColor
+                    ? `transparent ${props.themeColor} transparent ${props.themeColor}`
+                    : null
+            ) as any
             return params.status.scanning ? (
                 <div class={`${prefixCls}-radar-scan`}>
                     <div class="double-ring">
@@ -359,13 +365,13 @@ export default defineComponent({
                     params.status.success && props.themeColor
                         ? props.themeColor
                         : props.textColor ?? null
-            }
+            } as any
             return <div class={cls} style={style} innerHTML={params.tip} />
         }
 
         const renderRadarLogo = () => {
             const height = props.height && props.height > 40 ? props.height : null
-            const top = Math.round(((height - 20) / 2) * 100) / 100 - 1
+            const top = height ? Math.round(((height - 20) / 2) * 100) / 100 - 1 : null
             const style = { top: height ? $tools.convert2Rem(top) : null }
             return (
                 <div class={`${prefixCls}-radar-logo`} style={style}>

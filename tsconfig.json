@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+	"compilerOptions": {
 		"target": "esnext",
 		"module": "esnext",
 		"strict": true,
@@ -20,15 +20,29 @@
 		"declarationDir": "es",
 		"allowJs": true,
 		"resolveJsonModule": true,
-        "baseUrl": "./",
-        "paths": {
-            "@/*": ["example/*"],
-            "@views/*": ["example/views/*"],
-			"@images/*": ["example/assets/images/*"],
-			"@src/*": ["src/*"],
-			"@utils/*": ["src/utils/*"],
-			"makeit-admin-pro": ["src/index.ts"],
-			"makeit-admin-pro/style": ["src/style.ts"],
+		"baseUrl": "./",
+		"paths": {
+			"@/*": [
+				"example/*"
+			],
+			"@views/*": [
+				"example/views/*"
+			],
+			"@images/*": [
+				"example/assets/images/*"
+			],
+			"@src/*": [
+				"src/*"
+			],
+			"@utils/*": [
+				"src/utils/*"
+			],
+			"makeit-admin-pro": [
+				"src/index.ts"
+			],
+			"makeit-admin-pro/style": [
+				"src/style.ts"
+			],
 		},
 		"lib": [
 			"esnext",

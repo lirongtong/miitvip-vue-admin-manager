@@ -49,8 +49,8 @@ export default defineComponent({
         const store = useStore()
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
-        const formRef = ref(null)
-        const passwordFormRef = ref(null)
+        const formRef = ref(null) as any
+        const passwordFormRef = ref(null) as any
 
         const checkUsername = async (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -116,7 +116,7 @@ export default defineComponent({
                 username: null,
                 email: null
             }
-        })
+        }) as { [index: string]: any }
 
         const checkName = async () => {
             if ($tools.isEmpty(params.form.validate.username)) return

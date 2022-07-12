@@ -20,7 +20,7 @@ export default defineComponent({
         const params = reactive({
             left: [],
             first: {} as any
-        })
+        }) as { [index: string]: any }
 
         const redirect = (url: string) => {
             const domain = props.domain ?? $g.socialites.domain
@@ -30,7 +30,7 @@ export default defineComponent({
 
         const parseItems = () => {
             const items = props.items ?? $g.socialites.items
-            const list = []
+            const list: any[] = []
             items.forEach((item: any, idx: number) => {
                 item.callback = item.callback ?? (() => redirect(item.name))
                 if (idx === 0) params.first = item
@@ -43,7 +43,7 @@ export default defineComponent({
         return () => {
             let elem: any = null
             if ($g.isMobile) {
-                const icons = []
+                const icons: any[] = []
                 const items = [{ ...params.first }].concat(params.left)
                 items.forEach((item: any) => {
                     icons.push(

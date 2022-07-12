@@ -37,8 +37,8 @@ export default defineComponent({
         const { t } = useI18n()
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
-        const formRef = ref(null)
-        const updateForm = ref(null)
+        const formRef = ref(null) as any
+        const updateForm = ref(null) as any
         const anim = getPrefixCls('anim-slide')
 
         const validateInput = async (_rule: any, value: string) => {
@@ -91,7 +91,7 @@ export default defineComponent({
                     repeat: null
                 }
             }
-        })
+        }) as { [index: string]: any }
 
         const captchaVerify = (data: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid

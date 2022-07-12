@@ -225,7 +225,7 @@ class MiTools {
      * @param num
      * @returns
      */
-    convert2Rem(num: number | string): any {
+    convert2Rem(num: number | string | null | undefined): any {
         return $tools.isNumber(num)
             ? `${this.px2Rem(parseInt(num.toString()))}rem`
             : num
@@ -240,7 +240,7 @@ class MiTools {
      * @param color
      * @param opacity
      */
-    colorHex2Rgba(color: string, opacity = 1): string {
+    colorHex2Rgba(color: string | undefined, opacity = 1): string {
         const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
         if (reg.test(color)) {
             if (color.length === 4) {
@@ -264,7 +264,7 @@ class MiTools {
      * convert color.
      * @param color
      */
-    colorRgb2Hex(color: string) {
+    colorRgb2Hex(color: string | undefined) {
         const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
         if (/^(rgb|RGB)/.test(color)) {
             const aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')

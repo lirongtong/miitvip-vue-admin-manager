@@ -26,11 +26,11 @@ export const $g = reactive({
             dark: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAJIqKARAkyAACmjWZTun0852.png',
             light: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAKve-Ac7D8AAH4rA17tm0600.png'
         }
-    },
+    } as { [index: string]: any },
     background: {
         default: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7Z_ieAVz4DAAAdR-zeJvg322.svg',
         captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
-    },
+    } as { [index: string]: any },
     keywords:
         'makeit, makeit.vip, makeit-admin, admin-manage, makeit admin pro, miitvip, vue, vue3, vite, typescript, ant-design-vue component-ui, ui frame, 麦可易特网',
     description:
@@ -87,7 +87,7 @@ export const $g = reactive({
         password: /^[A-Za-z0-9~!@#$%^&*()_+=\-.,]{6,32}$/,
         username: /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){3,15}$/,
         email: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-    },
+    } as { [index: string]: any },
 
     /**
      * 缓存 Key 值 ( cached key value ).
@@ -121,7 +121,7 @@ export const $g = reactive({
                 input: 'password-reset-input'
             }
         }
-    },
+    } as { [index: string]: any },
 
     socialites: {
         domain: 'http://local-api.makeit.vip/v1/oauth',
@@ -143,7 +143,7 @@ export const $g = reactive({
                 icon: GoogleOutlined
             }
         ]
-    },
+    } as { [index: string]: any },
 
     /**
      * side menu.
@@ -164,8 +164,8 @@ export const $g = reactive({
         dropdown: [],
         relationshipChain: [],
         width: 256
-    },
-    breadcrumbs: [],
+    } as { [index: string]: any },
+    breadcrumbs: [] as any[],
 
     copyright: {
         pc: `&copy; Copyright 2020 - ${now} <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )`,

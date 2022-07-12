@@ -118,7 +118,7 @@ const MiSearch = defineComponent({
                 total: 0,
                 active: 1
             }
-        })
+        }) as { [index: string]: any }
 
         const renderList = () => {
             const style = {
@@ -137,7 +137,7 @@ const MiSearch = defineComponent({
                           }`
                         : null,
                 marginTop: props.gap ? `${$tools.px2Rem(props.gap)}rem` : null
-            }
+            } as { [index: string]: any }
             const elem = (
                 <>
                     {/* no data */}
@@ -173,7 +173,7 @@ const MiSearch = defineComponent({
         }
 
         const renderResultList = () => {
-            const res = []
+            const res: any[] = []
             const template = getPropSlot(slots, props, 'itemTemplate')
             let min = 0
             let max = 0
@@ -196,7 +196,7 @@ const MiSearch = defineComponent({
             }
             if (template) {
                 const templates = isVNode(template) ? [template] : template
-                params.list?.forEach((item: {}, idx) => {
+                params.list?.forEach((item: {}, idx: number) => {
                     let elems = []
                     if (props.pagination) {
                         if (idx >= min && idx < max) elems = renderCustomResultList(templates, item)
@@ -204,7 +204,7 @@ const MiSearch = defineComponent({
                     if (elems.length > 0) pushResultItem(item, elems)
                 })
             } else {
-                params.list?.forEach((item, idx) => {
+                params.list?.forEach((item: {}, idx: number) => {
                     let elem: any = null
                     if (props.pagination) {
                         if (idx >= min && idx < max) elem = renderDefaultResultList(item)
@@ -227,16 +227,18 @@ const MiSearch = defineComponent({
                     <img src={item.avatar} alt={item.name ?? $g.powered} />
                 </div>
             ) : null
-            let icon = null
+            let icon: any = null
             if (item.icon) {
                 const IconTag = isVNode(item.icon) ? item.icon : h(item.icon)
                 icon = <IconTag />
             }
-            const width = props.width
-                ? avatar
-                    ? `${$tools.px2Rem(props.width > 260 ? 180 : props.width - 80)}rem`
+            const width = (
+                props.width
+                    ? avatar
+                        ? `${$tools.px2Rem(props.width > 260 ? 180 : props.width - 80)}rem`
+                        : null
                     : null
-                : null
+            ) as any
             const info = (
                 <div
                     class={`${prefixCls}-item-info${
@@ -256,7 +258,7 @@ const MiSearch = defineComponent({
         }
 
         const renderCustomResultList = (templates: VNode[], item: object) => {
-            const elems = []
+            const elems: any[] = []
             templates?.forEach((template: VNode) => {
                 if (isVNode(template)) {
                     let elem = cloneVNode(template)
@@ -273,7 +275,7 @@ const MiSearch = defineComponent({
         const renderCustomResultListItem = (node: VNode, item: object) => {
             if (node?.children?.length > 0) {
                 const data = { ...item }
-                const children = []
+                const children: any[] = []
                 for (let i = 0, l = node.children.length; i < l; i++) {
                     const cur = node.children[i]
                     if (isVNode(cur)) {

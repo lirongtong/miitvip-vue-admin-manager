@@ -42,14 +42,14 @@ const isEmptyElement = (elem: any) => {
     )
 }
 
-const flattenChildren = (children = []) => {
+const flattenChildren = (children: any[] = []) => {
     children = Array.isArray(children) ? children : [children]
-    const res = []
-    children.forEach((child) => {
+    const res: any[] = []
+    children?.forEach((child: { [index: string]: any } | []) => {
         if (Array.isArray(child)) {
             res.push(...flattenChildren(child))
-        } else if (child && child.type === Fragment) {
-            res.push(...flattenChildren(child.children))
+        } else if (child?.type === Fragment) {
+            res.push(...flattenChildren(child?.children))
         } else if (child && isVNode(child) && !isEmptyElement(child)) {
             res.push(child)
         } else if ($tools.isValid(child)) {
@@ -62,9 +62,9 @@ const flattenChildren = (children = []) => {
 const getSlot = (instance: any, name = 'default', options = {}) => {
     if (isVNode(instance)) {
         if (instance.type === Fragment) {
-            return name === 'default' ? flattenChildren(instance.children as any[]) : []
-        } else if (instance.children && instance.children[name]) {
-            return flattenChildren(instance.children[name](options))
+            return name === 'default' ? flattenChildren(instance?.children as any[]) : []
+        } else if ((instance?.children as any[])[name]) {
+            return flattenChildren((instance?.children as any[])[name](options))
         } else {
             return []
         }
@@ -75,13 +75,13 @@ const getSlot = (instance: any, name = 'default', options = {}) => {
 }
 
 const getSlotContent = (instance: any, prop = 'default', options = instance, exec = true) => {
-    let content = undefined
+    let content: any = undefined
     if (instance.$) {
         const temp = instance[prop]
         if (temp !== undefined) {
             return typeof temp === 'function' && exec ? temp(options) : temp
         } else {
-            content = instance.$slots[prop]
+            content = instance.$slots[prop] as any
             content = content && exec ? content(options) : content
         }
     } else if (isVNode(instance)) {
@@ -89,16 +89,16 @@ const getSlotContent = (instance: any, prop = 'default', options = instance, exe
         if (temp !== undefined && instance.props !== null) {
             return typeof temp === 'function' && exec ? temp(options) : temp
         } else if (instance.type === Fragment) {
-            content = instance.children
-        } else if (instance.children && instance.children[prop]) {
-            content = instance.children[prop]
+            content = instance?.children
+        } else if ((instance?.children as any[])[prop]) {
+            content = (instance?.children as any[])[prop] as any
             content = content && exec ? content(options) : content
         }
     }
     if (Array.isArray(content)) {
         content = flattenChildren(content)
-        content = content.length === 1 ? content[0] : content
-        content = content.length === 0 ? undefined : content
+        content = content?.length === 1 ? content[0] : content
+        content = content?.length === 0 ? undefined : content
     }
     return content
 }

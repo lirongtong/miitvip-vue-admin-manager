@@ -64,7 +64,7 @@ export default defineComponent({
             const childProps = { container: createContainer() }
             return (props.visible || props.forceRender || teleportRef.value) && _container.value ? (
                 <Teleport to={_container.value} ref={teleportRef}>
-                    {props.children(childProps)}
+                    {props?.children(childProps)}
                 </Teleport>
             ) : null
         }

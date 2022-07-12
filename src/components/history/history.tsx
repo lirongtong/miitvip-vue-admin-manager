@@ -59,10 +59,10 @@ export default defineComponent({
             scrollOffset: 48,
             active: null,
             current: null
-        })
-        const containerRef = ref(null)
-        const listRef = ref(null)
-        const itemsRef = ref(null)
+        }) as { [index: string]: any }
+        const containerRef = ref(null) as any
+        const listRef = ref(null) as any
+        const itemsRef = ref(null) as any
 
         onBeforeUnmount(() => $tools.off(window, 'resize', windowResize))
         onMounted(() => {
@@ -86,24 +86,24 @@ export default defineComponent({
         }
 
         const collectRouteHistory = () => {
-            params.current = route.name
-            if (!routes.value[route.name]) {
-                const tempRoutes = { ...routes.value }
-                tempRoutes[route.name] = {
-                    name: route.name,
+            params.current = route.name as any
+            if (!routes.value[params.current]) {
+                const tempRoutes = { ...routes.value } as any
+                tempRoutes[params.current] = {
+                    name: params.current,
                     title: route.meta.title,
                     path: route.path
                 } as RouteHistory
-                params.active = tempRoutes[route.name]
+                params.active = tempRoutes[params.current]
                 store.commit(`layout/${mutations.layout.routes}`, tempRoutes)
-            } else params.active = routes.value[route.name]
+            } else params.active = routes.value[params.current]
         }
 
         const initRouteHistoryScroll = () => {
             nextTick().then(() => {
                 if (containerRef.value && listRef.value && itemsRef.value) {
-                    const listWidth = listRef.value.clientWidth
-                    const itemsWidth = itemsRef.value.clientWidth
+                    const listWidth = (listRef.value as HTMLElement).clientWidth
+                    const itemsWidth = (itemsRef.value as HTMLElement).clientWidth
                     const max = itemsWidth - listWidth
                     params.scroll = max > 0
                     params.scrollOffset = params.scroll ? 96 : 48
@@ -113,7 +113,7 @@ export default defineComponent({
                     if (params.scroll)
                         params.max =
                             itemsWidth -
-                            listRef.value.clientWidth +
+                            (listRef.value as HTMLElement).clientWidth +
                             (params.scrollInit ? 8 : params.scrollOffset)
                     else params.max = max > 0 ? max : 0
                     if (!params.scrollInit) params.scrollInit = true
@@ -144,8 +144,8 @@ export default defineComponent({
             const tempRoutes = {}
             const keys = Object.keys({ ...routes.value })
             const len = keys.length
-            let prev: RouteHistory | null
-            let next: RouteHistory | null
+            let prev: RouteHistory | null = null
+            let next: RouteHistory | null = null
             for (let i = 0; i < len; i++) {
                 if (keys[i] !== item.name) {
                     tempRoutes[keys[i]] = routes.value[keys[i]]
@@ -205,13 +205,13 @@ export default defineComponent({
         }
 
         const prevRouteHistory = () => {
-            const listWidth = listRef.value.clientWidth
+            const listWidth = (listRef.value as HTMLElement).clientWidth
             const offset = Math.abs(params.offset) - listWidth
             params.offset = -(offset <= 0 ? 0 : offset)
         }
 
         const nextRouteHistory = () => {
-            const listWidth = listRef.value.clientWidth
+            const listWidth = (listRef.value as HTMLElement).clientWidth
             const offset = Math.abs(params.offset) + listWidth
             params.offset = -(offset >= params.max ? params.max : offset)
         }
@@ -248,7 +248,7 @@ export default defineComponent({
         }
 
         const renderList = () => {
-            const items = []
+            const items: any[] = []
             for (const name in routes.value) {
                 if (Object.prototype.hasOwnProperty.call(routes.value, name)) {
                     const item = routes.value[name] as RouteHistory

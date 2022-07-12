@@ -25,7 +25,7 @@ export declare interface MenuItems {
     meta?: Record<string | number, any>
 
     // Array of nested menu items.
-    children?: MenuItems[]
+    children?: MenuItems[] | undefined
 }
 
 export const menuProps = () => ({
@@ -43,7 +43,7 @@ export default defineComponent({
         const store = useStore()
         const route = useRoute()
         const menus: any = reactive({})
-        let data: MenuItems[] = reactive((props.items ?? []) as MenuItems[])
+        let data: MenuItems[] = reactive((props.items ?? []) as MenuItems[]) as any
         const prefixCls = getPrefixCls('menu', props.prefixCls)
         const collapsed = computed(() => store.getters['layout/collapsed'])
 
@@ -122,8 +122,8 @@ export default defineComponent({
         })
 
         const getMenuItems = () => {
-            const items = []
-            data.forEach((item: MenuItems) => {
+            const items: any[] = []
+            data?.forEach((item: MenuItems) => {
                 if (item?.children?.length > 0) {
                     items.push(
                         <MiSubMenu

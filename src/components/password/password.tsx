@@ -55,7 +55,7 @@ export default defineComponent({
             4: t('password.lv4')
         }
         const tip = props.complexityTip ?? t('password.tip')
-        const passwordFormRef = ref(null)
+        const passwordFormRef = ref(null) as any
 
         const checkPassword = (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -131,7 +131,7 @@ export default defineComponent({
                     repeat: [{ required: props.repeat, validator: checkRepeat }]
                 }
             }
-        })
+        }) as { [index: string]: any }
 
         const onInput = (evt: any) => {
             const val = evt.target.value

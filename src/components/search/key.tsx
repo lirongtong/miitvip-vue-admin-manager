@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, VNode } from 'vue'
 import PropTypes from '../_utils/props-types'
 import { tuple } from '../_utils/props-tools'
 
@@ -15,19 +15,19 @@ export default defineComponent({
     inheritAttrs: false,
     props: searchKeyProps(),
     setup(props) {
-        let elem = null
+        let elem: VNode | null = null
         switch (props.type) {
             case 'text':
-                elem = h(<props.tag innerHTML={props.data} />)
+                elem = h(<props.tag innerHTML={props.data as any} />)
                 break
             case 'image':
-                elem = h(<props.tag src={props.data} alt={props.name} />)
+                elem = h(<props.tag src={props.data as any} alt={props.name as any} />)
                 break
             case 'link':
-                elem = h(<props.tag href={props.data} innerHTML={props.data} />)
+                elem = h(<props.tag href={props.data as any} innerHTML={props.data as any} />)
                 break
             default:
-                elem = h(<props.tag innerHTML={props.data} />)
+                elem = h(<props.tag innerHTML={props.data as any} />)
                 break
         }
         return props.data ? () => elem : null

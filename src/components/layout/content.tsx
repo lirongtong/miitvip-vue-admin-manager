@@ -30,7 +30,7 @@ export default defineComponent({
                         default: ({ Component }: MiRouterViewSlot) => {
                             return (
                                 <Transition name={animation} appear={true}>
-                                    <div class={`${prefixCls}-custom`} key={route.name}>
+                                    <div class={`${prefixCls}-custom`} key={route.name as any}>
                                         <KeepAlive>{createVNode(Component)}</KeepAlive>
                                     </div>
                                 </Transition>

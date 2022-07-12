@@ -19,7 +19,7 @@ export default defineComponent({
 
         const getBreadcrumbs = () => {
             const matched = route.matched
-            const breadcrumbs = []
+            const breadcrumbs: any[] = []
             const icon = createVNode(HomeOutlined)
             if (matched.length <= 1) {
                 breadcrumbs.push({
@@ -46,7 +46,7 @@ export default defineComponent({
                         } else {
                             /** other */
                             if (title) {
-                                let path = match.redirect ?? match.path ?? ('/' as any)
+                                let path = (match.redirect ?? match.path ?? '/') as any
                                 if (path.substr(0, 1) !== '/') path = `/${path}`
                                 breadcrumbs.push({
                                     title,
@@ -66,9 +66,9 @@ export default defineComponent({
         })
 
         const getBreadcrumbItems = () => {
-            const items = []
+            const items: any[] = []
             const breadcrumbs = $g.breadcrumbs
-            breadcrumbs.forEach((breadcrumb) => {
+            breadcrumbs.forEach((breadcrumb: any) => {
                 const link =
                     breadcrumb.path && !$g.regExp.url.test(breadcrumb.path) ? (
                         <RouterLink to={{ path: breadcrumb.path }} key={breadcrumb.title}>
@@ -92,7 +92,7 @@ export default defineComponent({
         }
         return () => (
             <Transition name={animation} appear={true}>
-                <div class={prefixCls} key={route.name}>
+                <div class={prefixCls} key={route.name as any}>
                     {...getBreadcrumbItems()}
                 </div>
             </Transition>

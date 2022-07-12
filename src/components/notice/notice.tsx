@@ -50,9 +50,9 @@ export default defineComponent({
             const renderEmpty = () => {
                 const date = new Date()
                 let times = date.toDateString()
-                let week = null
+                let week: string | null = null
                 if (['zh-cn', 'zh-tw'].includes(locale.value)) {
-                    const weeks = [
+                    const weeks: string[] = [
                         t('week.sun'),
                         t('week.mon'),
                         t('week.tues'),
@@ -104,7 +104,9 @@ export default defineComponent({
 
             const renderIcon = () => {
                 const icon = getPropSlot(slots, props, 'icon')
-                const size = props.iconSize ? `font-size: ${$tools.px2Rem(props.iconSize)}` : null
+                const size = (
+                    props.iconSize ? `font-size: ${$tools.px2Rem(props.iconSize)}` : null
+                ) as any
                 return (
                     <div class={`${prefixCls}-icon`}>
                         <Badge count={props.count} dot={props.dot}>
@@ -116,7 +118,7 @@ export default defineComponent({
 
             const renderTabPanes = () => {
                 const tabs = getPropSlot(slots, props)
-                const panes = []
+                const panes: any[] = []
                 if (tabs && tabs.length > 0) {
                     const l = tabs.length
                     tabs.map((tab: any) => {

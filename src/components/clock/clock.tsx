@@ -19,7 +19,7 @@ export default defineComponent({
             hour: '0deg',
             minute: '0deg',
             second: '0deg'
-        })
+        }) as { [index: string]: any }
         let rid = 0
 
         const getPosition = (phase: number, offset = 10) => {
@@ -32,9 +32,9 @@ export default defineComponent({
         }
 
         const getCalibrationAnchor = () => {
-            const anchors = []
+            const anchors: any[] = []
             for (let i = 1; i <= 60; i++) {
-                let anchor = null
+                let anchor: any = null
                 if (i % 5 === 0) {
                     const point = getPosition(i / 60)
                     anchor = (
@@ -68,7 +68,7 @@ export default defineComponent({
         }
 
         const getCalibrationHour = () => {
-            const hours = []
+            const hours: any[] = []
             for (let i = 1; i <= 12; i++) {
                 const point = getPosition(i / 12, 36)
                 hours.push(

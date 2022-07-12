@@ -43,7 +43,7 @@ const Login = defineComponent({
         const store = useStore()
         const route = useRoute()
         const router = useRouter()
-        const formRef = ref(null)
+        const formRef = ref(null) as any
 
         const validateCaptcha = () => {
             if (!params.captcha) return Promise.reject(t('passport.verify'))
@@ -72,7 +72,7 @@ const Login = defineComponent({
                     captcha: [{ required: true, validator: validateCaptcha }]
                 }
             }
-        })
+        }) as { [index: string]: any }
         !params.form.validate.captcha && delete params.form.validate.cuid
 
         const captchaVerify = (data: any) => {

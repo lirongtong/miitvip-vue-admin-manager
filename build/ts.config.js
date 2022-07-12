@@ -3,7 +3,7 @@ const path = require('path')
 
 const configuration = (modules) => {
     let config = {}
-    const file = path.resolve(path.dirname(process.cwd()), 'tsconfig.json')
+    const file = path.resolve(path.dirname(process.cwd()), 'tsconfig')
     if (fs.existsSync(file)) {
         config = require(file)
         if (config.include && config.include instanceof Array) config.include.pop()
