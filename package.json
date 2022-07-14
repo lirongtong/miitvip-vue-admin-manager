@@ -48,7 +48,7 @@
         "dev": "vite",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
         "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src",
-        "compile": "gulp --gulpfile build/gulp.style.config.js",
+        "compile": "rm -rf es/ lib/ dist/ && gulp --gulpfile build/gulp.style.config.js",
         "dist": "webpack --config build/webpack.build.config.js --mode production --progress --color",
         "build": "rm -rf es/ lib/ dist/ && npm run compile && npm run dist"
     },
@@ -96,7 +96,6 @@
         "compression-webpack-plugin": "^10.0.0",
         "css-loader": "^6.7.1",
         "css-minimizer-webpack-plugin": "^4.0.0",
-        "duplicate-package-checker-webpack-plugin": "^3.0.0",
         "eslint": "^8.11.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-import": "^2.26.0",

@@ -1,3 +1,4 @@
+import 'nprogress/nprogress.css'
 import './styles'
 import './components/layout/style'
 import './components/captcha/style'

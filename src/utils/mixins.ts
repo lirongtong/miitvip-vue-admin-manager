@@ -9,7 +9,6 @@ import { layout } from '../store/layout'
 import { passport } from '../store/passport'
 import { mutations } from './../store/types'
 import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
 
 /**
  * mixin.
