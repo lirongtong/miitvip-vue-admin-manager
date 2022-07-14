@@ -59,10 +59,13 @@ const babelify = (js, modules) => {
                     file.path.match(/\/style\/index\.(js|jsx|ts|tsx)$/) || 
                     file.path.match(/\\style\\index\.(js|jsx|ts|tsx)$/)
                 ) {
-                    const content = file.contents.toString(encoding)
-                    file.contents = Buffer.from(
-                        content.replace(/\/style\/?'/g, "/style/css'").replace(/\.less/g, '.css')
-                    )
+                    let content = file.contents.toString(encoding)
+                    if (modules === false) {
+                        content = content.replace(/\/style\/?'/g, "/style/css'").replace(/\.less/g, '.css')
+                    } else {
+                        content = content.replace(/\/es\//g, '/lib/').replace(/\/style\/?\"/g, '/style/css"').replace(/\.less/g, '.css')
+                    }
+                    file.contents = Buffer.from(content)
                     file.path = file.path.replace(/index\.(js|jsx|ts|tsx)$/, 'mip.js')
                     this.push(file)
                     callback()
