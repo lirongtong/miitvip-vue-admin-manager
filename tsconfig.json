@@ -63,6 +63,7 @@
 		"dist",
 		"lib",
 		"es",
-		"build"
+		"build",
+		"example"
 	]
 }

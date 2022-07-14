@@ -2,9 +2,9 @@ const gulp = require('gulp')
 const lessCli = require('less')
 const path = require('path')
 const ts = require('gulp-typescript')
-const tsConfig = require('./ts.config')
+const tsConfig = require('./typescript.config')
 const tsReportDefault = ts.reporter.defaultReporter()
-const lessNpmImport = require('less-plugin-npm-import')
+const LessNpmImportPlugin = require('less-plugin-npm-import')
 const through2 = require('through2')
 const merge2 = require('merge2')
 const clean = require('gulp-clean-css')
@@ -33,7 +33,7 @@ const transformLess = async (lessFile) => {
     return lessCli.render(data, {
         paths: [path.dirname(resolvedLessFile)],
         filename: resolvedLessFile,
-        plugins: [new lessNpmImport({prefix: '~'})],
+        plugins: [new LessNpmImportPlugin({prefix: '~'})],
         javascriptEnabled: true
     })
     .then((res) => {
@@ -50,6 +50,7 @@ const transformLess = async (lessFile) => {
 const babelify = (js, modules) => {
     const config = babelConfig(modules)
     config.babelrc = false
+    delete config.cacheDirectory
     return js.pipe(babel(config))
         .pipe(
             through2.obj(function(file, encoding, callback) {
@@ -65,7 +66,7 @@ const babelify = (js, modules) => {
                     file.path = file.path.replace(/index\.(js|jsx|ts|tsx)$/, 'mip.js')
                     this.push(file)
                     callback()
-                }
+                } else callback()
             })
         )
         .pipe(gulp.dest(modules === false ? dirs.es : dirs.lib))
@@ -78,8 +79,8 @@ const compile = async (modules) => {
             through2.obj(function(file, _encoding, callback) {
                 this.push(file.clone())
                 if (
-                    file.path.match(/\\style\\index\.less$/) ||
-                    file.path.match(/\/style\/index\.less$/) ||
+                    file.path.match(/\\antd\\(.*?)\.less$/) ||
+                    file.path.match(/\/antd\/(.*?)\.less$/) ||
                     file.path.match(/\\index\.less$/) ||
                     file.path.match(/\/index\.less$/)
                 ) {
