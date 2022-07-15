@@ -236,7 +236,6 @@ gulp.task('duplicate-concat-less-to-custom-css', gulp.series('duplicate-concat-l
 }))
 
 gulp.task('minify-css', gulp.series('duplicate-concat-less-to-custom-css', done => {
-    console.log(lessFiles, customLessFiles)
     gulp.src([dirs.dist + '/' + distName + '.css'])
         .pipe(sourcemaps.init())
         .pipe(autoprefixer({
