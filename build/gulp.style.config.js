@@ -25,7 +25,13 @@ const dirs = {
     dist: '../dist'
 }
 const distName = 'miitvip'
-let lessFiles = []
+const distCustomName = distName + '-custom'
+const lessFiles = []
+const customLessFiles = []
+const lessDirs = [
+    dirs.src + '/**/*.less',
+    dirs.src + '/**/**/*.less'
+]
 
 const renderLess = async (data, file) => {
     return lessCli.render(data, {
@@ -69,16 +75,20 @@ const duplicationMergeLess = (lessFile, includeAntdv = false) => {
     if (imports && imports.length > 0) {
         for (let i = 0, l = imports.length; i < l; i++) {
             const key = parseLessPath(imports[i], resolvedLessFile)
+            const isAntdLess = key.indexOf('ant-design-vue') !== -1
             if (!includeAntdv) {
-                if (key.indexOf('ant-design-vue') !== -1) {
-                    data = data.replace(imports[i], '')
-                }
+                if (isAntdLess) data = data.replace(imports[i], '')
             }
-            if (!lessFiles.includes(key)) {
-                lessFiles.push(key)
-            } else {
+            const replaceImport = () => {
                 const variables = key.match(/(\/variables\.less|\\variables\.less|\/theme\/|\\theme\\)/ig)
                 if (!variables || variables.length <= 0) data = data.replace(imports[i], '')
+            }
+            if (includeAntdv) {
+                if (!lessFiles.includes(key)) lessFiles.push(key)
+                else replaceImport()
+            } else {
+                if (!customLessFiles.includes(key) && !isAntdLess) customLessFiles.push(key)
+                else replaceImport()
             }
         }
     }
@@ -86,15 +96,13 @@ const duplicationMergeLess = (lessFile, includeAntdv = false) => {
 }
 
 const compileLess = (library, sources) => {
-    sources = sources ? sources : [
-        dirs.src + '/**/*.less',
-        dirs.src + '/**/**/*.less'
-    ]
+    sources = sources ? sources : lessDirs
     return gulp.src(sources)
         .pipe(
             through2.obj(function (file, _encoding, callback) {
                 this.push(file.clone())
                 if (library === false && !lessFiles.includes(file.path)) lessFiles.push(file.path)
+                if (library === false && !customLessFiles.includes(file.path)) customLessFiles.push(file.path)
                 convertLess(file.path)
                     .then(css => {
                         file.contents = Buffer.from(css)
@@ -176,10 +184,7 @@ gulp.task('compile-less-in-ts', gulp.series('compile-less-in-ts-into-es', done =
 }))
 
 gulp.task('duplicate-concat-less-to-css', gulp.series(done => {
-    const concatCss = gulp.src([
-        dirs.src + '/**/*.less',
-        dirs.src + '/**/**/*.less'
-    ])
+    gulp.src(lessDirs)
         .pipe(
             through2.obj(function (file, _encoding, callback) {
                 duplicationMergeLess(file.path, true)
@@ -201,17 +206,11 @@ gulp.task('duplicate-concat-less-to-css', gulp.series(done => {
         .pipe(concat(distName + '.css'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(dirs.dist))
-    concatCss.on('finish', () => {
-        lessFiles = []
-        done()
-    })
+        .on('finish', () => done())
 }))
 
 gulp.task('duplicate-concat-less-to-custom-css', gulp.series('duplicate-concat-less-to-css', done => {
-    const concatCss = gulp.src([
-        dirs.src + '/**/*.less',
-        dirs.src + '/**/**/*.less'
-    ])
+    gulp.src(lessDirs)
         .pipe(
             through2.obj(function (file, _encoding, callback) {
                 duplicationMergeLess(file.path)
@@ -230,17 +229,15 @@ gulp.task('duplicate-concat-less-to-custom-css', gulp.series('duplicate-concat-l
             overrideBrowserslist: ['last 2 versions', 'ie > 8'],
             cascade: true
         }))
-        .pipe(concat(distName + '-custom.css'))
+        .pipe(concat(distCustomName + '.css'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(dirs.dist))
-    concatCss.on('finish', () => done())
+        .on('finish', () => done())
 }))
 
 gulp.task('minify-css', gulp.series('duplicate-concat-less-to-custom-css', done => {
-    gulp.src([
-        dirs.dist + '/' + distName + '.css',
-        dirs.dist + '/' + distName + '-custom.css'
-    ])
+    console.log(lessFiles, customLessFiles)
+    gulp.src([dirs.dist + '/' + distName + '.css'])
         .pipe(sourcemaps.init())
         .pipe(autoprefixer({
             overrideBrowserslist: ['last 2 versions', 'ie > 8']
@@ -250,6 +247,18 @@ gulp.task('minify-css', gulp.series('duplicate-concat-less-to-custom-css', done 
             level: 2
         }))
         .pipe(concat(distName + '.min.css'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(dirs.dist))
+    gulp.src([dirs.dist + '/' + distCustomName + '.css'])
+        .pipe(sourcemaps.init())
+        .pipe(autoprefixer({
+            overrideBrowserslist: ['last 2 versions', 'ie > 8']
+        }))
+        .pipe(CleanCss({
+            compatibility: 'ie8',
+            level: 2
+        }))
+        .pipe(concat(distCustomName + '.min.css'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(dirs.dist))
     done()
