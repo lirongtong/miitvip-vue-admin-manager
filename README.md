@@ -67,6 +67,7 @@ npm i makeit-admin-pro
 ```ts
 import { createApp } from 'vue'
 import MakeitAdminPro from 'makeit-admin-pro'
+import 'makeit-admin-pro/dist/miitvip.min.css'
 import App from './app.vue'
 
 const app = createApp(App)
