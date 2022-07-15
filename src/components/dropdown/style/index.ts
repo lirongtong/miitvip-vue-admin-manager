@@ -1,4 +1,2 @@
-import 'ant-design-vue/es/dropdown/style'
-import 'ant-design-vue/es/avatar/style'
-import 'ant-design-vue/es/menu/style'
+import './extra.less'
 import './index.less'
