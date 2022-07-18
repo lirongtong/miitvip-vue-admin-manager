@@ -23,6 +23,7 @@ import { default as Login } from './components/login'
 import { default as Register } from './components/register'
 import { default as Forget } from './components/forget'
 import { default as History } from './components/history'
+import { default as Upload } from './components/upload'
 
 const components = [
     i18n,
@@ -45,7 +46,8 @@ const components = [
     Login,
     Register,
     Forget,
-    History
+    History,
+    Upload
 ]
 
 let _init = false
@@ -84,7 +86,8 @@ export {
     Login,
     Register,
     Forget,
-    History
+    History,
+    Upload
 }
 
 export default {

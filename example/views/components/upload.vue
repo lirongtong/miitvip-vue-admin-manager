@@ -1,3 +1,3 @@
 <template>
-    Upload
+    <mi-upload />
 </template>
