@@ -34,7 +34,7 @@ export const $g = reactive({
     keywords:
         'makeit, makeit.vip, makeit-admin, admin-manage, makeit admin pro, miitvip, vue, vue3, vite, typescript, ant-design-vue component-ui, ui frame, 麦可易特网',
     description:
-        'Makeit Admin Pro，基于 Vue3.x + Vite2.x 版本，并结合 Ant Design Vue 组件库开发的一套适合中后台管理项目的统一 UI 框架 ( A unified template used to backend management built on Vue3.x + Vite2.x + Ant Design Vue. )，项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（有部分组件已经单独抽离并发布于 Npm）。集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面，如页面的基础布局，登录 / 注册 / 忘记密码等页面，让开发人员能更加专注于业务内容页面的开发。该框架封装了 Axios / Cookie / Storage等功能，能直接调用，且易于扩展。现阶段还在不断完善，持续开发更新中 ...',
+        'Makeit Admin Pro，基于 Vue3.x + Vite2.x 版本，并结合 Ant Design Vue 组件库开发的一套适合中后台管理项目的统一 UI 框架 ( A unified template used to backend management system based on Vue3.x + Vite2.x + Ant Design Vue. )，项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（有部分组件已经单独抽离并发布于 Npm）。集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面，如页面的基础布局，登录 / 注册 / 忘记密码等页面，让开发人员能更加专注于业务内容页面的开发。该框架封装了 Axios / Cookie / Storage等功能，能直接调用，且易于扩展。现阶段还在不断完善，持续开发更新中 ...',
     powered: MI_POWERED,
 
     /**
