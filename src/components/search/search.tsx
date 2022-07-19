@@ -16,71 +16,12 @@ import {
     LeftCircleOutlined,
     RightCircleOutlined
 } from '@ant-design/icons-vue'
-import PropTypes from '../_utils/props-types'
-import { getPrefixCls, tuple, getPropSlot } from '../_utils/props-tools'
+import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
 import { $g } from '../../utils/global'
 import { $request } from '../../utils/request'
 import { useI18n } from 'vue-i18n'
-
-export const searchProps = () => ({
-    prefixCls: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    radius: PropTypes.number.def(48),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    placeholder: PropTypes.string,
-    suffix: PropTypes.any,
-    gap: PropTypes.number.def(0),
-    borderColor: PropTypes.string,
-    textColor: PropTypes.string,
-    backgroundColor: PropTypes.string,
-    boxShadow: PropTypes.bool.def(false),
-    boxShadowColor: PropTypes.string.def('#000'),
-    boxShadowBlur: PropTypes.number.def(6),
-    searchAction: PropTypes.string,
-    searchMethod: PropTypes.string.def('post'),
-    searchParams: PropTypes.object.def({}),
-    searchKey: PropTypes.string.isRequired,
-    searchKeyColor: PropTypes.string,
-    searchDelay: PropTypes.number,
-    data: PropTypes.array,
-    listShowAnimation: PropTypes.oneOf(
-        tuple(
-            'fade',
-            'scale',
-            'slide',
-            'slide-right',
-            'slide-bottom',
-            'slide-fall',
-            'newspaper',
-            'sticky',
-            'flip',
-            'flip-horizontal',
-            'flip-vertical',
-            'fall',
-            'rotate',
-            'sign'
-        )
-    ).def('scale'),
-    itemTemplate: PropTypes.any,
-    itemColor: PropTypes.string,
-    listWidth: PropTypes.number,
-    listHeight: PropTypes.number,
-    listRadius: PropTypes.number.def(24),
-    listBorderColor: PropTypes.string,
-    listBackground: PropTypes.string,
-    listBoxShadow: PropTypes.bool.def(true),
-    listBoxShadowColor: PropTypes.string,
-    listBoxShadowBlur: PropTypes.number.def(6),
-    listNoDataText: PropTypes.string,
-    listNoDataColor: PropTypes.string.def('#000'),
-    listDestroyOnHide: PropTypes.bool.def(false),
-    pagination: PropTypes.bool.def(true),
-    pageSize: PropTypes.number.def(10),
-    pageColor: PropTypes.string,
-    colseAfterItemClick: PropTypes.bool.def(false)
-})
+import { searchProps } from './props'
 
 const MiSearch = defineComponent({
     name: 'MiSearch',
@@ -186,7 +127,10 @@ const MiSearch = defineComponent({
                 res.push(
                     <div
                         class={`${prefixCls}-item`}
-                        style={{ color: props.itemColor ?? null }}
+                        style={{
+                            color: props.itemColor ?? null,
+                            borderBottomColor: props.itemBorderBottomColor ?? null
+                        }}
                         onClick={(evt: Event) =>
                             handleListItemClick(params.datas[item[prefixIdx]] ?? item, evt)
                         }>
@@ -246,7 +190,10 @@ const MiSearch = defineComponent({
                     }`}
                     style={{ width }}>
                     <div innerHTML={item[props.searchKey]} />
-                    <div innerHTML={item.content ?? null} />
+                    <div
+                        innerHTML={item.content ?? null}
+                        style={{ color: props.itemContentColor ?? null }}
+                    />
                 </div>
             )
             return (
@@ -331,7 +278,9 @@ const MiSearch = defineComponent({
                 const total = Math.ceil(len / props.pageSize)
                 params.page.total = total
                 return (
-                    <div class={`${prefixCls}-pagination`}>
+                    <div
+                        class={`${prefixCls}-pagination`}
+                        style={{ borderTopColor: props.pageBorderTopColor ?? null }}>
                         <div class={`${prefixCls}-pagination-page`} style={style.page}>
                             <span
                                 class={`prev${params.page.active <= 1 ? ' disabled' : ''}`}
