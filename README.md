@@ -56,41 +56,41 @@
 
 :white_check_mark: Request ( `axios` )
 
-:white_check_mark: Global ( 全局配置 )
+:white_check_mark: Global ( 全局配置 `global configuration` )
 
-:white_check_mark: Tools ( 全局公用函数库 )
+:white_check_mark: Tools ( 全局公用函数库 `common functions` )
 
 ## 基础组件
 
-:white_check_mark: 基础布局 :sparkling_heart:
+:white_check_mark: 基础布局 ( `Layout` ) :sparkling_heart:
 
-:white_check_mark: 滑块验证码 :collision:
+:white_check_mark: 滑块验证码 ( `Captcha` ) :collision:
 
-:white_check_mark: 锚点链接 :balloon:
+:white_check_mark: 锚点链接 ( `Anchor` ) :balloon:
 
-:white_check_mark: 时钟 ( 仿 `Apple Watch` 表盘 ) :clock130:
+:white_check_mark: 时钟 ( `Clock` - 仿 `Apple Watch` 表盘 ) :clock130:
 
-:white_check_mark: 下拉菜单 :palm_tree:
+:white_check_mark: 下拉菜单 ( `Dropdown` ) :palm_tree:
 
-:white_check_mark: 忘记密码 :hammer:
+:white_check_mark: 忘记密码 ( `Forget` ) :hammer:
 
-:white_check_mark: 历史路由 :guitar:
+:white_check_mark: 历史路由 ( `History` ) :guitar:
 
-:white_check_mark: 登录组件 :cherries:
+:white_check_mark: 登录组件 ( `Login` ) :cherries:
 
-:white_check_mark: 注册组件 :european_castle:
+:white_check_mark: 注册组件 ( `Register` ) :european_castle:
 
-:white_check_mark: 菜单组件 :rocket:
+:white_check_mark: 菜单组件 ( `Menu` ) :rocket:
 
-:white_check_mark: 弹窗动效 :traffic_light:
+:white_check_mark: 弹窗动效 ( `Modal` ) :traffic_light:
 
-:white_check_mark: 消息中心 :round_pushpin:
+:white_check_mark: 消息中心 ( `Notice` ) :round_pushpin:
 
-:white_check_mark: 密码设置 :u7981:
+:white_check_mark: 密码设置 ( `Password` ) :u7981:
 
-:white_check_mark: 搜索组件 :bookmark_tabs:
+:white_check_mark: 搜索组件 ( `Search` ) :bookmark_tabs:
 
-:x: 上传组件 :clap:
+:x: 上传组件 ( `Upload` ) :clap:
 
 ## 高级应用
 
@@ -107,6 +107,8 @@
 :x: 异常页面 ( `404` ) :sleeping:
 
 :x: 个人中心 :heart_eyes:
+
+:sparkles: ······
 
 ## 安装
 
