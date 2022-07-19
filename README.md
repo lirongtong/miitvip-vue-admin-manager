@@ -30,31 +30,52 @@
 ![vuex](https://img.shields.io/badge/vuex-4.0.2-informational.svg)
 ![vue-i18n](https://img.shields.io/badge/vue%20i18n-9.1.10-default.svg)
 
-<p>
-    <a href="https://admin.makeit.vip/">
-        <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMteAH3u5AAg_R8651XE245.png">
-    </a>
-</p>
-
-<p>
-    <a href="https://admin.makeit.vip/">
-        <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMwOAM2FJAAGzeH165Ws053.png">
-    </a>
-</p>
-
-<p>
-    <a href="https://admin.makeit.vip/">
-        <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMx-ABFkCAAQKq4vcmIM480.jpg">
-    </a>
-</p>
-
 </div>
 
 ## 关于
 
-> `Makeit Admin Pro`，基于 `Vue3.x + Vite2.x` 版本，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架，项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（有部分组件已经单独抽离并发布于 `Npm`）。集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面，如页面的基础布局，登录 / 注册 / 忘记密码等页面，让开发人员能更加专注于业务内容页面的开发。该框架封装了 `Axios` / `Cookie` / `Storage` 等基础功能，可通过如 `this.$cookie` 形式直接调用，同时也易于扩展。现阶段还在不断完善，持续开发更新中 ...
+> `Makeit Admin Pro`，基于 `Vue3.x + Vite2.x` 版本，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架，项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（部分组件已单独抽离并发布于 `Npm`）。集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面构建，如各个项目的基础布局，登录 / 注册 / 忘记密码等模块，让开发人员能更加专注于业务内容页面的开发。该框架封装了 `Axios` / `Cookie` / `Storage` 等基础功能，可通过如 `this.$cookie` 形式直接调用，同时也易于扩展。现阶段还在不断完善，持续开发更新中 ...
 > >
-> 限于本人的技术水平，有些问题可能考虑的并不周全，若对该框架的 `UI` 或功能组件的使用有更好的建议，亦或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽可能的抽时间去解决相应的 `BUG`，去完善合理的定制化需求。
+> 限于本人的技术水平，有些问题可能考虑的并不周全，若您看到甚至尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽可能的抽时间去解决相应的 `BUG`，去完善合理的定制化需求。
+
+## 全局应用
+
+:white_check_mark: 主题配置 ( `css variables` )
+:white_check_mark: 国际化 ( `vue-i18n` )
+:white_check_mark: Cookie ( `document.cookie` )
+:white_check_mark: Storage ( `localStorage & sessionStorage` )
+:white_check_mark: Request ( `axios` )
+:white_check_mark: Global ( 全局配置 )
+:white_check_mark: Tools ( 全局公用函数库 )
+
+## 基础组件
+
+:white_check_mark: 基础布局 :sparkling_heart:
+:white_check_mark: 滑块验证码 :collision:
+:white_check_mark: 锚点链接 :balloon:
+:white_check_mark: 时钟 ( 仿 `Apple Watch` 表盘 ) :santa:
+:white_check_mark: 下拉菜单 :palm_tree:
+:white_check_mark: 忘记密码 :hammer:
+:white_check_mark: 历史路由 :guitar:
+:white_check_mark: 登录组件 :cherries:
+:white_check_mark: 注册组件 :european_castle:
+:white_check_mark: 菜单组件 :rocket:
+:white_check_mark: 弹窗动效 :traffic_light:
+:white_check_mark: 消息中心 :round_pushpin:
+:white_check_mark: 密码设置 :u7981:
+:white_check_mark: 搜索组件 :bookmark_tabs:
+
+- [ ] 上传组件 :clap:
+
+## 高级应用
+
+- [ ] 权限控制 :sunglasses:
+- [ ] 菜单配置 ( 动态路由 )
+- [ ] 语言配置 :snowflake:
+- [ ] 富文本编辑器 :ocean:
+- [ ] 地域选择 :heart_eyes_cat:
+- [ ] 异常页面 ( `404` ) :sleeping:
+- [ ] 个人中心 :heart_eyes:
 
 ## 安装
 
@@ -96,9 +117,7 @@ app.mount('#app')
         </template>
     </mi-layout>
 </template>
-```
 
-```ts
 <script setup>
     import { getCurrentInstance } from 'vue'
     import { DashboardOutlined, LayoutOutlined } from '@ant-design/icons-vue'
@@ -133,18 +152,56 @@ app.mount('#app')
 
 ```vue
 <template>
-    <mi-login :action="api.login" />
+    <mi-login :action="api.login"
+        :background="bg"
+        :captcha-init-action="api.captcha.init"
+        :captcha-verify-action="api.captcha.verify" />
 </template>
+
+<script setup>
+import bg from '@images/login-bg.jpg'
+</script>
 ```
 
 ## 注册
 
 ```vue
 <template>
-    <mi-register :action="api.register" />
+    <mi-register :action="api.register"
+        :background="bg"
+        :email-verify-action="api.validator.email"
+        :username-verify-action="api.validator.name" />
 </template>
+
+<script setup>
+import bg from '@images/login-bg.jpg'
+</script>
 ```
 
 ## 更多
 
 > 更多内容及使用请查看在线示例：[https://admin.makeit.vip](https://admin.makeit.vip)
+
+<div align="center">
+
+> 注：现在 `https://admin.makeit.vip` 站点内看到的页面是基于 1.x 版本的效果，2.x 版本的示例站点正在开发中，2.x 版本的页面效果及组件效果都做了很多调整，敬请期待 ~
+
+<p>
+    <a href="https://admin.makeit.vip/">
+        <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMteAH3u5AAg_R8651XE245.png">
+    </a>
+</p>
+
+<p>
+    <a href="https://admin.makeit.vip/">
+        <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMwOAM2FJAAGzeH165Ws053.png">
+    </a>
+</p>
+
+<p>
+    <a href="https://admin.makeit.vip/">
+        <img src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAQMx-ABFkCAAQKq4vcmIM480.jpg">
+    </a>
+</p>
+
+</div>
