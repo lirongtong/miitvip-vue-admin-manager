@@ -41,41 +41,66 @@
 ## 全局应用
 
 :white_check_mark: 主题配置 ( `css variables` )
+
 :white_check_mark: 国际化 ( `vue-i18n` )
+
 :white_check_mark: Cookie ( `document.cookie` )
+
 :white_check_mark: Storage ( `localStorage & sessionStorage` )
+
 :white_check_mark: Request ( `axios` )
+
 :white_check_mark: Global ( 全局配置 )
+
 :white_check_mark: Tools ( 全局公用函数库 )
 
 ## 基础组件
 
 :white_check_mark: 基础布局 :sparkling_heart:
+
 :white_check_mark: 滑块验证码 :collision:
+
 :white_check_mark: 锚点链接 :balloon:
-:white_check_mark: 时钟 ( 仿 `Apple Watch` 表盘 ) :santa:
+
+:white_check_mark: 时钟 ( 仿 `Apple Watch` 表盘 ) :clock130:
+
 :white_check_mark: 下拉菜单 :palm_tree:
+
 :white_check_mark: 忘记密码 :hammer:
+
 :white_check_mark: 历史路由 :guitar:
+
 :white_check_mark: 登录组件 :cherries:
+
 :white_check_mark: 注册组件 :european_castle:
+
 :white_check_mark: 菜单组件 :rocket:
+
 :white_check_mark: 弹窗动效 :traffic_light:
+
 :white_check_mark: 消息中心 :round_pushpin:
+
 :white_check_mark: 密码设置 :u7981:
+
 :white_check_mark: 搜索组件 :bookmark_tabs:
 
-- [ ] 上传组件 :clap:
+:x: 上传组件 :clap:
 
 ## 高级应用
 
-- [ ] 权限控制 :sunglasses:
-- [ ] 菜单配置 ( 动态路由 )
-- [ ] 语言配置 :snowflake:
-- [ ] 富文本编辑器 :ocean:
-- [ ] 地域选择 :heart_eyes_cat:
-- [ ] 异常页面 ( `404` ) :sleeping:
-- [ ] 个人中心 :heart_eyes:
+:x: 权限控制 :sunglasses:
+
+:x: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
+
+:x: 语言配置 :snowflake:
+
+:x: 富文本编辑器 :ocean:
+
+:x: 地域选择 :heart_eyes_cat:
+
+:x: 异常页面 ( `404` ) :sleeping:
+
+:x: 个人中心 :heart_eyes:
 
 ## 安装
 
