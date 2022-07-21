@@ -34,7 +34,7 @@
 
 ## 关于
 
-> :triangular_flag_on_post: `Makeit Admin Pro`，基于 `Vue3.x + Vite2.x` 版本，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架。:triangular_flag_on_post:
+> :triangular_flag_on_post: `Makeit Admin Pro`，基于 `Vue3.x + Vite2.x` 版本，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架。
 > >
 > :beginner: 项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（部分组件已单独抽离并发布于 `Npm`）。
 > >
