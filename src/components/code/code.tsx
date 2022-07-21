@@ -16,9 +16,7 @@ export default defineComponent({
             const content = getPropSlot(slots, props, 'content') ?? null
             return (
                 <pre {...attrs} v-prism>
-                    <code class={`${prefixCls} language-${props.language}`}>
-                        {content}
-                    </code>
+                    <code class={`${prefixCls} language-${props.language}`}>{content}</code>
                 </pre>
             )
         }

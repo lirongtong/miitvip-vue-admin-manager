@@ -255,12 +255,14 @@ export default defineComponent({
                     const cls = `${prefixCls}-item${params.current === item.name ? ' active' : ''}`
                     items.push(
                         <Transition name={animation} appear={true}>
-                            <div class={cls}
+                            <div
+                                class={cls}
                                 key={name}
                                 id={`${prefixCls}-item-${item.name}`}
                                 onClick={() => redirectRouteHistory(item)}>
                                 <span innerHTML={item.title} />
-                                <CloseOutlined onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)}
+                                <CloseOutlined
+                                    onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)}
                                 />
                             </div>
                         </Transition>
