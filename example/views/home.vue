@@ -18,7 +18,7 @@ import {
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
     CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined,
-    GithubOutlined, LogoutOutlined
+    GithubOutlined, LogoutOutlined, CodeOutlined
 } from '@ant-design/icons-vue'
 
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
@@ -221,6 +221,14 @@ vm.$g.menus.items = [{
             title: '历史路由',
             subTitle: 'Route History',
             icon: RetweetOutlined
+        }
+    }, {
+        name: 'components-code',
+        path: '/components/code',
+        meta: {
+            title: '代码高亮',
+            subTitle: 'Code Highlight',
+            icon: CodeOutlined
         }
     }]
 }, {

@@ -8,6 +8,7 @@ import storage from './utils/storage'
 import request from './utils/request'
 import tools from './utils/tools'
 import async from './utils/async'
+import prism from './directives/prism'
 
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
@@ -24,6 +25,7 @@ import { default as Register } from './components/register'
 import { default as Forget } from './components/forget'
 import { default as History } from './components/history'
 import { default as Upload } from './components/upload'
+import { default as Code } from './components/code'
 
 const components = [
     i18n,
@@ -33,8 +35,9 @@ const components = [
     storage,
     request,
     tools,
-    Notice,
+    prism,
     Layout,
+    Notice,
     Menu,
     Dropdown,
     Clock,
@@ -47,7 +50,8 @@ const components = [
     Register,
     Forget,
     History,
-    Upload
+    Upload,
+    Code
 ]
 
 let _init = false
@@ -73,8 +77,9 @@ export {
     request,
     tools,
     async,
-    Notice,
+    prism,
     Layout,
+    Notice,
     Menu,
     Dropdown,
     Clock,
@@ -87,7 +92,8 @@ export {
     Register,
     Forget,
     History,
-    Upload
+    Upload,
+    Code
 }
 
 export default {

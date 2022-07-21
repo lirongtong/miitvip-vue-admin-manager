@@ -90,6 +90,8 @@
 
 :white_check_mark: 搜索组件 ( `Search` ) :bookmark_tabs:
 
+:x: 代码高亮 ( `Upload` ) :flight_arrival:
+
 :x: 上传组件 ( `Upload` ) :clap:
 
 ## 高级应用

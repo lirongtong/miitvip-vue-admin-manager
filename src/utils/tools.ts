@@ -38,7 +38,7 @@ class MiTools {
         keywords = key ? (overwritten ? key : `${k} ${key}`) : k
         const element = document.querySelector(`meta[name="keywords"]`)
         if (element) element.setAttribute('content', keywords as string)
-        else this.createMeta('keywords', keywords)
+        else this.createMeta('keywords', keywords as string)
     }
 
     /**

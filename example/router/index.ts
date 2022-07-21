@@ -30,6 +30,7 @@ const ComponentsPassword = () => import('@views/components/password.vue')
 const ComponentsUpload = () => import('@views/components/upload.vue')
 const ComponentsAnchor = () => import('@views/components/anchor.vue')
 const ComponentsHistory = () => import('@views/components/history.vue')
+const ComponentsCode = () => import('@views/components/code.vue')
 const Advanced = () => import('@views/advanced/index.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
@@ -162,6 +163,11 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             name: 'components-history',
             meta: {title: '历史路由'},
             component: ComponentsHistory
+        }, {
+            path: '/components/code',
+            name: 'components-code',
+            meta: {title: '代码高亮'},
+            component: ComponentsCode
         }]
     }, {
         path: '/advanced',
