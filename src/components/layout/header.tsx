@@ -76,7 +76,7 @@ export default defineComponent({
 
         const renderPalette = () => {
             const renderPaletteContent = () => {
-                const tempThemes = []
+                const tempThemes: any[] = []
                 themes.forEach((theme: any) => {
                     const thumbStyle = {
                         width: theme.width ? $tools.convert2Rem(theme.width) : null,
