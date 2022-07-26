@@ -1,7 +1,7 @@
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import { Layout } from 'ant-design-vue'
-import PropTypes from '../_utils/props-types'
+import { layoutSideProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { $storage } from '../../utils/storage'
@@ -9,12 +9,6 @@ import { $tools } from '../../utils/tools'
 import { mutations } from '../../store/types'
 import MiLayoutSideLogo from './logo'
 import MiLayoutSideMenu from '../menu'
-
-export const layoutSideProps = () => ({
-    prefixCls: String,
-    logo: PropTypes.any,
-    menu: PropTypes.any
-})
 
 const MiLayoutSider = defineComponent({
     name: 'MiLayoutSide',

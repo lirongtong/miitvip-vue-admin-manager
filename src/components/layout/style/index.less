@@ -84,16 +84,15 @@
 
         &-palette {
             .flex();
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            .properties(grid-gap, 16);
             .properties(padding, 16);
 
             &-item {
                 .flex(center, center, column);
                 .border-radius(8);
                 cursor: pointer;
-
-                &:nth-child(2n) {
-                    .properties(margin-left, 24);
-                }
             }
 
             &-thumb {
@@ -107,8 +106,6 @@
                 position: relative;
 
                 > img {
-                    .properties(width, 80);
-                    .properties(height, 120);
                     .border-radius();
                     transition: all @mi-anim-duration ease;
                 }

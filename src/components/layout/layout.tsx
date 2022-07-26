@@ -1,7 +1,7 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-import PropTypes from '../_utils/props-types'
+import { layoutProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { Layout } from 'ant-design-vue'
 import { $g } from '../../utils/global'
@@ -10,30 +10,29 @@ import MiLayoutSide from './side'
 import MiLayoutContent from './content'
 import MiLayoutFooter from './footer'
 
-export const layoutProps = () => ({
-    prefixCls: String,
-    sideClassName: PropTypes.string,
-    menuClassName: PropTypes.string,
-    headerClassName: PropTypes.string,
-    contentAnimation: PropTypes.string.def('page-slide'),
-    showRouteHistory: PropTypes.bool.def(true),
-    side: PropTypes.any,
-    header: PropTypes.any,
-    headerExtra: PropTypes.any,
-    footer: PropTypes.any
-})
-
 const MiLayout = defineComponent({
     name: 'MiLayout',
     inheritAttrs: false,
     slots: ['side', 'header', 'headerExtra', 'footer'],
     props: layoutProps(),
     setup(props, { slots }) {
-        const { locale } = useI18n()
+        const { locale, t } = useI18n()
         const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
         const prefixCls = getPrefixCls('layout', props.prefixCls)
         const store = useStore()
         const theme = computed(() => store.getters['layout/theme'])
+        const themes = props.themes ?? [
+            {
+                thumb: $g.theme.thumbnails.dark,
+                name: 'dark',
+                label: t('theme.dark')
+            },
+            {
+                thumb: $g.theme.thumbnails.light,
+                name: 'light',
+                label: t('theme.light')
+            }
+        ]
         const layoutCls = computed(() => {
             let layoutCls = getPrefixCls('layout-container')
             const themeCls = getPrefixCls('theme')
@@ -48,7 +47,7 @@ const MiLayout = defineComponent({
             const extra = getPropSlot(slots, props, 'headerExtra')
             return (
                 getPropSlot(slots, props, 'header') ?? (
-                    <MiLayoutHeader class={props.headerClassName} extra={extra} />
+                    <MiLayoutHeader class={props.headerClassName} extra={extra} themes={themes} />
                 )
             )
         }

@@ -2,9 +2,10 @@ import { defineComponent, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { Layout, Popover, Radio, message } from 'ant-design-vue'
-import PropTypes from '../_utils/props-types'
+import { layoutHeaderProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
+import { $tools } from '../../utils/tools'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -17,14 +18,6 @@ import MiDropdown from '../dropdown'
 import MiNotice from '../notice'
 import MiBreadcrumb from './breadcrumb'
 import screenfull from 'screenfull'
-
-export const layoutHeaderProps = () => ({
-    prefixCls: String,
-    stretch: PropTypes.any,
-    notice: PropTypes.any,
-    dropdown: PropTypes.any,
-    extra: PropTypes.any
-})
 
 export default defineComponent({
     name: 'MiLayoutHeader',
@@ -44,8 +37,20 @@ export default defineComponent({
             palette: `${prefixCls}-palette`
         }
         const full = ref<boolean>(false)
+        const themes = props.themes ?? [
+            {
+                thumb: $g.theme.thumbnails.dark,
+                name: 'dark',
+                label: t('theme.dark')
+            },
+            {
+                thumb: $g.theme.thumbnails.light,
+                name: 'light',
+                label: t('theme.light')
+            }
+        ]
 
-        const getStretch = () => {
+        const renderStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
             if (!stretch) {
                 if ($g.isMobile) stretch = <MenuUnfoldOutlined />
@@ -55,7 +60,7 @@ export default defineComponent({
             return stretch
         }
 
-        const getScreenfull = () => {
+        const renderScreenfull = () => {
             let elem: any = !full.value ? (
                 <ExpandOutlined onClick={screenfullQuitOrIn} />
             ) : (
@@ -69,40 +74,32 @@ export default defineComponent({
             $g.theme.active = theme
         }
 
-        const getPalette = () => {
-            const getPaletteContent = () => {
-                return (
-                    <div class={headerCls.palette}>
+        const renderPalette = () => {
+            const renderPaletteContent = () => {
+                const tempThemes = []
+                themes.forEach((theme: any) => {
+                    const thumbStyle = {
+                        width: theme.width ? $tools.convert2Rem(theme.width) : null,
+                        height: theme.height ? $tools.convert2Rem(theme.height) : null
+                    }
+                    tempThemes.push(
                         <div
                             class={`${headerCls.palette}-item${
-                                $g.theme.active === 'dark' ? ` ${headerCls.palette}-active` : ''
+                                $g.theme.active === theme.name ? ` ${headerCls.palette}-active` : ''
                             }`}
-                            onClick={() => changePalette('dark')}>
-                            <div class={`${headerCls.palette}-thumb`}>
-                                <img src={$g.theme.thumbnails.dark} />
+                            onClick={() => changePalette(theme.name)}>
+                            <div class={`${headerCls.palette}-thumb`} style={thumbStyle}>
+                                {theme.thumb ? <img src={theme.thumb} /> : null}
                             </div>
                             <div class={`${headerCls.palette}-radio`}>
-                                <Radio checked={$g.theme.active === 'dark'}>
-                                    {t('theme.dark')}
+                                <Radio checked={$g.theme.active === theme.name}>
+                                    {theme.label}
                                 </Radio>
                             </div>
                         </div>
-                        <div
-                            class={`${headerCls.palette}-item${
-                                $g.theme.active === 'light' ? ` ${headerCls.palette}-active` : ''
-                            }`}
-                            onClick={() => changePalette('light')}>
-                            <div class={`${headerCls.palette}-thumb`}>
-                                <img src={$g.theme.thumbnails.light} />
-                            </div>
-                            <div class={`${headerCls.palette}-radio`}>
-                                <Radio checked={$g.theme.active === 'light'}>
-                                    {t('theme.light')}
-                                </Radio>
-                            </div>
-                        </div>
-                    </div>
-                )
+                    )
+                })
+                return <div class={headerCls.palette}>{...tempThemes}</div>
             }
 
             return (
@@ -111,7 +108,7 @@ export default defineComponent({
                         trigger={['click']}
                         overlayClassName={popoverCls}
                         placement={'bottom'}
-                        content={getPaletteContent()}>
+                        content={renderPaletteContent()}>
                         <BgColorsOutlined />
                     </Popover>
                 )
@@ -153,7 +150,7 @@ export default defineComponent({
                     <div
                         class={`${headerCls.trigger} ${headerCls.trigger}-no-bg`}
                         onClick={setCollapsed}>
-                        {getStretch()}
+                        {renderStretch()}
                     </div>
                     <div class={`${headerCls.trigger}`}>
                         <MiBreadcrumb />
@@ -162,13 +159,13 @@ export default defineComponent({
                 {/* right */}
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
-                    <div class={triggerCls}>{getScreenfull() ?? null}</div>
+                    <div class={triggerCls}>{renderScreenfull() ?? null}</div>
                     <div class={triggerCls}>
                         {getPropSlot(slots, props, 'notice') ?? (
                             <MiNotice class={`${prefixCls}-notice`} />
                         )}
                     </div>
-                    <div class={triggerCls}>{getPalette()}</div>
+                    <div class={triggerCls}>{renderPalette()}</div>
                     <div class={triggerCls}>
                         {getPropSlot(slots, props, 'dropdown') ?? (
                             <MiDropdown class={`${prefixCls}-dropdown`} />
