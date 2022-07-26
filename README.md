@@ -90,7 +90,7 @@
 
 :white_check_mark: 搜索组件 ( `Search` ) :bookmark_tabs:
 
-:x: 代码高亮 ( `Code` ) :flight_arrival:
+:white_check_mark: 代码高亮 ( `Code` ) :flight_arrival:
 
 :x: 上传组件 ( `Upload` ) :clap:
 
