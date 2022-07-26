@@ -1,11 +1,85 @@
 @import '../../../styles/theme/index.less';
 @import (inline) 'prismjs/themes/prism-tomorrow.css';
 
-pre[class*="language-"] {
-    white-space: pre-line;
+@mi-code: ~'@{mi-prefix}code';
 
+.@{mi-code} {
+    position: relative;
+
+    pre[class*="language-"] {
+        white-space: pre-line;
+        box-shadow: 0 0 10px var(--mi-night, @mi-night);
+        position: relative;
+    
+        code {
+            padding: 0;
+            margin: 0;
+        }
+    }
+    
     code {
-        padding: 0;
+        .properties(padding-top, 2);
+        .properties(padding-bottom, 2);
+        .properties(padding-left, 6);
+        .properties(padding-right, 6);
+        .properties(margin-right, 6);
+        .properties(margin-left, 6);
+    }
+    
+    div.code {
+        code {
+            .properties(padding-top, 3);
+            .properties(padding-bottom, 3);
+            .properties(padding-left, 5);
+            .properties(padding-right, 5);
+            background: #5d5d5d;
+            .border-radius();
+            color: fade(@mi-font, 80%);
+        }
+    }
+
+    .token.tag {
+        background: transparent;
         margin: 0;
+        border-radius: unset;
+        max-width: unset;
+        line-height: unset;
+        padding: 0;
+        font-size: @mi-font-size-normal;
+        height: auto;
+        overflow: auto;
+    }
+
+    &-title {
+        .flex(center, flex-start);
+        position: sticky;
+        top: 0;
+        left: 0;
+        .properties(margin-bottom);
+
+        span {
+            .properties(width, 14);
+            .properties(height, 14);
+            .border-radius-circle();
+            .properties(margin-right, 12);
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    &-dot {
+        &-red {
+            background-color: var(--mi-danger, @mi-danger);
+        }
+
+        &-orange {
+            background-color: var(--mi-warning, @mi-warning);
+        }
+
+        &-green {
+            background-color: var(--mi-success, @mi-success);
+        }
     }
 }
