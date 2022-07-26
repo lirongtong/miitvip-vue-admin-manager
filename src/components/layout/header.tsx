@@ -67,7 +67,7 @@ export default defineComponent({
                 <CompressOutlined onClick={screenfullQuitOrIn} />
             )
             if ($g.isMobile) elem = null
-            return elem
+            return elem ? <div class={triggerCls}>{elem}</div> : null
         }
 
         const changePalette = (theme = 'dark') => {
@@ -159,7 +159,7 @@ export default defineComponent({
                 {/* right */}
                 <div class={headerCls.right}>
                     {getPropSlot(slots, props, 'extra')}
-                    <div class={triggerCls}>{renderScreenfull() ?? null}</div>
+                    {renderScreenfull()}
                     <div class={triggerCls}>
                         {getPropSlot(slots, props, 'notice') ?? (
                             <MiNotice class={`${prefixCls}-notice`} />
