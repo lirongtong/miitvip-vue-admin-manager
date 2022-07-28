@@ -66,9 +66,9 @@
     border-radius: 50%;
 }
 
-.linear-gradient-background() {
-    background-color: var(--mi-dark, @mi-dark);
-    background-image: linear-gradient(315deg, var(--mi-black, @mi-black) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+.linear-gradient-background(@s: @mi-black, @e: @mi-pre-dark, @d: @mi-dark) {
+    background-color: var(--mi-dark, @d);
+    background-image: linear-gradient(315deg, var(--mi-black, @s) 0%, var(--mi-pre-dark, @e) 74%);
 }
 
 .linear-gradient-background-grey() {

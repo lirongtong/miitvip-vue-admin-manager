@@ -11,7 +11,8 @@ import {
     MenuUnfoldOutlined,
     BgColorsOutlined,
     ExpandOutlined,
-    CompressOutlined
+    CompressOutlined,
+    CheckCircleOutlined
 } from '@ant-design/icons-vue'
 import { mutations } from '../../store/types'
 import MiDropdown from '../dropdown'
@@ -34,7 +35,8 @@ export default defineComponent({
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
             trigger: `${prefixCls}-trigger`,
-            palette: `${prefixCls}-palette`
+            palette: `${prefixCls}-palette`,
+            paletteActive: `${prefixCls}-palette-active`
         }
         const full = ref<boolean>(false)
         const themes = props.themes ?? [
@@ -85,7 +87,7 @@ export default defineComponent({
                     tempThemes.push(
                         <div
                             class={`${headerCls.palette}-item${
-                                $g.theme.active === theme.name ? ` ${headerCls.palette}-active` : ''
+                                $g.theme.active === theme.name ? ` ${headerCls.paletteActive}` : ''
                             }`}
                             onClick={() => changePalette(theme.name)}>
                             <div class={`${headerCls.palette}-thumb`} style={thumbStyle}>
@@ -95,6 +97,9 @@ export default defineComponent({
                                 <Radio checked={$g.theme.active === theme.name}>
                                     {theme.label}
                                 </Radio>
+                            </div>
+                            <div class={`${headerCls.palette}-selected`}>
+                                <CheckCircleOutlined />
                             </div>
                         </div>
                     )
