@@ -162,6 +162,7 @@ export default defineComponent({
                 }
             }
             if (len - 1 > 0) store.commit(`layout/${mutations.layout.routes}`, tempRoutes)
+            initRouteHistoryScroll()
             if (evt) evt.preventDefault()
         }
 
