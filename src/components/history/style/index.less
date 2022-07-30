@@ -78,7 +78,7 @@
         .properties(height, 32);
         .flex();
         .properties(padding-left, 16);
-        .properties(padding-right);
+        .properties(padding-right, 24);
         .properties(margin-right);
         .border-radius(32);
         .text-ellipsis();
@@ -86,6 +86,7 @@
         color: var(--mi-font, @mi-font);
         transition: all @mi-anim-duration ease;
         cursor: pointer;
+        position: relative;
 
         span {
             .properties(margin-right, 8);
@@ -103,6 +104,25 @@
         &:hover,
         &&.active {
             color: var(--mi-theme, @mi-theme);
+        }
+
+        &-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 5;
+        }
+
+        &-close {
+            position: absolute;
+            .properties(right, 10);
+            .properties(width, 16);
+            height: 100%;
+            .flex();
+            z-index: 10;
         }
     }
 
