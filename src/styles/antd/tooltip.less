@@ -5,6 +5,12 @@
 .@{ant-tooltip} {
     z-index: @mi-z-index-modal;
 
+    &-arrow {
+        &-content {
+            background-color: var(--mi-pre-dark, @mi-pre-dark);
+        }
+    }
+
     &-inner {
         .border-radius(8);
         .linear-gradient-background();

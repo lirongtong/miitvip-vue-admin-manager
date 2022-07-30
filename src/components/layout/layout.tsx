@@ -9,6 +9,7 @@ import MiLayoutHeader from './header'
 import MiLayoutSide from './side'
 import MiLayoutContent from './content'
 import MiLayoutFooter from './footer'
+import MiLayoutDrawerMenu from '../menu/drawer'
 
 const MiLayout = defineComponent({
     name: 'MiLayout',
@@ -42,7 +43,7 @@ const MiLayout = defineComponent({
                 : ''
             return layoutCls
         })
-        const drawer = $g.isMobile ? <div></div> : null
+        const drawer = $g.isMobile ? <MiLayoutDrawerMenu /> : null
         const getHeader = () => {
             const extra = getPropSlot(slots, props, 'headerExtra')
             return (

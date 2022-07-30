@@ -3,6 +3,7 @@ import PropTypes from '../_utils/props-types'
 import { getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { Tag } from 'ant-design-vue'
+import { $tools } from '../../utils/tools'
 
 export const menuItemLinkProps = () => ({
     prefixCls: String,
@@ -34,7 +35,7 @@ export default defineComponent({
         }
         const getTag = () => {
             let tag: any = null
-            if (props.item.meta?.tag && !props.topLevel) {
+            if (props.item.meta?.tag && ($g.isMobile || !props.topLevel)) {
                 if (props.item.meta.tag.content) {
                     tag = (
                         <Tag
@@ -53,7 +54,7 @@ export default defineComponent({
                             style={{
                                 color: props.item.meta.tag.color,
                                 marginRight: 0,
-                                fontSize: `${props.item.meta.tag.size ?? 14}px`
+                                fontSize: $tools.convert2Rem(props.item.meta.tag.size ?? 14)
                             }}
                         />
                     )
