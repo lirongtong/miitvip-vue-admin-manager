@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { MoreOutlined, GithubOutlined } from '@ant-design/icons-vue'
 import { getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import PropTypes from '../_utils/props-types'
 import MiDropdown from '../dropdown'
 import MiDropdownItem from '../dropdown/item'
@@ -17,6 +18,7 @@ export default defineComponent({
     setup(props) {
         const prefixCls = getPrefixCls('passport-socialite')
         const { t } = useI18n()
+        const { width } = useWindowResize()
         const params = reactive({
             left: [],
             first: {} as any
@@ -42,7 +44,7 @@ export default defineComponent({
 
         return () => {
             let elem: any = null
-            if ($g.isMobile) {
+            if (width.value < $g.devices.mobile) {
                 const icons: any[] = []
                 const items = [{ ...params.first }].concat(params.left)
                 items.forEach((item: any) => {
