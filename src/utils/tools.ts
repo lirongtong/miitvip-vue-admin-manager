@@ -414,6 +414,33 @@ class MiTools {
         temp = null
         return output
     }
+
+    /**
+     * copy to clipboard.
+     * @param text
+     * @returns
+     */
+    copy(text: any) {
+        if (navigator.clipboard) {
+            return navigator.clipboard.writeText(text)
+        } else {
+            const span = document.createElement('span') as HTMLSpanElement
+            span.textContent = text
+            span.style.whiteSpace = 'pre'
+            document.body.appendChild(span)
+            const selection = window.getSelection()
+            const range = document.createRange()
+            selection.removeAllRanges()
+            range.selectNode(span)
+            selection.addRange(range)
+            const success = window.document.execCommand('copy')
+            selection.removeAllRanges()
+            document.body.removeChild(span)
+            return success
+                ? Promise.resolve()
+                : Promise.reject(new DOMException('The request is not allowed', 'NotAllowedError'))
+        }
+    }
 }
 
 export const $tools: MiTools = new MiTools()
