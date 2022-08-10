@@ -4,6 +4,7 @@ import { getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { Tag } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
+import { useWindowResize } from '../../hooks/useWindowResize'
 
 export const menuItemLinkProps = () => ({
     prefixCls: String,
@@ -18,6 +19,7 @@ export default defineComponent({
     props: menuItemLinkProps(),
     setup(props) {
         const prefixCls = getPrefixCls('menu-item', props.prefixCls)
+        const { width } = useWindowResize()
         const getIcon = () => {
             const icon = props.item.meta?.icon ?? 'TagsFilled'
             return isVNode(icon) ? icon : h(icon)
@@ -35,7 +37,7 @@ export default defineComponent({
         }
         const getTag = () => {
             let tag: any = null
-            if (props.item.meta?.tag && ($g.isMobile || !props.topLevel)) {
+            if (props.item.meta?.tag && (width.value < $g.devices.mobile || !props.topLevel)) {
                 if (props.item.meta.tag.content) {
                     tag = (
                         <Tag

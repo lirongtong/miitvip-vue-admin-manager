@@ -77,6 +77,11 @@ export const $g = reactive({
         'purge'
     ],
 
+    devices: {
+        mobile: 768,
+        tablet: 922
+    },
+
     /**
      * 常用的正则规则.
      * regular rules.

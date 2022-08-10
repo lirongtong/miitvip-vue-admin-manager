@@ -3,6 +3,7 @@ import { Layout } from 'ant-design-vue'
 import { $g } from '../../utils/global'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import PropTypes from '../_utils/props-types'
+import { useWindowResize } from '../../hooks/useWindowResize'
 
 export default defineComponent({
     name: 'MiLayoutFooter',
@@ -12,7 +13,10 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const prefixCls = getPrefixCls('layout-footer', props.prefixCls)
-        const copyright = computed(() => ($g.isMobile ? $g.copyright.mobile : $g.copyright.pc))
+        const { width } = useWindowResize()
+        const copyright = computed(() => {
+            return width.value < $g.devices.mobile ? $g.copyright.mobile : $g.copyright.pc
+        })
         return () => (
             <Layout.Footer class={prefixCls}>
                 {getPropSlot(slots, props) ?? (

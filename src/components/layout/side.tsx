@@ -30,7 +30,7 @@ const MiLayoutSider = defineComponent({
         }
         const getLogo = () => {
             let logo = getPropSlot(slots, props, 'logo')
-            if (!logo && !$g.isMobile) logo = <MiLayoutSideLogo />
+            if (!logo) logo = <MiLayoutSideLogo />
             return logo
         }
         const getMenu = () => {

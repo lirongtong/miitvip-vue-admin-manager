@@ -5,6 +5,7 @@ import { layoutProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { Layout } from 'ant-design-vue'
 import { $g } from '../../utils/global'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiLayoutHeader from './header'
 import MiLayoutSide from './side'
 import MiLayoutContent from './content'
@@ -20,6 +21,7 @@ const MiLayout = defineComponent({
         const { locale, t } = useI18n()
         const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
         const prefixCls = getPrefixCls('layout', props.prefixCls)
+        const { width } = useWindowResize()
         const store = useStore()
         const theme = computed(() => store.getters['layout/theme'])
         const themes = props.themes ?? [
@@ -37,13 +39,13 @@ const MiLayout = defineComponent({
         const layoutCls = computed(() => {
             let layoutCls = getPrefixCls('layout-container')
             const themeCls = getPrefixCls('theme')
-            layoutCls += $g.isMobile ? ` ${layoutCls}-mobile` : ''
+            layoutCls += width.value < $g.devices.mobile ? ` ${layoutCls}-mobile` : ''
             layoutCls += ['dark', 'light'].includes(theme.value)
                 ? ` ${themeCls}-${theme.value}`
                 : ''
             return layoutCls
         })
-        const drawer = $g.isMobile ? <MiLayoutDrawerMenu /> : null
+        const drawer = <MiLayoutDrawerMenu />
         const getHeader = () => {
             const extra = getPropSlot(slots, props, 'headerExtra')
             return (
@@ -53,9 +55,7 @@ const MiLayout = defineComponent({
             )
         }
         const getSide = () => {
-            let side = getPropSlot(slots, props, 'side') ?? <MiLayoutSide />
-            if ($g.isMobile) side = null
-            return side
+            return getPropSlot(slots, props, 'side') ?? <MiLayoutSide />
         }
         const getLayout = () => {
             return (
@@ -74,7 +74,9 @@ const MiLayout = defineComponent({
         }
         return () => (
             <>
-                <Layout class={`${layoutCls.value} ${langCls}`} hasSider={!$g.isMobile}>
+                <Layout
+                    class={`${layoutCls.value} ${langCls}`}
+                    hasSider={width.value > $g.devices.mobile}>
                     {getLayout}
                 </Layout>
                 {drawer}

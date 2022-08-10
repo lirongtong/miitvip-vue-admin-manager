@@ -15,6 +15,7 @@ import {
     CheckCircleOutlined
 } from '@ant-design/icons-vue'
 import { mutations } from '../../store/types'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiDropdown from '../dropdown'
 import MiNotice from '../notice'
 import MiBreadcrumb from './breadcrumb'
@@ -31,6 +32,7 @@ export default defineComponent({
         const prefixCls = getPrefixCls('layout-header', props.prefixCls)
         const popoverCls = getPrefixCls('popover', props.prefixCls)
         const collapsed = computed(() => store.getters['layout/collapsed'])
+        const { width } = useWindowResize()
         const headerCls = {
             left: `${prefixCls}-left`,
             right: `${prefixCls}-right`,
@@ -55,7 +57,7 @@ export default defineComponent({
         const renderStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
             if (!stretch) {
-                if ($g.isMobile) stretch = <MenuUnfoldOutlined />
+                if (width.value < $g.devices.mobile) stretch = <MenuUnfoldOutlined />
                 else if (!collapsed.value) stretch = <MenuFoldOutlined />
                 else stretch = <MenuUnfoldOutlined />
             }
@@ -137,7 +139,7 @@ export default defineComponent({
         }
 
         const setCollapsed = () => {
-            if ($g.isMobile) {
+            if (width.value < $g.devices.mobile) {
                 $g.menus.drawer = !$g.menus.drawer
             } else {
                 const collapse = !collapsed.value
