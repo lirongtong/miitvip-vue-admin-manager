@@ -4,12 +4,13 @@ import { $g } from '../../utils/global'
 import { getPrefixCls } from '../_utils/props-tools'
 import MiLayoutSideLogo from '../layout/logo'
 import MiLayoutSideMenu from './menu'
+import PropTypes from '../_utils/props-types'
 
 export default defineComponent({
     name: 'MiDrawerMenu',
     inheritAttrs: false,
     props: {
-        prefixCls: String
+        prefixCls: PropTypes.string
     },
     setup(props) {
         const layoutPrefixCls = getPrefixCls('layout', props.prefixCls)
@@ -17,17 +18,19 @@ export default defineComponent({
         const drawerPrefixCls = getPrefixCls('layout-side-menu-drawer', props.prefixCls)
         const width = 256
         return () => (
-            <Drawer width={width}
+            <Drawer
+                width={width}
                 placement="left"
                 closable={false}
                 visible={$g.menus.drawer}
-                onClose={() => $g.menus.drawer = !$g.menus.drawer}
+                onClose={() => ($g.menus.drawer = !$g.menus.drawer)}
                 class={drawerPrefixCls}
                 zIndex={Date.now()}>
                 <Layout class={`${containerPrefixCls} ${layoutPrefixCls}-mobile`} hasSider={true}>
-                    <Layout.Sider class={`${layoutPrefixCls}-side`}
+                    <Layout.Sider
+                        class={`${layoutPrefixCls}-side`}
                         width={width}
-                        style={{display: 'flex'}}>
+                        style={{ display: 'flex' }}>
                         <MiLayoutSideLogo />
                         <MiLayoutSideMenu items={$g.menus.items} />
                     </Layout.Sider>

@@ -157,7 +157,7 @@ export default defineComponent({
             if (item.name === params.current) {
                 if (len > 1) {
                     params.active = prev ?? next ?? null
-                    params.current = prev ? prev.name : (next ? next.name : null)
+                    params.current = prev ? prev.name : next ? next.name : null
                     router.push({ path: params.active.path })
                 }
             }
@@ -256,12 +256,12 @@ export default defineComponent({
                     const cls = `${prefixCls}-item${params.current === item.name ? ' active' : ''}`
                     items.push(
                         <Transition name={animation} appear={true}>
-                            <div
-                                class={cls}
-                                key={name}
-                                id={`${prefixCls}-item-${item.name}`}>
+                            <div class={cls} key={name} id={`${prefixCls}-item-${item.name}`}>
                                 <span innerHTML={item.title} />
-                                <div class={`${prefixCls}-item-mask`} onClick={() => redirectRouteHistory(item)} />
+                                <div
+                                    class={`${prefixCls}-item-mask`}
+                                    onClick={() => redirectRouteHistory(item)}
+                                />
                                 <CloseOutlined
                                     onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)}
                                     class={`${prefixCls}-item-close`}
