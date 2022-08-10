@@ -11,6 +11,7 @@ import { api } from '../../utils/api'
 import { useI18n } from 'vue-i18n'
 import { $request } from '../../utils/request'
 import { $storage } from '../../utils/storage'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import PropTypes from '../_utils/props-types'
 import MiLayout from '../layout'
 import MiPassword from '../password'
@@ -51,6 +52,7 @@ export default defineComponent({
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const formRef = ref(null) as any
         const passwordFormRef = ref(null) as any
+        const { width } = useWindowResize()
 
         const checkUsername = async (_rule: any, value: string) => {
             if ($tools.isEmpty(value)) {
@@ -216,7 +218,7 @@ export default defineComponent({
         }
 
         const renderMask = () => {
-            return $g.isMobile ? null : <div class={`${prefixCls}-mask`} />
+            return width.value < $g.devices.mobile ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -259,7 +261,7 @@ export default defineComponent({
             const cls = `${prefixCls}-register-tips`
             return (
                 getPropSlot(slots, props, 'usernameTip') ?? (
-                    <div class={`${cls}${$g.isMobile ? `${cls}-mobile` : ''}`}>
+                    <div class={`${cls}${width.value < $g.devices.mobile ? `${cls}-mobile` : ''}`}>
                         <p innerHTML={t('passport.register.tips.special')} />
                         <p innerHTML={t('passport.register.tips.structure')} />
                         <p innerHTML={t('passport.register.tips.start')} />
@@ -328,14 +330,15 @@ export default defineComponent({
 
         const renderButton = () => {
             const cls = `${prefixCls}-submit`
-            const login = $g.isMobile ? (
-                <Button size="large" class={`${cls} ${cls}-register`}>
-                    <RouterLink to={{ path: 'login' }}>
-                        {t('passport.has-account')}
-                        {t('passport.register.sign')}
-                    </RouterLink>
-                </Button>
-            ) : null
+            const login =
+                width.value < $g.devices.mobile ? (
+                    <Button size="large" class={`${cls} ${cls}-register`}>
+                        <RouterLink to={{ path: 'login' }}>
+                            {t('passport.has-account')}
+                            {t('passport.register.sign')}
+                        </RouterLink>
+                    </Button>
+                ) : null
             return (
                 <>
                     <Button class={cls} onClick={register}>
@@ -355,7 +358,7 @@ export default defineComponent({
             const cls = `${prefixCls}-socialite`
             return (
                 <Form.Item class={`${cls}`}>
-                    {!$g.isMobile ? (
+                    {width.value >= $g.devices.mobile ? (
                         <div class={`${cls}-link`}>
                             {t('passport.has-account')}
                             {link}
@@ -389,11 +392,15 @@ export default defineComponent({
 
         return () => (
             <div
-                class={`${prefixCls}${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
+                class={`${prefixCls}${
+                    width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
+                }`}
                 style={{
                     backgroundImage: `url(${props.background ?? $g.background.default})`
                 }}>
-                <Row class={`${prefixCls}-content`} align={$g.isMobile ? 'top' : 'middle'}>
+                <Row
+                    class={`${prefixCls}-content`}
+                    align={width.value < $g.devices.mobile ? 'top' : 'middle'}>
                     <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                         {renderMask()}
                         {renderTitle()}

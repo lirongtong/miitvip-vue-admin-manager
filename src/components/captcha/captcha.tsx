@@ -6,6 +6,7 @@ import { getPrefixCls } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
 import { $g } from '../../utils/global'
 import { $request } from '../../utils/request'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiCaptchaModal from './modal'
 
 const POWERED = 'Powered By makeit.vip'
@@ -57,6 +58,7 @@ export default defineComponent({
             },
             verifyParams: { ...props.verifyParams }
         }) as { [index: string]: any }
+        const { width } = useWindowResize()
 
         onBeforeUnmount(() => {
             closeCaptchaModal({ status: 'close' })
@@ -358,7 +360,9 @@ export default defineComponent({
 
         return () => (
             <div
-                class={`${prefixCls}${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
+                class={`${prefixCls}${
+                    width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
+                }`}
                 {...attrs}
                 onClick={showCaptchaModal}
                 key={`${prefixCls}-${$tools.uid()}`}

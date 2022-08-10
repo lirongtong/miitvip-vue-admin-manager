@@ -15,6 +15,7 @@ import { passportProps } from '../_utils/props-passport'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { useI18n } from 'vue-i18n'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import { api } from '../../utils/api'
 import PropTypes from '../_utils/props-types'
 import MiLayout from '../layout'
@@ -44,6 +45,7 @@ const Login = defineComponent({
         const route = useRoute()
         const router = useRouter()
         const formRef = ref(null) as any
+        const { width } = useWindowResize()
 
         const validateCaptcha = () => {
             if (!params.captcha) return Promise.reject(t('passport.verify'))
@@ -129,7 +131,7 @@ const Login = defineComponent({
         }
 
         const renderMask = () => {
-            return $g.isMobile ? null : <div class={`${prefixCls}-mask`} />
+            return width.value < $g.devices.mobile ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -274,14 +276,15 @@ const Login = defineComponent({
 
         const renderButton = () => {
             const cls = `${prefixCls}-submit`
-            const register = $g.isMobile ? (
-                <Button size="large" class={`${cls} ${cls}-register`}>
-                    <RouterLink to={{ path: 'register' }}>
-                        {t('passport.no-account')}
-                        {t('passport.login.sign')}
-                    </RouterLink>
-                </Button>
-            ) : null
+            const register =
+                width.value < $g.devices.mobile ? (
+                    <Button size="large" class={`${cls} ${cls}-register`}>
+                        <RouterLink to={{ path: 'register' }}>
+                            {t('passport.no-account')}
+                            {t('passport.login.sign')}
+                        </RouterLink>
+                    </Button>
+                ) : null
             return (
                 <>
                     <Button class={cls} onClick={login}>
@@ -301,7 +304,7 @@ const Login = defineComponent({
             const cls = `${prefixCls}-socialite`
             return (
                 <Form.Item class={`${cls}`}>
-                    {!$g.isMobile ? (
+                    {width.value >= $g.devices.mobile ? (
                         <div class={`${cls}-link`}>
                             {t('passport.no-account')}
                             {link}
@@ -327,12 +330,16 @@ const Login = defineComponent({
             }
             return props.socialiteLogin ? null : (
                 <div
-                    class={`${prefixCls}${$g.isMobile ? ` ${prefixCls}-mobile` : ''}`}
+                    class={`${prefixCls}${
+                        width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
+                    }`}
                     style={{
                         backgroundImage: `url(${props.background ?? $g.background.default})`
                     }}
                     {...attrs}>
-                    <Row class={`${prefixCls}-content`} align={$g.isMobile ? 'top' : 'middle'}>
+                    <Row
+                        class={`${prefixCls}-content`}
+                        align={width.value < $g.devices.mobile ? 'top' : 'middle'}>
                         <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                             {renderMask()}
                             {renderTitle()}

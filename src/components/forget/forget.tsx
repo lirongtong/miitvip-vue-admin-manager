@@ -9,6 +9,7 @@ import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { $request } from '../../utils/request'
 import { $storage } from '../../utils/storage'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiLayout from '../layout'
 import MiCaptcha from '../captcha'
 import MiPassword from '../password'
@@ -40,6 +41,7 @@ export default defineComponent({
         const formRef = ref(null) as any
         const updateForm = ref(null) as any
         const anim = getPrefixCls('anim-slide')
+        const { width } = useWindowResize()
 
         const validateInput = async (_rule: any, value: string) => {
             if (!$tools.isEmpty(value)) {
@@ -262,7 +264,7 @@ export default defineComponent({
         }
 
         const renderMask = () => {
-            return $g.isMobile ? null : <div class={`${prefixCls}-mask`} />
+            return width.value < $g.devices.mobile ? null : <div class={`${prefixCls}-mask`} />
         }
 
         const renderTitle = () => {
@@ -434,12 +436,14 @@ export default defineComponent({
         return () => (
             <div
                 class={`${prefixCls} ${prefixCls}-forget${
-                    $g.isMobile ? ` ${prefixCls}-mobile` : ''
+                    width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
                 }`}
                 style={{
                     backgroundImage: `url(${props.background ?? $g.background.default})`
                 }}>
-                <Row class={`${prefixCls}-content`} align={$g.isMobile ? 'top' : 'middle'}>
+                <Row
+                    class={`${prefixCls}-content`}
+                    align={width.value < $g.devices.mobile ? 'top' : 'middle'}>
                     <Col class={`${prefixCls}-box`} xs={24} sm={18} md={12} lg={12}>
                         {renderMask()}
                         {renderTitle()}
