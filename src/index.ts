@@ -24,7 +24,7 @@ import { default as Login } from './components/login'
 import { default as Register } from './components/register'
 import { default as Forget } from './components/forget'
 import { default as History } from './components/history'
-import { default as Upload } from './components/upload'
+import { default as Uploader } from './components/uploader'
 import { default as Code } from './components/code'
 
 const components = [
@@ -50,7 +50,7 @@ const components = [
     Register,
     Forget,
     History,
-    Upload,
+    Uploader,
     Code
 ]
 
@@ -92,7 +92,7 @@ export {
     Register,
     Forget,
     History,
-    Upload,
+    Uploader,
     Code
 }
 

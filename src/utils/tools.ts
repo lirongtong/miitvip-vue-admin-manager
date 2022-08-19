@@ -229,7 +229,7 @@ class MiTools {
         return $tools.isNumber(num)
             ? `${this.px2Rem(parseInt(num.toString()))}rem`
             : num
-            ? /%/g.test(num.toString())
+            ? /%|px|rem|em|rpx/g.test(num.toString())
                 ? num
                 : `${this.px2Rem(parseInt(num.toString()))}rem`
             : null

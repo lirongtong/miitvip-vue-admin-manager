@@ -144,5 +144,8 @@ export default {
             right: '关闭右侧',
             other: '关闭其它'
         }
+    },
+    upload: {
+        image: '上传图片'
     }
 }

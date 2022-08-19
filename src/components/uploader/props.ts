@@ -4,6 +4,6 @@ export const uploadProps = () => ({
     prefixCls: PropTypes.string,
     type: PropTypes.string.def('image'),
     multiple: PropTypes.bool.def(false),
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).def(80),
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).def(120)
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 })
