@@ -92,8 +92,6 @@
 
 :white_check_mark: 代码高亮 ( `Code` ) :flight_arrival:
 
-:x: 上传组件 ( `Upload` ) :clap:
-
 ## 高级应用
 
 :x: 权限控制 :sunglasses:

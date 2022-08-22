@@ -17,8 +17,8 @@ import {
     CrownOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, QuestionCircleOutlined,
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
-    CloudUploadOutlined, BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined,
-    GithubOutlined, LogoutOutlined, CodeOutlined
+    BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined, GithubOutlined,
+    LogoutOutlined, CodeOutlined
 } from '@ant-design/icons-vue'
 
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
@@ -181,14 +181,6 @@ vm.$g.menus.items = [{
             title: '密码设置',
             subTitle: 'Password',
             icon: SafetyCertificateOutlined
-        }
-    }, {
-        name: 'components-upload',
-        path: '/components/upload',
-        meta: {
-            title: '文件上传',
-            subTitle: 'Upload',
-            icon: CloudUploadOutlined
         }
     }, {
         name: 'components-anchor',
