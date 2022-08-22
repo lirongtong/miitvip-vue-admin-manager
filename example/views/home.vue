@@ -25,6 +25,9 @@ const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
 const store = useStore()
 const router = useRouter()
 
+const _loading = document.getElementById('mi-loading-before-init')
+if (_loading) _loading.remove()
+
 vm.$g.menus.items = [{
     name: 'dashboard',
     path: '/dashboard',

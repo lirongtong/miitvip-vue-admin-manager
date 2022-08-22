@@ -9,8 +9,59 @@
     <title>Makeit Admin Pro 开箱即用的中后台管理系统框架 - Powered by makeit.vip</title>
     <meta name="keywords" content="lirongtong, makeit admin pro, vue, vite, ant design vue">
     <meta name="description" content="makeit's backend management system ( a unified template ).">
+    <style type="text/css">
+        .mi-loading-double-ring {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1d1e23;
+        }
+
+        .mi-loading-double-ring:before,
+        .mi-loading-double-ring:after {
+            border-radius: 100%;
+            display: block;
+            content: '';
+            position: absolute;
+        }
+
+        .mi-loading-double-ring:after {
+            height: 15px;
+            width: 15px;
+            -webkit-animation: mi-loading-double-ring 1s infinite linear;
+            animation: mi-loading-double-ring 1s infinite linear;
+            -webkit-box-shadow: 19px 0 0 0 #f6ca9d, -19px 0 0 0 #f6ca9d;
+            box-shadow: 19px 0 0 0 #f6ca9d, -19px 0 0 0 #f6ca9d;
+        }
+
+        .mi-loading-double-ring:before {
+            height: 40px;
+            width: 40px;
+            border: 2px solid #fff;
+        }
+
+        @-webkit-keyframes mi-loading-double-ring {
+            to {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes mi-loading-double-ring {
+            to {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
+    <div id="mi-loading-before-init" class="mi-loading-double-ring"></div>
     <div id="app"></div>
     <script type="module" src="/example/index.ts"></script>
 </body>
