@@ -18,7 +18,7 @@ import {
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
     BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined, GithubOutlined,
-    LogoutOutlined, CodeOutlined
+    LogoutOutlined, CodeOutlined, AppstoreOutlined, PicRightOutlined, TransactionOutlined
 } from '@ant-design/icons-vue'
 
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
@@ -233,7 +233,33 @@ vm.$g.menus.items = [{
         title: '高级应用',
         subTitle: 'Advanced Application',
         icon: GooglePlusOutlined
-    }
+    },
+    children: [{
+        name: 'advanced-management',
+        path: '/advanced/management',
+        meta: {
+            title: '公用管理',
+            subTitle: 'Common Management',
+            icon: AppstoreOutlined
+        },
+        children: [{
+            name: 'advanced-management-menu',
+            path: '/advanced/management/menu',
+            meta: {
+                title: '菜单管理',
+                subTitle: 'Menu Management',
+                icon: PicRightOutlined
+            }
+        }, {
+            name: 'advanced-managemenu-language',
+            path: '/advanced/management/language',
+            meta: {
+                title: '语言管理',
+                subTitle: 'Language Management',
+                icon: TransactionOutlined
+            }
+        }]
+    }]
 }]
 
 vm.$g.menus.dropdown = [{

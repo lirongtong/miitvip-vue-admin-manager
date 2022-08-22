@@ -108,8 +108,6 @@
 
 :x: 个人中心 :heart_eyes:
 
-:x: PDF 预览 :eyes:
-
 :sparkles: ······
 
 ## 安装

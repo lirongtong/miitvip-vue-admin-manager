@@ -31,6 +31,9 @@ const ComponentsAnchor = () => import('@views/components/anchor.vue')
 const ComponentsHistory = () => import('@views/components/history.vue')
 const ComponentsCode = () => import('@views/components/code.vue')
 const Advanced = () => import('@views/advanced/index.vue')
+const AdvancedManagement = () => import('@views/advanced/management/index.vue')
+const AdvancedManagementMenu = () => import('@views/advanced/management/menu.vue')
+const AdvancedManagementLanguage = () => import('@views/advanced/management/language.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [{
     path: '/',
@@ -167,7 +170,26 @@ const menuRoutes: Array<RouteRecordRaw> = [{
         path: '/advanced',
         name: 'advanced',
         meta: { title: '高级应用' },
-        component: Advanced
+        component: Advanced,
+        redirect: '/advanced/management',
+        children: [{
+            path: '/advanced/management',
+            name: 'advanced-management',
+            meta: { title: '公用管理' },
+            redirect: '/advanced/management/menu',
+            component: AdvancedManagement,
+            children: [{
+                path: '/advanced/management/menu',
+                name: 'advanced-management-menu',
+                meta: {title: '菜单管理'},
+                component: AdvancedManagementMenu
+            }, {
+                path: '/advanced/management/language',
+                name: 'advanced-management-language',
+                meta: {title: '语言管理'},
+                component: AdvancedManagementLanguage
+            }]
+        }]
     }]
 }]
 
