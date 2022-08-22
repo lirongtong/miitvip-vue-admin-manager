@@ -1,3 +1,3 @@
 <template>
-    Language Menagement
+    <mi-language-management />
 </template>

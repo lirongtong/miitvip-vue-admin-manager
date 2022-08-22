@@ -26,6 +26,8 @@ import { default as Forget } from './components/forget'
 import { default as History } from './components/history'
 import { default as Code } from './components/code'
 
+import { default as LanguageManagement } from './components/management/language'
+
 const components = [
     i18n,
     api,
@@ -49,7 +51,8 @@ const components = [
     Register,
     Forget,
     History,
-    Code
+    Code,
+    LanguageManagement
 ]
 
 let _init = false
@@ -90,7 +93,8 @@ export {
     Register,
     Forget,
     History,
-    Code
+    Code,
+    LanguageManagement
 }
 
 export default {
