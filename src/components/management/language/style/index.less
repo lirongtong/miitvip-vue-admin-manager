@@ -1,0 +1,87 @@
+@import '../../../../styles/theme/index.less';
+
+@mi-language: ~'@{mi-prefix}language';
+@ant-table: ant-table;
+@ant-pagination: ant-pagination;
+
+.@{mi-language} {
+    .@{ant-table} {
+        .linear-gradient-background();
+        .border-radius(8);
+        overflow: hidden;
+
+        &&-bordered > &-container {
+            border-left-color: fade(@mi-white, 12.5%);
+            backdrop-filter: blur(16px) saturate(180%);
+            background: transparent;
+        }
+
+        &-content {
+            & > table {
+                border-top-color: fade(@mi-white, 12.5%);
+
+                & > thead {
+                    .linear-gradient-background();
+
+                    & > tr > th {
+                        background: transparent;
+                        border-right-color: fade(@mi-white, 12.5%);
+                        border-bottom-color: fade(@mi-white, 12.5%);
+                        color: var(--mi-font, @mi-font);
+                        font-weight: bold;
+                    }
+                }
+
+                & > tbody {
+                    & > tr > td {
+                        border-right-color: fade(@mi-white, 12.5%);
+                        border-bottom-color: fade(@mi-white, 12.5%);
+                        color: var(--mi-font, @mi-font);
+
+                        &.@{ant-table}-cell-row-hover {
+                            background: transparent;
+                        }
+                    }
+
+                    & > tr.@{ant-table}-row:hover > td {
+                        background: transparent;
+                    }
+                }
+            }
+        }
+
+        &-pagination.@{ant-pagination} {
+            .flex();
+        }
+    }
+
+    &-table {
+        &-btns {
+            > a {
+                .properties(padding-top, 4);
+                .properties(padding-bottom, 4);
+                .properties(padding-left);
+                .properties(padding-right);
+                .properties(margin-right);
+                .border-radius(4);
+                color: var(--mi-font, @mi-font);
+
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                .anticon {
+                    .properties(margin-right, 4);
+                }
+                
+                &.edit {
+                    background-color: var(--mi-success, @mi-success);
+                }
+
+                &.delete {
+                    background-color: var(--mi-error, @mi-error);
+                }
+            }
+        }
+    }
+}

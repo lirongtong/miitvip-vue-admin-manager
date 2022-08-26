@@ -42,12 +42,17 @@ const MiLayoutSider = defineComponent({
         }
         return () => (
             <Layout.Sider
-                class={`${prefixCls}${$g.menus.collapsed ? ` ${prefixCls}-collapsed` : ''}`}
+                class={`${prefixCls}${$g.menus.collapsed ? ` ${prefixCls}-collapsed` : ''}${
+                    props.sideBackground ? ` ${prefixCls}-has-bg` : ''
+                }`}
                 width={$g.menus.width}
                 breakpoint="lg"
                 collapsed={$g.menus.collapsed}
                 onBreakpoint={setCollapsed}
                 trigger={null}
+                style={{
+                    backgroundImage: props.sideBackground ? `url(${props.sideBackground})` : null
+                }}
                 collapsible={true}>
                 {getLogo()}
                 {getMenu()}

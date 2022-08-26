@@ -11,6 +11,7 @@ import { getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
+
 import {
     DashboardOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined,
     LayoutOutlined, LoginOutlined, ScheduleOutlined, ThunderboltOutlined,
@@ -235,30 +236,21 @@ vm.$g.menus.items = [{
         icon: GooglePlusOutlined
     },
     children: [{
-        name: 'advanced-management',
-        path: '/advanced/management',
+        name: 'advanced-management-menu',
+        path: '/advanced/management/menu',
         meta: {
-            title: '公用管理',
-            subTitle: 'Common Management',
-            icon: AppstoreOutlined
-        },
-        children: [{
-            name: 'advanced-management-menu',
-            path: '/advanced/management/menu',
-            meta: {
-                title: '菜单管理',
-                subTitle: 'Menu Management',
-                icon: PicRightOutlined
-            }
-        }, {
-            name: 'advanced-managemenu-language',
-            path: '/advanced/management/language',
-            meta: {
-                title: '语言管理',
-                subTitle: 'Language Management',
-                icon: TransactionOutlined
-            }
-        }]
+            title: '菜单管理',
+            subTitle: 'Menu Management',
+            icon: PicRightOutlined
+        }
+    }, {
+        name: 'advanced-management-language',
+        path: '/advanced/management/language',
+        meta: {
+            title: '语言管理',
+            subTitle: 'Language Management',
+            icon: TransactionOutlined
+        }
     }]
 }]
 

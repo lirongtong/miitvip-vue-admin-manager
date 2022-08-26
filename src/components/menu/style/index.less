@@ -1,7 +1,8 @@
 @import '../../../styles/theme/index.less';
 
 @mi-menu: ~'@{mi-prefix}menu';
-@mi-side-menu: ~'@{mi-prefix}layout-side-menu';
+@mi-layout: ~'@{mi-prefix}layout';
+@mi-side-menu: ~'@{mi-layout}-side-menu';
 @ant-menu: ~'ant-menu';
 @ant-submenu: ~'ant-menu-submenu';
 
@@ -513,6 +514,18 @@
     &-drawer {
         .ant-drawer-body {
             padding: 0;
+        }
+    }
+}
+
+.@{mi-layout} {
+    &-side-has-bg {
+        .@{ant-menu}-dark {
+            background-color: transparent;
+        }
+
+        .@{mi-menu} .@{mi-menu}-items .@{ant-menu}-sub {
+            background-color: transparent;
         }
     }
 }

@@ -8,6 +8,7 @@ export const layoutProps = () => ({
     contentAnimation: PropTypes.string.def('page-slide'),
     showRouteHistory: PropTypes.bool.def(true),
     side: PropTypes.any,
+    sideBackground: PropTypes.string,
     header: PropTypes.any,
     headerExtra: PropTypes.any,
     footer: PropTypes.any,
@@ -26,5 +27,6 @@ export const layoutHeaderProps = () => ({
 export const layoutSideProps = () => ({
     prefixCls: String,
     logo: PropTypes.any,
-    menu: PropTypes.any
+    menu: PropTypes.any,
+    sideBackground: PropTypes.string
 })

@@ -55,7 +55,11 @@ const MiLayout = defineComponent({
             )
         }
         const getSide = () => {
-            return getPropSlot(slots, props, 'side') ?? <MiLayoutSide />
+            return (
+                getPropSlot(slots, props, 'side') ?? (
+                    <MiLayoutSide sideBackground={props.sideBackground} />
+                )
+            )
         }
         const getLayout = () => {
             return (

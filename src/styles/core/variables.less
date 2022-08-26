@@ -57,6 +57,14 @@
     flex-direction: @direction;
 }
 
+// grid
+.grid(@columns: 1, @gap: 16) {
+    display: grid;
+    grid-template-columns: repeat(@columns, 1fr);
+    grid-gap: (@gap / @mi-font-size-base) * @mi-font-size;
+    width: 100%;
+}
+
 // border raiuds.
 .border-radius(@raduis: 4) {
     border-radius: (@raduis / @mi-font-size-base) * @mi-font-size;

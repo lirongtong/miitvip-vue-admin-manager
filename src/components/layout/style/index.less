@@ -176,7 +176,10 @@
     }
 
     &-side {
-        background: var(--mi-dark, @mi-dark);
+        background-color: var(--mi-dark, @mi-dark);
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
         transition: all @mi-anim-duration ease;
         position: fixed;
         left: 0;
@@ -262,6 +265,20 @@
         &-menu-drawer {
             .@{ant}-menu.@{ant}-menu-dark {
                 height: calc(100vh - @mi-side-large-height);
+            }
+        }
+
+        &-has-bg {
+            > .ant-layout-sider-children {
+                backdrop-filter: blur(16px);
+            }
+
+            .@{mi-layout} {
+                &-side {
+                    &-logo {
+                        background-color: transparent;
+                    }
+                }
             }
         }
     }
@@ -353,6 +370,7 @@
         color: var(--mi-font, @mi-font);
         .flex();
         .properties(padding, 24);
+        margin-top: -1px;
         transition: all @mi-anim-duration ease;
 	    z-index: @mi-z-index;
 
