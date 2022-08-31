@@ -5,6 +5,9 @@ export default {
     'kind-tips': '温馨提示',
     understood: '知道了',
     activate: '前往激活',
+    edit: '编辑',
+    delete: '删除',
+    opt: '管理操作',
     step: {
         prev: '上一步',
         next: '下一步'
@@ -145,7 +148,10 @@ export default {
             other: '关闭其它'
         }
     },
-    upload: {
-        image: '上传图片'
+    language: {
+        name: '简体中文',
+        search: {
+            placeholder: '请输入搜索关键词 Key 或相应的语言内容'
+        }
     }
 }

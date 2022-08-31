@@ -19,7 +19,7 @@ import {
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
     BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined, GithubOutlined,
-    LogoutOutlined, CodeOutlined, AppstoreOutlined, PicRightOutlined, TransactionOutlined
+    LogoutOutlined, CodeOutlined, PicRightOutlined, TransactionOutlined
 } from '@ant-design/icons-vue'
 
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()

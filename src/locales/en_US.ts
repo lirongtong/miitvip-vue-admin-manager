@@ -5,6 +5,9 @@ export default {
     'kind-tips': 'Kind Tips',
     understood: 'Understood',
     activate: 'Go to activate',
+    edit: 'Edit',
+    delete: 'Delete',
+    opt: 'Operations',
     step: {
         prev: 'Previous',
         next: 'Next'
@@ -144,5 +147,8 @@ export default {
             right: 'close right',
             other: 'close other'
         }
+    },
+    language: {
+        name: 'English'
     }
 }
