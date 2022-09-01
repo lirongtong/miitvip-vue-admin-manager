@@ -261,7 +261,7 @@ export default defineComponent({
             const cls = `${prefixCls}-register-tips`
             return (
                 getPropSlot(slots, props, 'usernameTip') ?? (
-                    <div class={`${cls}${width.value < $g.devices.mobile ? `${cls}-mobile` : ''}`}>
+                    <div class={`${cls}${width.value < $g.devices.mobile ? ` ${cls}-mobile` : ''}`}>
                         <p innerHTML={t('passport.register.tips.special')} />
                         <p innerHTML={t('passport.register.tips.structure')} />
                         <p innerHTML={t('passport.register.tips.start')} />

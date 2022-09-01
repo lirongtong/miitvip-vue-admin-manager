@@ -13,7 +13,7 @@
         &-item {
             .flex(center, flex-start);
             .properties(line-height, 24);
-            .properties(width, 380);
+            width: auto;
 
             &:first-child {
                 justify-content: flex-start;
@@ -32,6 +32,10 @@
                 &.success {
                     color: var(--mi-theme, @mi-theme);
                 }
+            }
+
+            .theme-color {
+                color: var(--mi-theme, @mi-theme);
             }
         }
 
