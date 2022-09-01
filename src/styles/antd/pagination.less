@@ -1,0 +1,86 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-pagination: ant-pagination;
+@ant-select: ant-select;
+
+.@{ant-pagination} {
+    &-item {
+        .linear-gradient-background();
+        border-color: var(--mi-border, @mi-border);
+
+        a {
+            color: var(--mi-font, @mi-font);
+        }
+
+        &-active,
+        &:hover {
+            border-color: var(--mi-theme, @mi-theme);
+
+            a {
+                color: var(--mi-theme, @mi-theme);
+            }
+        }
+    }
+
+    &-prev &-item-link,
+    &-next &-item-link {
+        .linear-gradient-background();
+        border-color: var(--mi-border, @mi-border);
+        color: var(--mi-font, @mi-font);
+    }
+
+    &-prev:hover &-item-link,
+    &-next:hover &-item-link {
+        color: var(--mi-theme, @mi-theme);
+        border-color: var(--mi-theme, @mi-theme);
+    }
+
+    &-jump-prev &-item-container &-item-link-icon,
+    &-jump-prev &-item-container &-item-ellipsis,
+    &-jump-next &-item-container &-item-link-icon,
+    &-jump-next &-item-container &-item-ellipsis {
+        color: var(--mi-font, @mi-font);
+    }
+
+    &-disabled &-item-link,
+    &-disabled:hover &-item-link {
+        border-color: var(--mi-border, @mi-border);
+        color: var(--mi-border, @mi-border);
+    }
+
+    &-options {
+        .@{ant-select} {
+            &:not(.@{ant-select}-customize-input) .@{ant-select}-selector {
+                .linear-gradient-background();
+                border-color: var(--mi-border, @mi-border);
+                color: var(--mi-font, @mi-font);
+            }
+
+            &-focused:not(.@{ant-select}-disabled).@{ant-select}:not(.@{ant-select}-customize-input) .@{ant-select}-selector {
+                border-color: var(--mi-theme, @mi-theme);
+                box-shadow: 0 0 0 2px fade(@mi-theme, 20%);
+            }
+
+            &-dropdown {
+                border-color: var(--mi-border, @mi-border);
+                border-style: solid;
+                .properties(border-width, 1);
+                .border-radius();
+                .linear-gradient-background();
+            }
+
+            &-item {
+                color: var(--mi-font, @mi-font);
+            }
+
+            &-item-option {
+                &-active:not(&-disabled),
+                &-selected:not(&-disabled) {
+                    .linear-gradient-background-theme();
+                    color: var(--mi-ink, @mi-ink);
+                }
+            }
+        }
+    }
+}

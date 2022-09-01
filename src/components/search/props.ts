@@ -3,8 +3,8 @@ import { tuple } from '../_utils/props-tools'
 
 export const searchProps = () => ({
     prefixCls: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     radius: PropTypes.number.def(48),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.string,

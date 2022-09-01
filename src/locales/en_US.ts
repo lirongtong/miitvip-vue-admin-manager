@@ -149,6 +149,9 @@ export default {
         }
     },
     language: {
-        name: 'English'
+        name: 'English',
+        search: {
+            placeholder: 'Please input the Key value of the keyword to be searched or the language content'
+        }
     }
 }

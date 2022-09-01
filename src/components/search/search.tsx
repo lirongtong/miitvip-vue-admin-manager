@@ -63,21 +63,21 @@ const MiSearch = defineComponent({
 
         const renderList = () => {
             const style = {
-                width: props.listWidth ? `${$tools.px2Rem(props.listWidth)}rem` : null,
+                width: props.listWidth ? $tools.convert2Rem(props.listWidth) : null,
                 height: props.listHeight
-                    ? `${$tools.px2Rem(props.listHeight > 164 ? props.listHeight : 164)}rem`
+                    ? $tools.convert2Rem(props.listHeight > 164 ? props.listHeight : 164)
                     : null,
-                top: props.height ? `${$tools.px2Rem(props.height)}rem` : null,
+                top: props.height ? $tools.convert2Rem(props.height) : null,
                 background: props.listBackground ?? null,
                 borderColor: props.listBorderColor ?? null,
-                borderRadius: props.listRadius ? `${$tools.px2Rem(props.listRadius)}rem` : null,
+                borderRadius: props.listRadius ? $tools.convert2Rem(props.listRadius) : null,
                 boxShadow:
                     props.listBoxShadow && props.listBoxShadowColor
-                        ? `0 0 ${$tools.px2Rem(props.listBoxShadowBlur)}rem ${
+                        ? `0 0 ${$tools.convert2Rem(props.listBoxShadowBlur)} ${
                               props.listBoxShadowColor
                           }`
                         : null,
-                marginTop: props.gap ? `${$tools.px2Rem(props.gap)}rem` : null
+                marginTop: props.gap ? $tools.convert2Rem(props.gap) : null
             } as { [index: string]: any }
             const elem = (
                 <>
@@ -179,7 +179,14 @@ const MiSearch = defineComponent({
             const width = (
                 props.width
                     ? avatar
-                        ? `${$tools.px2Rem(props.width > 260 ? 180 : props.width - 80)}rem`
+                        ? $tools.convert2Rem(
+                            $tools.isNumber(props.width)
+                                ? (
+                                    props.width > 260
+                                        ? 180
+                                        : props.width as any - 80
+                                ) : props.width
+                        )
                         : null
                     : null
             ) as any
@@ -461,16 +468,16 @@ const MiSearch = defineComponent({
 
         const style = {
             box: {
-                width: props.width ? `${$tools.px2Rem(props.width)}rem` : null,
-                height: props.height ? `${$tools.px2Rem(props.height)}rem` : null
+                width: props.width ? $tools.convert2Rem(props.width) : null,
+                height: props.height ? $tools.convert2Rem(props.height) : null
             },
             input: {
                 background: props.backgroundColor ?? null,
-                borderRadius: props.radius ? `${$tools.px2Rem(props.radius)}rem` : null,
+                borderRadius: props.radius ? $tools.convert2Rem(props.radius) : null,
                 borderColor: props.borderColor ?? null,
                 color: props.textColor ?? null,
                 boxShadow: props.boxShadow
-                    ? `0 0 ${$tools.px2Rem(props.boxShadowBlur)}rem ${props.boxShadowColor}`
+                    ? `0 0 ${$tools.convert2Rem(props.boxShadowBlur)} ${props.boxShadowColor}`
                     : null
             },
             keyword: props.searchKeyColor ? `color: ${props.searchKeyColor}` : null,

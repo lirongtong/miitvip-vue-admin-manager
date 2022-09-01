@@ -151,7 +151,7 @@ export default {
     language: {
         name: '简体中文',
         search: {
-            placeholder: '请输入搜索关键词 Key 或相应的语言内容'
+            placeholder: '请输入待搜索关键词 Key 值或相应的语言内容'
         }
     }
 }
