@@ -1,12 +1,13 @@
 import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
-import { Table, InputSearch } from 'ant-design-vue'
+import { Table, InputSearch, Input, Form, FormItem } from 'ant-design-vue'
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../../components/_utils/props-types'
 import { $storage } from '../../../utils/storage'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
+import MiModal from '../../modal'
 
 export default defineComponent({
     name: 'MiLanguageManagement',
@@ -44,10 +45,10 @@ export default defineComponent({
                         key: 'action',
                         align: 'center',
                         width: 180,
-                        customRender: () => {
+                        customRender: (record: any) => {
                             return (
                                 <div class={`${prefixCls}-table-btns`}>
-                                    <a class="edit">
+                                    <a class="edit" onClick={() => editVisible(record)}>
                                         <FormOutlined />
                                         {t('edit')}
                                     </a>
@@ -66,13 +67,15 @@ export default defineComponent({
             languages: {
                 default: messages.value[locale.value],
                 custom: $storage.get($g.caches.storages.languages)
-            }
+            },
+            visible: false,
+            data: {} as any
         })
 
         const parseLanguage = (data: any, idx = null) => {
             for (const i in data) {
                 const type = typeof data[i]
-                const key = (!$tools.isEmpty(idx) ? (idx + '.') : '') + i
+                const key = (!$tools.isEmpty(idx) ? idx + '.' : '') + i
                 if (['object', 'array'].includes(type)) parseLanguage(data[i], key)
                 else {
                     languages.push({
@@ -85,6 +88,27 @@ export default defineComponent({
         parseLanguage(Object.assign({}, params.languages.default, params.languages.custom))
         params.table.data = languages
 
+        const editVisible = (data?: any) => {
+            params.visible = !params.visible
+            if (data.record) params.data = data.record
+            else params.data = {}
+        }
+
+        const editModal = () => {
+            return params.visible ? (
+                <MiModal visible={true} title="更新语系值">
+                    <Form>
+                        <FormItem>
+                            <Input value={params.data.key} />
+                        </FormItem>
+                        <FormItem>
+                            <Input value={params.data.language} />
+                        </FormItem>
+                    </Form>
+                </MiModal>
+            ) : null
+        }
+
         return () => (
             <div class={prefixCls}>
                 <div class={`${prefixCls}-search`}>
@@ -94,6 +118,7 @@ export default defineComponent({
                 <div class={`${prefixCls}-table`}>
                     <Table columns={params.table.columns} dataSource={params.table.data} />
                 </div>
+                {editModal()}
             </div>
         )
     }
