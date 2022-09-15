@@ -1,7 +1,18 @@
 import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
-import { Table, InputSearch, Input, Form, FormItem, Textarea, ConfigProvider } from 'ant-design-vue'
+import {
+    Table,
+    InputSearch,
+    Input,
+    Form,
+    FormItem,
+    Textarea,
+    ConfigProvider,
+    Select,
+    SelectOption,
+    Button
+} from 'ant-design-vue'
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../../components/_utils/props-types'
 import { $storage } from '../../../utils/storage'
@@ -29,13 +40,12 @@ export default defineComponent({
             table: {
                 columns: [
                     {
-                        title: 'Key',
+                        title: t('key'),
                         key: 'key',
                         dataIndex: 'key',
                         align: 'left'
                     },
                     {
-                        title: t('language.name'),
                         key: 'language',
                         dataIndex: 'language',
                         align: 'left'
@@ -64,13 +74,22 @@ export default defineComponent({
                 ] as any,
                 data: []
             },
-            languages: {
-                default: messages.value[locale.value],
-                custom: $storage.get($g.caches.storages.languages)
-            },
             visible: false,
-            data: {} as any
+            data: {} as any,
+            current: $g.locale
         })
+
+        const initLanguage = () => {
+            const custom = $storage.get($g.caches.storages.languages) || {}
+            const builtIn = messages.value[locale.value]
+            const languages = Object.assign({}, builtIn, custom)
+            $storage.set($g.caches.storages.languages, languages)
+        }
+        initLanguage()
+
+        const getLanguage = () => {
+            return $storage.get($g.caches.storages.languages)
+        }
 
         const parseLanguage = (data: any, idx = null) => {
             for (const i in data) {
@@ -85,8 +104,14 @@ export default defineComponent({
                 }
             }
         }
-        parseLanguage(Object.assign({}, params.languages.default, params.languages.custom))
+        parseLanguage(getLanguage())
         params.table.data = languages
+
+        const changLanguage = (lang: any) => {
+            $g.locale = lang
+            console.log(locale)
+            console.log(lang)
+        }
 
         const editVisible = (data?: any) => {
             params.visible = !params.visible
@@ -99,13 +124,42 @@ export default defineComponent({
                 <div class={`${prefixCls}-search`}>
                     <InputSearch size="large" placeholder={t('language.search.placeholder')} />
                 </div>
-                <div class={`${prefixCls}-btns`}></div>
+                <div class={`${prefixCls}-btns`}>
+                    <div class={`${prefixCls}-btns-l`}>
+                        <Button type="primary" danger={true}>
+                            {t('batch-delete')}
+                        </Button>
+                    </div>
+                    <div class={`${prefixCls}-btns-r`}>
+                        <Button type="primary">{t('language.management')}</Button>
+                    </div>
+                </div>
                 <div class={`${prefixCls}-table`}>
                     <ConfigProvider locale={props.paginationLocale}>
                         <Table
                             columns={params.table.columns}
                             dataSource={params.table.data}
                             pagination={{ showQuickJumper: true }}
+                            rowSelection={{}}
+                            v-slots={{
+                                headerCell: (record: any) => {
+                                    if (record.column.key === 'language') {
+                                        return (
+                                            <Select
+                                                v-model:value={params.current}
+                                                onChange={changLanguage}
+                                                style={{ minWidth: $tools.convert2Rem(120) }}>
+                                                <SelectOption value="zh-cn">
+                                                    {t('language.zh-cn')}
+                                                </SelectOption>
+                                                <SelectOption value="en-us">
+                                                    {t('language.en-us')}
+                                                </SelectOption>
+                                            </Select>
+                                        )
+                                    }
+                                }
+                            }}
                             scroll={{ x: '100%' }}
                         />
                     </ConfigProvider>

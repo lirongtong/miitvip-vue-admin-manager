@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { createI18n } from 'vue-i18n/index'
+import { createI18n } from 'vue-i18n'
 import { $g } from '../utils/global'
 import { $storage } from '../utils/storage'
 import zhCN from './zh_CN'
@@ -18,7 +18,7 @@ const i18n = createI18n({
     fallbackLocale: DEFAULT_LANG,
     silentTranslationWarn: true,
     messages: locales
-})
+}) as any
 
 const setLocale = (locale?: string, message?: {}) => {
     if (locale === undefined) locale = $storage.get(LOCALE_KEY) || DEFAULT_LANG

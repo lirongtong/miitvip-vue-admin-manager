@@ -7,7 +7,9 @@ export default {
     activate: 'Go to activate',
     edit: 'Edit',
     delete: 'Delete',
+    'batch-delete': 'Batch Delete',
     opt: 'Operations',
+    key: 'Key',
     step: {
         prev: 'Previous',
         next: 'Next'
@@ -152,6 +154,7 @@ export default {
     language: {
         name: 'English',
         'update-title': 'Update language value',
+        management: 'Language management',
         search: {
             placeholder:
                 'Please input the Key value of the keyword to be searched or the language content'

@@ -29,6 +29,10 @@
                         border-bottom-color: fade(@mi-white, 12.5%);
                         color: var(--mi-font, @mi-font);
                         font-weight: bold;
+
+                        &.@{ant-table}-selection-column {
+                            .properties(padding-left, 16);
+                        }
                     }
                 }
 
@@ -38,6 +42,10 @@
                         border-bottom-color: fade(@mi-white, 12.5%);
                         color: var(--mi-font, @mi-font);
                         background-color: transparent;
+
+                        &.@{ant-table}-selection-column {
+                            .properties(padding-left, 16);
+                        }
 
                         &.@{ant-table}-cell-row-hover {
                             background: transparent;
@@ -87,6 +95,11 @@
     }
 
     &-search {
+        .properties(margin-bottom, 16);
+    }
+
+    &-btns {
+        .flex(center, space-between);
         .properties(margin-bottom, 16);
     }
 }

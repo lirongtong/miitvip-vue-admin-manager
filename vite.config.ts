@@ -2,7 +2,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 import EslintPlugin from 'vite-plugin-eslint'
+// eslint-disable-next-line import/no-unresolved
 import Components from 'unplugin-vue-components/vite'
+// eslint-disable-next-line import/no-unresolved
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import path from 'path'

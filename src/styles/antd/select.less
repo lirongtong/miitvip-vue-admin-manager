@@ -1,0 +1,54 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-select: ant-select;
+
+.@{ant-select} {
+    color: var(--mi-font, @mi-font);
+
+    &:not(.@{ant-select}-customize-input) .@{ant-select}-selector {
+        .linear-gradient-background();
+        border-color: var(--mi-border, @mi-border);
+        .border-radius();
+    }
+
+    &:not(.@{ant-select}-disabled):hover .@{ant-select}-selector {
+        border-color: var(--mi-theme, @mi-theme);
+    }
+
+    &-arrow {
+        color: var(--mi-font, @mi-font);
+    }
+
+    &-focused:not(.@{ant-select}-disabled)&:not(.@{ant-select}-customize-input) .@{ant-select}-selector {
+        border-color: var(--mi-theme, @mi-theme);
+        box-shadow: 0 0 0 2px fade(@mi-theme, 20%);
+    }
+
+    &-dropdown {
+        background-color: var(--mi-dark, @mi-dark);
+        color: var(--mi-font, @mi-font);
+    }
+
+    &-item {
+        color: var(--mi-font, @mi-font);
+
+        &-option-disabled {
+            color: var(--mi-dawn, @mi-dawn);
+        }
+
+        &-option-selected:not(.@{ant-select}-item-option-disabled) {
+            .linear-gradient-background();
+            color: var(--mi-theme, @mi-theme);
+        }
+
+        &-option-active:not(.@{ant-select}-item-option-disabled) {
+            .linear-gradient-background();
+        }
+    }
+
+    &-disabled&:not(.@{ant-select}-customize-input) .@{ant-select}-selector {
+        .linear-gradient-background();
+        color: fade(@mi-font, 50%);
+    }
+}

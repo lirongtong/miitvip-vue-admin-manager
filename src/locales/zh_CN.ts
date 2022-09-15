@@ -7,7 +7,9 @@ export default {
     activate: '前往激活',
     edit: '编辑',
     delete: '删除',
+    'batch-delete': '批量删除',
     opt: '管理操作',
+    key: '关键词',
     step: {
         prev: '上一步',
         next: '下一步'
@@ -150,10 +152,12 @@ export default {
         }
     },
     language: {
-        name: '简体中文',
+        'zh-cn': '简体中文',
+        'en-us': '英文',
         'update-title': '更新语系值',
+        management: '语系管理',
         search: {
-            placeholder: '请输入待搜索关键词 Key 值或相应的语言内容'
+            placeholder: '请输入待搜索关键词或相应的语言内容'
         }
     }
 }
