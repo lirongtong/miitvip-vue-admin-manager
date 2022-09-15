@@ -20,8 +20,9 @@ export default defineComponent({
             emit('cancel', evt)
         }
 
-        const handleWrapClick = () => {
-            if (props.mask && props.maskClosable) handleCloseClick()
+        const handleWrapClick = (evt?: Event) => {
+            if (!props.maskClosable) return null
+            if (wrapRef.value === evt.target) handleCloseClick(evt)
         }
 
         const handleAnimAfterLeave = () => {
@@ -44,7 +45,6 @@ export default defineComponent({
                     <div
                         class={`${props.prefixCls}-mask`}
                         style={{ zIndex: props.zIndex ?? null, ...props.maskStyle }}
-                        onClick={handleCloseClick}
                         v-show={props.visible}
                     />
                 </Transition>
@@ -66,7 +66,7 @@ export default defineComponent({
             ) : null
             const footers = props.footer ? (
                 <div
-                    class={`${props.prefixCls}-footer`}
+                    class={`${props.prefixCls}-footer ${props.prefixCls}-footer-btn-${props.footerBtnPosition}`}
                     key={`${props.prefixCls}-footer`}
                     ref={footerRef}>
                     {props.footer}

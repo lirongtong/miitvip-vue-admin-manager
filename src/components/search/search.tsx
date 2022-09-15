@@ -180,13 +180,12 @@ const MiSearch = defineComponent({
                 props.width
                     ? avatar
                         ? $tools.convert2Rem(
-                            $tools.isNumber(props.width)
-                                ? (
-                                    props.width > 260
-                                        ? 180
-                                        : props.width as any - 80
-                                ) : props.width
-                        )
+                              $tools.isNumber(props.width)
+                                  ? props.width > 260
+                                      ? 180
+                                      : (props.width as any) - 80
+                                  : props.width
+                          )
                         : null
                     : null
             ) as any

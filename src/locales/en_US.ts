@@ -36,6 +36,7 @@ export default {
     search: {
         searching: 'Searching ···',
         key: 'Please enter keywords',
+        components: 'Search Components',
         fail: {
             message: 'Search could not be completed without source data',
             code: 'Error code: ',
@@ -150,8 +151,10 @@ export default {
     },
     language: {
         name: 'English',
+        'update-title': 'Update language value',
         search: {
-            placeholder: 'Please input the Key value of the keyword to be searched or the language content'
+            placeholder:
+                'Please input the Key value of the keyword to be searched or the language content'
         }
     }
 }

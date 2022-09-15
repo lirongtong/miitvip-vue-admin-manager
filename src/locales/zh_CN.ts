@@ -36,6 +36,7 @@ export default {
     search: {
         searching: '搜索中 ···',
         key: '请输入要搜索的关键词',
+        components: '搜索组件',
         fail: {
             message: '源数据获取失败，无法完成搜索',
             code: '错误代码：',
@@ -150,6 +151,7 @@ export default {
     },
     language: {
         name: '简体中文',
+        'update-title': '更新语系值',
         search: {
             placeholder: '请输入待搜索关键词 Key 值或相应的语言内容'
         }

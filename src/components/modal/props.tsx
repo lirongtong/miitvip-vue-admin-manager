@@ -34,6 +34,7 @@ export const modalProps = () => ({
     wrapClass: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     title: PropTypes.any,
     footer: PropTypes.any,
+    footerBtnPosition: PropTypes.oneOf(tuple('center', 'left', 'right')).def('right'),
     closeIcon: PropTypes.any,
     okText: PropTypes.any,
     ok: { type: Function as PropType<(e?: Event) => void> },

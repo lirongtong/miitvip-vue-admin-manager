@@ -1,7 +1,7 @@
 <template>
     <mi-layout>
         <template v-slot:headerExtra>
-            <mi-search :data="searchData" search-key="title" :width="120" :height="48" placeholder="搜索组件" :list-width="320" :list-height="335" :gap="4" :page-size="3" :list-radius="8" border-color="transparent" background-color="transparent"></mi-search>
+            <mi-search :data="searchData" search-key="title" :width="120" :height="48" :placeholder="t('search.components')" :list-width="320" :list-height="335" :gap="4" :page-size="3" :list-radius="8" border-color="transparent" background-color="transparent"></mi-search>
         </template>
     </mi-layout>
 </template>
@@ -11,6 +11,7 @@ import { getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
+import { useI18n } from 'vue-i18n'
 
 import {
     DashboardOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined,
@@ -25,13 +26,14 @@ import {
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
 const store = useStore()
 const router = useRouter()
+const { locale, t } = useI18n()
 
 vm.$g.menus.items = [{
     name: 'dashboard',
     path: '/dashboard',
     meta: {
-        title: '控制中心',
-        subTitle: 'Dashboard',
+        title: locale.value === 'en-us' ? 'Dashboard' : '控制中心',
+        subTitle: locale.value === 'en-us' ? '控制中心' : 'Dashboard',
         icon: DashboardOutlined,
         tag: {color: '#f50', content: 'Hot'}
     }
@@ -39,8 +41,8 @@ vm.$g.menus.items = [{
     name: 'start',
     path: '/start',
     meta: {
-        title: '快速上手',
-        subTitle: 'Getting Started',
+        title: locale.value === 'en-us' ? 'Getting Started' : '快速上手',
+        subTitle: locale.value === 'en-us' ? '快速上手' : 'Getting Started',
         icon: ThunderboltOutlined
     }
 }, {
@@ -228,24 +230,24 @@ vm.$g.menus.items = [{
     name: 'advanced',
     path: '/advanced',
     meta: {
-        title: '高级应用',
-        subTitle: 'Advanced Application',
+        title: locale.value === 'en-us' ? 'Advanced Apps' : '高级应用',
+        subTitle: locale.value === 'en-us' ? '高级应用' : 'Advanced Application',
         icon: GooglePlusOutlined
     },
     children: [{
         name: 'advanced-management-menu',
         path: '/advanced/management/menu',
         meta: {
-            title: '菜单管理',
-            subTitle: 'Menu Management',
+            title: locale.value === 'en-us' ? 'Menu Management' : '菜单管理',
+            subTitle: locale.value === 'en-us' ? '菜单管理' : 'Menu Management',
             icon: PicRightOutlined
         }
     }, {
         name: 'advanced-management-language',
         path: '/advanced/management/language',
         meta: {
-            title: '语言管理',
-            subTitle: 'Language Management',
+            title: locale.value === 'en-us' ? 'Language Management' : '语言管理',
+            subTitle: locale.value === 'en-us' ? '语言管理' : 'Language Management',
             icon: TransactionOutlined
         }
     }]

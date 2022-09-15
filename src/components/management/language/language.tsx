@@ -1,7 +1,7 @@
 import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
-import { Table, InputSearch, Input, Form, FormItem } from 'ant-design-vue'
+import { Table, InputSearch, Input, Form, FormItem, Textarea, ConfigProvider } from 'ant-design-vue'
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../../components/_utils/props-types'
 import { $storage } from '../../../utils/storage'
@@ -13,12 +13,14 @@ export default defineComponent({
     name: 'MiLanguageManagement',
     inheritAttrs: false,
     props: {
-        prefixCls: PropTypes.string
+        prefixCls: PropTypes.string,
+        paginationLocale: PropTypes.any
     },
     setup(props) {
         const { messages, locale, t } = useI18n()
         const languages = reactive([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
+        const formCls = getPrefixCls('form', props.prefixCls)
         const params = reactive({
             pagination: {
                 page: 1,
@@ -30,21 +32,19 @@ export default defineComponent({
                         title: 'Key',
                         key: 'key',
                         dataIndex: 'key',
-                        align: 'left',
-                        ellipsis: true
+                        align: 'left'
                     },
                     {
                         title: t('language.name'),
                         key: 'language',
                         dataIndex: 'language',
-                        align: 'left',
-                        ellipsis: true
+                        align: 'left'
                     },
                     {
                         title: t('opt'),
                         key: 'action',
                         align: 'center',
-                        width: 180,
+                        width: locale.value === 'en-us' ? 240 : 180,
                         customRender: (record: any) => {
                             return (
                                 <div class={`${prefixCls}-table-btns`}>
@@ -90,23 +90,8 @@ export default defineComponent({
 
         const editVisible = (data?: any) => {
             params.visible = !params.visible
-            if (data.record) params.data = data.record
+            if (data?.record) params.data = JSON.parse(JSON.stringify(data.record))
             else params.data = {}
-        }
-
-        const editModal = () => {
-            return params.visible ? (
-                <MiModal visible={true} title="更新语系值">
-                    <Form>
-                        <FormItem>
-                            <Input value={params.data.key} />
-                        </FormItem>
-                        <FormItem>
-                            <Input value={params.data.language} />
-                        </FormItem>
-                    </Form>
-                </MiModal>
-            ) : null
         }
 
         return () => (
@@ -116,9 +101,36 @@ export default defineComponent({
                 </div>
                 <div class={`${prefixCls}-btns`}></div>
                 <div class={`${prefixCls}-table`}>
-                    <Table columns={params.table.columns} dataSource={params.table.data} />
+                    <ConfigProvider locale={props.paginationLocale}>
+                        <Table
+                            columns={params.table.columns}
+                            dataSource={params.table.data}
+                            pagination={{ showQuickJumper: true }}
+                            scroll={{ x: '100%' }}
+                        />
+                    </ConfigProvider>
                 </div>
-                {editModal()}
+                <MiModal
+                    v-model:visible={params.visible}
+                    title={t('language.update-title')}
+                    width={360}
+                    footerBtnPosition="center">
+                    <Form class={formCls}>
+                        <FormItem>
+                            <Input
+                                v-model:value={params.data.key}
+                                maxlength={64}
+                                autocomplete="off"
+                            />
+                        </FormItem>
+                        <FormItem>
+                            <Textarea
+                                v-model:value={params.data.language}
+                                autoSize={{ minRows: 4, maxRows: 8 }}
+                            />
+                        </FormItem>
+                    </Form>
+                </MiModal>
             </div>
         )
     }

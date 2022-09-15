@@ -82,5 +82,24 @@
                 }
             }
         }
+
+        &-quick-jumper {
+            color: var(--mi-font, @mi-font);
+
+            input {
+                .linear-gradient-background();
+                border-color: var(--mi-border, @mi-border);
+                color: var(--mi-font, @mi-font);
+                
+                &:focus {
+                    box-shadow: 0 0 0 2px fade(@mi-theme, 20%);
+                }
+
+                &:focus,
+                &:hover {
+                    border-color: var(--mi-theme, @mi-theme);
+                }
+            }
+        }
     }
 }
