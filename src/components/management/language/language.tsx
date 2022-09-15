@@ -11,7 +11,8 @@ import {
     ConfigProvider,
     Select,
     SelectOption,
-    Button
+    Button,
+    Popconfirm
 } from 'ant-design-vue'
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../../../components/_utils/props-types'
@@ -64,8 +65,12 @@ export default defineComponent({
                                     </a>
                                     <span></span>
                                     <a class="delete">
-                                        <DeleteOutlined />
-                                        {t('delete')}
+                                        <Popconfirm
+                                            title={t('delete-confirm')}
+                                            key={record.record.key}>
+                                            <DeleteOutlined />
+                                            {t('delete')}
+                                        </Popconfirm>
                                     </a>
                                 </div>
                             )
@@ -109,8 +114,6 @@ export default defineComponent({
 
         const changLanguage = (lang: any) => {
             $g.locale = lang
-            console.log(locale)
-            console.log(lang)
         }
 
         const editVisible = (data?: any) => {

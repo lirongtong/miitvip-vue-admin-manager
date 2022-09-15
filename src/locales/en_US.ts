@@ -8,6 +8,7 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     'batch-delete': 'Batch Delete',
+    'delete-confirm': 'Are you sure you want to delete the current selection?',
     opt: 'Operations',
     key: 'Key',
     step: {
