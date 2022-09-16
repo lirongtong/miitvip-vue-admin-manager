@@ -1,6 +1,7 @@
-import { defineComponent, reactive, PropType } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
+import { languageProps } from './props'
 import {
     Table,
     InputSearch,
@@ -15,8 +16,7 @@ import {
     Popconfirm,
     message
 } from 'ant-design-vue'
-import { FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import PropTypes from '../../../components/_utils/props-types'
+import { CloseOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { $storage } from '../../../utils/storage'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
@@ -32,20 +32,7 @@ export interface CommonApiProps {
 export default defineComponent({
     name: 'MiLanguageManagement',
     inheritAttrs: false,
-    props: {
-        prefixCls: PropTypes.string,
-        listConfig: {
-            type: Object as PropType<CommonApiProps>,
-            default: () => {
-                return {
-                    url: null,
-                    method: 'GET',
-                    params: {}
-                }
-            }
-        },
-        paginationLocale: PropTypes.any
-    },
+    props: languageProps(),
     setup(props) {
         const { messages, locale, t } = useI18n()
         let languages = reactive([])
@@ -85,6 +72,9 @@ export default defineComponent({
                                     <a class="delete">
                                         <Popconfirm
                                             title={t('delete-confirm')}
+                                            style={{ zIndex: Date.now() }}
+                                            okText={t('ok')}
+                                            cancelText={t('cancel')}
                                             key={record.record.key}>
                                             <DeleteOutlined />
                                             {t('delete')}
@@ -99,10 +89,15 @@ export default defineComponent({
             },
             visible: {
                 edit: false,
-                management: false
+                management: false,
+                add: false
             },
             data: {} as any,
-            current: $g.locale
+            current: $g.locale,
+            categories: [
+                { key: 'zh-cn', language: t('language.zh-cn') },
+                { key: 'en-us', language: t('language.en-us') }
+            ]
         })
 
         const initLanguage = async () => {
@@ -160,7 +155,54 @@ export default defineComponent({
             if (data?.record) params.data = JSON.parse(JSON.stringify(data.record))
             else params.data = {}
         }
+
+        const addLanguageVisible = () => {
+            params.visible.management = !params.visible.management
+            params.visible.add = !params.visible.add
+        }
         initLanguage()
+
+        const renderLanguageSelection = () => {
+            const options = []
+            for (let i = 0, l = params.categories.length; i < l; i++) {
+                const cur = params.categories[i]
+                options.push(<SelectOption value={cur.key}>{cur.language}</SelectOption>)
+            }
+            return (
+                <Select
+                    v-model:value={params.current}
+                    onChange={changLanguage}
+                    style={{ minWidth: $tools.convert2Rem(120) }}>
+                    {options}
+                </Select>
+            )
+        }
+
+        const renderLanguageTags = () => {
+            const langs = []
+            for (let i = 0, l = params.categories.length; i < l; i++) {
+                const cur = params.categories[i]
+                const close =
+                    i > 1 ? (
+                        <Popconfirm
+                            title={t('delete-confirm')}
+                            style={{ zIndex: Date.now() }}
+                            okText={t('ok')}
+                            cancelText={t('cancel')}>
+                            <span class={`${prefixCls}-cate-close`}>
+                                <CloseOutlined />
+                            </span>
+                        </Popconfirm>
+                    ) : null
+                langs.push(
+                    <div class={`${prefixCls}-cate`}>
+                        <span class={`${prefixCls}-cate-name`} innerHTML={cur.language}></span>
+                        {close}
+                    </div>
+                )
+            }
+            return <div class={`${prefixCls}-cates`}>{langs}</div>
+        }
 
         return () => (
             <div class={prefixCls}>
@@ -193,19 +235,7 @@ export default defineComponent({
                             v-slots={{
                                 headerCell: (record: any) => {
                                     if (record.column.key === 'language') {
-                                        return (
-                                            <Select
-                                                v-model:value={params.current}
-                                                onChange={changLanguage}
-                                                style={{ minWidth: $tools.convert2Rem(120) }}>
-                                                <SelectOption value="zh-cn">
-                                                    {t('language.zh-cn')}
-                                                </SelectOption>
-                                                <SelectOption value="en-us">
-                                                    {t('language.en-us')}
-                                                </SelectOption>
-                                            </Select>
-                                        )
+                                        return renderLanguageSelection()
                                     }
                                 }
                             }}
@@ -237,7 +267,32 @@ export default defineComponent({
                 <MiModal
                     v-model:visible={params.visible.management}
                     title={t('language.management')}
-                    footer={false}></MiModal>
+                    footer={false}>
+                    <Button type="primary" onClick={addLanguageVisible}>
+                        {t('language.add-language')}
+                    </Button>
+                    {renderLanguageTags()}
+                </MiModal>
+                <MiModal v-model:visible={params.visible.add}>
+                    <Form class={formCls}>
+                        <FormItem label={'关键词'}>
+                            <Input
+                                v-model:value={params.data.key}
+                                maxlength={64}
+                                autocomplete="off"
+                                placeholder={'如简体中文的关键词为: zh-cn'}
+                            />
+                        </FormItem>
+                        <FormItem label={'显示名称'}>
+                            <Input
+                                v-model:value={params.data.key}
+                                maxlength={64}
+                                autocomplete="off"
+                                placeholder={'语系显示名称'}
+                            />
+                        </FormItem>
+                    </Form>
+                </MiModal>
             </div>
         )
     }

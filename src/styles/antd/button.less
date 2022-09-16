@@ -9,6 +9,7 @@
     background: var(--mi-font, @mi-font);
     border-color: var(--mi-font, @mi-font);
     text-shadow: none;
+    .letter-spacing();
 
     &:hover,
     &:active,
@@ -85,6 +86,16 @@
     &-background-ghost {
         color: var(--mi-font, @mi-font);
         border-color: var(--mi-font, @mi-font);
+    }
+
+    &-dark,
+    &-dark:hover,
+    &-dark:active,
+    &-dark:focus {
+        color: @mi-font;
+        .linear-gradient-background();
+        border-color: var(--mi-border, @mi-border);
+        text-shadow: none;
     }
 }
 

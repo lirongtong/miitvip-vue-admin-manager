@@ -62,6 +62,19 @@
         &-pagination.@{ant-pagination} {
             .flex();
         }
+
+        &-tbody > tr.@{ant-table}-placeholder {
+            &:hover > td {
+                background: transparent;
+            }
+
+            > td {
+                .ant-empty {
+                    .properties(padding-top, 48);
+                    .properties(padding-bottom, 48);
+                }
+            }
+        }
     }
 
     &-table {
@@ -101,5 +114,42 @@
     &-btns {
         .flex(center, space-between);
         .properties(margin-bottom, 16);
+    }
+
+    &-cates {
+        .flex(center, flex-start);
+        .properties(margin-top, 16);
+    }
+
+    &-cate {
+        .linear-gradient-background();
+        .properties(padding-left, 16);
+        .properties(padding-right, 16);
+        .properties(padding-top, 6);
+        .properties(padding-bottom, 6);
+        border: 1px solid var(--mi-border, @mi-border);
+        .properties(margin-right, 16);
+        .border-radius();
+        .flex();
+
+        &-name {
+            .properties(font-size, 14);
+        }
+
+        &-close {
+            .properties(width, 16);
+            .flex();
+            height: 100%;
+            cursor: pointer;
+            .properties(margin-left);
+
+            .anticon {
+                .properties(font-size, 12);
+            }
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 }

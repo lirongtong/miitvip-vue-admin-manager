@@ -157,6 +157,7 @@ export default {
         'en-us': '英文',
         'update-title': '更新语系值',
         management: '语系管理',
+        'add-language': '新增语系',
         search: {
             placeholder: '请输入待搜索关键词或相应的语言内容'
         }

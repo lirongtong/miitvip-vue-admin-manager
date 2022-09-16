@@ -157,6 +157,7 @@ export default {
         'zh-cn': 'Simplified Chinese',
         'en-us': 'English',
         'update-title': 'Update language value',
+        'add-language': 'Add Language',
         management: 'Language management',
         search: {
             placeholder:
