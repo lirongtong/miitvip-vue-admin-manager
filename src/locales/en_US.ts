@@ -154,6 +154,8 @@ export default {
     },
     language: {
         name: 'English',
+        'zh-cn': 'Simplified Chinese',
+        'en-us': 'English',
         'update-title': 'Update language value',
         management: 'Language management',
         search: {

@@ -114,7 +114,7 @@ export const $g = reactive({
             routes: 'history-routes',
             collapsed: 'layout-menu-collapsed',
             locale: 'locale-language',
-            languages: 'languages',
+            languages: 'languages-custom',
             captcha: {
                 login: 'login-captcha-key',
                 register: 'register-captcha-key',
