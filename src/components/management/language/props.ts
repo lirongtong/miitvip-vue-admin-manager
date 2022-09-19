@@ -19,12 +19,22 @@ export const languageProps = () => ({
             }
         }
     },
-    languageConfig: {
+    categoryconfig: {
         type: Object as PropType<CommonApiProps>,
         default: () => {
             return {
                 url: null,
                 method: 'GET',
+                params: {}
+            }
+        }
+    },
+    addConfig: {
+        type: Object as PropType<CommonApiProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'POST',
                 params: {}
             }
         }

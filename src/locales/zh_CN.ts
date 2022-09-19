@@ -158,8 +158,17 @@ export default {
         'update-title': '更新语系值',
         management: '语系管理',
         'add-language': '新增语系',
-        search: {
-            placeholder: '请输入待搜索关键词或相应的语言内容'
+        'display-language': '显示名称',
+        error: {
+            key: {
+                empty: 'Please input the language keywords',
+                exist: 'The keyword is repeated, please re-input'
+            }
+        },
+        placeholder: {
+            key: '如简体中文的关键词为: zh-cn',
+            language: '语系显示名称，如：简体中文',
+            search: '请输入待搜索关键词或相应的语言内容'
         }
     }
 }

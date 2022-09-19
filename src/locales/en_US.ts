@@ -158,10 +158,12 @@ export default {
         'en-us': 'English',
         'update-title': 'Update language value',
         'add-language': 'Add Language',
+        'display-language': 'Display Language',
         management: 'Language management',
-        search: {
-            placeholder:
-                'Please input the Key value of the keyword to be searched or the language content'
+        placeholder: {
+            key: 'For example, the keywords in simplified Chinese are: zh-cn',
+            language: 'Language display name, such as: Simplified Chinese',
+            search: 'Please input the Key value of the keyword to be searched or the language content'
         }
     }
 }

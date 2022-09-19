@@ -113,8 +113,11 @@ export const $g = reactive({
             email: 'user-email',
             routes: 'history-routes',
             collapsed: 'layout-menu-collapsed',
-            locale: 'locale-language',
-            languages: 'languages-custom',
+            locale: 'language-locale',
+            languages: {
+                custom: 'languages-custom',
+                categories: 'languages-categories'
+            },
             captcha: {
                 login: 'login-captcha-key',
                 register: 'register-captcha-key',

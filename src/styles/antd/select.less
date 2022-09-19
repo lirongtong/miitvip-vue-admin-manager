@@ -51,4 +51,14 @@
         .linear-gradient-background();
         color: fade(@mi-font, 50%);
     }
+
+    &-item-empty {
+        .flex();
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 8);
+
+        .ant-empty-description {
+            color: var(--mi-font, @mi-font);
+        }
+    }
 }

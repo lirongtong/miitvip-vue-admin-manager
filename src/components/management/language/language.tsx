@@ -22,6 +22,7 @@ import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
 import MiModal from '../../modal'
 import { $request } from '../../../utils/request'
+import { Rule } from 'ant-design-vue/es/form'
 
 export interface CommonApiProps {
     url?: string
@@ -38,6 +39,16 @@ export default defineComponent({
         let languages = reactive([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
+
+        const checkValidateKey = (_rule: Rule, value: string) => {
+            if (!value) {
+                return Promise.reject(t('language.error.key.empty'))
+            }
+            const categories = $storage.get($g.caches.storage.language.categories) || {}
+            if (categories[value]) return Promise.reject(t('language.error.key.exist'))
+            return Promise.resolve()
+        }
+
         const params = reactive({
             loading: false,
             pagination: {
@@ -97,14 +108,23 @@ export default defineComponent({
             categories: [
                 { key: 'zh-cn', language: t('language.zh-cn') },
                 { key: 'en-us', language: t('language.en-us') }
-            ]
+            ],
+            form: {
+                validate: {
+                    key: null,
+                    language: null
+                },
+                rules: {
+                    key: [{ required: true, validator: checkValidateKey }]
+                }
+            }
         })
 
         const initLanguage = async () => {
             let combine: {} = {}
             if (props.listConfig.url) {
                 params.loading = true
-                const query = Object.assign({}, params.pagination, props.listConfig.params)
+                const query = Object.assign({}, params.pagination, props.listConfig.params || {})
                 await $request[(props.listConfig.method || 'GET').toLowerCase()](
                     props.listConfig.url,
                     query
@@ -122,6 +142,29 @@ export default defineComponent({
             } else combine = mergeLanguage()
             parseLanguage(combine)
             params.table.data = languages
+            if (props.categoryconfig.url) {
+                params.loading = true
+                await $request[(props.categoryconfig.method || 'GET').toLowerCase()](
+                    props.categoryconfig.url,
+                    Object.assign({}, props.categoryconfig.params || {})
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res.ret.code === 200) {
+                            params.categories = res.data
+                        } else message.error(res.ret.message)
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            } else {
+                params.categories = Object.assign(
+                    {},
+                    JSON.parse(JSON.stringify(params.categories)),
+                    $storage.get($g.caches.storages.languages.categories) || {}
+                )
+            }
         }
 
         const parseLanguage = (data: any, idx = null) => {
@@ -139,7 +182,7 @@ export default defineComponent({
         }
 
         const mergeLanguage = (lang?: string) => {
-            const custom = $storage.get($g.caches.storages.languages) || {}
+            const custom = $storage.get($g.caches.storages.languages.custom) || {}
             const builtIn = messages.value[lang ?? locale.value]
             return Object.assign({}, builtIn, custom)
         }
@@ -159,6 +202,34 @@ export default defineComponent({
         const addLanguageVisible = () => {
             params.visible.management = !params.visible.management
             params.visible.add = !params.visible.add
+        }
+        const cancelLanguageVisible = () => {
+            params.visible.management = true
+            params.visible.add = false
+        }
+        const addLanguage = () => {
+            params.loading = true
+            if (props.addConfig.url) {
+                const query = Object.assign({}, params.pagination, props.addConfig.params || {})
+                $request[(props.addConfig.method || 'POST').toLowerCase()](
+                    props.addConfig.url,
+                    query
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res.ret.code === 200) {
+                            message.success()
+                            cancelLanguageVisible()
+                        } else message.error(res.ret.message)
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            } else {
+                const categories = $storage.get($g.caches.storages.languages.categories) || {}
+                console.log(categories)
+            }
         }
         initLanguage()
 
@@ -207,7 +278,7 @@ export default defineComponent({
         return () => (
             <div class={prefixCls}>
                 <div class={`${prefixCls}-search`}>
-                    <InputSearch size="large" placeholder={t('language.search.placeholder')} />
+                    <InputSearch size="large" placeholder={t('language.placeholder.search')} />
                 </div>
                 <div class={`${prefixCls}-btns`}>
                     <div class={`${prefixCls}-btns-l`}>
@@ -273,22 +344,29 @@ export default defineComponent({
                     </Button>
                     {renderLanguageTags()}
                 </MiModal>
-                <MiModal v-model:visible={params.visible.add}>
-                    <Form class={formCls}>
-                        <FormItem label={'关键词'}>
+                <MiModal
+                    v-model:visible={params.visible.add}
+                    title={t('language.add-language')}
+                    onCancel={cancelLanguageVisible}
+                    onOk={addLanguage}
+                    footerBtnPosition="center">
+                    <Form class={formCls} labelCol={{ style: { width: $tools.convert2Rem(96) } }}>
+                        <FormItem label={t('key')}>
                             <Input
-                                v-model:value={params.data.key}
+                                prop="key"
+                                v-model:value={params.form.validate.key}
                                 maxlength={64}
                                 autocomplete="off"
-                                placeholder={'如简体中文的关键词为: zh-cn'}
+                                placeholder={t('language.placeholder.key')}
                             />
                         </FormItem>
-                        <FormItem label={'显示名称'}>
+                        <FormItem label={t('language.display-language')}>
                             <Input
-                                v-model:value={params.data.key}
+                                prop="language"
+                                v-model:value={params.form.validate.language}
                                 maxlength={64}
                                 autocomplete="off"
-                                placeholder={'语系显示名称'}
+                                placeholder={t('language.placeholder.language')}
                             />
                         </FormItem>
                     </Form>
