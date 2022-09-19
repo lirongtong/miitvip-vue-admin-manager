@@ -40,7 +40,7 @@
 > >
 > :lollipop: 集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面构建，如各个项目的基础布局，登录 / 注册 / 忘记密码等模块，让开发人员能更加专注于业务内容页面的开发。该框架封装了 `Axios` / `Cookie` / `Storage` 等基础功能，可通过如 `this.$cookie` 形式直接调用，同时也易于扩展。现阶段还在不断完善，持续开发更新中 ...
 > >
-> :bug: 限于本人的技术水平，有些问题可能考虑的并不周全，若您看到甚至尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽可能的抽时间去解决相应的 `BUG`，去完善合理的定制化需求。
+> :bug: 有些问题可能考虑的并不周全，若您看到或是尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽可能的抽时间去解决相应的 `BUG`，去完善合理的定制化需求。
 > >
 > :warning: 注：现在 [https://admin.makeit.vip](https://admin.makeit.vip) 站点内看到的页面是基于 1.x 版本的效果，2.x 版本的示例站点正在开发中，2.x 版本的页面效果及组件效果都做了很多调整，敬请期待 ~
 
