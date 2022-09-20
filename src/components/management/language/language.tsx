@@ -48,6 +48,7 @@ export default defineComponent({
         const btnCls = getPrefixCls('btn', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
         const formRef = ref<FormInstance>()
+        const addFormRef = ref<FormInstance>()
 
         const checkValidateKey = (_rule: Rule, value: string) => {
             if (!value) return Promise.reject(t('language.error.key.empty'))
@@ -82,7 +83,9 @@ export default defineComponent({
                         customRender: (record: any) => {
                             return (
                                 <div class={`${prefixCls}-table-btns`}>
-                                    <a class="edit" onClick={() => editVisible(record)}>
+                                    <a
+                                        class="edit"
+                                        onClick={() => editLanguageConfigurationVisible(record)}>
                                         <FormOutlined />
                                         {t('edit')}
                                     </a>
@@ -110,13 +113,14 @@ export default defineComponent({
                 management: false,
                 add: false
             },
-            data: {} as any,
+            data: {} as LanguageFormState,
             current: $g.locale,
             defaultCategories: [
                 { key: 'zh-cn', language: t('language.zh-cn') },
                 { key: 'en-us', language: t('language.en-us') }
             ],
             categories: [],
+            isEdit: null,
             form: {
                 validate: {
                     key: null,
@@ -125,6 +129,16 @@ export default defineComponent({
                 rules: {
                     key: [{ required: true, validator: checkValidateKey }],
                     language: [{ required: true, message: t('language.error.language') }]
+                }
+            },
+            addForm: {
+                validate: {
+                    key: null,
+                    language: null
+                },
+                rules: {
+                    key: [{ required: true, validator: checkValidateKey }],
+                    language: [{ required: true, message: t('language.placeholder.config.value') }]
                 }
             }
         })
@@ -191,18 +205,12 @@ export default defineComponent({
             params.table.data = languages
         }
 
-        const editVisible = (data?: any) => {
-            params.visible.edit = !params.visible.edit
-            if (data?.record) params.data = JSON.parse(JSON.stringify(data.record))
-            else params.data = {}
-        }
-
-        const addLanguageVisible = () => {
+        const addLanguageCategoryVisible = () => {
             params.visible.management = !params.visible.management
             params.visible.add = !params.visible.add
         }
 
-        const cancelLanguageVisible = () => {
+        const cancelLanguageCategoryVisible = () => {
             params.visible.management = true
             params.visible.add = false
         }
@@ -251,7 +259,7 @@ export default defineComponent({
                                 params.loading = false
                                 if (res.ret.code === 200) {
                                     message.success(t('success'))
-                                    cancelLanguageVisible()
+                                    cancelLanguageCategoryVisible()
                                     formRef.value.resetFields()
                                 } else message.error(res.ret.message)
                             })
@@ -271,7 +279,7 @@ export default defineComponent({
                         $storage.set($g.caches.storages.languages.categories, categories)
                         params.categories = params.defaultCategories.concat(categories)
                         message.success(t('success'))
-                        cancelLanguageVisible()
+                        cancelLanguageCategoryVisible()
                         formRef.value.resetFields()
                     }
                 })
@@ -306,6 +314,30 @@ export default defineComponent({
                 message.success(t('success'))
                 $storage.set($g.caches.storages.languages.categories, cates)
             }
+        }
+
+        const addLanguageConfigurationVisible = () => {
+            params.isEdit = false
+            params.data = {
+                key: null,
+                language: null
+            } as LanguageFormState
+            params.visible.edit = true
+        }
+
+        const editLanguageConfigurationVisible = (data?: any) => {
+            params.isEdit = true
+            params.visible.edit = !params.visible.edit
+            if (data?.record) params.data = JSON.parse(JSON.stringify(data.record))
+            else params.data = { key: null, language: null }
+        }
+
+        const addOrUpdateLanguageConfiguration = () => {
+            params.loading = true
+            addFormRef.value
+                .validate()
+                .then(() => {})
+                .catch(() => (params.loading = false))
         }
 
         initLanguage()
@@ -353,82 +385,26 @@ export default defineComponent({
             return <div class={`${prefixCls}-cates`}>{langs}</div>
         }
 
-        return () => (
-            <div class={prefixCls}>
-                <div class={`${prefixCls}-search`}>
-                    <InputSearch size="large" placeholder={t('language.placeholder.search')} />
-                </div>
-                <div class={`${prefixCls}-btns`}>
-                    <div class={`${prefixCls}-btns-l`}>
-                        <Button type="primary" class={`${btnCls}-info`}>
-                            {t('batch-delete')}
-                        </Button>
-                        <Button type="primary" danger={true}>
-                            {t('batch-delete')}
-                        </Button>
-                    </div>
-                    <div class={`${prefixCls}-btns-r`}>
-                        <Button
-                            type="primary"
-                            onClick={() =>
-                                (params.visible.management = !params.visible.management)
-                            }>
-                            {t('language.management')}
-                        </Button>
-                    </div>
-                </div>
-                <div class={`${prefixCls}-table`}>
-                    <ConfigProvider locale={props.paginationLocale}>
-                        <Table
-                            columns={params.table.columns}
-                            dataSource={params.table.data}
-                            pagination={{ showQuickJumper: true }}
-                            rowSelection={{}}
-                            v-slots={{
-                                headerCell: (record: any) => {
-                                    if (record.column.key === 'language') {
-                                        return renderLanguageSelection()
-                                    }
-                                }
-                            }}
-                            scroll={{ x: '100%' }}
-                        />
-                    </ConfigProvider>
-                </div>
-                <MiModal
-                    v-model:visible={params.visible.edit}
-                    title={t('language.update-title')}
-                    width={360}
-                    footerBtnPosition="center">
-                    <Form class={formCls}>
-                        <FormItem>
-                            <Input
-                                v-model:value={params.data.key}
-                                maxlength={64}
-                                autocomplete="off"
-                            />
-                        </FormItem>
-                        <FormItem>
-                            <Textarea
-                                v-model:value={params.data.language}
-                                autoSize={{ minRows: 4, maxRows: 8 }}
-                            />
-                        </FormItem>
-                    </Form>
-                </MiModal>
+        const renderLanguagesModal = () => {
+            return (
                 <MiModal
                     v-model:visible={params.visible.management}
                     title={t('language.management')}
                     footer={false}>
-                    <Button type="primary" onClick={addLanguageVisible}>
+                    <Button type="primary" onClick={addLanguageCategoryVisible}>
                         {t('language.add-language')}
                     </Button>
                     {renderLanguageTags()}
                 </MiModal>
+            )
+        }
+
+        const renderAddOrUpdateLanguageModal = () => {
+            return (
                 <MiModal
                     v-model:visible={params.visible.add}
                     title={t('language.add-language')}
-                    onCancel={cancelLanguageVisible}
+                    onCancel={cancelLanguageCategoryVisible}
                     onOk={addLanguageCategory}
                     footerBtnPosition="center">
                     <Form
@@ -458,6 +434,106 @@ export default defineComponent({
                         </FormItem>
                     </Form>
                 </MiModal>
+            )
+        }
+
+        const renderAddOrUpdateLanguageConfiguration = () => {
+            const title = params.isEdit ? t('language.update-title') : t('language.add-title')
+            return (
+                <MiModal
+                    v-model:visible={params.visible.edit}
+                    title={title}
+                    width={360}
+                    onOk={addOrUpdateLanguageConfiguration}
+                    footerBtnPosition="center">
+                    <Form
+                        class={formCls}
+                        model={params.addForm.validate}
+                        rules={params.addForm.rules}
+                        ref={addFormRef}>
+                        <FormItem name="key">
+                            <Input
+                                v-model:value={params.data.key}
+                                maxlength={64}
+                                autocomplete="off"
+                                placeholder={t('language.placeholder.config.key')}
+                            />
+                        </FormItem>
+                        <FormItem name="language">
+                            <Textarea
+                                v-model:value={params.data.language}
+                                autoSize={{ minRows: 4, maxRows: 8 }}
+                                placeholder={t('language.placeholder.config.value')}
+                            />
+                        </FormItem>
+                    </Form>
+                </MiModal>
+            )
+        }
+
+        const renderActionBtns = () => {
+            return (
+                <div class={`${prefixCls}-btns`}>
+                    <div class={`${prefixCls}-btns-l`}>
+                        <Button
+                            type="primary"
+                            danger={true}
+                            style={{ marginRight: $tools.convert2Rem(8) }}>
+                            {t('delete')}
+                        </Button>
+                        <Button
+                            type="primary"
+                            class={`${btnCls}-info`}
+                            onClick={addLanguageConfigurationVisible}>
+                            {t('language.add')}
+                        </Button>
+                    </div>
+                    <div class={`${prefixCls}-btns-r`}>
+                        <Button
+                            type="primary"
+                            onClick={() =>
+                                (params.visible.management = !params.visible.management)
+                            }>
+                            {t('language.management')}
+                        </Button>
+                    </div>
+                </div>
+            )
+        }
+
+        const renderTable = () => {
+            return (
+                <div class={`${prefixCls}-table`}>
+                    <ConfigProvider locale={props.paginationLocale}>
+                        <Table
+                            columns={params.table.columns}
+                            dataSource={params.table.data}
+                            pagination={{ showQuickJumper: true }}
+                            rowSelection={{}}
+                            v-slots={{
+                                headerCell: (record: any) => {
+                                    if (record.column.key === 'language') {
+                                        return renderLanguageSelection()
+                                    }
+                                }
+                            }}
+                            scroll={{ x: '100%' }}
+                        />
+                    </ConfigProvider>
+                </div>
+            )
+        }
+
+        return () => (
+            <div class={prefixCls}>
+                <div class={`${prefixCls}-search`}>
+                    <InputSearch size="large" placeholder={t('language.placeholder.search')} />
+                </div>
+                {renderActionBtns()}
+                {renderTable()}
+                {renderAddOrUpdateLanguageConfiguration()}
+                {renderLanguagesModal()}
+                {renderAddOrUpdateLanguageModal()}
             </div>
         )
     }

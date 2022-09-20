@@ -156,7 +156,10 @@ export default {
     language: {
         'zh-cn': '简体中文',
         'en-us': '英文',
-        'update-title': '更新语系值',
+        current: '当前语系：',
+        add: '新增',
+        'add-title': '新增语言配置',
+        'update-title': '更新语言配置',
         management: '语系管理',
         'add-language': '新增语系',
         'display-language': '显示名称',
@@ -170,7 +173,11 @@ export default {
         placeholder: {
             key: '如简体中文的关键词为: zh-cn',
             language: '语系显示名称，如：简体中文',
-            search: '请输入待搜索关键词或相应的语言内容'
+            search: '请输入待搜索关键词或相应的语言内容',
+            config: {
+                key: '请输入语言配置的关键词',
+                value: '请输入语言配置关键词对应的展示名称'
+            }
         }
     }
 }
