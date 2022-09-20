@@ -32,6 +32,7 @@ export interface CommonApiProps {
 }
 
 interface LanguageFormState {
+    id?: [string | number]
     key: string
     language: string
 }
@@ -44,6 +45,7 @@ export default defineComponent({
         const { messages, locale, t } = useI18n()
         let languages = reactive([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
+        const btnCls = getPrefixCls('btn', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
         const formRef = ref<FormInstance>()
 
@@ -128,48 +130,37 @@ export default defineComponent({
         })
 
         const initLanguage = async () => {
-            let combine: {} = {}
-            if (props.listConfig.url) {
-                params.loading = true
-                const query = Object.assign({}, params.pagination, props.listConfig.params || {})
-                await $request[(props.listConfig.method || 'GET').toLowerCase()](
-                    props.listConfig.url,
-                    query
-                )
-                    .then((res: any) => {
-                        params.loading = false
-                        if (res.ret.code === 200) {
-                            combine = res.data
-                        } else message.error(res.ret.message)
-                    })
-                    .catch((err: any) => {
-                        params.loading = false
-                        message.error(err.message)
-                    })
-            } else combine = mergeLanguage()
-            parseLanguage(combine)
-            params.table.data = languages
-            if (props.categoryconfig.url) {
-                params.loading = true
-                await $request[(props.categoryconfig.method || 'GET').toLowerCase()](
-                    props.categoryconfig.url,
-                    Object.assign({}, props.categoryconfig.params || {})
-                )
-                    .then((res: any) => {
-                        params.loading = false
-                        if (res.ret.code === 200) {
-                            params.categories = res.data
-                        } else message.error(res.ret.message)
-                    })
-                    .catch((err: any) => {
-                        params.loading = false
-                        message.error(err.message)
-                    })
-            } else {
-                params.categories = params.defaultCategories.concat(
-                    $storage.get($g.caches.storages.languages.categories) || []
-                )
+            if (props.dataSource) params.table.data = props.dataSource
+            else {
+                let combine: {} = {}
+                if (props.dataConfig.url) {
+                    params.loading = true
+                    const query = Object.assign(
+                        {},
+                        params.pagination,
+                        props.dataConfig.params || {}
+                    )
+                    await $request[(props.dataConfig.method || 'GET').toLowerCase()](
+                        props.dataConfig.url,
+                        query
+                    )
+                        .then((res: any) => {
+                            params.loading = false
+                            if (res.ret.code === 200) {
+                                combine = res.data
+                            } else message.error(res.ret.message)
+                        })
+                        .catch((err: any) => {
+                            params.loading = false
+                            message.error(err.message)
+                        })
+                } else combine = mergeLanguage()
+                parseLanguage(combine)
+                params.table.data = languages
             }
+
+            if (props.categorySource) params.categories = props.categorySource
+            else getLanguageCategory()
         }
 
         const parseLanguage = (data: any, idx = null) => {
@@ -178,10 +169,12 @@ export default defineComponent({
                 const key = (!$tools.isEmpty(idx) ? idx + '.' : '') + i
                 if (['object', 'array'].includes(type)) parseLanguage(data[i], key)
                 else {
-                    languages.push({
+                    const item = {
                         key,
                         language: data[i]
-                    })
+                    } as LanguageFormState
+                    if (data.id) item.id = data.id
+                    languages.push(item)
                 }
             }
         }
@@ -208,23 +201,50 @@ export default defineComponent({
             params.visible.management = !params.visible.management
             params.visible.add = !params.visible.add
         }
+
         const cancelLanguageVisible = () => {
             params.visible.management = true
             params.visible.add = false
         }
-        const addLanguage = () => {
+
+        const getLanguageCategory = () => {
+            if (props.categoryConfig.url) {
+                params.loading = true
+                $request[(props.categoryConfig.method || 'GET').toLowerCase()](
+                    props.categoryConfig.url,
+                    props.categoryConfig.params || {}
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res.ret.code === 200) {
+                            params.categories = res.data
+                        } else message.error(res.ret.message)
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            } else {
+                params.categories = params.defaultCategories.concat(
+                    $storage.get($g.caches.storages.languages.categories) || []
+                )
+            }
+        }
+
+        const addLanguageCategory = () => {
             params.loading = true
             formRef.value
                 .validate()
                 .then(() => {
-                    if (props.addConfig.url) {
+                    if (props.addCategoryConfig.url) {
                         const query = Object.assign(
                             {},
                             params.pagination,
-                            props.addConfig.params || {}
+                            props.addCategoryConfig.params || {},
+                            { ...params.form.validate }
                         )
-                        $request[(props.addConfig.method || 'POST').toLowerCase()](
-                            props.addConfig.url,
+                        $request[(props.addCategoryConfig.method || 'POST').toLowerCase()](
+                            props.addCategoryConfig.url,
                             query
                         )
                             .then((res: any) => {
@@ -232,6 +252,7 @@ export default defineComponent({
                                 if (res.ret.code === 200) {
                                     message.success(t('success'))
                                     cancelLanguageVisible()
+                                    formRef.value.resetFields()
                                 } else message.error(res.ret.message)
                             })
                             .catch((err: any) => {
@@ -251,10 +272,42 @@ export default defineComponent({
                         params.categories = params.defaultCategories.concat(categories)
                         message.success(t('success'))
                         cancelLanguageVisible()
+                        formRef.value.resetFields()
                     }
                 })
                 .catch(() => (params.loading = false))
         }
+
+        const deleteLanguageCategory = (key: string | number) => {
+            params.loading = true
+            if (props.deleteCategoryConfig.url) {
+                $request[(props.deleteCategoryConfig.method || 'DELETE').toLowerCase()](
+                    props.deleteCategoryConfig.url,
+                    props.deleteCategoryConfig.params || {}
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res.ret.code === 200) {
+                            message.success(t('success'))
+                        } else message.error(res.ret.message)
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            } else {
+                const categories = $storage.get($g.caches.storages.languages.categories) || []
+                const cates = []
+                for (let i = 0, l = categories.length; i < l; i++) {
+                    if (categories[i].key === key) continue
+                    else cates.push(categories[i])
+                }
+                params.categories = params.defaultCategories.concat(cates)
+                message.success(t('success'))
+                $storage.set($g.caches.storages.languages.categories, cates)
+            }
+        }
+
         initLanguage()
 
         const renderLanguageSelection = () => {
@@ -283,6 +336,7 @@ export default defineComponent({
                             title={t('delete-confirm')}
                             style={{ zIndex: Date.now() }}
                             okText={t('ok')}
+                            onConfirm={() => deleteLanguageCategory(cur.id || cur.key)}
                             cancelText={t('cancel')}>
                             <span class={`${prefixCls}-cate-close`}>
                                 <CloseOutlined />
@@ -291,7 +345,7 @@ export default defineComponent({
                     ) : null
                 langs.push(
                     <div class={`${prefixCls}-cate`}>
-                        <span class={`${prefixCls}-cate-name`} innerHTML={cur.language}></span>
+                        <span class={`${prefixCls}-cate-name`} innerHTML={cur.language} />
                         {close}
                     </div>
                 )
@@ -306,6 +360,9 @@ export default defineComponent({
                 </div>
                 <div class={`${prefixCls}-btns`}>
                     <div class={`${prefixCls}-btns-l`}>
+                        <Button type="primary" class={`${btnCls}-info`}>
+                            {t('batch-delete')}
+                        </Button>
                         <Button type="primary" danger={true}>
                             {t('batch-delete')}
                         </Button>
@@ -372,7 +429,7 @@ export default defineComponent({
                     v-model:visible={params.visible.add}
                     title={t('language.add-language')}
                     onCancel={cancelLanguageVisible}
-                    onOk={addLanguage}
+                    onOk={addLanguageCategory}
                     footerBtnPosition="center">
                     <Form
                         class={formCls}

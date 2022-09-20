@@ -1,7 +1,7 @@
 import { PropType } from 'vue'
 import PropTypes from '../../_utils/props-types'
 
-export interface CommonApiProps {
+export interface CommonRequestProps {
     url?: string
     method?: string
     params?: object
@@ -9,8 +9,9 @@ export interface CommonApiProps {
 
 export const languageProps = () => ({
     prefixCls: PropTypes.string,
-    listConfig: {
-        type: Object as PropType<CommonApiProps>,
+    dataSource: PropTypes.array,
+    dataConfig: {
+        type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
                 url: null,
@@ -19,8 +20,9 @@ export const languageProps = () => ({
             }
         }
     },
-    categoryconfig: {
-        type: Object as PropType<CommonApiProps>,
+    categorySource: PropTypes.array,
+    categoryConfig: {
+        type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
                 url: null,
@@ -29,12 +31,22 @@ export const languageProps = () => ({
             }
         }
     },
-    addConfig: {
-        type: Object as PropType<CommonApiProps>,
+    addCategoryConfig: {
+        type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
                 url: null,
                 method: 'POST',
+                params: {}
+            }
+        }
+    },
+    deleteCategoryConfig: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'DELETE',
                 params: {}
             }
         }
