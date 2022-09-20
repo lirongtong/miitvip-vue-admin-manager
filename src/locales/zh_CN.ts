@@ -5,6 +5,7 @@ export default {
     'kind-tips': '温馨提示',
     understood: '知道了',
     activate: '前往激活',
+    success: '操作成功',
     edit: '编辑',
     delete: '删除',
     'batch-delete': '批量删除',
@@ -161,9 +162,10 @@ export default {
         'display-language': '显示名称',
         error: {
             key: {
-                empty: 'Please input the language keywords',
-                exist: 'The keyword is repeated, please re-input'
-            }
+                empty: '请输入关键词',
+                exist: '关键词已存在，请重新输入'
+            },
+            language: '请输入语系显示名称'
         },
         placeholder: {
             key: '如简体中文的关键词为: zh-cn',

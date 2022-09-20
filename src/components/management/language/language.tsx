@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
 import { languageProps } from './props'
@@ -14,7 +14,8 @@ import {
     SelectOption,
     Button,
     Popconfirm,
-    message
+    message,
+    FormInstance
 } from 'ant-design-vue'
 import { CloseOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { $storage } from '../../../utils/storage'
@@ -30,6 +31,11 @@ export interface CommonApiProps {
     params?: object
 }
 
+interface LanguageFormState {
+    key: string
+    language: string
+}
+
 export default defineComponent({
     name: 'MiLanguageManagement',
     inheritAttrs: false,
@@ -39,14 +45,13 @@ export default defineComponent({
         let languages = reactive([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
+        const formRef = ref<FormInstance>()
 
         const checkValidateKey = (_rule: Rule, value: string) => {
-            if (!value) {
-                return Promise.reject(t('language.error.key.empty'))
-            }
-            const categories = $storage.get($g.caches.storage.language.categories) || {}
+            if (!value) return Promise.reject(t('language.error.key.empty'))
+            const categories = $storage.get($g.caches.storages.languages.categories) || []
             if (categories[value]) return Promise.reject(t('language.error.key.exist'))
-            return Promise.resolve()
+            else return Promise.resolve()
         }
 
         const params = reactive({
@@ -105,17 +110,19 @@ export default defineComponent({
             },
             data: {} as any,
             current: $g.locale,
-            categories: [
+            defaultCategories: [
                 { key: 'zh-cn', language: t('language.zh-cn') },
                 { key: 'en-us', language: t('language.en-us') }
             ],
+            categories: [],
             form: {
                 validate: {
                     key: null,
                     language: null
-                },
+                } as LanguageFormState,
                 rules: {
-                    key: [{ required: true, validator: checkValidateKey }]
+                    key: [{ required: true, validator: checkValidateKey }],
+                    language: [{ required: true, message: t('language.error.language') }]
                 }
             }
         })
@@ -159,10 +166,8 @@ export default defineComponent({
                         message.error(err.message)
                     })
             } else {
-                params.categories = Object.assign(
-                    {},
-                    JSON.parse(JSON.stringify(params.categories)),
-                    $storage.get($g.caches.storages.languages.categories) || {}
+                params.categories = params.defaultCategories.concat(
+                    $storage.get($g.caches.storages.languages.categories) || []
                 )
             }
         }
@@ -209,27 +214,46 @@ export default defineComponent({
         }
         const addLanguage = () => {
             params.loading = true
-            if (props.addConfig.url) {
-                const query = Object.assign({}, params.pagination, props.addConfig.params || {})
-                $request[(props.addConfig.method || 'POST').toLowerCase()](
-                    props.addConfig.url,
-                    query
-                )
-                    .then((res: any) => {
-                        params.loading = false
-                        if (res.ret.code === 200) {
-                            message.success()
-                            cancelLanguageVisible()
-                        } else message.error(res.ret.message)
-                    })
-                    .catch((err: any) => {
-                        params.loading = false
-                        message.error(err.message)
-                    })
-            } else {
-                const categories = $storage.get($g.caches.storages.languages.categories) || {}
-                console.log(categories)
-            }
+            formRef.value
+                .validate()
+                .then(() => {
+                    if (props.addConfig.url) {
+                        const query = Object.assign(
+                            {},
+                            params.pagination,
+                            props.addConfig.params || {}
+                        )
+                        $request[(props.addConfig.method || 'POST').toLowerCase()](
+                            props.addConfig.url,
+                            query
+                        )
+                            .then((res: any) => {
+                                params.loading = false
+                                if (res.ret.code === 200) {
+                                    message.success(t('success'))
+                                    cancelLanguageVisible()
+                                } else message.error(res.ret.message)
+                            })
+                            .catch((err: any) => {
+                                params.loading = false
+                                message.error(err.message)
+                            })
+                    } else {
+                        const categories = (
+                            $storage.get($g.caches.storages.languages.categories) || []
+                        ).concat([
+                            {
+                                key: params.form.validate.key,
+                                language: params.form.validate.language
+                            }
+                        ])
+                        $storage.set($g.caches.storages.languages.categories, categories)
+                        params.categories = params.defaultCategories.concat(categories)
+                        message.success(t('success'))
+                        cancelLanguageVisible()
+                    }
+                })
+                .catch(() => (params.loading = false))
         }
         initLanguage()
 
@@ -350,8 +374,14 @@ export default defineComponent({
                     onCancel={cancelLanguageVisible}
                     onOk={addLanguage}
                     footerBtnPosition="center">
-                    <Form class={formCls} labelCol={{ style: { width: $tools.convert2Rem(96) } }}>
-                        <FormItem label={t('key')}>
+                    <Form
+                        class={formCls}
+                        labelCol={{ style: { width: $tools.convert2Rem(96) } }}
+                        model={params.form.validate}
+                        rules={params.form.rules}
+                        autocomplete="off"
+                        ref={formRef}>
+                        <FormItem label={t('key')} name="key">
                             <Input
                                 prop="key"
                                 v-model:value={params.form.validate.key}
@@ -360,7 +390,7 @@ export default defineComponent({
                                 placeholder={t('language.placeholder.key')}
                             />
                         </FormItem>
-                        <FormItem label={t('language.display-language')}>
+                        <FormItem label={t('language.display-language')} name="language">
                             <Input
                                 prop="language"
                                 v-model:value={params.form.validate.language}

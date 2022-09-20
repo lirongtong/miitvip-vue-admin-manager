@@ -5,6 +5,7 @@ export default {
     'kind-tips': 'Kind Tips',
     understood: 'Understood',
     activate: 'Go to activate',
+    success: 'Success',
     edit: 'Edit',
     delete: 'Delete',
     'batch-delete': 'Batch Delete',
@@ -160,6 +161,13 @@ export default {
         'add-language': 'Add Language',
         'display-language': 'Display Language',
         management: 'Language management',
+        error: {
+            key: {
+                empty: 'Please input the language keywords',
+                exist: 'The keyword is repeated, please re-input'
+            },
+            language: 'Please input a language display name'
+        },
         placeholder: {
             key: 'For example, the keywords in simplified Chinese are: zh-cn',
             language: 'Language display name, such as: Simplified Chinese',
