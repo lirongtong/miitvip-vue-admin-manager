@@ -524,15 +524,23 @@ export default defineComponent({
             return <div class={`${prefixCls}-cates`}>{langs}</div>
         }
 
+        const renderLanguagesModalTitle = () => {
+            return (
+                <>
+                    <span innerHTML={t('language.management')} style={{marginRight: $tools.convert2Rem(16)}} />
+                    <Button type="primary" onClick={addLanguageCategoryVisible}>
+                        {t('language.add-language')}
+                    </Button>
+                </>
+            )
+        }
+
         const renderLanguagesModal = () => {
             return (
                 <MiModal
                     v-model:visible={params.visible.management}
-                    title={t('language.management')}
+                    title={renderLanguagesModalTitle()}
                     footer={false}>
-                    <Button type="primary" onClick={addLanguageCategoryVisible}>
-                        {t('language.add-language')}
-                    </Button>
                     {renderLanguageTags()}
                 </MiModal>
             )
