@@ -361,9 +361,21 @@
             background: var(--mi-dark-grey, @mi-dark-grey);
             .properties(padding-left, 16);
             .properties(padding-right, 16);
+            .properties(padding-bottom, 72);
             position: absolute;
             left: 0;
             top: 0;
+        }
+
+        &-drop {
+            height: @mi-content-padding-top;
+            z-index: @mi-z-index;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--mi-dark-grey, @mi-dark-grey);
+            width: 100%;
+            backdrop-filter: blur(25px);
         }
     }
 
@@ -375,6 +387,10 @@
         margin-top: -1px;
         transition: all @mi-anim-duration ease;
 	    z-index: @mi-z-index;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        .properties(margin-left, -16);
 
         &-content {
             color: var(--mi-font, @mi-font);
