@@ -49,27 +49,53 @@ export default defineComponent({
         const btnCls = getPrefixCls('btn', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
         const formRef = ref<FormInstance>()
-        const addFormRef = ref<FormInstance>()
+        const addOrUpdateFormRef = ref<FormInstance>()
 
-        const checkKeyValidate = (_rule: Rule, value: string) => {
+        const checkLanguageKeyValidate = (_rule: Rule, value: string) => {
             if (!value) return Promise.reject(t('language.error.key.empty'))
             const categories = $storage.get($g.caches.storages.languages.categories) || []
             if (categories[value]) return Promise.reject(t('language.error.key.exist'))
             else return Promise.resolve()
         }
 
-        const checkLanguageKeyValidate = (_rule: Rule, value: string) => {
+        const checkLanguageConfigurationKeyValidate = async (_rule: Rule, value: string) => {
             if (!value) return Promise.reject(t('language.placeholder.config.key'))
-            let exist = false
-            for (let i = 0, l = languages.length; i < l; i++) {
-                const lang = languages[i]
-                if (lang.key === value) {
-                    exist = true
-                    break
+            if (props.checkLanguageKeyExist.url) {
+                return await $request[
+                    (props.checkLanguageKeyExist.method || 'GET').toLocaleLowerCase()
+                ](
+                    props.checkLanguageKeyExist.url,
+                    Object.assign(
+                        {},
+                        { ...params.addOrUpdateForm.validate, edit: params.isEdit },
+                        props.checkLanguageKeyExist.params
+                    )
+                )
+                    .then((res: any) => {
+                        if (res.ret.code === 200) return Promise.resolve()
+                        else return Promise.reject(res.ret.message)
+                    })
+                    .catch((err: any) => {
+                        return Promise.reject(err.message)
+                    })
+            } else {
+                let exist = false
+                let n = 0
+                for (let i = 0, l = languages.length; i < l; i++) {
+                    const lang = languages[i]
+                    if (lang.key === value) {
+                        if (!params.isEdit) {
+                            exist = true
+                            break
+                        } else n++
+                    }
                 }
+                if (params.isEdit && n >= 1 && value !== params.addOrUpdateForm.editTempKey)
+                    exist = true
+                console.log(exist, n, params.isEdit, params.addOrUpdateForm.editTempKey)
+                if (exist) return Promise.reject(t('language.error.key.exist'))
+                else return Promise.resolve()
             }
-            if (exist) return Promise.reject(t('language.error.key.exist'))
-            else return Promise.resolve()
         }
 
         const params = reactive({
@@ -143,17 +169,18 @@ export default defineComponent({
                     language: null
                 } as LanguageFormState,
                 rules: {
-                    key: [{ required: true, validator: checkKeyValidate }],
+                    key: [{ required: true, validator: checkLanguageKeyValidate }],
                     language: [{ required: true, message: t('language.error.language') }]
                 }
             },
-            addForm: {
+            addOrUpdateForm: {
+                editTempKey: null,
                 validate: {
                     key: null,
                     language: null
                 } as LanguageFormState,
                 rules: {
-                    key: [{ required: true, validator: checkLanguageKeyValidate }],
+                    key: [{ required: true, validator: checkLanguageConfigurationKeyValidate }],
                     language: [{ required: true, message: t('language.placeholder.config.value') }]
                 }
             }
@@ -176,18 +203,10 @@ export default defineComponent({
 
         const getLanguageConfiguration = async (keyword?: string) => {
             let combine: {} = {}
-            if (props.dataConfig.url) {
+            if (props.data.url) {
                 params.loading = true
-                const query = Object.assign(
-                    {},
-                    keyword,
-                    params.pagination,
-                    props.dataConfig.params || {}
-                )
-                await $request[(props.dataConfig.method || 'GET').toLowerCase()](
-                    props.dataConfig.url,
-                    query
-                )
+                const query = Object.assign({}, keyword, params.pagination, props.data.params || {})
+                await $request[(props.data.method || 'GET').toLowerCase()](props.data.url, query)
                     .then((res: any) => {
                         params.loading = false
                         if (res.ret.code === 200) {
@@ -244,11 +263,11 @@ export default defineComponent({
 
         // language
         const getLanguageCategory = () => {
-            if (props.categoryConfig.url) {
+            if (props.category.url) {
                 params.loading = true
-                $request[(props.categoryConfig.method || 'GET').toLowerCase()](
-                    props.categoryConfig.url,
-                    props.categoryConfig.params || {}
+                $request[(props.category.method || 'GET').toLowerCase()](
+                    props.category.url,
+                    props.category.params || {}
                 )
                     .then((res: any) => {
                         params.loading = false
@@ -273,15 +292,15 @@ export default defineComponent({
             formRef.value
                 .validate()
                 .then(() => {
-                    if (props.addCategoryConfig.url) {
+                    if (props.addCategory.url) {
                         const query = Object.assign(
                             {},
                             params.pagination,
-                            props.addCategoryConfig.params || {},
+                            props.addCategory.params || {},
                             { ...params.form.validate }
                         )
-                        $request[(props.addCategoryConfig.method || 'POST').toLowerCase()](
-                            props.addCategoryConfig.url,
+                        $request[(props.addCategory.method || 'POST').toLowerCase()](
+                            props.addCategory.url,
                             query
                         )
                             .then((res: any) => {
@@ -318,10 +337,10 @@ export default defineComponent({
         // delete language.
         const deleteLanguageCategory = (key: string | number) => {
             params.loading = true
-            if (props.deleteCategoryConfig.url) {
-                $request[(props.deleteCategoryConfig.method || 'DELETE').toLowerCase()](
-                    props.deleteCategoryConfig.url,
-                    props.deleteCategoryConfig.params || {}
+            if (props.deleteCategory.url) {
+                $request[(props.deleteCategory.method || 'DELETE').toLowerCase()](
+                    props.deleteCategory.url,
+                    props.deleteCategory.params || {}
                 )
                     .then((res: any) => {
                         params.loading = false
@@ -349,7 +368,7 @@ export default defineComponent({
         // modal - add language configuration.
         const addLanguageConfigurationVisible = () => {
             params.isEdit = false
-            params.addForm.validate = {
+            params.addOrUpdateForm.validate = {
                 key: null,
                 language: null
             }
@@ -360,38 +379,44 @@ export default defineComponent({
         const editLanguageConfigurationVisible = (data?: any) => {
             params.isEdit = true
             params.visible.edit = !params.visible.edit
-            if (data?.record) params.addForm.validate = JSON.parse(JSON.stringify(data.record))
-            else params.addForm.validate = { key: null, language: null }
+            if (data?.record) {
+                params.addOrUpdateForm.validate = JSON.parse(JSON.stringify(data.record))
+                params.addOrUpdateForm.editTempKey = data?.record?.key
+            } else params.addOrUpdateForm.validate = { key: null, language: null }
         }
 
         // add or update language configuration.
         const addOrUpdateLanguageConfiguration = () => {
             params.loading = true
-            addFormRef.value
+            addOrUpdateFormRef.value
                 .validate()
                 .then(() => {
+                    const newOne = {}
+                    newOne[params.addOrUpdateForm.validate.key.toLocaleLowerCase()] =
+                        params.addOrUpdateForm.validate.language
                     if (params.isEdit) {
                         // update
+                        if (props.updateLanguage.url) {
+                            // remote
+                        } else {
+                        }
                     } else {
                         // add
-                        const newOne = {}
-                        newOne[params.addForm.validate.key.toLocaleLowerCase()] =
-                            params.addForm.validate.language
                         const afterAdd = () => {
                             message.success(t('success'))
                             addLanguageConfigurationVisible()
                             setTableData()
                             updateSystemLocaleInfo(newOne)
-                            if (props.addLanguageConfig.callback) props.addLanguageConfig.callback()
+                            if (props.addLanguage.callback) props.addLanguage.callback()
                         }
-                        if (props.addLanguageConfig.url) {
+                        if (props.addLanguage.url) {
                             // remote
-                            $request[props.addLanguageConfig.method.toLocaleLowerCase() || 'POST'](
-                                props.addLanguageConfig.url,
+                            $request[props.addLanguage.method.toLocaleLowerCase() || 'POST'](
+                                props.addLanguage.url,
                                 Object.assign(
                                     {},
-                                    { ...params.addForm.validate },
-                                    props.addLanguageConfig.params
+                                    { ...params.addOrUpdateForm.validate },
+                                    props.addLanguage.params
                                 )
                             )
                                 .then((res: any) => {
@@ -414,24 +439,32 @@ export default defineComponent({
                 .catch(() => (params.loading = false))
         }
 
+        // parse language configuration key-value.
+        const parseLanguageConfigurationKeyValue = (key: string, value: string) => {
+            const keys = key.split('.')
+            const temp = []
+            const end = []
+            for (let n = 0, l = keys.length; n < l; n++) {
+                if (n < l - 1) {
+                    temp.push(`{"${keys[n]}":`)
+                    end.push('}')
+                } else temp.push(`{"${keys[n]}":"${value}"}`)
+            }
+            temp.push(...end)
+            return JSON.parse(temp.join(''))
+        }
+
         // update i18n locale ( messages ).
         const updateSystemLocaleInfo = (message?: {}) => {
             if (locale.value === params.current) {
                 if (!message) {
                     const custom = $storage.get(params.storageKey) || {}
                     for (const i in custom) {
-                        const keys = i.split('.')
-                        const temp = []
-                        const end = []
-                        for (let n = 0, l = keys.length; n < l; n++) {
-                            if (n < l - 1) {
-                                temp.push(`{"${keys[n]}":`)
-                                end.push('}')
-                            } else temp.push(`{"${keys[n]}":"${custom[i]}"}`)
-                        }
-                        temp.push(...end)
-                        const str = temp.join('')
-                        message = Object.assign({}, message, JSON.parse(str))
+                        message = Object.assign(
+                            {},
+                            message,
+                            parseLanguageConfigurationKeyValue(i, custom[i])
+                        )
                     }
                 }
                 i18n.setLocale(locale.value, message)
@@ -442,7 +475,7 @@ export default defineComponent({
         const changePagination = (page: number, size: number) => {
             params.pagination.page = page
             params.pagination.size = size
-            if (props.dataConfig.url) setTableData()
+            if (props.data.url) setTableData()
         }
 
         initLanguageConfiguration()
@@ -553,12 +586,12 @@ export default defineComponent({
                     footerBtnPosition="center">
                     <Form
                         class={formCls}
-                        model={params.addForm.validate}
-                        rules={params.addForm.rules}
-                        ref={addFormRef}>
+                        model={params.addOrUpdateForm.validate}
+                        rules={params.addOrUpdateForm.rules}
+                        ref={addOrUpdateFormRef}>
                         <FormItem name="key">
                             <Input
-                                v-model:value={params.addForm.validate.key}
+                                v-model:value={params.addOrUpdateForm.validate.key}
                                 maxlength={64}
                                 autocomplete="off"
                                 placeholder={t('language.placeholder.config.key')}
@@ -566,7 +599,7 @@ export default defineComponent({
                         </FormItem>
                         <FormItem name="language">
                             <Textarea
-                                v-model:value={params.addForm.validate.language}
+                                v-model:value={params.addOrUpdateForm.validate.language}
                                 autoSize={{ minRows: 4, maxRows: 8 }}
                                 placeholder={t('language.placeholder.config.value')}
                             />

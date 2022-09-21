@@ -11,7 +11,7 @@ export interface CommonRequestProps {
 export const languageProps = () => ({
     prefixCls: PropTypes.string,
     dataSource: PropTypes.array,
-    dataConfig: {
+    data: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
@@ -22,7 +22,7 @@ export const languageProps = () => ({
         }
     },
     categorySource: PropTypes.array,
-    categoryConfig: {
+    category: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
@@ -32,7 +32,7 @@ export const languageProps = () => ({
             }
         }
     },
-    addCategoryConfig: {
+    addCategory: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
@@ -42,7 +42,7 @@ export const languageProps = () => ({
             }
         }
     },
-    deleteCategoryConfig: {
+    deleteCategory: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
@@ -52,7 +52,7 @@ export const languageProps = () => ({
             }
         }
     },
-    addLanguageConfig: {
+    addLanguage: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
@@ -63,7 +63,7 @@ export const languageProps = () => ({
             }
         }
     },
-    updateLanguageConfig: {
+    updateLanguage: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
@@ -73,7 +73,17 @@ export const languageProps = () => ({
             }
         }
     },
-    deleteLanguageConfig: {
+    deleteLanguage: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'DELETE',
+                params: {}
+            }
+        }
+    },
+    checkLanguageKeyExist: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
