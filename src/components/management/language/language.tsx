@@ -92,7 +92,6 @@ export default defineComponent({
                 }
                 if (params.isEdit && n >= 1 && value !== params.addOrUpdateForm.editTempKey)
                     exist = true
-                console.log(exist, n, params.isEdit, params.addOrUpdateForm.editTempKey)
                 if (exist) return Promise.reject(t('language.error.key.exist'))
                 else return Promise.resolve()
             }
@@ -546,15 +545,14 @@ export default defineComponent({
                     onOk={addLanguageCategory}
                     footerBtnPosition="center">
                     <Form
-                        class={formCls}
+                        class={`${formCls} ${formCls}-theme`}
                         labelCol={{ style: { width: $tools.convert2Rem(96) } }}
                         model={params.form.validate}
                         rules={params.form.rules}
-                        autocomplete="off"
                         ref={formRef}>
                         <FormItem label={t('key')} name="key">
                             <Input
-                                prop="key"
+                                name="key"
                                 v-model:value={params.form.validate.key}
                                 maxlength={64}
                                 autocomplete="off"
@@ -563,7 +561,7 @@ export default defineComponent({
                         </FormItem>
                         <FormItem label={t('language.display-language')} name="language">
                             <Input
-                                prop="language"
+                                name="language"
                                 v-model:value={params.form.validate.language}
                                 maxlength={64}
                                 autocomplete="off"
@@ -585,7 +583,7 @@ export default defineComponent({
                     onOk={addOrUpdateLanguageConfiguration}
                     footerBtnPosition="center">
                     <Form
-                        class={formCls}
+                        class={`${formCls} ${formCls}-theme`}
                         model={params.addOrUpdateForm.validate}
                         rules={params.addOrUpdateForm.rules}
                         ref={addOrUpdateFormRef}>

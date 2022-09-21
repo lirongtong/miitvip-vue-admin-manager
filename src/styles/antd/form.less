@@ -6,23 +6,25 @@
 @ant-form: ant-form;
 
 .@{mi-form} {
-    .@{ant-form} {
-        &-item-control-input-content {
-            textarea,
-            input {
-                .linear-gradient-background();
-                border-color: var(--mi-border, @mi-border);
-                color: var(--mi-font, @mi-font);
-
-                &:focus {
-                    box-shadow: 0 0 0 2px fade(@mi-theme, 20%);
+    &&-theme {
+        .@{ant-form} {
+            &-item-control-input-content {
+                textarea,
+                input {
+                    .linear-gradient-background();
+                    border-color: var(--mi-border, @mi-border);
+                    color: var(--mi-font, @mi-font);
+    
+                    &:focus {
+                        box-shadow: 0 0 0 2px fade(@mi-theme, 20%);
+                    }
                 }
             }
-        }
-
-        &-item {
-            &-label > label {
-                color: var(--mi-font, @mi-font);
+    
+            &-item {
+                &-label > label {
+                    color: var(--mi-font, @mi-font);
+                }
             }
         }
     }
