@@ -109,7 +109,8 @@ export default defineComponent({
                         title: t('key'),
                         key: 'key',
                         dataIndex: 'key',
-                        align: 'left'
+                        align: 'left',
+                        width: 320
                     },
                     {
                         key: 'language',
@@ -120,7 +121,7 @@ export default defineComponent({
                         title: t('opt'),
                         key: 'action',
                         align: 'right',
-                        minWidth: 128,
+                        minWidth: 150,
                         customRender: (record: any) => {
                             return (
                                 <div class={`${prefixCls}-table-btns`}>
@@ -185,10 +186,11 @@ export default defineComponent({
             }
         })
 
-        const setTableData = async (keyword?: string) => {
+        const setTableData = async (keyword?: string, lang?: string) => {
+            languages = []
             if (props.dataSource) params.table.data = props.dataSource
             else {
-                const combine = await getLanguageConfiguration(keyword)
+                const combine = await getLanguageConfiguration(keyword, lang)
                 parseLanguageConfiguration(combine)
                 params.table.data = languages
             }
@@ -200,11 +202,11 @@ export default defineComponent({
             else getLanguageCategory()
         }
 
-        const getLanguageConfiguration = async (keyword?: string) => {
+        const getLanguageConfiguration = async (keyword?: string, lang?: string) => {
             let combine: {} = {}
             if (props.data.url) {
                 params.loading = true
-                const query = Object.assign({}, keyword, params.pagination, props.data.params || {})
+                const query = Object.assign({}, keyword, params.pagination, { lang }, props.data.params || {})
                 await $request[(props.data.method || 'GET').toLowerCase()](props.data.url, query)
                     .then((res: any) => {
                         params.loading = false
@@ -216,7 +218,7 @@ export default defineComponent({
                         params.loading = false
                         message.error(err.message)
                     })
-            } else combine = mergeLanguageConfiguration()
+            } else combine = mergeLanguageConfiguration(lang)
             return combine
         }
 
@@ -404,8 +406,8 @@ export default defineComponent({
                         const afterAdd = () => {
                             message.success(t('success'))
                             addLanguageConfigurationVisible()
-                            setTableData()
-                            updateSystemLocaleInfo(newOne)
+                            setTableData(null, params.current)
+                            updateSystemLocaleData(newOne)
                             if (props.addLanguage.callback) props.addLanguage.callback()
                         }
                         if (props.addLanguage.url) {
@@ -454,7 +456,7 @@ export default defineComponent({
         }
 
         // update i18n locale ( messages ).
-        const updateSystemLocaleInfo = (message?: {}) => {
+        const updateSystemLocaleData = (message?: {}) => {
             if (locale.value === params.current) {
                 if (!message) {
                     const custom = $storage.get(params.storageKey) || {}
