@@ -206,7 +206,13 @@ export default defineComponent({
             let combine: {} = {}
             if (props.data.url) {
                 params.loading = true
-                const query = Object.assign({}, keyword, params.pagination, { lang }, props.data.params || {})
+                const query = Object.assign(
+                    {},
+                    keyword,
+                    params.pagination,
+                    { lang },
+                    props.data.params || {}
+                )
                 await $request[(props.data.method || 'GET').toLowerCase()](props.data.url, query)
                     .then((res: any) => {
                         params.loading = false
@@ -527,7 +533,10 @@ export default defineComponent({
         const renderLanguagesModalTitle = () => {
             return (
                 <>
-                    <span innerHTML={t('language.management')} style={{marginRight: $tools.convert2Rem(16)}} />
+                    <span
+                        innerHTML={t('language.management')}
+                        style={{ marginRight: $tools.convert2Rem(16) }}
+                    />
                     <Button type="primary" onClick={addLanguageCategoryVisible}>
                         {t('language.add-language')}
                     </Button>

@@ -341,7 +341,7 @@ export default defineComponent({
                 ) : null
             return (
                 <>
-                    <Button class={cls} onClick={register}>
+                    <Button class={cls} type="primary" onClick={register}>
                         {props.binding ? t('passport.binding') : t('passport.register.title')}
                     </Button>
                     {login}

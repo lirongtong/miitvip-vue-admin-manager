@@ -287,7 +287,7 @@ const Login = defineComponent({
                 ) : null
             return (
                 <>
-                    <Button class={cls} onClick={login}>
+                    <Button class={cls} type="primary" onClick={login}>
                         {t('passport.login.title')}
                     </Button>
                     {register}
