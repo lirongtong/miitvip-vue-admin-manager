@@ -1,7 +1,7 @@
 import { defineComponent, reactive, ref, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
-import { languageProps } from './props'
+import { languageProps, LanguageFormState } from './props'
 import {
     Table,
     InputSearch,
@@ -25,18 +25,6 @@ import MiModal from '../../modal'
 import { $request } from '../../../utils/request'
 import { Rule } from 'ant-design-vue/es/form'
 
-export interface CommonApiProps {
-    url?: string
-    method?: string
-    params?: object
-}
-
-interface LanguageFormState {
-    id?: [string | number]
-    key: string
-    language: string
-}
-
 export default defineComponent({
     name: 'MiLanguageManagement',
     inheritAttrs: false,
@@ -44,7 +32,7 @@ export default defineComponent({
     setup(props) {
         const { messages, locale, t } = useI18n()
         const i18n = inject('$i18n') as any
-        let languages = reactive([])
+        let languages = reactive<LanguageFormState[]>([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
         const btnCls = getPrefixCls('btn', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
@@ -148,7 +136,7 @@ export default defineComponent({
                         }
                     }
                 ] as any,
-                data: []
+                data: [] as LanguageFormState[]
             },
             visible: {
                 edit: false,
@@ -160,25 +148,25 @@ export default defineComponent({
             defaultCategories: [
                 { key: 'zh-cn', language: t('language.zh-cn') },
                 { key: 'en-us', language: t('language.en-us') }
-            ],
-            categories: [],
-            isEdit: null,
+            ] as LanguageFormState[],
+            categories: [] as LanguageFormState[],
+            isEdit: false,
             form: {
                 validate: {
                     key: null,
                     language: null
-                } as LanguageFormState,
+                },
                 rules: {
                     key: [{ required: true, validator: checkLanguageKeyValidate }],
                     language: [{ required: true, message: t('language.error.language') }]
                 }
             },
             addOrUpdateForm: {
-                editTempKey: null,
+                editTempKey: '',
                 validate: {
-                    key: null,
-                    language: null
-                } as LanguageFormState,
+                    key: '',
+                    language: ''
+                },
                 rules: {
                     key: [{ required: true, validator: checkLanguageConfigurationKeyValidate }],
                     language: [{ required: true, message: t('language.placeholder.config.value') }]
@@ -228,7 +216,7 @@ export default defineComponent({
             return combine
         }
 
-        const parseLanguageConfiguration = (data: any, idx = null) => {
+        const parseLanguageConfiguration = (data: any, idx?: string) => {
             for (const i in data) {
                 const type = typeof data[i]
                 const key = (!$tools.isEmpty(idx) ? idx + '.' : '') + i
@@ -246,12 +234,12 @@ export default defineComponent({
 
         const mergeLanguageConfiguration = (lang?: string) => {
             const custom = $storage.get(params.storageKey) || {}
-            const builtIn = messages.value[lang ?? locale.value]
+            const builtIn = (messages.value as any)[lang ?? locale.value]
             return Object.assign({}, builtIn, custom)
         }
 
         const changLanguage = (lang: any) => {
-            languages = []
+            languages = [] as LanguageFormState[]
             params.current = lang
             params.storageKey = `${$g.caches.storages.languages.custom}-${lang}`
             parseLanguageConfiguration(mergeLanguageConfiguration(lang))
@@ -295,50 +283,53 @@ export default defineComponent({
 
         // add language
         const addLanguageCategory = () => {
-            params.loading = true
-            formRef.value
-                .validate()
-                .then(() => {
-                    if (props.addCategory.url) {
-                        const query = Object.assign(
-                            {},
-                            params.pagination,
-                            props.addCategory.params || {},
-                            { ...params.form.validate }
-                        )
-                        $request[(props.addCategory.method || 'POST').toLowerCase()](
-                            props.addCategory.url,
-                            query
-                        )
-                            .then((res: any) => {
-                                params.loading = false
-                                if (res.ret.code === 200) {
-                                    message.success(t('success'))
-                                    cancelLanguageCategoryVisible()
-                                    formRef.value.resetFields()
-                                } else message.error(res.ret.message)
-                            })
-                            .catch((err: any) => {
-                                params.loading = false
-                                message.error(err.message)
-                            })
-                    } else {
-                        const categories = (
-                            $storage.get($g.caches.storages.languages.categories) || []
-                        ).concat([
-                            {
-                                key: params.form.validate.key,
-                                language: params.form.validate.language
-                            }
-                        ])
-                        $storage.set($g.caches.storages.languages.categories, categories)
-                        params.categories = params.defaultCategories.concat(categories)
-                        message.success(t('success'))
-                        cancelLanguageCategoryVisible()
-                        formRef.value.resetFields()
-                    }
-                })
-                .catch(() => (params.loading = false))
+            if (formRef.value && formRef.value) {
+                params.loading = true
+                formRef.value
+                    .validate()
+                    .then(() => {
+                        if (props.addCategory.url) {
+                            const query = Object.assign(
+                                {},
+                                params.pagination,
+                                props.addCategory.params || {},
+                                { ...params.form.validate }
+                            )
+                            $request[(props.addCategory.method || 'POST').toLowerCase()](
+                                props.addCategory.url,
+                                query
+                            )
+                                .then((res: any) => {
+                                    params.loading = false
+                                    if (res.ret.code === 200) {
+                                        message.success(t('success'))
+                                        cancelLanguageCategoryVisible()
+                                        if (formRef.value && formRef.value)
+                                            formRef.value.resetFields()
+                                    } else message.error(res.ret.message)
+                                })
+                                .catch((err: any) => {
+                                    params.loading = false
+                                    message.error(err.message)
+                                })
+                        } else {
+                            const categories = (
+                                $storage.get($g.caches.storages.languages.categories) || []
+                            ).concat([
+                                {
+                                    key: params.form.validate.key,
+                                    language: params.form.validate.language
+                                }
+                            ])
+                            $storage.set($g.caches.storages.languages.categories, categories)
+                            params.categories = params.defaultCategories.concat(categories)
+                            message.success(t('success'))
+                            cancelLanguageCategoryVisible()
+                            if (formRef.value && formRef.value) formRef.value.resetFields()
+                        }
+                    })
+                    .catch(() => (params.loading = false))
+            }
         }
 
         // delete language.
@@ -361,7 +352,7 @@ export default defineComponent({
                     })
             } else {
                 const categories = $storage.get($g.caches.storages.languages.categories) || []
-                const cates = []
+                const cates = [] as LanguageFormState[]
                 for (let i = 0, l = categories.length; i < l; i++) {
                     if (categories[i].key === key) continue
                     else cates.push(categories[i])
@@ -376,8 +367,8 @@ export default defineComponent({
         const addLanguageConfigurationVisible = () => {
             params.isEdit = false
             params.addOrUpdateForm.validate = {
-                key: null,
-                language: null
+                key: '',
+                language: ''
             }
             params.visible.edit = !params.visible.edit
         }
@@ -389,68 +380,70 @@ export default defineComponent({
             if (data?.record) {
                 params.addOrUpdateForm.validate = JSON.parse(JSON.stringify(data.record))
                 params.addOrUpdateForm.editTempKey = data?.record?.key
-            } else params.addOrUpdateForm.validate = { key: null, language: null }
+            } else params.addOrUpdateForm.validate = { key: '', language: '' }
         }
 
         // add or update language configuration.
         const addOrUpdateLanguageConfiguration = () => {
-            params.loading = true
-            addOrUpdateFormRef.value
-                .validate()
-                .then(() => {
-                    const newOne = {}
-                    newOne[params.addOrUpdateForm.validate.key.toLocaleLowerCase()] =
-                        params.addOrUpdateForm.validate.language
-                    if (params.isEdit) {
-                        // update
-                        if (props.updateLanguage.url) {
-                            // remote
+            if (addOrUpdateFormRef.value && addOrUpdateFormRef.value) {
+                params.loading = true
+                addOrUpdateFormRef.value
+                    .validate()
+                    .then(() => {
+                        const newOne = {}
+                        newOne[params.addOrUpdateForm.validate.key] =
+                            params.addOrUpdateForm.validate.language
+                        if (params.isEdit) {
+                            // update
+                            if (props.updateLanguage.url) {
+                                // remote
+                            } else {
+                            }
                         } else {
-                        }
-                    } else {
-                        // add
-                        const afterAdd = () => {
-                            message.success(t('success'))
-                            addLanguageConfigurationVisible()
-                            setTableData(null, params.current)
-                            updateSystemLocaleData(newOne)
-                            if (props.addLanguage.callback) props.addLanguage.callback()
-                        }
-                        if (props.addLanguage.url) {
-                            // remote
-                            $request[props.addLanguage.method.toLocaleLowerCase() || 'POST'](
-                                props.addLanguage.url,
-                                Object.assign(
-                                    {},
-                                    { ...params.addOrUpdateForm.validate },
-                                    props.addLanguage.params
+                            // add
+                            const afterAdd = () => {
+                                message.success(t('success'))
+                                addLanguageConfigurationVisible()
+                                setTableData('', params.current)
+                                updateSystemLocaleData(newOne)
+                                if (props.addLanguage.callback) props.addLanguage.callback()
+                            }
+                            if (props.addLanguage.url) {
+                                // remote
+                                $request[(props.addLanguage.method || 'POST').toLowerCase()](
+                                    props.addLanguage.url,
+                                    Object.assign(
+                                        {},
+                                        { ...params.addOrUpdateForm.validate },
+                                        props.addLanguage.params
+                                    )
                                 )
-                            )
-                                .then((res: any) => {
-                                    params.loading = false
-                                    if (res.ret.code === 200) afterAdd()
-                                    else message.error(res.ret.message)
-                                })
-                                .catch((err: any) => {
-                                    params.loading = false
-                                    message.error(err.message)
-                                })
-                        } else {
-                            const custom = $storage.get(params.storageKey) || {}
-                            $storage.set(params.storageKey, Object.assign({}, custom, newOne))
-                            params.loading = false
-                            afterAdd()
+                                    .then((res: any) => {
+                                        params.loading = false
+                                        if (res.ret.code === 200) afterAdd()
+                                        else message.error(res.ret.message)
+                                    })
+                                    .catch((err: any) => {
+                                        params.loading = false
+                                        message.error(err.message)
+                                    })
+                            } else {
+                                const custom = $storage.get(params.storageKey) || {}
+                                $storage.set(params.storageKey, Object.assign({}, custom, newOne))
+                                params.loading = false
+                                afterAdd()
+                            }
                         }
-                    }
-                })
-                .catch(() => (params.loading = false))
+                    })
+                    .catch(() => (params.loading = false))
+            }
         }
 
         // parse language configuration key-value.
         const parseLanguageConfigurationKeyValue = (key: string, value: string) => {
             const keys = key.split('.')
-            const temp = []
-            const end = []
+            const temp = [] as string[]
+            const end = [] as string[]
             for (let n = 0, l = keys.length; n < l; n++) {
                 if (n < l - 1) {
                     temp.push(`{"${keys[n]}":`)
@@ -488,9 +481,9 @@ export default defineComponent({
         initLanguageConfiguration()
 
         const renderLanguageSelection = () => {
-            const options = []
+            const options = [] as any[]
             for (let i = 0, l = params.categories.length; i < l; i++) {
-                const cur = params.categories[i]
+                const cur = params.categories[i] as LanguageFormState
                 options.push(<SelectOption value={cur.key}>{cur.language}</SelectOption>)
             }
             return (
@@ -504,9 +497,9 @@ export default defineComponent({
         }
 
         const renderLanguageTags = () => {
-            const langs = []
+            const langs = [] as any[]
             for (let i = 0, l = params.categories.length; i < l; i++) {
-                const cur = params.categories[i]
+                const cur = params.categories[i] as LanguageFormState
                 const close =
                     i > 1 ? (
                         <Popconfirm

@@ -1,6 +1,12 @@
 import { PropType } from 'vue'
 import PropTypes from '../../_utils/props-types'
 
+export interface LanguageFormState {
+    id?: string | number
+    key: string
+    language: string
+}
+
 export interface CommonRequestProps {
     url?: String
     method?: String
@@ -10,7 +16,7 @@ export interface CommonRequestProps {
 
 export const languageProps = () => ({
     prefixCls: PropTypes.string,
-    dataSource: PropTypes.array,
+    dataSource: Array as PropType<LanguageFormState[]>,
     data: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
@@ -21,7 +27,7 @@ export const languageProps = () => ({
             }
         }
     },
-    categorySource: PropTypes.array,
+    categorySource: Array as PropType<LanguageFormState[]>,
     category: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {

@@ -428,7 +428,7 @@ class MiTools {
             span.textContent = text
             span.style.whiteSpace = 'pre'
             document.body.appendChild(span)
-            const selection = window.getSelection()
+            const selection = window.getSelection() as Selection
             const range = document.createRange()
             selection.removeAllRanges()
             range.selectNode(span)

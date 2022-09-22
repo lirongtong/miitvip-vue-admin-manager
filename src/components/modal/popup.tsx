@@ -20,9 +20,9 @@ export default defineComponent({
             emit('cancel', evt)
         }
 
-        const handleWrapClick = (evt?: Event) => {
+        const handleWrapClick = (evt: Event) => {
             if (!props.maskClosable) return null
-            if (wrapRef.value === evt.target) handleCloseClick(evt)
+            if (wrapRef.value && wrapRef.value === evt.target) handleCloseClick(evt)
         }
 
         const handleAnimAfterLeave = () => {
