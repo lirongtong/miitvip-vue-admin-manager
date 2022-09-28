@@ -40,6 +40,7 @@ export const languageProps = () => ({
     },
     addCategory: {
         type: Object as PropType<CommonRequestProps>,
+        required: true,
         default: () => {
             return {
                 url: null,
@@ -50,6 +51,7 @@ export const languageProps = () => ({
     },
     deleteCategory: {
         type: Object as PropType<CommonRequestProps>,
+        required: true,
         default: () => {
             return {
                 url: null,
@@ -60,6 +62,7 @@ export const languageProps = () => ({
     },
     addLanguage: {
         type: Object as PropType<CommonRequestProps>,
+        required: true,
         default: () => {
             return {
                 url: null,
@@ -71,16 +74,19 @@ export const languageProps = () => ({
     },
     updateLanguage: {
         type: Object as PropType<CommonRequestProps>,
+        required: true,
         default: () => {
             return {
                 url: null,
                 method: 'DELETE',
-                params: {}
+                params: {},
+                callback: null
             }
         }
     },
     deleteLanguage: {
         type: Object as PropType<CommonRequestProps>,
+        required: true,
         default: () => {
             return {
                 url: null,
