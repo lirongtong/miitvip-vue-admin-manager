@@ -15,7 +15,9 @@ import {
     Button,
     Popconfirm,
     message,
-    FormInstance
+    FormInstance,
+    Tabs,
+    TabPane
 } from 'ant-design-vue'
 import {
     FormOutlined,
@@ -35,9 +37,11 @@ export default defineComponent({
     inheritAttrs: false,
     props: languageProps(),
     setup(props) {
-        const { locale, t } = useI18n()
+        const { messages, locale, t } = useI18n()
         const i18n = inject('$i18n') as any
         let languages = reactive<LanguageFormState[]>([])
+        let total = 0
+        let builtInLanguages = reactive<LanguageFormState[]>([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
         const btnCls = getPrefixCls('btn', props.prefixCls)
         const formCls = getPrefixCls('form', props.prefixCls)
@@ -80,6 +84,7 @@ export default defineComponent({
                 page: 1,
                 size: 10
             },
+            tab: 'customize',
             table: {
                 loading: false,
                 columns: [
@@ -129,7 +134,22 @@ export default defineComponent({
                         }
                     }
                 ] as any,
-                data: [] as LanguageFormState[]
+                data: [] as LanguageFormState[],
+                builtin: {
+                    columns: [
+                        {
+                            title: t('key'),
+                            key: 'key',
+                            dataIndex: 'key',
+                            align: 'left'
+                        },
+                        {
+                            key: 'language',
+                            dataIndex: 'language',
+                            align: 'left'
+                        }
+                    ] as any
+                }
             },
             visible: {
                 update: false,
@@ -137,12 +157,13 @@ export default defineComponent({
                 create: false
             },
             current: $g.locale,
-            storageKey: `${$g.caches.storages.languages.custom}-${$g.locale}`,
-            defaultCategories: [
+            categories: [] as LanguageFormState[],
+            builtInCategories: [
                 { key: 'zh-cn', language: t('language.zh-cn') },
                 { key: 'en-us', language: t('language.en-us') }
             ] as LanguageFormState[],
-            categories: [] as LanguageFormState[],
+            builtInCurrent: 'zh-cn',
+            types: {} as any,
             id: 0,
             isEdit: false,
             form: {
@@ -206,10 +227,11 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.table.loading = false
-                        if (res.ret.code === 200) {
-                            languages = res.data
-                            if (props.data.callback) props.data.callback(res.data)
-                        } else message.error(res.ret.message)
+                        if (res?.ret?.code === 200) {
+                            languages = res?.data
+                            total = res?.total
+                            if (props.data.callback) props.data.callback(res?.data)
+                        } else message.error(res?.ret?.message)
                     })
                     .catch((err: any) => {
                         params.table.loading = false
@@ -218,13 +240,36 @@ export default defineComponent({
             }
         }
 
+        // built-in languages.
+        const getBuiltInLanguageConfiguration = (data: any, idx?: string) => {
+            for (const i in data) {
+                const type = typeof data[i]
+                const key = (!$tools.isEmpty(idx) ? idx + '.' : '') + i
+                if (['object', 'array'].includes(type)) getBuiltInLanguageConfiguration(data[i], key)
+                else {
+                    const item = {
+                        key,
+                        language: data[i],
+                        type: 'system'
+                    } as LanguageFormState
+                    if (data.id) item.id = data.id
+                    builtInLanguages.push(item)
+                }
+            }
+        }
+
         // category is changed.
         const changLanguageCategory = (lang: any) => {
             languages = [] as LanguageFormState[]
             params.current = lang
-            params.storageKey = `${$g.caches.storages.languages.custom}-${lang}`
             setLanguageConfigurationList('', lang)
             params.table.data = languages
+        }
+
+        const changBuiltInLanguageCategory = (lang: any) => {
+            builtInLanguages = []
+            params.builtInCurrent = lang
+            getBuiltInLanguageConfiguration(messages.value[lang])
         }
 
         // modal - create category
@@ -266,10 +311,13 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.loading = false
-                        if (res.ret.code === 200) {
-                            params.categories = res.data
-                            if (props.category.callback) props.category.callback(res.data)
-                        } else message.error(res.ret.message)
+                        if (res?.ret?.code === 200) {
+                            params.categories = res?.data
+                            for (let i = 0, l = res?.data.length; i < l; i++) {
+                                params.types[res?.data[i].key] = res?.data[i].language
+                            }
+                            if (props.category.callback) props.category.callback(res?.data)
+                        } else message.error(res?.ret?.message)
                     })
                     .catch((err: any) => {
                         params.loading = false
@@ -510,6 +558,7 @@ export default defineComponent({
             if (props.data.url) setLanguageConfigurationList()
         }
 
+        getBuiltInLanguageConfiguration(messages.value[locale.value])
         initLanguageConfiguration()
 
         // render
@@ -523,6 +572,22 @@ export default defineComponent({
                 <Select
                     v-model:value={params.current}
                     onChange={changLanguageCategory}
+                    style={{ minWidth: $tools.convert2Rem(120) }}>
+                    {options}
+                </Select>
+            )
+        }
+
+        const renderBuiltInLanguageSelection = () => {
+            const options = [] as any[]
+            for (let i = 0, l = params.builtInCategories.length; i < l; i++) {
+                const cur = params.builtInCategories[i] as LanguageFormState
+                options.push(<SelectOption value={cur.key}>{cur.language}</SelectOption>)
+            }
+            return (
+                <Select
+                    v-model:value={params.builtInCurrent}
+                    onChange={changBuiltInLanguageCategory}
                     style={{ minWidth: $tools.convert2Rem(120) }}>
                     {options}
                 </Select>
@@ -646,6 +711,9 @@ export default defineComponent({
                         model={params.addOrUpdateForm.validate}
                         rules={params.addOrUpdateForm.rules}
                         ref={addOrUpdateFormRef}>
+                        <FormItem label={t('language.current')}>
+                            <span class={`${prefixCls}-current-name`} innerHTML={params.types[params.current]} />
+                        </FormItem>
                         <FormItem name="key">
                             <Input
                                 v-model:value={params.addOrUpdateForm.validate.key}
@@ -700,21 +768,56 @@ export default defineComponent({
             return (
                 <div class={`${prefixCls}-table`}>
                     <ConfigProvider locale={props.paginationLocale}>
-                        <Table
-                            columns={params.table.columns}
-                            dataSource={params.table.data}
-                            pagination={{ showQuickJumper: true, onChange: changePagination }}
-                            rowSelection={{}}
-                            loading={params.table.loading}
-                            v-slots={{
-                                headerCell: (record: any) => {
-                                    if (record.column.key === 'language') {
-                                        return renderLanguageSelection()
-                                    }
-                                }
-                            }}
-                            scroll={{ x: '100%' }}
-                        />
+                        <Tabs>
+                            <TabPane key={'customize'} tab={t('customize')}>
+                                <div class={`${prefixCls}-search`}>
+                                    <InputSearch size="large" placeholder={t('language.placeholder.search')} />
+                                </div>
+                                {renderActionBtns()}
+                                <Table
+                                    columns={params.table.columns}
+                                    dataSource={params.table.data}
+                                    rowSelection={{}}
+                                    pagination={{
+                                        showLessItems: true,
+                                        showQuickJumper: true,
+                                        onChange: changePagination,
+                                        responsive: true,
+                                        total,
+                                        current: params.pagination.page,
+                                        pageSize: params.pagination.size
+                                    }}
+                                    loading={params.table.loading}
+                                    v-slots={{
+                                        headerCell: (record: any) => {
+                                            if (record.column.key === 'language') {
+                                                return renderLanguageSelection()
+                                            }
+                                        }
+                                    }}
+                                    scroll={{ x: '100%' }}
+                                />
+                            </TabPane>
+                            <TabPane key={'built-in'} tab={t('language.system')}>
+                            <Table
+                                    columns={params.table.builtin.columns}
+                                    dataSource={builtInLanguages}
+                                    pagination={{
+                                        showLessItems: true,
+                                        showQuickJumper: true,
+                                        responsive: true
+                                    }}
+                                    v-slots={{
+                                        headerCell: (record: any) => {
+                                            if (record.column.key === 'language') {
+                                                return renderBuiltInLanguageSelection()
+                                            }
+                                        }
+                                    }}
+                                    scroll={{ x: '100%' }}
+                                />
+                            </TabPane>
+                        </Tabs>
                     </ConfigProvider>
                 </div>
             )
@@ -722,10 +825,6 @@ export default defineComponent({
 
         return () => (
             <div class={prefixCls}>
-                <div class={`${prefixCls}-search`}>
-                    <InputSearch size="large" placeholder={t('language.placeholder.search')} />
-                </div>
-                {renderActionBtns()}
                 {renderTable()}
                 {renderCreateOrUpdateLanguageConfiguration()}
                 {renderLanguagesModal()}

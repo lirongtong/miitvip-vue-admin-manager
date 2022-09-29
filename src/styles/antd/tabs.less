@@ -1,0 +1,35 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-tabs: ant-tabs;
+.@{ant-tabs} {
+    &-top > &-nav:before {
+        border-bottom-color: var(--mi-border, @mi-border);
+    }
+
+    &-tab {
+        color: var(--mi-font, @mi-font);
+
+        &-btn:active,
+        &-btn:focus {
+            color: var(--mi-font, @mi-font);
+        }
+
+        &&-active &-btn,
+        &&-active &-btn:active,
+        &&-active &-btn:focus {
+            color: var(--mi-theme, @mi-theme);
+        }
+    }
+
+    &-tab:hover,
+    &-tab:focus,
+    &-tab:visited,
+    &-tab:active {
+        color: var(--mi-font, @mi-font);
+    }
+    
+    &-ink-bar {
+        .linear-gradient-background-theme();
+    }
+}

@@ -137,6 +137,7 @@
 
         &-name {
             .properties(font-size, 14);
+            text-align: justify;
         }
 
         &-close {
@@ -169,5 +170,16 @@
         .@{mi-prefix}modal-close-x {
             .properties(margin-top, 8);
         }
+    }
+
+    &-pagination {
+        .flex();
+        width: 100%;
+        .properties(padding-top, 32);
+        .properties(padding-bottom, 24);
+    }
+
+    &-current-name {
+        color: var(--mi-theme, @mi-theme);
     }
 }
