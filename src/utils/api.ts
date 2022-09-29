@@ -29,6 +29,14 @@ export const api: any = reactive({
         reset: 'password/reset',
         captcha: 'password/captcha/send',
         check: 'password/captcha/check'
+    },
+    languages: {
+        data: 'languages',
+        update: 'languages/{id}',
+        category: {
+            data: 'languages/categories',
+            update: 'languages/categories/{id}'
+        }
     }
 })
 

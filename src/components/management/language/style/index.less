@@ -119,7 +119,9 @@
     }
 
     &-cates {
-        .flex(center, flex-start);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        .properties(grid-gap, 16);
     }
 
     &-cate {
@@ -129,28 +131,43 @@
         .properties(padding-top, 6);
         .properties(padding-bottom, 6);
         border: 1px solid var(--mi-border, @mi-border);
-        .properties(margin-right, 16);
         .border-radius();
         .flex();
+        position: relative;
 
         &-name {
             .properties(font-size, 14);
         }
 
         &-close {
-            .properties(width, 16);
+            position: absolute;
+            .properties(right, -12);
+            .properties(top, -12);
+            .properties(width, 24);
+            .properties(height, 24);
             .flex();
-            height: 100%;
             cursor: pointer;
-            .properties(margin-left);
 
             .anticon {
-                .properties(font-size, 12);
+                .properties(font-size, 18);
             }
+        }
+
+        &-edit {
+            .properties(margin-left, 12);
+            .properties(margin-right, 4);
+            .flex();
+            cursor: pointer;
         }
 
         &:last-child {
             margin-right: 0;
+        }
+    }
+
+    &-modal {
+        .@{mi-prefix}modal-close-x {
+            .properties(margin-top, 8);
         }
     }
 }

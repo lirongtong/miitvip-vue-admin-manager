@@ -17,7 +17,12 @@ import {
     message,
     FormInstance
 } from 'ant-design-vue'
-import { CloseOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import {
+    FormOutlined,
+    DeleteOutlined,
+    EditOutlined,
+    CloseCircleFilled
+} from '@ant-design/icons-vue'
 import { $storage } from '../../../utils/storage'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
@@ -39,7 +44,7 @@ export default defineComponent({
         const formRef = ref<FormInstance>()
         const addOrUpdateFormRef = ref<FormInstance>()
 
-        const checkLanguageKeyValidate = (_rule: Rule, value: string) => {
+        const checkLanguageCateogryKeyValidate = (_rule: Rule, value: string) => {
             if (!value) return Promise.reject(t('language.error.key.empty'))
             const categories = $storage.get($g.caches.storages.languages.categories) || []
             if (categories[value]) return Promise.reject(t('language.error.key.exist'))
@@ -66,23 +71,7 @@ export default defineComponent({
                     .catch((err: any) => {
                         return Promise.reject(err.message)
                     })
-            } else {
-                let exist = false
-                let n = 0
-                for (let i = 0, l = languages.length; i < l; i++) {
-                    const lang = languages[i]
-                    if (lang.key === value) {
-                        if (!params.isEdit) {
-                            exist = true
-                            break
-                        } else n++
-                    }
-                }
-                if (params.isEdit && n >= 1 && value !== params.addOrUpdateForm.editTempKey)
-                    exist = true
-                if (exist) return Promise.reject(t('language.error.key.exist'))
-                else return Promise.resolve()
-            }
+            } else return Promise.resolve()
         }
 
         const params = reactive({
@@ -92,6 +81,7 @@ export default defineComponent({
                 size: 10
             },
             table: {
+                loading: false,
                 columns: [
                     {
                         title: t('key'),
@@ -115,7 +105,7 @@ export default defineComponent({
                                 <div class={`${prefixCls}-table-btns`}>
                                     <a
                                         class="edit"
-                                        onClick={() => editLanguageConfigurationVisible(record)}>
+                                        onClick={() => updateLanguageConfigurationVisible(record)}>
                                         <FormOutlined />
                                         {t('edit')}
                                     </a>
@@ -142,9 +132,9 @@ export default defineComponent({
                 data: [] as LanguageFormState[]
             },
             visible: {
-                edit: false,
+                update: false,
                 management: false,
-                add: false
+                create: false
             },
             current: $g.locale,
             storageKey: `${$g.caches.storages.languages.custom}-${$g.locale}`,
@@ -161,9 +151,10 @@ export default defineComponent({
                     language: null
                 },
                 rules: {
-                    key: [{ required: true, validator: checkLanguageKeyValidate }],
+                    key: [{ required: true, validator: checkLanguageCateogryKeyValidate }],
                     language: [{ required: true, message: t('language.error.language') }]
-                }
+                },
+                editTempKey: ''
             },
             addOrUpdateForm: {
                 editTempKey: '',
@@ -198,9 +189,10 @@ export default defineComponent({
             else getLanguageCategory()
         }
 
+        // language
         const getLanguageConfiguration = async (keyword?: string, lang?: string) => {
             if (props.data.url) {
-                params.loading = true
+                params.table.loading = true
                 const condition = Object.assign(
                     {},
                     keyword,
@@ -213,18 +205,20 @@ export default defineComponent({
                     condition
                 )
                     .then((res: any) => {
-                        params.loading = false
+                        params.table.loading = false
                         if (res.ret.code === 200) {
                             languages = res.data
+                            if (props.data.callback) props.data.callback(res.data)
                         } else message.error(res.ret.message)
                     })
                     .catch((err: any) => {
-                        params.loading = false
+                        params.table.loading = false
                         message.error(err.message)
                     })
             }
         }
 
+        // category is changed.
         const changLanguageCategory = (lang: any) => {
             languages = [] as LanguageFormState[]
             params.current = lang
@@ -233,16 +227,36 @@ export default defineComponent({
             params.table.data = languages
         }
 
-        const addLanguageCategoryVisible = () => {
+        // modal - create category
+        const createLanguageCategoryVisible = () => {
+            params.isEdit = false
             params.visible.management = !params.visible.management
-            params.visible.add = !params.visible.add
+            params.visible.create = !params.visible.create
         }
 
+        // modal - update category
+        const updateLanguageCategoryVisible = (data?: any) => {
+            params.visible.management = !params.visible.management
+            params.visible.create = !params.visible.create
+            params.isEdit = true
+            if (data?.id) {
+                params.id = data?.id
+                params.form.validate = {
+                    key: data?.key,
+                    language: data?.language
+                }
+            } else params.form.validate = { key: '', language: '' }
+        }
+
+        // cancel modal - category
         const cancelLanguageCategoryVisible = () => {
             params.visible.management = true
-            params.visible.add = false
+            params.visible.create = false
+            params.isEdit = false
+            params.form.validate = { key: '', language: '' }
         }
 
+        // category
         const getLanguageCategory = () => {
             if (props.category.url) {
                 params.loading = true
@@ -254,111 +268,126 @@ export default defineComponent({
                         params.loading = false
                         if (res.ret.code === 200) {
                             params.categories = res.data
+                            if (props.category.callback) props.category.callback(res.data)
                         } else message.error(res.ret.message)
                     })
                     .catch((err: any) => {
                         params.loading = false
                         message.error(err.message)
                     })
-            } else {
-                params.categories = params.defaultCategories.concat(
-                    $storage.get($g.caches.storages.languages.categories) || []
-                )
             }
         }
 
-        const addLanguageCategory = () => {
+        // action - create or update category.
+        const createOrUpdateLanguageCategory = () => {
             if (formRef.value && formRef.value) {
                 params.loading = true
                 formRef.value
                     .validate()
                     .then(() => {
-                        if (props.addCategory.url) {
-                            const query = Object.assign(
-                                {},
-                                params.pagination,
-                                props.addCategory.params || {},
-                                { ...params.form.validate }
-                            )
-                            $request[(props.addCategory.method || 'POST').toLowerCase()](
-                                props.addCategory.url,
-                                query
-                            )
-                                .then((res: any) => {
-                                    params.loading = false
-                                    if (res.ret.code === 200) {
-                                        message.success(t('success'))
-                                        cancelLanguageCategoryVisible()
-                                        if (formRef.value && formRef.value)
-                                            formRef.value.resetFields()
-                                    } else message.error(res.ret.message)
-                                })
-                                .catch((err: any) => {
-                                    params.loading = false
-                                    message.error(err.message)
-                                })
+                        if (params.isEdit) {
+                            // update
+                            if (props.updateCategory.url) {
+                                $request[(props.updateCategory.method || 'PUT').toLowerCase()](
+                                    $tools.replaceUrlParams(props.updateCategory.url, {
+                                        id: params.id
+                                    }),
+                                    Object.assign(
+                                        {},
+                                        { ...params.form.validate },
+                                        props.updateCategory.params
+                                    )
+                                )
+                                    .then((res: any) => {
+                                        params.loading = false
+                                        if (res.ret.code === 200) {
+                                            params.isEdit = false
+                                            cancelLanguageCategoryVisible()
+                                            getLanguageCategory()
+                                            if (props.updateCategory.callback)
+                                                props.updateCategory.callback()
+                                            message.success(t('success'))
+                                        } else message.error(res.ret.message)
+                                    })
+                                    .catch((err: any) => {
+                                        params.loading = false
+                                        message.error(err.message)
+                                    })
+                            }
                         } else {
-                            const categories = (
-                                $storage.get($g.caches.storages.languages.categories) || []
-                            ).concat([
-                                {
-                                    key: params.form.validate.key,
-                                    language: params.form.validate.language
-                                }
-                            ])
-                            $storage.set($g.caches.storages.languages.categories, categories)
-                            params.categories = params.defaultCategories.concat(categories)
-                            message.success(t('success'))
-                            cancelLanguageCategoryVisible()
-                            if (formRef.value && formRef.value) formRef.value.resetFields()
+                            // create
+                            if (props.createCategory.url) {
+                                const query = Object.assign(
+                                    {},
+                                    params.pagination,
+                                    props.createCategory.params || {},
+                                    { ...params.form.validate }
+                                )
+                                $request[(props.createCategory.method || 'POST').toLowerCase()](
+                                    props.createCategory.url,
+                                    query
+                                )
+                                    .then((res: any) => {
+                                        params.loading = false
+                                        if (res.ret.code === 200) {
+                                            message.success(t('success'))
+                                            cancelLanguageCategoryVisible()
+                                            getLanguageCategory()
+                                            if (formRef.value && formRef.value)
+                                                formRef.value.resetFields()
+                                            if (props.createCategory.callback)
+                                                props.createCategory.callback()
+                                        } else message.error(res.ret.message)
+                                    })
+                                    .catch((err: any) => {
+                                        params.loading = false
+                                        message.error(err.message)
+                                    })
+                            }
                         }
                     })
                     .catch(() => (params.loading = false))
             }
         }
 
-        const deleteLanguageCategory = (key: string | number) => {
+        // action - delete category.
+        const deleteLanguageCategory = (id: string | number) => {
             params.loading = true
             if (props.deleteCategory.url) {
                 $request[(props.deleteCategory.method || 'DELETE').toLowerCase()](
-                    props.deleteCategory.url,
+                    $tools.replaceUrlParams(props.deleteCategory.url, {
+                        id
+                    }),
                     props.deleteCategory.params || {}
                 )
                     .then((res: any) => {
                         params.loading = false
                         if (res.ret.code === 200) {
                             message.success(t('success'))
+                            getLanguageCategory()
                         } else message.error(res.ret.message)
                     })
                     .catch((err: any) => {
                         params.loading = false
                         message.error(err.message)
                     })
-            } else {
-                const categories = $storage.get($g.caches.storages.languages.categories) || []
-                const cates = [] as LanguageFormState[]
-                for (let i = 0, l = categories.length; i < l; i++) {
-                    if (categories[i].key === key) continue
-                    else cates.push(categories[i])
-                }
-                params.categories = params.defaultCategories.concat(cates)
-                message.success(t('success'))
-                $storage.set($g.caches.storages.languages.categories, cates)
             }
         }
 
-        const addLanguageConfigurationVisible = () => {
+        // modal - language - create.
+        const createLanguageConfigurationVisible = () => {
             params.isEdit = false
             params.addOrUpdateForm.validate = {
                 key: '',
                 language: ''
             }
-            params.visible.edit = !params.visible.edit
+            params.visible.update = !params.visible.update
         }
 
-        const editLanguageConfigurationVisible = (data?: any) => {
+        // modal - language - update.
+        const updateLanguageConfigurationVisible = (data?: any) => {
             params.isEdit = true
-            params.visible.edit = !params.visible.edit
+            params.visible.update = !params.visible.update
             if (data?.record) {
                 params.id = data.record?.id
                 params.addOrUpdateForm.validate = JSON.parse(JSON.stringify(data.record))
@@ -366,7 +395,7 @@ export default defineComponent({
             } else params.addOrUpdateForm.validate = { key: '', language: '' }
         }
 
-        const addOrUpdateLanguageConfiguration = () => {
+        const createOrUpdateLanguageConfiguration = () => {
             if (addOrUpdateFormRef.value && addOrUpdateFormRef.value) {
                 params.loading = true
                 addOrUpdateFormRef.value
@@ -390,7 +419,7 @@ export default defineComponent({
                                     Object.assign(
                                         {},
                                         { ...params.addOrUpdateForm.validate },
-                                        props.addLanguage.params
+                                        props.updateLanguage.params
                                     )
                                 )
                                     .then((res: any) => {
@@ -398,10 +427,10 @@ export default defineComponent({
                                         if (res.ret.code === 200) {
                                             params.isEdit = false
                                             params.id = 0
-                                            params.visible.edit = !params.visible.edit
+                                            params.visible.update = !params.visible.update
                                             afterAction()
                                             if (props.updateLanguage.callback)
-                                                props.addLanguage.callback()
+                                                props.updateLanguage.callback()
                                         } else message.error(res.ret.message)
                                     })
                                     .catch((err: any) => {
@@ -411,23 +440,23 @@ export default defineComponent({
                             }
                         } else {
                             // add
-                            if (props.addLanguage.url) {
-                                $request[(props.addLanguage.method || 'POST').toLowerCase()](
-                                    props.addLanguage.url,
+                            if (props.createLanguage.url) {
+                                $request[(props.createLanguage.method || 'POST').toLowerCase()](
+                                    props.createLanguage.url,
                                     Object.assign(
                                         {},
                                         { lang: params.current },
                                         { ...params.addOrUpdateForm.validate },
-                                        props.addLanguage.params
+                                        props.createLanguage.params
                                     )
                                 )
                                     .then((res: any) => {
                                         params.loading = false
                                         if (res.ret.code === 200) {
-                                            addLanguageConfigurationVisible()
+                                            createLanguageConfigurationVisible()
                                             afterAction()
-                                            if (props.addLanguage.callback)
-                                                props.addLanguage.callback()
+                                            if (props.createLanguage.callback)
+                                                props.createLanguage.callback()
                                         } else message.error(res.ret.message)
                                     })
                                     .catch((err: any) => {
@@ -441,6 +470,7 @@ export default defineComponent({
             }
         }
 
+        // delete language.
         const deleteLanguageConfiguration = (data: any) => {
             if (props.deleteLanguage.url) {
                 const record = data?.record
@@ -448,7 +478,7 @@ export default defineComponent({
                     $tools.replaceUrlParams(props.deleteLanguage.url, {
                         id: record.id
                     }),
-                    props.addLanguage.params
+                    props.createLanguage.params
                 )
                     .then((res: any) => {
                         params.loading = false
@@ -482,6 +512,7 @@ export default defineComponent({
 
         initLanguageConfiguration()
 
+        // render
         const renderLanguageSelection = () => {
             const options = [] as any[]
             for (let i = 0, l = params.categories.length; i < l; i++) {
@@ -511,13 +542,22 @@ export default defineComponent({
                             onConfirm={() => deleteLanguageCategory(cur.id || cur.key)}
                             cancelText={t('cancel')}>
                             <span class={`${prefixCls}-cate-close`}>
-                                <CloseOutlined />
+                                <CloseCircleFilled />
                             </span>
                         </Popconfirm>
+                    ) : null
+                const edit =
+                    i > 1 ? (
+                        <div
+                            class={`${prefixCls}-cate-edit`}
+                            onClick={() => updateLanguageCategoryVisible(cur)}>
+                            <EditOutlined />
+                        </div>
                     ) : null
                 langs.push(
                     <div class={`${prefixCls}-cate`}>
                         <span class={`${prefixCls}-cate-name`} innerHTML={cur.language} />
+                        {edit}
                         {close}
                     </div>
                 )
@@ -532,7 +572,7 @@ export default defineComponent({
                         innerHTML={t('language.management')}
                         style={{ marginRight: $tools.convert2Rem(16) }}
                     />
-                    <Button type="primary" onClick={addLanguageCategoryVisible}>
+                    <Button type="primary" onClick={createLanguageCategoryVisible}>
                         {t('language.add-language')}
                     </Button>
                 </>
@@ -542,7 +582,10 @@ export default defineComponent({
         const renderLanguagesModal = () => {
             return (
                 <MiModal
+                    wrapClass={`${prefixCls}-modal`}
                     v-model:visible={params.visible.management}
+                    maskClosable={false}
+                    width={640}
                     title={renderLanguagesModalTitle()}
                     footer={false}>
                     {renderLanguageTags()}
@@ -553,10 +596,11 @@ export default defineComponent({
         const renderAddOrUpdateLanguageModal = () => {
             return (
                 <MiModal
-                    v-model:visible={params.visible.add}
+                    v-model:visible={params.visible.create}
                     title={t('language.add-language')}
+                    maskClosable={false}
                     onCancel={cancelLanguageCategoryVisible}
-                    onOk={addLanguageCategory}
+                    onOk={createOrUpdateLanguageCategory}
                     footerBtnPosition="center">
                     <Form
                         class={`${formCls} ${formCls}-theme`}
@@ -587,14 +631,15 @@ export default defineComponent({
             )
         }
 
-        const renderAddOrUpdateLanguageConfiguration = () => {
+        const renderCreateOrUpdateLanguageConfiguration = () => {
             const title = params.isEdit ? t('language.update-title') : t('language.add-title')
             return (
                 <MiModal
-                    v-model:visible={params.visible.edit}
+                    v-model:visible={params.visible.update}
                     title={title}
                     width={360}
-                    onOk={addOrUpdateLanguageConfiguration}
+                    maskClosable={false}
+                    onOk={createOrUpdateLanguageConfiguration}
                     footerBtnPosition="center">
                     <Form
                         class={`${formCls} ${formCls}-theme`}
@@ -634,7 +679,7 @@ export default defineComponent({
                         <Button
                             type="primary"
                             class={`${btnCls}-info`}
-                            onClick={addLanguageConfigurationVisible}>
+                            onClick={createLanguageConfigurationVisible}>
                             {t('language.add')}
                         </Button>
                     </div>
@@ -660,7 +705,7 @@ export default defineComponent({
                             dataSource={params.table.data}
                             pagination={{ showQuickJumper: true, onChange: changePagination }}
                             rowSelection={{}}
-                            loading={params.loading}
+                            loading={params.table.loading}
                             v-slots={{
                                 headerCell: (record: any) => {
                                     if (record.column.key === 'language') {
@@ -682,7 +727,7 @@ export default defineComponent({
                 </div>
                 {renderActionBtns()}
                 {renderTable()}
-                {renderAddOrUpdateLanguageConfiguration()}
+                {renderCreateOrUpdateLanguageConfiguration()}
                 {renderLanguagesModal()}
                 {renderAddOrUpdateLanguageModal()}
             </div>

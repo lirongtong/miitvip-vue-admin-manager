@@ -23,7 +23,8 @@ export const languageProps = () => ({
             return {
                 url: null,
                 method: 'GET',
-                params: {}
+                params: {},
+                callback: null
             }
         }
     },
@@ -34,18 +35,32 @@ export const languageProps = () => ({
             return {
                 url: null,
                 method: 'GET',
-                params: {}
+                params: {},
+                callback: null
             }
         }
     },
-    addCategory: {
+    createCategory: {
         type: Object as PropType<CommonRequestProps>,
         required: true,
         default: () => {
             return {
                 url: null,
                 method: 'POST',
-                params: {}
+                params: {},
+                callback: null
+            }
+        }
+    },
+    updateCategory: {
+        type: Object as PropType<CommonRequestProps>,
+        required: true,
+        default: () => {
+            return {
+                url: null,
+                method: 'POST',
+                params: {},
+                callback: null
             }
         }
     },
@@ -56,11 +71,12 @@ export const languageProps = () => ({
             return {
                 url: null,
                 method: 'DELETE',
-                params: {}
+                params: {},
+                callback: null
             }
         }
     },
-    addLanguage: {
+    createLanguage: {
         type: Object as PropType<CommonRequestProps>,
         required: true,
         default: () => {
@@ -91,7 +107,8 @@ export const languageProps = () => ({
             return {
                 url: null,
                 method: 'DELETE',
-                params: {}
+                params: {},
+                callback: null
             }
         }
     },
@@ -101,7 +118,8 @@ export const languageProps = () => ({
             return {
                 url: null,
                 method: 'DELETE',
-                params: {}
+                params: {},
+                callback: null
             }
         }
     },
