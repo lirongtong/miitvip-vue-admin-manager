@@ -31,11 +31,11 @@ export const api: any = reactive({
         check: 'password/captcha/check'
     },
     languages: {
-        data: 'languages',
-        update: 'languages/{id}',
+        data: 'language',
+        update: 'language/{id}',
         category: {
-            data: 'languages/categories',
-            update: 'languages/categories/{id}'
+            data: 'language/category',
+            update: 'language/category/{id}'
         }
     }
 })

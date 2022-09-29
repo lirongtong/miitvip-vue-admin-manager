@@ -3,7 +3,7 @@
         :data="{
             url: api.languages.data,
             method: 'get',
-            params: {keyword: 'nice'},
+            params: {keyword: 'test params'},
             callback: handleAfterGetData
         }"
         :create-language="{url: api.languages.data}"
