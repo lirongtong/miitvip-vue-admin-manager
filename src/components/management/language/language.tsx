@@ -168,8 +168,8 @@ export default defineComponent({
             isEdit: false,
             form: {
                 validate: {
-                    key: null,
-                    language: null
+                    key: '',
+                    language: ''
                 },
                 rules: {
                     key: [{ required: true, validator: checkLanguageCateogryKeyValidate }],
@@ -270,7 +270,7 @@ export default defineComponent({
         const changBuiltInLanguageCategory = (lang: any) => {
             builtInLanguages = []
             params.builtInCurrent = lang
-            getBuiltInLanguageConfiguration(messages.value[lang])
+            getBuiltInLanguageConfiguration(messages.value[lang] || {})
         }
 
         // modal - create category
