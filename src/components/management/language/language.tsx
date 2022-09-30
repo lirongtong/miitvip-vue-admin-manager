@@ -245,7 +245,8 @@ export default defineComponent({
             for (const i in data) {
                 const type = typeof data[i]
                 const key = (!$tools.isEmpty(idx) ? idx + '.' : '') + i
-                if (['object', 'array'].includes(type)) getBuiltInLanguageConfiguration(data[i], key)
+                if (['object', 'array'].includes(type))
+                    getBuiltInLanguageConfiguration(data[i], key)
                 else {
                     const item = {
                         key,
@@ -712,7 +713,10 @@ export default defineComponent({
                         rules={params.addOrUpdateForm.rules}
                         ref={addOrUpdateFormRef}>
                         <FormItem label={t('language.current')}>
-                            <span class={`${prefixCls}-current-name`} innerHTML={params.types[params.current]} />
+                            <span
+                                class={`${prefixCls}-current-name`}
+                                innerHTML={params.types[params.current]}
+                            />
                         </FormItem>
                         <FormItem name="key">
                             <Input
@@ -771,7 +775,10 @@ export default defineComponent({
                         <Tabs>
                             <TabPane key={'customize'} tab={t('customize')}>
                                 <div class={`${prefixCls}-search`}>
-                                    <InputSearch size="large" placeholder={t('language.placeholder.search')} />
+                                    <InputSearch
+                                        size="large"
+                                        placeholder={t('language.placeholder.search')}
+                                    />
                                 </div>
                                 {renderActionBtns()}
                                 <Table
@@ -799,7 +806,7 @@ export default defineComponent({
                                 />
                             </TabPane>
                             <TabPane key={'built-in'} tab={t('language.system')}>
-                            <Table
+                                <Table
                                     columns={params.table.builtin.columns}
                                     dataSource={builtInLanguages}
                                     pagination={{
