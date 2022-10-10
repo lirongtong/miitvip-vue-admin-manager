@@ -170,7 +170,7 @@ export default defineComponent({
                 ref={prefixCls}
                 theme="dark"
                 inlineIndent={props.indent}
-                mode={props.mode}
+                mode={'inline'}
                 onOpenChange={setOpenKeys}
                 openKeys={$g.menus.opens}
                 selectedKeys={$g.menus.active}

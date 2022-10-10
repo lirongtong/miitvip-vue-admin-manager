@@ -33,7 +33,6 @@ vm.$g.menus.items = [{
     path: '/dashboard',
     meta: {
         title: locale.value === 'en-us' ? 'Dashboard' : '控制中心',
-        subTitle: locale.value === 'en-us' ? '控制中心' : 'Dashboard',
         icon: DashboardOutlined,
         tag: {color: '#f50', content: 'Hot'}
     }
@@ -42,7 +41,6 @@ vm.$g.menus.items = [{
     path: '/start',
     meta: {
         title: locale.value === 'en-us' ? 'Getting Started' : '快速上手',
-        subTitle: locale.value === 'en-us' ? '快速上手' : 'Getting Started',
         icon: ThunderboltOutlined
     }
 }, {
@@ -50,7 +48,6 @@ vm.$g.menus.items = [{
     path: '/theme',
     meta: {
         title: '主题定制',
-        subTitle: 'Custom Theme',
         icon: CrownOutlined
     }
 }, {
@@ -58,7 +55,6 @@ vm.$g.menus.items = [{
     path: '/tools',
     meta: {
         title: '系统工具',
-        subTitle: 'System Tools',
         icon: SisternodeOutlined
     },
     children: [{
@@ -66,7 +62,6 @@ vm.$g.menus.items = [{
         path: '/tools/global',
         meta: {
             title: '全局变量',
-            subTitle: 'Global Config',
             icon: GlobalOutlined
         }
     }, {
@@ -74,7 +69,6 @@ vm.$g.menus.items = [{
         path: '/tools/request',
         meta: {
             title: '请求响应',
-            subTitle: 'Request / Response',
             icon: SendOutlined
         }
     }, {
@@ -82,7 +76,6 @@ vm.$g.menus.items = [{
         path: '/tools/caches',
         meta: {
             title: '本地缓存',
-            subTitle: 'Cookie / Storage',
             icon: SaveOutlined
         }
     }, {
@@ -90,7 +83,6 @@ vm.$g.menus.items = [{
         path: '/tools/functions',
         meta: {
             title: '工具函数',
-            subTitle: 'Public Function Library',
             icon: ToolOutlined
         }
     }]
@@ -99,7 +91,6 @@ vm.$g.menus.items = [{
     path: '/pages',
     meta: {
         title: '基础页面',
-        subTitle: 'Base Pages',
         icon: SnippetsOutlined
     },
     children: [{
@@ -107,7 +98,6 @@ vm.$g.menus.items = [{
         path: '/pages/login',
         meta: {
             title: '登录页面',
-            subTitle: 'Log In',
             icon: LoginOutlined
         }
     }, {
@@ -115,7 +105,6 @@ vm.$g.menus.items = [{
         path: '/pages/register',
         meta: {
             title: '注册页面',
-            subTitle: 'Register',
             icon: ScheduleOutlined
         }
     }, {
@@ -123,7 +112,6 @@ vm.$g.menus.items = [{
         path: '/pages/forget',
         meta: {
             title: '忘记密码',
-            subTitle: 'Forget Password',
             icon: QuestionCircleOutlined
         }
     }]
@@ -132,7 +120,6 @@ vm.$g.menus.items = [{
     path: '/components',
     meta: {
         title: '定制组件',
-        subTitle: 'Custom Components',
         icon: AppstoreAddOutlined,
         tag: {icon: FireFilled, color: '#ed4014'}
     },
@@ -141,7 +128,6 @@ vm.$g.menus.items = [{
         path: '/components/layout',
         meta: {
             title: '基础布局',
-            subTitle: 'Layout',
             icon: LayoutOutlined
         }
     }, {
@@ -149,7 +135,6 @@ vm.$g.menus.items = [{
         path: '/components/notice',
         meta: {
             title: '消息中心',
-            subTitle: 'Notice',
             icon: BellOutlined
         }
     }, {
@@ -157,7 +142,6 @@ vm.$g.menus.items = [{
         path: '/components/modal',
         meta: {
             title: '弹窗提示',
-            subTitle: 'Modal',
             icon: SwitcherOutlined
         }
     }, {
@@ -165,7 +149,6 @@ vm.$g.menus.items = [{
         path: '/components/captcha',
         meta: {
             title: '滑块验证',
-            subTitle: 'Captcha',
             icon: ScanOutlined,
             tag: {icon: LikeFilled, color: '#4caf50'}
         }
@@ -174,7 +157,6 @@ vm.$g.menus.items = [{
         path: '/components/search',
         meta: {
             title: '搜索联想',
-            subTitle: 'Search',
             icon: SearchOutlined
         }
     }, {
@@ -182,7 +164,6 @@ vm.$g.menus.items = [{
         path: '/components/password',
         meta: {
             title: '密码设置',
-            subTitle: 'Password',
             icon: SafetyCertificateOutlined
         }
     }, {
@@ -190,7 +171,6 @@ vm.$g.menus.items = [{
         path: '/components/anchor',
         meta: {
             title: '锚点链接',
-            subTitle: 'Anchor',
             icon: BorderlessTableOutlined
         }
     }, {
@@ -198,7 +178,6 @@ vm.$g.menus.items = [{
         path: '/components/menu',
         meta: {
             title: '左侧菜单',
-            subTitle: 'Menu',
             icon: OrderedListOutlined
         }
     }, {
@@ -206,7 +185,6 @@ vm.$g.menus.items = [{
         path: '/components/dropdown',
         meta: {
             title: '下拉菜单',
-            subTitle: 'Dropdown',
             icon: MenuOutlined
         }
     }, {
@@ -214,7 +192,6 @@ vm.$g.menus.items = [{
         path: '/components/history',
         meta: {
             title: '历史路由',
-            subTitle: 'Route History',
             icon: RetweetOutlined
         }
     }, {
@@ -222,7 +199,6 @@ vm.$g.menus.items = [{
         path: '/components/code',
         meta: {
             title: '代码高亮',
-            subTitle: 'Code Highlight',
             icon: CodeOutlined
         }
     }]
@@ -231,7 +207,6 @@ vm.$g.menus.items = [{
     path: '/advanced',
     meta: {
         title: locale.value === 'en-us' ? 'Advanced Apps' : '高级应用',
-        subTitle: locale.value === 'en-us' ? '高级应用' : 'Advanced Application',
         icon: GooglePlusOutlined
     },
     children: [{
@@ -239,7 +214,6 @@ vm.$g.menus.items = [{
         path: '/advanced/management/menu',
         meta: {
             title: locale.value === 'en-us' ? 'Menu Management' : '菜单管理',
-            subTitle: locale.value === 'en-us' ? '菜单管理' : 'Menu Management',
             icon: PicRightOutlined
         }
     }, {
@@ -247,7 +221,6 @@ vm.$g.menus.items = [{
         path: '/advanced/management/language',
         meta: {
             title: locale.value === 'en-us' ? 'Language Management' : '语言管理',
-            subTitle: locale.value === 'en-us' ? '语言管理' : 'Language Management',
             icon: TransactionOutlined
         }
     }]
