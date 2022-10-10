@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref, inject } from 'vue'
+import { defineComponent, reactive, ref, inject, getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
 import { languageProps, LanguageFormState } from './props'
@@ -37,6 +37,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: languageProps(),
     setup(props) {
+        const instance = getCurrentInstance()
         const { messages, locale, t } = useI18n()
         const i18n = inject('$i18n') as any
         let languages = reactive<LanguageFormState[]>([])
@@ -93,12 +94,14 @@ export default defineComponent({
                         key: 'key',
                         dataIndex: 'key',
                         align: 'left',
-                        width: 320
+                        width: 320,
+                        minWidth: 120
                     },
                     {
                         key: 'language',
                         dataIndex: 'language',
-                        align: 'left'
+                        align: 'left',
+                        minWidth: 160
                     },
                     {
                         title: t('opt'),
@@ -271,6 +274,7 @@ export default defineComponent({
             builtInLanguages = []
             params.builtInCurrent = lang
             getBuiltInLanguageConfiguration(messages.value[lang] || {})
+            instance?.proxy?.$forceUpdate()
         }
 
         // modal - create category
@@ -573,7 +577,7 @@ export default defineComponent({
                 <Select
                     v-model:value={params.current}
                     onChange={changLanguageCategory}
-                    style={{ minWidth: $tools.convert2Rem(120) }}>
+                    style={{ minWidth: $tools.convert2Rem(160) }}>
                     {options}
                 </Select>
             )
