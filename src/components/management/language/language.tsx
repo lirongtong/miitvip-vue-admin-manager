@@ -4,7 +4,6 @@ import { getPrefixCls } from '../../../components/_utils/props-tools'
 import { languageProps, LanguageFormState } from './props'
 import {
     Table,
-    InputSearch,
     Input,
     Form,
     FormItem,
@@ -17,7 +16,9 @@ import {
     message,
     FormInstance,
     Tabs,
-    TabPane
+    TabPane,
+    Row,
+    Col
 } from 'ant-design-vue'
 import {
     FormOutlined,
@@ -193,6 +194,10 @@ export default defineComponent({
                     key: [{ required: true, validator: checkLanguageConfigurationKeyValidate }],
                     language: [{ required: true, message: t('language.placeholder.config.value') }]
                 }
+            },
+            search: {
+                lang: 'zh-cn',
+                key: ''
             }
         })
 
@@ -606,18 +611,22 @@ export default defineComponent({
         initLanguageConfiguration()
 
         // render
-        const renderLanguageSelection = () => {
+        const renderLanguageSelectionOptions = () => {
             const options = [] as any[]
             for (let i = 0, l = params.categories.length; i < l; i++) {
                 const cur = params.categories[i] as LanguageFormState
                 options.push(<SelectOption value={cur.key}>{cur.language}</SelectOption>)
             }
+            return options
+        }
+
+        const renderLanguageSelection = () => {
             return (
                 <Select
                     v-model:value={params.current}
                     onChange={changLanguageCategory}
                     style={{ minWidth: $tools.convert2Rem(160) }}>
-                    {options}
+                    {renderLanguageSelectionOptions()}
                 </Select>
             )
         }
@@ -824,12 +833,23 @@ export default defineComponent({
                     <ConfigProvider locale={props.paginationLocale}>
                         <Tabs>
                             <TabPane key={'customize'} tab={t('customize')}>
-                                <div class={`${prefixCls}-search`}>
-                                    <InputSearch
-                                        size="large"
-                                        placeholder={t('language.placeholder.search')}
-                                    />
-                                </div>
+                                <Row class={`${prefixCls}-search`} gutter={[16, 16]}>
+                                    <Col xl={6} lg={8} md={12}>
+                                        <Select
+                                            v-model:value={params.search.lang}
+                                            size="large"
+                                            style={{ width: '100%' }}>
+                                            {renderLanguageSelectionOptions()}
+                                        </Select>
+                                    </Col>
+                                    <Col xl={6} lg={8} md={12}>
+                                        <Input
+                                            size="large"
+                                            v-model:value={params.search.key}
+                                            placeholder={t('language.placeholder.search')}
+                                        />
+                                    </Col>
+                                </Row>
                                 {renderActionBtns()}
                                 <Table
                                     columns={params.table.columns}

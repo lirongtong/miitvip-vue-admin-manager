@@ -6,6 +6,10 @@
 .@{ant-select} {
     color: var(--mi-font, @mi-font);
 
+    &-selection-item {
+        .properties(font-size, 14);
+    }
+
     &:not(.@{ant-select}-customize-input) .@{ant-select}-selector {
         .linear-gradient-background();
         border-color: var(--mi-border, @mi-border);
