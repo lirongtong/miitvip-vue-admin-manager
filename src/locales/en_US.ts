@@ -13,6 +13,7 @@ export default {
     delete: 'Delete',
     'batch-delete': 'Batch Delete',
     'delete-confirm': 'Are you sure you want to delete the current selection?',
+    'delete-select': 'Please select the items to delete',
     opt: 'Operations',
     key: 'Key',
     step: {

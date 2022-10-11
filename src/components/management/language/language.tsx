@@ -32,6 +32,8 @@ import MiModal from '../../modal'
 import { $request } from '../../../utils/request'
 import { Rule } from 'ant-design-vue/es/form'
 
+export declare type Key = string | number
+
 export default defineComponent({
     name: 'MiLanguageManagement',
     inheritAttrs: false,
@@ -48,6 +50,7 @@ export default defineComponent({
         const formCls = getPrefixCls('form', props.prefixCls)
         const formRef = ref<FormInstance>()
         const addOrUpdateFormRef = ref<FormInstance>()
+        let batchDeleteIds = reactive<any[]>([])
 
         const checkLanguageCateogryKeyValidate = (_rule: Rule, value: string) => {
             if (!value) return Promise.reject(t('language.error.key.empty'))
@@ -547,6 +550,41 @@ export default defineComponent({
             }
         }
 
+        const batchDelete = () => {
+            if (batchDeleteIds.length <= 0) {
+                message.error(t('delete-select'))
+                return
+            }
+            if (props.deleteLanguage.url) {
+                $request[(props.deleteLanguage.method || 'DELETE').toLowerCase()](
+                    $tools.replaceUrlParams(props.deleteLanguage.url, {
+                        id: batchDeleteIds.join(',')
+                    }),
+                    props.createLanguage.params
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res.ret.code === 200) {
+                            message.success(t('success'))
+                            setLanguageConfigurationList('', params.current)
+                        } else message.error(res.ret.message)
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            }
+        }
+
+        const batchDeleteItemChange = (_keys: Key[], rows: any[]) => {
+            const ids: any[] = []
+            for (let i = 0, l = rows.length; i < l; i++) {
+                const id = rows[i]?.id || rows[i]?.key
+                if (id) ids.push(id)
+            }
+            batchDeleteIds = ids
+        }
+
         // update i18n locale ( messages ).
         const updateSystemLocaleData = (message?: {}) => {
             if (locale.value === params.current) {
@@ -558,6 +596,7 @@ export default defineComponent({
 
         // table pagination change.
         const changePagination = (page: number, size: number) => {
+            batchDeleteIds = []
             params.pagination.page = page
             params.pagination.size = size
             if (props.data.url) setLanguageConfigurationList()
@@ -746,12 +785,19 @@ export default defineComponent({
             return (
                 <div class={`${prefixCls}-btns`}>
                     <div class={`${prefixCls}-btns-l`}>
-                        <Button
-                            type="primary"
-                            danger={true}
-                            style={{ marginRight: $tools.convert2Rem(8) }}>
-                            {t('delete')}
-                        </Button>
+                        <Popconfirm
+                            title={t('delete-confirm')}
+                            style={{ zIndex: Date.now() }}
+                            okText={t('ok')}
+                            onConfirm={() => batchDelete()}
+                            cancelText={t('cancel')}>
+                            <Button
+                                type="primary"
+                                danger={true}
+                                style={{ marginRight: $tools.convert2Rem(8) }}>
+                                {t('delete')}
+                            </Button>
+                        </Popconfirm>
                         <Button
                             type="primary"
                             class={`${btnCls}-info`}
@@ -788,7 +834,11 @@ export default defineComponent({
                                 <Table
                                     columns={params.table.columns}
                                     dataSource={params.table.data}
-                                    rowSelection={{}}
+                                    rowSelection={{
+                                        onChange: (keys: Key[], rows: any[]) => {
+                                            batchDeleteItemChange(keys, rows)
+                                        }
+                                    }}
                                     pagination={{
                                         showLessItems: true,
                                         showQuickJumper: true,

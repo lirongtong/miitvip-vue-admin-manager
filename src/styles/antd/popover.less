@@ -11,14 +11,12 @@
     }
 
     &-content &-arrow {
-        .properties(top, 3);
-
         &-content {
             .properties(width, 8);
             .properties(height, 8);
             .properties(border-width, 1);
             border-style: solid;
-            border-color: var(--mi-theme, @mi-theme) transparent transparent var(--mi-theme, @mi-theme);
+            border-color: var(--mi-theme, @mi-theme);
             background-color: var(--mi-dark, @mi-dark);
         }
     }
@@ -31,5 +29,9 @@
 
     &-message-title {
         color: var(--mi-font, @mi-font);
+    }
+
+    &-placement-top &-arrow {
+        .properties(bottom, 2.5);
     }
 }
