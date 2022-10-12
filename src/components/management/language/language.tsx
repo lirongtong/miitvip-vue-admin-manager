@@ -24,7 +24,8 @@ import {
     FormOutlined,
     DeleteOutlined,
     EditOutlined,
-    CloseCircleFilled
+    CloseCircleFilled,
+    SearchOutlined
 } from '@ant-design/icons-vue'
 import { $storage } from '../../../utils/storage'
 import { $g } from '../../../utils/global'
@@ -808,8 +809,7 @@ export default defineComponent({
                             </Button>
                         </Popconfirm>
                         <Button
-                            type="primary"
-                            class={`${btnCls}-info`}
+                            class={`${btnCls}-success`}
                             onClick={createLanguageConfigurationVisible}>
                             {t('language.add')}
                         </Button>
@@ -834,20 +834,29 @@ export default defineComponent({
                         <Tabs>
                             <TabPane key={'customize'} tab={t('customize')}>
                                 <Row class={`${prefixCls}-search`} gutter={[16, 16]}>
-                                    <Col xl={6} lg={8} md={12}>
+                                    <Col xl={6} lg={8} md={12} xs={24}>
                                         <Select
                                             v-model:value={params.search.lang}
-                                            size="large"
                                             style={{ width: '100%' }}>
                                             {renderLanguageSelectionOptions()}
                                         </Select>
                                     </Col>
-                                    <Col xl={6} lg={8} md={12}>
+                                    <Col xl={6} lg={8} md={12} xs={24}>
                                         <Input
-                                            size="large"
                                             v-model:value={params.search.key}
                                             placeholder={t('language.placeholder.search')}
                                         />
+                                    </Col>
+                                    <Col xl={6} lg={8} md={12} xs={24}>
+                                        <Button
+                                            class={`${btnCls}-success`}
+                                            v-slots={{
+                                                icon: () => {
+                                                    return <SearchOutlined />
+                                                }
+                                            }}>
+                                            {t('search.name')}
+                                        </Button>
                                     </Col>
                                 </Row>
                                 {renderActionBtns()}

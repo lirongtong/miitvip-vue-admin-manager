@@ -88,7 +88,7 @@ export default {
                         if (!regranting) {
                             regranting = true
                             const refreshToken = $cookie.get($g.caches.cookies.token.refresh)
-                            if ($tools.isEmpty(refreshToken)) {
+                            if (!$tools.isEmpty(refreshToken)) {
                                 // token 过期, 重新获取.
                                 store
                                     .dispatch('passport/refresh', { refresh_token: refreshToken })

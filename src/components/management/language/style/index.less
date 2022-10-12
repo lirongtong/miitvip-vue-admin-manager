@@ -1,7 +1,18 @@
 @import '../../../../styles/theme/index.less';
+@import '../../../../styles/antd/input.less';
+@import '../../../../styles/antd/pagination.less';
+@import '../../../../styles/antd/form.less';
+@import '../../../../styles/antd/select.less';
+@import '../../../../styles/antd/button.less';
+@import '../../../../styles/antd/popover.less';
+@import '../../../../styles/antd/message.less';
+@import '../../../../styles/antd/spin.less';
+@import '../../../../styles/antd/tabs.less';
 
 @mi-language: ~'@{mi-prefix}language';
 @ant-table: ant-table;
+@ant-input: ant-input;
+@ant-tabs: ant-tabs;
 @ant-pagination: ant-pagination;
 
 .@{mi-language} {
@@ -103,7 +114,7 @@
                 }
 
                 &.delete {
-                    background-color: var(--mi-error, @mi-error);
+                    background-color: var(--mi-danger, @mi-danger);
                 }
             }
         }
@@ -111,6 +122,22 @@
 
     &-search {
         .properties(margin-bottom, 16);
+
+        .@{ant-input} {
+            .linear-gradient-background();
+            border-color: var(--mi-border, @mi-border);
+            .border-radius(8);
+            color: var(--mi-font, @mi-font);
+            .properties(font-size, 14);
+
+            &:focus,
+            &:hover,
+            &:active {
+                border-color: var(--mi-theme, @mi-theme);
+                box-shadow: 0 0 2px fade(@mi-theme, 20%);
+                outline: none;
+            }
+        }
     }
 
     &-btns {
@@ -181,5 +208,11 @@
 
     &-current-name {
         color: var(--mi-theme, @mi-theme);
+    }
+
+    .@{ant-tabs} {
+        & > &-nav:before {
+            border: none;
+        }
     }
 }

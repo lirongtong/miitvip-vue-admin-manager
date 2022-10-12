@@ -42,6 +42,7 @@ export default {
         fine: 'Everything is find'
     },
     search: {
+        name: 'Search',
         searching: 'Searching ···',
         key: 'Please enter keywords',
         components: 'Search Components',

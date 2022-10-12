@@ -42,6 +42,7 @@ export default {
         fine: '诸事皆宜'
     },
     search: {
+        name: '搜索',
         searching: '搜索中 ···',
         key: '请输入要搜索的关键词',
         components: '搜索组件',
