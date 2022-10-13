@@ -8,9 +8,9 @@ export interface LanguageFormState {
 }
 
 export interface CommonRequestProps {
-    url?: String
-    method?: String
-    params?: Object
+    url?: string
+    method?: string
+    params?: object
     callback?: Function
 }
 

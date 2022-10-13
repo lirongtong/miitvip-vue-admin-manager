@@ -285,7 +285,7 @@ export default defineComponent({
         const changBuiltInLanguageCategory = (lang: any) => {
             builtInLanguages = []
             params.builtInCurrent = lang
-            getBuiltInLanguageConfiguration(messages.value[lang] || {})
+            getBuiltInLanguageConfiguration((messages as any).value[lang] || {})
             instance?.proxy?.$forceUpdate()
         }
 
@@ -638,7 +638,7 @@ export default defineComponent({
             if (props.data.url) setLanguageConfigurationList()
         }
 
-        getBuiltInLanguageConfiguration(messages.value[locale.value])
+        getBuiltInLanguageConfiguration((messages as any).value[locale.value])
         initLanguageConfiguration()
 
         // render
