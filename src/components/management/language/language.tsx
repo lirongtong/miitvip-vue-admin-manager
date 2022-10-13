@@ -576,7 +576,8 @@ export default defineComponent({
         // search
         const searchInput = (evt: any) => {
             const value = evt?.target?.value
-            if ($tools.isEmpty(value)) setLanguageConfigurationList(params.search.key, params.current)
+            if ($tools.isEmpty(value))
+                setLanguageConfigurationList(params.search.key, params.current)
         }
 
         const searchLanguageConfiguration = () => {
@@ -847,7 +848,12 @@ export default defineComponent({
             const searchBtn = props.data.url ? (
                 <Col xs={24} md={12}>
                     <div class={`${prefixCls}-btns-l`}>
-                        <Input placeholder={t('language.placeholder.search')} onInput={searchInput} onPressEnter={searchLanguageConfiguration} v-model:value={params.search.key} />
+                        <Input
+                            placeholder={t('language.placeholder.search')}
+                            onInput={searchInput}
+                            onPressEnter={searchLanguageConfiguration}
+                            v-model:value={params.search.key}
+                        />
                         <Button
                             class={`${btnCls}-info`}
                             onClick={searchLanguageConfiguration}
@@ -865,9 +871,7 @@ export default defineComponent({
                 <Row class={`${prefixCls}-btns${props.data.url ? '' : ' no-search'}`}>
                     {searchBtn}
                     <Col xs={24} md={12}>
-                        <div class={`${prefixCls}-btns-r`}>
-                            {btns}
-                        </div>
+                        <div class={`${prefixCls}-btns-r`}>{btns}</div>
                     </Col>
                 </Row>
             )
