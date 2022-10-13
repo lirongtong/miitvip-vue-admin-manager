@@ -112,6 +112,17 @@ export const languageProps = () => ({
             }
         }
     },
+    searchLanguage: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'GET',
+                params: {},
+                callback: null
+            }
+        }
+    },
     checkLanguageKeyExist: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {

@@ -17,6 +17,7 @@ export default {
     opt: '管理操作',
     key: '关键词',
     auth: '请求的资源需要认证 ( Unauthorized )',
+    seek: '查询',
     step: {
         prev: '上一步',
         next: '下一步'

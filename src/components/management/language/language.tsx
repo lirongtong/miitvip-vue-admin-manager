@@ -14,7 +14,9 @@ import {
     Button,
     Popconfirm,
     message,
-    FormInstance
+    FormInstance,
+    Row,
+    Col
 } from 'ant-design-vue'
 import {
     FormOutlined,
@@ -227,8 +229,7 @@ export default defineComponent({
             if (props.data.url) {
                 params.table.loading = true
                 const condition = Object.assign(
-                    {},
-                    keyword,
+                    { keyword },
                     params.pagination,
                     { lang },
                     props.data.params || {}
@@ -572,6 +573,16 @@ export default defineComponent({
             }
         }
 
+        // search
+        const searchInput = (evt: any) => {
+            const value = evt?.target?.value
+            if ($tools.isEmpty(value)) setLanguageConfigurationList(params.search.key, params.current)
+        }
+
+        const searchLanguageConfiguration = () => {
+            if (params.search.key) setLanguageConfigurationList(params.search.key, params.current)
+        }
+
         const batchDelete = () => {
             if (batchDeleteIds.length <= 0) {
                 message.error(t('delete-select'))
@@ -828,27 +839,37 @@ export default defineComponent({
                         </Popconfirm>
                         <Button
                             class={`${btnCls}-success`}
-                            onClick={createLanguageConfigurationVisible}
-                            style={{ marginRight: $tools.convert2Rem(8) }}>
+                            onClick={createLanguageConfigurationVisible}>
                             {t('language.add')}
                         </Button>
                     </>
                 ) : null
-            return (
-                <div class={`${prefixCls}-btns`}>
+            const searchBtn = props.data.url ? (
+                <Col xs={24} md={12}>
                     <div class={`${prefixCls}-btns-l`}>
-                        {btns}
+                        <Input placeholder={t('language.placeholder.search')} onInput={searchInput} onPressEnter={searchLanguageConfiguration} v-model:value={params.search.key} />
                         <Button
                             class={`${btnCls}-info`}
+                            onClick={searchLanguageConfiguration}
                             v-slots={{
                                 icon: () => {
                                     return <SearchOutlined />
                                 }
                             }}>
-                            {t('search.name')}
+                            {t('seek')}
                         </Button>
                     </div>
-                </div>
+                </Col>
+            ) : null
+            return (
+                <Row class={`${prefixCls}-btns${props.data.url ? '' : ' no-search'}`}>
+                    {searchBtn}
+                    <Col xs={24} md={12}>
+                        <div class={`${prefixCls}-btns-r`}>
+                            {btns}
+                        </div>
+                    </Col>
+                </Row>
             )
         }
 

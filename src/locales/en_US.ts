@@ -17,6 +17,7 @@ export default {
     opt: 'Operations',
     key: 'Key',
     auth: 'The resource requires authentication ( Unauthorized )',
+    seek: 'Search',
     step: {
         prev: 'Previous',
         next: 'Next'
