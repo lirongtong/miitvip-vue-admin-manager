@@ -16,6 +16,7 @@ export default {
     'delete-select': 'Please select the items to delete',
     opt: 'Operations',
     key: 'Key',
+    auth: 'The resource requires authentication ( Unauthorized )',
     step: {
         prev: 'Previous',
         next: 'Next'

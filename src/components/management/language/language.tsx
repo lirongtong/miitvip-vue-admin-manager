@@ -14,17 +14,15 @@ import {
     Button,
     Popconfirm,
     message,
-    FormInstance,
-    Tabs,
-    TabPane,
-    Row,
-    Col
+    FormInstance
 } from 'ant-design-vue'
 import {
     FormOutlined,
     DeleteOutlined,
     EditOutlined,
     CloseCircleFilled,
+    PlusOutlined,
+    GlobalOutlined,
     SearchOutlined
 } from '@ant-design/icons-vue'
 import { $storage } from '../../../utils/storage'
@@ -75,8 +73,10 @@ export default defineComponent({
                     )
                 )
                     .then((res: any) => {
-                        if (res.ret.code === 200) return Promise.resolve()
-                        else return Promise.reject(res.ret.message)
+                        if (res) {
+                            if (res?.ret?.code === 200) return Promise.resolve()
+                            else return Promise.reject(res?.ret?.message)
+                        } else return Promise.reject()
                     })
                     .catch((err: any) => {
                         return Promise.reject(err.message)
@@ -239,11 +239,13 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.table.loading = false
-                        if (res?.ret?.code === 200) {
-                            languages = res?.data
-                            total = res?.total
-                            if (props.data.callback) props.data.callback(res?.data)
-                        } else message.error(res?.ret?.message)
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                languages = res?.data
+                                total = res?.total
+                                if (props.data.callback) props.data.callback(res?.data)
+                            } else message.error(res?.ret?.message)
+                        }
                     })
                     .catch((err: any) => {
                         params.table.loading = false
@@ -325,13 +327,15 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.loading = false
-                        if (res?.ret?.code === 200) {
-                            params.categories = res?.data
-                            for (let i = 0, l = res?.data.length; i < l; i++) {
-                                params.types[res?.data[i].key] = res?.data[i].language
-                            }
-                            if (props.category.callback) props.category.callback(res?.data)
-                        } else message.error(res?.ret?.message)
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                params.categories = res?.data
+                                for (let i = 0, l = res?.data.length; i < l; i++) {
+                                    params.types[res?.data[i].key] = res?.data[i].language
+                                }
+                                if (props.category.callback) props.category.callback(res?.data)
+                            } else message.error(res?.ret?.message)
+                        }
                     })
                     .catch((err: any) => {
                         params.loading = false
@@ -362,14 +366,16 @@ export default defineComponent({
                                 )
                                     .then((res: any) => {
                                         params.loading = false
-                                        if (res.ret.code === 200) {
-                                            params.isEdit = false
-                                            cancelLanguageCategoryVisible()
-                                            getLanguageCategory()
-                                            if (props.updateCategory.callback)
-                                                props.updateCategory.callback()
-                                            message.success(t('success'))
-                                        } else message.error(res.ret.message)
+                                        if (res) {
+                                            if (res?.ret?.code === 200) {
+                                                params.isEdit = false
+                                                cancelLanguageCategoryVisible()
+                                                getLanguageCategory()
+                                                if (props.updateCategory.callback)
+                                                    props.updateCategory.callback()
+                                                message.success(t('success'))
+                                            } else message.error(res?.ret?.message)
+                                        }
                                     })
                                     .catch((err: any) => {
                                         params.loading = false
@@ -391,15 +397,17 @@ export default defineComponent({
                                 )
                                     .then((res: any) => {
                                         params.loading = false
-                                        if (res.ret.code === 200) {
-                                            message.success(t('success'))
-                                            cancelLanguageCategoryVisible()
-                                            getLanguageCategory()
-                                            if (formRef.value && formRef.value)
-                                                formRef.value.resetFields()
-                                            if (props.createCategory.callback)
-                                                props.createCategory.callback()
-                                        } else message.error(res.ret.message)
+                                        if (res) {
+                                            if (res?.ret?.code === 200) {
+                                                message.success(t('success'))
+                                                cancelLanguageCategoryVisible()
+                                                getLanguageCategory()
+                                                if (formRef.value && formRef.value)
+                                                    formRef.value.resetFields()
+                                                if (props.createCategory.callback)
+                                                    props.createCategory.callback()
+                                            } else message.error(res?.ret?.message)
+                                        }
                                     })
                                     .catch((err: any) => {
                                         params.loading = false
@@ -424,10 +432,12 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.loading = false
-                        if (res.ret.code === 200) {
-                            message.success(t('success'))
-                            getLanguageCategory()
-                        } else message.error(res.ret.message)
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('success'))
+                                getLanguageCategory()
+                            } else message.error(res?.ret?.message)
+                        }
                     })
                     .catch((err: any) => {
                         params.loading = false
@@ -486,14 +496,16 @@ export default defineComponent({
                                 )
                                     .then((res: any) => {
                                         params.loading = false
-                                        if (res.ret.code === 200) {
-                                            params.isEdit = false
-                                            params.id = 0
-                                            params.visible.update = !params.visible.update
-                                            afterAction()
-                                            if (props.updateLanguage.callback)
-                                                props.updateLanguage.callback()
-                                        } else message.error(res.ret.message)
+                                        if (res) {
+                                            if (res?.ret?.code === 200) {
+                                                params.isEdit = false
+                                                params.id = 0
+                                                params.visible.update = !params.visible.update
+                                                afterAction()
+                                                if (props.updateLanguage.callback)
+                                                    props.updateLanguage.callback()
+                                            } else message.error(res?.ret?.message)
+                                        }
                                     })
                                     .catch((err: any) => {
                                         params.loading = false
@@ -514,12 +526,14 @@ export default defineComponent({
                                 )
                                     .then((res: any) => {
                                         params.loading = false
-                                        if (res.ret.code === 200) {
-                                            createLanguageConfigurationVisible()
-                                            afterAction()
-                                            if (props.createLanguage.callback)
-                                                props.createLanguage.callback()
-                                        } else message.error(res.ret.message)
+                                        if (res) {
+                                            if (res?.ret?.code === 200) {
+                                                createLanguageConfigurationVisible()
+                                                afterAction()
+                                                if (props.createLanguage.callback)
+                                                    props.createLanguage.callback()
+                                            } else message.error(res?.ret?.message)
+                                        }
                                     })
                                     .catch((err: any) => {
                                         params.loading = false
@@ -544,10 +558,12 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.loading = false
-                        if (res.ret.code === 200) {
-                            message.success(t('success'))
-                            setLanguageConfigurationList('', params.current)
-                        } else message.error(res.ret.message)
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('success'))
+                                setLanguageConfigurationList('', params.current)
+                            } else message.error(res?.ret?.message)
+                        }
                     })
                     .catch((err: any) => {
                         params.loading = false
@@ -570,10 +586,12 @@ export default defineComponent({
                 )
                     .then((res: any) => {
                         params.loading = false
-                        if (res.ret.code === 200) {
-                            message.success(t('success'))
-                            setLanguageConfigurationList('', params.current)
-                        } else message.error(res.ret.message)
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('success'))
+                                setLanguageConfigurationList('', params.current)
+                            } else message.error(res?.ret?.message)
+                        }
                     })
                     .catch((err: any) => {
                         params.loading = false
@@ -792,9 +810,9 @@ export default defineComponent({
         }
 
         const renderActionBtns = () => {
-            return (
-                <div class={`${prefixCls}-btns`}>
-                    <div class={`${prefixCls}-btns-l`}>
+            const btns =
+                params.tab === 'customize' ? (
+                    <>
                         <Popconfirm
                             title={t('delete-confirm')}
                             style={{ zIndex: Date.now() }}
@@ -805,22 +823,29 @@ export default defineComponent({
                                 type="primary"
                                 danger={true}
                                 style={{ marginRight: $tools.convert2Rem(8) }}>
-                                {t('delete')}
+                                {t('batch-delete')}
                             </Button>
                         </Popconfirm>
                         <Button
                             class={`${btnCls}-success`}
-                            onClick={createLanguageConfigurationVisible}>
+                            onClick={createLanguageConfigurationVisible}
+                            style={{ marginRight: $tools.convert2Rem(8) }}>
                             {t('language.add')}
                         </Button>
-                    </div>
-                    <div class={`${prefixCls}-btns-r`}>
+                    </>
+                ) : null
+            return (
+                <div class={`${prefixCls}-btns`}>
+                    <div class={`${prefixCls}-btns-l`}>
+                        {btns}
                         <Button
-                            type="primary"
-                            onClick={() =>
-                                (params.visible.management = !params.visible.management)
-                            }>
-                            {t('language.management')}
+                            class={`${btnCls}-info`}
+                            v-slots={{
+                                icon: () => {
+                                    return <SearchOutlined />
+                                }
+                            }}>
+                            {t('search.name')}
                         </Button>
                     </div>
                 </div>
@@ -828,86 +853,96 @@ export default defineComponent({
         }
 
         const renderTable = () => {
+            const table =
+                params.tab === 'customize' ? (
+                    <>
+                        {renderActionBtns()}
+                        <Table
+                            columns={params.table.columns}
+                            dataSource={params.table.data}
+                            rowSelection={{
+                                onChange: (keys: Key[], rows: any[]) => {
+                                    batchDeleteItemChange(keys, rows)
+                                }
+                            }}
+                            pagination={{
+                                showLessItems: true,
+                                showQuickJumper: true,
+                                onChange: changePagination,
+                                responsive: true,
+                                total,
+                                current: params.pagination.page,
+                                pageSize: params.pagination.size
+                            }}
+                            loading={params.table.loading}
+                            v-slots={{
+                                headerCell: (record: any) => {
+                                    if (record.column.key === 'language') {
+                                        return renderLanguageSelection()
+                                    }
+                                }
+                            }}
+                            scroll={{ x: '100%' }}
+                        />
+                    </>
+                ) : params.tab === 'built-in' ? (
+                    <>
+                        {renderActionBtns()}
+                        <Table
+                            columns={params.table.builtin.columns}
+                            dataSource={builtInLanguages}
+                            pagination={{
+                                showLessItems: true,
+                                showQuickJumper: true,
+                                responsive: true
+                            }}
+                            v-slots={{
+                                headerCell: (record: any) => {
+                                    if (record.column.key === 'language') {
+                                        return renderBuiltInLanguageSelection()
+                                    }
+                                }
+                            }}
+                            scroll={{ x: '100%' }}
+                        />
+                    </>
+                ) : null
             return (
                 <div class={`${prefixCls}-table`}>
                     <ConfigProvider locale={props.paginationLocale}>
-                        <Tabs>
-                            <TabPane key={'customize'} tab={t('customize')}>
-                                <Row class={`${prefixCls}-search`} gutter={[16, 16]}>
-                                    <Col xl={6} lg={8} md={12} xs={24}>
-                                        <Select
-                                            v-model:value={params.search.lang}
-                                            style={{ width: '100%' }}>
-                                            {renderLanguageSelectionOptions()}
-                                        </Select>
-                                    </Col>
-                                    <Col xl={6} lg={8} md={12} xs={24}>
-                                        <Input
-                                            v-model:value={params.search.key}
-                                            placeholder={t('language.placeholder.search')}
-                                        />
-                                    </Col>
-                                    <Col xl={6} lg={8} md={12} xs={24}>
-                                        <Button
-                                            class={`${btnCls}-success`}
-                                            v-slots={{
-                                                icon: () => {
-                                                    return <SearchOutlined />
-                                                }
-                                            }}>
-                                            {t('search.name')}
-                                        </Button>
-                                    </Col>
-                                </Row>
-                                {renderActionBtns()}
-                                <Table
-                                    columns={params.table.columns}
-                                    dataSource={params.table.data}
-                                    rowSelection={{
-                                        onChange: (keys: Key[], rows: any[]) => {
-                                            batchDeleteItemChange(keys, rows)
-                                        }
-                                    }}
-                                    pagination={{
-                                        showLessItems: true,
-                                        showQuickJumper: true,
-                                        onChange: changePagination,
-                                        responsive: true,
-                                        total,
-                                        current: params.pagination.page,
-                                        pageSize: params.pagination.size
-                                    }}
-                                    loading={params.table.loading}
-                                    v-slots={{
-                                        headerCell: (record: any) => {
-                                            if (record.column.key === 'language') {
-                                                return renderLanguageSelection()
-                                            }
-                                        }
-                                    }}
-                                    scroll={{ x: '100%' }}
-                                />
-                            </TabPane>
-                            <TabPane key={'built-in'} tab={t('language.system')}>
-                                <Table
-                                    columns={params.table.builtin.columns}
-                                    dataSource={builtInLanguages}
-                                    pagination={{
-                                        showLessItems: true,
-                                        showQuickJumper: true,
-                                        responsive: true
-                                    }}
-                                    v-slots={{
-                                        headerCell: (record: any) => {
-                                            if (record.column.key === 'language') {
-                                                return renderBuiltInLanguageSelection()
-                                            }
-                                        }
-                                    }}
-                                    scroll={{ x: '100%' }}
-                                />
-                            </TabPane>
-                        </Tabs>
+                        <div class={`${prefixCls}-tabs`}>
+                            <div
+                                class={`${prefixCls}-tab ${
+                                    params.tab === 'customize' ? 'active' : ''
+                                }`}
+                                onClick={() => (params.tab = 'customize')}>
+                                <PlusOutlined />
+                                {t('customize')}
+                            </div>
+                            <div
+                                class={`${prefixCls}-tab ${
+                                    params.tab === 'built-in' ? 'active' : ''
+                                }`}
+                                onClick={() => (params.tab = 'built-in')}>
+                                <FormOutlined />
+                                {t('language.system')}
+                            </div>
+                            <div
+                                class={`${prefixCls}-tab ${
+                                    params.tab === 'manage' ? 'active' : ''
+                                }`}
+                                onClick={() =>
+                                    (params.visible.management = !params.visible.management)
+                                }>
+                                <GlobalOutlined />
+                                {t('language.management')}
+                            </div>
+                        </div>
+                        <div class={`${prefixCls}-list`}>
+                            <div class={`${prefixCls}-list-scroll`}>
+                                <div class={`${prefixCls}-list-item`}>{table}</div>
+                            </div>
+                        </div>
                     </ConfigProvider>
                 </div>
             )

@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { $tools } from './tools'
 import { $g } from './global'
@@ -8,6 +9,7 @@ import { useStore } from 'vuex'
 import { layout } from '../store/layout'
 import { passport } from '../store/passport'
 import { mutations } from './../store/types'
+import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
 
 /**
@@ -21,6 +23,7 @@ export default {
         if (!_init) {
             const store = useStore()
             const router = useRouter()
+            const { t } = useI18n()
 
             // 基础设定
             $tools.setTitle()
@@ -94,8 +97,11 @@ export default {
                                     .dispatch('passport/refresh', { refresh_token: refreshToken })
                                     .then((res: any) => {
                                         regranting = false
-                                        if (res.ret.code === 200) return resend()
-                                        else redirect()
+                                        if (res?.ret?.code === 200) return resend()
+                                        else {
+                                            message.error(t('auth'))
+                                            redirect()
+                                        }
                                     })
                                     .catch(() => {
                                         regranting = false
@@ -103,6 +109,7 @@ export default {
                             } else {
                                 // 授权失败, 无 refreshtoken.
                                 regranting = false
+                                message.error(t('auth'))
                                 redirect()
                             }
                         }

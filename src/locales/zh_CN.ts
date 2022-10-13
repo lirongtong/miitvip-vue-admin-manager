@@ -16,6 +16,7 @@ export default {
     'delete-select': '请选择需要删除的选项',
     opt: '管理操作',
     key: '关键词',
+    auth: '请求的资源需要认证 ( Unauthorized )',
     step: {
         prev: '上一步',
         next: '下一步'
@@ -163,7 +164,7 @@ export default {
         'en-us': '英文',
         current: '当前语系：',
         system: '系统内置',
-        add: '新增',
+        add: '新增配置',
         'add-title': '新增语言配置',
         'update-title': '更新语言配置',
         management: '语系管理',
@@ -177,12 +178,12 @@ export default {
             language: '请输入语系显示名称'
         },
         placeholder: {
-            key: '如简体中文的关键词为: zh-cn',
+            key: '语言编码，如简体中文的关键词为: zh-cn',
             language: '语系显示名称，如：简体中文',
             search: '请输入待搜索关键词或相应的语言内容',
             config: {
                 key: '请输入语言配置的关键词',
-                value: '请输入语言配置关键词对应的展示名称'
+                value: '请输入语言配置关键词对应的语言内容'
             }
         }
     }

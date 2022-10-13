@@ -7,7 +7,6 @@
 @import '../../../../styles/antd/popover.less';
 @import '../../../../styles/antd/message.less';
 @import '../../../../styles/antd/spin.less';
-@import '../../../../styles/antd/tabs.less';
 
 @mi-language: ~'@{mi-prefix}language';
 @ant-table: ant-table;
@@ -16,6 +15,8 @@
 @ant-pagination: ant-pagination;
 
 .@{mi-language} {
+    position: relative;
+
     .@{ant-table} {
         .linear-gradient-background();
         .border-radius(8);
@@ -116,28 +117,114 @@
                 &.delete {
                     background-color: var(--mi-danger, @mi-danger);
                 }
+
+                &.edit,
+                &.delete {
+                    &:hover,
+                    &:focus {
+                        color: var(--mi-font, @mi-font);
+                    }
+                }
             }
         }
     }
 
-    &-search {
-        .properties(margin-bottom, 16);
+    &-tabs {
+        .flex();
+        .properties(padding-bottom, 16);
+        background: var(--mi-dark-grey, @mi-dark-grey);
+        .properties(padding-top, 4);
+        .properties(margin-top, -1);
+        position: sticky;
+        top: @mi-content-padding-top;
+        z-index: 20;
+    }
 
-        .@{ant-input} {
-            .linear-gradient-background();
-            border-color: var(--mi-border, @mi-border);
-            .border-radius(8);
+    &-tab {
+        .flex(center, center, column);
+        .properties(margin-right, 16);
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 16);
+        border: 2px solid var(--mi-border, @mi-border);
+        font-weight: bold;
+        .border-radius(10);
+        color: var(--mi-font, @mi-font);
+        .linear-gradient-background();
+        cursor: pointer;
+        .properties(width, 120);
+        .properties(height, 120);
+
+        .anticon {
+            .properties(font-size, 20);
+            .properties(margin-bottom);
+            .properties(padding, 16);
+            .border-radius-circle();
+            background-color: transparent;
             color: var(--mi-font, @mi-font);
-            .properties(font-size, 14);
+        }
 
-            &:focus,
+        &.active,
+        &:hover,
+        &:focus {
+            color: var(--mi-theme, @mi-theme);
+            border-color: var(--mi-theme, @mi-theme);
+        }
+
+        &.active {
+            box-shadow: 0 0 4px;
+        }
+
+        &:first-child {
+            .anticon {
+                background-color: var(--mi-success, @mi-success);
+            }
+
+            &.active,
             &:hover,
-            &:active {
-                border-color: var(--mi-theme, @mi-theme);
-                box-shadow: 0 0 2px fade(@mi-theme, 20%);
-                outline: none;
+            &:focus {
+                color: var(--mi-success, @mi-success);
+                border-color: var(--mi-success, @mi-success);
             }
         }
+
+        &:nth-child(2) {
+            .anticon {
+                background-color: var(--mi-danger, @mi-danger);
+            }
+
+            &.active,
+            &:hover,
+            &:focus {
+                color: var(--mi-danger, @mi-danger);
+                border-color: var(--mi-danger, @mi-danger);
+            }
+        }
+
+        &:nth-child(3) {
+            margin-right: 0;
+
+            .anticon {
+                color: var(--mi-dark-grey, @mi-dark-grey);
+                .linear-gradient-background-theme();
+            }
+
+            &.active,
+            &:hover,
+            &:focus {
+                color: var(--mi-theme, @mi-theme);
+                border-color: var(--mi-theme, @mi-theme);
+            }
+        }
+    }
+
+    &-list {
+        .properties(padding-top, 4);
+        .border-radius(10);
+        overflow: hidden;
+    }
+
+    &-search {
+        .properties(margin-bottom, 16);
     }
 
     &-btns {
@@ -208,11 +295,5 @@
 
     &-current-name {
         color: var(--mi-theme, @mi-theme);
-    }
-
-    .@{ant-tabs} {
-        & > &-nav:before {
-            border: none;
-        }
     }
 }
