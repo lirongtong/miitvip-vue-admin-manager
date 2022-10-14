@@ -11,6 +11,7 @@ export default {
     success: 'Success',
     edit: 'Edit',
     delete: 'Delete',
+    reset: 'Reset',
     'batch-delete': 'Batch Delete',
     'delete-confirm': 'Are you sure you want to delete the current selection?',
     'delete-select': 'Please select the items to delete',

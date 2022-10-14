@@ -11,6 +11,7 @@ export default {
     success: '操作成功',
     edit: '编辑',
     delete: '删除',
+    reset: '重置',
     'batch-delete': '批量删除',
     'delete-confirm': '确定删除当前所选项？',
     'delete-select': '请选择需要删除的选项',

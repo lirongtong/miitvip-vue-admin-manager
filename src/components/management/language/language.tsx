@@ -25,7 +25,8 @@ import {
     CloseCircleFilled,
     PlusOutlined,
     GlobalOutlined,
-    SearchOutlined
+    SearchOutlined,
+    ReloadOutlined
 } from '@ant-design/icons-vue'
 import { $storage } from '../../../utils/storage'
 import { $g } from '../../../utils/global'
@@ -574,14 +575,40 @@ export default defineComponent({
         }
 
         // search
-        const searchInput = (evt: any) => {
-            const value = evt?.target?.value
-            if ($tools.isEmpty(value))
-                setLanguageConfigurationList(params.search.key, params.current)
+        const resetSearch = () => {
+            params.search.key = ''
+            if (params.tab === 'customize') setLanguageConfigurationList()
+            else changBuiltInLanguageCategory(params.current)
         }
 
-        const searchLanguageConfiguration = () => {
-            if (params.search.key) setLanguageConfigurationList(params.search.key, params.current)
+        const searchInput = (evt: any) => {
+            const value = evt?.target?.value
+            if ($tools.isEmpty(value)) {
+                if (params.tab === 'customize') {
+                    setLanguageConfigurationList(params.search.key, params.current)
+                } else {
+                    changBuiltInLanguageCategory(params.current)
+                }
+            }
+        }
+
+        const search = () => {
+            if (params.search.key) {
+                if (params.tab === 'customize') {
+                    setLanguageConfigurationList(params.search.key, params.current)
+                } else {
+                    builtInLanguages = []
+                    getBuiltInLanguageConfiguration((messages as any).value[params.current] || {})
+                    const reg = new RegExp(params.search.key, 'ig')
+                    const res: LanguageFormState[] = []
+                    for (const i in builtInLanguages) {
+                        const cur = builtInLanguages[i]
+                        if (reg.test(cur.key) || reg.test(cur.language)) res.push(cur)
+                    }
+                    builtInLanguages = res
+                    instance?.proxy?.$forceUpdate()
+                }
+            }
         }
 
         const batchDelete = () => {
@@ -851,18 +878,29 @@ export default defineComponent({
                         <Input
                             placeholder={t('language.placeholder.search')}
                             onInput={searchInput}
-                            onPressEnter={searchLanguageConfiguration}
+                            onPressEnter={search}
                             v-model:value={params.search.key}
                         />
                         <Button
                             class={`${btnCls}-info`}
-                            onClick={searchLanguageConfiguration}
+                            onClick={search}
+                            style={{ marginRight: $tools.convert2Rem(8) }}
                             v-slots={{
                                 icon: () => {
                                     return <SearchOutlined />
                                 }
                             }}>
                             {t('seek')}
+                        </Button>
+                        <Button
+                            class={`${btnCls}-info`}
+                            onClick={resetSearch}
+                            v-slots={{
+                                icon: () => {
+                                    return <ReloadOutlined />
+                                }
+                            }}>
+                            {t('reset')}
                         </Button>
                     </div>
                 </Col>
