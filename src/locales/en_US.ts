@@ -188,5 +188,22 @@ export default {
                 value: 'Please input the display name corresponding to the language configuration keyword, such as: makeit.vip'
             }
         }
+    },
+    menus: {
+        name: 'Name',
+        app: 'App',
+        type: 'Type',
+        icon: 'Icon',
+        path: 'Path',
+        attrs: 'Attribute',
+        top: 'A menu',
+        sub: 'Submenu',
+        btn: 'Button',
+        lang: 'Language key',
+        page: 'Page',
+        redirect: 'Default jump link',
+        sort: 'Sort key',
+        open: 'Open way',
+        router: 'Routing menu'
     }
 }

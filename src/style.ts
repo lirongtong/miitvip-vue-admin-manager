@@ -1,5 +1,6 @@
 import './styles'
 import './components/management/language/style'
+import './components/management/menu/style'
 import './components/layout/style'
 import './components/captcha/style'
 import './components/notice/style'

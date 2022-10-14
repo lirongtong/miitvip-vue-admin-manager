@@ -1,11 +1,7 @@
 import { App } from 'vue'
 import { createI18n } from 'vue-i18n'
 import { $g } from '../utils/global'
-import { api } from '../utils/api'
 import { $storage } from '../utils/storage'
-import { $request } from '../utils/request'
-import { $cookie } from '../utils/cookie'
-import { message } from 'ant-design-vue'
 import zhCN from './zh_CN'
 import enUS from './en_US'
 
@@ -24,44 +20,12 @@ const i18n = createI18n({
     messages: locales
 }) as any
 
-const getLanguage = async () => {
-    if (api.languages.data) {
-        const token = $cookie.get($g.caches.cookies.token.access)
-        return await $request
-            .get(
-                api.languages.data,
-                { type: 'all' },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
-            .then((res: any) => {
-                if (res) {
-                    if (res?.ret?.code === 200) {
-                        return res?.data
-                    } else message.error(res?.ret?.message)
-                }
-            })
-            .catch((err: any) => {
-                message.error(err.message)
-            })
-    }
-}
-
 const setLocale = async (locale?: string, message?: {}) => {
     if (locale === undefined) locale = $storage.get(LOCALE_KEY) || DEFAULT_LANG
-    const languages = (await getLanguage()) || []
-    const customize = message || {}
-    for (let i = 0, l = languages.length; i < l; i++) {
-        const language = languages[i]
-        customize[language.key] = language.language
-    }
     if (locales[locale as string]) {
-        i18n.global.mergeLocaleMessage(locale, customize || {})
-    } else if (Object.keys(customize || {}).length > 0) {
-        i18n.global.setLocaleMessage(locale, customize)
+        i18n.global.mergeLocaleMessage(locale, message || {})
+    } else if (Object.keys(message || {}).length > 0) {
+        i18n.global.setLocaleMessage(locale, message)
     } else locale = DEFAULT_LANG
     i18n.global.locale.value = locale
     $storage.set(LOCALE_KEY, locale)

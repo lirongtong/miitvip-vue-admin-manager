@@ -1,9 +1,11 @@
+import { inject } from 'vue'
 import axios, { AxiosRequestConfig } from 'axios'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { $tools } from './tools'
 import { $g } from './global'
 import { $cookie } from './cookie'
+import { api } from './api'
 import { $request } from './request'
 import { useStore } from 'vuex'
 import { layout } from '../store/layout'
@@ -23,7 +25,8 @@ export default {
         if (!_init) {
             const store = useStore()
             const router = useRouter()
-            const { t } = useI18n()
+            const { locale, t } = useI18n()
+            const i18n = inject('$i18n') as any
 
             // 基础设定
             $tools.setTitle()
@@ -127,6 +130,43 @@ export default {
                     }
                 }
             )
+
+            // 语言配置
+            const getLanguage = async () => {
+                const token = $cookie.get($g.caches.cookies.token.access)
+                if (api.languages.data && token) {
+                    return await $request
+                        .get(
+                            api.languages.data,
+                            { type: 'all' },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }
+                        )
+                        .then((res: any) => {
+                            if (res) {
+                                if (res?.ret?.code === 200) {
+                                    return res?.data
+                                } else message.error(res?.ret?.message)
+                            }
+                        })
+                        .catch((err: any) => {
+                            message.error(err.message)
+                        })
+                }
+            }
+            const setCustomizeLanguage = async () => {
+                const languages = (await getLanguage()) || []
+                const customize = {}
+                for (let i = 0, l = languages.length; i < l; i++) {
+                    const language = languages[i]
+                    customize[language.key] = language.language
+                }
+                if (Object.keys(customize).length > 0) i18n.setLocale(locale.value, customize)
+            }
+            setCustomizeLanguage()
 
             // 路由监听
             NProgress.configure({

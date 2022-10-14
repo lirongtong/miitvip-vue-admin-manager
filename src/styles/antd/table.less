@@ -1,0 +1,77 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-table: ant-table;
+@ant-pagination: ant-pagination;
+
+.@{ant-table} {
+    .linear-gradient-background();
+    .border-radius(8);
+    overflow: hidden;
+
+    &&-bordered > &-container {
+        border-left-color: fade(@mi-white, 12.5%);
+        backdrop-filter: blur(16px) saturate(180%);
+        background: transparent;
+    }
+
+    &-content {
+        & > table {
+            border-top-color: fade(@mi-white, 12.5%);
+
+            & > thead {
+                .linear-gradient-background();
+
+                & > tr > th {
+                    background: transparent;
+                    border-right-color: fade(@mi-white, 12.5%);
+                    border-bottom-color: fade(@mi-white, 12.5%);
+                    color: var(--mi-font, @mi-font);
+                    font-weight: bold;
+
+                    &.@{ant-table}-selection-column {
+                        .properties(padding-left, 16);
+                    }
+                }
+            }
+
+            & > tbody {
+                & > tr > td {
+                    border-right-color: fade(@mi-white, 12.5%);
+                    border-bottom-color: fade(@mi-white, 12.5%);
+                    color: var(--mi-font, @mi-font);
+                    background-color: transparent;
+
+                    &.@{ant-table}-selection-column {
+                        .properties(padding-left, 16);
+                    }
+
+                    &.@{ant-table}-cell-row-hover {
+                        background: transparent;
+                    }
+                }
+
+                & > tr.@{ant-table}-row:hover > td {
+                    background: transparent;
+                }
+            }
+        }
+    }
+
+    &-pagination.@{ant-pagination} {
+        .flex();
+    }
+
+    &-tbody > tr.@{ant-table}-placeholder {
+        &:hover > td {
+            background: transparent;
+        }
+
+        > td {
+            .ant-empty {
+                .properties(padding-top, 48);
+                .properties(padding-bottom, 48);
+            }
+        }
+    }
+}

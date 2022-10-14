@@ -188,5 +188,22 @@ export default {
                 value: '请输入语言配置关键词对应的语言内容'
             }
         }
+    },
+    menus: {
+        name: '菜单名称',
+        app: '所属应用',
+        type: '菜单类型',
+        icon: '展示图标',
+        path: '菜单路径',
+        attrs: '菜单属性',
+        top: '一级菜单',
+        sub: '子菜单',
+        btn: '按钮',
+        lang: '多语言 Key 值',
+        page: '前端组件',
+        redirect: '默认跳转地址',
+        sort: '排序值',
+        open: '打开方式',
+        router: '路由菜单'
     }
 }

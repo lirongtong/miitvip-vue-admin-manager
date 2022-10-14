@@ -1,17 +1,10 @@
 import { PropType } from 'vue'
-import PropTypes from '../../_utils/props-types'
+import PropTypes, { CommonRequestProps } from '../../_utils/props-types'
 
 export interface LanguageFormState {
     id?: string | number
     key: string
     language: string
-}
-
-export interface CommonRequestProps {
-    url?: string
-    method?: string
-    params?: object
-    callback?: Function
 }
 
 export const languageProps = () => ({

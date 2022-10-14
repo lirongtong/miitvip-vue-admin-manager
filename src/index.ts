@@ -27,6 +27,7 @@ import { default as History } from './components/history'
 import { default as Code } from './components/code'
 
 import { default as LanguageManagement } from './components/management/language'
+import { default as MenuManagement } from './components/management/menu'
 
 const components = [
     i18n,
@@ -52,7 +53,8 @@ const components = [
     Forget,
     History,
     Code,
-    LanguageManagement
+    LanguageManagement,
+    MenuManagement
 ]
 
 let _init = false

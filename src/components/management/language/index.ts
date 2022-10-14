@@ -1,4 +1,4 @@
-import MiLang from './language'
+import MiLanguageManagement from './language'
 import { install } from '../../../utils/install'
 
-export default install(MiLang)
+export default install(MiLanguageManagement)

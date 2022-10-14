@@ -1,6 +1,13 @@
 import { CSSProperties } from 'vue'
 import { createTypes, VueTypesInterface, VueTypeValidableDef } from 'vue-types'
 
+export interface CommonRequestProps {
+    url?: string
+    method?: string
+    params?: object
+    callback?: Function
+}
+
 const PropTypes = createTypes({
     func: undefined,
     bool: undefined,

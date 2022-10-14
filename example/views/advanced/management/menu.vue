@@ -1,3 +1,3 @@
 <template>
-    Menu Manage
+    <mi-menu-management />
 </template>
