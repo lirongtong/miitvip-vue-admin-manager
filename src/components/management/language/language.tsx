@@ -228,6 +228,7 @@ export default defineComponent({
         // language
         const getLanguageConfiguration = async (keyword?: string, lang?: string) => {
             if (props.data.url) {
+                if (params.table.loading) return
                 params.table.loading = true
                 const condition = Object.assign(
                     { keyword },
@@ -322,6 +323,7 @@ export default defineComponent({
         // category
         const getLanguageCategory = () => {
             if (props.category.url) {
+                if (params.loading) return
                 params.loading = true
                 $request[(props.category.method || 'GET').toLowerCase()](
                     props.category.url,
@@ -349,6 +351,7 @@ export default defineComponent({
         // action - create or update category.
         const createOrUpdateLanguageCategory = () => {
             if (formRef.value && formRef.value) {
+                if (params.loading) return
                 params.loading = true
                 formRef.value
                     .validate()
@@ -424,6 +427,7 @@ export default defineComponent({
 
         // action - delete category.
         const deleteLanguageCategory = (id: string | number) => {
+            if (params.loading) return
             params.loading = true
             if (props.deleteCategory.url) {
                 $request[(props.deleteCategory.method || 'DELETE').toLowerCase()](
@@ -471,6 +475,7 @@ export default defineComponent({
 
         const createOrUpdateLanguageConfiguration = () => {
             if (addOrUpdateFormRef.value && addOrUpdateFormRef.value) {
+                if (params.loading) return
                 params.loading = true
                 addOrUpdateFormRef.value
                     .validate()
@@ -550,6 +555,8 @@ export default defineComponent({
 
         // delete language.
         const deleteLanguageConfiguration = (data: any) => {
+            if (params.loading) return
+            params.loading = true
             if (props.deleteLanguage.url) {
                 const record = data?.record
                 $request[(props.deleteLanguage.method || 'DELETE').toLowerCase()](
@@ -616,6 +623,8 @@ export default defineComponent({
                 message.error(t('delete-select'))
                 return
             }
+            if (params.loading) return
+            params.loading = true
             if (props.deleteLanguage.url) {
                 $request[(props.deleteLanguage.method || 'DELETE').toLowerCase()](
                     $tools.replaceUrlParams(props.deleteLanguage.url, {
