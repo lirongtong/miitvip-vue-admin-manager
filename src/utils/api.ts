@@ -37,6 +37,9 @@ export const api: any = reactive({
             data: 'language/category',
             update: 'language/category/{id}'
         }
+    },
+    menus: {
+        data: 'menus'
     }
 })
 

@@ -1,7 +1,51 @@
 @import '../../../../styles/theme/index.less';
 @import '../../../../styles/antd/table.less';
+@import '../../../../styles/antd/message.less';
+@import '../../../../styles/antd/button.less';
+@import '../../../../styles/antd/input.less';
+@import '../../../../styles/antd/popover.less';
+@import '../../../../styles/antd/drawer.less';
+@import '../../../../styles/antd/form.less';
 
 @mi-menus: mi-menus;
 .@{mi-menus} {
     position: relative;
+
+    &-btns {
+        .flex(center, space-between);
+
+        &-l {
+            .flex(center, flex-start);
+            .properties(margin-bottom, 16);
+
+            > input {
+                .linear-gradient-background();
+                border: 1px solid var(--mi-border, @mi-border);
+                .border-radius();
+                .properties(margin-right);
+                color: var(--mi-font, @mi-font);
+                .properties(max-width, 400);
+                outline: none;
+
+                &:focus,
+                &:hover {
+                    border-color: var(--mi-theme, @mi-theme);
+                    box-shadow: 0 0 4px fade(@mi-theme, 20%);
+                }
+            }
+        }
+
+        &-r {
+            .flex(center, flex-end);
+            .properties(margin-bottom, 16);
+
+            @media only screen and (max-width: 576px) {
+                justify-content: flex-start;
+            }
+        }
+
+        &.no-search &-r {
+            justify-content: flex-start;
+        }
+    }
 }

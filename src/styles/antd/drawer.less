@@ -1,0 +1,34 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@mi-drawer: ~'@{mi-prefix}drawer';
+@ant-drawer: ant-drawer;
+
+.@{mi-drawer} {
+    .@{ant-drawer} {
+        &-content-wrapper {
+            max-width: 100%;
+            color: var(--mi-font, @mi-font);
+            border-left: 1px solid var(--mi-theme, @mi-theme);
+            box-shadow: 0 0 10px fade(@mi-theme, 20%);
+        }
+    
+        &-wrapper-body {
+            .linear-gradient-background();
+        }
+
+        &-mask {
+            background: fade(@mi-black, 60%);
+        }
+    
+        &-header {
+            background: transparent;
+            border-bottom-color: var(--mi-border, @mi-border);
+        }
+
+        &-close,
+        &-title {
+            color: var(--mi-font, @mi-font);
+        }
+    }
+}

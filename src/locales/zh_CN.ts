@@ -190,10 +190,11 @@ export default {
         }
     },
     menus: {
+        add: '新增菜单',
         name: '菜单名称',
         app: '所属应用',
         type: '菜单类型',
-        icon: '展示图标',
+        icon: '菜单图标',
         path: '菜单路径',
         attrs: '菜单属性',
         top: '一级菜单',
@@ -204,6 +205,9 @@ export default {
         redirect: '默认跳转地址',
         sort: '排序值',
         open: '打开方式',
-        router: '路由菜单'
+        router: '路由菜单',
+        placeholder: {
+            search: '请输入待搜索的菜单名称'
+        }
     }
 }

@@ -190,6 +190,7 @@ export default {
         }
     },
     menus: {
+        add: 'Add new',
         name: 'Name',
         app: 'App',
         type: 'Type',
@@ -204,6 +205,9 @@ export default {
         redirect: 'Default jump link',
         sort: 'Sort key',
         open: 'Open way',
-        router: 'Routing menu'
+        router: 'Routing menu',
+        placeholder: {
+            search: 'Please enter the name of the menu to be searched'
+        }
     }
 }
