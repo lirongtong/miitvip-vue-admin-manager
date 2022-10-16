@@ -74,4 +74,21 @@
         border-radius: 0 .25rem .25rem 0;
         overflow: hidden;
     }
+
+    &-number {
+        border-color: var(--mi-border, @mi-border);
+        background-color: transparent;
+
+        &:focus,
+        &:hover {
+            border-color: var(--mi-them, @mi-theme);
+        }
+
+        &-handler {
+            &:hover &-up-inner,
+            &:hover &-down-inner {
+                color: var(--mi-theme, @mi-theme);
+            }
+        }
+    }
 }

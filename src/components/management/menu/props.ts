@@ -27,5 +27,16 @@ export const menuManagementProps = () => ({
             }
         }
     },
+    addMenu: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'POST',
+                params: {},
+                callback: null
+            }
+        }
+    },
     paginationLocale: PropTypes.any
 })

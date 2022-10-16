@@ -49,8 +49,8 @@ export default defineComponent({
         let total = 0
         let builtInLanguages = reactive<LanguageFormState[]>([])
         const prefixCls = getPrefixCls('language', props.prefixCls)
-        const btnCls = getPrefixCls('btn', props.prefixCls)
-        const formCls = getPrefixCls('form', props.prefixCls)
+        const btnCls = `${$g.prefix}btn`
+        const formCls = `${$g.prefix}form`
         const formRef = ref<FormInstance>()
         const addOrUpdateFormRef = ref<FormInstance>()
         let batchDeleteIds = reactive<any[]>([])
@@ -350,7 +350,7 @@ export default defineComponent({
 
         // action - create or update category.
         const createOrUpdateLanguageCategory = () => {
-            if (formRef.value && formRef.value) {
+            if (formRef.value) {
                 if (params.loading) return
                 params.loading = true
                 formRef.value
@@ -366,7 +366,7 @@ export default defineComponent({
                                     Object.assign(
                                         {},
                                         { ...params.form.validate },
-                                        props.updateCategory.params
+                                        { ...props.updateCategory.params }
                                     )
                                 )
                                     .then((res: any) => {
@@ -407,8 +407,7 @@ export default defineComponent({
                                                 message.success(t('success'))
                                                 cancelLanguageCategoryVisible()
                                                 getLanguageCategory()
-                                                if (formRef.value && formRef.value)
-                                                    formRef.value.resetFields()
+                                                if (formRef.value) formRef.value.resetFields()
                                                 if (props.createCategory.callback)
                                                     props.createCategory.callback()
                                             } else message.error(res?.ret?.message)
@@ -474,7 +473,7 @@ export default defineComponent({
         }
 
         const createOrUpdateLanguageConfiguration = () => {
-            if (addOrUpdateFormRef.value && addOrUpdateFormRef.value) {
+            if (addOrUpdateFormRef.value) {
                 if (params.loading) return
                 params.loading = true
                 addOrUpdateFormRef.value
@@ -498,7 +497,7 @@ export default defineComponent({
                                     Object.assign(
                                         {},
                                         { ...params.addOrUpdateForm.validate },
-                                        props.updateLanguage.params
+                                        { ...props.updateLanguage.params }
                                     )
                                 )
                                     .then((res: any) => {
@@ -528,7 +527,7 @@ export default defineComponent({
                                         {},
                                         { lang: params.current },
                                         { ...params.addOrUpdateForm.validate },
-                                        props.createLanguage.params
+                                        { ...props.createLanguage.params }
                                     )
                                 )
                                     .then((res: any) => {

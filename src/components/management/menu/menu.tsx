@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { menuManagementProps, MenusDataItem } from './props'
 import { getPrefixCls } from '../../_utils/props-tools'
 import { $request } from '../../../utils/request'
@@ -18,7 +18,10 @@ import {
     Drawer,
     RadioGroup,
     Form,
-    FormItem
+    FormItem,
+    InputNumber,
+    Switch,
+    FormInstance
 } from 'ant-design-vue'
 
 export default defineComponent({
@@ -27,8 +30,10 @@ export default defineComponent({
     props: menuManagementProps(),
     setup(props) {
         const prefixCls = getPrefixCls('menus', props.prefixCls)
-        const btnCls = getPrefixCls('btn', props.prefixCls)
+        const btnCls = `${$g.prefix}btn`
+        const formCls = `${$g.prefix}form`
         const { t } = useI18n()
+        const addOrUpdateformRef = ref<FormInstance>()
         const params = reactive({
             loading: false,
             table: {
@@ -95,11 +100,30 @@ export default defineComponent({
             },
             openDrawer: false,
             isEdit: false,
-            types: [{label: t('menus.top'), value: 1}, {label: t('menus.sub'), value: 2}, {label: t('menus.btn'), value: 3}],
+            types: [
+                { label: t('menus.top'), value: 1 },
+                { label: t('menus.sub'), value: 2 },
+                { label: t('menus.btn'), value: 3 }
+            ],
             form: {
                 validate: {
                     name: '',
-                    type: 1
+                    sub_name: '',
+                    pid: 0,
+                    type: 1,
+                    path: '',
+                    page: '',
+                    redirect: '',
+                    icon: '',
+                    sort: 1,
+                    lang: '',
+                    is_router: true,
+                    is_blank: false,
+                    is_hide: false
+                },
+                rules: {
+                    name: [{ required: true, message: t('menus.placeholder.name') }],
+                    page: [{ required: true, message: t('menus.placeholder.page') }]
                 }
             }
         })
@@ -108,14 +132,8 @@ export default defineComponent({
             if (props.data.url) {
                 if (params.table.loading) return
                 params.table.loading = true
-                const condition = Object.assign(
-                    params.table.pagination,
-                    props.data.params || {}
-                )
-                $request[(props.data.method || 'GET').toLowerCase()](
-                    props.data.url,
-                    condition
-                )
+                const condition = Object.assign(params.table.pagination, props.data.params || {})
+                $request[(props.data.method || 'GET').toLowerCase()](props.data.url, condition)
                     .then((res: any) => {
                         params.table.loading = false
                         if (res) {
@@ -144,8 +162,42 @@ export default defineComponent({
             params.openDrawer = !params.openDrawer
             if (params.openDrawer) {
                 if (params.isEdit) {
-
                 }
+            }
+        }
+
+        const addOrUpdate = () => {
+            if (addOrUpdateformRef.value) {
+                addOrUpdateformRef.value.validate().then(() => {
+                    if (params.loading) return
+                    params.loading = true
+                    if (params.isEdit) {
+                    } else {
+                        if (props.addMenu.url) {
+                            $request[(props.addMenu.method || 'POST').toLowerCase()](
+                                props.addMenu.url,
+                                Object.assign(
+                                    {},
+                                    { ...params.form.validate },
+                                    { ...props.addMenu.params }
+                                )
+                            )
+                                .then((res: any) => {
+                                    params.loading = false
+                                    if (res?.ret?.code === 200) {
+                                        openAddOrUpdateDrawer()
+                                        getMenus()
+                                        message.success(t('success'))
+                                        if (props.addMenu.callback) props.addMenu.callback()
+                                    } else message.error(res?.ret?.message)
+                                })
+                                .catch((err: any) => {
+                                    params.loading = false
+                                    message.error(err?.message)
+                                })
+                        }
+                    }
+                })
             }
         }
 
@@ -167,9 +219,7 @@ export default defineComponent({
                             {t('batch-delete')}
                         </Button>
                     </Popconfirm>
-                    <Button
-                        class={`${btnCls}-success`}
-                        onClick={openAddOrUpdateDrawer}>
+                    <Button class={`${btnCls}-success`} onClick={openAddOrUpdateDrawer}>
                         {t('menus.add')}
                     </Button>
                 </>
@@ -218,14 +268,126 @@ export default defineComponent({
         }
 
         const renderDrawer = () => {
+            const subMenu =
+                params.form.validate.type === 2 ? (
+                    <FormItem label={t('menus.up')} name="pid">
+                        <Input
+                            v-model:value={params.form.validate.pid}
+                            autocomplete="off"
+                            placeholder={t('menus.placeholder.up')}
+                        />
+                    </FormItem>
+                ) : null
             return (
-                <Drawer visible={params.openDrawer} zIndex={Date.now()} onClose={openAddOrUpdateDrawer} title={t('menus.add')} width={520} class={`${$g.prefix}drawer`}>
-                    <Form>
-                        <FormItem label={t('menus.type')}>
-                            <RadioGroup options={params.types} v-model:value={params.form.validate.type}></RadioGroup>
+                <Drawer
+                    visible={params.openDrawer}
+                    zIndex={Date.now()}
+                    onClose={openAddOrUpdateDrawer}
+                    title={t('menus.add')}
+                    width={580}
+                    v-slots={{
+                        extra: () => {
+                            return (
+                                <>
+                                    <Button
+                                        style={{ marginRight: $tools.convert2Rem(8) }}
+                                        onClick={openAddOrUpdateDrawer}>
+                                        {t('cancel')}
+                                    </Button>
+                                    <Button type="primary" onClick={addOrUpdate}>
+                                        {t('ok')}
+                                    </Button>
+                                </>
+                            )
+                        }
+                    }}
+                    class={`${$g.prefix}drawer`}>
+                    <Form
+                        class={`${formCls} ${formCls}-theme`}
+                        model={params.form.validate}
+                        rules={params.form.rules}
+                        ref={addOrUpdateformRef}
+                        labelCol={{ style: { width: $tools.convert2Rem(120) } }}>
+                        <FormItem label={t('menus.type')} name="type">
+                            <RadioGroup
+                                options={params.types}
+                                v-model:value={params.form.validate.type}></RadioGroup>
                         </FormItem>
-                        <FormItem label={t('menus.name')}>
-                            <Input v-model:value={params.form.validate.name} />
+                        <FormItem label={t('menus.name')} name="name">
+                            <Input
+                                v-model:value={params.form.validate.name}
+                                autocomplete="off"
+                                maxlength={60}
+                                placeholder={t('menus.placeholder.name')}
+                            />
+                        </FormItem>
+                        {subMenu}
+                        <FormItem label={t('menus.subname')} name="sub_name">
+                            <Input
+                                v-model:value={params.form.validate.sub_name}
+                                autocomplete="off"
+                                maxlength={60}
+                                placeholder={t('menus.placeholder.subname')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.path')} name="path">
+                            <Input
+                                v-model:value={params.form.validate.path}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.path')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.page')} name="page">
+                            <Input
+                                v-model:value={params.form.validate.page}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.page')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.icon')} name="icon">
+                            <Input
+                                v-model:value={params.form.validate.icon}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.icon')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.router')} name="is_router">
+                            <Switch
+                                v-model:checked={params.form.validate.is_router}
+                                checked-children={t('yes')}
+                                un-checked-children={t('no')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.open')} name="is_blank">
+                            <Switch
+                                v-model:checked={params.form.validate.is_blank}
+                                checked-children={t('external')}
+                                un-checked-children={t('internal')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.sort')} name="sort">
+                            <InputNumber v-model:value={params.form.validate.sort} min={1} />
+                        </FormItem>
+                        <FormItem label={t('menus.hide')} name="is_hide">
+                            <Switch
+                                v-model:checked={params.form.validate.is_hide}
+                                checked-children={t('yes')}
+                                un-checked-children={t('no')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.lang')} name="lang">
+                            <Input
+                                v-model:value={params.form.validate.lang}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.lang')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.redirect')} name="redirect">
+                            <Input
+                                v-model:value={params.form.validate.redirect}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.redirect')}
+                            />
                         </FormItem>
                     </Form>
                 </Drawer>

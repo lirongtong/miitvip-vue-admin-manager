@@ -19,6 +19,10 @@ export default {
     key: 'Key',
     auth: 'The resource requires authentication ( Unauthorized )',
     seek: 'Search',
+    yes: 'Yes',
+    no: 'No',
+    external: 'External',
+    internal: 'Internal',
     step: {
         prev: 'Previous',
         next: 'Next'
@@ -192,6 +196,8 @@ export default {
     menus: {
         add: 'Add new',
         name: 'Name',
+        subname: 'Subname',
+        up: 'Parent menu',
         app: 'App',
         type: 'Type',
         icon: 'Icon',
@@ -207,7 +213,15 @@ export default {
         open: 'Open way',
         router: 'Routing menu',
         placeholder: {
-            search: 'Please enter the name of the menu to be searched'
+            search: 'Please input the name of the menu to be searched',
+            name: 'Please input the name of menu, such as Dashboard',
+            subname: 'Please input the subname of menu like Dashboard',
+            path: 'Please input the path of menu，such as /dashboard',
+            page: 'Please input the page component of menu，such as /views/dashboard',
+            redirect: 'Please input the default redirect address of menu',
+            icon: 'Please select the menu icon',
+            up: 'Please select the parent menu',
+            lang: 'Please input the language key of menu'
         }
     }
 }

@@ -1,0 +1,29 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-switch: ant-switch;
+.@{ant-switch} {
+    .linear-gradient-background();
+    border: 1px solid var(--mi-border, @mi-border);
+    outline: none;
+    box-shadow: none;
+    .properties(height, 24);
+
+    &:focus,
+    &:hover {
+        box-shadow: none;
+    }
+
+    &-checked {
+        .linear-gradient-background-theme();
+        color: var(--mi-ink, @mi-ink);
+
+        &:focus {
+            border: 1px solid var(--mi-border, @mi-border);
+        }
+    }
+
+    &-checked &-inner {
+        color: var(--mi-ink, @mi-ink);
+    }
+}

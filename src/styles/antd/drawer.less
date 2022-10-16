@@ -6,15 +6,16 @@
 
 .@{mi-drawer} {
     .@{ant-drawer} {
-        &-content-wrapper {
-            max-width: 100%;
-            color: var(--mi-font, @mi-font);
-            border-left: 1px solid var(--mi-theme, @mi-theme);
-            box-shadow: 0 0 10px fade(@mi-theme, 20%);
-        }
-    
-        &-wrapper-body {
-            .linear-gradient-background();
+        &-content {
+            background: transparent;
+
+            &-wrapper {
+                max-width: 100%;
+                color: var(--mi-font, @mi-font);
+                border-left: 1px solid var(--mi-theme, @mi-theme);
+                box-shadow: 0 0 10px fade(@mi-theme, 20%);
+                backdrop-filter: blur(25px);
+            }
         }
 
         &-mask {

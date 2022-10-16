@@ -19,6 +19,10 @@ export default {
     key: '关键词',
     auth: '请求的资源需要认证 ( Unauthorized )',
     seek: '查询',
+    yes: '是',
+    no: '否',
+    external: '外部',
+    internal: '内部',
     step: {
         prev: '上一步',
         next: '下一步'
@@ -192,10 +196,12 @@ export default {
     menus: {
         add: '新增菜单',
         name: '菜单名称',
+        subname: '菜单子标题',
+        up: '上级菜单',
         app: '所属应用',
         type: '菜单类型',
         icon: '菜单图标',
-        path: '菜单路径',
+        path: '访问路径',
         attrs: '菜单属性',
         top: '一级菜单',
         sub: '子菜单',
@@ -206,8 +212,17 @@ export default {
         sort: '排序值',
         open: '打开方式',
         router: '路由菜单',
+        hide: '隐藏路由',
         placeholder: {
-            search: '请输入待搜索的菜单名称'
+            search: '请输入待搜索的菜单名称',
+            name: '请输入菜单名称，如：控制台',
+            subname: '请输入菜单子标题，如：Dashboard',
+            path: '请输入菜单访问路径，如：/dashboard',
+            page: '请输入菜单对应的前端组件，如：views/dashboard',
+            redirect: '请输入默认跳转地址',
+            icon: '请选择菜单图标',
+            up: '请选择上级菜单',
+            lang: '多语言菜单 key 值'
         }
     }
 }

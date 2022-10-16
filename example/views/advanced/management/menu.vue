@@ -4,7 +4,8 @@
             url: api.menus.data,
             method: 'get',
             callback: handleAfterGetData
-        }" />
+        }"
+        :add-menu="{url: api.menus.data}" />
 </template>
 
 <script setup>
