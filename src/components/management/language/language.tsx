@@ -89,6 +89,7 @@ export default defineComponent({
                         {},
                         {
                             lang: params.current,
+                            id: params.id,
                             key: params.addOrUpdateForm.validate.key,
                             edit: params.isEdit ? 1 : 0
                         },
@@ -321,9 +322,9 @@ export default defineComponent({
         // modal - create category
         const createLanguageCategoryVisible = () => {
             params.isEdit = false
+            params.id = 0
             params.visible.management = !params.visible.management
             params.visible.create = !params.visible.create
-            if (!params.visible.create) formRef.value.clearValidate()
         }
 
         // modal - update category
@@ -338,7 +339,6 @@ export default defineComponent({
                     language: data?.language
                 }
             } else params.form.validate = { key: '', language: '' }
-            if (!params.visible.create) formRef.value.clearValidate()
         }
 
         // cancel modal - category
@@ -346,6 +346,7 @@ export default defineComponent({
             params.visible.management = true
             params.visible.create = false
             params.isEdit = false
+            params.id = 0
             params.form.validate = { key: '', language: '' }
             formRef.value.clearValidate()
         }
@@ -484,12 +485,12 @@ export default defineComponent({
         // modal - language - create.
         const createLanguageConfigurationVisible = () => {
             params.isEdit = false
+            params.id = 0
             params.addOrUpdateForm.validate = {
                 key: '',
                 language: ''
             }
             params.visible.update = !params.visible.update
-            if (params.visible.update) addOrUpdateFormRef.value.clearValidate()
         }
 
         // modal - language - update.
@@ -501,7 +502,14 @@ export default defineComponent({
                 params.addOrUpdateForm.validate = JSON.parse(JSON.stringify(data.record))
                 params.addOrUpdateForm.editTempKey = data?.record?.key
             } else params.addOrUpdateForm.validate = { key: '', language: '' }
-            if (!params.visible.update) addOrUpdateFormRef.value.clearValidate()
+        }
+
+        const cancelLanguageConfigurationVisible = () => {
+            params.visible.update = false
+            params.isEdit = false
+            params.id = 0
+            params.addOrUpdateForm.validate = { key: '', language: '' }
+            addOrUpdateFormRef.value.clearValidate()
         }
 
         const createOrUpdateLanguageConfiguration = () => {
@@ -566,7 +574,7 @@ export default defineComponent({
                                         params.loading = false
                                         if (res) {
                                             if (res?.ret?.code === 200) {
-                                                createLanguageConfigurationVisible()
+                                                cancelLanguageConfigurationVisible()
                                                 afterAction()
                                                 if (props.createLanguage.callback)
                                                     props.createLanguage.callback()
@@ -855,6 +863,7 @@ export default defineComponent({
                     title={title}
                     width={360}
                     maskClosable={false}
+                    onCancel={cancelLanguageConfigurationVisible}
                     onOk={createOrUpdateLanguageConfiguration}
                     footerBtnPosition="center">
                     <Form
