@@ -28,6 +28,7 @@
             display: block;
             content: '';
             position: absolute;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
         }
 
         .mi-loading-double-ring:after {
@@ -35,14 +36,26 @@
             width: 15px;
             -webkit-animation: mi-loading-double-ring 1s infinite linear;
             animation: mi-loading-double-ring 1s infinite linear;
-            -webkit-box-shadow: 19px 0 0 0 #f6ca9d, -19px 0 0 0 #f6ca9d;
-            box-shadow: 19px 0 0 0 #f6ca9d, -19px 0 0 0 #f6ca9d;
+            -webkit-box-shadow: 19px 0 0 0 #f0c26f, -19px 0 0 0 #f0c26f;
+            box-shadow: 19px 0 0 0 #f0c26f, -19px 0 0 0 #f0c26f;
         }
 
         .mi-loading-double-ring:before {
             height: 40px;
             width: 40px;
             border: 2px solid #fff;
+        }
+
+        .mi-loading-double-ring span {
+            margin-top: 128px;
+            background: transparent linear-gradient(127deg, #d2b27d 0%, #f4d5a9 52%, #d1a466 100%);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            letter-spacing: 2px;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
         }
 
         @-webkit-keyframes mi-loading-double-ring {
@@ -61,7 +74,11 @@
     </style>
 </head>
 <body>
-    <div id="mi-loading-before-init" class="mi-loading-double-ring"></div>
+    <div id="mi-loading-before-init">
+        <div class="mi-loading-double-ring">
+            <span>Makeit Admin Pro</span>
+        </div>
+    </div>
     <div id="app"></div>
     <script type="module" src="/example/index.ts"></script>
 </body>

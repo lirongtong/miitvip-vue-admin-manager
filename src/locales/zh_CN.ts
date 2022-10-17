@@ -179,7 +179,8 @@ export default {
         error: {
             key: {
                 empty: '请输入关键词',
-                exist: '关键词已存在，请重新输入'
+                exist: '关键词已存在，请重新输入',
+                error: '关键词有误，请重新输入'
             },
             language: '请输入语系显示名称'
         },

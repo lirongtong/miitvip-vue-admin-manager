@@ -1,7 +1,7 @@
 import { defineComponent, ref, reactive, createVNode } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
-import { Form, Row, Col, Input, Checkbox, Button, message } from 'ant-design-vue'
+import { Form, Row, Col, Input, Checkbox, Button, message, FormInstance } from 'ant-design-vue'
 import {
     UserOutlined,
     EyeInvisibleOutlined,
@@ -44,7 +44,7 @@ const Login = defineComponent({
         const store = useStore()
         const route = useRoute()
         const router = useRouter()
-        const formRef = ref(null) as any
+        const formRef = ref<FormInstance>(null)
         const { width } = useWindowResize()
 
         const validateCaptcha = () => {
@@ -56,6 +56,7 @@ const Login = defineComponent({
             loading: false,
             captcha: false,
             password: true,
+            submitting: false,
             form: {
                 validate: {
                     username: '',
@@ -287,7 +288,7 @@ const Login = defineComponent({
                 ) : null
             return (
                 <>
-                    <Button class={cls} type="primary" onClick={login}>
+                    <Button class={cls} type="primary" onClick={login} loading={params.loading}>
                         {t('passport.login.title')}
                     </Button>
                     {register}

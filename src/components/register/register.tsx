@@ -1,7 +1,7 @@
 import { defineComponent, ref, createVNode, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { RouterLink, useRouter } from 'vue-router'
-import { Form, Row, Col, Button, Popover, Input, message } from 'ant-design-vue'
+import { Form, Row, Col, Button, Popover, Input, message, FormInstance } from 'ant-design-vue'
 import { MailOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { passportProps } from '../_utils/props-passport'
 import { getPrefixCls, tuple, getPropSlot } from '../_utils/props-tools'
@@ -50,7 +50,7 @@ export default defineComponent({
         const store = useStore()
         const router = useRouter()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
-        const formRef = ref(null) as any
+        const formRef = ref<FormInstance>()
         const passwordFormRef = ref(null) as any
         const { width } = useWindowResize()
 
@@ -341,7 +341,7 @@ export default defineComponent({
                 ) : null
             return (
                 <>
-                    <Button class={cls} type="primary" onClick={register}>
+                    <Button class={cls} type="primary" onClick={register} loading={params.loading}>
                         {props.binding ? t('passport.binding') : t('passport.register.title')}
                     </Button>
                     {login}

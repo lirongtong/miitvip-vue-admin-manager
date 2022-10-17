@@ -69,6 +69,17 @@ export const languageProps = () => ({
             }
         }
     },
+    checkCategoryExist: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'GET',
+                params: {},
+                callback: null
+            }
+        }
+    },
     createLanguage: {
         type: Object as PropType<CommonRequestProps>,
         required: true,
@@ -116,12 +127,12 @@ export const languageProps = () => ({
             }
         }
     },
-    checkLanguageKeyExist: {
+    checkLanguageExist: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
                 url: null,
-                method: 'DELETE',
+                method: 'GET',
                 params: {},
                 callback: null
             }

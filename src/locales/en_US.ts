@@ -179,7 +179,8 @@ export default {
         error: {
             key: {
                 empty: 'Please input the language keywords',
-                exist: 'The keyword is repeated, please re-input'
+                exist: 'The keyword is repeated, please re-input',
+                error: 'Keyword is incorrect, please re-input'
             },
             language: 'Please input a language display name'
         },

@@ -28,7 +28,6 @@ import {
     SearchOutlined,
     ReloadOutlined
 } from '@ant-design/icons-vue'
-import { $storage } from '../../../utils/storage'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
 import MiModal from '../../modal'
@@ -55,35 +54,51 @@ export default defineComponent({
         const addOrUpdateFormRef = ref<FormInstance>()
         let batchDeleteIds = reactive<any[]>([])
 
-        const checkLanguageCateogryKeyValidate = (_rule: Rule, value: string) => {
+        const checkCateogryKeyValidate = async (_rule: Rule, value: string) => {
             if (!value) return Promise.reject(t('language.error.key.empty'))
-            const categories = $storage.get($g.caches.storages.languages.categories) || []
-            if (categories[value]) return Promise.reject(t('language.error.key.exist'))
-            else return Promise.resolve()
-        }
-
-        const checkLanguageConfigurationKeyValidate = async (_rule: Rule, value: string) => {
-            if (!value) return Promise.reject(t('language.placeholder.config.key'))
-            if (props.checkLanguageKeyExist.url) {
-                return await $request[
-                    (props.checkLanguageKeyExist.method || 'GET').toLocaleLowerCase()
+            if (props.checkCategoryExist?.url) {
+                const res: any = await $request[
+                    (props.checkCategoryExist?.method || 'GET').toLocaleLowerCase()
                 ](
-                    props.checkLanguageKeyExist.url,
+                    props.checkCategoryExist.url,
                     Object.assign(
                         {},
-                        { ...params.addOrUpdateForm.validate, edit: params.isEdit },
-                        props.checkLanguageKeyExist.params
+                        {
+                            id: params.id,
+                            key: params.form.validate.key,
+                            edit: params.isEdit ? 1 : 0
+                        },
+                        { ...props.checkCategoryExist.params }
                     )
                 )
-                    .then((res: any) => {
-                        if (res) {
-                            if (res?.ret?.code === 200) return Promise.resolve()
-                            else return Promise.reject(res?.ret?.message)
-                        } else return Promise.reject()
-                    })
-                    .catch((err: any) => {
-                        return Promise.reject(err.message)
-                    })
+                if (res) {
+                    if (res?.ret?.code === 200) return Promise.resolve()
+                    else return Promise.reject(res?.ret?.message)
+                } else return Promise.reject(t('language.error.key.error'))
+            } else return Promise.resolve()
+        }
+
+        const checkLanguageKeyValidate = async (_rule: Rule, value: string) => {
+            if (!value) return Promise.reject(t('language.placeholder.config.key'))
+            if (props.checkLanguageExist?.url) {
+                const res: any = await $request[
+                    (props.checkLanguageExist?.method || 'GET').toLocaleLowerCase()
+                ](
+                    props.checkLanguageExist.url,
+                    Object.assign(
+                        {},
+                        {
+                            lang: params.current,
+                            key: params.addOrUpdateForm.validate.key,
+                            edit: params.isEdit ? 1 : 0
+                        },
+                        { ...props.checkLanguageExist.params }
+                    )
+                )
+                if (res) {
+                    if (res?.ret?.code === 200) return Promise.resolve()
+                    else return Promise.reject(res?.ret?.message)
+                } else return Promise.reject(t('language.error.key.error'))
             } else return Promise.resolve()
         }
 
@@ -183,9 +198,15 @@ export default defineComponent({
                     language: ''
                 },
                 rules: {
-                    key: [{ required: true, validator: checkLanguageCateogryKeyValidate }],
+                    key: [
+                        {
+                            required: true,
+                            validator: checkCateogryKeyValidate,
+                            trigger: 'blur'
+                        }
+                    ],
                     language: [{ required: true, message: t('language.error.language') }]
-                },
+                } as any,
                 editTempKey: ''
             },
             addOrUpdateForm: {
@@ -195,9 +216,15 @@ export default defineComponent({
                     language: ''
                 },
                 rules: {
-                    key: [{ required: true, validator: checkLanguageConfigurationKeyValidate }],
+                    key: [
+                        {
+                            required: true,
+                            validator: checkLanguageKeyValidate,
+                            trigger: 'blur'
+                        }
+                    ],
                     language: [{ required: true, message: t('language.placeholder.config.value') }]
-                }
+                } as any
             },
             search: {
                 lang: 'zh-cn',
@@ -296,6 +323,7 @@ export default defineComponent({
             params.isEdit = false
             params.visible.management = !params.visible.management
             params.visible.create = !params.visible.create
+            if (!params.visible.create) formRef.value.clearValidate()
         }
 
         // modal - update category
@@ -310,6 +338,7 @@ export default defineComponent({
                     language: data?.language
                 }
             } else params.form.validate = { key: '', language: '' }
+            if (!params.visible.create) formRef.value.clearValidate()
         }
 
         // cancel modal - category
@@ -318,6 +347,7 @@ export default defineComponent({
             params.visible.create = false
             params.isEdit = false
             params.form.validate = { key: '', language: '' }
+            formRef.value.clearValidate()
         }
 
         // category
@@ -459,6 +489,7 @@ export default defineComponent({
                 language: ''
             }
             params.visible.update = !params.visible.update
+            if (params.visible.update) addOrUpdateFormRef.value.clearValidate()
         }
 
         // modal - language - update.
@@ -470,6 +501,7 @@ export default defineComponent({
                 params.addOrUpdateForm.validate = JSON.parse(JSON.stringify(data.record))
                 params.addOrUpdateForm.editTempKey = data?.record?.key
             } else params.addOrUpdateForm.validate = { key: '', language: '' }
+            if (!params.visible.update) addOrUpdateFormRef.value.clearValidate()
         }
 
         const createOrUpdateLanguageConfiguration = () => {

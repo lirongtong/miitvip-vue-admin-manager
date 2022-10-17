@@ -28,14 +28,16 @@ export const api: any = reactive({
     password: {
         reset: 'password/reset',
         captcha: 'password/captcha/send',
-        check: 'password/captcha/check'
+        check: 'password/captcha/checkout'
     },
     languages: {
-        data: 'language',
-        update: 'language/{id}',
+        data: 'languages',
+        update: 'languages/{id}',
+        check: 'languages/checkout',
         category: {
-            data: 'language/category',
-            update: 'language/category/{id}'
+            data: 'languages/categories',
+            update: 'languages/categories/{id}',
+            check: 'languages/categories/checkout'
         }
     },
     menus: {
