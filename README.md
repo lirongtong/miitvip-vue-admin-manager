@@ -98,7 +98,7 @@
 
 :x: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
 
-:x: 语言配置 :snowflake:
+:white_check_mark: 语言配置 :snowflake:
 
 :x: 富文本编辑器 :ocean:
 
