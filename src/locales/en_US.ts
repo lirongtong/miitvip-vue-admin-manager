@@ -9,6 +9,8 @@ export default {
     understood: 'Understood',
     activate: 'Go to activate',
     success: 'Success',
+    add: 'Add',
+    'add-now': 'Add it now',
     edit: 'Edit',
     delete: 'Delete',
     reset: 'Reset',
@@ -169,25 +171,36 @@ export default {
         'zh-cn': 'Simplified Chinese',
         'en-us': 'English',
         current: 'Current Language: ',
-        system: 'System Built-in',
+        system: 'Built-in',
         add: 'Add',
+        'add-now': 'Not found, go to language management',
         'add-title': 'Add language configuration',
         'update-title': 'Update language configuration',
         'add-language': 'Add Language',
-        'display-language': 'Display Language',
-        management: 'Language management',
+        'display-language': 'Name',
+        management: 'Languages',
+        'is-default': 'Default',
+        default: 'Set as default',
+        'default-tip':
+            'The default language will be used as the data base for the new language, and the new language will generate a set of content consistent with the current language configuration of the default language, omitting the language configuration operation of different language but with the same Key value.',
+        'default-language': 'Default',
+        'no-data': 'No data yet',
         error: {
             key: {
                 empty: 'Please input the language keywords',
                 exist: 'The keyword is repeated, please re-input',
                 error: 'Keyword is incorrect, please re-input'
             },
-            language: 'Please input a language display name'
+            language: 'Please input a language display name',
+            'no-data': 'Please select the language first and then set as default',
+            'is-default': 'Please select the default language option',
+            default: 'It is currently the default language, no need to set it again'
         },
         placeholder: {
             key: 'For example, the keywords in simplified Chinese are: zh-cn',
             language: 'Language display name, such as: Simplified Chinese',
             search: 'Please input the Key value of the keyword to be searched or the language content',
+            current: 'Please select language',
             config: {
                 key: 'Please input a keyword for language configuration, such as: makeit.vip',
                 value: 'Please input the display name corresponding to the language configuration keyword, such as: makeit.vip'

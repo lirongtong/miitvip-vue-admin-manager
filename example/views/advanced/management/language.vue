@@ -13,6 +13,7 @@
         :create-category="{url: api.languages.category.data}"
         :update-category="{url: api.languages.category.update}"
         :delete-category="{url: api.languages.category.update}"
+        :default-category="{url: api.languages.category.default}"
         :check-category-exist="{url: api.languages.category.check}" />
 </template>
 

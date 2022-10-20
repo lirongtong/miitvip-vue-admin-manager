@@ -37,7 +37,8 @@ export const api: any = reactive({
         category: {
             data: 'languages/categories',
             update: 'languages/categories/{id}',
-            check: 'languages/categories/checkout'
+            check: 'languages/categories/checkout',
+            default: 'languages/categories/default/{id}'
         }
     },
     menus: {

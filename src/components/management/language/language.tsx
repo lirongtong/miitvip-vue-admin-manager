@@ -16,7 +16,9 @@ import {
     message,
     FormInstance,
     Row,
-    Col
+    Col,
+    Empty,
+    RadioGroup
 } from 'ant-design-vue'
 import {
     FormOutlined,
@@ -184,19 +186,22 @@ export default defineComponent({
                 create: false
             },
             current: $g.locale,
+            currentId: 0,
             categories: [] as LanguageFormState[],
+            categoriyIds: {} as any,
             builtInCategories: [
                 { key: 'zh-cn', language: t('language.zh-cn') },
                 { key: 'en-us', language: t('language.en-us') }
             ] as LanguageFormState[],
-            builtInCurrent: 'zh-cn',
+            builtInCurrent: $g.locale,
             types: {} as any,
             id: 0,
             isEdit: false,
             form: {
                 validate: {
                     key: '',
-                    language: ''
+                    language: '',
+                    is_default: 0
                 },
                 rules: {
                     key: [
@@ -206,9 +211,14 @@ export default defineComponent({
                             trigger: 'blur'
                         }
                     ],
-                    language: [{ required: true, message: t('language.error.language') }]
+                    language: [{ required: true, message: t('language.error.language') }],
+                    is_default: [{ required: true, message: t('language.error.is-default') }]
                 } as any,
-                editTempKey: ''
+                editTempKey: '',
+                defaultOptions: [
+                    { label: t('yes'), value: 1 },
+                    { label: t('no'), value: 0 }
+                ]
             },
             addOrUpdateForm: {
                 editTempKey: '',
@@ -336,9 +346,10 @@ export default defineComponent({
                 params.id = data?.id
                 params.form.validate = {
                     key: data?.key,
-                    language: data?.language
+                    language: data?.language,
+                    is_default: data?.is_default
                 }
-            } else params.form.validate = { key: '', language: '' }
+            } else params.form.validate = { key: '', language: '', is_default: 0 }
         }
 
         // cancel modal - category
@@ -347,7 +358,7 @@ export default defineComponent({
             params.visible.create = false
             params.isEdit = false
             params.id = 0
-            params.form.validate = { key: '', language: '' }
+            params.form.validate = { key: '', language: '', is_default: 0 }
             formRef.value.clearValidate()
         }
 
@@ -366,9 +377,46 @@ export default defineComponent({
                             if (res?.ret?.code === 200) {
                                 params.categories = res?.data
                                 for (let i = 0, l = res?.data.length; i < l; i++) {
-                                    params.types[res?.data[i].key] = res?.data[i].language
+                                    const cur = res?.data[i]
+                                    params.types[cur?.key] = cur?.language
+                                    params.categoriyIds[cur?.key] = cur?.id
+                                    if (cur?.is_default) params.currentId = cur?.id
                                 }
                                 if (props.category.callback) props.category.callback(res?.data)
+                            } else message.error(res?.ret?.message)
+                        }
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            }
+        }
+
+        const setDefaultCategory = () => {
+            if (params.categories.length <= 0) {
+                message.error(t('language.error.no-data'))
+                return
+            }
+            if (params.currentId === params.categoriyIds[params.current]) {
+                message.success(t('language.error.default'))
+                return
+            }
+            if (params.loading) return
+            params.loading = true
+            if (props.defaultCategory.url) {
+                $request[(props.defaultCategory.method || 'DELETE').toLowerCase()](
+                    $tools.replaceUrlParams(props.defaultCategory.url, {
+                        id: params.categoriyIds[params.current]
+                    }),
+                    props.defaultCategory.params || {}
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('success'))
+                                getLanguageCategory()
                             } else message.error(res?.ret?.message)
                         }
                     })
@@ -421,12 +469,9 @@ export default defineComponent({
                         } else {
                             // create
                             if (props.createCategory.url) {
-                                const query = Object.assign(
-                                    {},
-                                    params.pagination,
-                                    props.createCategory.params || {},
-                                    { ...params.form.validate }
-                                )
+                                const query = Object.assign({}, props.createCategory.params || {}, {
+                                    ...params.form.validate
+                                })
                                 $request[(props.createCategory.method || 'POST').toLowerCase()](
                                     props.createCategory.url,
                                     query
@@ -721,19 +766,38 @@ export default defineComponent({
             const options = [] as any[]
             for (let i = 0, l = params.categories.length; i < l; i++) {
                 const cur = params.categories[i] as LanguageFormState
-                options.push(<SelectOption value={cur.key}>{cur.language}</SelectOption>)
+                const elem = cur.is_default ? (
+                    <>
+                        <span innerHTML={cur.language} />
+                        <span class="theme"> - {t('language.default-language')}</span>
+                    </>
+                ) : (
+                    cur.language
+                )
+                options.push(<SelectOption value={cur.key}>{elem}</SelectOption>)
             }
             return options
         }
 
         const renderLanguageSelection = () => {
-            return (
+            return params.categories.length > 0 ? (
                 <Select
                     v-model:value={params.current}
                     onChange={changLanguageCategory}
-                    style={{ minWidth: $tools.convert2Rem(160) }}>
+                    placeholder={t('language.placeholder.current')}
+                    style={{ minWidth: $tools.convert2Rem(220) }}>
                     {renderLanguageSelectionOptions()}
                 </Select>
+            ) : (
+                <>
+                    <span innerHTML={t('language.no-data')} />
+                    <a
+                        class="theme"
+                        style={{ marginLeft: $tools.convert2Rem(4) }}
+                        onClick={() => (params.visible.management = !params.visible.management)}
+                        innerHTML={t('add-now')}
+                    />
+                </>
             )
         }
 
@@ -753,40 +817,40 @@ export default defineComponent({
             )
         }
 
+        const renderEmpty = () => {
+            return <Empty description={t('no-data')} />
+        }
+
         const renderLanguageTags = () => {
-            const langs = [] as any[]
-            for (let i = 0, l = params.categories.length; i < l; i++) {
-                const cur = params.categories[i] as LanguageFormState
-                const close =
-                    i > 1 ? (
-                        <Popconfirm
-                            title={t('delete-confirm')}
-                            style={{ zIndex: Date.now() }}
-                            okText={t('ok')}
-                            onConfirm={() => deleteLanguageCategory(cur.id || cur.key)}
-                            cancelText={t('cancel')}>
-                            <span class={`${prefixCls}-cate-close`}>
-                                <CloseCircleFilled />
-                            </span>
-                        </Popconfirm>
-                    ) : null
-                const edit =
-                    i > 1 ? (
-                        <div
-                            class={`${prefixCls}-cate-edit`}
-                            onClick={() => updateLanguageCategoryVisible(cur)}>
-                            <EditOutlined />
+            if (params.categories.length <= 0) {
+                return renderEmpty()
+            } else {
+                const langs = [] as any[]
+                for (let i = 0, l = params.categories.length; i < l; i++) {
+                    const cur = params.categories[i] as LanguageFormState
+                    langs.push(
+                        <div class={`${prefixCls}-cate`}>
+                            <span class={`${prefixCls}-cate-name`} innerHTML={cur.language} />
+                            <div
+                                class={`${prefixCls}-cate-edit`}
+                                onClick={() => updateLanguageCategoryVisible(cur)}>
+                                <EditOutlined />
+                            </div>
+                            <Popconfirm
+                                title={t('delete-confirm')}
+                                style={{ zIndex: Date.now() }}
+                                okText={t('ok')}
+                                onConfirm={() => deleteLanguageCategory(cur.id || cur.key)}
+                                cancelText={t('cancel')}>
+                                <span class={`${prefixCls}-cate-close`}>
+                                    <CloseCircleFilled />
+                                </span>
+                            </Popconfirm>
                         </div>
-                    ) : null
-                langs.push(
-                    <div class={`${prefixCls}-cate`}>
-                        <span class={`${prefixCls}-cate-name`} innerHTML={cur.language} />
-                        {edit}
-                        {close}
-                    </div>
-                )
+                    )
+                }
+                return <div class={`${prefixCls}-cates`}>{langs}</div>
             }
-            return <div class={`${prefixCls}-cates`}>{langs}</div>
         }
 
         const renderLanguagesModalTitle = () => {
@@ -850,6 +914,12 @@ export default defineComponent({
                                 placeholder={t('language.placeholder.language')}
                             />
                         </FormItem>
+                        <FormItem label={t('language.is-default')} name="is_default">
+                            <RadioGroup
+                                options={params.form.defaultOptions}
+                                v-model:value={params.form.validate.is_default}
+                            />
+                        </FormItem>
                     </Form>
                 </MiModal>
             )
@@ -898,14 +968,56 @@ export default defineComponent({
         }
 
         const renderActionBtns = () => {
+            const addOrNot = params.types[params.current] ? (
+                <span class="theme">{params.types[params.current]}</span>
+            ) : (
+                <a class="theme">{t('no-data')}</a>
+            )
             const btns =
                 params.tab === 'customize' ? (
                     <>
                         <Popconfirm
-                            title={t('delete-confirm')}
+                            style={{ zIndex: Date.now() }}
+                            okText={t('ok')}
+                            placement="topRight"
+                            onConfirm={() => setDefaultCategory()}
+                            v-slots={{
+                                title: () => {
+                                    return (
+                                        <div
+                                            class="title-limit"
+                                            style={{ maxWidth: $tools.convert2Rem(275) }}>
+                                            <div innerHTML={t('language.default-tip')}></div>
+                                            <div style={{ marginTop: $tools.convert2Rem(8) }}>
+                                                <span>{t('language.current')}</span>
+                                                {addOrNot}
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            }}
+                            cancelText={t('cancel')}>
+                            <Button
+                                class={`${btnCls}-warning`}
+                                style={{ marginRight: $tools.convert2Rem(8) }}>
+                                {t('language.default')}
+                            </Button>
+                        </Popconfirm>
+                        <Popconfirm
                             style={{ zIndex: Date.now() }}
                             okText={t('ok')}
                             onConfirm={() => batchDelete()}
+                            v-slots={{
+                                title: () => {
+                                    return (
+                                        <div
+                                            class="title-limit"
+                                            style={{ maxWidth: $tools.convert2Rem(180) }}>
+                                            <div innerHTML={t('delete-confirm')}></div>
+                                        </div>
+                                    )
+                                }
+                            }}
                             cancelText={t('cancel')}>
                             <Button
                                 type="primary"
@@ -964,6 +1076,31 @@ export default defineComponent({
             )
         }
 
+        const renderTabItems = () => {
+            return (
+                <div class={`${prefixCls}-tabs`}>
+                    <div
+                        class={`${prefixCls}-tab ${params.tab === 'customize' ? 'active' : ''}`}
+                        onClick={() => (params.tab = 'customize')}>
+                        <PlusOutlined />
+                        {t('customize')}
+                    </div>
+                    <div
+                        class={`${prefixCls}-tab ${params.tab === 'built-in' ? 'active' : ''}`}
+                        onClick={() => (params.tab = 'built-in')}>
+                        <FormOutlined />
+                        {t('language.system')}
+                    </div>
+                    <div
+                        class={`${prefixCls}-tab ${params.tab === 'manage' ? 'active' : ''}`}
+                        onClick={() => (params.visible.management = !params.visible.management)}>
+                        <GlobalOutlined />
+                        {t('language.management')}
+                    </div>
+                </div>
+            )
+        }
+
         const renderTable = () => {
             const table =
                 params.tab === 'customize' ? (
@@ -971,6 +1108,7 @@ export default defineComponent({
                         {renderActionBtns()}
                         <Table
                             columns={params.table.columns}
+                            emptyText={t('no-data')}
                             dataSource={params.table.data}
                             rowSelection={{
                                 onChange: (keys: Key[], rows: any[]) => {
@@ -1021,35 +1159,10 @@ export default defineComponent({
                 ) : null
             return (
                 <div class={`${prefixCls}-table`}>
-                    <ConfigProvider locale={props.paginationLocale}>
-                        <div class={`${prefixCls}-tabs`}>
-                            <div
-                                class={`${prefixCls}-tab ${
-                                    params.tab === 'customize' ? 'active' : ''
-                                }`}
-                                onClick={() => (params.tab = 'customize')}>
-                                <PlusOutlined />
-                                {t('customize')}
-                            </div>
-                            <div
-                                class={`${prefixCls}-tab ${
-                                    params.tab === 'built-in' ? 'active' : ''
-                                }`}
-                                onClick={() => (params.tab = 'built-in')}>
-                                <FormOutlined />
-                                {t('language.system')}
-                            </div>
-                            <div
-                                class={`${prefixCls}-tab ${
-                                    params.tab === 'manage' ? 'active' : ''
-                                }`}
-                                onClick={() =>
-                                    (params.visible.management = !params.visible.management)
-                                }>
-                                <GlobalOutlined />
-                                {t('language.management')}
-                            </div>
-                        </div>
+                    <ConfigProvider
+                        locale={props.paginationLocale}
+                        renderEmpty={() => renderEmpty()}>
+                        {renderTabItems()}
                         <div class={`${prefixCls}-list`}>
                             <div class={`${prefixCls}-list-scroll`}>
                                 <div class={`${prefixCls}-list-item`}>{table}</div>

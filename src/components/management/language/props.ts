@@ -5,6 +5,8 @@ export interface LanguageFormState {
     id?: string | number
     key: string
     language: string
+    is_default: number
+    type?: string
 }
 
 export const languageProps = () => ({
@@ -64,6 +66,18 @@ export const languageProps = () => ({
             return {
                 url: null,
                 method: 'DELETE',
+                params: {},
+                callback: null
+            }
+        }
+    },
+    defaultCategory: {
+        type: Object as PropType<CommonRequestProps>,
+        required: true,
+        default: () => {
+            return {
+                url: null,
+                method: 'PUT',
                 params: {},
                 callback: null
             }

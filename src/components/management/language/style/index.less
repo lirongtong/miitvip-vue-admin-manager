@@ -60,9 +60,9 @@
 
     &-tabs {
         .flex();
-        .properties(padding-bottom, 32);
         background: var(--mi-dark-grey, @mi-dark-grey);
         .properties(padding-top, 16);
+        .properties(padding-bottom, 32);
         .properties(margin-top, -1);
         position: sticky;
         top: @mi-content-padding-top;
@@ -74,6 +74,8 @@
         .properties(margin-right, 16);
         .properties(padding-top, 16);
         .properties(padding-bottom, 16);
+        .properties(padding-left);
+        .properties(padding-right);
         border: 2px solid var(--mi-border, @mi-border);
         font-weight: bold;
         .border-radius(10);
@@ -82,6 +84,7 @@
         cursor: pointer;
         .properties(width, 120);
         .properties(height, 120);
+        text-align: center;
 
         .anticon {
             .properties(font-size, 20);

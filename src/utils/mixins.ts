@@ -146,11 +146,7 @@ export default {
                             }
                         )
                         .then((res: any) => {
-                            if (res) {
-                                if (res?.ret?.code === 200) {
-                                    return res?.data
-                                } else message.error(res?.ret?.message)
-                            }
+                            if (res?.ret?.code === 200) return res?.data
                         })
                         .catch((err: any) => {
                             message.error(err.message)

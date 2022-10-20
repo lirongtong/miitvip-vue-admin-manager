@@ -9,6 +9,8 @@ export default {
     understood: '知道了',
     activate: '前往激活',
     success: '操作成功',
+    add: '新增',
+    'add-now': '立刻添加',
     edit: '编辑',
     delete: '删除',
     reset: '重置',
@@ -176,18 +178,28 @@ export default {
         management: '语系管理',
         'add-language': '新增语系',
         'display-language': '显示名称',
+        'is-default': '是否默认',
+        default: '设为默认',
+        'default-tip':
+            '默认语系将作为新增语系的数据基础，新语系将生成一套与默认语系当前语言配置一致的内容，省去不同语系但又是相同 Key 值的语言配置操作。',
+        'default-language': '默认语系',
+        'no-data': '暂无设定语系',
         error: {
             key: {
                 empty: '请输入关键词',
                 exist: '关键词已存在，请重新输入',
                 error: '关键词有误，请重新输入'
             },
-            language: '请输入语系显示名称'
+            language: '请输入语系显示名称',
+            'no-data': '请先选定语系后再设定为默认',
+            'is-default': '请选择是否为默认语系选项',
+            default: '当前已是默认语系，无需再次设定'
         },
         placeholder: {
             key: '语言编码，如简体中文的关键词为: zh-cn',
             language: '语系显示名称，如：简体中文',
             search: '请输入待搜索关键词或相应的语言内容',
+            current: '请选择语系',
             config: {
                 key: '请输入语言配置的关键词',
                 value: '请输入语言配置关键词对应的语言内容'
