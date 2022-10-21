@@ -3,10 +3,17 @@ import PropTypes, { CommonRequestProps } from '../../_utils/props-types'
 
 export interface LanguageFormState {
     id?: string | number
+    cid?: string | number
     key: string
     language: string
-    is_default: number
+    is_default?: number
     type?: string
+}
+
+export interface TranslateForm {
+    url: string
+    appid: string | number
+    key: string | number
 }
 
 export const languageProps = () => ({
@@ -106,6 +113,17 @@ export const languageProps = () => ({
             }
         }
     },
+    batchCreateLanguage: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'POST',
+                params: {},
+                callback: null
+            }
+        }
+    },
     updateLanguage: {
         type: Object as PropType<CommonRequestProps>,
         required: true,
@@ -149,6 +167,16 @@ export const languageProps = () => ({
                 method: 'GET',
                 params: {},
                 callback: null
+            }
+        }
+    },
+    translate: {
+        type: Object as PropType<TranslateForm>,
+        default: () => {
+            return {
+                url: '',
+                appid: '',
+                key: ''
             }
         }
     },

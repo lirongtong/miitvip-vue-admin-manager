@@ -2,6 +2,7 @@ import { defineComponent, reactive, ref, inject, getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../../../components/_utils/props-tools'
 import { languageProps, LanguageFormState } from './props'
+import md5 from 'md5'
 import {
     Table,
     Input,
@@ -18,7 +19,8 @@ import {
     Row,
     Col,
     Empty,
-    RadioGroup
+    RadioGroup,
+    Tooltip
 } from 'ant-design-vue'
 import {
     FormOutlined,
@@ -28,7 +30,8 @@ import {
     PlusOutlined,
     GlobalOutlined,
     SearchOutlined,
-    ReloadOutlined
+    ReloadOutlined,
+    InfoCircleOutlined
 } from '@ant-design/icons-vue'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
@@ -240,6 +243,40 @@ export default defineComponent({
             search: {
                 lang: 'zh-cn',
                 key: ''
+            },
+            translate: {
+                languages: {
+                    zh: t('language.list.zh'),
+                    en: t('language.list.en'),
+                    jp: t('language.list.jp'),
+                    kor: t('language.list.kor'),
+                    fra: t('language.list.fra'),
+                    spa: t('language.list.spa'),
+                    th: t('language.list.th'),
+                    ara: t('language.list.ara'),
+                    ru: t('language.list.ru'),
+                    pt: t('language.list.pt'),
+                    de: t('language.list.de'),
+                    it: t('language.list.it'),
+                    el: t('language.list.el'),
+                    nl: t('language.list.nl'),
+                    pl: t('language.list.pl'),
+                    bul: t('language.list.bul'),
+                    est: t('language.list.est'),
+                    dan: t('language.list.dan'),
+                    fin: t('language.list.fin'),
+                    cs: t('language.list.cs'),
+                    rom: t('language.list.rom'),
+                    slo: t('language.list.slo'),
+                    swe: t('language.list.swe'),
+                    hu: t('language.list.hu'),
+                    cht: t('language.list.cht'),
+                    vie: t('language.list.vie')
+                },
+                form: {
+                    translate: 1,
+                    target: 'zh'
+                }
             }
         })
 
@@ -483,6 +520,8 @@ export default defineComponent({
                                                 message.success(t('success'))
                                                 cancelLanguageCategoryVisible()
                                                 getLanguageCategory()
+                                                if (params.translate.form.translate)
+                                                    automaticTranslate(res?.data)
                                                 if (formRef.value) formRef.value.resetFields()
                                                 if (props.createCategory.callback)
                                                     props.createCategory.callback()
@@ -758,6 +797,62 @@ export default defineComponent({
             if (props.data.url) setLanguageConfigurationList()
         }
 
+        // sign
+        const automaticTranslate = async (data: any) => {
+            const id = data?.id
+            const list = data?.translate
+            if (
+                props.translate.url &&
+                props.translate.appid &&
+                props.translate.key &&
+                id &&
+                list &&
+                props.batchCreateLanguage?.url
+            ) {
+                const queries = [] as string[]
+                for (let i = 0, l = list.length; i < l; i++) {
+                    const cur = list[i]
+                    queries.push(cur?.language)
+                }
+                const salt = $tools.uid()
+                const query = queries.join('\n')
+                const sign = md5(props.translate.appid + query + salt + props.translate.key)
+                $request
+                    .get(props.translate.url, {
+                        q: query,
+                        from: 'auto',
+                        to: params.translate.form.target,
+                        appid: props.translate.appid,
+                        salt,
+                        sign
+                    })
+                    .then((res: any) => {
+                        if (res.trans_result) {
+                            const items = [] as LanguageFormState[]
+                            for (let n = 0, m = res.trans_result.length; n < m; n++) {
+                                const item = res.trans_result[n]
+                                const origin = list[n] as any
+                                items.push({
+                                    cid: id,
+                                    key: origin?.key,
+                                    language: item?.dst
+                                })
+                            }
+                            $request
+                                .post(props.batchCreateLanguage.url, {
+                                    data: items
+                                })
+                                .then((res: any) => {
+                                    if (res?.ret?.code !== 200) message.error(res?.ret?.message)
+                                })
+                                .catch((err: any) => {
+                                    message.error(err?.message)
+                                })
+                        } else message.error(res?.error_msg)
+                    })
+            } else message.error(t('language.translate.config'))
+        }
+
         getBuiltInLanguageConfiguration((messages as any).value[locale.value])
         initLanguageConfiguration()
 
@@ -775,6 +870,15 @@ export default defineComponent({
                     cur.language
                 )
                 options.push(<SelectOption value={cur.key}>{elem}</SelectOption>)
+            }
+            return options
+        }
+
+        const renderTargetLanguageOptions = () => {
+            const options = [] as any[]
+            for (const i in params.translate.languages) {
+                const cur = params.translate.languages[i]
+                options.push(<SelectOption value={i}>{cur}</SelectOption>)
             }
             return options
         }
@@ -874,6 +978,7 @@ export default defineComponent({
                     v-model:visible={params.visible.management}
                     maskClosable={false}
                     width={640}
+                    animation="flip"
                     title={renderLanguagesModalTitle()}
                     footer={false}>
                     {renderLanguageTags()}
@@ -887,16 +992,23 @@ export default defineComponent({
                     v-model:visible={params.visible.create}
                     title={t('language.add-language')}
                     maskClosable={false}
+                    animation="flip"
                     onCancel={cancelLanguageCategoryVisible}
                     onOk={createOrUpdateLanguageCategory}
                     footerBtnPosition="center">
                     <Form
                         class={`${formCls} ${formCls}-theme`}
-                        labelCol={{ style: { width: $tools.convert2Rem(96) } }}
+                        labelCol={{ style: { width: $tools.convert2Rem(146) } }}
                         model={params.form.validate}
                         rules={params.form.rules}
                         ref={formRef}>
-                        <FormItem label={t('key')} name="key">
+                        <FormItem label={t('language.is-default')} name="is_default">
+                            <RadioGroup
+                                options={params.form.defaultOptions}
+                                v-model:value={params.form.validate.is_default}
+                            />
+                        </FormItem>
+                        <FormItem label={t('language.key')} name="key">
                             <Input
                                 name="key"
                                 v-model:value={params.form.validate.key}
@@ -914,11 +1026,47 @@ export default defineComponent({
                                 placeholder={t('language.placeholder.language')}
                             />
                         </FormItem>
-                        <FormItem label={t('language.is-default')} name="is_default">
+                        <FormItem
+                            v-slots={{
+                                label: () => {
+                                    return (
+                                        <>
+                                            <span style={{ marginRight: $tools.convert2Rem(4) }}>
+                                                {t('language.is-translate')}
+                                            </span>
+                                            <Tooltip
+                                                v-slots={{
+                                                    title: () => {
+                                                        return (
+                                                            <div
+                                                                innerHTML={t(
+                                                                    'language.auto'
+                                                                )}></div>
+                                                        )
+                                                    }
+                                                }}>
+                                                <span
+                                                    class="theme"
+                                                    style={{ marginRight: $tools.convert2Rem(4) }}>
+                                                    <InfoCircleOutlined />
+                                                </span>
+                                            </Tooltip>
+                                        </>
+                                    )
+                                }
+                            }}>
                             <RadioGroup
                                 options={params.form.defaultOptions}
-                                v-model:value={params.form.validate.is_default}
+                                v-model:value={params.translate.form.translate}
                             />
+                        </FormItem>
+                        <FormItem label={t('language.target')}>
+                            <Select
+                                v-model:value={params.translate.form.target}
+                                placeholder={t('language.placeholder.current')}
+                                style={{ width: '100%' }}>
+                                {renderTargetLanguageOptions()}
+                            </Select>
                         </FormItem>
                     </Form>
                 </MiModal>
@@ -986,7 +1134,7 @@ export default defineComponent({
                                     return (
                                         <div
                                             class="title-limit"
-                                            style={{ maxWidth: $tools.convert2Rem(275) }}>
+                                            style={{ maxWidth: $tools.convert2Rem(285) }}>
                                             <div innerHTML={t('language.default-tip')}></div>
                                             <div style={{ marginTop: $tools.convert2Rem(8) }}>
                                                 <span>{t('language.current')}</span>

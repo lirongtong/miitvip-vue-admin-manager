@@ -6,6 +6,7 @@
             callback: handleAfterGetData
         }"
         :create-language="{url: api.languages.data}"
+        :batch-create-language="{url: api.languages.batchCreate}"
         :update-language="{url: api.languages.update}"
         :delete-language="{url: api.languages.update}"
         :check-language-exist="{url: api.languages.check}"
@@ -14,7 +15,12 @@
         :update-category="{url: api.languages.category.update}"
         :delete-category="{url: api.languages.category.update}"
         :default-category="{url: api.languages.category.default}"
-        :check-category-exist="{url: api.languages.category.check}" />
+        :check-category-exist="{url: api.languages.category.check}"
+        :translate="{
+            url: 'api/trans/vip/translate',
+            appid: '20221021001405223',
+            key: ''
+        }" />
 </template>
 
 <script setup>

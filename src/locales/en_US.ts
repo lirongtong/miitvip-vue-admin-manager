@@ -170,6 +170,34 @@ export default {
     language: {
         'zh-cn': 'Simplified Chinese',
         'en-us': 'English',
+        list: {
+            zh: 'Chinese',
+            en: 'English',
+            jp: 'Japanese',
+            kor: 'Korean',
+            fra: 'French',
+            spa: 'Spanish',
+            th: 'Thai',
+            ara: 'Arabic',
+            ru: 'Russian',
+            pt: 'Portuguese',
+            de: 'German',
+            it: 'Italian',
+            el: 'Greek',
+            nl: 'Dutch',
+            pl: 'Polish',
+            bul: 'Bulgarian',
+            est: 'Estonian',
+            dan: 'Danish',
+            fin: 'Finnish',
+            cs: 'Czech',
+            rom: 'Romanian',
+            slo: 'Slovenian',
+            swe: 'Swedish',
+            hu: 'Hungarian',
+            cht: 'Traditional Chinese',
+            vie: 'Vietnamese'
+        },
         current: 'Current Language: ',
         system: 'Built-in',
         add: 'Add',
@@ -180,9 +208,12 @@ export default {
         'display-language': 'Name',
         management: 'Languages',
         'is-default': 'Default',
+        'is-translate': 'Translate',
+        target: 'Target',
         default: 'Set as default',
+        auto: 'Call Baidu Translate API for automatic translation, please configure parameters such as APPID in advance',
         'default-tip':
-            'The default language will be used as the data base for the new language, and the new language will generate a set of content consistent with the current language configuration of the default language, omitting the language configuration operation of different language but with the same Key value.',
+            'The default language will be used as the data base for the new language。The new language can choose whether to generate a set of configuration properties with the same Key value as the current language configuration of the default language. At the same time, the automatic translation function can be selected, and the language content supported by the Baidu translation API can be called for automatic translation.',
         'default-language': 'Default',
         'no-data': 'No data yet',
         error: {
@@ -205,6 +236,9 @@ export default {
                 key: 'Please input a keyword for language configuration, such as: makeit.vip',
                 value: 'Please input the display name corresponding to the language configuration keyword, such as: makeit.vip'
             }
+        },
+        translate: {
+            config: "To invoke automatic translation, please pre-configure Baidu Translator's APPID and Key value"
         }
     },
     menus: {

@@ -58,6 +58,7 @@
         "ant-design-vue": "^3.2.13",
         "axios": "^0.27.2",
         "echarts": "^5.4.0",
+        "md5": "^2.3.0",
         "nprogress": "^0.2.0",
         "prismjs": "^1.28.0",
         "screenfull": "^6.0.1",

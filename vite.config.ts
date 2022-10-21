@@ -47,6 +47,10 @@ export default defineConfig({
             '/v1': {
                 target: 'http://local-api.makeit.vip',
                 changeOrigin: true
+            },
+            '/api/trans': {
+                target: 'http://fanyi-api.baidu.com',
+                changeOrigin: true
             }
         }
     },

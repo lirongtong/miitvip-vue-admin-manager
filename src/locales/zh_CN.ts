@@ -170,18 +170,50 @@ export default {
     language: {
         'zh-cn': '简体中文',
         'en-us': '英文',
+        list: {
+            zh: '中文',
+            en: '英文',
+            jp: '日语',
+            kor: '韩语',
+            fra: '法语',
+            spa: '西班牙语',
+            th: '泰语',
+            ara: '阿拉伯语',
+            ru: '俄语',
+            pt: '葡萄牙语',
+            de: '德语',
+            it: '意大利语',
+            el: '希腊语',
+            nl: '荷兰语',
+            pl: '波兰语',
+            bul: '保加利亚语',
+            est: '爱沙尼亚语',
+            dan: '丹麦语',
+            fin: '芬兰语',
+            cs: '捷克语',
+            rom: '罗马尼亚语',
+            slo: '斯洛文尼亚语',
+            swe: '瑞典语',
+            hu: '匈牙利语',
+            cht: '繁体中文',
+            vie: '越南语'
+        },
         current: '当前语系：',
         system: '系统内置',
         add: '新增配置',
+        key: '语言编码',
         'add-title': '新增语言配置',
         'update-title': '更新语言配置',
         management: '语系管理',
         'add-language': '新增语系',
         'display-language': '显示名称',
-        'is-default': '是否默认',
+        'is-default': '设为默认语系',
+        'is-translate': '是否自动翻译',
+        target: '翻译目标语言',
         default: '设为默认',
+        auto: '调用百度翻译 API 进行自动翻译，请预先配置 APPID 等参数',
         'default-tip':
-            '默认语系将作为新增语系的数据基础，新语系将生成一套与默认语系当前语言配置一致的内容，省去不同语系但又是相同 Key 值的语言配置操作。',
+            '默认语系将作为新增语系的数据基础，新语系可选择是否生成一套与默认语系当前语言配置相同 Key 值的配置属性，同时可选自动翻译功能，调用百度翻译 API 所支持的语言内容进行自动翻译。',
         'default-language': '默认语系',
         'no-data': '暂无设定语系',
         error: {
@@ -204,6 +236,9 @@ export default {
                 key: '请输入语言配置的关键词',
                 value: '请输入语言配置关键词对应的语言内容'
             }
+        },
+        translate: {
+            config: '调用自动翻译，请预先配置百度翻译的 APPID 及 密钥 Key 值'
         }
     },
     menus: {

@@ -32,6 +32,7 @@ export const api: any = reactive({
     },
     languages: {
         data: 'languages',
+        batchCreate: 'languages/batch',
         update: 'languages/{id}',
         check: 'languages/checkout',
         category: {
