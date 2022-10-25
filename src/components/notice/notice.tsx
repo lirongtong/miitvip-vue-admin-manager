@@ -1,9 +1,9 @@
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { Popover, Badge, Tabs, Checkbox } from 'ant-design-vue'
 import { BellOutlined, ShoppingOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
 import { useI18n } from 'vue-i18n'
-import { getSlot, getPropSlot, getSlotContent, getPrefixCls, tuple } from '../_utils/props-tools'
+import { getSlot, getPropSlot, getSlotContent, getPrefixCls } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
 import MiClock from '../clock'
 
@@ -16,22 +16,23 @@ export const noticeProps = () => ({
     dot: PropTypes.bool.def(true),
     tabChange: PropTypes.func,
     trigger: PropTypes.any.def('click'),
-    placement: PropTypes.oneOf(
-        tuple(
-            'top',
-            'left',
-            'right',
-            'bottom',
-            'topLeft',
-            'topRight',
-            'bottomLeft',
-            'bottomRight',
-            'leftTop',
-            'leftBottom',
-            'rightTop',
-            'rightBottom'
-        )
-    ).def('bottom'),
+    placement: {
+        type: String as PropType<
+            | 'top'
+            | 'left'
+            | 'right'
+            | 'bottom'
+            | 'topLeft'
+            | 'topRight'
+            | 'bottomLeft'
+            | 'bottomRight'
+            | 'leftTop'
+            | 'leftBottom'
+            | 'rightTop'
+            | 'rightBottom'
+        >,
+        default: 'bottom'
+    },
     extra: PropTypes.any
 })
 

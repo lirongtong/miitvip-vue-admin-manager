@@ -44,7 +44,7 @@ const Login = defineComponent({
         const store = useStore()
         const route = useRoute()
         const router = useRouter()
-        const formRef = ref<FormInstance>(null)
+        const formRef = ref<FormInstance>()
         const { width } = useWindowResize()
 
         const validateCaptcha = () => {
@@ -81,54 +81,56 @@ const Login = defineComponent({
         const captchaVerify = (data: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
             params.captcha = true
-            formRef.value.validateFields(['captcha'])
+            if (formRef.value) formRef.value.validateFields(['captcha'])
             emit('captchaSuccess', data)
         }
 
         const login = () => {
             if (params.loading) return
             params.loading = true
-            formRef.value
-                .validate()
-                .then(() => {
-                    if (
-                        !params.form.validate.captcha ||
-                        (params.form.validate.captcha && params.captcha)
-                    ) {
-                        if (typeof props.action === 'string') {
-                            api.login = props.action
-                            params.form.validate.url = api.login
-                            store
-                                .dispatch('passport/login', params.form.validate)
-                                .then((res: any) => {
-                                    params.loading = false
-                                    if (
-                                        props.onAfterLogin &&
-                                        typeof props.onAfterLogin === 'function'
-                                    ) {
-                                        // custom
-                                        props.onAfterLogin(res)
-                                    } else {
-                                        // default
-                                        if (res.ret.code === 200) {
-                                            let redirect = route.query.redirect
-                                            if (redirect) {
-                                                redirect = redirect.toString()
-                                                if ($g.regExp.url.test(redirect))
-                                                    window.location.href = redirect
-                                                else router.push({ path: redirect })
-                                            } else router.push({ path: '/' })
-                                        } else message.error(res.ret.message)
-                                    }
-                                })
-                                .catch(() => (params.loading = false))
-                        } else if (typeof props.action === 'function') {
-                            params.loading = false
-                            props.action(params.form.validate)
-                        }
-                    } else params.loading = false
-                })
-                .catch(() => (params.loading = false))
+            if (formRef.value) {
+                formRef.value
+                    .validate()
+                    .then(() => {
+                        if (
+                            !params.form.validate.captcha ||
+                            (params.form.validate.captcha && params.captcha)
+                        ) {
+                            if (typeof props.action === 'string') {
+                                api.login = props.action
+                                params.form.validate.url = api.login
+                                store
+                                    .dispatch('passport/login', params.form.validate)
+                                    .then((res: any) => {
+                                        params.loading = false
+                                        if (
+                                            props.onAfterLogin &&
+                                            typeof props.onAfterLogin === 'function'
+                                        ) {
+                                            // custom
+                                            props.onAfterLogin(res)
+                                        } else {
+                                            // default
+                                            if (res.ret.code === 200) {
+                                                let redirect = route.query.redirect
+                                                if (redirect) {
+                                                    redirect = redirect.toString()
+                                                    if ($g.regExp.url.test(redirect))
+                                                        window.location.href = redirect
+                                                    else router.push({ path: redirect })
+                                                } else router.push({ path: '/' })
+                                            } else message.error(res.ret.message)
+                                        }
+                                    })
+                                    .catch(() => (params.loading = false))
+                            } else if (typeof props.action === 'function') {
+                                params.loading = false
+                                props.action(params.form.validate)
+                            }
+                        } else params.loading = false
+                    })
+                    .catch(() => (params.loading = false))
+            }
         }
 
         const renderMask = () => {

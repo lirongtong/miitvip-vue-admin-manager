@@ -396,7 +396,7 @@ export default defineComponent({
             params.isEdit = false
             params.id = 0
             params.form.validate = { key: '', language: '', is_default: 0 }
-            formRef.value.clearValidate()
+            if (formRef.value) formRef.value.clearValidate()
         }
 
         // category
@@ -593,7 +593,7 @@ export default defineComponent({
             params.isEdit = false
             params.id = 0
             params.addOrUpdateForm.validate = { key: '', language: '' }
-            addOrUpdateFormRef.value.clearValidate()
+            if (addOrUpdateFormRef.value) addOrUpdateFormRef.value.clearValidate()
         }
 
         const createOrUpdateLanguageConfiguration = () => {
@@ -1256,7 +1256,6 @@ export default defineComponent({
                         {renderActionBtns()}
                         <Table
                             columns={params.table.columns}
-                            emptyText={t('no-data')}
                             dataSource={params.table.data}
                             rowSelection={{
                                 onChange: (keys: Key[], rows: any[]) => {

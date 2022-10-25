@@ -1,9 +1,10 @@
-import { defineComponent, isVNode, watch, h } from 'vue'
+import { defineComponent, isVNode, watch, h, PropType } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
+import type { Trigger } from 'ant-design-vue/lib/dropdown/props'
 import { Dropdown, Avatar, Menu } from 'ant-design-vue'
 import PropTypes from '../_utils/props-types'
-import { getPropSlot, getPrefixCls, tuple } from '../_utils/props-tools'
+import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import MiDropdownItem from './item'
 import { mutations } from '../../store/types'
@@ -11,10 +12,23 @@ import { mutations } from '../../store/types'
 export const dropdownProps = () => ({
     prefixCls: PropTypes.string,
     title: PropTypes.any,
-    placement: PropTypes.oneOf(
-        tuple('bottom', 'top', 'bottomLeft', 'bottomRight', 'topLeft', 'topRight')
-    ).def('bottom'),
-    trigger: PropTypes.oneOf(tuple('click', 'hover')).def('click'),
+    placement: {
+        type: String as PropType<
+            | 'bottom'
+            | 'top'
+            | 'bottomLeft'
+            | 'bottomRight'
+            | 'topLeft'
+            | 'topRight'
+            | 'topCenter'
+            | 'bottomCenter'
+        >,
+        default: 'bottom'
+    },
+    trigger: {
+        type: String as PropType<Trigger>,
+        default: 'click'
+    },
     items: PropTypes.array,
     overlay: PropTypes.any
 })

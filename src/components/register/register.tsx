@@ -131,7 +131,7 @@ export default defineComponent({
                         else params.tips.username = res?.ret?.message
                     })
                     .catch((err: any) => (params.tips.username = err?.message))
-                formRef.value.validateFields(['username'])
+                if (formRef.value) formRef.value.validateFields(['username'])
             } else params.tips.username = null
         }
 
@@ -146,14 +146,14 @@ export default defineComponent({
                         else params.tips.email = res?.ret?.message
                     })
                     .catch((err: any) => (params.tips.email = err?.message))
-                formRef.value.validateFields(['email'])
+                if (formRef.value) formRef.value.validateFields(['email'])
             } else params.tips.email = null
         }
 
         const captchaVerify = (data: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
             params.captcha = true
-            formRef.value.validateFields(['captcha'])
+            if (formRef.value) formRef.value.validateFields(['captcha'])
             emit('captchaSuccess', data)
         }
 
@@ -168,53 +168,55 @@ export default defineComponent({
                 .catch(() => {
                     return false
                 })
-            formRef.value
-                .validate()
-                .then(() => {
-                    if (
-                        passwordState &&
-                        (!params.form.validate.captcha ||
-                            (params.form.validate.captcha && params.captcha))
-                    ) {
-                        api.register = props.action
-                        params.form.validate.url = api.register
-                        if (typeof props.action === 'string') {
-                            store
-                                .dispatch('passport/register', params.form.validate)
-                                .then((res: any) => {
-                                    params.loading = false
-                                    if (
-                                        props.onAfterRegister &&
-                                        typeof props.onAfterRegister === 'function'
-                                    ) {
-                                        // custom
-                                        props.onAfterRegister(res)
-                                    } else {
-                                        if (res.ret.code === 200) {
-                                            $storage.set(
-                                                $g.caches.storages.email,
-                                                params.form.validate.email
-                                            )
-                                            if (props.redirectTo) {
-                                                if ($g.regExp.url.test(props.redirectTo)) {
-                                                    window.location.href = props.redirectTo
-                                                } else router.push({ path: '/' })
-                                            }
-                                            router.push({ path: '/' })
-                                        } else message.error(res.ret.message)
-                                    }
-                                })
-                                .catch((err: any) => {
-                                    params.loading = false
-                                    message.error(err.message)
-                                })
-                        } else if (typeof props.action === 'function') {
-                            params.loading = false
-                            props.action(params.form.validate)
-                        }
-                    } else params.loading = false
-                })
-                .catch(() => (params.loading = false))
+            if (formRef.value) {
+                formRef.value
+                    .validate()
+                    .then(() => {
+                        if (
+                            passwordState &&
+                            (!params.form.validate.captcha ||
+                                (params.form.validate.captcha && params.captcha))
+                        ) {
+                            api.register = props.action
+                            params.form.validate.url = api.register
+                            if (typeof props.action === 'string') {
+                                store
+                                    .dispatch('passport/register', params.form.validate)
+                                    .then((res: any) => {
+                                        params.loading = false
+                                        if (
+                                            props.onAfterRegister &&
+                                            typeof props.onAfterRegister === 'function'
+                                        ) {
+                                            // custom
+                                            props.onAfterRegister(res)
+                                        } else {
+                                            if (res.ret.code === 200) {
+                                                $storage.set(
+                                                    $g.caches.storages.email,
+                                                    params.form.validate.email
+                                                )
+                                                if (props.redirectTo) {
+                                                    if ($g.regExp.url.test(props.redirectTo)) {
+                                                        window.location.href = props.redirectTo
+                                                    } else router.push({ path: '/' })
+                                                }
+                                                router.push({ path: '/' })
+                                            } else message.error(res.ret.message)
+                                        }
+                                    })
+                                    .catch((err: any) => {
+                                        params.loading = false
+                                        message.error(err.message)
+                                    })
+                            } else if (typeof props.action === 'function') {
+                                params.loading = false
+                                props.action(params.form.validate)
+                            }
+                        } else params.loading = false
+                    })
+                    .catch(() => (params.loading = false))
+            }
         }
 
         const renderMask = () => {
