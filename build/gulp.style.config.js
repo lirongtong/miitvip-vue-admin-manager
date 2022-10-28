@@ -175,11 +175,11 @@ const compile = (library) => {
     return merge2([lessStream, tsFileStream, tsd])
 }
 
-gulp.task('compile-less-in-ts-into-es', gulp.series(done => {
+gulp.task('compile-less-from-ts-into-es', gulp.series(done => {
     compile(false).on('finish', () => done())
 }))
 
-gulp.task('compile-less-in-ts', gulp.series('compile-less-in-ts-into-es', done => {
+gulp.task('compile-less-from-ts', gulp.series('compile-less-from-ts-into-es', done => {
     compile().on('finish', () => done())
 }))
 
@@ -263,4 +263,4 @@ gulp.task('minify-css', gulp.series('duplicate-concat-less-to-custom-css', done 
     done()
 }))
 
-gulp.task('default', gulp.series('compile-less-in-ts', 'minify-css'))
+gulp.task('default', gulp.series('compile-less-from-ts', 'minify-css'))

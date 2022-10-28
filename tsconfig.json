@@ -20,6 +20,7 @@
 		"declarationDir": "es",
 		"allowJs": true,
 		"resolveJsonModule": true,
+		"removeComments": true,
 		"baseUrl": "./",
 		"paths": {
 			"@/*": [

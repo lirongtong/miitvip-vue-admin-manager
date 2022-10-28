@@ -19,7 +19,7 @@
         :translate="{
             url: 'api/trans/vip/translate',
             appid: '20221021001405223',
-            key: ''
+            key: 'vh_Thbu18gZqhIr0sUt1'
         }" />
 </template>
 
