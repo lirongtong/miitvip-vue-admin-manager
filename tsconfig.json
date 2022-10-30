@@ -43,7 +43,7 @@
 			],
 			"makeit-admin-pro/style": [
 				"src/style.ts"
-			],
+			]
 		},
 		"lib": [
 			"esnext",
