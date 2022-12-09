@@ -54,17 +54,17 @@
     },
     "dependencies": {
         "@ant-design/icons-vue": "^6.1.0",
-        "ant-design-vue": "^3.2.13",
-        "axios": "^1.1.3",
+        "ant-design-vue": "^3.2.14",
+        "axios": "^1.2.1",
         "echarts": "^5.4.0",
         "md5": "^2.3.0",
         "nprogress": "^0.2.0",
         "prismjs": "^1.29.0",
         "screenfull": "^6.0.2",
-        "vue": "^3.2.41",
+        "vue": "^3.2.45",
         "vue-i18n": "^9.2.2",
         "vue-router": "^4.1.6",
-        "vue-types": "^4.2.1",
+        "vue-types": "^5.0.1",
         "vuex": "^4.1.0"
     },
     "devDependencies": {
