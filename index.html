@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="/favicon.ico" />
-    <title>Makeit Admin Pro 开箱即用的中后台管理系统框架 - Powered by makeit.vip</title>
+    <title>Makeit Admin Pro - Powered by makeit.vip</title>
     <meta name="keywords" content="lirongtong, makeit admin pro, vue, vite, ant design vue">
     <meta name="description" content="makeit's backend management system ( a unified template ).">
     <style type="text/css">
@@ -71,15 +71,192 @@
                 transform: rotate(360deg);
             }
         }
+
+
+
+
+
+
+        #nb-global-preloader {
+			background-color: #1d1e23;
+			height: 100%;
+			bottom: 0;
+			left: 0;
+			position: fixed;
+			right: 0;
+			top: 0;
+			z-index: 20221209;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+
+		#nb-global-preloader .loading {
+			display: flex;
+		}
+
+		#nb-global-preloader .ctn-preloader {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+
+		#nb-global-preloader .spinner {
+			animation: spinner 3s infinite linear;
+			border-radius: 50%;
+			border: 3px solid #f1f6f8;
+			border-left-color: #f0c26f;
+			border-top-color: #f0c26f;
+			margin: 0 auto 0em auto;
+			position: absolute;
+			left: -40px;
+			right: -40px;
+			bottom: -40px;
+			top: -40px;
+		}
+
+		#nb-global-preloader .spinner:before {
+			content: "";
+			position: absolute;
+			right: 31px;
+			top: 41px;
+			width: 20px;
+			height: 20px;
+			border: 6px solid #fff;
+			box-shadow: 0 0 20px 0 rgba(4, 46, 56, 0.2);
+			background: #f0c26f;
+			border-radius: 50%;
+			box-sizing: border-box;
+		}
+
+		#nb-global-preloader .round_spinner {
+			border-width: 1px;
+			border-color: rgb(238, 243, 244);
+			border-style: solid;
+			border-radius: 50%;
+			background-color: rgb(253, 253, 253);
+			box-shadow: 0 0 100px 0 rgba(4, 46, 56, 0.14);
+			width: 248px;
+			height: 248px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			margin: 40px auto 80px;
+		}
+
+		#nb-global-preloader .txt-loading {
+			font: bold 4.5em "Exo 2", sans-serif, "Roboto", sans-serif;
+			text-align: center;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		#nb-global-preloader .letters-loading {
+			/*color: #FF5E14;*/
+			color: #f0c26f;
+			position: relative;
+		}
+
+		#nb-global-preloader .letters-loading::before {
+			-webkit-animation: letters-loading 4s infinite;
+			animation: letters-loading 4s infinite;
+			color: #f0c26f;
+			content: attr(data-text-preloader);
+			left: 0;
+			opacity: 0;
+			font-family: "Exo 2", sans-serif;
+			position: absolute;
+			top: -3px;
+			-webkit-transform: rotateY(-90deg);
+			transform: rotateY(-90deg);
+		}
+
+		@media (max-width: 576px) {
+			#nb-global-preloader .spinner:before {
+				top: 18px;
+			}
+
+			#nb-global-preloader .round_spinner {
+				width: 155px;
+				height: 155px;
+			}
+		}
+
+		@keyframes spinner {
+			to {
+				-webkit-transform: rotateZ(360deg);
+				transform: rotateZ(360deg);
+			}
+		}
+
+		@-webkit-keyframes letters-loading {
+
+			0%,
+			75%,
+			100% {
+				opacity: 0;
+				-webkit-transform: rotateY(-90deg);
+				transform: rotateY(-90deg);
+			}
+
+			25%,
+			50% {
+				opacity: 1;
+				-webkit-transform: rotateY(0deg);
+				transform: rotateY(0deg);
+			}
+		}
+
+		@keyframes letters-loading {
+
+			0%,
+			75%,
+			100% {
+				opacity: 0;
+				-webkit-transform: rotateY(-90deg);
+				transform: rotateY(-90deg);
+			}
+
+			25%,
+			50% {
+				opacity: 1;
+				-webkit-transform: rotateY(0deg);
+				transform: rotateY(0deg);
+			}
+		}
     </style>
 </head>
 <body>
-    <div id="mi-loading-before-init">
-        <div class="mi-loading-double-ring">
-            <span>Makeit Admin Pro</span>
+    <div id="app">
+        <!-- <div id="mi-loading-before-init">
+            <div class="mi-loading-double-ring">
+                <span>Makeit Admin Pro</span>
+            </div>
+        </div> -->
+        <div id="nb-global-preloader">
+            <div id="ctn-preloader" class="ctn-preloader">
+                <div class="round_spinner">
+                    <div class="spinner"></div>
+                    <div class="text"></div>
+                </div>
+                <div class="txt-loading">
+                    <span data-text-preloader="M" class="letters-loading">M</span>
+                    <span data-text-preloader="A" class="letters-loading">A</span>
+                    <span data-text-preloader="K" class="letters-loading">K</span>
+                    <span data-text-preloader="E" class="letters-loading">E</span>
+                    <span data-text-preloader="I" class="letters-loading">I</span>
+                    <span data-text-preloader="T" class="letters-loading">T</span>
+                    <span data-text-preloader="." class="letters-loading">.</span>
+                    <span data-text-preloader="V" class="letters-loading">V</span>
+                    <span data-text-preloader="I" class="letters-loading">I</span>
+                    <span data-text-preloader="P" class="letters-loading">P</span>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="app"></div>
-    <script type="module" src="/example/index.ts"></script>
+    <!-- <script type="module" src="/example/index.ts"></script> -->
 </body>
 </html>
