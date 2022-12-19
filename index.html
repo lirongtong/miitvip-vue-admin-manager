@@ -10,74 +10,7 @@
     <meta name="keywords" content="lirongtong, makeit admin pro, vue, vite, ant design vue">
     <meta name="description" content="makeit's backend management system ( a unified template ).">
     <style type="text/css">
-        .mi-loading-double-ring {
-            width: 100vw;
-            height: 100vh;
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #1d1e23;
-        }
-
-        .mi-loading-double-ring:before,
-        .mi-loading-double-ring:after {
-            border-radius: 100%;
-            display: block;
-            content: '';
-            position: absolute;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-        }
-
-        .mi-loading-double-ring:after {
-            height: 15px;
-            width: 15px;
-            -webkit-animation: mi-loading-double-ring 1s infinite linear;
-            animation: mi-loading-double-ring 1s infinite linear;
-            -webkit-box-shadow: 19px 0 0 0 #f0c26f, -19px 0 0 0 #f0c26f;
-            box-shadow: 19px 0 0 0 #f0c26f, -19px 0 0 0 #f0c26f;
-        }
-
-        .mi-loading-double-ring:before {
-            height: 40px;
-            width: 40px;
-            border: 2px solid #fff;
-        }
-
-        .mi-loading-double-ring span {
-            margin-top: 128px;
-            background: transparent linear-gradient(127deg, #d2b27d 0%, #f4d5a9 52%, #d1a466 100%);
-            -webkit-text-fill-color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            letter-spacing: 2px;
-            font-size: 24px;
-            font-weight: bold;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-        }
-
-        @-webkit-keyframes mi-loading-double-ring {
-            to {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes mi-loading-double-ring {
-            to {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
-        }
-
-
-
-
-
-
-        #nb-global-preloader {
+        .mi-loading-init {
 			background-color: #1d1e23;
 			height: 100%;
 			bottom: 0;
@@ -92,16 +25,16 @@
 			text-align: center;
 		}
 
-		#nb-global-preloader .loading {
+		.mi-loading-init .loading {
 			display: flex;
 		}
 
-		#nb-global-preloader .ctn-preloader {
+		.mi-loading-init .preloader {
 			padding-left: 15px;
 			padding-right: 15px;
 		}
 
-		#nb-global-preloader .spinner {
+		.mi-loading-init .spinner {
 			animation: spinner 3s infinite linear;
 			border-radius: 50%;
 			border: 3px solid #f1f6f8;
@@ -115,7 +48,7 @@
 			top: -40px;
 		}
 
-		#nb-global-preloader .spinner:before {
+		.mi-loading-init .spinner:before {
 			content: "";
 			position: absolute;
 			right: 31px;
@@ -129,7 +62,7 @@
 			box-sizing: border-box;
 		}
 
-		#nb-global-preloader .round_spinner {
+		.mi-loading-init .spinner-logo {
 			border-width: 1px;
 			border-color: rgb(238, 243, 244);
 			border-style: solid;
@@ -145,7 +78,11 @@
 			margin: 40px auto 80px;
 		}
 
-		#nb-global-preloader .txt-loading {
+		.mi-loading-init .spinner-logo .logo img {
+			border-radius: 12px;
+		}
+
+		.mi-loading-init .letters {
 			font: bold 4.5em "Exo 2", sans-serif, "Roboto", sans-serif;
 			text-align: center;
 			-webkit-user-select: none;
@@ -154,13 +91,12 @@
 			user-select: none;
 		}
 
-		#nb-global-preloader .letters-loading {
-			/*color: #FF5E14;*/
+		.mi-loading-init .letters .letter {
 			color: #f0c26f;
 			position: relative;
 		}
 
-		#nb-global-preloader .letters-loading::before {
+		.mi-loading-init .letters .letter::before {
 			-webkit-animation: letters-loading 4s infinite;
 			animation: letters-loading 4s infinite;
 			color: #f0c26f;
@@ -169,19 +105,27 @@
 			opacity: 0;
 			font-family: "Exo 2", sans-serif;
 			position: absolute;
-			top: -3px;
+			top: 0;
 			-webkit-transform: rotateY(-90deg);
 			transform: rotateY(-90deg);
 		}
 
 		@media (max-width: 576px) {
-			#nb-global-preloader .spinner:before {
+			.mi-loading-init .spinner:before {
 				top: 18px;
 			}
 
-			#nb-global-preloader .round_spinner {
+			.mi-loading-init .spinner-logo {
 				width: 155px;
 				height: 155px;
+			}
+
+			.mi-loading-init .letters {
+				font-size: 2em;
+			}
+
+			.mi-loading-init .letters .letter::before {
+				top: 0;
 			}
 		}
 
@@ -231,32 +175,29 @@
 </head>
 <body>
     <div id="app">
-        <div id="mi-loading-before-init">
-            <div class="mi-loading-double-ring">
-                <span>Makeit Admin Pro</span>
+        <div id="mi-loading-before-init" class="mi-loading-init">
+            <div id="mi-loading-before-init-preloader" class="preloader">
+                <div class="spinner-logo">
+                    <div class="spinner"></div>
+                    <div class="logo">
+						<img src="/logo.png" width="80" alt="makeit's logo" />
+					</div>
+                </div>
+                <div class="letters">
+                    <span data-text-preloader="M" class="letter">M</span>
+                    <span data-text-preloader="A" class="letter">A</span>
+                    <span data-text-preloader="K" class="letter">K</span>
+                    <span data-text-preloader="E" class="letter">E</span>
+                    <span data-text-preloader="I" class="letter">I</span>
+                    <span data-text-preloader="T" class="letter">T</span>
+                    <span data-text-preloader="." class="letter">.</span>
+                    <span data-text-preloader="V" class="letter">V</span>
+                    <span data-text-preloader="I" class="letter">I</span>
+                    <span data-text-preloader="P" class="letter">P</span>
+                </div>
             </div>
         </div>
-        <!-- <div id="nb-global-preloader">
-            <div id="ctn-preloader" class="ctn-preloader">
-                <div class="round_spinner">
-                    <div class="spinner"></div>
-                    <div class="text"></div>
-                </div>
-                <div class="txt-loading">
-                    <span data-text-preloader="M" class="letters-loading">M</span>
-                    <span data-text-preloader="A" class="letters-loading">A</span>
-                    <span data-text-preloader="K" class="letters-loading">K</span>
-                    <span data-text-preloader="E" class="letters-loading">E</span>
-                    <span data-text-preloader="I" class="letters-loading">I</span>
-                    <span data-text-preloader="T" class="letters-loading">T</span>
-                    <span data-text-preloader="." class="letters-loading">.</span>
-                    <span data-text-preloader="V" class="letters-loading">V</span>
-                    <span data-text-preloader="I" class="letters-loading">I</span>
-                    <span data-text-preloader="P" class="letters-loading">P</span>
-                </div>
-            </div>
-        </div> -->
     </div>
-    <script type="module" src="/example/index.ts"></script>
+    <!-- <script type="module" src="/example/index.ts"></script> -->
 </body>
 </html>
