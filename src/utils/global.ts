@@ -7,7 +7,8 @@ import {
 } from '@ant-design/icons-vue'
 
 export const MI_POWERED = 'Powered By makeit.vip'
-export const MI_AVATAT = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png'
+export const MI_AVATAT =
+    'https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png'
 
 const now = new Date().getFullYear()
 
