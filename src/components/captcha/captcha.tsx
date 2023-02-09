@@ -4,13 +4,11 @@ import { VerifiedOutlined } from '@ant-design/icons-vue'
 import { captchaProps } from './props'
 import { getPrefixCls } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
-import { $g } from '../../utils/global'
+import { $g, MI_AVATAR, MI_POWERED } from '../../utils/global'
 import { $request } from '../../utils/request'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import MiCaptchaModal from './modal'
 
-const POWERED = 'Powered By makeit.vip'
-const AVATAR = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png'
 const TARGET = 'https://admin.makeit.vip/components/captcha'
 
 export default defineComponent({
@@ -34,8 +32,8 @@ export default defineComponent({
             ) as any
         })
         const params = reactive({
-            avatar: AVATAR,
-            powered: POWERED,
+            avatar: MI_AVATAR,
+            powered: MI_POWERED,
             target: TARGET,
             init: false,
             failed: false,

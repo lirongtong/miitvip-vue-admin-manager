@@ -5,12 +5,10 @@ import { useI18n } from 'vue-i18n'
 import PropTypes from '../_utils/props-types'
 import { getPrefixCls } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
-import { $g } from '../../utils/global'
+import { $g, MI_POWERED, MI_AVATAR } from '../../utils/global'
 import { $request } from '../../utils/request'
+import { background } from '../../utils/images'
 
-const BACKGROUND = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
-const POWERED = 'Powered By makeit.vip'
-const AVATAR = 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png'
 const TARGET = 'https://admin.makeit.vip/components/captcha'
 
 export const captchaModalProps = () => ({
@@ -64,9 +62,9 @@ export default defineComponent({
         } as { [index: string]: any }
         const params = reactive({
             loading: true,
-            background: BACKGROUND,
-            avatar: AVATAR,
-            powered: POWERED,
+            background,
+            avatar: MI_AVATAR,
+            powered: MI_POWERED,
             target: TARGET,
             ctx: {
                 image: null,
