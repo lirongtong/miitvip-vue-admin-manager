@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://admin.makeit.vip/">
-        <img width="200" src="https://file.makeit.vip/MIIT/M00/00/00/ajRkHV_pUyOALE2LAAAtlj6Tt_s370.png">
+        <img width="200" src="https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png">
     </a>
 </p>
 
@@ -12,9 +12,9 @@
 
 <div align="center">
 
-基于 Vue3.x + Vite2.x + Ant Design Vue 构建的适用于中后台管理系统的组合模板框架。
+基于 Vue3.x + Vite4.x + Ant Design Vue 构建的适用于中后台管理系统的组合模板框架。
 
-( A unified template used to backend management system based on Vue3.x + Vite2.x + Ant Design Vue. )
+( A unified template used to backend management system based on Vue3.x + Vite4.x + Ant Design Vue. )
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
 [![npm downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
@@ -22,27 +22,27 @@
 ![npm](https://img.shields.io/badge/npm-8.1.3-orange.svg)
 ![nodejs](https://img.shields.io/badge/nodejs-17.7.1-red.svg)
 ![webpack](https://img.shields.io/badge/webpack-5.70.0-orange.svg)
-![vue](https://img.shields.io/badge/vue-3.2.36-green.svg)
-![vite](https://img.shields.io/badge/vite-2.9.9-yellow.svg)
-![axios](https://img.shields.io/badge/axios-0.27.2-red.svg)
+![vue](https://img.shields.io/badge/vue-3.2.47-green.svg)
+![vite](https://img.shields.io/badge/vite-4.1.1-yellow.svg)
+![axios](https://img.shields.io/badge/axios-1.3.2-red.svg)
 ![ant design vue](https://img.shields.io/badge/ant%20design%20vue-3.x-blueviolet.svg)
-![vue router](https://img.shields.io/badge/vue%20router-4.0.15-inactive.svg)
-![vuex](https://img.shields.io/badge/vuex-4.0.2-informational.svg)
-![vue-i18n](https://img.shields.io/badge/vue%20i18n-9.1.10-default.svg)
+![vue router](https://img.shields.io/badge/vue%20router-4.1.6-inactive.svg)
+![vuex](https://img.shields.io/badge/vuex-4.1.0-informational.svg)
+![vue-i18n](https://img.shields.io/badge/vue%20i18n-9.2.2-default.svg)
 
 </div>
 
 ## 关于
 
-> :triangular_flag_on_post: `Makeit Admin Pro`，基于 `Vue3.x + Vite2.x` 版本，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架。
+> :triangular_flag_on_post: `Makeit Admin Pro`，基于 `Vue3.x + Vite4.x`，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架。
 > >
-> :beginner: 项目内含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（部分组件已单独抽离并发布于 `Npm`）。
+> :beginner: 该框架含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（部分组件已抽离并发布于 `Npm`，可单独安装使用）。
 > >
-> :lollipop: 集成这套框架的目的，主要是为了免去中后台管理项目中，基础又重复的页面构建，如各个项目的基础布局，登录 / 注册 / 忘记密码等模块，让开发人员能更加专注于业务内容页面的开发。该框架封装了 `Axios` / `Cookie` / `Storage` 等基础功能，可通过如 `this.$cookie` 形式直接调用，同时也易于扩展。现阶段还在不断完善，持续开发更新中 ...
+> :lollipop: 集成这套框架的主要目的为了免去中后台管理项目中，基础又重复的页面构建，如各个项目的基础布局，登录 / 注册 / 忘记密码等模块，让开发人员能更加专注于业务内容的开发，无需花费过多的时间在基础构建上。该框架封装了 `Axios` / `Cookie` / `Storage` 等常用的基础基础功能，如 `cookie` 可通过如 `this.$cookie` 形式直接调用，同时也支持开发人员自行定制，易于扩展。现阶段还在不断完善，持续开发更新中 ...
 > >
-> :bug: 有些问题可能考虑的并不周全，若您看到或是尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽可能的抽时间去解决相应的 `BUG`，去完善合理的定制化需求。
+> :bug: 该框架并不一定适合所有人的需求，若您看到或是尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽力去解决相应的 `BUG`。对于合理的定制化需求，我也会采纳并且去完善相应的定制化需求。
 > >
-> :warning: 注：现在 [https://admin.makeit.vip](https://admin.makeit.vip) 站点内看到的页面是基于 1.x 版本的效果，2.x 版本的示例站点正在开发中，2.x 版本的页面效果及组件效果都做了很多调整，敬请期待 ~
+> :warning: 注：现在 [https://admin.makeit.vip](https://admin.makeit.vip) 站点内看到的页面是基于 1.x 版本的效果，2.x 版本的示例站点正在开发中，2.x 版本的页面效果及组件效果都做了诸多调整，敬请期待 ~
 
 ## 全局应用
 

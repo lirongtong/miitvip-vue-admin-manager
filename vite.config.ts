@@ -6,7 +6,8 @@ import EslintPlugin from 'vite-plugin-eslint'
 import Components from 'unplugin-vue-components/vite'
 // eslint-disable-next-line import/no-unresolved
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import vueI18n from '@intlify/vite-plugin-vue-i18n'
+// eslint-disable-next-line import/no-unresolved
+import vueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import path from 'path'
 const resolve = (dir: string) => path.join(__dirname, dir)
 
@@ -43,7 +44,6 @@ export default defineConfig({
     },
     server: {
         host: '0.0.0.0',
-        port: 3000,
         proxy: {
             '/v1': {
                 target: 'http://local-api.makeit.vip',
@@ -62,7 +62,7 @@ export default defineConfig({
         Components({
             resolvers: [AntDesignVueResolver()]
         }),
-        vueI18n({
+        vueI18nPlugin({
             include: resolve('src/locales/**')
         })
     ],
