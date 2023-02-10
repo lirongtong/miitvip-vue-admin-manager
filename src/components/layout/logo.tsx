@@ -19,7 +19,10 @@ export default defineComponent({
         const prefixCls = getPrefixCls('layout-side-logo', props.prefixCls)
 
         let logo = <MediumOutlined />
-        if ($g.logo && $g.regExp.url.test($g.logo)) {
+        if (
+            $g.logo &&
+            ($g.regExp.url.test($g.logo) || $g.logo.indexOf('data:image/png;base64') !== -1)
+        ) {
             logo = (
                 <div class={`${prefixCls}-img`}>
                     <img src={$g.logo} alt={$g.site} />
