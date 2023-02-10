@@ -1,5 +1,5 @@
 import { defineComponent, reactive, ref } from 'vue'
-import { menuManagementProps, MenusDataItem } from './props'
+import { menuManagementProps, type MenusDataItem, type MenusTreeData } from './props'
 import { getPrefixCls } from '../../_utils/props-tools'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
@@ -13,6 +13,8 @@ import {
     Popconfirm,
     Button,
     Input,
+    TreeSelect,
+    TreeSelectProps,
     Row,
     Col,
     Drawer,
@@ -102,14 +104,13 @@ export default defineComponent({
             isEdit: false,
             types: [
                 { label: t('menus.top'), value: 1 },
-                { label: t('menus.sub'), value: 2 },
-                { label: t('menus.btn'), value: 3 }
+                { label: t('menus.sub'), value: 2 }
             ],
             form: {
                 validate: {
                     name: '',
                     sub_name: '',
-                    pid: 0,
+                    pid: null,
                     type: 1,
                     path: '',
                     page: '',
@@ -125,6 +126,9 @@ export default defineComponent({
                     name: [{ required: true, message: t('menus.placeholder.name') }],
                     page: [{ required: true, message: t('menus.placeholder.page') }]
                 }
+            },
+            menus: {
+                tree: [] as TreeSelectProps['treeData']
             }
         })
 
@@ -138,7 +142,7 @@ export default defineComponent({
                         params.table.loading = false
                         if (res) {
                             if (res?.ret?.code === 200) {
-                                console.log(res.data)
+                                params.menus.tree = getMenusTreeData(res?.data)
                                 if (props.data.callback) props.data.callback(res?.data)
                             } else message.error(res?.ret?.message)
                         }
@@ -148,6 +152,20 @@ export default defineComponent({
                         message.error(err.message)
                     })
             }
+        }
+
+        const getMenusTreeData = (data: any): MenusTreeData[] => {
+            const top = [] as MenusTreeData[]
+            for (let i = 0, l = data.length; i < l; i++) {
+                const cur = data[i]
+                const temp = {
+                    title: cur.name,
+                    value: cur.id
+                } as MenusTreeData
+                if (cur.children) temp.children = getMenusTreeData(cur.children)
+                top.push(temp)
+            }
+            return top
         }
 
         const batchDelete = () => {}
@@ -172,7 +190,9 @@ export default defineComponent({
                     if (params.loading) return
                     params.loading = true
                     if (params.isEdit) {
+                        // update
                     } else {
+                        // create
                         if (props.addMenu.url) {
                             $request[(props.addMenu.method || 'POST').toLowerCase()](
                                 props.addMenu.url,
@@ -271,11 +291,13 @@ export default defineComponent({
             const subMenu =
                 params.form.validate.type === 2 ? (
                     <FormItem label={t('menus.up')} name="pid">
-                        <Input
+                        <TreeSelect
                             v-model:value={params.form.validate.pid}
-                            autocomplete="off"
                             placeholder={t('menus.placeholder.up')}
-                        />
+                            allowClear={true}
+                            dropdownClassName={`${prefixCls}-drawer-select`}
+                            treeData={params.menus.tree}
+                            treeDefaultExpandAll={true}></TreeSelect>
                     </FormItem>
                 ) : null
             return (

@@ -13,6 +13,12 @@ export interface MenusDataItem {
     lang?: string | number
 }
 
+export interface MenusTreeData {
+    title: string
+    value: string | number
+    children?: any[]
+}
+
 export const menuManagementProps = () => ({
     prefixCls: PropTypes.string,
     dataSource: Array as PropType<MenusDataItem[]>,

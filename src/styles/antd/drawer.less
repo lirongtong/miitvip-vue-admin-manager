@@ -3,6 +3,8 @@
 
 @mi-drawer: ~'@{mi-prefix}drawer';
 @ant-drawer: ant-drawer;
+@ant-select: ant-select;
+@ant-tree-select: ant-tree-select;
 
 .@{mi-drawer} {
     .@{ant-drawer} {
@@ -15,6 +17,12 @@
                 border-left: 1px solid var(--mi-theme, @mi-theme);
                 box-shadow: 0 0 10px fade(@mi-theme, 20%);
                 backdrop-filter: blur(25px);
+
+                .@{ant-tree-select} {
+                    .@{ant-select}-selector {
+                        .border-radius(2);
+                    }
+                }
             }
         }
 
