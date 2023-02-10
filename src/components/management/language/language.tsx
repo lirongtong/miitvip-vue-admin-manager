@@ -829,15 +829,28 @@ export default defineComponent({
                     .then((res: any) => {
                         if (res.trans_result) {
                             const items = [] as LanguageFormState[]
-                            for (let n = 0, m = res.trans_result.length; n < m; n++) {
-                                const item = res.trans_result[n]
-                                const origin = list[n] as any
-                                items.push({
-                                    cid: id,
-                                    key: origin?.key,
-                                    language: item?.dst
-                                })
+                            // TODO: 翻译目标语系与默认语系一致
+                            const temp = res.trans_result[0]
+                            if ((temp ? temp?.dst.indexOf('\n') : -1) !== -1) {
+                                for (let x = 0, y = list.length; x < y; x++) {
+                                    items.push({
+                                        cid: id,
+                                        key: list[x].key,
+                                        language: list[x].language
+                                    })
+                                }
+                            } else {
+                                for (let n = 0, m = res.trans_result.length; n < m; n++) {
+                                    const item = res.trans_result[n]
+                                    const origin = list[n] as any
+                                    items.push({
+                                        cid: id,
+                                        key: origin?.key,
+                                        language: item?.dst
+                                    })
+                                }
                             }
+                            console.log(items)
                             $request
                                 .post(props.batchCreateLanguage.url, {
                                     data: items
