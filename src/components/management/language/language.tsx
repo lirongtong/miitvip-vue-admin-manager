@@ -753,7 +753,7 @@ export default defineComponent({
                     $tools.replaceUrlParams(props.deleteLanguage.url, {
                         id: batchDeleteIds.join(',')
                     }),
-                    props.createLanguage.params
+                    props.deleteLanguage.params
                 )
                     .then((res: any) => {
                         params.loading = false

@@ -253,6 +253,7 @@ export default {
         attrs: 'Attribute',
         top: 'A menu',
         sub: 'Submenu',
+        unknown: 'Unkonw',
         btn: 'Button',
         lang: 'Language key',
         page: 'Page',

@@ -2,15 +2,19 @@ import { PropType } from 'vue'
 import PropTypes, { CommonRequestProps } from '../../_utils/props-types'
 
 export interface MenusDataItem {
+    name: string | number
     id: string | number
     pid: string | number
     type: string | number
     path: string
     page: string
+    title: string | number
+    value: string | number
     cid?: string | number
     icon?: string | number
     weight?: number
     lang?: string | number
+    children?: MenusDataItem[]
 }
 
 export interface MenusTreeData {
@@ -39,6 +43,17 @@ export const menuManagementProps = () => ({
             return {
                 url: null,
                 method: 'POST',
+                params: {},
+                callback: null
+            }
+        }
+    },
+    deleteMenu: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'DELETE',
                 params: {},
                 callback: null
             }

@@ -253,6 +253,7 @@ export default {
         attrs: '菜单属性',
         top: '一级菜单',
         sub: '子菜单',
+        unknown: '未知类型',
         btn: '按钮',
         lang: '多语言 Key 值',
         page: '前端组件',

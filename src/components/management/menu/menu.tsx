@@ -1,5 +1,5 @@
 import { defineComponent, reactive, ref } from 'vue'
-import { menuManagementProps, type MenusDataItem, type MenusTreeData } from './props'
+import { menuManagementProps, type MenusDataItem } from './props'
 import { getPrefixCls } from '../../_utils/props-tools'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
@@ -14,7 +14,6 @@ import {
     Button,
     Input,
     TreeSelect,
-    TreeSelectProps,
     Row,
     Col,
     Drawer,
@@ -23,7 +22,8 @@ import {
     FormItem,
     InputNumber,
     Switch,
-    FormInstance
+    FormInstance,
+    Empty
 } from 'ant-design-vue'
 
 export default defineComponent({
@@ -48,16 +48,17 @@ export default defineComponent({
                         minWidth: 120
                     },
                     {
-                        title: t('menus.name'),
-                        key: 'name',
-                        dataIndex: 'name',
-                        width: 120
-                    },
-                    {
                         title: t('menus.type'),
                         key: 'type',
                         dataIndex: 'type',
-                        width: 120
+                        width: 120,
+                        customRender: (record: any) => {
+                            return record.record.value === 1
+                                ? t('menus.top')
+                                : record.record.value === 2
+                                ? t('menus.top')
+                                : t('menus.unknow')
+                        }
                     },
                     {
                         title: t('menus.icon'),
@@ -100,6 +101,7 @@ export default defineComponent({
             search: {
                 key: ''
             },
+            deleteIds: [] as any,
             openDrawer: false,
             isEdit: false,
             types: [
@@ -128,7 +130,7 @@ export default defineComponent({
                 }
             },
             menus: {
-                tree: [] as TreeSelectProps['treeData']
+                tree: [] as MenusDataItem[]
             }
         })
 
@@ -143,6 +145,7 @@ export default defineComponent({
                         if (res) {
                             if (res?.ret?.code === 200) {
                                 params.menus.tree = getMenusTreeData(res?.data)
+                                params.table.dataSource = params.menus.tree as any[]
                                 if (props.data.callback) props.data.callback(res?.data)
                             } else message.error(res?.ret?.message)
                         }
@@ -154,21 +157,50 @@ export default defineComponent({
             }
         }
 
-        const getMenusTreeData = (data: any): MenusTreeData[] => {
-            const top = [] as MenusTreeData[]
+        const getMenusTreeData = (data: any): MenusDataItem[] => {
+            const top = [] as MenusDataItem[]
             for (let i = 0, l = data.length; i < l; i++) {
                 const cur = data[i]
                 const temp = {
+                    ...cur,
                     title: cur.name,
                     value: cur.id
-                } as MenusTreeData
+                } as MenusDataItem
                 if (cur.children) temp.children = getMenusTreeData(cur.children)
                 top.push(temp)
             }
             return top
         }
 
-        const batchDelete = () => {}
+        const batchDelete = () => {
+            if (params.deleteIds.length <= 0) {
+                message.error(t('delete-select'))
+                return
+            }
+            if (params.loading) return
+            params.loading = true
+            if (props.deleteMenu.url) {
+                $request[(props.deleteMenu.method || 'DELETE').toLowerCase()](
+                    $tools.replaceUrlParams(props.deleteMenu.url, {
+                        id: params.deleteIds.join(',')
+                    }),
+                    props.deleteMenu.params
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('success'))
+                                getMenus()
+                            } else message.error(res?.ret?.message)
+                        }
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            }
+        }
 
         const searchInput = () => {}
 
@@ -418,11 +450,14 @@ export default defineComponent({
 
         const renderTable = () => {
             return (
-                <ConfigProvider locale={props.paginationLocale}>
+                <ConfigProvider
+                    locale={props.paginationLocale}
+                    renderEmpty={() => <Empty description={t('no-data')} />}>
                     {renderActionBtns()}
                     <Table
                         columns={params.table.columns}
                         rowSelection={{}}
+                        dataSource={params.table.dataSource}
                         pagination={{
                             showLessItems: true,
                             showQuickJumper: true,
