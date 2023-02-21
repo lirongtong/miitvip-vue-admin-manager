@@ -5,7 +5,7 @@ import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { $g } from '../../../utils/global'
 import { useI18n } from 'vue-i18n'
-import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue'
+import * as AntdvIcons from '@ant-design/icons-vue'
 import {
     Table,
     message,
@@ -53,9 +53,9 @@ export default defineComponent({
                         dataIndex: 'type',
                         width: 120,
                         customRender: (record: any) => {
-                            return record.record.value === 1
+                            return record.record.type === 1
                                 ? t('menus.top')
-                                : record.record.value === 2
+                                : record.record.type === 2
                                 ? t('menus.top')
                                 : t('menus.unknow')
                         }
@@ -64,7 +64,13 @@ export default defineComponent({
                         title: t('menus.icon'),
                         key: 'icon',
                         dataIndex: 'icon',
-                        width: 120
+                        align: 'center',
+                        width: 100,
+                        customRender: (record: any) => {
+                            // eslint-disable-next-line import/namespace
+                            const IconTag = AntdvIcons[record.record.icon]
+                            return <IconTag />
+                        }
                     },
                     {
                         title: t('menus.page'),
@@ -255,6 +261,14 @@ export default defineComponent({
 
         getMenus()
 
+        const renderIconsBtn = () => {
+            return (
+                <div>
+                    <AntdvIcons.AimOutlined />
+                </div>
+            )
+        }
+
         const renderActionBtns = () => {
             const btns = (
                 <>
@@ -291,7 +305,7 @@ export default defineComponent({
                             style={{ marginRight: $tools.convert2Rem(8) }}
                             v-slots={{
                                 icon: () => {
-                                    return <SearchOutlined />
+                                    return <AntdvIcons.SearchOutlined />
                                 }
                             }}>
                             {t('seek')}
@@ -301,7 +315,7 @@ export default defineComponent({
                             onClick={searchReset}
                             v-slots={{
                                 icon: () => {
-                                    return <ReloadOutlined />
+                                    return <AntdvIcons.ReloadOutlined />
                                 }
                             }}>
                             {t('reset')}
@@ -402,6 +416,7 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.icon}
                                 autocomplete="off"
+                                suffix={renderIconsBtn}
                                 placeholder={t('menus.placeholder.icon')}
                             />
                         </FormItem>
