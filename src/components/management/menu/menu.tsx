@@ -1,9 +1,13 @@
+/* eslint-disable import/namespace */
 import { defineComponent, reactive, ref } from 'vue'
 import { menuManagementProps, type MenusDataItem } from './props'
 import { getPrefixCls } from '../../_utils/props-tools'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { $g } from '../../../utils/global'
+import { useWindowResize } from '../../../hooks/useWindowResize'
+import MiModal from '../../../components/modal/modal'
+import { directional, tips, edit, data, brands, generic } from './icons'
 import { useI18n } from 'vue-i18n'
 import * as AntdvIcons from '@ant-design/icons-vue'
 import {
@@ -23,7 +27,9 @@ import {
     InputNumber,
     Switch,
     FormInstance,
-    Empty
+    Empty,
+    Tabs,
+    TabPane
 } from 'ant-design-vue'
 
 export default defineComponent({
@@ -44,14 +50,12 @@ export default defineComponent({
                     {
                         title: t('menus.name'),
                         key: 'name',
-                        dataIndex: 'name',
-                        minWidth: 120
+                        dataIndex: 'name'
                     },
                     {
                         title: t('menus.type'),
                         key: 'type',
                         dataIndex: 'type',
-                        width: 120,
                         customRender: (record: any) => {
                             return record.record.type === 1
                                 ? t('menus.top')
@@ -65,9 +69,7 @@ export default defineComponent({
                         key: 'icon',
                         dataIndex: 'icon',
                         align: 'center',
-                        width: 100,
                         customRender: (record: any) => {
-                            // eslint-disable-next-line import/namespace
                             const IconTag = AntdvIcons[record.record.icon]
                             return <IconTag />
                         }
@@ -75,27 +77,37 @@ export default defineComponent({
                     {
                         title: t('menus.page'),
                         key: 'page',
-                        dataIndex: 'page',
-                        minWidth: 120
+                        dataIndex: 'page'
                     },
                     {
                         title: t('menus.path'),
                         key: 'path',
-                        dataIndex: 'path',
-                        minWidth: 120
+                        dataIndex: 'path'
                     },
                     {
                         title: t('menus.sort'),
-                        key: 'sort',
-                        dataIndex: 'sort',
-                        width: 80
+                        key: 'weight',
+                        dataIndex: 'weight',
+                        align: 'center'
                     },
                     {
                         title: t('opt'),
                         key: 'action',
                         dataIndex: 'action',
-                        align: 'right',
-                        minWidth: 150
+                        align: 'center',
+                        width: 150,
+                        customRender: () => {
+                            return (
+                                <div class={`${$g.prefix}table-btns`}>
+                                    <a class="edit">
+                                        <AntdvIcons.FormOutlined />
+                                        {t('edit')}
+                                    </a>
+                                    <span></span>
+                                    <a class="more">{t('more')}</a>
+                                </div>
+                            )
+                        }
                     }
                 ] as any,
                 dataSource: [] as MenusDataItem[],
@@ -137,8 +149,13 @@ export default defineComponent({
             },
             menus: {
                 tree: [] as MenusDataItem[]
+            },
+            tabs: {
+                active: 'directional',
+                visiable: false
             }
         })
+        const { width } = useWindowResize()
 
         const getMenus = () => {
             if (props.data.url) {
@@ -222,6 +239,15 @@ export default defineComponent({
             }
         }
 
+        const setIcon = (name: string) => {
+            params.form.validate.icon = name
+            handleIconsModal()
+        }
+
+        const handleIconsModal = () => {
+            params.tabs.visiable = !params.tabs.visiable
+        }
+
         const addOrUpdate = () => {
             if (addOrUpdateformRef.value) {
                 addOrUpdateformRef.value.validate().then(() => {
@@ -261,11 +287,66 @@ export default defineComponent({
 
         getMenus()
 
-        const renderIconsBtn = () => {
+        const renderIconsTrigger = () => {
             return (
-                <div>
+                <a onClick={handleIconsModal}>
                     <AntdvIcons.AimOutlined />
-                </div>
+                </a>
+            )
+        }
+
+        const renderIconsModal = () => {
+            const wrapIcons = (data: string[]) => {
+                const res: any[] = []
+                data.forEach((icon: string) => {
+                    const IconTag = AntdvIcons[icon]
+                    res.push(
+                        <div onClick={() => setIcon(icon)}>
+                            <IconTag />
+                        </div>
+                    )
+                })
+                return res
+            }
+
+            const icons = {
+                directional: wrapIcons(directional),
+                tips: wrapIcons(tips),
+                edit: wrapIcons(edit),
+                data: wrapIcons(data),
+                brands: wrapIcons(brands),
+                generic: wrapIcons(generic)
+            }
+
+            return (
+                <MiModal
+                    visible={params.tabs.visiable}
+                    title={false}
+                    footer={false}
+                    onCancel={handleIconsModal}
+                    zIndex={202302221012}
+                    width={width.value < 768 ? '100%' : 720}>
+                    <Tabs v-model:activeKey={params.tabs.active} class={`${$g.prefix}tabs`}>
+                        <TabPane key="directional" tab={t('menus.icons.directional')}>
+                            {...icons.directional}
+                        </TabPane>
+                        <TabPane key="tips" tab={t('menus.icons.tips')}>
+                            {...icons.tips}
+                        </TabPane>
+                        <TabPane key="edit" tab={t('menus.icons.edit')}>
+                            {...icons.edit}
+                        </TabPane>
+                        <TabPane key="data" tab={t('menus.icons.data')}>
+                            {...icons.data}
+                        </TabPane>
+                        <TabPane key="brands" tab={t('menus.icons.brands')}>
+                            {...icons.brands}
+                        </TabPane>
+                        <TabPane key="generic" tab={t('menus.icons.generic')}>
+                            {...icons.generic}
+                        </TabPane>
+                    </Tabs>
+                </MiModal>
             )
         }
 
@@ -416,7 +497,7 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.icon}
                                 autocomplete="off"
-                                suffix={renderIconsBtn}
+                                v-slots={{ suffix: () => renderIconsTrigger() }}
                                 placeholder={t('menus.placeholder.icon')}
                             />
                         </FormItem>
@@ -481,6 +562,7 @@ export default defineComponent({
                         scroll={{ x: '100%' }}
                     />
                     {renderDrawer()}
+                    {renderIconsModal()}
                 </ConfigProvider>
             )
         }

@@ -14,6 +14,7 @@ export default {
     edit: '编辑',
     delete: '删除',
     reset: '重置',
+    more: '更多',
     'batch-delete': '批量删除',
     'delete-confirm': '确定删除当前所选项？',
     'delete-select': '请选择需要删除的选项',
@@ -262,6 +263,14 @@ export default {
         open: '打开方式',
         router: '路由菜单',
         hide: '隐藏路由',
+        icons: {
+            directional: '方向类图标',
+            tips: '提示类图标',
+            edit: '编辑类图标',
+            data: '数据类图标',
+            brands: '品牌类图标',
+            generic: '通用类图标'
+        },
         placeholder: {
             search: '请输入待搜索的菜单名称',
             name: '请输入菜单名称，如：控制台',

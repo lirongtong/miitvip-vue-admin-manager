@@ -135,11 +135,11 @@ export default defineComponent({
                     {
                         title: t('opt'),
                         key: 'action',
-                        align: 'right',
-                        minWidth: 150,
+                        align: 'center',
+                        width: 150,
                         customRender: (record: any) => {
                             return (
-                                <div class={`${prefixCls}-table-btns`}>
+                                <div class={`${$g.prefix}table-btns`}>
                                     <a
                                         class="edit"
                                         onClick={() => updateLanguageConfigurationVisible(record)}>
@@ -362,7 +362,8 @@ export default defineComponent({
         const changBuiltInLanguageCategory = (lang: any) => {
             builtInLanguages = []
             params.builtInCurrent = lang
-            getBuiltInLanguageConfiguration((messages as any).value[lang] || {})
+            if (params.search.key) search()
+            else getBuiltInLanguageConfiguration((messages as any).value[lang] || {})
             instance?.proxy?.$forceUpdate()
         }
 
@@ -850,7 +851,6 @@ export default defineComponent({
                                     })
                                 }
                             }
-                            console.log(items)
                             $request
                                 .post(props.batchCreateLanguage.url, {
                                     data: items

@@ -14,6 +14,7 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     reset: 'Reset',
+    more: 'More',
     'batch-delete': 'Batch Delete',
     'delete-confirm': 'Are you sure you want to delete the current selection?',
     'delete-select': 'Please select the items to delete',
@@ -261,6 +262,14 @@ export default {
         sort: 'Sort key',
         open: 'Open way',
         router: 'Routing menu',
+        icons: {
+            directional: 'Directional',
+            tips: 'Tips',
+            edit: 'Edit',
+            data: 'Data',
+            brands: 'Brands',
+            generic: 'Generic'
+        },
         placeholder: {
             search: 'Please input the name of the menu to be searched',
             name: 'Please input the name of menu, such as Dashboard',

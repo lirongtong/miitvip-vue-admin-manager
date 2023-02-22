@@ -92,6 +92,23 @@ pre {
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    width: 6px;
+    height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    .border-radius(8);
+    background: var(--mi-white, @mi-white);
+}
+
+::-webkit-scrollbar-track {
+    .border-radius(8);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    .linear-gradient-background();
+}
+
 #nprogress {
     .bar {
         .linear-gradient-background-theme();

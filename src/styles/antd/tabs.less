@@ -1,35 +1,70 @@
 @import '../core/variables.less';
 @import '../theme/index.less';
 
+@mi-tabs: ~'@{mi-prefix}tabs';
 @ant-tabs: ant-tabs;
-.@{ant-tabs} {
-    &-top > &-nav:before {
-        border-bottom-color: var(--mi-border, @mi-border);
-    }
-
-    &-tab {
-        color: var(--mi-font, @mi-font);
-
-        &-btn:active,
-        &-btn:focus {
-            color: var(--mi-font, @mi-font);
+.@{mi-tabs} {
+    .@{ant-tabs} {
+        &-top > &-nav:before {
+            border-bottom-color: var(--mi-border, @mi-border);
         }
-
-        &&-active &-btn,
-        &&-active &-btn:active,
-        &&-active &-btn:focus {
+    
+        &-tab {
+            color: var(--mi-font, @mi-font);
+    
+            &-btn:active,
+            &-btn:focus {
+                color: var(--mi-font, @mi-font);
+            }
+        }
+    
+        &-tab:hover,
+        &-tab:focus,
+        &-tab:visited,
+        &-tab:active {
             color: var(--mi-theme, @mi-theme);
         }
-    }
-
-    &-tab:hover,
-    &-tab:focus,
-    &-tab:visited,
-    &-tab:active {
-        color: var(--mi-font, @mi-font);
-    }
+        
+        &-ink-bar {
+            .linear-gradient-background-theme();
+        }
     
-    &-ink-bar {
-        .linear-gradient-background-theme();
+        &-tabpane {
+            .grid(11, 4);
+
+            @media only screen and (max-width: 768px) {
+                .grid(5, 4);
+            }
+
+            .properties(max-height, 420);
+            overflow-y: auto;
+            overflow-x: hidden;
+    
+            .anticon {
+                .properties(width, 48);
+                .properties(height, 48);
+                .flex();
+                .border-radius();
+                .linear-gradient-background-grey();
+                cursor: pointer;
+                .properties(margin-bottom);
+                .properties(font-size, 24);
+    
+                &:hover {
+                    .linear-gradient-background-theme();
+                    color: var(--mi-font, @mi-font);
+                }
+            }
+        }
     }
+}
+
+.@{ant-tabs}-dropdown {
+    z-index: @mi-z-index-peak !important;
+}
+
+.@{mi-tabs}.@{ant-tabs} .@{ant-tabs}-tab-active .@{ant-tabs}-tab-btn,
+.@{mi-tabs}.@{ant-tabs} .@{ant-tabs}-tab-active .@{ant-tabs}-tab-btn:focus,
+.@{mi-tabs}.@{ant-tabs} .@{ant-tabs}-tab-active .@{ant-tabs}-tab-btn:hover {
+    color: var(--mi-theme, @mi-theme);
 }

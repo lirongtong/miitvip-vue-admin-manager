@@ -1,4 +1,4 @@
-export const direction = [
+export const directional = [
     'StepBackwardOutlined',
     'StepForwardOutlined',
     'FastBackwardOutlined',
@@ -64,7 +64,7 @@ export const direction = [
     'FullscreenExitOutlined'
 ]
 
-export const suggestion = [
+export const tips = [
     'QuestionOutlined',
     'QuestionCircleOutlined',
     'PlusOutlined',
@@ -91,7 +91,7 @@ export const suggestion = [
     'StopOutlined'
 ]
 
-export const edition = [
+export const edit = [
     'EditOutlined',
     'FormOutlined',
     'CopyOutlined',
@@ -127,7 +127,7 @@ export const edition = [
     'ColumnHeightOutlined'
 ]
 
-export const statistics = [
+export const data = [
     'AreaChartOutlined',
     'PieChartOutlined',
     'BarChartOutlined',
@@ -195,7 +195,7 @@ export const brands = [
     'SketchOutlined'
 ]
 
-export const universal = [
+export const generic = [
     'AccountBookOutlined',
     'AimOutlined',
     'AlertOutlined',
@@ -436,4 +436,4 @@ export const universal = [
     'WomanOutlined'
 ]
 
-export default { direction, suggestion, edition, statistics, brands }
+export default { directional, tips, edit, data, brands, generic }
