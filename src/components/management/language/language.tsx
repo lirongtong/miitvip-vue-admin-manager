@@ -362,9 +362,12 @@ export default defineComponent({
         const changBuiltInLanguageCategory = (lang: any) => {
             builtInLanguages = []
             params.builtInCurrent = lang
-            if (params.search.key) search()
-            else getBuiltInLanguageConfiguration((messages as any).value[lang] || {})
-            instance?.proxy?.$forceUpdate()
+            if (params.search.key) {
+                search()
+            } else {
+                getBuiltInLanguageConfiguration((messages as any).value[lang] || {})
+                instance?.proxy?.$forceUpdate()
+            }
         }
 
         // modal - create category
@@ -729,7 +732,9 @@ export default defineComponent({
                     setLanguageConfigurationList(params.search.key, params.current)
                 } else {
                     builtInLanguages = []
-                    getBuiltInLanguageConfiguration((messages as any).value[params.current] || {})
+                    getBuiltInLanguageConfiguration(
+                        (messages as any).value[params.builtInCurrent] || {}
+                    )
                     const reg = new RegExp(params.search.key, 'ig')
                     const res: LanguageFormState[] = []
                     for (const i in builtInLanguages) {
