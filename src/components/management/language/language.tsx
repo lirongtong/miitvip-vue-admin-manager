@@ -1271,7 +1271,6 @@ export default defineComponent({
             const table =
                 params.tab === 'customize' ? (
                     <>
-                        {renderActionBtns()}
                         <Table
                             columns={params.table.columns}
                             dataSource={params.table.data}
@@ -1302,7 +1301,6 @@ export default defineComponent({
                     </>
                 ) : params.tab === 'built-in' ? (
                     <>
-                        {renderActionBtns()}
                         <Table
                             columns={params.table.builtin.columns}
                             dataSource={builtInLanguages}
@@ -1328,6 +1326,7 @@ export default defineComponent({
                         locale={props.paginationLocale}
                         renderEmpty={() => renderEmpty()}>
                         {renderTabItems()}
+                        {renderActionBtns()}
                         <div class={`${prefixCls}-list`}>
                             <div class={`${prefixCls}-list-scroll`}>
                                 <div class={`${prefixCls}-list-item`}>{table}</div>

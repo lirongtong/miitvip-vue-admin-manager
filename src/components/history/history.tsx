@@ -55,10 +55,9 @@ export default defineComponent({
             offset: 0,
             middle: 0,
             scroll: false,
-            scrollInit: false,
-            scrollOffset: 48,
             active: null,
-            current: null
+            current: null,
+            delay: 400
         }) as { [index: string]: any }
         const containerRef = ref(null) as any
         const listRef = ref(null) as any
@@ -76,13 +75,16 @@ export default defineComponent({
         )
         watch(
             () => route.path,
-            () => nextTick().then(() => initRouteHistory())
+            () => {
+                nextTick().then(() => initRouteHistory())
+            }
         )
 
         const initRouteHistory = (collect = true) => {
             if (collect) collectRouteHistory()
-            initRouteHistoryScroll()
-            redirectRouteHistory(params.active)
+            initRouteHistoryScroll().then(() => {
+                redirectRouteHistory(params.active)
+            })
         }
 
         const collectRouteHistory = () => {
@@ -99,25 +101,23 @@ export default defineComponent({
             } else params.active = routes.value[params.current]
         }
 
-        const initRouteHistoryScroll = () => {
-            nextTick().then(() => {
-                if (containerRef.value && listRef.value && itemsRef.value) {
-                    const listWidth = (listRef.value as HTMLElement).clientWidth
-                    const itemsWidth = (itemsRef.value as HTMLElement).clientWidth
-                    const max = itemsWidth - listWidth
-                    params.scroll = max > 0
-                    params.scrollOffset = params.scroll ? 96 : 48
-                    params.middle = Math.floor(
-                        (listWidth - (params.scrollInit ? 0 : params.scrollOffset)) / 2
-                    )
-                    if (params.scroll)
-                        params.max =
-                            itemsWidth -
-                            (listRef.value as HTMLElement).clientWidth +
-                            (params.scrollInit ? 8 : params.scrollOffset)
-                    else params.max = max > 0 ? max : 0
-                    if (!params.scrollInit) params.scrollInit = true
-                }
+        const initRouteHistoryScroll = (): Promise<any> => {
+            return new Promise((resolve, reject) => {
+                nextTick().then(() => {
+                    if (containerRef.value && listRef.value && itemsRef.value) {
+                        // TODO: transition .4s
+                        setTimeout(() => {
+                            const listWidth = (listRef.value as HTMLElement).clientWidth
+                            const itemsWidth = (itemsRef.value as HTMLElement).clientWidth
+                            const max = itemsWidth - listWidth
+                            params.scroll = max > 0
+                            params.middle = Math.floor(listWidth / 2)
+                            if (params.scroll) params.max = itemsWidth - listWidth
+                            else params.max = max > 0 ? max : 0
+                            return resolve([])
+                        }, params.delay)
+                    } else return reject()
+                })
             })
         }
 
@@ -129,7 +129,7 @@ export default defineComponent({
                     const offsetLeft = elem.offsetLeft + halfWidth
                     const diff = offsetLeft - params.middle
                     const offset = diff < 0 ? 0 : diff > params.max ? params.max : diff
-                    params.offset = -offset
+                    params.offset = routes.value.length <= 1 ? 0 : -offset
                     params.active = item
                     params.current = item.name
                     if (route.path !== item.path) {
@@ -162,7 +162,6 @@ export default defineComponent({
                 }
             }
             if (len - 1 > 0) store.commit(`layout/${mutations.layout.routes}`, tempRoutes)
-            initRouteHistoryScroll()
             if (evt) evt.preventDefault()
         }
 
@@ -202,7 +201,11 @@ export default defineComponent({
                 }
                 store.commit(`layout/${mutations.layout.routes}`, { ...routes.value })
             }
-            nextTick().then(() => initRouteHistory(false))
+            nextTick().then(() => {
+                setTimeout(() => {
+                    initRouteHistory(false)
+                }, params.delay)
+            })
         }
 
         const prevRouteHistory = () => {
@@ -218,8 +221,9 @@ export default defineComponent({
         }
 
         const windowResize = () => {
-            initRouteHistoryScroll()
-            redirectRouteHistory(params.active)
+            initRouteHistoryScroll().then(() => {
+                redirectRouteHistory(params.active)
+            })
         }
 
         const renderBtn = (clickHandler: (...args: any) => any, type = 'prev') => {
@@ -320,9 +324,8 @@ export default defineComponent({
         }
 
         return () => {
-            const cls = `${prefixCls}${!params.scroll ? ` ${prefixCls}-btn-disabled` : ''}`
             return (
-                <div class={cls} ref={containerRef}>
+                <div class={prefixCls} ref={containerRef}>
                     {renderBtn(prevRouteHistory)}
                     {renderList()}
                     {renderBtn(nextRouteHistory, 'next')}

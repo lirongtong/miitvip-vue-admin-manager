@@ -50,7 +50,8 @@ export default defineComponent({
                     {
                         title: t('menus.name'),
                         key: 'name',
-                        dataIndex: 'name'
+                        dataIndex: 'name',
+                        minWidth: 240
                     },
                     {
                         title: t('menus.type'),
@@ -95,7 +96,6 @@ export default defineComponent({
                         key: 'action',
                         dataIndex: 'action',
                         align: 'center',
-                        width: 150,
                         customRender: () => {
                             return (
                                 <div class={`${$g.prefix}table-btns`}>
