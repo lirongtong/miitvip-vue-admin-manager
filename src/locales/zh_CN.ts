@@ -231,7 +231,7 @@ export default {
         placeholder: {
             key: '语言编码，如简体中文的关键词为: zh-cn',
             language: '语系显示名称，如：简体中文',
-            search: '请输入待搜索关键词或相应的语言内容',
+            search: '请输入待搜索关键词 ...',
             current: '请选择语系',
             config: {
                 key: '请输入语言配置的关键词',

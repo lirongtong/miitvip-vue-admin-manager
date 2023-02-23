@@ -231,7 +231,7 @@ export default {
         placeholder: {
             key: 'For example, the keywords in simplified Chinese are: zh-cn',
             language: 'Language display name, such as: Simplified Chinese',
-            search: 'Please input the Key value of the keyword to be searched or the language content',
+            search: 'Please input the Key value of the keyword to be searched ...',
             current: 'Please select language',
             config: {
                 key: 'Please input a keyword for language configuration, such as: makeit.vip',
