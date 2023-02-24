@@ -57,7 +57,8 @@ export default defineComponent({
             scroll: false,
             active: null,
             current: null,
-            delay: 400
+            delay: 400,
+            first: false
         }) as { [index: string]: any }
         const containerRef = ref(null) as any
         const listRef = ref(null) as any
@@ -75,9 +76,7 @@ export default defineComponent({
         )
         watch(
             () => route.path,
-            () => {
-                nextTick().then(() => initRouteHistory())
-            }
+            () => nextTick().then(() => initRouteHistory())
         )
 
         const initRouteHistory = (collect = true) => {
@@ -128,7 +127,13 @@ export default defineComponent({
                     const halfWidth = Math.ceil(elem.clientWidth / 2)
                     const offsetLeft = elem.offsetLeft + halfWidth
                     const diff = offsetLeft - params.middle
-                    const offset = diff < 0 ? 0 : diff > params.max ? params.max : diff
+                    const offset = params.first
+                        ? 0
+                        : diff < 0
+                        ? 0
+                        : diff > params.max
+                        ? params.max
+                        : diff
                     params.offset = routes.value.length <= 1 ? 0 : -offset
                     params.active = item
                     params.current = item.name
@@ -159,8 +164,9 @@ export default defineComponent({
                     params.active = prev ?? next ?? null
                     params.current = prev ? prev.name : next ? next.name : null
                     router.push({ path: params.active.path })
+                    params.first = !prev
                 }
-            }
+            } else params.first = false
             if (len - 1 > 0) store.commit(`layout/${mutations.layout.routes}`, tempRoutes)
             if (evt) evt.preventDefault()
         }
