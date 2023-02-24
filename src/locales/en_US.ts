@@ -18,6 +18,7 @@ export default {
     delete: 'Delete',
     reset: 'Reset',
     more: 'More',
+    detail: 'Detail',
     'batch-delete': 'Batch Delete',
     'delete-confirm': 'Are you sure you want to delete the current selection?',
     'delete-select': 'Please select the items to delete',
@@ -268,6 +269,7 @@ export default {
         sort: 'Sort key',
         open: 'Open way',
         router: 'Routing menu',
+        addSub: 'Add submenu',
         policies: {
             invisible: 'Invisible',
             visible: 'Visible Only',

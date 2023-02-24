@@ -7,6 +7,7 @@ import { $tools } from '../../../utils/tools'
 import { $g } from '../../../utils/global'
 import { useWindowResize } from '../../../hooks/useWindowResize'
 import MiModal from '../../../components/modal/modal'
+import MiDropdown from '../../../components/dropdown/dropdown'
 import { directional, tips, edit, data, brands, generic } from './icons'
 import { useI18n } from 'vue-i18n'
 import * as AntdvIcons from '@ant-design/icons-vue'
@@ -115,7 +116,16 @@ export default defineComponent({
                                         {t('edit')}
                                     </a>
                                     <span></span>
-                                    <a class="more">{t('more')}</a>
+                                    <MiDropdown
+                                        title={() => {
+                                            return (
+                                                <a class="more">
+                                                    {t('more')}
+                                                    <AntdvIcons.MoreOutlined />
+                                                </a>
+                                            )
+                                        }}
+                                        items={params.menus.more}></MiDropdown>
                                 </div>
                             )
                         }
@@ -173,7 +183,33 @@ export default defineComponent({
                 }
             },
             menus: {
-                tree: [] as MenusDataItem[]
+                tree: [] as MenusDataItem[],
+                more: [
+                    {
+                        name: 'detail',
+                        title: t('detail'),
+                        icon: AntdvIcons.MessageOutlined,
+                        callback: () => {
+                            console.log(2)
+                        }
+                    },
+                    {
+                        name: 'add-submenu',
+                        title: t('menus.addSub'),
+                        icon: AntdvIcons.NodeExpandOutlined,
+                        callback: () => {
+                            console.log(2)
+                        }
+                    },
+                    {
+                        name: 'delete',
+                        title: t('delete'),
+                        icon: AntdvIcons.DeleteOutlined,
+                        callback: () => {
+                            console.log(2)
+                        }
+                    }
+                ] as any
             },
             tabs: {
                 active: 'directional',

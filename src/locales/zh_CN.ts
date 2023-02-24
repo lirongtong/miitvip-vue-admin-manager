@@ -18,6 +18,7 @@ export default {
     delete: '删除',
     reset: '重置',
     more: '更多',
+    detail: '详情',
     'batch-delete': '批量删除',
     'delete-confirm': '确定删除当前所选项？',
     'delete-select': '请选择需要删除的选项',
@@ -269,6 +270,7 @@ export default {
         open: '打开方式',
         router: '路由菜单',
         hide: '隐藏路由',
+        addSub: '添加子菜单',
         policies: {
             invisible: '不可见',
             visible: '仅可见',
