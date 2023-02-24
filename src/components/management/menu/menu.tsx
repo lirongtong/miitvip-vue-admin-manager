@@ -32,6 +32,8 @@ import {
     TabPane
 } from 'ant-design-vue'
 
+export declare type Key = string | number
+
 export default defineComponent({
     name: 'MiMenuManagement',
     inheritAttrs: false,
@@ -51,7 +53,7 @@ export default defineComponent({
                         title: t('menus.name'),
                         key: 'name',
                         dataIndex: 'name',
-                        minWidth: 240
+                        width: 240
                     },
                     {
                         title: t('menus.type'),
@@ -61,9 +63,10 @@ export default defineComponent({
                             return record.record.type === 1
                                 ? t('menus.top')
                                 : record.record.type === 2
-                                ? t('menus.top')
+                                ? t('menus.sub')
                                 : t('menus.unknow')
-                        }
+                        },
+                        width: 100
                     },
                     {
                         title: t('menus.icon'),
@@ -72,30 +75,38 @@ export default defineComponent({
                         align: 'center',
                         customRender: (record: any) => {
                             const IconTag = AntdvIcons[record.record.icon]
-                            return <IconTag />
-                        }
+                            return <IconTag style={`font-size: 20px`} />
+                        },
+                        width: 100
                     },
                     {
                         title: t('menus.page'),
                         key: 'page',
-                        dataIndex: 'page'
+                        dataIndex: 'page',
+                        width: 260,
+                        ellipsis: true
                     },
                     {
                         title: t('menus.path'),
                         key: 'path',
-                        dataIndex: 'path'
+                        dataIndex: 'path',
+                        width: 260,
+                        ellipsis: true
                     },
                     {
                         title: t('menus.sort'),
                         key: 'weight',
                         dataIndex: 'weight',
-                        align: 'center'
+                        align: 'center',
+                        width: 90
                     },
                     {
                         title: t('opt'),
                         key: 'action',
                         dataIndex: 'action',
                         align: 'center',
+                        width: 180,
+                        fixed: 'right',
                         customRender: () => {
                             return (
                                 <div class={`${$g.prefix}table-btns`}>
@@ -186,6 +197,7 @@ export default defineComponent({
                 const cur = data[i]
                 const temp = {
                     ...cur,
+                    key: cur.id,
                     title: cur.name,
                     value: cur.id
                 } as MenusDataItem
@@ -193,6 +205,15 @@ export default defineComponent({
                 top.push(temp)
             }
             return top
+        }
+
+        const wrapBatchDeleteIds = (_keys: Key[], rows: any[]) => {
+            const ids: any[] = []
+            for (let i = 0, l = rows.length; i < l; i++) {
+                const id = rows[i]?.id || rows[i]?.key
+                if (id) ids.push(id)
+            }
+            params.deleteIds = ids
         }
 
         const batchDelete = () => {
@@ -552,7 +573,11 @@ export default defineComponent({
                     {renderActionBtns()}
                     <Table
                         columns={params.table.columns}
-                        rowSelection={{}}
+                        rowSelection={{
+                            onChange: (keys: Key[], rows: any[]) => {
+                                wrapBatchDeleteIds(keys, rows)
+                            }
+                        }}
                         dataSource={params.table.dataSource}
                         pagination={{
                             showLessItems: true,

@@ -32,6 +32,10 @@
                     &.@{ant-table}-selection-column {
                         .properties(padding-left, 16);
                     }
+
+                    &.@{ant-table}-cell-fix-right {
+                        backdrop-filter: blur(48px);
+                    }
                 }
             }
 
@@ -41,6 +45,10 @@
                     border-bottom-color: fade(@mi-white, 12.5%);
                     color: var(--mi-font, @mi-font);
                     background-color: transparent;
+
+                    &.@{ant-table}-cell-fix-right {
+                        backdrop-filter: blur(48px);
+                    }
 
                     &.@{ant-table}-selection-column {
                         .properties(padding-left, 16);
@@ -55,6 +63,14 @@
                     background: transparent;
                 }
             }
+        }
+
+        &::-webkit-scrollbar {
+            .properties(height);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            .linear-gradient-background-theme();
         }
     }
 

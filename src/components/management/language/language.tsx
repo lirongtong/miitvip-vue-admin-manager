@@ -123,20 +123,20 @@ export default defineComponent({
                         key: 'key',
                         dataIndex: 'key',
                         align: 'left',
-                        width: 320,
-                        minWidth: 120
+                        width: 320
                     },
                     {
                         key: 'language',
                         dataIndex: 'language',
                         align: 'left',
-                        minWidth: 160
+                        width: 520
                     },
                     {
                         title: t('opt'),
                         key: 'action',
                         align: 'center',
-                        width: 150,
+                        width: 180,
+                        fixed: 'right',
                         customRender: (record: any) => {
                             return (
                                 <div class={`${$g.prefix}table-btns`}>
@@ -173,12 +173,14 @@ export default defineComponent({
                             title: t('key'),
                             key: 'key',
                             dataIndex: 'key',
-                            align: 'left'
+                            align: 'left',
+                            width: 320
                         },
                         {
                             key: 'language',
                             dataIndex: 'language',
-                            align: 'left'
+                            align: 'left',
+                            width: 520
                         }
                     ] as any
                 }
