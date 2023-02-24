@@ -44,7 +44,8 @@ export const api: any = reactive({
     },
     menus: {
         data: 'menus',
-        update: 'menus/{id}'
+        update: 'menus/{id}',
+        delete: 'menus/{id}'
     }
 })
 

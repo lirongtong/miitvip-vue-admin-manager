@@ -83,14 +83,14 @@ export default defineComponent({
                         title: t('menus.page'),
                         key: 'page',
                         dataIndex: 'page',
-                        width: 260,
+                        width: 200,
                         ellipsis: true
                     },
                     {
                         title: t('menus.path'),
                         key: 'path',
                         dataIndex: 'path',
-                        width: 260,
+                        width: 200,
                         ellipsis: true
                     },
                     {
@@ -135,7 +135,17 @@ export default defineComponent({
             isEdit: false,
             types: [
                 { label: t('menus.top'), value: 1 },
-                { label: t('menus.sub'), value: 2 }
+                { label: t('menus.sub'), value: 2 },
+                { label: t('menus.btn'), value: 3 }
+            ],
+            policies: [
+                { label: t('menus.policies.invisible'), value: 0 },
+                { label: t('menus.policies.visible'), value: 1 },
+                { label: t('menus.policies.accessible'), value: 2 }
+            ],
+            states: [
+                { label: t('invalid'), value: 0 },
+                { label: t('valid'), value: 1 }
             ],
             form: {
                 validate: {
@@ -149,13 +159,17 @@ export default defineComponent({
                     icon: '',
                     sort: 1,
                     lang: '',
+                    auth: '',
+                    policy: 2,
+                    state: 1,
                     is_router: true,
                     is_blank: false,
                     is_hide: false
                 },
                 rules: {
                     name: [{ required: true, message: t('menus.placeholder.name') }],
-                    page: [{ required: true, message: t('menus.placeholder.page') }]
+                    page: [{ required: true, message: t('menus.placeholder.page') }],
+                    pid: [{ required: true, message: t('menus.placeholder.up') }]
                 }
             },
             menus: {
@@ -274,6 +288,8 @@ export default defineComponent({
                 addOrUpdateformRef.value.validate().then(() => {
                     if (params.loading) return
                     params.loading = true
+                    if (!AntdvIcons[params.form.validate.icon])
+                        params.form.validate.icon = 'TagOutlined'
                     if (params.isEdit) {
                         // update
                     } else {
@@ -436,62 +452,20 @@ export default defineComponent({
         }
 
         const renderDrawer = () => {
-            const subMenu =
-                params.form.validate.type === 2 ? (
-                    <FormItem label={t('menus.up')} name="pid">
-                        <TreeSelect
-                            v-model:value={params.form.validate.pid}
-                            placeholder={t('menus.placeholder.up')}
-                            allowClear={true}
-                            dropdownClassName={`${prefixCls}-drawer-select`}
-                            treeData={params.menus.tree}
-                            treeDefaultExpandAll={true}></TreeSelect>
-                    </FormItem>
-                ) : null
-            return (
-                <Drawer
-                    visible={params.openDrawer}
-                    zIndex={Date.now()}
-                    onClose={openAddOrUpdateDrawer}
-                    title={t('menus.add')}
-                    width={580}
-                    v-slots={{
-                        extra: () => {
-                            return (
-                                <>
-                                    <Button
-                                        style={{ marginRight: $tools.convert2Rem(8) }}
-                                        onClick={openAddOrUpdateDrawer}>
-                                        {t('cancel')}
-                                    </Button>
-                                    <Button type="primary" onClick={addOrUpdate}>
-                                        {t('ok')}
-                                    </Button>
-                                </>
-                            )
-                        }
-                    }}
-                    class={`${$g.prefix}drawer`}>
-                    <Form
-                        class={`${formCls} ${formCls}-theme`}
-                        model={params.form.validate}
-                        rules={params.form.rules}
-                        ref={addOrUpdateformRef}
-                        labelCol={{ style: { width: $tools.convert2Rem(120) } }}>
-                        <FormItem label={t('menus.type')} name="type">
-                            <RadioGroup
-                                options={params.types}
-                                v-model:value={params.form.validate.type}></RadioGroup>
-                        </FormItem>
-                        <FormItem label={t('menus.name')} name="name">
-                            <Input
-                                v-model:value={params.form.validate.name}
-                                autocomplete="off"
-                                maxlength={60}
-                                placeholder={t('menus.placeholder.name')}
-                            />
-                        </FormItem>
-                        {subMenu}
+            const subMenu = [2, 3].includes(params.form.validate.type) ? (
+                <FormItem label={t('menus.up')} name="pid">
+                    <TreeSelect
+                        v-model:value={params.form.validate.pid}
+                        placeholder={t('menus.placeholder.up')}
+                        allowClear={true}
+                        dropdownClassName={`${prefixCls}-drawer-select`}
+                        treeData={params.menus.tree}
+                        treeDefaultExpandAll={true}></TreeSelect>
+                </FormItem>
+            ) : null
+            const exclusiveBtn =
+                params.form.validate.type === 3 ? null : (
+                    <>
                         <FormItem label={t('menus.subname')} name="sub_name">
                             <Input
                                 v-model:value={params.form.validate.sub_name}
@@ -546,13 +520,6 @@ export default defineComponent({
                                 un-checked-children={t('no')}
                             />
                         </FormItem>
-                        <FormItem label={t('menus.lang')} name="lang">
-                            <Input
-                                v-model:value={params.form.validate.lang}
-                                autocomplete="off"
-                                placeholder={t('menus.placeholder.lang')}
-                            />
-                        </FormItem>
                         <FormItem label={t('menus.redirect')} name="redirect">
                             <Input
                                 v-model:value={params.form.validate.redirect}
@@ -560,6 +527,89 @@ export default defineComponent({
                                 placeholder={t('menus.placeholder.redirect')}
                             />
                         </FormItem>
+                    </>
+                )
+            const btnMenu =
+                params.form.validate.type === 3 ? (
+                    <>
+                        <FormItem label={t('menus.auth')} name="auth">
+                            <Input
+                                v-model:value={params.form.validate.auth}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.auth')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menus.policy')} name="policy">
+                            <RadioGroup
+                                options={params.policies}
+                                v-model:value={params.form.validate.policy}></RadioGroup>
+                        </FormItem>
+                        <FormItem label={t('state')} name="state">
+                            <RadioGroup
+                                options={params.states}
+                                v-model:value={params.form.validate.state}></RadioGroup>
+                        </FormItem>
+                    </>
+                ) : null
+            return (
+                <Drawer
+                    visible={params.openDrawer}
+                    zIndex={Date.now()}
+                    onClose={openAddOrUpdateDrawer}
+                    title={t('menus.add')}
+                    width={580}
+                    v-slots={{
+                        extra: () => {
+                            return (
+                                <>
+                                    <Button
+                                        style={{ marginRight: $tools.convert2Rem(8) }}
+                                        onClick={openAddOrUpdateDrawer}>
+                                        {t('cancel')}
+                                    </Button>
+                                    <Button type="primary" onClick={addOrUpdate}>
+                                        {t('ok')}
+                                    </Button>
+                                </>
+                            )
+                        }
+                    }}
+                    class={`${$g.prefix}drawer`}>
+                    <Form
+                        class={`${formCls} ${formCls}-theme`}
+                        model={params.form.validate}
+                        rules={params.form.rules}
+                        ref={addOrUpdateformRef}
+                        labelCol={{ style: { width: $tools.convert2Rem(120) } }}>
+                        <FormItem label={t('menus.type')} name="type">
+                            <RadioGroup
+                                options={params.types}
+                                v-model:value={params.form.validate.type}></RadioGroup>
+                        </FormItem>
+                        <FormItem
+                            label={
+                                params.form.validate.type === 3
+                                    ? t('menus.btnName')
+                                    : t('menus.name')
+                            }
+                            name="name">
+                            <Input
+                                v-model:value={params.form.validate.name}
+                                autocomplete="off"
+                                maxlength={60}
+                                placeholder={t('menus.placeholder.name')}
+                            />
+                        </FormItem>
+                        {subMenu}
+                        {exclusiveBtn}
+                        <FormItem label={t('menus.lang')} name="lang">
+                            <Input
+                                v-model:value={params.form.validate.lang}
+                                autocomplete="off"
+                                placeholder={t('menus.placeholder.lang')}
+                            />
+                        </FormItem>
+                        {btnMenu}
                     </Form>
                 </Drawer>
             )

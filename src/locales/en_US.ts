@@ -3,6 +3,9 @@ export default {
     ok: 'OK',
     cancel: 'Cancel',
     type: 'Type',
+    state: 'State',
+    valid: 'Valid',
+    invalid: 'Invalid',
     'kind-tips': 'Kind Tips',
     'built-in': 'Built-In',
     customize: 'Customize',
@@ -255,13 +258,21 @@ export default {
         top: 'A menu',
         sub: 'Submenu',
         unknown: 'Unkonw',
+        auth: 'Authorization ID',
+        policy: 'Authorization policy',
         btn: 'Button',
+        btnName: 'Button Name',
         lang: 'Language key',
         page: 'Page',
         redirect: 'Default jump link',
         sort: 'Sort key',
         open: 'Open way',
         router: 'Routing menu',
+        policies: {
+            invisible: 'Invisible',
+            visible: 'Visible Only',
+            accessible: 'Visible/Accessible'
+        },
         icons: {
             directional: 'Directional',
             tips: 'Tips',
@@ -279,7 +290,8 @@ export default {
             redirect: 'Please input the default redirect address of menu',
             icon: 'Please select the menu icon',
             up: 'Please select the parent menu',
-            lang: 'Please input the language key of menu'
+            lang: 'Please input the language key of menu',
+            auth: 'Please input a unique authorization ID, such as: personal:data'
         }
     }
 }

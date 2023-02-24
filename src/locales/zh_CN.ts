@@ -3,6 +3,9 @@ export default {
     ok: '确定',
     cancel: '取消',
     type: '类型',
+    state: '状态',
+    valid: '有效',
+    invalid: '无效',
     'kind-tips': '温馨提示',
     'built-in': '内置',
     customize: '自定义',
@@ -255,7 +258,10 @@ export default {
         top: '一级菜单',
         sub: '子菜单',
         unknown: '未知类型',
+        auth: '授权标识',
+        policy: '授权策略',
         btn: '按钮',
+        btnName: '按钮名称',
         lang: '多语言 Key 值',
         page: '前端组件',
         redirect: '默认跳转地址',
@@ -263,6 +269,11 @@ export default {
         open: '打开方式',
         router: '路由菜单',
         hide: '隐藏路由',
+        policies: {
+            invisible: '不可见',
+            visible: '仅可见',
+            accessible: '可见/可访问'
+        },
         icons: {
             directional: '方向类图标',
             tips: '提示类图标',
@@ -280,7 +291,8 @@ export default {
             redirect: '请输入默认跳转地址',
             icon: '请选择菜单图标',
             up: '请选择上级菜单',
-            lang: '多语言菜单 key 值'
+            lang: '多语言菜单 key 值',
+            auth: '请输入唯一的授权标识, 如: personal:data'
         }
     }
 }
