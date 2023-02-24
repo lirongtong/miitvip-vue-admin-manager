@@ -6,7 +6,8 @@
             callback: handleAfterGetData
         }"
         :add-menu="{url: api.menus.data}"
-        :delete-menu="{url: api.menus.delete}" />
+        :delete-menu="{url: api.menus.delete}"
+        :update-menu="{url: api.menus.update}" />
 </template>
 
 <script setup>

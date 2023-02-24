@@ -54,12 +54,13 @@ export default defineComponent({
                         title: t('menus.name'),
                         key: 'name',
                         dataIndex: 'name',
-                        width: 240
+                        width: 200
                     },
                     {
                         title: t('menus.type'),
                         key: 'type',
                         dataIndex: 'type',
+                        align: 'center',
                         customRender: (record: any) => {
                             return record.record.type === 1
                                 ? t('menus.top')
@@ -95,7 +96,7 @@ export default defineComponent({
                         ellipsis: true
                     },
                     {
-                        title: t('menus.sort'),
+                        title: t('menus.weight'),
                         key: 'weight',
                         dataIndex: 'weight',
                         align: 'center',
@@ -105,27 +106,42 @@ export default defineComponent({
                         title: t('opt'),
                         key: 'action',
                         dataIndex: 'action',
-                        align: 'center',
-                        width: 180,
+                        align: 'right',
+                        width: 250,
                         fixed: 'right',
-                        customRender: () => {
+                        customRender: (record: any) => {
                             return (
                                 <div class={`${$g.prefix}table-btns`}>
-                                    <a class="edit">
+                                    <a class="edit" onClick={() => openAddOrUpdateDrawer(record)}>
                                         <AntdvIcons.FormOutlined />
                                         {t('edit')}
+                                    </a>
+                                    <span></span>
+                                    <a class="delete">
+                                        <Popconfirm
+                                            title={t('delete-confirm')}
+                                            style={{ zIndex: Date.now() }}
+                                            okText={t('ok')}
+                                            cancelText={t('cancel')}
+                                            okButtonProps={{
+                                                onClick: () => deleteMenu(record)
+                                            }}
+                                            key={record.record.key}>
+                                            <AntdvIcons.DeleteOutlined />
+                                            {t('delete')}
+                                        </Popconfirm>
                                     </a>
                                     <span></span>
                                     <MiDropdown
                                         title={() => {
                                             return (
                                                 <a class="more">
-                                                    {t('more')}
                                                     <AntdvIcons.MoreOutlined />
+                                                    {t('more')}
                                                 </a>
                                             )
                                         }}
-                                        items={params.menus.more}></MiDropdown>
+                                        items={getDropdownItems(record.record)}></MiDropdown>
                                 </div>
                             )
                         }
@@ -143,6 +159,8 @@ export default defineComponent({
             deleteIds: [] as any,
             openDrawer: false,
             isEdit: false,
+            editId: null,
+            editPid: null,
             types: [
                 { label: t('menus.top'), value: 1 },
                 { label: t('menus.sub'), value: 2 },
@@ -167,7 +185,7 @@ export default defineComponent({
                     page: '',
                     redirect: '',
                     icon: '',
-                    sort: 1,
+                    weight: 1,
                     lang: '',
                     auth: '',
                     policy: 2,
@@ -183,33 +201,7 @@ export default defineComponent({
                 }
             },
             menus: {
-                tree: [] as MenusDataItem[],
-                more: [
-                    {
-                        name: 'detail',
-                        title: t('detail'),
-                        icon: AntdvIcons.MessageOutlined,
-                        callback: () => {
-                            console.log(2)
-                        }
-                    },
-                    {
-                        name: 'add-submenu',
-                        title: t('menus.addSub'),
-                        icon: AntdvIcons.NodeExpandOutlined,
-                        callback: () => {
-                            console.log(2)
-                        }
-                    },
-                    {
-                        name: 'delete',
-                        title: t('delete'),
-                        icon: AntdvIcons.DeleteOutlined,
-                        callback: () => {
-                            console.log(2)
-                        }
-                    }
-                ] as any
+                tree: [] as MenusDataItem[]
             },
             tabs: {
                 active: 'directional',
@@ -257,6 +249,146 @@ export default defineComponent({
             return top
         }
 
+        const getDropdownItems = (data: any): any[] => {
+            return [
+                {
+                    name: 'detail',
+                    title: t('detail'),
+                    icon: AntdvIcons.MessageOutlined,
+                    callback: () => {
+                        console.log(data)
+                    }
+                },
+                {
+                    name: 'add-submenu',
+                    title: t('menus.addSub'),
+                    icon: AntdvIcons.NodeExpandOutlined,
+                    callback: () => {
+                        openAddOrUpdateDrawer()
+                        params.form.validate.pid = data?.id
+                        params.form.validate.type = 2
+                    }
+                }
+            ] as any
+        }
+
+        const searchInput = () => {}
+
+        const searchReset = () => {}
+
+        const search = () => {}
+
+        // 新增/创建 - 抽屉形式列表
+        const openAddOrUpdateDrawer = (data?: any) => {
+            params.openDrawer = !params.openDrawer
+            if (data?.record && params.openDrawer) {
+                params.isEdit = true
+                params.editId = data.record?.id
+                params.editPid = data.record?.pid
+                params.form.validate = JSON.parse(JSON.stringify(data.record))
+                params.form.validate.is_router = data.record?.is_router > 0
+                params.form.validate.weight = parseInt(data.record?.weight)
+            } else params.isEdit = false
+        }
+
+        // 更新菜单类型
+        const changeType = () => {
+            if (params.form.validate.type === 1) params.form.validate.pid = null
+            else
+                params.form.validate.pid =
+                    params.editPid && params.editPid !== 0 ? params.editPid : null
+        }
+
+        // 设置菜单图标
+        const setIcon = (name: string) => {
+            params.form.validate.icon = name
+            handleIconsModal()
+        }
+
+        // 图标 Modal
+        const handleIconsModal = () => {
+            params.tabs.visiable = !params.tabs.visiable
+        }
+
+        // 创建/更新
+        const addOrUpdate = () => {
+            if (addOrUpdateformRef.value) {
+                addOrUpdateformRef.value.validate().then(() => {
+                    if (params.loading) return
+                    params.loading = true
+                    if (!AntdvIcons[params.form.validate.icon])
+                        params.form.validate.icon = 'TagOutlined'
+                    if (params.isEdit) {
+                        // update
+                        if (!params.editId) {
+                            message.error(t('no-id'))
+                            return
+                        }
+                        if (props.updateMenu.url) {
+                            $request[(props.updateMenu.method || 'PUT').toLowerCase()](
+                                $tools.replaceUrlParams(props.updateMenu.url, {
+                                    id: params.editId
+                                }),
+                                Object.assign(
+                                    {},
+                                    { ...params.form.validate },
+                                    { ...props.updateMenu.params }
+                                )
+                            )
+                                .then((res: any) => {
+                                    params.loading = false
+                                    if (res?.ret?.code === 200) {
+                                        openAddOrUpdateDrawer()
+                                        getMenus()
+                                        addOrUpdateformRef.value.resetFields()
+                                        params.form.validate.pid = null
+                                        params.form.validate.type = 1
+                                        params.editId = null
+                                        params.editPid = null
+                                        params.isEdit = false
+                                        message.success(t('success'))
+                                        if (props.updateMenu.callback) props.updateMenu.callback()
+                                    } else message.error(res?.ret?.message)
+                                })
+                                .catch((err: any) => {
+                                    params.loading = false
+                                    message.error(err?.message)
+                                })
+                        }
+                    } else {
+                        // create
+                        if (props.addMenu.url) {
+                            $request[(props.addMenu.method || 'POST').toLowerCase()](
+                                props.addMenu.url,
+                                Object.assign(
+                                    {},
+                                    { ...params.form.validate },
+                                    { ...props.addMenu.params }
+                                )
+                            )
+                                .then((res: any) => {
+                                    params.loading = false
+                                    if (res?.ret?.code === 200) {
+                                        openAddOrUpdateDrawer()
+                                        getMenus()
+                                        addOrUpdateformRef.value.resetFields()
+                                        params.form.validate.pid = null
+                                        params.form.validate.type = 1
+                                        message.success(t('success'))
+                                        if (props.addMenu.callback) props.addMenu.callback()
+                                    } else message.error(res?.ret?.message)
+                                })
+                                .catch((err: any) => {
+                                    params.loading = false
+                                    message.error(err?.message)
+                                })
+                        }
+                    }
+                })
+            }
+        }
+
+        // 封装待删除的菜单id
         const wrapBatchDeleteIds = (_keys: Key[], rows: any[]) => {
             const ids: any[] = []
             for (let i = 0, l = rows.length; i < l; i++) {
@@ -266,11 +398,8 @@ export default defineComponent({
             params.deleteIds = ids
         }
 
-        const batchDelete = () => {
-            if (params.deleteIds.length <= 0) {
-                message.error(t('delete-select'))
-                return
-            }
+        // 删除菜单项
+        const deleteMenuItem = () => {
             if (params.loading) return
             params.loading = true
             if (props.deleteMenu.url) {
@@ -296,66 +425,22 @@ export default defineComponent({
             }
         }
 
-        const searchInput = () => {}
-
-        const searchReset = () => {}
-
-        const search = () => {}
-
-        const openAddOrUpdateDrawer = () => {
-            params.openDrawer = !params.openDrawer
-            if (params.openDrawer) {
-                if (params.isEdit) {
-                }
+        // 删除菜单 - 单条
+        const deleteMenu = (data: any) => {
+            if (props.deleteMenu.url && data.record) {
+                const id = data.record?.id
+                params.deleteIds = [id]
+                deleteMenuItem()
             }
         }
 
-        const setIcon = (name: string) => {
-            params.form.validate.icon = name
-            handleIconsModal()
-        }
-
-        const handleIconsModal = () => {
-            params.tabs.visiable = !params.tabs.visiable
-        }
-
-        const addOrUpdate = () => {
-            if (addOrUpdateformRef.value) {
-                addOrUpdateformRef.value.validate().then(() => {
-                    if (params.loading) return
-                    params.loading = true
-                    if (!AntdvIcons[params.form.validate.icon])
-                        params.form.validate.icon = 'TagOutlined'
-                    if (params.isEdit) {
-                        // update
-                    } else {
-                        // create
-                        if (props.addMenu.url) {
-                            $request[(props.addMenu.method || 'POST').toLowerCase()](
-                                props.addMenu.url,
-                                Object.assign(
-                                    {},
-                                    { ...params.form.validate },
-                                    { ...props.addMenu.params }
-                                )
-                            )
-                                .then((res: any) => {
-                                    params.loading = false
-                                    if (res?.ret?.code === 200) {
-                                        openAddOrUpdateDrawer()
-                                        getMenus()
-                                        message.success(t('success'))
-                                        if (props.addMenu.callback) props.addMenu.callback()
-                                    } else message.error(res?.ret?.message)
-                                })
-                                .catch((err: any) => {
-                                    params.loading = false
-                                    message.error(err?.message)
-                                })
-                        }
-                    }
-                })
+        // 删除菜单 - 批量
+        const deleteMenus = () => {
+            if (params.deleteIds.length <= 0) {
+                message.error(t('delete-select'))
+                return
             }
+            deleteMenuItem()
         }
 
         getMenus()
@@ -430,16 +515,20 @@ export default defineComponent({
                         title={t('delete-confirm')}
                         style={{ zIndex: Date.now() }}
                         okText={t('ok')}
-                        onConfirm={() => batchDelete()}
+                        onConfirm={() => deleteMenus()}
                         cancelText={t('cancel')}>
                         <Button
                             type="primary"
                             danger={true}
+                            icon={<AntdvIcons.DeleteOutlined />}
                             style={{ marginRight: $tools.convert2Rem(8) }}>
                             {t('batch-delete')}
                         </Button>
                     </Popconfirm>
-                    <Button class={`${btnCls}-success`} onClick={openAddOrUpdateDrawer}>
+                    <Button
+                        class={`${btnCls}-success`}
+                        icon={<AntdvIcons.EditOutlined />}
+                        onClick={openAddOrUpdateDrawer}>
                         {t('menus.add')}
                     </Button>
                 </>
@@ -546,8 +635,8 @@ export default defineComponent({
                                 un-checked-children={t('internal')}
                             />
                         </FormItem>
-                        <FormItem label={t('menus.sort')} name="sort">
-                            <InputNumber v-model:value={params.form.validate.sort} min={1} />
+                        <FormItem label={t('menus.weight')} name="weight">
+                            <InputNumber v-model:value={params.form.validate.weight} min={1} />
                         </FormItem>
                         <FormItem label={t('menus.hide')} name="is_hide">
                             <Switch
@@ -592,7 +681,7 @@ export default defineComponent({
                     visible={params.openDrawer}
                     zIndex={Date.now()}
                     onClose={openAddOrUpdateDrawer}
-                    title={t('menus.add')}
+                    title={params.isEdit ? t('menus.update') : t('menus.add')}
                     width={580}
                     v-slots={{
                         extra: () => {
@@ -603,8 +692,11 @@ export default defineComponent({
                                         onClick={openAddOrUpdateDrawer}>
                                         {t('cancel')}
                                     </Button>
-                                    <Button type="primary" onClick={addOrUpdate}>
-                                        {t('ok')}
+                                    <Button
+                                        type="primary"
+                                        onClick={addOrUpdate}
+                                        loading={params.loading}>
+                                        {params.isEdit ? t('update') : t('save')}
                                     </Button>
                                 </>
                             )
@@ -620,6 +712,7 @@ export default defineComponent({
                         <FormItem label={t('menus.type')} name="type">
                             <RadioGroup
                                 options={params.types}
+                                onChange={() => changeType()}
                                 v-model:value={params.form.validate.type}></RadioGroup>
                         </FormItem>
                         <FormItem

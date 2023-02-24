@@ -31,7 +31,8 @@ import {
     GlobalOutlined,
     SearchOutlined,
     ReloadOutlined,
-    InfoCircleOutlined
+    InfoCircleOutlined,
+    CheckOutlined
 } from '@ant-design/icons-vue'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
@@ -134,7 +135,7 @@ export default defineComponent({
                     {
                         title: t('opt'),
                         key: 'action',
-                        align: 'center',
+                        align: 'right',
                         width: 180,
                         fixed: 'right',
                         customRender: (record: any) => {
@@ -619,6 +620,10 @@ export default defineComponent({
                         }
                         if (params.isEdit) {
                             // update
+                            if (!params.id) {
+                                message.error(t('no-id'))
+                                return
+                            }
                             if (props.updateLanguage.url) {
                                 $request[(props.updateLanguage.method || 'PUT').toLowerCase()](
                                     $tools.replaceUrlParams(props.updateLanguage.url, {
@@ -1167,6 +1172,7 @@ export default defineComponent({
                             cancelText={t('cancel')}>
                             <Button
                                 class={`${btnCls}-warning`}
+                                icon={<CheckOutlined />}
                                 style={{ marginRight: $tools.convert2Rem(8) }}>
                                 {t('language.default')}
                             </Button>
@@ -1190,12 +1196,14 @@ export default defineComponent({
                             <Button
                                 type="primary"
                                 danger={true}
+                                icon={<DeleteOutlined />}
                                 style={{ marginRight: $tools.convert2Rem(8) }}>
                                 {t('batch-delete')}
                             </Button>
                         </Popconfirm>
                         <Button
                             class={`${btnCls}-success`}
+                            icon={<EditOutlined />}
                             onClick={createLanguageConfigurationVisible}>
                             {t('language.add')}
                         </Button>

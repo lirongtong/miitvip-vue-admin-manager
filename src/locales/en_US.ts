@@ -1,6 +1,8 @@
 export default {
     site: 'makeit.vip',
     ok: 'OK',
+    save: 'Save',
+    update: 'Update',
     cancel: 'Cancel',
     type: 'Type',
     state: 'State',
@@ -8,6 +10,7 @@ export default {
     invalid: 'Invalid',
     'kind-tips': 'Kind Tips',
     'built-in': 'Built-In',
+    'no-id': 'THe ID is wrong, please refresh and try again',
     customize: 'Customize',
     understood: 'Understood',
     activate: 'Go to activate',
@@ -247,7 +250,8 @@ export default {
         }
     },
     menus: {
-        add: 'Add new',
+        add: 'Add Menu',
+        update: 'Update Menu',
         name: 'Name',
         subname: 'Subname',
         up: 'Parent menu',
@@ -266,7 +270,7 @@ export default {
         lang: 'Language key',
         page: 'Page',
         redirect: 'Default jump link',
-        sort: 'Sort key',
+        weight: 'Sort key',
         open: 'Open way',
         router: 'Routing menu',
         addSub: 'Add submenu',

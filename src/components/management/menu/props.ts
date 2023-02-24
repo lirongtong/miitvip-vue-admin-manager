@@ -48,6 +48,17 @@ export const menuManagementProps = () => ({
             }
         }
     },
+    updateMenu: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'PUT',
+                params: {},
+                callback: null
+            }
+        }
+    },
     deleteMenu: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
