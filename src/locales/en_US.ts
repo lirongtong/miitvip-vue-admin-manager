@@ -266,7 +266,7 @@ export default {
         auth: 'Authorization ID',
         policy: 'Authorization policy',
         btn: 'Button',
-        btnName: 'Button Name',
+        btnName: 'Permission Name',
         lang: 'Language key',
         page: 'Page',
         redirect: 'Default jump link',
@@ -290,6 +290,7 @@ export default {
         placeholder: {
             search: 'Please input the name of the menu to be searched',
             name: 'Please input the name of menu, such as Dashboard',
+            btn: 'Please input the button/permission name, such as: Add',
             subname: 'Please input the subname of menu like Dashboard',
             path: 'Please input the path of menu，such as /dashboard',
             page: 'Please input the page component of menu，such as /views/dashboard',

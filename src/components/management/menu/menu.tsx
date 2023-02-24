@@ -66,6 +66,8 @@ export default defineComponent({
                                 ? t('menus.top')
                                 : record.record.type === 2
                                 ? t('menus.sub')
+                                : record.record.type === 3
+                                ? t('menus.btn')
                                 : t('menus.unknow')
                         },
                         width: 100
@@ -201,7 +203,8 @@ export default defineComponent({
                 }
             },
             menus: {
-                tree: [] as MenusDataItem[]
+                tree: [] as MenusDataItem[],
+                detail: false
             },
             tabs: {
                 active: 'directional',
@@ -726,7 +729,7 @@ export default defineComponent({
                                 v-model:value={params.form.validate.name}
                                 autocomplete="off"
                                 maxlength={60}
-                                placeholder={t('menus.placeholder.name')}
+                                placeholder={t('menus.placeholder.btn')}
                             />
                         </FormItem>
                         {subMenu}

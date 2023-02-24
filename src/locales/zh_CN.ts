@@ -265,7 +265,7 @@ export default {
         unknown: '未知类型',
         auth: '授权标识',
         policy: '授权策略',
-        btn: '按钮',
+        btn: '按钮/权限',
         btnName: '按钮名称',
         lang: '多语言 Key 值',
         page: '前端组件',
@@ -291,6 +291,7 @@ export default {
         placeholder: {
             search: '请输入待搜索的菜单名称',
             name: '请输入菜单名称，如：控制台',
+            btn: '请输入按钮/权限名称，如：新增',
             subname: '请输入菜单子标题，如：Dashboard',
             path: '请输入菜单访问路径，如：/dashboard',
             page: '请输入菜单对应的前端组件，如：views/dashboard',
