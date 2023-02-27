@@ -96,6 +96,8 @@
 
 :x: 权限控制 :sunglasses:
 
+:x: 应用管理 :rose:
+
 :white_check_mark: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
 
 :white_check_mark: 语言配置 :snowflake:
