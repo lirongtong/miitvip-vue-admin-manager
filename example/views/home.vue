@@ -223,6 +223,13 @@ vm.$g.menus.items = [{
             title: locale.value === 'en-us' ? 'Language Management' : '语言管理',
             icon: TransactionOutlined
         }
+    }, {
+        name: 'advanced-management-apps',
+        path: '/advanced/management/apps',
+        meta: {
+            title: locale.value === 'en-us' ? 'Apps Management' : '应用管理',
+            icon: AppstoreAddOutlined
+        }
     }]
 }]
 

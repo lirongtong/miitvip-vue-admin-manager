@@ -53,9 +53,10 @@ export default defineComponent({
         let languages = reactive<LanguageFormState[]>([])
         let total = 0
         let builtInLanguages = reactive<LanguageFormState[]>([])
-        const prefixCls = getPrefixCls('language', props.prefixCls)
         const btnCls = `${$g.prefix}btn`
         const formCls = `${$g.prefix}form`
+        const searchCls = `${$g.prefix}list-search`
+        const prefixCls = getPrefixCls('language', props.prefixCls)
         const formRef = ref<FormInstance>()
         const addOrUpdateFormRef = ref<FormInstance>()
         let batchDeleteIds = reactive<any[]>([])
@@ -1170,10 +1171,7 @@ export default defineComponent({
                                 }
                             }}
                             cancelText={t('cancel')}>
-                            <Button
-                                class={`${btnCls}-warning`}
-                                icon={<CheckOutlined />}
-                                style={{ marginRight: $tools.convert2Rem(8) }}>
+                            <Button class={`${btnCls}-warning`} icon={<CheckOutlined />}>
                                 {t('language.default')}
                             </Button>
                         </Popconfirm>
@@ -1193,11 +1191,7 @@ export default defineComponent({
                                 }
                             }}
                             cancelText={t('cancel')}>
-                            <Button
-                                type="primary"
-                                danger={true}
-                                icon={<DeleteOutlined />}
-                                style={{ marginRight: $tools.convert2Rem(8) }}>
+                            <Button type="primary" danger={true} icon={<DeleteOutlined />}>
                                 {t('batch-delete')}
                             </Button>
                         </Popconfirm>
@@ -1210,43 +1204,48 @@ export default defineComponent({
                     </>
                 ) : null
             const searchBtn = props.data.url ? (
-                <Col xs={24} md={12}>
-                    <div class={`${prefixCls}-btns-l`}>
-                        <Input
-                            placeholder={t('language.placeholder.search')}
-                            onInput={searchInput}
-                            onPressEnter={search}
-                            v-model:value={params.search.key}
-                        />
-                        <Button
-                            class={`${btnCls}-info`}
-                            onClick={search}
-                            style={{ marginRight: $tools.convert2Rem(8) }}
-                            v-slots={{
-                                icon: () => {
-                                    return <SearchOutlined />
-                                }
-                            }}>
-                            {t('seek')}
-                        </Button>
-                        <Button
-                            class={`${btnCls}-info`}
-                            onClick={resetSearch}
-                            v-slots={{
-                                icon: () => {
-                                    return <ReloadOutlined />
-                                }
-                            }}>
-                            {t('reset')}
-                        </Button>
+                <Col xs={24} md={14}>
+                    <div class={`${searchCls}-btns-l multiple`}>
+                        <div class={`${searchCls}-item`}>
+                            <label>{t('key')}</label>
+                            <Input
+                                placeholder={t('language.placeholder.search')}
+                                onInput={searchInput}
+                                onPressEnter={search}
+                                v-model:value={params.search.key}
+                            />
+                        </div>
+                        <div class={`${searchCls}-btns-l-b`}>
+                            <Button
+                                class={`${btnCls}-info`}
+                                onClick={search}
+                                style={{ marginRight: $tools.convert2Rem(8) }}
+                                v-slots={{
+                                    icon: () => {
+                                        return <SearchOutlined />
+                                    }
+                                }}>
+                                {t('seek')}
+                            </Button>
+                            <Button
+                                class={`${btnCls}-info`}
+                                onClick={resetSearch}
+                                v-slots={{
+                                    icon: () => {
+                                        return <ReloadOutlined />
+                                    }
+                                }}>
+                                {t('reset')}
+                            </Button>
+                        </div>
                     </div>
                 </Col>
             ) : null
             return (
-                <Row class={`${prefixCls}-btns${props.data.url ? '' : ' no-search'}`}>
+                <Row class={`${searchCls}-btns${props.data.url ? '' : ' no-search'}`}>
                     {searchBtn}
-                    <Col xs={24} md={12}>
-                        <div class={`${prefixCls}-btns-r`}>{btns}</div>
+                    <Col xs={24} md={10}>
+                        <div class={`${searchCls}-btns-r multiple`}>{btns}</div>
                     </Col>
                 </Row>
             )

@@ -24,6 +24,7 @@ export default {
     reset: 'Reset',
     more: 'More',
     detail: 'Detail',
+    code: 'Code',
     'batch-delete': 'Batch Delete',
     'delete-confirm': 'Are you sure you want to delete the current selection?',
     'delete-select': 'Please select the items to delete',
@@ -301,6 +302,17 @@ export default {
             up: 'Please select the parent menu',
             lang: 'Please input the language key of menu',
             auth: 'Please input a unique authorization ID, such as: personal:data'
+        }
+    },
+    apps: {
+        add: 'Add App',
+        update: 'Update App',
+        delete: 'Delete App',
+        name: 'App Name',
+        code: 'App Code',
+        placeholder: {
+            search: 'Please input the name of the apps to be searched',
+            code: 'Please input the code of the apps to be searched'
         }
     }
 }

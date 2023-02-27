@@ -24,6 +24,7 @@ export default {
     reset: '重置',
     more: '更多',
     detail: '详情信息',
+    code: '编码',
     'batch-delete': '批量删除',
     'delete-confirm': '确定删除当前所选项？',
     'delete-select': '请选择需要删除的选项',
@@ -302,6 +303,17 @@ export default {
             up: '请选择上级菜单',
             lang: '多语言菜单 key 值',
             auth: '请输入唯一的授权标识, 如: personal:data'
+        }
+    },
+    apps: {
+        add: '新增应用',
+        update: '更新应用',
+        delete: '删除应用',
+        name: '应用名称',
+        code: '应用编码',
+        placeholder: {
+            search: '请输入待搜索的应用名称',
+            code: '请输入待搜索的应用编码'
         }
     }
 }

@@ -40,9 +40,10 @@ export default defineComponent({
     inheritAttrs: false,
     props: menuManagementProps(),
     setup(props) {
-        const prefixCls = getPrefixCls('menus', props.prefixCls)
         const btnCls = `${$g.prefix}btn`
         const formCls = `${$g.prefix}form`
+        const searchCls = `${$g.prefix}list-search`
+        const prefixCls = getPrefixCls('menus', props.prefixCls)
         const { t } = useI18n()
         const addOrUpdateformRef = ref<FormInstance>()
         const params = reactive({
@@ -572,11 +573,7 @@ export default defineComponent({
                         okText={t('ok')}
                         onConfirm={() => deleteMenus()}
                         cancelText={t('cancel')}>
-                        <Button
-                            type="primary"
-                            danger={true}
-                            icon={<AntdvIcons.DeleteOutlined />}
-                            style={{ marginRight: $tools.convert2Rem(8) }}>
+                        <Button type="primary" danger={true} icon={<AntdvIcons.DeleteOutlined />}>
                             {t('batch-delete')}
                         </Button>
                     </Popconfirm>
@@ -590,42 +587,47 @@ export default defineComponent({
             )
             const searchBtn = props.data.url ? (
                 <Col xs={24} md={12}>
-                    <div class={`${prefixCls}-btns-l`}>
-                        <Input
-                            placeholder={t('menus.placeholder.search')}
-                            onInput={searchInput}
-                            onPressEnter={search}
-                            v-model:value={params.search.key}
-                        />
-                        <Button
-                            class={`${btnCls}-info`}
-                            onClick={search}
-                            style={{ marginRight: $tools.convert2Rem(8) }}
-                            v-slots={{
-                                icon: () => {
-                                    return <AntdvIcons.SearchOutlined />
-                                }
-                            }}>
-                            {t('seek')}
-                        </Button>
-                        <Button
-                            class={`${btnCls}-info`}
-                            onClick={searchReset}
-                            v-slots={{
-                                icon: () => {
-                                    return <AntdvIcons.ReloadOutlined />
-                                }
-                            }}>
-                            {t('reset')}
-                        </Button>
+                    <div class={`${searchCls}-btns-l multiple`}>
+                        <div class={`${searchCls}-item`}>
+                            <label>{t('menus.name')}</label>
+                            <Input
+                                placeholder={t('menus.placeholder.search')}
+                                onInput={searchInput}
+                                onPressEnter={search}
+                                v-model:value={params.search.key}
+                            />
+                        </div>
+                        <div class={`${searchCls}-btns-l-b`}>
+                            <Button
+                                class={`${btnCls}-info`}
+                                onClick={search}
+                                style={{ marginRight: $tools.convert2Rem(8) }}
+                                v-slots={{
+                                    icon: () => {
+                                        return <AntdvIcons.SearchOutlined />
+                                    }
+                                }}>
+                                {t('seek')}
+                            </Button>
+                            <Button
+                                class={`${btnCls}-info`}
+                                onClick={searchReset}
+                                v-slots={{
+                                    icon: () => {
+                                        return <AntdvIcons.ReloadOutlined />
+                                    }
+                                }}>
+                                {t('reset')}
+                            </Button>
+                        </div>
                     </div>
                 </Col>
             ) : null
             return (
-                <Row class={`${prefixCls}-btns${props.data.url ? '' : ' no-search'}`}>
+                <Row class={`${searchCls}-btns${props.data.url ? '' : ' no-search'}`}>
                     {searchBtn}
                     <Col xs={24} md={12}>
-                        <div class={`${prefixCls}-btns-r`}>{btns}</div>
+                        <div class={`${searchCls}-btns-r multiple`}>{btns}</div>
                     </Col>
                 </Row>
             )

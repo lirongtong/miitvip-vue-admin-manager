@@ -46,6 +46,10 @@ export const api: any = reactive({
         data: 'menus',
         update: 'menus/{id}',
         delete: 'menus/{id}'
+    },
+    apps: {
+        data: 'apps',
+        update: 'apps/{id}'
     }
 })
 

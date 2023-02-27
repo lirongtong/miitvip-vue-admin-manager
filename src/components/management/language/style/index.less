@@ -1,4 +1,5 @@
 @import '../../../../styles/theme/index.less';
+@import '../../../../styles/core/list.less';
 @import '../../../../styles/antd/input.less';
 @import '../../../../styles/antd/pagination.less';
 @import '../../../../styles/antd/form.less';
@@ -14,6 +15,7 @@
 @ant-input: ant-input;
 @ant-tabs: ant-tabs;
 @ant-pagination: ant-pagination;
+@mi-list-search: ~'@{mi-prefix}list-search';
 
 .@{mi-language} {
     position: relative;
@@ -67,6 +69,10 @@
         position: sticky;
         top: @mi-content-padding-top;
         z-index: 20;
+
+        @media only screen and (max-width: 768px) {
+            .properties(padding-bottom, 16);
+        }
     }
 
     &-tab {
@@ -159,48 +165,6 @@
         .properties(margin-bottom, 16);
     }
 
-    &-btns {
-        .flex(center, space-between);
-        position: sticky;
-        top: 18.5rem;
-        background: var(--mi-dark-grey, @mi-dark-grey);
-        z-index: 20;
-
-        &-l {
-            .flex(center, flex-start);
-            .properties(margin-bottom, 16);
-
-            > input {
-                .linear-gradient-background();
-                border: 1px solid var(--mi-border, @mi-border);
-                .border-radius();
-                .properties(margin-right);
-                color: var(--mi-font, @mi-font);
-                .properties(max-width, 400);
-                outline: none;
-
-                &:focus,
-                &:hover {
-                    border-color: var(--mi-theme, @mi-theme);
-                    box-shadow: 0 0 4px fade(@mi-theme, 20%);
-                }
-            }
-        }
-
-        &-r {
-            .flex(center, flex-end);
-            .properties(margin-bottom, 16);
-
-            @media only screen and (max-width: 576px) {
-                justify-content: flex-start;
-            }
-        }
-
-        &.no-search &-r {
-            justify-content: flex-start;
-        }
-    }
-
     &-cates {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -264,5 +228,15 @@
 
     &-current-name {
         color: var(--mi-theme, @mi-theme);
+    }
+
+    .@{mi-list-search} {
+        &-btns {
+            .properties(top, 16 * 18.5);
+
+            @media only screen and (max-width: 768px) {
+                .properties(top, 16 * 17.5);
+            }
+        }
     }
 }

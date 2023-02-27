@@ -28,6 +28,7 @@ import { default as Code } from './components/code'
 
 import { default as LanguageManagement } from './components/management/language'
 import { default as MenuManagement } from './components/management/menu'
+import { default as AppsManagement } from './components/management/application'
 
 const components = [
     i18n,
@@ -54,7 +55,8 @@ const components = [
     History,
     Code,
     LanguageManagement,
-    MenuManagement
+    MenuManagement,
+    AppsManagement
 ]
 
 let _init = false
@@ -96,7 +98,9 @@ export {
     Forget,
     History,
     Code,
-    LanguageManagement
+    LanguageManagement,
+    MenuManagement,
+    AppsManagement
 }
 
 export default {
