@@ -213,11 +213,14 @@ export default defineComponent({
         })
         const { width } = useWindowResize()
 
-        const getMenus = () => {
+        const getMenus = (customParams?: {}) => {
             if (props.data.url) {
                 if (params.table.loading) return
                 params.table.loading = true
-                const condition = Object.assign(params.table.pagination, props.data.params || {})
+                const condition = Object.assign(
+                    params.table.pagination,
+                    props.data.params || customParams || {}
+                )
                 $request[(props.data.method || 'GET').toLowerCase()](props.data.url, condition)
                     .then((res: any) => {
                         params.table.loading = false
@@ -275,11 +278,22 @@ export default defineComponent({
             ] as any
         }
 
-        const searchInput = () => {}
+        // 输入查询
+        const searchInput = (evt: any) => {
+            const value = evt?.target?.value
+            if ($tools.isEmpty(value)) searchReset()
+        }
 
-        const searchReset = () => {}
+        // 重置查询
+        const searchReset = () => {
+            params.search.key = null
+            search()
+        }
 
-        const search = () => {}
+        // 查询
+        const search = () => {
+            getMenus({ keyword: params.search.key })
+        }
 
         // 新增/创建 - 抽屉形式列表
         const openAddOrUpdateDrawer = (data?: any) => {
