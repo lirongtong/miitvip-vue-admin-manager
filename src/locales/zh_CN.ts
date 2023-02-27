@@ -4,6 +4,8 @@ export default {
     save: '保存',
     update: '更新',
     cancel: '取消',
+    close: '关闭',
+    editable: '进入编辑',
     type: '类型',
     state: '状态',
     valid: '有效',

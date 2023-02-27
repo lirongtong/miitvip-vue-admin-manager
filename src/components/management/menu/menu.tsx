@@ -163,6 +163,10 @@ export default defineComponent({
             isEdit: false,
             editId: null,
             editPid: null,
+            details: {
+                id: null,
+                show: false
+            },
             types: [
                 { label: t('menus.top'), value: 1 },
                 { label: t('menus.sub'), value: 2 },
@@ -213,6 +217,7 @@ export default defineComponent({
         })
         const { width } = useWindowResize()
 
+        // 获取菜单
         const getMenus = (customParams?: {}) => {
             if (props.data.url) {
                 if (params.table.loading) return
@@ -239,6 +244,7 @@ export default defineComponent({
             }
         }
 
+        // 封装菜单
         const getMenusTreeData = (data: any): MenusDataItem[] => {
             const top = [] as MenusDataItem[]
             for (let i = 0, l = data.length; i < l; i++) {
@@ -255,15 +261,14 @@ export default defineComponent({
             return top
         }
 
+        // Table Column 下拉菜单
         const getDropdownItems = (data: any): any[] => {
             return [
                 {
                     name: 'detail',
                     title: t('detail'),
                     icon: AntdvIcons.MessageOutlined,
-                    callback: () => {
-                        console.log(data)
-                    }
+                    callback: () => setDetailState(data)
                 },
                 {
                     name: 'add-submenu',
@@ -295,17 +300,52 @@ export default defineComponent({
             getMenus({ keyword: params.search.key })
         }
 
-        // 新增/创建 - 抽屉形式列表
-        const openAddOrUpdateDrawer = (data?: any) => {
-            params.openDrawer = !params.openDrawer
-            if (data?.record && params.openDrawer) {
+        // 查看详情状态
+        const setDetailState = (data?: any) => {
+            params.details.show = !params.details.show
+            if (data?.id && params.details.show) {
+                params.details.id = data?.id
+                params.openDrawer = !params.openDrawer
+                params.editPid = data?.pid
+                params.form.validate = JSON.parse(JSON.stringify(data))
+                params.form.validate.is_router = data?.is_router > 0
+                params.form.validate.weight = parseInt(data?.weight)
+            } else params.details.id = null
+        }
+
+        // 进入编辑状态 ( 查看详情 )
+        const setDetailEditable = () => {
+            params.isEdit = true
+            params.editId = params.details.id
+            params.details.show = false
+        }
+
+        // 编辑状态
+        const setEditState = (data: any) => {
+            if (data?.record) {
                 params.isEdit = true
+                params.details.show = false
                 params.editId = data.record?.id
                 params.editPid = data.record?.pid
                 params.form.validate = JSON.parse(JSON.stringify(data.record))
                 params.form.validate.is_router = data.record?.is_router > 0
                 params.form.validate.weight = parseInt(data.record?.weight)
-            } else params.isEdit = false
+            } else resetEditState()
+        }
+
+        // 重置编辑状态 ( 取消编辑 )
+        const resetEditState = () => {
+            params.isEdit = false
+            params.editId = null
+            params.editPid = null
+            params.details.show = false
+        }
+
+        // 新增/创建 - 抽屉形式列表
+        const openAddOrUpdateDrawer = (data?: any) => {
+            params.openDrawer = !params.openDrawer
+            if (params.openDrawer) setEditState(data)
+            else resetEditState()
         }
 
         // 更新菜单类型
@@ -324,7 +364,7 @@ export default defineComponent({
 
         // 图标 Modal
         const handleIconsModal = () => {
-            params.tabs.visiable = !params.tabs.visiable
+            if (!params.details.show) params.tabs.visiable = !params.tabs.visiable
         }
 
         // 创建/更新
@@ -360,9 +400,7 @@ export default defineComponent({
                                         addOrUpdateformRef.value.resetFields()
                                         params.form.validate.pid = null
                                         params.form.validate.type = 1
-                                        params.editId = null
-                                        params.editPid = null
-                                        params.isEdit = false
+                                        resetEditState()
                                         message.success(t('success'))
                                         if (props.updateMenu.callback) props.updateMenu.callback()
                                     } else message.error(res?.ret?.message)
@@ -594,6 +632,7 @@ export default defineComponent({
         }
 
         const renderDrawer = () => {
+            // 子菜单
             const subMenu = [2, 3].includes(params.form.validate.type) ? (
                 <FormItem label={t('menus.up')} name="pid">
                     <TreeSelect
@@ -605,6 +644,7 @@ export default defineComponent({
                         treeDefaultExpandAll={true}></TreeSelect>
                 </FormItem>
             ) : null
+            // 一级菜单
             const exclusiveBtn =
                 params.form.validate.type === 3 ? null : (
                     <>
@@ -612,6 +652,8 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.sub_name}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 maxlength={60}
                                 placeholder={t('menus.placeholder.subname')}
                             />
@@ -620,6 +662,8 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.path}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 placeholder={t('menus.placeholder.path')}
                             />
                         </FormItem>
@@ -627,6 +671,8 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.page}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 placeholder={t('menus.placeholder.page')}
                             />
                         </FormItem>
@@ -634,6 +680,8 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.icon}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 v-slots={{ suffix: () => renderIconsTrigger() }}
                                 placeholder={t('menus.placeholder.icon')}
                             />
@@ -642,6 +690,7 @@ export default defineComponent({
                             <Switch
                                 v-model:checked={params.form.validate.is_router}
                                 checked-children={t('yes')}
+                                disabled={params.details.show}
                                 un-checked-children={t('no')}
                             />
                         </FormItem>
@@ -649,16 +698,23 @@ export default defineComponent({
                             <Switch
                                 v-model:checked={params.form.validate.is_blank}
                                 checked-children={t('external')}
+                                disabled={params.details.show}
                                 un-checked-children={t('internal')}
                             />
                         </FormItem>
                         <FormItem label={t('menus.weight')} name="weight">
-                            <InputNumber v-model:value={params.form.validate.weight} min={1} />
+                            <InputNumber
+                                v-model:value={params.form.validate.weight}
+                                min={1}
+                                disabled={params.details.show}
+                                readonly={params.details.show}
+                            />
                         </FormItem>
                         <FormItem label={t('menus.hide')} name="is_hide">
                             <Switch
                                 v-model:checked={params.form.validate.is_hide}
                                 checked-children={t('yes')}
+                                disabled={params.details.show}
                                 un-checked-children={t('no')}
                             />
                         </FormItem>
@@ -666,11 +722,14 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.redirect}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 placeholder={t('menus.placeholder.redirect')}
                             />
                         </FormItem>
                     </>
                 )
+            // 按钮 / 权限
             const btnMenu =
                 params.form.validate.type === 3 ? (
                     <>
@@ -678,48 +737,68 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.auth}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 placeholder={t('menus.placeholder.auth')}
                             />
                         </FormItem>
                         <FormItem label={t('menus.policy')} name="policy">
                             <RadioGroup
                                 options={params.policies}
+                                disabled={params.details.show}
                                 v-model:value={params.form.validate.policy}></RadioGroup>
                         </FormItem>
                         <FormItem label={t('state')} name="state">
                             <RadioGroup
                                 options={params.states}
+                                disabled={params.details.show}
                                 v-model:value={params.form.validate.state}></RadioGroup>
                         </FormItem>
                     </>
                 ) : null
+            // 抽屉式表单的标题
+            const title = params.isEdit
+                ? t('menus.update')
+                : params.details.show
+                ? t('detail')
+                : t('menus.add')
+            // 抽屉式表单的按钮
+            const drawerActionBtn = params.details.show ? (
+                <>
+                    <Button
+                        style={{ marginRight: $tools.convert2Rem(8) }}
+                        onClick={openAddOrUpdateDrawer}>
+                        {t('close')}
+                    </Button>
+                    <Button type="primary" onClick={setDetailEditable} loading={params.loading}>
+                        {t('editable')}
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Button
+                        style={{ marginRight: $tools.convert2Rem(8) }}
+                        onClick={openAddOrUpdateDrawer}>
+                        {t('cancel')}
+                    </Button>
+                    <Button type="primary" onClick={addOrUpdate} loading={params.loading}>
+                        {params.isEdit ? t('update') : t('save')}
+                    </Button>
+                </>
+            )
             return (
                 <Drawer
                     visible={params.openDrawer}
                     zIndex={Date.now()}
                     onClose={openAddOrUpdateDrawer}
-                    title={params.isEdit ? t('menus.update') : t('menus.add')}
+                    title={title}
                     width={580}
                     v-slots={{
-                        extra: () => {
-                            return (
-                                <>
-                                    <Button
-                                        style={{ marginRight: $tools.convert2Rem(8) }}
-                                        onClick={openAddOrUpdateDrawer}>
-                                        {t('cancel')}
-                                    </Button>
-                                    <Button
-                                        type="primary"
-                                        onClick={addOrUpdate}
-                                        loading={params.loading}>
-                                        {params.isEdit ? t('update') : t('save')}
-                                    </Button>
-                                </>
-                            )
-                        }
+                        extra: () => drawerActionBtn
                     }}
-                    class={`${$g.prefix}drawer`}>
+                    class={`${$g.prefix}drawer${
+                        params.details.show ? ` ${prefixCls}-detail` : ''
+                    }`}>
                     <Form
                         class={`${formCls} ${formCls}-theme`}
                         model={params.form.validate}
@@ -730,6 +809,7 @@ export default defineComponent({
                             <RadioGroup
                                 options={params.types}
                                 onChange={() => changeType()}
+                                disabled={params.details.show}
                                 v-model:value={params.form.validate.type}></RadioGroup>
                         </FormItem>
                         <FormItem
@@ -743,6 +823,8 @@ export default defineComponent({
                                 v-model:value={params.form.validate.name}
                                 autocomplete="off"
                                 maxlength={60}
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 placeholder={t('menus.placeholder.btn')}
                             />
                         </FormItem>
@@ -752,6 +834,8 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.lang}
                                 autocomplete="off"
+                                disabled={params.details.show}
+                                readonly={params.details.show}
                                 placeholder={t('menus.placeholder.lang')}
                             />
                         </FormItem>

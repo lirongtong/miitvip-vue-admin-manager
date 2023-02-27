@@ -4,6 +4,8 @@ export default {
     save: 'Save',
     update: 'Update',
     cancel: 'Cancel',
+    close: 'Close',
+    editable: 'Editable',
     type: 'Type',
     state: 'State',
     valid: 'Valid',

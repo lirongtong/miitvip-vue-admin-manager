@@ -10,6 +10,8 @@
 @import '../../../../styles/antd/tree-select.less';
 @import '../../../../styles/antd/tabs.less';
 
+@ant-radio: ant-radio;
+@ant-form: ant-form;
 @mi-menus: mi-menus;
 .@{mi-menus} {
     position: relative;
@@ -58,5 +60,15 @@
 
     &-drawer-select {
         z-index: 202302101409;
+    }
+
+    &-detail {
+        .@{ant-radio} {
+            &-wrapper-disabled {
+                > span {
+                    color: var(--mi-font, @mi-font);
+                }
+            }
+        }
     }
 }
