@@ -18,15 +18,6 @@ const PropTypes = createTypes({
     integer: undefined
 })
 
-PropTypes.extend([
-    {
-        name: 'style',
-        type: [String, Object],
-        getter: true,
-        default: undefined
-    }
-])
-
 export default PropTypes as VueTypesInterface & {
     readonly style: VueTypeValidableDef<CSSProperties>
 }

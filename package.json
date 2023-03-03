@@ -62,9 +62,9 @@
         "prismjs": "^1.29.0",
         "screenfull": "^6.0.2",
         "vue": "^3.2.47",
-        "vue-types": "^5.0.2",
         "vue-i18n": "^9.2.2",
         "vue-router": "^4.1.6",
+        "vue-types": "^5.0.2",
         "vuex": "^4.1.0"
     },
     "devDependencies": {

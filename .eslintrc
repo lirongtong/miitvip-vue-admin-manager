@@ -60,6 +60,7 @@
         "no-var": "error",
         "semi": "off",
         "camelcase": "off",
+        "vue/no-v-html": "off",
         "no-extra-boolean-cast": "off",
         "prettier/prettier": ["error", {
             "endOfLine": "auto"

@@ -18,7 +18,8 @@ const i18n = createI18n({
     fallbackLocale: DEFAULT_LANG,
     silentTranslationWarn: true,
     messages: locales,
-    globalInjection: true
+    globalInjection: true,
+    warnHtmlMessage: false
 }) as any
 
 const setLocale = async (locale?: string, message?: {}) => {
