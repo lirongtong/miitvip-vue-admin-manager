@@ -71,7 +71,7 @@ export default defineComponent({
                                 ? t('menus.btn')
                                 : t('menus.unknow')
                         },
-                        width: 100
+                        width: 120
                     },
                     {
                         title: t('menus.icon'),
@@ -194,9 +194,9 @@ export default defineComponent({
                     icon: '',
                     weight: 1,
                     lang: '',
-                    auth: '',
-                    policy: 2,
-                    state: 1,
+                    auth_mark: '',
+                    auth_policy: 2,
+                    auth_state: 1,
                     is_router: true,
                     is_blank: false,
                     is_hide: false
@@ -264,14 +264,16 @@ export default defineComponent({
 
         // Table Column 下拉菜单
         const getDropdownItems = (data: any): any[] => {
-            return [
+            const items = [
                 {
                     name: 'detail',
                     title: t('detail'),
                     icon: AntdvIcons.MessageOutlined,
                     callback: () => setDetailState(data)
-                },
-                {
+                }
+            ] as any
+            if (data?.type !== 3) {
+                items.push({
                     name: 'add-submenu',
                     title: t('menus.addSub'),
                     icon: AntdvIcons.NodeExpandOutlined,
@@ -280,8 +282,9 @@ export default defineComponent({
                         params.form.validate.pid = data?.id
                         params.form.validate.type = 2
                     }
-                }
-            ] as any
+                })
+            }
+            return items
         }
 
         // 输入查询
@@ -340,6 +343,7 @@ export default defineComponent({
             params.editId = null
             params.editPid = null
             params.details.show = false
+            params.form.validate.type = 1
         }
 
         // 新增/创建 - 抽屉形式列表
@@ -374,8 +378,14 @@ export default defineComponent({
                 addOrUpdateformRef.value.validate().then(() => {
                     if (params.loading) return
                     params.loading = true
-                    if (!AntdvIcons[params.form.validate.icon])
+                    if (!AntdvIcons[params.form.validate.icon] && params.form.validate.type !== 3)
                         params.form.validate.icon = 'TagOutlined'
+                    const afterAction = () => {
+                        addOrUpdateformRef.value.resetFields()
+                        params.form.validate.pid = null
+                        params.form.validate.type = 1
+                        params.form.validate.auth_policy = 2
+                    }
                     if (params.isEdit) {
                         // update
                         if (!params.editId) {
@@ -398,9 +408,7 @@ export default defineComponent({
                                     if (res?.ret?.code === 200) {
                                         openAddOrUpdateDrawer()
                                         getMenus()
-                                        addOrUpdateformRef.value.resetFields()
-                                        params.form.validate.pid = null
-                                        params.form.validate.type = 1
+                                        afterAction()
                                         resetEditState()
                                         message.success(t('success'))
                                         if (props.updateMenu.callback) props.updateMenu.callback()
@@ -427,9 +435,7 @@ export default defineComponent({
                                     if (res?.ret?.code === 200) {
                                         openAddOrUpdateDrawer()
                                         getMenus()
-                                        addOrUpdateformRef.value.resetFields()
-                                        params.form.validate.pid = null
-                                        params.form.validate.type = 1
+                                        afterAction()
                                         message.success(t('success'))
                                         if (props.addMenu.callback) props.addMenu.callback()
                                     } else message.error(res?.ret?.message)
@@ -641,6 +647,7 @@ export default defineComponent({
                         v-model:value={params.form.validate.pid}
                         placeholder={t('menus.placeholder.up')}
                         allowClear={true}
+                        disabled={params.details.show}
                         dropdownClassName={`${prefixCls}-drawer-select`}
                         treeData={params.menus.tree}
                         treeDefaultExpandAll={true}></TreeSelect>
@@ -735,26 +742,26 @@ export default defineComponent({
             const btnMenu =
                 params.form.validate.type === 3 ? (
                     <>
-                        <FormItem label={t('menus.auth')} name="auth">
+                        <FormItem label={t('menus.auth')} name="auth_mark">
                             <Input
-                                v-model:value={params.form.validate.auth}
+                                v-model:value={params.form.validate.auth_mark}
                                 autocomplete="off"
                                 disabled={params.details.show}
                                 readonly={params.details.show}
                                 placeholder={t('menus.placeholder.auth')}
                             />
                         </FormItem>
-                        <FormItem label={t('menus.policy')} name="policy">
+                        <FormItem label={t('menus.policy')} name="auth_policy">
                             <RadioGroup
                                 options={params.policies}
                                 disabled={params.details.show}
-                                v-model:value={params.form.validate.policy}></RadioGroup>
+                                v-model:value={params.form.validate.auth_policy}></RadioGroup>
                         </FormItem>
-                        <FormItem label={t('state')} name="state">
+                        <FormItem label={t('state')} name="auth_state">
                             <RadioGroup
                                 options={params.states}
                                 disabled={params.details.show}
-                                v-model:value={params.form.validate.state}></RadioGroup>
+                                v-model:value={params.form.validate.auth_state}></RadioGroup>
                         </FormItem>
                     </>
                 ) : null
