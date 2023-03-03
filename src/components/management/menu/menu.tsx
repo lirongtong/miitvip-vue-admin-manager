@@ -863,6 +863,7 @@ export default defineComponent({
                     <Table
                         columns={params.table.columns}
                         rowSelection={{
+                            columnWidth: 60,
                             onChange: (keys: Key[], rows: any[]) => {
                                 wrapBatchDeleteIds(keys, rows)
                             }

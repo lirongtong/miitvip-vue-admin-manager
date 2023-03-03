@@ -1149,62 +1149,64 @@ export default defineComponent({
             )
             const btns =
                 params.tab === 'customize' ? (
-                    <>
-                        <Popconfirm
-                            style={{ zIndex: Date.now() }}
-                            okText={t('ok')}
-                            placement="topRight"
-                            onConfirm={() => setDefaultCategory()}
-                            v-slots={{
-                                title: () => {
-                                    return (
-                                        <div
-                                            class="title-limit"
-                                            style={{ maxWidth: $tools.convert2Rem(285) }}>
-                                            <div innerHTML={t('language.default-tip')}></div>
-                                            <div style={{ marginTop: $tools.convert2Rem(8) }}>
-                                                <span>{t('language.current')}</span>
-                                                {addOrNot}
+                    <Col xs={24} md={10}>
+                        <div class={`${searchCls}-btns-r multiple`}>
+                            <Popconfirm
+                                style={{ zIndex: Date.now() }}
+                                okText={t('ok')}
+                                placement="topRight"
+                                onConfirm={() => setDefaultCategory()}
+                                v-slots={{
+                                    title: () => {
+                                        return (
+                                            <div
+                                                class="title-limit"
+                                                style={{ maxWidth: $tools.convert2Rem(285) }}>
+                                                <div innerHTML={t('language.default-tip')}></div>
+                                                <div style={{ marginTop: $tools.convert2Rem(8) }}>
+                                                    <span>{t('language.current')}</span>
+                                                    {addOrNot}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                }
-                            }}
-                            cancelText={t('cancel')}>
-                            <Button class={`${btnCls}-warning`} icon={<CheckOutlined />}>
-                                {t('language.default')}
+                                        )
+                                    }
+                                }}
+                                cancelText={t('cancel')}>
+                                <Button class={`${btnCls}-warning`} icon={<CheckOutlined />}>
+                                    {t('language.default')}
+                                </Button>
+                            </Popconfirm>
+                            <Popconfirm
+                                style={{ zIndex: Date.now() }}
+                                okText={t('ok')}
+                                onConfirm={() => batchDelete()}
+                                v-slots={{
+                                    title: () => {
+                                        return (
+                                            <div
+                                                class="title-limit"
+                                                style={{ maxWidth: $tools.convert2Rem(180) }}>
+                                                <div innerHTML={t('delete-confirm')}></div>
+                                            </div>
+                                        )
+                                    }
+                                }}
+                                cancelText={t('cancel')}>
+                                <Button type="primary" danger={true} icon={<DeleteOutlined />}>
+                                    {t('batch-delete')}
+                                </Button>
+                            </Popconfirm>
+                            <Button
+                                class={`${btnCls}-success`}
+                                icon={<EditOutlined />}
+                                onClick={createLanguageConfigurationVisible}>
+                                {t('language.add')}
                             </Button>
-                        </Popconfirm>
-                        <Popconfirm
-                            style={{ zIndex: Date.now() }}
-                            okText={t('ok')}
-                            onConfirm={() => batchDelete()}
-                            v-slots={{
-                                title: () => {
-                                    return (
-                                        <div
-                                            class="title-limit"
-                                            style={{ maxWidth: $tools.convert2Rem(180) }}>
-                                            <div innerHTML={t('delete-confirm')}></div>
-                                        </div>
-                                    )
-                                }
-                            }}
-                            cancelText={t('cancel')}>
-                            <Button type="primary" danger={true} icon={<DeleteOutlined />}>
-                                {t('batch-delete')}
-                            </Button>
-                        </Popconfirm>
-                        <Button
-                            class={`${btnCls}-success`}
-                            icon={<EditOutlined />}
-                            onClick={createLanguageConfigurationVisible}>
-                            {t('language.add')}
-                        </Button>
-                    </>
+                        </div>
+                    </Col>
                 ) : null
             const searchBtn = props.data.url ? (
-                <Col xs={24} md={14}>
+                <Col xs={24} md={params.tab === 'customize' ? 14 : 24}>
                     <div class={`${searchCls}-btns-l multiple`}>
                         <div class={`${searchCls}-item`}>
                             <label>{t('key')}</label>
@@ -1244,9 +1246,7 @@ export default defineComponent({
             return (
                 <Row class={`${searchCls}-btns${props.data.url ? '' : ' no-search'}`}>
                     {searchBtn}
-                    <Col xs={24} md={10}>
-                        <div class={`${searchCls}-btns-r multiple`}>{btns}</div>
-                    </Col>
+                    {btns}
                 </Row>
             )
         }
@@ -1284,6 +1284,7 @@ export default defineComponent({
                             columns={params.table.columns}
                             dataSource={params.table.data}
                             rowSelection={{
+                                columnWidth: 60,
                                 onChange: (keys: Key[], rows: any[]) => {
                                     batchDeleteItemChange(keys, rows)
                                 }
