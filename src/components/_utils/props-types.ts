@@ -18,6 +18,8 @@ const PropTypes = createTypes({
     integer: undefined
 })
 
+export declare type Key = string | number
+
 export default PropTypes as VueTypesInterface & {
     readonly style: VueTypeValidableDef<CSSProperties>
 }

@@ -441,6 +441,21 @@ class MiTools {
                 : Promise.reject(new DOMException('The request is not allowed', 'NotAllowedError'))
         }
     }
+
+    /**
+     * 获取指定字段值
+     * @param data
+     * @param field
+     * @returns
+     */
+    getFields(data: any[], field: string) {
+        const fields: any[] = []
+        for (let i = 0, l = data.length; i < l; i++) {
+            const id = data[i][field]
+            if (id) fields.push(id)
+        }
+        return fields
+    }
 }
 
 export const $tools: MiTools = new MiTools()

@@ -10,6 +10,7 @@ export default {
     state: '状态',
     valid: '有效',
     invalid: '无效',
+    all: '全部',
     'kind-tips': '温馨提示',
     'built-in': '内置',
     'no-id': 'ID 有误, 请刷新后再试',
@@ -311,6 +312,13 @@ export default {
         delete: '删除应用',
         name: '应用名称',
         code: '应用编码',
+        logo: '应用图标',
+        state: '应用状态',
+        desc: '应用描述',
+        auth: '授权登录',
+        link: '应用链接',
+        up: '上架',
+        down: '下架',
         placeholder: {
             search: '请输入待搜索的应用名称',
             code: '请输入待搜索的应用编码'

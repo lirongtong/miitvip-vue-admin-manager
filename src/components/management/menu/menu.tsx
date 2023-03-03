@@ -5,6 +5,7 @@ import { getPrefixCls } from '../../_utils/props-tools'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { $g } from '../../../utils/global'
+import { type Key } from '../../_utils/props-types'
 import { useWindowResize } from '../../../hooks/useWindowResize'
 import MiModal from '../../../components/modal/modal'
 import MiDropdown from '../../../components/dropdown/dropdown'
@@ -32,8 +33,6 @@ import {
     Tabs,
     TabPane
 } from 'ant-design-vue'
-
-export declare type Key = string | number
 
 export default defineComponent({
     name: 'MiMenuManagement',
@@ -63,11 +62,11 @@ export default defineComponent({
                         dataIndex: 'type',
                         align: 'center',
                         customRender: (record: any) => {
-                            return record.record.type === 1
+                            return record?.record?.type === 1
                                 ? t('menus.top')
-                                : record.record.type === 2
+                                : record?.record?.type === 2
                                 ? t('menus.sub')
-                                : record.record.type === 3
+                                : record?.record?.type === 3
                                 ? t('menus.btn')
                                 : t('menus.unknow')
                         },

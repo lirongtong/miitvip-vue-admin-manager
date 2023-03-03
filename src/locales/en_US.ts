@@ -10,6 +10,7 @@ export default {
     state: 'State',
     valid: 'Valid',
     invalid: 'Invalid',
+    all: 'All',
     'kind-tips': 'Kind Tips',
     'built-in': 'Built-In',
     'no-id': 'THe ID is wrong, please refresh and try again',
@@ -310,6 +311,13 @@ export default {
         delete: 'Delete App',
         name: 'App Name',
         code: 'App Code',
+        logo: 'App Icon',
+        state: 'App Status',
+        desc: 'App Desc',
+        auth: 'Authorized Login',
+        link: 'App Link',
+        up: 'App on shelves',
+        down: 'App removal',
         placeholder: {
             search: 'Please input the name of the apps to be searched',
             code: 'Please input the code of the apps to be searched'
