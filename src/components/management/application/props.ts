@@ -14,5 +14,27 @@ export const AppsManagementProps = () => ({
             }
         }
     },
+    createApp: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'POST',
+                params: {},
+                callback: null
+            }
+        }
+    },
+    updateApp: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'PUT',
+                params: {},
+                callback: null
+            }
+        }
+    },
     paginationLocale: PropTypes.any
 })

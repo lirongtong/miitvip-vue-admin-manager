@@ -5,7 +5,7 @@
             method: 'get',
             callback: handleAfterGetData
         }"
-        :add-menu="{url: api.menus.data}"
+        :create-menu="{url: api.menus.data}"
         :delete-menu="{url: api.menus.delete}"
         :update-menu="{url: api.menus.update}" />
 </template>

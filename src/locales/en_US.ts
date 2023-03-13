@@ -35,8 +35,14 @@ export default {
     seek: 'Search',
     yes: 'Yes',
     no: 'No',
+    app: 'App',
+    menu: 'Menu',
     external: 'External',
     internal: 'Internal',
+    contact: {
+        person: 'Contact Person',
+        phone: 'Contact Information'
+    },
     step: {
         prev: 'Previous',
         next: 'Next'
@@ -319,8 +325,27 @@ export default {
         up: 'App on shelves',
         down: 'App removal',
         placeholder: {
-            search: 'Please input the name of the apps to be searched',
-            code: 'Please input the code of the apps to be searched'
+            search: {
+                name: 'Please input the name of the apps to be searched',
+                code: 'Please input the code of the apps to be searched'
+            },
+            contact: {
+                person: 'Please input the app contact',
+                phone: 'Please input the contact info if the app contact person'
+            },
+            name: 'Please input the name of the app',
+            code: 'Please input the code of the app',
+            desc: 'Please input the description of the app',
+            state: 'Please select an app status',
+            auth: 'Does the app support authorized login',
+            logo: 'Please upload app logo',
+            link: 'Please input the access link of the app'
         }
+    },
+    api: {
+        create: 'Missing {name} create api',
+        update: 'Missing {name} update api',
+        delete: 'Missing {name} delete api',
+        common: 'The api has not been set'
     }
 }

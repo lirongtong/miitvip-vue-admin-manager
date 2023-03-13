@@ -417,16 +417,19 @@ export default defineComponent({
                                     params.loading = false
                                     message.error(err?.message)
                                 })
+                        } else {
+                            params.loading = false
+                            message.warning(t('api.update', { name: t('menu') }))
                         }
                     } else {
                         // create
-                        if (props.addMenu.url) {
-                            $request[(props.addMenu.method || 'POST').toLowerCase()](
-                                props.addMenu.url,
+                        if (props.createMenu.url) {
+                            $request[(props.createMenu.method || 'POST').toLowerCase()](
+                                props.createMenu.url,
                                 Object.assign(
                                     {},
                                     { ...params.form.validate },
-                                    { ...props.addMenu.params }
+                                    { ...props.createMenu.params }
                                 )
                             )
                                 .then((res: any) => {
@@ -436,13 +439,16 @@ export default defineComponent({
                                         getMenus()
                                         afterAction()
                                         message.success(t('success'))
-                                        if (props.addMenu.callback) props.addMenu.callback()
+                                        if (props.createMenu.callback) props.createMenu.callback()
                                     } else message.error(res?.ret?.message)
                                 })
                                 .catch((err: any) => {
                                     params.loading = false
                                     message.error(err?.message)
                                 })
+                        } else {
+                            params.loading = false
+                            message.warning(t('api.create', { name: t('menu') }))
                         }
                     }
                 })
@@ -483,6 +489,9 @@ export default defineComponent({
                         params.loading = false
                         message.error(err.message)
                     })
+            } else {
+                params.loading = false
+                message.warning(t('api.delete', { name: t('menu') }))
             }
         }
 

@@ -35,8 +35,14 @@ export default {
     seek: '查询',
     yes: '是',
     no: '否',
+    app: '应用',
+    menu: '菜单',
     external: '外部',
     internal: '内部',
+    contact: {
+        person: '联系人',
+        phone: '联系方式'
+    },
     step: {
         prev: '上一步',
         next: '下一步'
@@ -320,8 +326,27 @@ export default {
         up: '上架',
         down: '下架',
         placeholder: {
-            search: '请输入待搜索的应用名称',
-            code: '请输入待搜索的应用编码'
+            search: {
+                name: '请输入待搜索的应用名称',
+                code: '请输入待搜索的应用编码'
+            },
+            contact: {
+                person: '请输入应用联系人',
+                phone: '请输入应用联系人的联系方式'
+            },
+            name: '请输入应用名称',
+            code: '请输入应用编码',
+            desc: '请输入应用描述',
+            state: '请选择应用状态',
+            auth: '该应用是否支持授权登录',
+            logo: '请上传应用 logo',
+            link: '请输入应用访问入口链接'
         }
+    },
+    api: {
+        create: '尚未设置{name}创建接口',
+        update: '尚未设置{name}更新接口',
+        delete: '尚未设置{name}删除接口',
+        common: '尚未设置相应接口地址'
     }
 }

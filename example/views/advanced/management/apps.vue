@@ -5,9 +5,9 @@
             method: 'get',
             callback: handleAfterGetData
         }"
-        :create-apps="{ url: api.apps.data }"
-        :update-apps="{ url: api.apps.update }"
-        :delete-apps="{ url: api.apps.update }" />
+        :create-app="{ url: api.apps.data }"
+        :update-app="{ url: api.apps.create }"
+        :delete-app="{ url: api.apps.update }" />
 </template>
 
 <script setup>

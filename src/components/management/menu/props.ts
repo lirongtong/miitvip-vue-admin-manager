@@ -37,7 +37,7 @@ export const menuManagementProps = () => ({
             }
         }
     },
-    addMenu: {
+    createMenu: {
         type: Object as PropType<CommonRequestProps>,
         default: () => {
             return {
