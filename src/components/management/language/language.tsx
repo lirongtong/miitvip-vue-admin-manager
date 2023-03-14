@@ -1283,6 +1283,7 @@ export default defineComponent({
                         <Table
                             columns={params.table.columns}
                             dataSource={params.table.data}
+                            rowKey={(record: any) => record?.id}
                             rowSelection={{
                                 columnWidth: 60,
                                 onChange: (keys: Key[], rows: any[]) => {

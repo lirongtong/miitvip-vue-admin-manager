@@ -42,7 +42,7 @@ export default {
     view: 'Click to view',
     contact: {
         person: 'Contact Person',
-        phone: 'Contact Information'
+        info: 'Contact Information'
     },
     step: {
         prev: 'Previous',
@@ -332,7 +332,7 @@ export default {
             },
             contact: {
                 person: 'Please input the app contact',
-                phone: 'Please input the contact info if the app contact person'
+                info: 'Please input the contact info if the app contact person'
             },
             name: 'Please input the name of the app',
             code: 'Please input the code of the app',

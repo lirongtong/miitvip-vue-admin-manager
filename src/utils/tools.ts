@@ -450,6 +450,7 @@ class MiTools {
      */
     getFields(data: any[], field: string) {
         const fields: any[] = []
+        if (data.length <= 0) return fields
         for (let i = 0, l = data.length; i < l; i++) {
             const id = data[i][field]
             if (id) fields.push(id)

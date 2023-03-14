@@ -870,6 +870,7 @@ export default defineComponent({
                     {renderActionBtns()}
                     <Table
                         columns={params.table.columns}
+                        rowKey={(record: any) => record?.id}
                         rowSelection={{
                             columnWidth: 60,
                             onChange: (keys: Key[], rows: any[]) => {

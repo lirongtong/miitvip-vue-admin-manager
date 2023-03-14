@@ -36,5 +36,16 @@ export const AppsManagementProps = () => ({
             }
         }
     },
+    deleteApp: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'DELETE',
+                params: {},
+                callback: null
+            }
+        }
+    },
     paginationLocale: PropTypes.any
 })

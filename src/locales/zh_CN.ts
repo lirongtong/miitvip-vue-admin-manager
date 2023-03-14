@@ -42,7 +42,7 @@ export default {
     view: '点击查看',
     contact: {
         person: '联系人',
-        phone: '联系方式'
+        info: '联系方式'
     },
     step: {
         prev: '上一步',
@@ -333,7 +333,7 @@ export default {
             },
             contact: {
                 person: '请输入应用联系人',
-                phone: '请输入应用联系人的联系方式'
+                info: '请输入应用联系人的联系方式'
             },
             name: '请输入应用名称',
             code: '请输入应用编码',

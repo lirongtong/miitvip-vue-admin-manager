@@ -140,7 +140,7 @@ export default defineComponent({
                                             okText={t('ok')}
                                             cancelText={t('cancel')}
                                             okButtonProps={{
-                                                onClick: () => deleteApps(record)
+                                                onClick: () => deleteApp(record)
                                             }}
                                             key={record.record.key}>
                                             <DeleteOutlined />
@@ -188,7 +188,7 @@ export default defineComponent({
                     auth: 1,
                     link: null,
                     contact_person: null,
-                    contact_phone: null
+                    contact_info: null
                 },
                 rules: {
                     name: [{ required: true, message: t('apps.placeholder.name') }],
@@ -211,14 +211,14 @@ export default defineComponent({
         })
 
         // 获取应用
-        const getApps = async () => {
+        const getApps = async (customParams?: {}) => {
             if (props.data.url) {
                 if (params.table.loading) return
                 params.table.loading = true
                 const condition = Object.assign(
                     { ...params.search },
                     params.table.pagination,
-                    props.data.params || {}
+                    props.data.params || customParams || {}
                 )
                 await $request[(props.data.method || 'GET').toLowerCase()](
                     props.data.url,
@@ -344,18 +344,78 @@ export default defineComponent({
         }
 
         // 删除应用
-        const deleteApps = (record?: any) => {
-            console.log(record)
+        const deleteApp = (record?: any) => {
+            if (props.deleteApp.url && record.record) {
+                const id = record.record?.id
+                params.deleteIds = [id]
+                batchDeleteApps()
+            } else message.warning(t('api.delete', { name: t('app') }))
+        }
+
+        // 批量删除 ( 触发按钮 )
+        const deleteApps = () => {
+            if (params.deleteIds.length <= 0) {
+                message.error(t('delete-select'))
+                return
+            }
+            batchDeleteApps()
+        }
+
+        // 批量删除
+        const batchDeleteApps = () => {
+            if (params.loading) return
+            params.loading = true
+            if (props.deleteApp.url) {
+                $request[(props.deleteApp.method || 'DELETE').toLowerCase()](
+                    $tools.replaceUrlParams(props.deleteApp.url, {
+                        id: params.deleteIds.join(',')
+                    }),
+                    props.deleteApp.params
+                )
+                    .then((res: any) => {
+                        params.loading = false
+                        if (res) {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('success'))
+                                getApps()
+                            } else message.error(res?.ret?.message)
+                        }
+                    })
+                    .catch((err: any) => {
+                        params.loading = false
+                        message.error(err.message)
+                    })
+            } else {
+                params.loading = false
+                message.warning(t('api.delete', { name: t('app') }))
+            }
         }
 
         // 搜索应用
-        const search = () => {}
+        const search = () => {
+            if (searchCondition()) {
+                getApps({ ...params.search })
+            }
+        }
 
-        // 输入清空事件监听 ( 重新获取应用 )
-        const searchInput = () => {}
+        // 搜索前置条件
+        const searchCondition = () => {
+            return params.search.name || params.search.code || params.search.state !== null
+        }
+
+        // 输入清空时的事件监听 ( 重新获取应用列表 )
+        const searchInput = (evt: any) => {
+            const value = evt?.target?.value
+            if ($tools.isEmpty(value) && searchCondition()) search()
+        }
 
         // 重置搜索条件
-        const searchReset = () => {}
+        const searchReset = () => {
+            params.search.name = null
+            params.search.code = null
+            params.search.state = null
+            search()
+        }
         getApps()
 
         // 渲染搜索区域
@@ -560,13 +620,13 @@ export default defineComponent({
                                 placeholder={t('apps.placeholder.contact.person')}
                             />
                         </FormItem>
-                        <FormItem label={t('contact.phone')} name="contact_phone">
+                        <FormItem label={t('contact.info')} name="contact_info">
                             <Input
-                                v-model:value={params.form.validate.contact_phone}
+                                v-model:value={params.form.validate.contact_info}
                                 autocomplete="off"
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
-                                placeholder={t('apps.placeholder.contact.phone')}
+                                placeholder={t('apps.placeholder.contact.info')}
                             />
                         </FormItem>
                     </Form>
@@ -583,6 +643,7 @@ export default defineComponent({
                     {renderSearchArea()}
                     <Table
                         columns={params.table.columns}
+                        rowKey={(record: any) => record?.id}
                         rowSelection={{
                             columnWidth: 60,
                             onChange: (_keys: Key[], rows: any[]) => {
