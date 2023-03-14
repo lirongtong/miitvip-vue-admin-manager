@@ -9,4 +9,18 @@
 .@{mi-apps} {
     .properties(padding-top, 24);
     position: relative;
+
+    &-logo {
+        .properties(width, 40);
+        .properties(height, 40);
+        .flex();
+        margin: 0 auto;
+        overflow: hidden;
+
+        .anticon {
+            font-size: 24px;
+            .properties(font-size, 22);
+            color: var(--mi-font, @mi-font);
+        }
+    }
 }

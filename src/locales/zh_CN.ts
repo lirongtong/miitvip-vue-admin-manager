@@ -39,6 +39,7 @@ export default {
     menu: '菜单',
     external: '外部',
     internal: '内部',
+    view: '点击查看',
     contact: {
         person: '联系人',
         phone: '联系方式'

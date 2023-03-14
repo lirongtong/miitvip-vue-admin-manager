@@ -39,6 +39,7 @@ export default {
     menu: 'Menu',
     external: 'External',
     internal: 'Internal',
+    view: 'Click to view',
     contact: {
         person: 'Contact Person',
         phone: 'Contact Information'

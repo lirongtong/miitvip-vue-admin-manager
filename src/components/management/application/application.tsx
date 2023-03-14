@@ -29,7 +29,8 @@ import {
     DeleteOutlined,
     EditOutlined,
     FormOutlined,
-    InfoCircleOutlined
+    InfoCircleOutlined,
+    PictureOutlined
 } from '@ant-design/icons-vue'
 
 export default defineComponent({
@@ -52,19 +53,28 @@ export default defineComponent({
                         title: t('apps.name'),
                         key: 'name',
                         dataIndex: 'name',
-                        width: 200
+                        width: 120
                     },
                     {
                         title: t('apps.code'),
                         key: 'code',
                         dataIndex: 'code',
-                        width: 200
+                        width: 100
                     },
                     {
                         title: t('apps.logo'),
                         key: 'logo',
                         dataIndex: 'logo',
-                        width: 120
+                        width: 96,
+                        align: 'center',
+                        customRender: (record: any) => {
+                            const logo = record?.record?.logo ? (
+                                <img src={record?.record?.logo} alt="makeit's app logo" />
+                            ) : (
+                                <PictureOutlined />
+                            )
+                            return <div class={`${prefixCls}-logo`}>{logo}</div>
+                        }
                     },
                     {
                         title: t('apps.state'),
@@ -72,7 +82,7 @@ export default defineComponent({
                         dataIndex: 'state',
                         align: 'center',
                         customRender: (record: any) => {
-                            return record?.record?.type === 1 ? t('apps.up') : t('apps.down')
+                            return record?.record?.state === 1 ? t('apps.up') : t('apps.down')
                         },
                         width: 100
                     },
@@ -90,14 +100,17 @@ export default defineComponent({
                         title: t('apps.link'),
                         key: 'link',
                         dataIndex: 'link',
+                        width: 160,
+                        align: 'center',
                         customRender: (record: any) => {
                             return (
-                                <a href={record?.record?.link} target="_blank">
-                                    {record?.record?.link}
-                                </a>
+                                <div class={`${$g.prefix}table-btns`}>
+                                    <a class="more" href={record?.record?.link} target="_blank">
+                                        {t('view')}
+                                    </a>
+                                </div>
                             )
-                        },
-                        width: 240
+                        }
                     },
                     {
                         title: t('apps.desc'),
@@ -110,7 +123,7 @@ export default defineComponent({
                         key: 'action',
                         dataIndex: 'action',
                         align: 'right',
-                        width: 250,
+                        width: 280,
                         fixed: 'right',
                         customRender: (record: any) => {
                             return (
@@ -216,6 +229,7 @@ export default defineComponent({
                         if (res) {
                             if (res?.ret?.code === 200) {
                                 params.table.total = res?.total
+                                params.table.dataSource = res?.data
                                 if (props.data.callback) props.data.callback(res?.data)
                             } else message.error(res?.ret?.message)
                         }
@@ -367,7 +381,7 @@ export default defineComponent({
                 </>
             )
             const searchBtn = props.data.url ? (
-                <Col xs={24} md={16}>
+                <Col xs={24} md={18}>
                     <div class={`${searchCls}-btns-l multiple`}>
                         <div class={`${searchCls}-item`}>
                             <label>{t('apps.name')}</label>
@@ -422,7 +436,7 @@ export default defineComponent({
             return (
                 <Row class={`${searchCls}-btns${props.data.url ? '' : ' no-search'}`}>
                     {searchBtn}
-                    <Col xs={24} md={8}>
+                    <Col xs={24} md={6}>
                         <div class={`${searchCls}-btns-r multiple`}>{btns}</div>
                     </Col>
                 </Row>
