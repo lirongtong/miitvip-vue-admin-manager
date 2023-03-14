@@ -387,7 +387,7 @@ export default defineComponent({
                                 v-model:value={params.search.code}
                             />
                         </div>
-                        <div class={`${searchCls}-item`}>
+                        <div class={`${searchCls}-item ptb8`}>
                             <label>{t('apps.state')}</label>
                             <RadioGroup
                                 options={params.states}
