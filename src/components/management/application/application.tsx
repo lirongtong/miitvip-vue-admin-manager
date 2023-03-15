@@ -319,9 +319,21 @@ export default defineComponent({
         // 新增/更新 - 控制弹窗显隐
         const handleAddOrUpdateDrawer = (record?: any) => {
             params.visible = !params.visible
-            if (params.visible && params.edit.being) {
+            if (params.visible) {
                 // edit
-                console.log(record)
+                if (record?.record) {
+                    params.edit.being = true
+                    params.edit.id = record?.record?.id
+                    params.detail.show = false
+                    params.form.validate = JSON.parse(JSON.stringify(record?.record))
+                }
+            } else {
+                params.detail.show = false
+                params.detail.id = null
+                params.edit.being = false
+                params.edit.id = null
+                params.form.validate.state = 1
+                params.form.validate.auth = 1
             }
         }
 
@@ -336,11 +348,20 @@ export default defineComponent({
         }
 
         // 查看详情状态进入编辑状态
-        const setDetailEditable = () => {}
+        const setDetailEditable = () => {
+            params.edit.being = true
+            params.edit.id = params.detail.id
+            params.detail.show = false
+        }
 
         // 查看详情
         const handleAppsInfo = (record: any) => {
-            console.log(record)
+            params.detail.show = !params.detail.show
+            if (record?.record?.id && params.detail.show) {
+                params.visible = !params.visible
+                params.detail.id = record.record.id
+                params.form.validate = JSON.parse(JSON.stringify(record.record))
+            } else params.detail.id = null
         }
 
         // 删除应用

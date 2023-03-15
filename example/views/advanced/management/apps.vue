@@ -6,8 +6,8 @@
             callback: handleAfterGetData
         }"
         :create-app="{ url: api.apps.data }"
-        :update-app="{ url: api.apps.create }"
-        :delete-app="{ url: api.apps.update }" />
+        :update-app="{ url: api.apps.update }"
+        :delete-app="{ url: api.apps.delete }" />
 </template>
 
 <script setup>
