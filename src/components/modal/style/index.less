@@ -45,12 +45,15 @@
     &-content {
         .properties(width, 520);
         max-width: 92%;
+        max-height: 92%;
         .linear-gradient-background();
         color: @mi-black;
         .border-radius();
         border: 1px solid var(--mi-theme, @mi-theme);
         transition: all @mi-anim-duration ease;
         position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     &-header {
@@ -65,12 +68,12 @@
     }
 
     &-body {
-        .properties(padding, 24);
         .properties(font-size, 14);
         color: var(--mi-content-text, @mi-content-text);
         border-bottom: 1px solid var(--mi-night, @mi-night);
         .letter-spacing();
         .border-radius();
+        .properties(padding, 24);
     }
 
     &-footer {

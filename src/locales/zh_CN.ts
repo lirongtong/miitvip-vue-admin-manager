@@ -40,6 +40,13 @@ export default {
     external: '外部',
     internal: '内部',
     view: '点击查看',
+    upload: {
+        name: '上传',
+        image: '上传图片',
+        media: '上传媒体',
+        file: '上传文件',
+        view: '查看大图'
+    },
     contact: {
         person: '联系人',
         info: '联系方式'

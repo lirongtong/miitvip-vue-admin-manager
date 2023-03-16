@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
@@ -6,6 +6,8 @@ import { $request } from '../../../utils/request'
 import { AppsManagementProps } from './props'
 import { getPrefixCls } from '../../_utils/props-tools'
 import { type Key } from '../../_utils/props-types'
+import MiModal from '../../modal/modal'
+import { useWindowResize } from '../../../hooks/useWindowResize'
 import {
     Table,
     ConfigProvider,
@@ -30,7 +32,9 @@ import {
     EditOutlined,
     FormOutlined,
     InfoCircleOutlined,
-    PictureOutlined
+    PictureOutlined,
+    CloudUploadOutlined,
+    ZoomInOutlined
 } from '@ant-design/icons-vue'
 
 export default defineComponent({
@@ -44,6 +48,8 @@ export default defineComponent({
         const btnCls = `${$g.prefix}btn`
         const prefixCls = getPrefixCls('apps', props.prefixCls)
         const addOrUpdateformRef = ref<FormInstance>()
+        const uploadImageRef = ref()
+        const { width } = useWindowResize()
         const params = reactive({
             loading: false,
             table: {
@@ -200,6 +206,20 @@ export default defineComponent({
                 }
             } as any,
             visible: false,
+            image: {
+                view: false,
+                data: null,
+                source: null
+            },
+            preview: {
+                width: 0,
+                height: 0,
+                show: false,
+                area: {
+                    width: 96,
+                    height: 96
+                }
+            },
             states: [
                 { label: t('apps.up'), value: 1 },
                 { label: t('apps.down'), value: 0 }
@@ -290,8 +310,10 @@ export default defineComponent({
                                 Object.assign(
                                     {},
                                     { ...params.form.validate },
+                                    { image: params.image.source },
                                     { ...props.createApp.params }
-                                )
+                                ),
+                                { headers: { 'Content-Type': 'multipart/form-data' } }
                             )
                                 .then((res: any) => {
                                     params.loading = false
@@ -328,12 +350,14 @@ export default defineComponent({
                     params.form.validate = JSON.parse(JSON.stringify(record?.record))
                 }
             } else {
+                addOrUpdateformRef.value.resetFields()
                 params.detail.show = false
                 params.detail.id = null
                 params.edit.being = false
                 params.edit.id = null
                 params.form.validate.state = 1
                 params.form.validate.auth = 1
+                params.preview.show = false
             }
         }
 
@@ -436,6 +460,46 @@ export default defineComponent({
             params.search.code = null
             params.search.state = null
             search()
+        }
+
+        // 预览
+        const handleUploadImagePreview = (evt: any) => {
+            const file = evt.target.files[0]
+            params.image.source = file
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = () => {
+                nextTick().then(() => {
+                    params.image.data = reader.result
+                    uploadImageRef.value.src = reader.result
+                    params.preview.show = true
+                    uploadImageRef.value.onload = function () {
+                        const width = this.naturalWidth
+                        const height = this.naturalHeight
+                        if (width > height) {
+                            params.preview.width = params.preview.area.width
+                            const h = Math.ceil((params.preview.width * height) / width)
+                            params.preview.height = h
+                        } else {
+                            params.preview.height = params.preview.area.height
+                            const w = Math.ceil((width * params.preview.height) / height)
+                            params.preview.width = w
+                        }
+                    }
+                })
+            }
+        }
+
+        // 查看大图
+        const handleViewLargeImage = () => {
+            params.image.view = !params.image.view
+        }
+
+        // 清空上传按钮
+        const handleRemoveUploadFile = () => {
+            params.form.validate.logo = null
+            params.preview.show = false
+            params.image.source = null
         }
         getApps()
 
@@ -556,6 +620,7 @@ export default defineComponent({
                     </Button>
                 </>
             )
+            const uploaderCls = `${prefixCls}-uploader`
             return (
                 <Drawer
                     visible={params.visible}
@@ -592,13 +657,46 @@ export default defineComponent({
                             />
                         </FormItem>
                         <FormItem label={t('apps.logo')} name="logo">
-                            <Input
-                                v-model:value={params.form.validate.logo}
-                                autocomplete="off"
-                                disabled={params.detail.show}
-                                readonly={params.detail.show}
-                                placeholder={t('apps.placeholder.logo')}
-                            />
+                            <div class={`${uploaderCls}${params.detail.show ? ' disabled' : ''}`}>
+                                <div class={`${uploaderCls}-image`}>
+                                    <div class={`${uploaderCls}-image-icon`}>
+                                        <CloudUploadOutlined v-show={!params.preview.show} />
+                                        <div
+                                            innerHTML={t('upload.image')}
+                                            v-show={!params.preview.show}></div>
+                                        <Input
+                                            type="file"
+                                            v-show={!params.preview.show}
+                                            v-model:value={params.form.validate.logo}
+                                            disabled={params.detail.show}
+                                            readonly={params.detail.show}
+                                            onChange={handleUploadImagePreview}
+                                        />
+                                    </div>
+                                    <div
+                                        class={`${uploaderCls}-image-preview`}
+                                        v-show={params.preview.show}>
+                                        <img
+                                            ref={uploadImageRef}
+                                            style={{
+                                                width: `${params.preview.width}px`,
+                                                height: `${params.preview.height}px`
+                                            }}
+                                        />
+                                        <div class={`${uploaderCls}-image-preview-mask`}>
+                                            <ZoomInOutlined
+                                                title={t('upload.view')}
+                                                onClick={handleViewLargeImage}
+                                            />
+                                            <DeleteOutlined
+                                                title={t('delete')}
+                                                onClick={handleRemoveUploadFile}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class={`${uploaderCls}-image-error`}></div>
+                                </div>
+                            </div>
                         </FormItem>
                         <FormItem label={t('apps.desc')} name="desc">
                             <Textarea
@@ -655,6 +753,22 @@ export default defineComponent({
             )
         }
 
+        // 渲染查看大图 modal
+        const renderViewImageModal = () => {
+            return (
+                <MiModal
+                    visible={params.image.view}
+                    title={t('upload.view')}
+                    footer={false}
+                    zIndex={Date.now()}
+                    onCancel={handleViewLargeImage}
+                    wrapClass={`${prefixCls}-view-image-modal`}
+                    width={width.value < 768 ? '100%' : 720}>
+                    <img src={params.image.data} />
+                </MiModal>
+            )
+        }
+
         // 渲染 Table
         const renderTable = () => {
             return (
@@ -680,6 +794,7 @@ export default defineComponent({
                         scroll={{ x: '100%' }}
                     />
                     {renderDrawer()}
+                    {renderViewImageModal()}
                 </ConfigProvider>
             )
         }

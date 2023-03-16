@@ -40,6 +40,13 @@ export default {
     external: 'External',
     internal: 'Internal',
     view: 'Click to view',
+    upload: {
+        name: 'Upload',
+        image: 'Upload Image',
+        media: 'Upload Media',
+        file: 'Upload File',
+        view: 'View large image'
+    },
     contact: {
         person: 'Contact Person',
         info: 'Contact Information'

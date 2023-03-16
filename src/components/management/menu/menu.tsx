@@ -7,7 +7,7 @@ import { $tools } from '../../../utils/tools'
 import { $g } from '../../../utils/global'
 import { type Key } from '../../_utils/props-types'
 import { useWindowResize } from '../../../hooks/useWindowResize'
-import MiModal from '../../../components/modal/modal'
+import MiModal from '../../modal/modal'
 import MiDropdown from '../../../components/dropdown/dropdown'
 import { directional, tips, edit, data, brands, generic } from './icons'
 import { useI18n } from 'vue-i18n'
@@ -552,7 +552,7 @@ export default defineComponent({
                     title={false}
                     footer={false}
                     onCancel={handleIconsModal}
-                    zIndex={202302221012}
+                    zIndex={Date.now()}
                     width={width.value < 768 ? '100%' : 720}>
                     <Tabs v-model:activeKey={params.tabs.active} class={`${$g.prefix}tabs`}>
                         <TabPane key="directional" tab={t('menus.icons.directional')}>
