@@ -9,6 +9,7 @@ import request from './utils/request'
 import tools from './utils/tools'
 import async from './utils/async'
 import prism from './directives/prism'
+import inputLimit from './directives/input_limit'
 
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
@@ -38,6 +39,7 @@ const components = [
     storage,
     request,
     tools,
+    inputLimit,
     prism,
     Layout,
     Notice,

@@ -642,6 +642,10 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.code}
                                 autocomplete="off"
+                                maxlength={32}
+                                v-input-limit={{
+                                    reg: /[^a-zA-Z\d\-_]{0,32}$/
+                                }}
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('apps.placeholder.code')}
@@ -743,6 +747,8 @@ export default defineComponent({
                             <Input
                                 v-model:value={params.form.validate.contact_info}
                                 autocomplete="off"
+                                maxlength={32}
+                                v-input-limit={{ reg: /[^\d\+\-]{0,32}$/ }}
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('apps.placeholder.contact.info')}
