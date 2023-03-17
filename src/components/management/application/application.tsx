@@ -304,7 +304,8 @@ export default defineComponent({
                                     {},
                                     { ...params.form.validate },
                                     { ...props.updateApp.params }
-                                )
+                                ),
+                                { headers: { 'Content-Type': 'multipart/form-data' } }
                             )
                                 .then((res: any) => {
                                     params.loading = false
@@ -360,6 +361,7 @@ export default defineComponent({
             }
         }
 
+        // 默认的应用图标
         const handleAppDefaultLogo = (data: any) => {
             if (data?.image) {
                 const group = data?.image?.group
@@ -521,6 +523,29 @@ export default defineComponent({
                     uploadImageRef.value.src = reader.result
                     handleImageLoaded()
                 })
+            }
+            if (props?.uploadImage?.url) {
+                // 上传图片
+                $request[(props.uploadImage.method || 'POST').toLowerCase()](
+                    props.uploadImage.url,
+                    Object.assign({}, props.uploadImage.params, {
+                        image: file
+                    }),
+                    { headers: { 'Content-Type': 'multipart/form-data' } }
+                )
+                    .then((res: any) => {
+                        if (res?.ret?.code === 200) {
+                            const data = res?.data
+                            params.form.validate.logo =
+                                data?.group && data?.path
+                                    ? data?.group + '/' + data?.path
+                                    : 'uploaded'
+                            if (props.uploadImage.callback) props.uploadImage.callback()
+                        }
+                    })
+                    .catch((err: any) => {
+                        message.error(err?.message)
+                    })
             }
         }
 
