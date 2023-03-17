@@ -51,7 +51,8 @@ export const api: any = reactive({
         data: 'apps',
         create: 'apps',
         update: 'apps/{id}',
-        delete: 'apps/{id}'
+        delete: 'apps/{id}',
+        images: 'images'
     }
 })
 

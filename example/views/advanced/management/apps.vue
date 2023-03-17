@@ -7,7 +7,9 @@
         }"
         :create-app="{ url: api.apps.data }"
         :update-app="{ url: api.apps.update }"
-        :delete-app="{ url: api.apps.delete }" />
+        :delete-app="{ url: api.apps.delete }"
+        :upload-image="{ url: api.apps.images }"
+        :delete-image="{ url: api.apps.images }" />
 </template>
 
 <script setup>

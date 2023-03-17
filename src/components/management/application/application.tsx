@@ -49,6 +49,7 @@ export default defineComponent({
         const prefixCls = getPrefixCls('apps', props.prefixCls)
         const addOrUpdateformRef = ref<FormInstance>()
         const uploadImageRef = ref()
+        const fileInputRef = ref()
         const { width } = useWindowResize()
         const params = reactive({
             loading: false,
@@ -74,11 +75,25 @@ export default defineComponent({
                         width: 96,
                         align: 'center',
                         customRender: (record: any) => {
-                            const logo = record?.record?.logo ? (
-                                <img src={record?.record?.logo} alt="makeit's app logo" />
-                            ) : (
-                                <PictureOutlined />
-                            )
+                            const data = record?.record
+                            const group = data?.image?.group
+                            const path = data?.image?.path
+                            const isLink = $g.regExp.url.test(data?.logo)
+                            const logo =
+                                group && path ? (
+                                    <img src={$g.fileServer + group + path} alt={data?.name} />
+                                ) : data?.logo ? (
+                                    isLink ? (
+                                        <img src={record?.record?.logo} alt={data?.name} />
+                                    ) : (
+                                        <img
+                                            src={$g.fileServer + record?.record?.logo}
+                                            alt={data?.name}
+                                        />
+                                    )
+                                ) : (
+                                    <PictureOutlined />
+                                )
                             return <div class={`${prefixCls}-logo`}>{logo}</div>
                         }
                     },
@@ -173,7 +188,13 @@ export default defineComponent({
             deleteIds: [] as any[],
             edit: {
                 id: null,
-                being: false
+                being: false,
+                image: {
+                    init: false,
+                    group: null,
+                    path: null,
+                    temp: null
+                }
             } as any,
             detail: {
                 id: null,
@@ -212,6 +233,7 @@ export default defineComponent({
                 source: null
             },
             preview: {
+                local: false,
                 width: 0,
                 height: 0,
                 show: false,
@@ -338,27 +360,40 @@ export default defineComponent({
             }
         }
 
+        const handleAppDefaultLogo = (data: any) => {
+            if (data?.image) {
+                const group = data?.image?.group
+                const path = data?.image?.path
+                params.image.source = 'no-change'
+                params.edit.image.group = group
+                params.edit.image.path = path
+                const src = $g.fileServer + group + path
+                params.image.data = src
+                nextTick().then(() => {
+                    uploadImageRef.value.src = src
+                    handleImageLoaded()
+                })
+            } else {
+                params.edit.image.group = null
+                params.edit.image.path = null
+            }
+        }
+
         // 新增/更新 - 控制弹窗显隐
         const handleAddOrUpdateDrawer = (record?: any) => {
             params.visible = !params.visible
+            const data = record?.record
             if (params.visible) {
                 // edit
-                if (record?.record) {
+                if (data) {
                     params.edit.being = true
-                    params.edit.id = record?.record?.id
+                    params.edit.id = data?.id
                     params.detail.show = false
-                    params.form.validate = JSON.parse(JSON.stringify(record?.record))
+                    params.preview.local = false
+                    params.form.validate = JSON.parse(JSON.stringify(data))
+                    handleAppDefaultLogo(data)
                 }
-            } else {
-                addOrUpdateformRef.value.resetFields()
-                params.detail.show = false
-                params.detail.id = null
-                params.edit.being = false
-                params.edit.id = null
-                params.form.validate.state = 1
-                params.form.validate.auth = 1
-                params.preview.show = false
-            }
+            } else handleAfterAction()
         }
 
         // 重置
@@ -369,6 +404,12 @@ export default defineComponent({
             params.edit.id = null
             params.edit.being = false
             params.detail.show = false
+            params.form.validate.logo = null
+            params.preview.show = false
+            params.edit.image.group = null
+            params.edit.image.path = null
+            params.edit.init = false
+            params.edit.image.temp = null
         }
 
         // 查看详情状态进入编辑状态
@@ -376,15 +417,19 @@ export default defineComponent({
             params.edit.being = true
             params.edit.id = params.detail.id
             params.detail.show = false
+            params.preview.local = false
         }
 
         // 查看详情
         const handleAppsInfo = (record: any) => {
             params.detail.show = !params.detail.show
-            if (record?.record?.id && params.detail.show) {
+            const data = record?.record
+            if (data?.id && params.detail.show) {
                 params.visible = !params.visible
-                params.detail.id = record.record.id
-                params.form.validate = JSON.parse(JSON.stringify(record.record))
+                params.detail.id = data.id
+                params.form.validate = JSON.parse(JSON.stringify(data))
+                params.preview.local = false
+                handleAppDefaultLogo(data)
             } else params.detail.id = null
         }
 
@@ -466,27 +511,35 @@ export default defineComponent({
         const handleUploadImagePreview = (evt: any) => {
             const file = evt.target.files[0]
             params.image.source = file
+            params.preview.local = true
+            params.form.validate.logo = 'uploaded'
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
                 nextTick().then(() => {
                     params.image.data = reader.result
                     uploadImageRef.value.src = reader.result
-                    params.preview.show = true
-                    uploadImageRef.value.onload = function () {
-                        const width = this.naturalWidth
-                        const height = this.naturalHeight
-                        if (width > height) {
-                            params.preview.width = params.preview.area.width
-                            const h = Math.ceil((params.preview.width * height) / width)
-                            params.preview.height = h
-                        } else {
-                            params.preview.height = params.preview.area.height
-                            const w = Math.ceil((width * params.preview.height) / height)
-                            params.preview.width = w
-                        }
-                    }
+                    handleImageLoaded()
                 })
+            }
+        }
+
+        // 小图预览加载完成
+        const handleImageLoaded = () => {
+            params.preview.show = true
+            uploadImageRef.value.setAttribute('crossOrigin', 'anonymous')
+            uploadImageRef.value.onload = function () {
+                const width = this.naturalWidth
+                const height = this.naturalHeight
+                if (width > height) {
+                    params.preview.width = params.preview.area.width
+                    const h = Math.ceil((params.preview.width * height) / width)
+                    params.preview.height = h
+                } else {
+                    params.preview.height = params.preview.area.height
+                    const w = Math.ceil((width * params.preview.height) / height)
+                    params.preview.width = w
+                }
             }
         }
 
@@ -498,8 +551,39 @@ export default defineComponent({
         // 清空上传按钮
         const handleRemoveUploadFile = () => {
             params.form.validate.logo = null
+            if (fileInputRef.value) fileInputRef.value.value = null
             params.preview.show = false
             params.image.source = null
+            params.edit.image.temp = null
+            if (props?.deleteImage?.url && !params.preview.local) {
+                const afterAction = () => {
+                    params.loading = false
+                    params.edit.init = true
+                    params.preview.local = true
+                    params.edit.image.group = null
+                    params.edit.image.path = null
+                }
+                $request[(props.deleteImage.method || 'DELETE').toLowerCase()](
+                    props.deleteImage.url,
+                    Object.assign({}, props.deleteImage.params, {
+                        group: params.edit.image.group,
+                        path: params.edit.image.path
+                    })
+                )
+                    .then((res: any) => {
+                        afterAction()
+                        if (res?.ret?.code === 200) {
+                            if (props.deleteImage.callback) props.deleteImage.callback()
+                        }
+                    })
+                    .catch((err: any) => {
+                        afterAction()
+                        message.error(err?.message)
+                    })
+            } else {
+                params.edit.image.group = null
+                params.edit.image.path = null
+            }
         }
         getApps()
 
@@ -670,8 +754,9 @@ export default defineComponent({
                                             v-show={!params.preview.show}></div>
                                         <Input
                                             type="file"
+                                            ref={fileInputRef}
+                                            v-model:value={params.edit.image.temp}
                                             v-show={!params.preview.show}
-                                            v-model:value={params.form.validate.logo}
                                             disabled={params.detail.show}
                                             readonly={params.detail.show}
                                             onChange={handleUploadImagePreview}
@@ -698,7 +783,6 @@ export default defineComponent({
                                             />
                                         </div>
                                     </div>
-                                    <div class={`${uploaderCls}-image-error`}></div>
                                 </div>
                             </div>
                         </FormItem>

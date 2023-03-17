@@ -47,5 +47,27 @@ export const AppsManagementProps = () => ({
             }
         }
     },
+    uploadImage: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'POST',
+                params: {},
+                callback: null
+            }
+        }
+    },
+    deleteImage: {
+        type: Object as PropType<CommonRequestProps>,
+        default: () => {
+            return {
+                url: null,
+                method: 'DELETE',
+                params: {},
+                callback: null
+            }
+        }
+    },
     paginationLocale: PropTypes.any
 })
