@@ -60,7 +60,7 @@ export const $g = reactive({
     separator: '/!#!$/',
 
     apiVersion: 'v1',
-    fileServer: 'https://file.makeit.vip/',
+    fileServer: 'https://file.makeit.vip',
     backToTop: true,
     userInfo: {} as any,
     isMobile: false,

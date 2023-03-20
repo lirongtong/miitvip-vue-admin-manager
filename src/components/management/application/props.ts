@@ -30,7 +30,7 @@ export const AppsManagementProps = () => ({
         default: () => {
             return {
                 url: null,
-                method: 'PUT',
+                method: 'POST',
                 params: {},
                 callback: null
             }

@@ -81,7 +81,10 @@ export default defineComponent({
                             const isLink = $g.regExp.url.test(data?.logo)
                             const logo =
                                 group && path ? (
-                                    <img src={$g.fileServer + group + path} alt={data?.name} />
+                                    <img
+                                        src={`${$g.fileServer}/${group}/${path}`}
+                                        alt={data?.name}
+                                    />
                                 ) : data?.logo ? (
                                     isLink ? (
                                         <img src={record?.record?.logo} alt={data?.name} />
@@ -296,13 +299,14 @@ export default defineComponent({
                             return
                         }
                         if (props.updateApp.url) {
-                            $request[(props.updateApp.method || 'PUT').toLowerCase()](
+                            $request[(props.updateApp.method || 'POST').toLowerCase()](
                                 $tools.replaceUrlParams(props.updateApp.url, {
                                     id: params.edit.id
                                 }),
                                 Object.assign(
                                     {},
                                     { ...params.form.validate },
+                                    { image: params.image.source },
                                     { ...props.updateApp.params }
                                 ),
                                 { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -369,7 +373,7 @@ export default defineComponent({
                 params.image.source = 'no-change'
                 params.edit.image.group = group
                 params.edit.image.path = path
-                const src = $g.fileServer + group + path
+                const src = `${$g.fileServer}/${group}/${path}`
                 params.image.data = src
                 nextTick().then(() => {
                     uploadImageRef.value.src = src
@@ -400,6 +404,9 @@ export default defineComponent({
 
         // 重置
         const handleAfterAction = () => {
+            if (props?.uploadImage?.url && params.edit.image.group && params.edit.image.path) {
+                handleDeleteImage()
+            }
             addOrUpdateformRef.value.resetFields()
             params.form.validate.state = 1
             params.form.validate.auth = 1
@@ -514,7 +521,7 @@ export default defineComponent({
             const file = evt.target.files[0]
             params.image.source = file
             params.preview.local = true
-            params.form.validate.logo = 'uploaded'
+            params.form.validate.logo = 'uploading'
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
@@ -524,6 +531,11 @@ export default defineComponent({
                     handleImageLoaded()
                 })
             }
+            handleUploadImage(file)
+        }
+
+        // 上传图片
+        const handleUploadImage = (file: any) => {
             if (props?.uploadImage?.url) {
                 // 上传图片
                 $request[(props.uploadImage.method || 'POST').toLowerCase()](
@@ -536,14 +548,43 @@ export default defineComponent({
                     .then((res: any) => {
                         if (res?.ret?.code === 200) {
                             const data = res?.data
-                            params.form.validate.logo =
-                                data?.group && data?.path
-                                    ? data?.group + '/' + data?.path
-                                    : 'uploaded'
+                            params.form.validate.logo = '/' + data?.group + '/' + data?.path
+                            params.edit.image.group = data?.group
+                            params.edit.image.path = data?.path
                             if (props.uploadImage.callback) props.uploadImage.callback()
                         }
                     })
                     .catch((err: any) => {
+                        message.error(err?.message)
+                    })
+            }
+        }
+
+        // 删除图片
+        const handleDeleteImage = () => {
+            if (props?.deleteImage?.url) {
+                const afterAction = () => {
+                    params.loading = false
+                    params.edit.init = true
+                    params.preview.local = true
+                    params.edit.image.group = null
+                    params.edit.image.path = null
+                }
+                $request[(props.deleteImage.method || 'DELETE').toLowerCase()](
+                    props.deleteImage.url,
+                    Object.assign({}, props.deleteImage.params, {
+                        group: params.edit.image.group,
+                        path: params.edit.image.path
+                    })
+                )
+                    .then((res: any) => {
+                        afterAction()
+                        if (res?.ret?.code === 200) {
+                            if (props.deleteImage.callback) props.deleteImage.callback()
+                        }
+                    })
+                    .catch((err: any) => {
+                        afterAction()
                         message.error(err?.message)
                     })
             }
@@ -580,31 +621,8 @@ export default defineComponent({
             params.preview.show = false
             params.image.source = null
             params.edit.image.temp = null
-            if (props?.deleteImage?.url && !params.preview.local) {
-                const afterAction = () => {
-                    params.loading = false
-                    params.edit.init = true
-                    params.preview.local = true
-                    params.edit.image.group = null
-                    params.edit.image.path = null
-                }
-                $request[(props.deleteImage.method || 'DELETE').toLowerCase()](
-                    props.deleteImage.url,
-                    Object.assign({}, props.deleteImage.params, {
-                        group: params.edit.image.group,
-                        path: params.edit.image.path
-                    })
-                )
-                    .then((res: any) => {
-                        afterAction()
-                        if (res?.ret?.code === 200) {
-                            if (props.deleteImage.callback) props.deleteImage.callback()
-                        }
-                    })
-                    .catch((err: any) => {
-                        afterAction()
-                        message.error(err?.message)
-                    })
+            if (!params.preview.local || props?.uploadImage?.url) {
+                handleDeleteImage()
             } else {
                 params.edit.image.group = null
                 params.edit.image.path = null
