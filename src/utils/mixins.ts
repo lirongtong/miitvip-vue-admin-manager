@@ -1,5 +1,5 @@
 import { inject } from 'vue'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { $tools } from './tools'
@@ -59,7 +59,7 @@ export default {
 
             // 请求拦截器 ( Bearer token )
             axios.interceptors.request.use(
-                (config: AxiosRequestConfig | { [index: string]: any }) => {
+                (config: any) => {
                     const token = $cookie.get($g.caches.cookies.token.access)
                     if (token) config.headers.Authorization = `Bearer ${token}`
                     return config
