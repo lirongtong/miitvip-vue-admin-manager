@@ -294,7 +294,7 @@ export default defineComponent({
 
         // 重置查询
         const searchReset = () => {
-            params.search.key = null
+            params.search.key = ''
             search()
         }
 
@@ -380,7 +380,7 @@ export default defineComponent({
                     if (!AntdvIcons[params.form.validate.icon] && params.form.validate.type !== 3)
                         params.form.validate.icon = 'TagOutlined'
                     const afterAction = () => {
-                        addOrUpdateformRef.value.resetFields()
+                        addOrUpdateformRef?.value?.resetFields()
                         params.form.validate.pid = null
                         params.form.validate.type = 1
                         params.form.validate.auth_policy = 2

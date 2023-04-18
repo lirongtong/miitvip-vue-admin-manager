@@ -232,7 +232,7 @@ export default defineComponent({
             visible: false,
             image: {
                 view: false,
-                data: null,
+                data: null as any,
                 source: null
             },
             preview: {
@@ -407,7 +407,7 @@ export default defineComponent({
             if (props?.uploadImage?.url && params.edit.image.group && params.edit.image.path) {
                 handleDeleteImage()
             }
-            addOrUpdateformRef.value.resetFields()
+            addOrUpdateformRef?.value?.resetFields()
             params.form.validate.state = 1
             params.form.validate.auth = 1
             params.edit.id = null
