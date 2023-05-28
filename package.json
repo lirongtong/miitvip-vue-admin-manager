@@ -1,6 +1,6 @@
 {
     "name": "makeit-admin-pro",
-    "version": "2.1.317",
+    "version": "2.1.318",
     "author": {
         "url": "https://admin.makeit.vip",
         "name": "lirongtong",
@@ -48,9 +48,10 @@
         "dev": "vite",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
         "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src",
-        "compile": "gulp --gulpfile build/gulp.style.config.js",
-        "dist": "webpack --config build/webpack.build.config.js --mode production --progress --color",
-        "build": "rm -rf es/ lib/ dist/ && npm run compile && npm run dist"
+        "build:compile": "gulp --gulpfile build/gulp.style.config.js",
+        "build:dist": "webpack --config build/webpack.build.config.js --mode production --progress --color",
+        "build:lib": "webpack --config build/webpack.lib.build.config.js --mode production --progress --color",
+        "build": "rm -rf es/ lib/ dist/ && npm run build:compile && npm run build:dist && npm run build:lib && rm -rf dist/makeit-admin-pro.*"
     },
     "dependencies": {
         "@ant-design/icons-vue": "^6.1.0",
