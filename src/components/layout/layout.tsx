@@ -65,7 +65,7 @@ const MiLayout = defineComponent({
             return (
                 <>
                     {getSide()}
-                    <Layout class={`${prefixCls}`}>
+                    <Layout class={prefixCls}>
                         {getHeader()}
                         <MiLayoutContent
                             animation={props.contentAnimation}

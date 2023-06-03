@@ -26,7 +26,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: layoutHeaderProps(),
     slots: ['stretch', 'notice', 'dropdown', 'extra'],
-    setup(props, { slots, attrs }) {
+    setup(props, { slots }) {
         const store = useStore()
         const { t } = useI18n()
         const prefixCls = getPrefixCls('layout-header', props.prefixCls)
@@ -151,7 +151,7 @@ export default defineComponent({
         const triggerCls = `${headerCls.trigger} ${headerCls.trigger}-min`
 
         return () => (
-            <Layout.Header class={`${prefixCls}`} {...attrs}>
+            <Layout.Header class={prefixCls}>
                 {/* left */}
                 <div class={headerCls.left}>
                     <div
