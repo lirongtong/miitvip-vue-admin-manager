@@ -333,13 +333,13 @@ const Login = defineComponent({
             }
             return props.socialiteLogin ? null : (
                 <div
+                    {...attrs}
                     class={`${prefixCls}${
                         width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
                     }`}
                     style={{
                         backgroundImage: `url(${props.background ?? $g.background.default})`
-                    }}
-                    {...attrs}>
+                    }}>
                     <Row
                         class={`${prefixCls}-content`}
                         align={width.value < $g.devices.mobile ? 'top' : 'middle'}>

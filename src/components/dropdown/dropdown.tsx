@@ -114,12 +114,12 @@ export default defineComponent({
 
         return () => (
             <Dropdown
+                {...attrs}
                 placement={props.placement}
                 trigger={[props.trigger]}
                 overlay={getOverlay()}
                 overlayClassName={`${prefixCls}-menu`}
-                onVisibleChange={updateVisible}
-                {...attrs}>
+                onVisibleChange={updateVisible}>
                 {getTitle}
             </Dropdown>
         )

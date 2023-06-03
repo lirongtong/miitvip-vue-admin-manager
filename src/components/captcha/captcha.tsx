@@ -358,10 +358,10 @@ export default defineComponent({
 
         return () => (
             <div
+                {...attrs}
                 class={`${prefixCls}${
                     width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
                 }`}
-                {...attrs}
                 onClick={showCaptchaModal}
                 key={`${prefixCls}-${$tools.uid()}`}
                 ref={captchaRef}>

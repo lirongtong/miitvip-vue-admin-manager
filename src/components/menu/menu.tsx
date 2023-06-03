@@ -166,6 +166,7 @@ export default defineComponent({
 
         return () => (
             <Menu
+                {...attrs}
                 class={prefixCls}
                 ref={prefixCls}
                 theme="dark"
@@ -173,8 +174,7 @@ export default defineComponent({
                 mode={'inline'}
                 onOpenChange={setOpenKeys}
                 openKeys={$g.menus.opens}
-                selectedKeys={$g.menus.active}
-                {...attrs}>
+                selectedKeys={$g.menus.active}>
                 {getMenuItems()}
             </Menu>
         )

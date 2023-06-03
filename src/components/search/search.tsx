@@ -492,7 +492,7 @@ const MiSearch = defineComponent({
 
         return () => (
             <>
-                <div class={prefixCls} {...attrs} style={style.box}>
+                <div {...attrs} class={prefixCls} style={style.box}>
                     <input
                         class={`${prefixCls}-input${
                             props.suffix ? ` ${prefixCls}-has-suffix` : ''
