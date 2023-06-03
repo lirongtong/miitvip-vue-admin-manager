@@ -41,7 +41,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: noticeProps(),
     slots: ['icon', 'extra'],
-    setup(props, { slots, attrs }) {
+    setup(props, { slots }) {
         return () => {
             const { t, locale } = useI18n()
             const prefixCls = getPrefixCls('notice', props.prefixCls)
@@ -156,8 +156,7 @@ export default defineComponent({
                     destroyTooltipOnHide={true}
                     trigger={props.trigger}
                     placement={props.placement}
-                    content={renderContent()}
-                    {...attrs}>
+                    content={renderContent()}>
                     {renderIcon}
                 </Popover>
             )
