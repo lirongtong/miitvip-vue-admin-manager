@@ -27,10 +27,18 @@ const dirs = {
 const distName = 'miitvip'
 const distCustomName = distName + '-custom'
 const lessFiles = []
+const antdLessFiles = []
 const customLessFiles = []
 const lessDirs = [
     dirs.src + '/**/*.less',
     dirs.src + '/**/**/*.less'
+]
+const orderLessDirs = [
+    dirs.src + '/styles/core/index.less',
+    dirs.src + '/components/**/**/*.less',
+    dirs.src + '/styles/antd/*.less',
+    dirs.src + '/styles/core/base.less',
+    dirs.src + '/styles/core/animation.less'
 ]
 
 const renderLess = async (data, file) => {
@@ -84,6 +92,7 @@ const duplicationMergeLess = (lessFile, includeAntdv = false) => {
                 if (!variables || variables.length <= 0) data = data.replace(imports[i], '')
             }
             if (includeAntdv) {
+                if (isAntdLess && !antdLessFiles.includes(key)) antdLessFiles.push(key)
                 if (!lessFiles.includes(key)) lessFiles.push(key)
                 else replaceImport()
             } else {
@@ -184,7 +193,7 @@ gulp.task('compile-less-from-ts', gulp.series('compile-less-from-ts-into-es', do
 }))
 
 gulp.task('duplicate-concat-less-to-css', gulp.series(done => {
-    gulp.src(lessDirs)
+    gulp.src(orderLessDirs)
         .pipe(
             through2.obj(function (file, _encoding, callback) {
                 duplicationMergeLess(file.path, true)

@@ -1,6 +1,6 @@
 {
     "name": "makeit-admin-pro",
-    "version": "2.1.320",
+    "version": "2.1.321",
     "author": {
         "url": "https://admin.makeit.vip",
         "name": "lirongtong",
@@ -45,7 +45,7 @@
     "module": "es/index.js",
     "unpkg": "dist/miitvip.min.js",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --port 5174",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
         "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src",
         "build:compile": "gulp --gulpfile build/gulp.style.config.js",
