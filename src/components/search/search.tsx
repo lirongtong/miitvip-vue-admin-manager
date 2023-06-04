@@ -40,7 +40,7 @@ const MiSearch = defineComponent({
         'update:value',
         'close'
     ],
-    setup(props, { slots, attrs, emit }) {
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('search', props.prefixCls)
         const prefixIdx = getPrefixCls('index')
@@ -492,7 +492,7 @@ const MiSearch = defineComponent({
 
         return () => (
             <>
-                <div {...attrs} class={prefixCls} style={style.box}>
+                <div class={prefixCls} style={style.box}>
                     <input
                         class={`${prefixCls}-input${
                             props.suffix ? ` ${prefixCls}-has-suffix` : ''

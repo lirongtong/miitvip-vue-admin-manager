@@ -38,7 +38,7 @@ const Login = defineComponent({
     ),
     emits: ['captchaSuccess'],
     slots: ['content'],
-    setup(props, { slots, attrs, emit }) {
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('passport', props.prefixCls)
         const store = useStore()
@@ -333,7 +333,6 @@ const Login = defineComponent({
             }
             return props.socialiteLogin ? null : (
                 <div
-                    {...attrs}
                     class={`${prefixCls}${
                         width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
                     }`}

@@ -37,9 +37,9 @@ export const menuProps = () => ({
 
 export default defineComponent({
     name: 'MiMenu',
-    inheritAttrs: false,
+    inheritAttrs: true,
     props: menuProps(),
-    setup(props, { attrs }) {
+    setup(props) {
         const store = useStore()
         const route = useRoute()
         const menus: any = reactive({})
@@ -166,7 +166,6 @@ export default defineComponent({
 
         return () => (
             <Menu
-                {...attrs}
                 class={prefixCls}
                 ref={prefixCls}
                 theme="dark"

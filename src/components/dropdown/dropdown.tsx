@@ -39,7 +39,7 @@ export default defineComponent({
     props: dropdownProps(),
     slots: ['title', 'overlay'],
     emits: ['update:visible', 'visibleChange'],
-    setup(props, { slots, attrs, emit }) {
+    setup(props, { slots, emit }) {
         const store = useStore()
         const route = useRoute()
         const prefixCls = getPrefixCls('dropdown', props.prefixCls)
@@ -114,7 +114,6 @@ export default defineComponent({
 
         return () => (
             <Dropdown
-                {...attrs}
                 placement={props.placement}
                 trigger={[props.trigger]}
                 overlay={getOverlay()}

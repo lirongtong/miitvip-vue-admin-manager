@@ -10,13 +10,13 @@ export default defineComponent({
         language: PropTypes.string.def('html'),
         content: PropTypes.any
     },
-    setup(props, { slots, attrs }) {
+    setup(props, { slots }) {
         const prefixCls = getPrefixCls('code', props.prefixCls)
         return () => {
             const content = getPropSlot(slots, props, 'content') ?? null
             return (
                 <div class={prefixCls}>
-                    <pre {...attrs} v-prism>
+                    <pre v-prism>
                         <div class={`${prefixCls}-title`}>
                             <span class={`${prefixCls}-dot-red`}></span>
                             <span class={`${prefixCls}-dot-orange`}></span>

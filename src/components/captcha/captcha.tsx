@@ -16,7 +16,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: captchaProps(),
     emits: ['init', 'checked', 'success'],
-    setup(props, { emit, attrs, expose }) {
+    setup(props, { emit, expose }) {
         const prefixCls = getPrefixCls('captcha', props.prefixCls)
         const captchaRef = ref(null)
         const captchaModalRef = ref(null)
@@ -358,7 +358,6 @@ export default defineComponent({
 
         return () => (
             <div
-                {...attrs}
                 class={`${prefixCls}${
                     width.value < $g.devices.mobile ? ` ${prefixCls}-mobile` : ''
                 }`}
