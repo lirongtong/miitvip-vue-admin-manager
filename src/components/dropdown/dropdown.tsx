@@ -1,4 +1,4 @@
-import { defineComponent, isVNode, watch, h, PropType } from 'vue'
+import { defineComponent, isVNode, watch, h, PropType, SlotsType } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
 import type { Trigger } from 'ant-design-vue/lib/dropdown/props'
@@ -37,7 +37,10 @@ export default defineComponent({
     name: 'MiDropdown',
     inheritAttrs: false,
     props: dropdownProps(),
-    slots: ['title', 'overlay'],
+    slots: Object as SlotsType<{
+        title: any
+        overlay: any
+    }>,
     emits: ['update:visible', 'visibleChange'],
     setup(props, { slots, emit }) {
         const store = useStore()

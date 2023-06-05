@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, createVNode } from 'vue'
+import { defineComponent, ref, reactive, createVNode, SlotsType } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { Form, Row, Col, Input, Checkbox, Button, message, FormInstance } from 'ant-design-vue'
@@ -37,7 +37,9 @@ const Login = defineComponent({
         }
     ),
     emits: ['captchaSuccess'],
-    slots: ['content'],
+    slots: Object as SlotsType<{
+        content: any
+    }>,
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('passport', props.prefixCls)

@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, SlotsType } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { Layout, Popover, Radio, message } from 'ant-design-vue'
@@ -25,7 +25,12 @@ export default defineComponent({
     name: 'MiLayoutHeader',
     inheritAttrs: false,
     props: layoutHeaderProps(),
-    slots: ['stretch', 'notice', 'dropdown', 'extra'],
+    slots: Object as SlotsType<{
+        stretch: any
+        notice: any
+        dropdown: any
+        extra: any
+    }>,
     setup(props, { slots }) {
         const store = useStore()
         const { t } = useI18n()

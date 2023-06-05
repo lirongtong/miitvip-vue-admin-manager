@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, SlotsType } from 'vue'
 import { Popover, Badge, Tabs, Checkbox } from 'ant-design-vue'
 import { BellOutlined, ShoppingOutlined } from '@ant-design/icons-vue'
 import PropTypes from '../_utils/props-types'
@@ -40,7 +40,10 @@ export default defineComponent({
     name: 'MiNotice',
     inheritAttrs: false,
     props: noticeProps(),
-    slots: ['icon', 'extra'],
+    slots: Object as SlotsType<{
+        icon: any
+        extra: any
+    }>,
     setup(props, { slots }) {
         return () => {
             const { t, locale } = useI18n()

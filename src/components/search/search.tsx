@@ -7,7 +7,8 @@ import {
     VNode,
     cloneVNode,
     Component,
-    h
+    h,
+    SlotsType
 } from 'vue'
 import MiSearchKey from './key'
 import {
@@ -27,7 +28,10 @@ const MiSearch = defineComponent({
     name: 'MiSearch',
     inheritAttrs: false,
     props: searchProps(),
-    slots: ['itemTemplate', 'suffix'],
+    slots: Object as SlotsType<{
+        itemTemplate: any
+        suffix: any
+    }>,
     emits: [
         'focus',
         'blur',

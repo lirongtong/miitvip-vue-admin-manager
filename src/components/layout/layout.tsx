@@ -1,4 +1,4 @@
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, SlotsType } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { layoutProps } from './props'
@@ -15,7 +15,12 @@ import MiLayoutDrawerMenu from '../menu/drawer'
 const MiLayout = defineComponent({
     name: 'MiLayout',
     inheritAttrs: false,
-    slots: ['side', 'header', 'headerExtra', 'footer'],
+    slots: Object as SlotsType<{
+        side: any
+        header: any
+        headerExtra: any
+        footer: any
+    }>,
     props: layoutProps(),
     setup(props, { slots }) {
         const { locale, t } = useI18n()

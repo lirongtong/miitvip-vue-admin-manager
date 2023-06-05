@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, SlotsType } from 'vue'
 import { useStore } from 'vuex'
 import { Layout } from 'ant-design-vue'
 import { layoutSideProps } from './props'
@@ -13,7 +13,10 @@ import MiLayoutSideMenu from '../menu'
 const MiLayoutSider = defineComponent({
     name: 'MiLayoutSide',
     inheritAttrs: false,
-    slots: ['logo', 'menu'],
+    slots: Object as SlotsType<{
+        logo: any
+        menu: any
+    }>,
     props: layoutSideProps(),
     setup(props, { slots }) {
         const store = useStore()

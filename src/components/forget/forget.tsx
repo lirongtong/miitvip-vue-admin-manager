@@ -1,4 +1,4 @@
-import { defineComponent, ref, createVNode, reactive, Transition } from 'vue'
+import { defineComponent, ref, createVNode, reactive, Transition, SlotsType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink, useRouter } from 'vue-router'
 import { Form, Row, Col, Input, Button, message } from 'ant-design-vue'
@@ -33,7 +33,10 @@ export default defineComponent({
         }
     ),
     emits: ['captchaSuccess'],
-    slots: ['content', 'footer'],
+    slots: Object as SlotsType<{
+        content: any
+        footer: any
+    }>,
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const router = useRouter()

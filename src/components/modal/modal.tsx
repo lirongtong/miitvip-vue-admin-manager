@@ -1,4 +1,4 @@
-import { defineComponent, reactive, createVNode, Plugin } from 'vue'
+import { defineComponent, reactive, createVNode, Plugin, SlotsType } from 'vue'
 import { Button, Modal as AntModal, ModalFuncProps } from 'ant-design-vue'
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
@@ -17,7 +17,13 @@ const Modal = defineComponent({
     inheritAttrs: false,
     props: modalProps(),
     emits: ['ok', 'cancel', 'update:visible'],
-    slots: ['title', 'closeIcon', 'footer', 'okText', 'cancelText'],
+    slots: Object as SlotsType<{
+        title: any
+        closeIcon: any
+        footer: any
+        okText: any
+        cancelText: any
+    }>,
     setup(props, { slots, attrs, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('modal', props.prefixCls)
