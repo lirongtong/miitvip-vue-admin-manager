@@ -1,0 +1,63 @@
+@import '../../../styles/theme/index.less';
+
+@mi-title: ~'@{mi-prefix}title';
+.@{mi-title} {
+    .flex();
+    width: 100%;
+
+    &-wrap {
+        .flex(center, space-between);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        &.center {
+            align-items: center;
+            justify-content: center;
+
+            .@{mi-title}-content {
+                &:after {
+                    left: calc(50% - 16px);
+                }
+            }
+        }
+    }
+
+    &-content {
+        font-size: 2rem;
+        color: var(--mi-font, @mi-font);
+        font-weight: bold;
+        position: relative;
+
+        &:after {
+            position: absolute;
+            left: 0;
+            bottom: -16px;
+            width: 32px;
+            height: 2px;
+            background-color: var(--mi-theme, @mi-theme);
+            content: '';
+            display: block;
+        }
+    }
+
+    &-extra {
+        .flex();
+        position: relative;
+
+        @media only screen and (max-width: 767px) {
+            margin-top: 2rem;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        >div {
+            .flex(flex-start, flex-start);
+
+            @media only screen and (max-width: 767px) {
+                width: 100%;
+            }
+        }
+    }
+}

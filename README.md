@@ -92,6 +92,8 @@
 
 :white_check_mark: 代码高亮 ( `Code` ) :flight_arrival:
 
+:white_check_mark: 标题设置 ( `Title` ) :palm_tree:
+
 ## 高级应用
 
 :x: 权限控制 :sunglasses:

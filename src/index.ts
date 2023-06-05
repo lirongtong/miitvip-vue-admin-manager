@@ -26,6 +26,7 @@ import { default as Register } from './components/register'
 import { default as Forget } from './components/forget'
 import { default as History } from './components/history'
 import { default as Code } from './components/code'
+import { default as Title } from './components/title'
 
 import { default as LanguageManagement } from './components/management/language'
 import { default as MenuManagement } from './components/management/menu'
@@ -56,6 +57,7 @@ const components = [
     Forget,
     History,
     Code,
+    Title,
     LanguageManagement,
     MenuManagement,
     AppsManagement
@@ -100,6 +102,7 @@ export {
     Forget,
     History,
     Code,
+    Title,
     LanguageManagement,
     MenuManagement,
     AppsManagement
