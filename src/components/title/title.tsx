@@ -7,12 +7,11 @@ export const titleProps = () => ({
     prefixCls: PropTypes.string,
     title: PropTypes.string.isRequired,
     center: PropTypes.bool.def(false),
-    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).def(32)
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).def(24)
 })
 
 export default defineComponent({
     name: 'MiTitle',
-    inheritAttrs: false,
     props: titleProps(),
     setup(props, { slots }) {
         const prefixCls = getPrefixCls('title', props.prefixCls)

@@ -1,4 +1,4 @@
-import Mititle from './title'
+import MiTitle from './title'
 import { install } from '../../utils/install'
 
-export default install(Mititle)
+export default install(MiTitle)

@@ -1,0 +1,32 @@
+@import '../../../styles/theme/index.less';
+
+@mi-quotes: ~'@{mi-prefix}quotes';
+.@{mi-quotes} {
+    padding: 20px 24px;
+    .border-radius();
+    border-left: 4px solid;
+    border-color: var(--mi-theme, @mi-theme);
+    .linear-gradient-background();
+    color: var(--mi-font, @mi-font);
+    font-size: 14px;
+    line-height: 26px;
+
+    .important {
+        color: var(--mi-theme, @mi-theme);
+        margin: 0 4px;
+    }
+
+    .no-ml {
+        margin-left: 0;
+    }
+
+    a {
+        color: var(--mi-theme, @mi-theme);
+    }
+
+    li {
+        list-style: circle;
+        margin-left: 20px;
+        padding-left: 4px;
+    }
+}
