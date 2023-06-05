@@ -29,10 +29,14 @@
         font-weight: bold;
         position: relative;
 
+        @media only screen and (max-width: 767px) {
+            width: 100%;
+        }
+
         &:after {
             position: absolute;
             left: 0;
-            bottom: -16px;
+            bottom: -12px;
             width: 32px;
             height: 2px;
             background-color: var(--mi-theme, @mi-theme);

@@ -2,6 +2,7 @@
 
 @mi-quotes: ~'@{mi-prefix}quotes';
 .@{mi-quotes} {
+    margin: 24px 0;
     padding: 20px 24px;
     .border-radius();
     border-left: 4px solid;
@@ -10,6 +11,10 @@
     color: var(--mi-font, @mi-font);
     font-size: 14px;
     line-height: 26px;
+
+    @media only screen and (max-width: 767px) {
+        padding: 20px;
+    }
 
     .important {
         color: var(--mi-theme, @mi-theme);
