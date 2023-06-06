@@ -34,15 +34,13 @@
 
 ## 关于
 
-> :triangular_flag_on_post: `Makeit Admin Pro`，基于 `Vue3.x + Vite4.x`，并结合 `Ant Design Vue` 组件库开发的一套适合中后台管理项目的统一 `UI` 框架。
+> :triangular_flag_on_post: `Makeit Admin Pro` 是基于 `Vue3.x + Vite4.x + Ant Design Vue` 构建开发的一套适合中后台管理项目的 `UI` 框架。
 > >
-> :beginner: 该框架含统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（部分组件已抽离并发布于 `Npm`，可单独安装使用）。
+> :beginner: 框架内置了统一风格的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用（有部分组件已抽离并发布于 `Npm`，可单独安装使用）。
 > >
-> :lollipop: 集成这套框架的主要目的为了免去中后台管理项目中，基础又重复的页面构建，如各个项目的基础布局，登录 / 注册 / 忘记密码等模块，让开发人员能更加专注于业务内容的开发，无需花费过多的时间在基础构建上。该框架封装了 `Axios` / `Cookie` / `Storage` 等常用的基础基础功能，如 `cookie` 可通过如 `this.$cookie` 形式直接调用，同时也支持开发人员自行定制，易于扩展。现阶段还在不断完善，持续开发更新中 ...
+> :lollipop: 设计这套框架的初衷是为了免去中后台管理项目中，基础又重复的页面构建，如各个项目的基础布局，登录 / 注册 / 忘记密码等模块，让开发人员能更加专注于业务内容的开发，无需花费过多的时间在基础构建上。框架封装了 `Axios` / `Cookie` / `Storage` 等常用的基础基础功能，如 `cookie` 可通过如 `this.$cookie` 形式直接调用，同时也支持开发人员自行定制，易于扩展。现阶段还在不断完善，持续开发更新中 ...
 > >
-> :bug: 该框架并不一定适合所有人的需求，若您看到或是尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或有更多的定制化需求，组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽力去解决相应的 `BUG`。对于合理的定制化需求，我也会采纳并且去完善相应的定制化需求。
-> >
-> :warning: 注：现在 [https://admin.makeit.vip](https://admin.makeit.vip) 站点内看到的页面是基于 1.x 版本的效果，2.x 版本的示例站点正在开发中，2.x 版本的页面效果及组件效果都做了诸多调整，敬请期待 ~
+> :bug: 该框架并不一定适合所有人的需求，若您看到或是尝试使用了该框架 :innocent: 对该框架的 `UI` 或功能组件的使用有更好的建议，或组件存在 `BUG` 等，欢迎来 [这里](https://github.com/lirongtong/miitvip-vue-admin-manager/issues) 提 `issues`，我将尽力去解决相应的需求及问题。
 
 ## 全局应用
 
@@ -163,6 +161,7 @@ app.mount('#app')
 
     const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
 
+    // 全局变量, 直接设定左侧菜单
     vm.$g.menus.items = [{
         name: 'dashboard',
         path: '/dashboard',
@@ -176,6 +175,7 @@ app.mount('#app')
         // ... sider menu
     }]
     
+    // 搜索数据
     const searchData = [{
         title: '页面布局',
         content: '基于 Layout 组件的二次定制',
