@@ -1,0 +1,36 @@
+@import '../core/variables.less';
+@import '../theme/index.less';
+
+@ant-card: ant-card;
+.@{ant-card} {
+    &.@{mi-prefix}card {
+        border: 1px solid var(--mi-theme, @mi-theme);
+        .border-radius();
+        background: var(--mi-dark-grey, @mi-dark-grey);
+
+        .@{ant-card} {
+            &-head {
+                color: var(--mi-card-tab, @mi-card-tab);
+                border-bottom-color: var(--mi-theme, @mi-theme);
+    
+                & .@{ant-tabs} {
+                    &-bar {
+                        border-bottom-color: var(--mi-theme, @mi-theme);
+                    }
+    
+                    &-tab {
+                        color: var(--mi-card-tab, @mi-card-tab);
+    
+                        &-active {
+                            color: var(--mi-theme, @mi-theme);
+                        }
+                    }
+                }
+            }
+    
+            &-body {
+                color: var(--mi-card-tab, @mi-card-tab);
+            }
+        }
+    }
+}
