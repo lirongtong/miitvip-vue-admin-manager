@@ -6,8 +6,7 @@ import {
     nextTick,
     onMounted,
     onBeforeUnmount,
-    watch,
-    Transition
+    watch
 } from 'vue'
 import {
     LeftOutlined,
@@ -39,8 +38,7 @@ export default defineComponent({
     name: 'MiHistory',
     inheritAttrs: false,
     props: {
-        prefixCls: PropTypes.string,
-        animation: PropTypes.string.def('anim-scale')
+        prefixCls: PropTypes.string
     },
     setup(props) {
         const prefixCls = getPrefixCls('layout-route-history', props.prefixCls)
@@ -50,7 +48,6 @@ export default defineComponent({
         const { t } = useI18n()
         const collapsed = computed(() => store.getters['layout/collapsed'])
         const routes = computed(() => store.getters['layout/routes'])
-        const animation = getPrefixCls(props.animation)
         const params = reactive({
             max: 0,
             offset: 0,
@@ -258,19 +255,17 @@ export default defineComponent({
                     const item = routes.value[name] as RouteHistory
                     const cls = `${prefixCls}-item${params.current === item.name ? ' active' : ''}`
                     items.push(
-                        <Transition name={animation} appear={true}>
-                            <div class={cls} key={name} id={`${prefixCls}-item-${item.name}`}>
-                                <span innerHTML={item.title} />
-                                <div
-                                    class={`${prefixCls}-item-mask`}
-                                    onClick={() => redirectRouteHistory(item)}
-                                />
-                                <CloseOutlined
-                                    onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)}
-                                    class={`${prefixCls}-item-close`}
-                                />
-                            </div>
-                        </Transition>
+                        <div class={cls} key={name} id={`${prefixCls}-item-${item.name}`}>
+                            <span innerHTML={item.title} />
+                            <div
+                                class={`${prefixCls}-item-mask`}
+                                onClick={() => redirectRouteHistory(item)}
+                            />
+                            <CloseOutlined
+                                onClick={(evt: MouseEvent) => removeRouteHistory(item, evt)}
+                                class={`${prefixCls}-item-close`}
+                            />
+                        </div>
                     )
                 }
             }
