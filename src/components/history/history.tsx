@@ -101,22 +101,21 @@ export default defineComponent({
         }
 
         const initRouteHistoryScroll = (): Promise<any> => {
-            return new Promise((resolve, reject) => {
-                nextTick().then(() => {
-                    if (containerRef.value && listRef.value && itemsRef.value) {
-                        // TODO: transition .4s
-                        setTimeout(() => {
-                            const listWidth = (listRef.value as HTMLElement).clientWidth
-                            const itemsWidth = (itemsRef.value as HTMLElement).clientWidth
-                            const max = itemsWidth - listWidth
-                            params.scroll = max > 0
-                            params.middle = Math.floor(listWidth / 2)
-                            if (params.scroll) params.max = itemsWidth - listWidth
-                            else params.max = max > 0 ? max : 0
-                            return resolve([])
-                        }, params.delay)
-                    } else return reject()
-                })
+            return new Promise(async (resolve, reject) => {
+                await nextTick()
+                if (containerRef.value && listRef.value && itemsRef.value) {
+                    // TODO: transition .4s
+                    setTimeout(() => {
+                        const listWidth = (listRef.value as HTMLElement).clientWidth
+                        const itemsWidth = (itemsRef.value as HTMLElement).clientWidth
+                        const max = itemsWidth - listWidth
+                        params.scroll = max > 0
+                        params.middle = Math.floor(listWidth / 2)
+                        if (params.scroll) params.max = itemsWidth - listWidth
+                        else params.max = max > 0 ? max : 0
+                        return resolve([])
+                    }, params.delay)
+                } else return reject()
             })
         }
 

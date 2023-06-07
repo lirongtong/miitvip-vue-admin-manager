@@ -53,26 +53,28 @@ const Anchor = defineComponent({
         })
 
         onMounted(() => {
-            nextTick(() => {
-                let container: any = document
-                if (props.collectContainer)
-                    container = document.querySelector(props.collectContainer) as HTMLElement
-                params.list = parseAnchorData(container.querySelectorAll(props.selector))
-                params.linkTemplate = []
-                nextTick(() => {
-                    if (anchorRef.value) {
-                        const height = (anchorRef.value as HTMLElement).clientHeight
-                        const offset = $tools.getElementActualTopOrLeft(anchorRef.value)
-                        params.stickTop = Math.round((offset + height / 2 - 66) * 100) / 100
-                    }
-                    if (!params.hover) {
-                        params.visible = false
-                        params.stick = true
-                    }
-                })
-                $tools.on(document.body, 'scroll', scrollBody)
-            })
+            nextTick(() => init())
         })
+
+        const init = () => {
+            let container: any = document
+            if (props.collectContainer)
+                container = document.querySelector(props.collectContainer) as HTMLElement
+            params.list = parseAnchorData(container.querySelectorAll(props.selector))
+            params.linkTemplate = []
+            nextTick(() => {
+                if (anchorRef.value) {
+                    const height = (anchorRef.value as HTMLElement).clientHeight
+                    const offset = $tools.getElementActualTopOrLeft(anchorRef.value)
+                    params.stickTop = Math.round((offset + height / 2 - 66) * 100) / 100
+                }
+                if (!params.hover) {
+                    params.visible = false
+                    params.stick = true
+                }
+            })
+            $tools.on(document.body, 'scroll', scrollBody)
+        }
 
         const parseAnchorData = (nodes: HTMLElement[]) => {
             const data: any[] = []
