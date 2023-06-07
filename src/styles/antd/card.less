@@ -2,27 +2,51 @@
 @import '../theme/index.less';
 
 @ant-card: ant-card;
+@ant-tabs: ant-tabs;
 .@{ant-card} {
     &.@{mi-prefix}card {
-        border: 1px solid var(--mi-theme, @mi-theme);
-        .border-radius();
-        background: var(--mi-dark-grey, @mi-dark-grey);
+        background: transparent;
+        border: unset;
 
         .@{ant-card} {
             &-head {
                 color: var(--mi-card-tab, @mi-card-tab);
                 border-bottom-color: var(--mi-theme, @mi-theme);
+                border-bottom: unset;
+                margin-bottom: unset;
     
                 & .@{ant-tabs} {
+                    &-nav {
+                        &:before {
+                            border-bottom: none;
+                        }
+                    }
+
                     &-bar {
                         border-bottom-color: var(--mi-theme, @mi-theme);
+                    }
+
+                    &-ink-bar {
+                        display: none;
                     }
     
                     &-tab {
                         color: var(--mi-card-tab, @mi-card-tab);
+                        .border-radius();
+                        .properties(padding-left, 16);
+                        .properties(padding-right, 16);
+                        .properties(padding-top, 12);
     
                         &-active {
+                            background: var(--mi-dark-grey, @mi-dark-grey);
+                            border-top: 4px solid var(--mi-theme, @mi-theme);
+                            .linear-gradient-background();
+                        }
+
+                        &-active &-btn {
                             color: var(--mi-theme, @mi-theme);
+                            text-shadow: none;
+                            font-size: 14px;
                         }
                     }
                 }
@@ -30,6 +54,20 @@
     
             &-body {
                 color: var(--mi-card-tab, @mi-card-tab);
+                background: var(--mi-dark-grey, @mi-dark-grey);
+                border: 1px solid;
+                border-color: var(--mi-theme, @mi-theme);
+                .border-radius();
+                .linear-gradient-background();
+            }
+        }
+
+        &-code {
+            .@{ant-card} {
+                &-head {
+                    padding-left: 0;
+                    padding-right: 0;
+                }
             }
         }
     }
