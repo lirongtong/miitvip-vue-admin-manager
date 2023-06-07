@@ -39,7 +39,8 @@ export default defineComponent({
     name: 'MiHistory',
     inheritAttrs: false,
     props: {
-        prefixCls: PropTypes.string
+        prefixCls: PropTypes.string,
+        animation: PropTypes.string.def('anim-scale')
     },
     setup(props) {
         const prefixCls = getPrefixCls('layout-route-history', props.prefixCls)
@@ -49,7 +50,7 @@ export default defineComponent({
         const { t } = useI18n()
         const collapsed = computed(() => store.getters['layout/collapsed'])
         const routes = computed(() => store.getters['layout/routes'])
-        const animation = getPrefixCls('anim-scale')
+        const animation = getPrefixCls(props.animation)
         const params = reactive({
             max: 0,
             offset: 0,
@@ -81,9 +82,7 @@ export default defineComponent({
 
         const initRouteHistory = (collect = true) => {
             if (collect) collectRouteHistory()
-            initRouteHistoryScroll().then(() => {
-                redirectRouteHistory(params.active)
-            })
+            initRouteHistoryScroll()
         }
 
         const collectRouteHistory = () => {
@@ -100,9 +99,8 @@ export default defineComponent({
             } else params.active = routes.value[params.current]
         }
 
-        const initRouteHistoryScroll = (): Promise<any> => {
-            return new Promise(async (resolve, reject) => {
-                await nextTick()
+        const initRouteHistoryScroll = () => {
+            nextTick().then(() => {
                 if (containerRef.value && listRef.value && itemsRef.value) {
                     // TODO: transition .4s
                     setTimeout(() => {
@@ -113,9 +111,9 @@ export default defineComponent({
                         params.middle = Math.floor(listWidth / 2)
                         if (params.scroll) params.max = itemsWidth - listWidth
                         else params.max = max > 0 ? max : 0
-                        return resolve([])
+                        redirectRouteHistory(params.active)
                     }, params.delay)
-                } else return reject()
+                }
             })
         }
 
@@ -225,11 +223,7 @@ export default defineComponent({
             params.offset = -(offset >= params.max ? params.max : offset)
         }
 
-        const windowResize = () => {
-            initRouteHistoryScroll().then(() => {
-                redirectRouteHistory(params.active)
-            })
-        }
+        const windowResize = () => initRouteHistoryScroll()
 
         const renderBtn = (clickHandler: (...args: any) => any, type = 'prev') => {
             const icon =
