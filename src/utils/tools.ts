@@ -336,8 +336,13 @@ class MiTools {
     scrollTop(el: any, from = 0, to: number, duration = 800, endCallback?: Function) {
         const difference = Math.abs(from - to)
         const step = Math.ceil((difference / duration) * 50)
+        if (duration === 0) {
+            el.scrollTop = 0
+            endCallback && endCallback()
+            return
+        }
         let rid: number
-        function scroll(start: number, end: number, step: number, vm) {
+        function scroll(start: number, end: number, step: number, vm: any) {
             if (start === end) {
                 if (rid) vm.caf(rid)
                 endCallback && endCallback()
@@ -356,10 +361,11 @@ class MiTools {
      * back to top.
      * @param offset
      * @param duration
+     * @param endCallback
      */
-    back2top(offset = 0, duration = 1000) {
+    back2top(offset = 0, duration = 1000, endCallback?: Function) {
         const top = offset ?? (document.documentElement.scrollTop || document.body.scrollTop)
-        this.scrollTop(document.body, top, 0, duration)
+        this.scrollTop(document.body, top, 0, duration, endCallback)
     }
 
     /**

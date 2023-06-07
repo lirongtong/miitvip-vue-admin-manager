@@ -173,8 +173,10 @@ export default {
             })
 
             router.beforeEach((_to, _from, next) => {
-                NProgress.start()
-                next()
+                $tools.back2top(0, 0, () => {
+                    NProgress.start()
+                    next()
+                })
             })
             router.afterEach(() => NProgress.done())
 
