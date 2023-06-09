@@ -29,7 +29,7 @@ export const $g = reactive({
         }
     } as { [index: string]: any },
     background: {
-        default: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7Z_ieAVz4DAAAdR-zeJvg322.svg',
+        default: 'https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGSCzBWATJtjAAI9djv0Nh4271.jpg',
         captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
     } as { [index: string]: any },
     keywords:

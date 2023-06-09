@@ -36,8 +36,8 @@ const lessDirs = [
 const orderLessDirs = [
     dirs.src + '/components/**/**/extra.less',
     dirs.src + '/styles/antd/*.less',
-    dirs.src + '/styles/core/*.less',
-    dirs.src + '/components/**/**/index.less'
+    dirs.src + '/components/**/**/!(extra)*.less',
+    dirs.src + '/styles/core/*.less'
 ]
 
 const renderLess = async (data, file) => {
