@@ -3,6 +3,7 @@
 
 @ant-card: ant-card;
 @ant-tabs: ant-tabs;
+
 .@{ant-card} {
     &.@{mi-prefix}card-tab {
         background: transparent;
@@ -15,7 +16,7 @@
                 margin-bottom: unset;
                 padding-left: 0;
                 padding-right: 0;
-    
+
                 & .@{ant-tabs} {
                     margin-bottom: 0;
 
@@ -31,6 +32,19 @@
                             .border-radius(64);
                             border: 1px solid;
                             border-color: var(--mi-border, @mi-border);
+
+                            @media only screen and (max-width: 767px) {
+                                padding: 0px;
+                                border-radius: 0px;
+                                background: transparent;
+                                border: none;
+                            }
+                        }
+
+                        & &-more {
+                            .anticon {
+                                color: var(--mi-font, @mi-font);
+                            }
                         }
                     }
 
@@ -45,17 +59,25 @@
                         .linear-gradient-background-theme();
                         z-index: -1;
                     }
-    
+
                     &-tab {
                         color: var(--mi-font, @mi-font);
                         .border-radius();
                         .properties(padding-left, 16);
                         .properties(padding-right, 16);
                         .properties(padding-top, 16);
-                        
-                        > div,
-                        > div:hover,
-                        > div:focus {
+
+                        @media only screen and (max-width: 767px) {
+                            .properties(margin-left, 16);
+
+                            &:first-child {
+                                margin-left: 0;
+                            }
+                        }
+
+                        >div,
+                        >div:hover,
+                        >div:focus {
                             font-weight: 700;
                             .properties(font-size, 14);
                             text-shadow: none;
@@ -63,17 +85,18 @@
                         }
 
                         &-active {
-                            > div,
-                            > div:hover,
-                            > div:focus {
+
+                            >div,
+                            >div:hover,
+                            >div:focus {
                                 color: var(--mi-dark, @mi-dark);
                             }
-                            
+
                         }
                     }
                 }
             }
-    
+
             &-body {
                 color: var(--mi-font, @mi-font);
                 border: 1px solid;
