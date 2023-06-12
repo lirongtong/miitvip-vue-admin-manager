@@ -68,6 +68,11 @@
                 .letter-spacing();
                 .flex();
 
+                @media only screen and (max-width: 767px) {
+                    .properties(padding-left, 8);
+                    .properties(padding-right, 8);
+                }
+
                 .@{ant}icon {
                     color: var(--mi-font, @mi-font);
                 }
