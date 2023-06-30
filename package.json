@@ -1,6 +1,6 @@
 {
     "name": "makeit-admin-pro",
-    "version": "2.1.345",
+    "version": "2.1.346",
     "author": {
         "url": "https://admin.makeit.vip",
         "name": "lirongtong",
@@ -44,6 +44,7 @@
     "main": "lib/index.js",
     "module": "es/index.js",
     "unpkg": "dist/miitvip.min.js",
+    "typings": "lib/index.d.ts",
     "scripts": {
         "dev": "vite --port 5174",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
@@ -66,7 +67,10 @@
         "vue-i18n": "^9.2.2",
         "vue-router": "^4.2.2",
         "vue-types": "^5.0.3",
-        "vuex": "^4.1.0"
+        "vuex": "^4.1.0",
+        "@types/node": "^18.13.0",
+        "@types/nprogress": "^0.2.0",
+        "@types/prismjs": "^1.26.0"
     },
     "devDependencies": {
         "@babel/core": "^7.19.6",
@@ -83,9 +87,6 @@
         "@babel/preset-env": "^7.19.4",
         "@babel/preset-typescript": "^7.18.6",
         "@intlify/unplugin-vue-i18n": "^0.8.1",
-        "@types/node": "^18.13.0",
-        "@types/nprogress": "^0.2.0",
-        "@types/prismjs": "^1.26.0",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
         "@vitejs/plugin-vue": "^4.0.0",

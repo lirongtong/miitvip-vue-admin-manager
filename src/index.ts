@@ -82,6 +82,7 @@ const install = (app: App) => {
 }
 
 export {
+    api,
     global,
     cookie,
     storage,
