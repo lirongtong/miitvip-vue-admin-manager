@@ -1,12 +1,14 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 import i18n from './locales'
+
 import mixins from './utils/mixins'
-import { default as api } from './utils/api'
-import global from './utils/global'
-import cookie from './utils/cookie'
-import storage from './utils/storage'
-import request from './utils/request'
-import tools from './utils/tools'
+import { default as Api, api } from './utils/api'
+import global, { $g } from './utils/global'
+import cookie, { $cookie } from './utils/cookie'
+import storage, { $storage } from './utils/storage'
+import request, { $request } from './utils/request'
+import tools, { $tools } from './utils/tools'
+
 import async from './utils/async'
 import prism from './directives/prism'
 import inputLimit from './directives/input_limit'
@@ -35,7 +37,7 @@ import { default as AppsManagement } from './components/management/application'
 
 const components = [
     i18n,
-    api,
+    Api,
     global,
     cookie,
     storage,
@@ -82,7 +84,7 @@ const install = (app: App) => {
 }
 
 export {
-    api,
+    Api,
     global,
     cookie,
     storage,
@@ -110,6 +112,51 @@ export {
     LanguageManagement,
     MenuManagement,
     AppsManagement
+}
+
+declare module '@vue/runtime-core' {
+    export interface ComponentCustomProperties {
+        $g: typeof $g
+        api: typeof api
+        $tools: typeof $tools
+        $request: typeof $request
+        $cookie: typeof $cookie
+        $storage: typeof $storage
+        $modal: typeof Modal
+    }
+
+    export interface GlobalComponents {
+        MiLayout: typeof Layout
+        MiLayoutHeader: typeof Layout.Header
+        MiLayoutSide: typeof Layout.Side
+        MiLayoutContent: typeof Layout.Content
+        MiLayoutFooter: typeof Layout.Footer
+        MiNotice: typeof Notice
+        MiNoticeTab: typeof Notice.Tab
+        MiNoticeItem: typeof Notice.Item
+        MiMenu: typeof Menu
+        MiSubMenu: typeof Menu.SubMenu
+        MiMenuItem: typeof Menu.Item
+        MiMenuItemLink: typeof Menu.Link
+        MiDropdown: typeof Dropdown
+        MiClock: typeof Clock
+        MiSearch: typeof Search
+        MiSearchKey: typeof Search.Key
+        MiCaptcha: typeof Captcha
+        MiPassword: typeof Password
+        MiAnchor: typeof Anchor
+        MiModal: typeof Modal
+        MiLogin: typeof Login
+        MiRegister: typeof Register
+        MiForget: typeof Forget
+        MiHistory: typeof History
+        MiCode: typeof Code
+        MiTitle: typeof Title
+        MiQuotes: typeof Quotes
+        MiLanguageManagement: typeof LanguageManagement
+        MenuManagement: typeof MenuManagement
+        AppsManagement: typeof AppsManagement
+    }
 }
 
 export default {

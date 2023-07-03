@@ -162,8 +162,7 @@ const compile = (library) => {
         dirs.src + '/**/*.js',
         dirs.src + '/**/*.jsx',
         dirs.src + '/**/*.ts',
-        dirs.src + '/**/*.tsx',
-        'types/**/*.d.ts'
+        dirs.src + '/**/*.tsx'
     ]
     const tsResult = gulp.src(sources)
         .pipe(ts(tsConfig(library), {

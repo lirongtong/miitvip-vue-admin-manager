@@ -463,6 +463,10 @@ class MiTools {
         }
         return fields
     }
+
+    install(app: App): App {
+        return app
+    }
 }
 
 export const $tools: MiTools = new MiTools()

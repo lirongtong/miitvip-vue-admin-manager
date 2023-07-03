@@ -86,6 +86,10 @@ class MiStorage {
             type === 'local' ? localStorage : type === 'session' ? sessionStorage : localStorage
         return this
     }
+
+    install(app: App): App {
+        return app
+    }
 }
 
 export const $storage: MiStorage = new MiStorage()

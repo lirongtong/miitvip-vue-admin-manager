@@ -84,6 +84,10 @@ class MiRequest {
                 return Promise.reject(err)
             })
     }
+
+    install(app: App): App {
+        return app
+    }
 }
 
 export const $request = new MiRequest() as any

@@ -1,4 +1,4 @@
-import { App, reactive } from 'vue'
+import { type App, reactive } from 'vue'
 import {
     GithubOutlined,
     WeiboCircleOutlined,
@@ -182,6 +182,10 @@ export const $g = reactive({
     copyright: {
         pc: `&copy; Copyright 2020 - ${now} <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号</a> )`,
         mobile: `&copy; Copyright ${now} <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>`
+    },
+
+    install: (app: App): App => {
+        return app
     }
 })
 

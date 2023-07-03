@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 import { $g } from './global'
 
 /**
@@ -61,6 +61,10 @@ class MiCookie {
         } else {
             this.set(names, '', -1, prefix)
         }
+    }
+
+    install(app: App): App {
+        return app
     }
 }
 
