@@ -1,6 +1,6 @@
 {
     "name": "makeit-admin-pro",
-    "version": "2.1.346",
+    "version": "2.1.347",
     "author": {
         "url": "https://admin.makeit.vip",
         "name": "lirongtong",
@@ -44,7 +44,7 @@
     "main": "lib/index.js",
     "module": "es/index.js",
     "unpkg": "dist/miitvip.min.js",
-    "typings": "lib/index.d.ts",
+    "types": "lib/index.d.ts",
     "scripts": {
         "dev": "vite --port 5174",
         "lint": "eslint -c ./.eslintrc --ext .jsx,.js,.vue,.ts ./src",
