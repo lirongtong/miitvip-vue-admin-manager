@@ -17,11 +17,13 @@ import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Menu } from './components/menu'
 import { default as Dropdown } from './components/dropdown'
+import { default as DropdownItem } from './components/dropdown/item'
 import { default as Clock } from './components/clock'
 import { default as Search } from './components/search'
 import { default as Captcha } from './components/captcha'
 import { default as Password } from './components/password'
 import { default as Anchor } from './components/anchor'
+import { default as AnchorLink } from './components/anchor/link'
 import { default as Modal } from './components/modal'
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
@@ -139,12 +141,14 @@ declare module '@vue/runtime-core' {
         MiMenuItem: typeof Menu.Item
         MiMenuItemLink: typeof Menu.Link
         MiDropdown: typeof Dropdown
+        MiDropdownItem: typeof DropdownItem
         MiClock: typeof Clock
         MiSearch: typeof Search
         MiSearchKey: typeof Search.Key
         MiCaptcha: typeof Captcha
         MiPassword: typeof Password
         MiAnchor: typeof Anchor
+        MiAnchorLink: typeof AnchorLink
         MiModal: typeof Modal
         MiLogin: typeof Login
         MiRegister: typeof Register

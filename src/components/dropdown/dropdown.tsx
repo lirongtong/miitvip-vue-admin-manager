@@ -1,4 +1,4 @@
-import { defineComponent, isVNode, watch, h, PropType, SlotsType } from 'vue'
+import { defineComponent, watch, PropType, SlotsType } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useStore } from 'vuex'
 import type { Trigger } from 'ant-design-vue/lib/dropdown/props'
@@ -87,11 +87,7 @@ export default defineComponent({
         const getTitle = () => {
             const title = getPropSlot(slots, props, 'title')
             return title ? (
-                isVNode(title) ? (
-                    title
-                ) : (
-                    h(title)
-                )
+                <div class={prefixCls}>{title}</div>
             ) : (
                 <div class={prefixCls}>
                     <Avatar

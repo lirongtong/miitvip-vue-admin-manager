@@ -6,7 +6,8 @@ import {
     nextTick,
     onMounted,
     onBeforeUnmount,
-    watch
+    watch,
+    createVNode
 } from 'vue'
 import {
     LeftOutlined,
@@ -285,7 +286,7 @@ export default defineComponent({
             return (
                 <div class={`${prefixCls}-menu`}>
                     <MiDropdown
-                        title={DownOutlined}
+                        title={createVNode(DownOutlined)}
                         items={[
                             {
                                 icon: ArrowLeftOutlined,
