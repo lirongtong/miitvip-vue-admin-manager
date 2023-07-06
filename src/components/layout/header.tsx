@@ -29,6 +29,7 @@ export default defineComponent({
         stretch: any
         notice: any
         dropdown: any
+        breadcrumb: any
         extra: any
     }>,
     setup(props, { slots }) {
@@ -165,7 +166,7 @@ export default defineComponent({
                         {renderStretch()}
                     </div>
                     <div class={`${headerCls.trigger}`}>
-                        <MiBreadcrumb />
+                        {getPropSlot(slots, props, 'breadcrumb') ?? <MiBreadcrumb />}
                     </div>
                 </div>
                 {/* right */}
