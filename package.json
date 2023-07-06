@@ -25,7 +25,7 @@
         "ui components",
         "麦可易特网"
     ],
-    "description": "A unified template used to backend management built on Vue3.x + Vite2.x + Ant Design Vue 3.x.",
+    "description": "A unified template used to backend management built on Vue3.x + Vite4.x + Ant Design Vue 3.x.",
     "private": false,
     "license": "MIT",
     "repository": {

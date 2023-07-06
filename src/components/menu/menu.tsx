@@ -2,7 +2,7 @@ import { defineComponent, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import PropTypes from '../_utils/props-types'
-import { tuple, getPrefixCls } from '../_utils/props-tools'
+import { getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { mutations } from '../../store/types'
 import { Menu } from 'ant-design-vue'
@@ -31,8 +31,7 @@ export declare interface MenuItems {
 export const menuProps = () => ({
     prefixCls: String,
     items: PropTypes.array,
-    indent: PropTypes.number.def(16),
-    mode: PropTypes.oneOf(tuple('vertical', 'inline')).def('inline')
+    indent: PropTypes.number.def(16)
 })
 
 export default defineComponent({
