@@ -33,7 +33,7 @@ export const dropdownProps = () => ({
     overlay: PropTypes.any
 })
 
-export default defineComponent({
+const MiDropdown = defineComponent({
     name: 'MiDropdown',
     inheritAttrs: false,
     props: dropdownProps(),
@@ -123,3 +123,9 @@ export default defineComponent({
         )
     }
 })
+
+MiDropdown.Item = MiDropdownItem
+
+export default MiDropdown as typeof MiDropdown & {
+    readonly Item: typeof MiDropdownItem
+}
