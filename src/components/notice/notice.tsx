@@ -11,6 +11,7 @@ export const noticeProps = () => ({
     prefixCls: String,
     icon: PropTypes.any,
     iconSize: PropTypes.number,
+    iconColor: PropTypes.string.def('#fff'),
     noDataTip: PropTypes.string.def('No Message ~ Enjoy your day.'),
     count: PropTypes.number.def(0),
     dot: PropTypes.bool.def(true),
@@ -108,13 +109,14 @@ export default defineComponent({
 
             const renderIcon = () => {
                 const icon = getPropSlot(slots, props, 'icon')
-                const size = (
-                    props.iconSize ? `font-size: ${$tools.px2Rem(props.iconSize)}` : null
-                ) as any
+                const style = {
+                    fontSize: props.iconSize ? $tools.convert2Rem(props.iconSize) : null,
+                    color: props.iconColor ?? null
+                }
                 return (
                     <div class={`${prefixCls}-icon`}>
                         <Badge count={props.count} dot={props.dot}>
-                            {icon ?? <BellOutlined style={size}></BellOutlined>}
+                            {icon ?? <BellOutlined style={style}></BellOutlined>}
                         </Badge>
                     </div>
                 )

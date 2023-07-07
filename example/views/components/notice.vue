@@ -1,3 +1,3 @@
 <template>
-    Notice
+    <mi-notice :icon-size="24" />
 </template>
