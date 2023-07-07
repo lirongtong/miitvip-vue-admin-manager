@@ -1,5 +1,5 @@
 /* eslint-disable import/namespace */
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref, createVNode } from 'vue'
 import { menuManagementProps, type MenusDataItem } from './props'
 import { getPrefixCls } from '../../_utils/props-tools'
 import { $request } from '../../../utils/request'
@@ -135,14 +135,12 @@ export default defineComponent({
                                     </a>
                                     <span></span>
                                     <MiDropdown
-                                        title={() => {
-                                            return (
-                                                <a class="more">
-                                                    <AntdvIcons.MoreOutlined />
-                                                    {t('more')}
-                                                </a>
-                                            )
-                                        }}
+                                        title={createVNode(
+                                            <a class="more">
+                                                <AntdvIcons.MoreOutlined />
+                                                {t('more')}
+                                            </a>
+                                        )}
                                         items={getDropdownItems(record.record)}></MiDropdown>
                                 </div>
                             )
@@ -554,7 +552,9 @@ export default defineComponent({
                     onCancel={handleIconsModal}
                     zIndex={Date.now()}
                     width={width.value < 768 ? '100%' : 720}>
-                    <Tabs v-model:activeKey={params.tabs.active} class={`${$g.prefix}tabs`}>
+                    <Tabs
+                        v-model:activeKey={params.tabs.active}
+                        class={`${$g.prefix}tabs ${$g.prefix}icon-tabs`}>
                         <TabPane key="directional" tab={t('menus.icons.directional')}>
                             {...icons.directional}
                         </TabPane>

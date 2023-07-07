@@ -49,6 +49,7 @@ export default defineComponent({
         return () => {
             const { t, locale } = useI18n()
             const prefixCls = getPrefixCls('notice', props.prefixCls)
+            const tabPrefixCls = getPrefixCls('tabs', props.prefixCls)
             const langCls = getPrefixCls(`lang-${locale.value}`)
             const emptyCls = `${prefixCls}-empty`
 
@@ -147,8 +148,15 @@ export default defineComponent({
             const renderContent = () => {
                 const panes = renderTabPanes()
                 const len = panes.length
-                let content = len > 1 ? <Tabs onChange={props.tabChange}>{...panes}</Tabs> : panes
-                if (len <= 0) content = renderEmpty()
+                let content =
+                    len > 1 ? (
+                        <Tabs class={tabPrefixCls} onChange={props.tabChange}>
+                            {...panes}
+                        </Tabs>
+                    ) : (
+                        panes
+                    )
+                if (len <= 0) content = getPropSlot(slots, props) ?? renderEmpty()
                 return (
                     <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>
                         {content}

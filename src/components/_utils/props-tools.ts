@@ -63,7 +63,7 @@ const getSlot = (instance: any, name = 'default', options = {}) => {
     if (isVNode(instance)) {
         if (instance.type === Fragment) {
             return name === 'default' ? flattenChildren(instance?.children as any[]) : []
-        } else if ((instance?.children as any[])[name]) {
+        } else if (instance?.children && instance.children[name]) {
             return flattenChildren((instance?.children as any[])[name](options))
         } else {
             return []

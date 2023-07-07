@@ -2,6 +2,7 @@
 @import '../theme/index.less';
 
 @mi-tabs: ~'@{mi-prefix}tabs';
+@mi-icon-tabs: ~'@{mi-prefix}icon-tabs';
 @ant-tabs: ant-tabs;
 .@{mi-tabs} {
     .@{ant-tabs} {
@@ -30,12 +31,6 @@
         }
     
         &-tabpane {
-            .grid(11, 4);
-
-            @media only screen and (max-width: 768px) {
-                .grid(5, 4);
-            }
-
             .properties(max-height, 420);
             overflow-y: auto;
             overflow-x: hidden;
@@ -54,6 +49,18 @@
                     .linear-gradient-background-theme();
                     color: var(--mi-font, @mi-font);
                 }
+            }
+        }
+    }
+}
+
+.@{mi-icon-tabs} {
+    .@{ant-tabs} {
+        &-tabpane {
+            .grid(11, 4);
+
+            @media only screen and (max-width: 768px) {
+                .grid(5, 4);
             }
         }
     }

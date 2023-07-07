@@ -113,8 +113,10 @@
     &table {
         &-btns {
             .properties(min-width, 148);
+            .flex();
             
-            > a {
+            > a,
+            .@{mi-prefix}dropdown > a {
                 .properties(padding-top, 4);
                 .properties(padding-bottom, 4);
                 .properties(padding-left);
@@ -140,6 +142,8 @@
                 }
 
                 &.more {
+                    .properties(padding-top, 5.5);
+                    .properties(padding-bottom, 5.5);
                     background-color: var(--mi-warning, @mi-warning);
                 }
 
