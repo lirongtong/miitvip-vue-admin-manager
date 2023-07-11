@@ -127,12 +127,14 @@ export default defineComponent({
             const renderTabPanes = () => {
                 const tabs = getPropSlot(slots, props)
                 const panes: any[] = []
+                let content: any
                 if (tabs && tabs.length > 0) {
+                    const hasTab = tabs[0].type.name === 'MiNoticeTab'
                     tabs.map((tab: any) => {
                         const title = getSlotContent(tab, 'title')
                         const content = getSlot(tab)
                         panes.push(
-                            props.hasTab ? (
+                            props.hasTab || hasTab ? (
                                 <Tabs.TabPane key={tab.props.name} tab={title}>
                                     {content ?? tab}
                                 </Tabs.TabPane>
@@ -141,24 +143,23 @@ export default defineComponent({
                             )
                         )
                     })
-                }
-                return [...panes]
+                    content =
+                        props.hasTab || hasTab ? (
+                            <Tabs class={tabPrefixCls} onChange={props.tabChange}>
+                                {...panes}
+                            </Tabs>
+                        ) : (
+                            [...panes]
+                        )
+                } else content = null
+                return content
             }
 
             const renderContent = () => {
-                const panes = renderTabPanes()
-                const len = panes.length
-                let content = props.hasTab ? (
-                    <Tabs class={tabPrefixCls} onChange={props.tabChange}>
-                        {...panes}
-                    </Tabs>
-                ) : (
-                    panes
-                )
-                if (len <= 0) content = getPropSlot(slots, props) ?? renderEmpty()
+                const content = renderTabPanes()
                 return (
-                    <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>
-                        {content}
+                    <div class={`${prefixCls}-content${!content ? ` ${emptyCls}` : ''}`}>
+                        {content ?? renderEmpty()}
                     </div>
                 )
             }
