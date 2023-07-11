@@ -29,12 +29,21 @@
         &-ink-bar {
             .linear-gradient-background-theme();
         }
-    
+    }
+}
+
+.@{mi-icon-tabs} {
+    .@{ant-tabs} {
         &-tabpane {
+            .grid(11, 4);
             .properties(max-height, 420);
             overflow-y: auto;
             overflow-x: hidden;
-    
+
+            @media only screen and (max-width: 768px) {
+                .grid(5, 4);
+            }
+
             .anticon {
                 .properties(width, 48);
                 .properties(height, 48);
@@ -49,18 +58,6 @@
                     .linear-gradient-background-theme();
                     color: var(--mi-font, @mi-font);
                 }
-            }
-        }
-    }
-}
-
-.@{mi-icon-tabs} {
-    .@{ant-tabs} {
-        &-tabpane {
-            .grid(11, 4);
-
-            @media only screen and (max-width: 768px) {
-                .grid(5, 4);
             }
         }
     }

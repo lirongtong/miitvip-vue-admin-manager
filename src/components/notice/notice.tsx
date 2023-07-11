@@ -17,6 +17,7 @@ export const noticeProps = () => ({
     dot: PropTypes.bool.def(true),
     tabChange: PropTypes.func,
     trigger: PropTypes.any.def('click'),
+    hasTab: PropTypes.bool.def(false),
     placement: {
         type: String as PropType<
             | 'top'
@@ -127,12 +128,11 @@ export default defineComponent({
                 const tabs = getPropSlot(slots, props)
                 const panes: any[] = []
                 if (tabs && tabs.length > 0) {
-                    const l = tabs.length
                     tabs.map((tab: any) => {
                         const title = getSlotContent(tab, 'title')
                         const content = getSlot(tab)
                         panes.push(
-                            l > 1 ? (
+                            props.hasTab ? (
                                 <Tabs.TabPane key={tab.props.name} tab={title}>
                                     {content ?? tab}
                                 </Tabs.TabPane>
@@ -148,14 +148,13 @@ export default defineComponent({
             const renderContent = () => {
                 const panes = renderTabPanes()
                 const len = panes.length
-                let content =
-                    len > 1 ? (
-                        <Tabs class={tabPrefixCls} onChange={props.tabChange}>
-                            {...panes}
-                        </Tabs>
-                    ) : (
-                        panes
-                    )
+                let content = props.hasTab ? (
+                    <Tabs class={tabPrefixCls} onChange={props.tabChange}>
+                        {...panes}
+                    </Tabs>
+                ) : (
+                    panes
+                )
                 if (len <= 0) content = getPropSlot(slots, props) ?? renderEmpty()
                 return (
                     <div class={`${prefixCls}-content${len <= 0 ? ` ${emptyCls}` : ''}`}>

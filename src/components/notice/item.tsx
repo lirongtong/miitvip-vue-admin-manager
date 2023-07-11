@@ -9,6 +9,7 @@ export default defineComponent({
         avatarLink: PropTypes.string,
         avatarIcon: PropTypes.any,
         avatarColor: PropTypes.string,
+        avatarImage: PropTypes.string,
         title: PropTypes.any,
         content: PropTypes.any,
         time: PropTypes.string,
@@ -21,8 +22,8 @@ export default defineComponent({
             return dynamic ? <div class={`${prefixCls}-${name}`}>{dynamic}</div> : null
         }
         const getAvatarElem = () => {
-            const icon = getPropSlot(slots, props, 'avatarIcon')
             let avatar: any = null
+            const icon = getPropSlot(slots, props, 'avatarIcon')
             if (props.avatarLink || icon) {
                 const style = props.avatarColor ? { background: props.avatarColor } : null
                 avatar = (
