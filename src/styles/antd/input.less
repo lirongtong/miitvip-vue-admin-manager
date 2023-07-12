@@ -95,6 +95,13 @@
     &-affix {
         &-wrapper {
             .linear-gradient-background();
+
+            > input.@{ant-input} {
+                &:hover,
+                &:focus {
+                    box-shadow: none;
+                }
+            }
         }
     }
 }

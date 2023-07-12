@@ -67,6 +67,9 @@
     &-input {
         border-color: var(--mi-theme, @mi-theme);
         outline: none;
+        border-color: var(--mi-theme, @mi-theme);
+        background: var(--mi-white, @mi-white);
+        box-shadow: none;
 
         &:not(.ant-input-affix-wrapper-disabled) {
             &:hover,
@@ -78,6 +81,11 @@
 
         input.ant-input {
             background: transparent !important;
+
+            &:hover,
+            &:focus {
+                box-shadow: none;
+            }
         }
     }
 }
