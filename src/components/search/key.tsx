@@ -30,6 +30,7 @@ export default defineComponent({
                 elem = h(<props.tag innerHTML={props.data} />)
                 break
         }
-        return props.data ? () => elem : null
+        const content = props.data ? elem : null
+        return () => content
     }
 })

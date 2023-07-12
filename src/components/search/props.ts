@@ -60,5 +60,6 @@ export const searchProps = () => ({
     pageSize: PropTypes.number.def(10),
     pageColor: PropTypes.string,
     pageBorderTopColor: PropTypes.string,
-    colseAfterItemClick: PropTypes.bool.def(false)
+    colseAfterItemClick: PropTypes.bool.def(false),
+    zIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 })

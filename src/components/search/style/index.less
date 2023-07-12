@@ -69,7 +69,7 @@
         .properties(padding-bottom, 6);
         .properties(padding-left, 16);
         .properties(padding-right, 16);
-        width: calc(100% + @mi-overflow-extend);
+        width: 100%;
         height: calc(100% - 72px);
         transition: all @mi-anim-duration ease;
         position: absolute;
@@ -77,6 +77,10 @@
         top: 0;
         overflow-x: hidden;
         overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     &-item {

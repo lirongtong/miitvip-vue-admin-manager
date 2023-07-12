@@ -472,7 +472,11 @@ const MiSearch = defineComponent({
         const style = {
             box: {
                 width: props.width ? $tools.convert2Rem(props.width) : null,
-                height: props.height ? $tools.convert2Rem(props.height) : null
+                height: props.height ? $tools.convert2Rem(props.height) : null,
+                zIndex: props.zIndex ? parseInt(props.zIndex.toString()) : null
+            },
+            mask: {
+                zIndex: props.zIndex ? parseInt(props.zIndex.toString()) - 100 : null
             },
             input: {
                 background: props.backgroundColor ?? null,
@@ -521,7 +525,7 @@ const MiSearch = defineComponent({
                             class={`${prefixCls}-mask`}
                             onClick={handleMaskClick}
                             key={$tools.uid(false, $g.prefix)}
-                            style={{ display: params.show ? null : 'none' } as any}
+                            style={style.mask}
                         />
                     </Teleport>
                 ) : null}
