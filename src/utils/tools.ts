@@ -21,7 +21,7 @@ class MiTools {
      */
     setTitle(title?: string): void {
         const powered = $g.powered ?? `powered by makeit.vip`
-        title = $g.title ?? 'Makeit Admin Pro'
+        title = title ?? $g.title ?? 'Makeit Admin Pro'
         if (title !== $g.title) $g.title = title
         document.title = `${title} - ${powered}`
     }

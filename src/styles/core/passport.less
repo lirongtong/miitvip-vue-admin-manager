@@ -32,7 +32,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		z-index: @mi-z-index;
+		z-index: var(--mi-z-index, @mi-z-index);
     }
 
     &-box {
@@ -50,7 +50,7 @@
 				.linear-gradient-text();
 				.properties(letter-spacing, 4);
 				.properties(margin-right, 4);
-				z-index: @mi-z-index;
+				z-index: var(--mi-z-index, @mi-z-index);
 
                 sup,
                 img {
@@ -74,7 +74,7 @@
                 .ant-input-affix-wrapper {
 					.border-radius(40);
 					border-color: var(--mi-theme, @mi-theme);
-					background: var(--mi-white, @mi-white);
+					background: var(--mi-passport-form-input-bg, @mi-passport-form-input-bg);
 					box-shadow: none;
 
 					&:hover,
@@ -86,8 +86,8 @@
 					> input.ant-input {
 						.properties(padding-top, 5);
 						.properties(padding-bottom, 5);
-						background: var(--mi-white, @mi-white);
-						color: var(--mi-dark-grey, @mi-dark-grey);
+						background: var(--mi-passport-form-input-bg, @mi-passport-form-input-bg);
+						color: var(--mi-passport-form-input-text, @mi-passport-form-input-text);
 
 						&:hover,
 						&:focus {
@@ -151,7 +151,7 @@
 
 				.ant-checkbox + span,
 				&-link {
-					color: var(--mi-font, @mi-font);
+					color: var(--mi-passport-forget-text, @mi-passport-forget-text);
 
 					a,
 					a:hover,

@@ -31,7 +31,7 @@
                             .properties(padding-right, 16);
                             .border-radius(64);
                             border: 1px solid;
-                            border-color: var(--mi-border, @mi-border);
+                            border-color: var(--mi-card-nav-list-border, @mi-card-nav-list-border);
 
                             @media only screen and (max-width: 767px) {
                                 padding: 0px;
@@ -43,7 +43,7 @@
 
                         & &-more {
                             .anticon {
-                                color: var(--mi-font, @mi-font);
+                                color: var(--mi-card-tab-more-icon, @mi-card-tab-more-icon);
                             }
                         }
                     }
@@ -61,7 +61,7 @@
                     }
 
                     &-tab {
-                        color: var(--mi-font, @mi-font);
+                        color: var(--mi-card-tab-text, @mi-card-tab-text);
                         .border-radius();
                         .properties(padding-left, 16);
                         .properties(padding-right, 16);
@@ -81,7 +81,7 @@
                             font-weight: 700;
                             .properties(font-size, 14);
                             text-shadow: none;
-                            color: var(--mi-font, @mi-font);
+                            color: var(--mi-card-tab-text, @mi-card-tab-text);
                         }
 
                         &-active {
@@ -89,7 +89,7 @@
                             >div,
                             >div:hover,
                             >div:focus {
-                                color: var(--mi-dark, @mi-dark);
+                                color: var(--mi-card-tab-active-text, @mi-card-tab-active-text);
                             }
 
                         }

@@ -1,7 +1,177 @@
 @import '../core/variables.less';
 
+@mi-theme: #4b9686;
+@mi-primary: @mi-theme;
+@mi-subsidiary: #808695;
+@mi-success: #598569;
+@mi-error: #ff4d4f;
+@mi-danger: #eb5651;
+@mi-warning: #ba5a26;
+@mi-info: #5787ba;
+@mi-selection: fade(@mi-theme, 80%);
+@mi-link: @mi-primary;
+@mi-font: #333;
+@mi-ink: #000;
+@mi-dark: #1d1e23;
+@mi-deep: #2d2f32;
+@mi-night: #3e3e3e;
+@mi-dawn: #4c4c4c;
+@mi-dark-grey: #333;
+@mi-light-grey: #949494;
+@mi-pre-dark: #434343;
+@mi-light-purple: #5a72af;
+@mi-light-blue: #8da6b8;
+@mi-gradient-bg: #1d1e23;
+@mi-gradient-s: #84fab0;
+@mi-gradient-e: #8fd3f4;
+@mi-gradient-theme-s: #43e97b;
+@mi-gradient-theme-m: #27b75f;
+@mi-gradient-theme-e: #38f9d7;
+@mi-border: #505050;
+
+// btn
+@mi-btn-text: #1d1e23;
+@mi-btn-bg: #fff;
+@mi-btn-border: #fff;
+@mi-btn-success-text: #fff;
+@mi-btn-primary-text: #1d1e23;
+@mi-btn-danger-text: #fff;
+@mi-btn-info-text: #fff;
+@mi-btn-warning-text: #fff;
+@mi-btn-ghost-text: #fff;
+@mi-btn-ghost-border: #fff;
+@mi-btn-dark-text: #fff;
+@mi-btn-dark-border: #505050;
+
+// side
+@mi-side-bg: #356b62;
+
+// mask
+@mi-mask: fade(#000, 80%);
+
+// header
+@mi-header-bg: #1d1e23;
+@mi-header-border: #8fd3f4;
+@mi-header-trigger-bg: fade(#000, 10%);
+@mi-header-box-shadow: #111;
+@mi-header-bg-grandient-s: #84fab0;
+@mi-header-bg-grandient-e: #8fd3f4;
+
+// breadcrumb
+@mi-breadcrumb-bg: #333;
+
+// content
+@mi-content-text: fade(#000, 80%);
+@mi-content-bg: #fff;
+@mi-content-drop-bg: #4b9686;
+
+// footer
+@mi-footer-bg: #fff;
+
+// menu
+@mi-menu-bg: #356b62;
+@mi-menu-color: fade(#fff, 80%);
+@mi-menu-scrollbar-track-shadow: fade(#000, 30%);
+@mi-menu-scrollbar-thumb-bg: fade(#000, 10%);
+@mi-menu-scrollbar-thumb-shadow: fade(#949494, 50%);
+@mi-menu-active-bg: #000;
+@mi-menu-active-grandient-s: #84fab0;
+@mi-menu-active-grandient-e: #8fd3f4;
+@mi-menu-sub-color: #808695;
+@mi-menu-fold-popup-bg: #1d1e23;
+@mi-menu-item-active-text: #000;
+
+// notice
+@mi-notice-text: fade(#333, 80%);
+@mi-notice-time: fade(#333, 20%);
+@mi-notice-content: fade(#fff, 60%);
+@mi-notice-content-text: #333;
+@mi-notice-item-border: fade(#fff, 2%);
+
+// clock
+@mi-clock-bg: #fff;
+@mi-clock-bg-grandient-s: #84fab0;
+@mi-clock-bg-grandient-e: #8fd3f4;
+@mi-clock-minute-line: fade(#333, 35%);
+@mi-clock-shadow: fade(#000, 50%);
+@mi-clock-pointer-bg: #333;
+@mi-clock-pointer-top-bg: #fff;
+@mi-clock-pointer-hand-bg: #000;
+
+// code
+@mi-code-bg: #5d5d5d;
+@mi-code-pre-bg: #000;
+@mi-code-border: #505050;
+
+// dropdown
+@mi-dropdown-name: fade(#fff, 85%);
+@mi-dropdown-bg: #4b9686;
+@mi-dropdown-select-item: #356b62;
+
+// radios
+@mi-radio-text: fade(#fff, 85%);
+
 // search
-@mi-search-text: fade(@mi-black, 85%);
-@mi-search-no-data: fade(@mi-black, 40%);
-@mi-search-list-item: fade(@mi-black, 70%);
-@mi-search-list-disabled: fade(@mi-black, 10%);
+@mi-search-text: fade(#333, 85%);
+@mi-search-list-sub-info: fade(#000, 50%);
+@mi-search-no-data: fade(#fff, 40%);
+@mi-search-list-disabled: fade(#fff, 10%);
+@mi-search-suffix: fade(#fff, 90%);
+@mi-search-input-bg: #000;
+@mi-search-input-gradient-s: #84fab0;
+@mi-search-input-gradient-e: #8fd3f4;
+@mi-search-list-bg: #4b9686;
+@mi-search-list-gradient-s: #84fab0;
+@mi-search-list-gradient-e: #8fd3f4;
+@mi-search-list-item-border-bottom: fade(#000, 10%);;
+@mi-search-list-page-border-top: fade(#000, 10%);
+@mi-search-list-page-input-border: fade(#000, 30%);
+@mi-search-list-page-input-text: fade(#000, 80%);
+
+// captcha
+@mi-captcha-success-bg: fade(@mi-theme, 20%);
+@mi-captcha-scan-border: #000;
+@mi-captcha-scan-line: #000;
+@mi-captcha-modal-boxshadow: #1d1e23;
+
+// password
+@mi-passport-strength: #999;
+@mi-password-input-bg: #fff;
+
+// modal
+@mi-modal-shadow: fade(#1d1e23, 15%);
+@mi-modal-btn-text: #1d1e23;
+@mi-modal-btn-border: #fff;
+
+// passport
+@mi-passport-mask: fade(@mi-white, 10%);
+@mi-passport-form-input-bg: #fff;
+@mi-passport-form-input-text: #333;
+@mi-passport-forget-text: #fff;
+
+// history
+@mi-route-history-btn-bg: fade(@mi-white, 10%);
+
+// checkbox
+@mi-checkbox-disabled: #d9d9d9;
+
+// card
+@mi-card-nav-list-border: #505050;
+@mi-card-tab-text: #fff;
+@mi-card-tab-active-text: #1d1e23;
+@mi-card-tab-more-icon: #fff;
+
+// popover
+@mi-popover-bg: #fff;
+
+// switch
+@mi-switch-checkbox: #000;
+
+// tooltip
+@mi-tooltip-arrow-content: #434343;
+
+// tree
+@mi-tree-node-content-bg: #2d2f32;
+
+// pagination
+@mi-pagination-options-item-text: #000;

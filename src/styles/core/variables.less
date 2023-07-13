@@ -75,9 +75,9 @@
     border-radius: 50%;
 }
 
-.linear-gradient-background(@s: @mi-black, @e: @mi-pre-dark, @d: @mi-dark) {
-    background-color: var(--mi-dark, @d);
-    background-image: linear-gradient(315deg, var(--mi-black, @s) 0%, var(--mi-pre-dark, @e) 74%);
+.linear-gradient-background(@s: @mi-gradient-s, @e: @mi-gradient-e, @d: @mi-gradient-bg) {
+    background-color: var(--mi-gradient-bg, @d);
+    background-image: linear-gradient(315deg, var(--mi-gradient-s, @s) 0%, var(--mi-gradient-e, @e) 74%);
 }
 
 .linear-gradient-background-grey() {

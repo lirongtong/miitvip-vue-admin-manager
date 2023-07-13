@@ -8,8 +8,8 @@
 
     pre[class*="language-"] {
         white-space: pre-line;
-        background: var(--mi-black, @mi-black);
-        border: 1px solid @mi-border;
+        background: var(--mi-code-pre-bg, @mi-code-pre-bg);
+        border: 1px solid var(--mi-code-border, @mi-code-border);
         position: relative;
     
         code {
@@ -33,7 +33,7 @@
             .properties(padding-bottom, 3);
             .properties(padding-left, 5);
             .properties(padding-right, 5);
-            background: #5d5d5d;
+            background: var(--mi-code-bg, @mi-code-bg);
             .border-radius();
             color: fade(@mi-font, 80%);
         }
@@ -46,7 +46,7 @@
         max-width: unset;
         line-height: unset;
         padding: 0;
-        font-size: @mi-font-size-normal;
+        font-size: var(--mi-font-size-normal, @mi-font-size-normal);
         height: auto;
         overflow: auto;
     }

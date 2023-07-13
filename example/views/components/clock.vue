@@ -1,3 +1,3 @@
 <template>
-    <mi-anchor />
+    <mi-clock />
 </template>

@@ -1,7 +1,7 @@
 import { inject } from 'vue'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { $tools } from './tools'
 import { $g } from './global'
 import { $cookie } from './cookie'
@@ -25,6 +25,7 @@ export default {
         if (!_init) {
             const store = useStore()
             const router = useRouter()
+            const route = useRoute()
             const { locale, t } = useI18n()
             const i18n = inject('$i18n') as any
 
@@ -48,6 +49,10 @@ export default {
             // 是否为移动端
             $g.isMobile = $tools.isMobile()
             store.commit(`layout/${mutations.layout.mobile}`)
+            window.onresize = () => {
+                $g.isMobile = $tools.isMobile()
+                store.commit(`layout/${mutations.layout.mobile}`)
+            }
 
             // 回登录页
             const redirect = () => {
@@ -178,7 +183,11 @@ export default {
                     next()
                 })
             })
-            router.afterEach(() => NProgress.done())
+            router.afterEach(() => {
+                $tools.setTitle((route?.meta?.title ?? $g.title) as string)
+                $tools.setDescription((route?.meta?.description ?? $g.description) as string, true)
+                NProgress.done()
+            })
 
             _init = true
         }

@@ -20,7 +20,7 @@ import {
     AppstoreAddOutlined, OrderedListOutlined, BellOutlined, GooglePlusOutlined,
     SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, SafetyCertificateOutlined,
     BorderlessTableOutlined, MenuOutlined, FireFilled, RetweetOutlined, GithubOutlined,
-    LogoutOutlined, CodeOutlined, PicRightOutlined, TransactionOutlined
+    LogoutOutlined, CodeOutlined, PicRightOutlined, TransactionOutlined, ClockCircleOutlined
 } from '@ant-design/icons-vue'
 
 const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
@@ -158,6 +158,13 @@ vm.$g.menus.items = [{
         meta: {
             title: '搜索联想',
             icon: SearchOutlined
+        }
+    }, {
+        name: 'components-clock',
+        path: '/components/clock',
+        meta: {
+            title: '无聊钟表',
+            icon: ClockCircleOutlined
         }
     }, {
         name: 'components-password',

@@ -8,7 +8,7 @@
 
 .@{ant-menu} {
     &&-dark {
-        background: var(--mi-dark, @mi-dark);
+        background: var(--mi-menu-bg, @mi-menu-bg);
         
         .@{ant-menu}-item > span > a {
             color: var(--mi-menu-color, @mi-menu-color);
@@ -37,8 +37,8 @@
 
         &&:not(.@{ant-menu}-horizontal) {
             .@{ant-menu}-item-selected {
-                background: var(--mi-ink, @mi-ink);
-                background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+                background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+                background-image: linear-gradient(315deg, var(--mi-menu-active-grandient-s, @mi-menu-active-grandient-s) 0%, var(--mi-menu-active-grandient-e, @mi-menu-active-grandient-e) 74%);
             }
         }
     }
@@ -46,7 +46,7 @@
 
 .@{mi-menu} {
     color: var(--mi-menu-color, @mi-menu-color);
-    background: var(--mi-dark, @mi-dark);
+    background: var(--mi-menu-bg, @mi-menu-bg);
     .properties(padding-left, 16);
     .properties(padding-right, 16);
     scrollbar-width: none;
@@ -59,8 +59,8 @@
 
     & &-items,
     & &-item {
-        min-height: @mi-side-item-height;
-        line-height: @mi-side-item-height;
+        min-height: var(--mi-side-item-height, @mi-side-item-height);
+        line-height: var(--mi-side-item-height, @mi-side-item-height);
         color: var(--mi-menu-color, @mi-menu-color);
         transition: unset;
         overflow: hidden;
@@ -71,13 +71,13 @@
 
         &-title {
             .flex(flex-start, center, column);
-            height: @mi-side-item-height;
+            height: var(--mi-side-item-height, @mi-side-item-height);
             .properties(line-height, 18);
             .properties(margin-left, 10);
     
             .sub {
                 .properties(font-size, 12);
-                color: var(--mi-subsidiary, @mi-subsidiary);
+                color: var(--mi-menu-sub-color, @mi-menu-sub-color);
                 .properties(line-height, 16);
                 .properties(margin-top, 4);
             }
@@ -110,8 +110,8 @@
         .@{ant-menu} {
             &-submenu-title {
                 .flex(center, flex-start);
-                height: @mi-side-item-height;
-                line-height: @mi-side-item-height;
+                height: var(--mi-side-item-height, @mi-side-item-height);
+                line-height: var(--mi-side-item-height, @mi-side-item-height);
                 color: var(--mi-menu-color, @mi-menu-color);
                 transition: unset;
 
@@ -146,7 +146,7 @@
             }
 
             &-sub {
-                background: var(--mi-dark, @mi-dark);
+                background: var(--mi-menu-bg, @mi-menu-bg);
                 box-shadow: none;
                 overflow: hidden;
                 position: relative;
@@ -156,8 +156,8 @@
 
         & .@{mi-menu} {
             &-item {
-                height: @mi-side-item-height;
-                line-height: @mi-side-item-height;
+                height: var(--mi-side-item-height, @mi-side-item-height);
+                line-height: var(--mi-side-item-height, @mi-side-item-height);
 
                 & .@{mi-menu}-item-link {
                     color: var(--mi-menu-color, @mi-menu-color);
@@ -204,7 +204,7 @@
                 }
 
                 .sub {
-                    color: var(--mi-subsidiary, @mi-subsidiary);
+                    color: var(--mi-menu-sub-color, @mi-menu-sub-color);
                 }
             }
         }
@@ -222,13 +222,14 @@
         }
 
         &.@{ant-menu}-item-selected {
-            background: var(--mi-ink, @mi-ink);
-            background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+            background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+            background-image: linear-gradient(315deg, var(--mi-menu-active-grandient-s, @mi-menu-active-grandient-s) 0%, var(--mi-menu-active-grandient-e, @mi-menu-active-grandient-e) 74%);
             .border-radius(10);
 
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
                 color: var(--mi-theme, @mi-theme);
+                font-weight: bold;
             }
 
             .@{mi-menu}-item-title {
@@ -263,7 +264,7 @@
 .ant-layout-sider {
     &-collapsed {
         & .@{mi-menu} {
-            width: @mi-side-width-sm;
+            width: var(--mi-side-width-sm, @mi-side-width-sm);
 
             & > .@{mi-menu} {
                 &-item,
@@ -288,13 +289,13 @@
 
                 &-items-active {
                     position: relative;
-                    background: var(--mi-ink, @mi-ink);
-                    background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+                    background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+                    background-image: linear-gradient(315deg, var(--mi-menu-active-grandient-s, @mi-menu-active-grandient-s) 0%, var(--mi-menu-active-grandient-e, @mi-menu-active-grandient-e) 74%);
                     .border-radius(10);
                 }
 
                 &-items-active.@{ant-submenu}-open {
-                    background: var(--mi-dark, @mi-dark);
+                    background: var(--mi-menu-fold-popup-bg, @mi-menu-fold-popup-bg);
 
                     &:after {
                         opacity: 0;
@@ -352,20 +353,20 @@
     }
 
     .@{ant-submenu}-popup {
-        background: var(--mi-dark, @mi-dark);
-        z-index: @mi-z-index-top;
+        background: var(--mi-menu-fold-popup-bg, @mi-menu-fold-popup-bg);
+        z-index: @mi-z-index-modal + 100;
     }
 
     &-dark {
         &.@{ant-submenu}-popup {
-            z-index: @mi-z-index-top;
+            z-index: @mi-z-index-top + 100;
             background: transparent;
             .border-radius(10);
 
             .@{ant-menu} {
                 &-sub {
                     transition: unset;
-                    background: var(--mi-dark, @mi-dark);
+                    background: var(--mi-menu-fold-popup-bg, @mi-menu-fold-popup-bg);
                     color: var(--mi-menu-color, @mi-menu-color);
                     .properties(padding-left, 16);
                     .properties(padding-right, 16);
@@ -377,7 +378,7 @@
 
                 &-item {
                     transition: none;
-                    min-height: @mi-side-item-height;
+                    min-height: var(--mi-side-item-height, @mi-side-item-height);
                     .flex(center, flex-start);
 
                     > a {
@@ -391,8 +392,8 @@
                     }
 
                     &-selected {
-                        background: var(--mi-ink, @mi-ink);
-                        background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+                        background: var(--mi-menu-active-bg, @mi-menu-active-bg);
+                        background-image: linear-gradient(315deg, var(--mi-menu-active-grandient-s, @mi-menu-active-grandient-s) 0%, var(--mi-menu-active-grandient-e, @mi-menu-active-grandient-e) 74%);
                         .border-radius(10);
 
                         .@{mi-menu} {
@@ -435,8 +436,8 @@
 
     &-vertical > &-submenu > &-submenu-title {
         .flex(center, flex-start);
-        height: @mi-side-item-height;
-        line-height: @mi-side-item-height;
+        height: var(--mi-side-item-height, @mi-side-item-height);
+        line-height: var(--mi-side-item-height, @mi-side-item-height);
 
         .@{ant-submenu}-arrow {
             opacity: 1;
@@ -479,13 +480,13 @@
 .ant-tooltip {
     &-arrow {
         &-content {
-            background-color: var(--mi-dark, @mi-dark);
+            background-color: var(--mi-menu-fold-popup-bg, @mi-menu-fold-popup-bg);
         }
     }
 
     &-inner {
         min-height: 0;
-        background-color: var(--mi-dark, @mi-dark);
+        background-color: var(--mi-menu-fold-popup-bg, @mi-menu-fold-popup-bg);
 
         .@{mi-menu} {
             &-item-link {

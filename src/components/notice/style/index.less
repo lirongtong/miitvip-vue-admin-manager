@@ -6,7 +6,7 @@
 @ant-popover: ant-popover;
 
 .@{mi-notice} {
-    z-index: @mi-z-index-top;
+    z-index: var(--mi-z-index-top, @mi-z-index-top);
 
     &-icon {
         .flex();
@@ -15,7 +15,7 @@
     }
 
     &-content {
-        color: var(--mi-white, @mi-white);
+        color: var(--mi-notice-content-text, @mi-notice-content-text);
         .properties(max-height, 550);
         overflow: auto;
         &::-webkit-scrollbar {

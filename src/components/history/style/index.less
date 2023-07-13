@@ -8,7 +8,7 @@
 .@{mi-history} {
     position: fixed;
     top: @mi-header-height + 2rem;
-    left: @mi-side-width;
+    left: var(--mi-side-width, @mi-side-width);
     width: calc(100% - @mi-side-width);
     .properties(padding-left, 16);
     .properties(padding-right, 16);
@@ -105,7 +105,8 @@
 
         &:hover,
         &&.active {
-            color: var(--mi-theme, @mi-theme);
+            color: var(--mi-menu-item-active-text, @mi-menu-item-active-text);
+            font-weight: bold;
         }
 
         &-mask {

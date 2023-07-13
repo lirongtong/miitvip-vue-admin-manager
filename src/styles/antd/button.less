@@ -5,9 +5,9 @@
 .@{ant-btn},
 .@{mi-prefix}btn,
 [class*="@{mi-prefix}modal-"] .@{ant-btn} {
-    color: var(--mi-dark, @mi-dark);
-    background: var(--mi-font, @mi-font);
-    border-color: var(--mi-font, @mi-font);
+    color: var(--mi-btn-text, @mi-btn-text);
+    background: var(--mi-btn-bg, @mi-btn-bg);
+    border-color: var(--mi-btn-border, @mi-btn-border);
     text-shadow: none;
     .letter-spacing();
     .border-radius();
@@ -17,16 +17,16 @@
     &:link,
     &:focus {
         border-color: var(--mi-theme, @mi-theme);
-        color: var(--mi-dark, @mi-dark);
+        color: var(--mi-btn-text, @mi-btn-text);
     }
 
     &-default,
     &-default:hover,
     &-default:active,
     &-default:focus {
-        color: var(--mi-dark, @mi-dark);
-        background: var(--mi-font, @mi-font);
-        border-color: var(--mi-font, @mi-font);
+        color: var(--mi-btn-text, @mi-btn-text);
+        background: var(--mi-btn-bg, @mi-btn-bg);
+        border-color: var(--mi-btn-border, @mi-btn-border);
         text-shadow: none;
     }
 
@@ -34,7 +34,7 @@
     &-success:hover,
     &-success:active,
     &-success:focus {
-        color: @mi-font;
+        color: var(--mi-btn-success-text, @mi-btn-success-text);
         background: var(--mi-success, @mi-success);
         border-color: var(--mi-success, @mi-success);
         text-shadow: none;
@@ -44,7 +44,7 @@
     &-primary:hover,
     &-primary:active,
     &-primary:focus {
-        color: var(--mi-dark, @mi-dark);
+        color: var(--mi-btn-primary-text, @mi-btn-primary-text);
         .linear-gradient-background-theme();
         border-color: var(--mi-theme, @mi-theme);
         text-shadow: none;
@@ -54,7 +54,7 @@
     &-danger:hover,
     &-danger:active,
     &-danger:focus {
-        color: @mi-font;
+        color: var(--mi-btn-danger-text, @mi-btn-danger-text);
         background: var(--mi-danger, @mi-danger);
         border-color: var(--mi-danger, @mi-danger);
         text-shadow: none;
@@ -64,7 +64,7 @@
     &-info:hover,
     &-info:active,
     &-info:focus {
-        color: @mi-font;
+        color: var(--mi-btn-info-text, @mi-btn-info-text);
         background: var(--mi-info, @mi-info);
         border-color: var(--mi-info, @mi-info);
         text-shadow: none;
@@ -74,7 +74,7 @@
     &-warning:hover,
     &-warning:active,
     &-warning:focus {
-        color: @mi-font;
+        color: var(--mi-btn-warning-text, @mi-btn-warning-text);
         background: var(--mi-warning, @mi-warning);
         border-color: var(--mi-warning, @mi-warning);
         text-shadow: none;
@@ -85,17 +85,17 @@
     &-ghost:active,
     &-ghost:focus,
     &-background-ghost {
-        color: var(--mi-font, @mi-font);
-        border-color: var(--mi-font, @mi-font);
+        color: var(--mi-btn-ghost-text, @mi-btn-ghost-text);
+        border-color: var(--mi-btn-ghost-border, @mi-btn-ghost-border);
     }
 
     &-dark,
     &-dark:hover,
     &-dark:active,
     &-dark:focus {
-        color: @mi-font;
+        color: var(--mi-btn-dark-text, @mi-btn-dark-text);
         .linear-gradient-background();
-        border-color: var(--mi-border, @mi-border);
+        border-color: var(--mi-btn-dark-border, @mi-btn-dark-border);
         text-shadow: none;
     }
 

@@ -27,13 +27,13 @@
         width: calc(100% - @mi-side-width - 2rem);
         height: @mi-header-height;
         line-height: unset;
-        background-color: var(--mi-dark, @mi-dark);
-        background-image: linear-gradient(315deg, var(--mi-black, @mi-black) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+        background-color: var(--mi-header-bg, @mi-header-bg);
+        background-image: linear-gradient(315deg, var(--mi-header-bg-grandient-s, @mi-header-bg-grandient-s) 0%, var(--mi-header-bg-grandient-e, @mi-header-bg-grandient-e) 74%);
         .properties(margin, 16);
         .properties(padding-left, 16);
         .properties(padding-right, 16);
         .border-radius(48);
-        border: 1px solid var(--mi-border, @mi-border);
+        border: 1px solid var(--mi-header-border, @mi-header-border);
         backdrop-filter: blur(36px);
         z-index: @mi-z-index-modal;
 
@@ -188,7 +188,7 @@
     }
 
     &-side {
-        background-color: var(--mi-dark, @mi-dark);
+        background-color: var(--mi-side-bg, @mi-side-bg);
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -205,7 +205,7 @@
             position: relative;
             width: @mi-side-width;
             height: @mi-side-height;
-            background: var(--mi-dark, @mi-dark);
+            background: var(--mi-side-bg, @mi-side-bg);
             transition: all @mi-anim-duration ease;
             .properties(padding-left);
             .properties(padding-right);
@@ -306,7 +306,7 @@
 	    transition: all @mi-anim-duration ease-in-out;
         width: calc(100% - @mi-side-width);
         .properties(font-size, 14);
-        background: var(--mi-dark-grey, @mi-dark-grey);
+        background: var(--mi-breadcrumb-bg, @mi-breadcrumb-bg);
         position: fixed;
         left: @mi-side-width;
         top: calc(@mi-header-height + 1rem);
@@ -361,8 +361,8 @@
     }
 
     &-content {
-        background: var(--mi-dark-grey, @mi-dark-grey);
-        color: @mi-content-text;
+        background: var(--mi-content-bg, @mi-content-bg);
+        color: var(--mi-content-text, @mi-content-text);
         position: relative;
 
         &-custom {
@@ -370,7 +370,7 @@
             min-height: 100%;
             height: auto;
             padding-top: @mi-content-padding-top + .5;
-            background: var(--mi-dark-grey, @mi-dark-grey);
+            background: var(--mi-content-bg, @mi-content-bg);
             .properties(padding-left, 16);
             .properties(padding-right, 16);
             .properties(padding-bottom, 72);
@@ -380,12 +380,12 @@
         }
 
         &-drop {
-            height: @mi-content-padding-top;
+            height: var(--mi-content-padding-top, @mi-content-padding-top);
             z-index: @mi-z-index + 1;
             position: fixed;
             top: 0;
             left: 0;
-            background: var(--mi-content-bg, @mi-content-bg);
+            background: var(--mi-content-drop-bg, @mi-content-drop-bg);
             width: 100%;
             backdrop-filter: blur(21px);
             box-shadow: 0 0 10px var(--mi-header-box-shadow, @mi-header-box-shadow);
@@ -393,12 +393,12 @@
     }
 
     &-footer {
-        background: var(--mi-dark-grey, @mi-dark-grey);
+        background: var(--mi-footer-bg, @mi-footer-bg);
         color: var(--mi-font, @mi-font);
         .flex();
         .properties(padding, 24);
         margin-top: -1px;
-        transition: all @mi-anim-duration ease;
+        transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
 	    z-index: @mi-z-index;
         position: absolute;
         bottom: 0;
@@ -423,16 +423,16 @@
     &-side {
         &-collapsed {
             && + .@{mi-layout} {
-                padding-left: @mi-side-width-sm;
+                padding-left: var(--mi-side-width-sm, @mi-side-width-sm);
 
                 .@{mi-layout} {
                     &-header {
-                        left: @mi-side-width-sm;
+                        left: var(--mi-side-width-sm, @mi-side-width-sm);
                         width: calc(100% - @mi-side-width-sm - 2rem);
                     }
 
                     &-route-history {
-                        left: @mi-side-width-sm;
+                        left: var(--mi-side-width-sm, @mi-side-width-sm);
                         width: calc(100% - @mi-side-width-sm);
                     }
                 }
@@ -441,7 +441,7 @@
             .@{mi-layout} {
                 &-side {
                     &-logo {
-                        width: @mi-side-width-sm;
+                        width: var(--mi-side-width-sm, @mi-side-width-sm);
                         .properties(height, 98);
                         .properties(margin-top, 24);
     
@@ -469,7 +469,7 @@
                 top: 0;
                 background: transparent;
                 width: auto;
-                height: @mi-header-height;
+                height: var(--mi-header-height, @mi-header-height);
                 .properties(padding-left, 24);
                 .properties(padding-right, 16);
                 padding-top: 0;

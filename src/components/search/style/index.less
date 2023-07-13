@@ -6,7 +6,7 @@
     .properties(height, 42);
     .properties(width, 360);
     position: relative;
-    z-index: @mi-z-index-modal;
+    z-index: var(--mi-z-index-modal, @mi-z-index-modal);
 
     &-input {
         width: 100%;
@@ -18,12 +18,12 @@
         .properties(padding-right, 16);
         color: var(--mi-search-text, @mi-search-text);
         border: 1px solid var(--mi-theme, @mi-theme);
-        background-color: var(--mi-ink, @mi-ink);
-        background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
+        background-color: var(--mi-search-input-bg, @mi-search-input-bg);
+        background-image: linear-gradient(315deg, var(--mi-search-input-gradient-s, @mi-search-input-gradient-s) 0%, var(--mi-search-input-gradient-e, @mi-search-input-gradient-e) 74%);
         .properties(font-size, 14);
         .properties(line-height, 22);
         .letter-spacing();
-        transition: all @mi-anim-duration ease;
+        transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
         list-style: none;
         box-sizing: border-box;
         position: relative;
@@ -55,11 +55,11 @@
         left: 0;
         .properties(top, 44);
         overflow: hidden;
-        background-color: var(--mi-ink, @mi-ink);
-        background-image: linear-gradient(315deg, var(--mi-ink, @mi-ink) 0%, var(--mi-pre-dark, @mi-pre-dark) 74%);
-        transition: all @mi-anim-duration ease;
+        background-color: var(--mi-search-list-bg, @mi-search-list-bg);
+        background-image: linear-gradient(315deg, var(--mi-search-list-gradient-s, @mi-search-list-gradient-s) 0%, var(--mi-search-list-gradient-e, @mi-search-list-gradient-e) 74%);
+        transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
         transform-origin: 0 0;
-        z-index: @mi-z-index-top;
+        z-index: var(--mi-z-index-top, @mi-z-index-top);
     }
 
     &-items {
@@ -71,7 +71,7 @@
         .properties(padding-right, 16);
         width: 100%;
         height: calc(100% - 72px);
-        transition: all @mi-anim-duration ease;
+        transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
         position: absolute;
         left: 0;
         top: 0;
@@ -89,7 +89,7 @@
         .properties(padding-top, 16);
         .properties(padding-bottom, 16);
         color: var(--mi-search-text, @mi-search-text);
-        border-bottom: 1px solid var(--mi-night, @mi-night);
+        border-bottom: 1px solid var(--mi-search-list-item-border-bottom, @mi-search-list-item-border-bottom);
         cursor: pointer;
         .text-ellipsis();
         overflow: unset;
@@ -160,7 +160,7 @@
         .properties(padding-bottom, 24);
         .properties(margin-left, 16);
         .properties(margin-right, 16);
-        border-top: 1px solid var(--mi-night, @mi-night);
+        border-top: 1px solid var(--mi-search-list-page-border-top, @mi-search-list-page-border-top);
         .letter-spacing();
         position: absolute;
         bottom: 0;
@@ -182,7 +182,7 @@
 
                 &.prev,
                 &.next {
-                    transition: all @mi-anim-duration ease;
+                    transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
                     color: var(--mi-search-text, @mi-search-text);
                     .properties(font-size, 18);
                     .flex();
@@ -198,19 +198,19 @@
             input {
                 .properties(width, 32);
                 .properties(height, 24);
-                border: 1px solid fade(#000, 30%);
+                border: 1px solid var(--mi-search-list-page-input-border, @mi-search-list-page-input-border);
                 .border-radius();
                 .flex();
                 text-align: center;
                 .properties(margin-left, 4);
                 .properties(margin-right);
-                color: fade(#000, 80%);
+                color: var(--mi-search-list-page-input-text, @mi-search-list-page-input-text);
                 outline: none;
 
                 &:hover,
                 &:focus {
                     outline: none;
-                    border: 1px solid fade(#000, 30%);
+                    border: 1px solid var(--mi-search-list-page-input-border, @mi-search-list-page-input-border);
                 }
             }
         }
@@ -314,6 +314,6 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        z-index: @mi-z-index-top;
+        z-index: var(--mi-z-index-top, @mi-z-index-top);
     }
 }

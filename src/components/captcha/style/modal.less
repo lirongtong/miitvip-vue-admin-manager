@@ -54,7 +54,7 @@
 			.properties(top, -157);
             .border-radius();
             .linear-gradient-background();
-			box-shadow: 0 0 10px var(--mi-dark, @mi-dark);
+			box-shadow: 0 0 10px var(--mi-captcha-modal-boxshadow, @mi-captcha-modal-boxshadow);
 			border: 1px solid var(--mi-theme, @mi-theme);
         }
 
@@ -222,12 +222,12 @@
 				background: #fff;
 				.flex();
 				cursor: pointer;
-                box-shadow: 1px 1px 10px var(--mi-dark, @mi-dark);
+                box-shadow: 1px 1px 10px var(--mi-captcha-modal-boxshadow, @mi-captcha-modal-boxshadow);
                 
                 &-icon {
                     .properties(width, 28);
                     .properties(height, 24);
-                    border: 2px solid var(--mi-dark, @mi-dark);
+                    border: 2px solid var(--mi-captcha-scan-border, @mi-captcha-scan-border);
                     .border-radius();
                     position: relative;
                 }
@@ -244,7 +244,7 @@
                 &-horizontal {
                     .properties(width, 20);
                     .properties(height, 2);
-                    background: var(--mi-dark, @mi-dark);
+                    background: var(--mi-captcha-scan-line, @mi-captcha-scan-line);
                     .border-radius();
                     position: absolute;
                     .properties(left, 2);

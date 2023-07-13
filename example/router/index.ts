@@ -26,6 +26,7 @@ const ComponentsNotice = () => import('@views/components/notice.vue')
 const ComponentsModal = () => import('@views/components/modal.vue')
 const ComponentsCaptcha = () => import('@views/components/captcha.vue')
 const ComponentsSearch = () => import('@views/components/search.vue')
+const ComponentsClock = () => import('@views/components/clock.vue')
 const ComponentsPassword = () => import('@views/components/password.vue')
 const ComponentsAnchor = () => import('@views/components/anchor.vue')
 const ComponentsHistory = () => import('@views/components/history.vue')
@@ -126,6 +127,11 @@ const menuRoutes: Array<RouteRecordRaw> = [{
             name: 'components-notice',
             meta: { title: '消息中心' },
             component: ComponentsNotice
+        }, {
+            path: '/components/clock',
+            name: 'components-clock',
+            meta: { title: '无聊钟表' },
+            component: ComponentsClock
         }, {
             path: '/components/modal',
             name: 'components-modal',
