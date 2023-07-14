@@ -28,6 +28,23 @@ const store = useStore()
 const router = useRouter()
 const { locale, t } = useI18n()
 
+const themes = [
+    {
+        thumb: vm.$g.background.default,
+        name: 'dark',
+        label: '深色'
+    },
+    {
+        thumb: vm.$g.background.default,
+        name: 'light',
+        label: '浅色'
+    }
+]
+
+const handleTheme = (theme) => {
+    console.log(theme, 2222)
+}
+
 vm.$g.menus.items = [{
     name: 'dashboard',
     path: '/dashboard',

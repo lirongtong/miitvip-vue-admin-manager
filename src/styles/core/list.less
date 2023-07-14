@@ -9,6 +9,7 @@
 
         > label {
             color: var(--mi-font, @mi-font);
+
             .properties(margin-right);
             .flex();
             .properties(min-width, 70);
@@ -44,9 +45,9 @@
 
     &-btns {
         .flex(center, space-between);
-        top: @mi-content-padding-top;
+        top: var(--mi-content-padding-top, @mi-content-padding-top);
         position: sticky;
-        background: var(--mi-dark-grey, @mi-dark-grey);
+        background: var(--mi-search-list-btns-bg, @mi-search-list-btns-bg);
         z-index: 20;
 
         &-l {

@@ -1,5 +1,11 @@
 import PropTypes from '../_utils/props-types'
 
+export interface THEMES {
+    thumb: string
+    name: string
+    label: string
+}
+
 export const layoutProps = () => ({
     prefixCls: String,
     sideClassName: PropTypes.string,

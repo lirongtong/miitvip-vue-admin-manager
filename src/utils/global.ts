@@ -22,15 +22,10 @@ export const $g = reactive({
     site: 'Admin Pro',
     author: 'makeit.vip',
     theme: {
-        active: 'light',
-        thumbnails: {
-            dark: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAJIqKARAkyAACmjWZTun0852.png',
-            light: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHWAKve-Ac7D8AAH4rA17tm0600.png'
-        }
+        active: 'dark'
     } as { [index: string]: any },
     background: {
-        default: 'https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGSCzBWATJtjAAI9djv0Nh4271.jpg',
-        captcha: 'https://file.makeit.vip/MIIT/M00/00/00/ajRkHV7d0JOAJYSMAAFwUxGzMIc287.jpg'
+        default: 'https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGSCzBWATJtjAAI9djv0Nh4271.jpg'
     } as { [index: string]: any },
     keywords:
         'makeit, makeit.vip, makeit-admin, admin-manage, makeit admin pro, miitvip, vue, vue3, vite, typescript, ant-design-vue component-ui, ui frame, 麦可易特网, lirongtong',

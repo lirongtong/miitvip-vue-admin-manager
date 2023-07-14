@@ -2,7 +2,7 @@ import { defineComponent, computed, ref, SlotsType } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { Layout, Popover, Radio, message } from 'ant-design-vue'
-import { layoutHeaderProps } from './props'
+import { layoutHeaderProps, type THEMES } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
@@ -32,7 +32,8 @@ export default defineComponent({
         breadcrumb: any
         extra: any
     }>,
-    setup(props, { slots }) {
+    emits: ['changeTheme'],
+    setup(props, { slots, emit }) {
         const store = useStore()
         const { t } = useI18n()
         const prefixCls = getPrefixCls('layout-header', props.prefixCls)
@@ -47,18 +48,7 @@ export default defineComponent({
             paletteActive: `${prefixCls}-palette-active`
         }
         const full = ref<boolean>(false)
-        const themes = props.themes ?? [
-            {
-                thumb: $g.theme.thumbnails.dark,
-                name: 'dark',
-                label: t('theme.dark')
-            },
-            {
-                thumb: $g.theme.thumbnails.light,
-                name: 'light',
-                label: t('theme.light')
-            }
-        ]
+        const themes = props.themes ?? []
 
         const renderStretch = () => {
             let stretch = getPropSlot(slots, props, 'stretch')
@@ -80,8 +70,9 @@ export default defineComponent({
             return elem ? <div class={triggerCls}>{elem}</div> : null
         }
 
-        const changePalette = (theme = 'dark') => {
-            $g.theme.active = theme
+        const changePalette = (theme: THEMES) => {
+            $g.theme.active = theme.name
+            emit('changeTheme', theme)
         }
 
         const renderPalette = () => {
@@ -97,7 +88,7 @@ export default defineComponent({
                             class={`${headerCls.palette}-item${
                                 $g.theme.active === theme.name ? ` ${headerCls.paletteActive}` : ''
                             }`}
-                            onClick={() => changePalette(theme.name)}>
+                            onClick={() => changePalette(theme)}>
                             <div class={`${headerCls.palette}-thumb`} style={thumbStyle}>
                                 {theme.thumb ? <img src={theme.thumb} /> : null}
                             </div>
@@ -181,7 +172,7 @@ export default defineComponent({
                             />
                         )}
                     </div>
-                    <div class={triggerCls}>{renderPalette()}</div>
+                    {themes.length > 0 ? <div class={triggerCls}>{renderPalette()}</div> : null}
                     <div class={triggerCls}>
                         {getPropSlot(slots, props, 'dropdown') ?? (
                             <MiDropdown class={`${prefixCls}-dropdown`} />

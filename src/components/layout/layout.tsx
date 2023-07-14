@@ -1,7 +1,7 @@
 import { defineComponent, computed, SlotsType } from 'vue'
 import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
-import { layoutProps } from './props'
+import { layoutProps, type THEMES } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props-tools'
 import { Layout } from 'ant-design-vue'
 import { $g } from '../../utils/global'
@@ -22,25 +22,15 @@ const MiLayout = defineComponent({
         footer: any
     }>,
     props: layoutProps(),
-    setup(props, { slots }) {
-        const { locale, t } = useI18n()
+    emits: ['changeTheme'],
+    setup(props, { slots, emit }) {
+        const { locale } = useI18n()
         const langCls = getPrefixCls(`lang-${locale.value}`, props.prefixCls)
         const prefixCls = getPrefixCls('layout', props.prefixCls)
         const { width } = useWindowResize()
         const store = useStore()
         const theme = computed(() => store.getters['layout/theme'])
-        const themes = props.themes ?? [
-            {
-                thumb: $g.theme.thumbnails.dark,
-                name: 'dark',
-                label: t('theme.dark')
-            },
-            {
-                thumb: $g.theme.thumbnails.light,
-                name: 'light',
-                label: t('theme.light')
-            }
-        ]
+        const themes = props.themes ?? []
         const layoutCls = computed(() => {
             let layoutCls = getPrefixCls('layout-container')
             const themeCls = getPrefixCls('theme')
@@ -50,12 +40,22 @@ const MiLayout = defineComponent({
                 : ''
             return layoutCls
         })
+
+        const emitChangeTheme = (theme: THEMES) => {
+            emit('changeTheme', theme)
+        }
+
         const drawer = <MiLayoutDrawerMenu />
         const getHeader = () => {
             const extra = getPropSlot(slots, props, 'headerExtra')
             return (
                 getPropSlot(slots, props, 'header') ?? (
-                    <MiLayoutHeader class={props.headerClassName} extra={extra} themes={themes} />
+                    <MiLayoutHeader
+                        class={props.headerClassName}
+                        extra={extra}
+                        themes={themes}
+                        onChangeTheme={emitChangeTheme}
+                    />
                 )
             )
         }
