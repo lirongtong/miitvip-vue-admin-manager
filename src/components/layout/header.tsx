@@ -175,7 +175,10 @@ export default defineComponent({
                     {renderScreenfull()}
                     <div class={triggerCls}>
                         {getPropSlot(slots, props, 'notice') ?? (
-                            <MiNotice class={`${prefixCls}-notice`} />
+                            <MiNotice
+                                iconColor={$g.theme.active === 'light' ? '#333' : '#fff'}
+                                class={`${prefixCls}-notice`}
+                            />
                         )}
                     </div>
                     <div class={triggerCls}>{renderPalette()}</div>

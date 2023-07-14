@@ -122,13 +122,13 @@
 
 			&-remember {
 				.properties(margin-bottom);
-				color: var(--mi-font, @mi-font);
+				color: var(--mi-passport-forget-text, @mi-passport-forget-text);
 				.properties(font-size, @mi-font-size-normal);
 				.properties(padding-left, 12);
 
 				a,
 				a:hover {
-					color: var(--mi-font, @mi-font);
+					color: var(--mi-passport-forget-text, @mi-passport-forget-text);
 					.properties(font-size, @mi-font-size-normal);
 				}
 
@@ -226,13 +226,13 @@
 
 			&-socialite {
 				.flex();
-				color: var(--mi-font, @mi-font);
+				color: var(--mi-passport-socialite-text, @mi-passport-socialite-text);
 				.properties(padding-left, 4);
 
 				.anticon {
 					.properties(font-size, 18);
 					.properties(margin-left, 12);
-					color: @mi-font;
+					color: var(--mi-passport-socialite-text, @mi-passport-socialite-text);
 					cursor: pointer;
 
 					&:hover {

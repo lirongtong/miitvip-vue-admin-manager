@@ -85,7 +85,7 @@
         .border-radius(32);
         .text-ellipsis();
         .linear-gradient-background();
-        color: var(--mi-font, @mi-font);
+        color: var(--mi-route-history-item-text, @mi-route-history-item-text);
         transition: all @mi-anim-duration ease;
         cursor: pointer;
         position: relative;
@@ -105,7 +105,7 @@
 
         &:hover,
         &&.active {
-            color: var(--mi-menu-item-active-text, @mi-menu-item-active-text);
+            color: var(--mi-route-history-item-active-text, @mi-route-history-item-active-text);
             font-weight: bold;
         }
 

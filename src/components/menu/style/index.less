@@ -117,6 +117,7 @@
 
                 .@{ant-submenu}-arrow {
                     opacity: 1;
+
                     &:before,
                     &:after {
                         background: var(--mi-menu-color, @mi-menu-color);
@@ -124,18 +125,18 @@
                 }
 
                 &:hover {
-                    color: var(--mi-theme, @mi-theme);
+                    color: var(--mi-menu-hover-color, @mi-menu-hover-color);
 
                     .@{ant-submenu}-arrow {
                         &:before,
                         &:after {
-                            background: var(--mi-theme, @mi-theme);
+                            background: var(--mi-menu-hover-color, @mi-menu-hover-color);
                         }
                     }
 
                     .@{mi-menu}-item-title {
                         .sub {
-                            color: var(--mi-theme, @mi-theme);
+                            color: var(--mi-menu-hover-color, @mi-menu-hover-color);
                         }
                     }
                 }
@@ -165,7 +166,7 @@
 
                 &:hover {
                     .@{mi-menu}-item-link {
-                        color: var(--mi-theme, @mi-theme);
+                        color: var(--mi-menu-hover-color, @mi-menu-hover-color);
                     }
                 }
             }
@@ -175,17 +176,17 @@
     & &-items-active {
         > .@{ant-submenu} {
             &-title {
-                color: var(--mi-theme, @mi-theme);
+                color: var(--mi-menu-hover-color, @mi-menu-hover-color);
 
                 .@{ant-submenu}-arrow {
                     &:before,
                     &:after {
-                        background: var(--mi-theme, @mi-theme);
+                        background: var(--mi-menu-hover-color, @mi-menu-hover-color);
                     }
                 }
 
                 .sub {
-                    color: var(--mi-theme, @mi-theme);
+                    color: var(--mi-menu-hover-color, @mi-menu-hover-color);
                 }
             }
         }
@@ -237,17 +238,31 @@
                     color: var(--mi-theme, @mi-theme);
                 }
             }
+
+            &:hover {
+                .@{mi-menu}-item-link,
+                .anticon, .anticon + span {
+                    color: var(--mi-theme, @mi-theme);
+                    font-weight: bold;
+                }
+
+                .@{mi-menu}-item-title {
+                    .sub {
+                        color: var(--mi-theme, @mi-theme);
+                    }
+                }
+            }
         }
 
         &:hover {
             .@{mi-menu}-item-link,
             .anticon, .anticon + span {
-                color: var(--mi-theme, @mi-theme);
+                color: var(--mi-menu-hover-color, @mi-menu-hover-color);
             }
 
             .@{mi-menu}-item-title {
                 .sub {
-                    color: var(--mi-theme, @mi-theme);
+                    color: var(--mi-menu-hover-color, @mi-menu-hover-color);
                 }
             }
         }
