@@ -1,0 +1,29 @@
+@import '../../../styles/theme/index.less';
+@mi-back-top: ~'@{mi-prefix}back-top';
+
+.@{mi-back-top} {
+    position: absolute;
+    .properties(width, 48);
+    .properties(height, 48);
+    .flex();
+    .linear-gradient-background();
+    z-index: @mi-z-index-modal + 1000;
+    .border-radius(48);
+    cursor: pointer;
+    transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
+
+    &-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        .flex();
+    }
+
+    &-icon {
+        .properties(font-size, 20);
+
+        .anticon {
+            color: var(--mi-backtop-icon, @mi-backtop-icon);
+        }
+    }
+}

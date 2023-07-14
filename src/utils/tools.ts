@@ -363,7 +363,7 @@ class MiTools {
      * @param duration
      * @param endCallback
      */
-    back2top(offset = 0, duration = 1000, endCallback?: Function) {
+    back2top(offset: null | number = 0, duration = 1000, endCallback?: Function) {
         const top = offset ?? (document.documentElement.scrollTop || document.body.scrollTop)
         this.scrollTop(document.body, top, 0, duration, endCallback)
     }

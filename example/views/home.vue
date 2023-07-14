@@ -4,6 +4,7 @@
             <mi-search :data="searchData" search-key="title" :width="120" :height="48" :placeholder="t('search.components')" :list-width="320" :list-height="335" :gap="4" :page-size="3" :list-radius="8" border-color="transparent" background-color="transparent"></mi-search>
         </template>
     </mi-layout>
+    <mi-back-top />
 </template>
 
 <script setup>
@@ -27,23 +28,6 @@ const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
 const store = useStore()
 const router = useRouter()
 const { locale, t } = useI18n()
-
-const themes = [
-    {
-        thumb: vm.$g.background.default,
-        name: 'dark',
-        label: '深色'
-    },
-    {
-        thumb: vm.$g.background.default,
-        name: 'light',
-        label: '浅色'
-    }
-]
-
-const handleTheme = (theme) => {
-    console.log(theme, 2222)
-}
 
 vm.$g.menus.items = [{
     name: 'dashboard',

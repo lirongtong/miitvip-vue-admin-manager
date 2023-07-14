@@ -40,6 +40,7 @@ export default {
     external: '外部',
     internal: '内部',
     view: '点击查看',
+    back2top: '回到顶部',
     upload: {
         name: '上传',
         image: '上传图片',

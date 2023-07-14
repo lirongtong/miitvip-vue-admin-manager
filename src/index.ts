@@ -32,6 +32,7 @@ import { default as History } from './components/history'
 import { default as Code } from './components/code'
 import { default as Title } from './components/title'
 import { default as Quotes } from './components/quotes'
+import { default as BackTop } from './components/backtop'
 
 import { default as LanguageManagement } from './components/management/language'
 import { default as MenuManagement } from './components/management/menu'
@@ -64,6 +65,7 @@ const components = [
     Code,
     Title,
     Quotes,
+    BackTop,
     LanguageManagement,
     MenuManagement,
     AppsManagement
@@ -111,6 +113,7 @@ export {
     Code,
     Title,
     Quotes,
+    BackTop,
     LanguageManagement,
     MenuManagement,
     AppsManagement
@@ -157,6 +160,7 @@ declare module '@vue/runtime-core' {
         MiCode: typeof Code
         MiTitle: typeof Title
         MiQuotes: typeof Quotes
+        MiBackTop: typeof BackTop
         MiLanguageManagement: typeof LanguageManagement
         MenuManagement: typeof MenuManagement
         AppsManagement: typeof AppsManagement

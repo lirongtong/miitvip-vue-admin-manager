@@ -40,6 +40,7 @@ export default {
     external: 'External',
     internal: 'Internal',
     view: 'Click to view',
+    back2top: 'Back to top',
     upload: {
         name: 'Upload',
         image: 'Upload Image',
