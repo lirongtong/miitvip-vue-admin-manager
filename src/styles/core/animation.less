@@ -2,7 +2,7 @@
 
 .@{mi-prefix} {
     &anim {
-        transition: all @mi-anim-duration ease;
+        transition: all var(--mi-anim-duration, @mi-anim-duration) ease;
         
         /** fade */
         &-fade-enter-active,

@@ -53,7 +53,9 @@ const Anchor = defineComponent({
         })
 
         onMounted(() => {
-            nextTick(() => init())
+            setTimeout(() => {
+                nextTick().then(() => init())
+            }, 600)
         })
 
         const init = () => {
