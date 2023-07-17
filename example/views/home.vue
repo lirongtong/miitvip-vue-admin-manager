@@ -4,11 +4,11 @@
             <mi-search :data="searchData" search-key="title" :width="120" :height="48" :placeholder="t('search.components')" :list-width="320" :list-height="335" :gap="4" :page-size="3" :list-radius="8" border-color="transparent" background-color="transparent"></mi-search>
         </template>
     </mi-layout>
-    <mi-back-top />
+    <mi-back-top :icon="createVNode(GlobalOutlined)" />
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
+import { getCurrentInstance, createVNode } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'

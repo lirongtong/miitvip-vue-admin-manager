@@ -1,6 +1,6 @@
 import { defineComponent, SlotsType, PropType, reactive, Transition } from 'vue'
 import PropTypes from '../_utils/props-types'
-import { getPrefixCls } from '../_utils/props-tools'
+import { getPrefixCls, getPropSlot } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
 import { useI18n } from 'vue-i18n'
 import { Tooltip } from 'ant-design-vue'
@@ -44,7 +44,7 @@ export default defineComponent({
         icon: any
     }>,
     emits: ['endCallback'],
-    setup(props, { emit }) {
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('back-top', props.prefixCls)
         const key = getPrefixCls(`back-top-${$tools.uid()}`, props.prefixCls)
@@ -78,6 +78,8 @@ export default defineComponent({
                 fontSize: props.iconSize ? $tools.convert2Rem(props.iconSize) : null
             }
         }
+
+        const icon = getPropSlot(slots, props, 'icon')
         return () => {
             return params.show ? (
                 <Transition name={anim} appear={true}>
@@ -85,7 +87,7 @@ export default defineComponent({
                         <Tooltip title={tip} placement={'top'}>
                             <div class={`${prefixCls}-inner`} onClick={back2top}>
                                 <div class={`${prefixCls}-icon`} style={style.icon}>
-                                    <VerticalAlignTopOutlined />
+                                    {icon ?? <VerticalAlignTopOutlined style={style.icon} />}
                                 </div>
                             </div>
                         </Tooltip>
