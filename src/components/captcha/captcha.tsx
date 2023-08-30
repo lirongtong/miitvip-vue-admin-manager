@@ -79,7 +79,11 @@ export default defineComponent({
                     afterInit()
                     props.initAction()
                 } else {
-                    $request[props.initMethod.toLowerCase()](props.initAction, props.initParams)
+                    $request[props.initMethod.toLowerCase()](
+                        props.initAction,
+                        props.initParams,
+                        props.actionConfig
+                    )
                         .then((res: any) => {
                             afterInit()
                             if (res?.data?.key && !params.verifyParams.key)
@@ -99,7 +103,11 @@ export default defineComponent({
             params.status.ready = false
             params.status.scanning = true
             if (props.checkAction) {
-                $request[props.checkMethod.toLowerCase()](props.checkAction, props.checkParams)
+                $request[props.checkMethod.toLowerCase()](
+                    props.checkAction,
+                    props.checkParams,
+                    props.actionConfig
+                )
                     .then((res: any) => {
                         if (res.data.pass) params.pass = true
                         else initCaptchaModal()
@@ -224,6 +232,7 @@ export default defineComponent({
                         verifyMethod={props.verifyMethod}
                         verifyParams={params.verifyParams}
                         verifyAction={props.verifyAction}
+                        actionConfig={props.actionConfig}
                         onModalClose={closeCaptchaModal}
                         image={props.image}
                     />

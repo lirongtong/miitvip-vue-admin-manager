@@ -2,32 +2,14 @@ import { defineComponent, ref, reactive, onMounted, onBeforeUnmount, Transition 
 import { Tooltip } from 'ant-design-vue'
 import { CloseCircleOutlined, ReloadOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
-import PropTypes from '../_utils/props-types'
 import { getPrefixCls } from '../_utils/props-tools'
 import { $tools } from '../../utils/tools'
 import { $g, MI_POWERED, MI_AVATAR } from '../../utils/global'
 import { $request } from '../../utils/request'
 import { background } from '../../utils/images'
+import { captchaModalProps } from './props'
 
 const TARGET = 'https://admin.makeit.vip/components/captcha'
-
-export const captchaModalProps = () => ({
-    prefixCls: PropTypes.string,
-    show: PropTypes.bool.def(false),
-    image: PropTypes.string,
-    position: PropTypes.object,
-    mask: PropTypes.bool.def(true),
-    maskClosable: PropTypes.bool.def(true),
-    themeColor: PropTypes.string,
-    bgColor: PropTypes.string,
-    boxShadow: PropTypes.bool.def(true),
-    boxShadowColor: PropTypes.string,
-    boxShadowBlur: PropTypes.number.def(6),
-    maxTries: PropTypes.number.def(5),
-    verifyParams: PropTypes.object.def({}),
-    verifyMethod: PropTypes.string.def('post'),
-    verifyAction: PropTypes.string
-})
 
 export default defineComponent({
     name: 'MiCaptchaModal',
@@ -427,7 +409,8 @@ export default defineComponent({
                 if (props.verifyAction) {
                     await $request[props.verifyMethod.toLowerCase()](
                         props.verifyAction,
-                        props.verifyParams
+                        props.verifyParams,
+                        props.actionConfig
                     )
                         .then((res: any) => {
                             if (res.ret.code === 200) {
