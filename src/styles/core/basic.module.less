@@ -1,0 +1,57 @@
+@import './variables.module.less';
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    .hide-scrollbar();
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    .font-size();
+    line-height: 1.75;
+    color: var(--mi-on-background);
+    background: var(--mi-background);
+    .letter-spacing();
+
+    ::-moz-selection,
+    ::selection {
+        color: var(--mi-on-primary);
+        background: var(--mi-primary);
+    }
+}
+
+ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: var(--mi-primary);
+    background: transparent;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    .transition(color);
+    text-decoration-skip: objects;
+
+    &:active,
+    &:hover,
+    &:visited,
+    &:link {
+        color: var(--mi-primary);
+    }
+}
+
+*, :after, :before, [class*=mi-] {
+    box-sizing: border-box;
+}

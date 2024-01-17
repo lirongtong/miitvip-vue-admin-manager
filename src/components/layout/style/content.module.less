@@ -1,0 +1,42 @@
+@import '../../../styles/core/variables.module.less';
+
+// style
+.container {
+    position: relative;
+    background: var(--mi-layout-content-background);
+    color: var(--mi-layout-content-text);
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.custom {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    .properties(padding-left, 16);
+    .properties(padding-right, 16);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--mi-layout-content-background);
+}
+
+.mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: var(--mi-layout-content-mask);
+    width: 100%;
+    backdrop-filter: blur(1.375rem);
+    box-shadow: 0 0 .625rem var(--mi-layout-content-shadow);
+    z-index: @mi-zindex + 1;
+}
+
+:export {
+    --layout-content-text: var(--mi-on-background);
+    --layout-content-mask: var(--mi-shadow);
+    --layout-content-shadow: var(--mi-shadow);
+    --layout-content-background: var(--mi-background);
+}

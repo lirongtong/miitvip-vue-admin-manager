@@ -1,0 +1,123 @@
+// unit
+@mi-unit: 1rem;
+@mi-unit-sm: 0.75rem;
+@mi-unit-normal: 0.875rem;
+@mi-unit-base: 16;
+
+// gap
+@mi-gap: 0.5rem;
+
+// animation duration
+@mi-anim-duration: .4s;
+
+// z-index
+@mi-zindex: 20240110;
+@mi-zindex-modal: 20240210;
+
+// scrollbar width
+@mi-scrollbar-width: 1.32rem;
+
+// breakpoints
+@mi-xxxl: 125rem;
+@mi-xxl: 100rem;
+@mi-xl: 75rem;
+@mi-lg: 62rem;
+@mi-md: 48rem;
+@mi-sm: 36rem;
+@mi-xs: 30rem;
+
+// sider
+@mi-sider-width: @mi-gap * 32;
+
+// font
+@mi-font-basic: "Pingfang SC", "Microsoft YaHei", "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@mi-font-code: Lucida Console, Consolas, "Courier New", "Source Code Pro", "Miscrosoft Yahei", "Segoe UI", "Lucida Grande", Helvetica, Arial, FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif;
+
+// property setting ( applies only to width / padding etc. converted to rem )
+.properties(@key, @value: 8) {
+    @{key}: if((ispercentage(@value)), @value, if((isunit(@value, rem)), @value, (@value / @mi-unit-base) * @mi-unit));
+}
+
+// font size
+.font-size(@value: 14) {
+    .properties(font-size, @value);
+}
+
+// letter spacing.
+.letter-spacing(@value: 2) {
+    .properties(letter-spacing, @value);
+}
+
+// animation
+.transition(@property: all, @duration: @mi-anim-duration, @function: ease) {
+    transition: @property @duration @function;
+}
+
+// flex
+.flex(@align: center, @justify: center, @direction: row) {
+    display: flex;
+    align-items: @align;
+    justify-content: @justify;
+    flex-direction: @direction;
+}
+
+// grid
+.grid(@columns: 1, @gap: 16) {
+    display: grid;
+    grid-template-columns: repeat(@columns, 1fr);
+    grid-gap: (@gap / @mi-unit-base) * @mi-unit;
+    width: 100%;
+}
+
+// background
+.background(@url: unknow, @size: cover, @position: center center, @repeat: no-repeat) {
+    background-position: @position;
+    background-repeat: @repeat;
+    background-size: @size;
+    background-image: if(isstring('unknow'), unset, url(@url));
+}
+
+// fixed
+.fixed(@left: 0, @top: 0) {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: if((ispercentage(@top)), @top, (@top / @mi-unit-base) * @mi-unit);
+    left: if((ispercentage(@left)), @left, (@left / @mi-unit-base) * @mi-unit);
+}
+
+// ellipsis
+.ellipsis() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+// text line clamp
+.lines(@line: 2) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: @line;
+    -webkit-box-orient: vertical;
+}
+
+// radius
+.radius(@raduis: 4) {
+    border-radius: (@raduis / @mi-unit-base) * @mi-unit;
+}
+
+.circle() {
+    border-radius: 50%;
+}
+
+// hide scrollbar
+.hide-scrollbar() {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

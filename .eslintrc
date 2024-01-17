@@ -1,0 +1,76 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+    "extends": [
+        "plugin:vue/vue3-recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "@vue/prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "parser": "@babel/eslint-parser"
+    },
+    "plugins": ["markdown", "jest", "@typescript-eslint", "import"],
+    "overrides": [
+        {
+            "files": ["*.md", "*.md/*.vue", "*.md/*.js", "*.md/*.ts", "*.md/*.base"],
+            "processor": "markdown/markdown",
+            "rules": { "no-console": "off", "import/no-unresolved": "off" }
+        },
+        {
+            "files": ["*.ts", "*.tsx"],
+            "parserOptions": { "project": ["./tsconfig.json", "./tsconfig.node.json", "./rollup.config.ts"] },
+            "rules": {
+                "semi": "off",
+                "quotes": ["error", "single", {
+                    "allowTemplateLiterals": true,
+                    "avoidEscape": true
+                }],
+                "@typescript-eslint/ban-types": 0,
+                "@typescript-eslint/no-var-requires": "off",
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/explicit-module-boundary-types": "off",
+                "@typescript-eslint/no-empty-function": "off",
+                "@typescript-eslint/class-name-casing": "off",
+                "vue/html-closing-bracket-newline": ["error", {
+                    "singleline": "never",
+                    "multiline": "never"
+                }],
+                "@typescript-eslint/ban-ts-comment": 0
+            }
+        },
+        {
+            "files": ["*.vue"],
+            "parser": "vue-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser",
+                "ecmaVersion": 2021
+            },
+            "rules": {
+                "no-console": "off",
+                "semi": "off",
+                "vue/no-reserved-component-names": "off"
+            }
+        }
+    ],
+    "rules": {
+        "no-console": "off",
+        "no-debugger": "off",
+        "no-var": "error",
+        "semi": "off",
+        "camelcase": "off",
+        "import/namespace": [2, { "allowComputed": true }],
+        "vue/no-v-html": "off",
+        "no-extra-boolean-cast": "off",
+        "import/no-named-as-default": "off",
+        "prettier/prettier": ["error", {
+            "endOfLine": "auto"
+        }]
+    }
+}

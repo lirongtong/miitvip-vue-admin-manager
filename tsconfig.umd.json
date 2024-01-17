@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": ["ESNext", "ES2020", "DOM", "DOM.Iterable"],
+        "skipLibCheck": true,
+        "strictNullChecks": false,
+        "importHelpers": false,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "removeComments": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "declaration": false,
+		"allowJs": true,
+        "jsx": "preserve",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": false,
+		"noImplicitThis": false,
+        "baseUrl": "./",
+        "plugins": [{ "name": "typescript-plugin-css-modules", "options": { "customMatcher": "\\.module\\.(c|le|sa|sc)ss$" } }],
+        "paths": {
+            "@/*": ["example/*"],
+            "makeit-admin-pro": ["src/index.ts"]
+        }
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+    "exclude": ["node_modules", "dist", "lib", "es", "build", "example"]
+}

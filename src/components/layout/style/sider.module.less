@@ -1,0 +1,18 @@
+@import '../../../styles/core/variables.module.less';
+
+.container {
+    .transition();
+    .properties(width, @mi-sider-width);
+    background-color: var(--mi-layout-sider-background);
+    .background();
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    z-index: @mi-zindex;
+}
+
+:export {
+    --layout-sider-background: var(--mi-inverse-on-surface)
+}

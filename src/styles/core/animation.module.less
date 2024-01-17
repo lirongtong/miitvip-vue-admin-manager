@@ -1,0 +1,27 @@
+@import './variables.module.less';
+
+.mi-anim {
+    .transition();
+
+    // page change
+    &-page-slide-enter-active,
+    &-page-slide-leave-active {
+        .transition(all, @mi-anim-duration, linear);
+    }
+
+    &-page-slide-leave-from,
+    &-page-slide-enter-to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    &-page-slide-enter-from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    &-page-slide-leave-to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
