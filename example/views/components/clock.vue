@@ -1,3 +1,0 @@
-<template>
-    <mi-clock />
-</template>

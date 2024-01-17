@@ -1,3 +1,0 @@
-<template>
-    Global
-</template>

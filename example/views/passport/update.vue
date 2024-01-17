@@ -1,3 +1,0 @@
-<template>
-    Update Password
-</template>
