@@ -1,5 +1,6 @@
 import { type VueTypeValidableDef } from 'vue-types'
 import { PropTypes, DefaultProps } from '../../utils/types'
+import type { BreadcrumbProperties } from '../breadcrumb/props'
 
 /**
  * 布局属性
@@ -40,6 +41,7 @@ export const LayoutProps = (): LayoutProperties & DefaultProps => ({
  * @param notice 消息配置<Slot />
  * @param dropdown 下拉菜单配置<Slot />
  * @param breadcrumb 面包屑配置<Slot />
+ * @param breadcrumbSetting 面包屑组件配置
  * @param custom 自定义配置<Slot />(置于右侧)
  */
 export type LayoutHeaderProperties = {
@@ -47,6 +49,7 @@ export type LayoutHeaderProperties = {
     notice?: VueTypeValidableDef<any>
     dropdown?: VueTypeValidableDef<any>
     breadcrumb?: VueTypeValidableDef<any>
+    breadcrumbSetting?: VueTypeValidableDef<BreadcrumbProperties>
     custom?: VueTypeValidableDef<any>
 }
 export const LayoutHeaderProps = (): LayoutHeaderProperties & DefaultProps => ({
@@ -55,6 +58,7 @@ export const LayoutHeaderProps = (): LayoutHeaderProperties & DefaultProps => ({
     notice: PropTypes.any,
     dropdown: PropTypes.any,
     breadcrumb: PropTypes.any,
+    breadcrumbSetting: PropTypes.object,
     custom: PropTypes.any
 })
 

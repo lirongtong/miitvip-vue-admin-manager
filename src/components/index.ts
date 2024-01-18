@@ -9,3 +9,6 @@ export type {
     LayoutSiderLogoProperties
 } from './layout/props'
 export { default as Layout } from './layout'
+
+export type { BreadcrumbProperties } from './breadcrumb/props'
+export { default as Breadcrumb } from './breadcrumb'
