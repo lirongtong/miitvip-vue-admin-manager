@@ -1,0 +1,51 @@
+@import '../../../styles/core/variables.module.less';
+
+.container {
+    .transition();
+    .flex(center, space-between);
+    position: fixed;
+    left: 0;
+    .properties(left, @mi-sider-width);
+    width: calc(100% - @mi-sider-width);
+    .properties(height, @mi-header-height);
+    .properties(padding, 16);
+    background-color: var(--mi-layout-header-background);
+    box-shadow: 0 0 0.625rem var(--mi-layout-header-shadow);
+    z-index: @mi-zindex;
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border: 0.0625rem solid var(--mi-layout-header-barBorder);
+    background-color: var(--mi-layout-header-bar);
+    .radius(48);
+}
+
+.left,
+.right,
+.trigger {
+    .flex();
+    .properties(height, @mi-header-height);
+}
+
+.trigger {
+    .transition();
+    position: relative;
+    cursor: pointer;
+
+    .anticon {
+        .properties(width, 32);
+        .properties(height, 32);
+        .flex();
+        .circle();
+    }
+}
+
+:export {
+    --layout-header-shadow: var(--mi-shadow);
+    --layout-header-background: var(--mi-background);
+    --layout-header-bar: var(--mi-secondary-container);
+    --layout-header-barBorder: var(--mi-secondary);
+}

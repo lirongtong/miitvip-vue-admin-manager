@@ -7,7 +7,6 @@ import { PropTypes, DefaultProps } from '../../utils/types'
  * @param showHistoryMenu 是否显示历史菜单
  * @param showBreadcrumbs 是否显示面包屑
  * @param header 顶栏<slot />
- * @param headerExtra 顶栏右侧<slot />
  * @param headerSetting 顶栏组件的配置参数
  * @param sider 侧边栏<slot />
  * @param siderSetting 侧边栏组件的配置参数
@@ -18,7 +17,6 @@ export type LayoutProperties = {
     showBreadcrumbs?: VueTypeValidableDef<boolean>
     contentSetting?: VueTypeValidableDef<LayoutContentProperties>
     header?: VueTypeValidableDef<any>
-    headerExtra?: VueTypeValidableDef<any>
     headerSetting?: VueTypeValidableDef<LayoutHeaderProperties>
     sider?: VueTypeValidableDef<any>
     siderSetting?: VueTypeValidableDef<LayoutSiderProperties>
@@ -30,13 +28,35 @@ export const LayoutProps = (): LayoutProperties & DefaultProps => ({
     showBreadcrumbs: PropTypes.bool.def(true),
     contentSetting: PropTypes.object,
     header: PropTypes.any,
-    headerExtra: PropTypes.any,
+    headerSetting: PropTypes.object,
     sider: PropTypes.any,
     siderSetting: PropTypes.object,
     footer: PropTypes.any
 })
 
-export interface LayoutHeaderProperties extends DefaultProps {}
+/**
+ * 布局顶栏配置
+ * @param stretch 展开/收起按钮配置<Slot />
+ * @param notice 消息配置<Slot />
+ * @param dropdown 下拉菜单配置<Slot />
+ * @param breadcrumb 面包屑配置<Slot />
+ * @param custom 自定义配置<Slot />(置于右侧)
+ */
+export type LayoutHeaderProperties = {
+    stretch?: VueTypeValidableDef<any>
+    notice?: VueTypeValidableDef<any>
+    dropdown?: VueTypeValidableDef<any>
+    breadcrumb?: VueTypeValidableDef<any>
+    custom?: VueTypeValidableDef<any>
+}
+export const LayoutHeaderProps = (): LayoutHeaderProperties & DefaultProps => ({
+    prefixCls: PropTypes.string,
+    stretch: PropTypes.any,
+    notice: PropTypes.any,
+    dropdown: PropTypes.any,
+    breadcrumb: PropTypes.any,
+    custom: PropTypes.any
+})
 
 /**
  * 布局侧边属性
@@ -59,7 +79,7 @@ export const LayoutSiderProps = (): LayoutSiderProperties & DefaultProps => ({
 })
 
 /**
- * 布局侧边 Logo 配置
+ * 布局侧边LOGO配置
  * @param vertical 竖排
  */
 export type LayoutSiderLogoProperties = {

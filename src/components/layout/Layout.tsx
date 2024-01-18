@@ -4,11 +4,12 @@ import { LayoutProps } from './props'
 import { $g } from '../../utils/global'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
-import applyTheme from '../_utils/theme'
 import { ConfigProvider } from 'ant-design-vue'
+import MiLayoutHeader from './Header'
 import MiLayoutSider from './Sider'
 import MiLayoutContent from './Content'
 import MiLayoutFooter from './Footer'
+import applyTheme from '../_utils/theme'
 import styled from './style/layout.module.less'
 
 const MiLayout = defineComponent({
@@ -27,18 +28,16 @@ const MiLayout = defineComponent({
 
         applyTheme(styled)
 
-        const renderSider = () => {
-            return getPropSlot(slots, props, 'sider') ?? <MiLayoutSider {...props.siderSetting} />
-        }
-
-        const renderHeader = () => {}
-
         const renderLayout = () => {
             return (
                 <>
-                    {renderSider()}
+                    {getPropSlot(slots, props, 'sider') ?? (
+                        <MiLayoutSider {...props.siderSetting} />
+                    )}
                     <section class={styled.content}>
-                        {renderHeader()}
+                        {getPropSlot(slots, props, 'header') ?? (
+                            <MiLayoutHeader {...props.headerSetting} />
+                        )}
                         <MiLayoutContent {...props.contentSetting} />
                     </section>
                 </>
