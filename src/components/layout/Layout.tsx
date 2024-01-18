@@ -5,6 +5,7 @@ import { $g } from '../../utils/global'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import applyTheme from '../_utils/theme'
+import { ConfigProvider } from 'ant-design-vue'
 import MiLayoutSider from './Sider'
 import MiLayoutContent from './Content'
 import MiLayoutFooter from './Footer'
@@ -45,13 +46,14 @@ const MiLayout = defineComponent({
         }
 
         return () => (
-            <>
+            <ConfigProvider
+                theme={{ token: { colorPrimary: $g.primaryColor, borderRadius: $g.radius } }}>
                 <section
                     class={`${styled.container} ${langClass}`}
                     hasSider={width.value < $g.breakpoints?.md}>
                     {renderLayout()}
                 </section>
-            </>
+            </ConfigProvider>
         )
     }
 })

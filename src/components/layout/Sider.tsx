@@ -1,5 +1,7 @@
 import { defineComponent, type SlotsType } from 'vue'
 import { LayoutSiderProps } from './props'
+import { getPropSlot } from '../_utils/props'
+import MiLayoutSiderLogo from './Logo'
 import applyTheme from '../_utils/theme'
 import styled from './style/sider.module.less'
 
@@ -11,10 +13,13 @@ export default defineComponent({
         menu: any
     }>,
     props: LayoutSiderProps(),
-    setup() {
+    setup(props, { slots }) {
         applyTheme(styled)
 
-        const renderLogo = () => {}
+        const renderLogo = () => {
+            return getPropSlot(slots, props, 'logo') ?? <MiLayoutSiderLogo {...props.logoSetting} />
+        }
+
         const renderMenu = () => {}
 
         return () => (

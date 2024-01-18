@@ -328,6 +328,32 @@ class MiTools {
     }
 
     /**
+     * HEX 颜色转 RGBA
+     * @param color
+     * @param opacity
+     * @returns
+     */
+    hex2rgba(color?: string, opacity = 1): string | undefined {
+        if (color) {
+            const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+            if (reg.test(color)) {
+                if (color.length === 4) {
+                    let newColor = '#'
+                    for (let i = 1; i < 4; i++) {
+                        newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
+                    }
+                    color = newColor
+                }
+                const changeColor: number[] = []
+                for (let i = 1; i < 7; i += 2) {
+                    changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
+                }
+                return `rgba(${changeColor.join(',')}, ${opacity})`
+            }
+        } else return color
+    }
+
+    /**
      * 转 rem
      * @param num
      * @returns
@@ -411,10 +437,10 @@ class MiTools {
      */
     createThemeProperties(theme?: string, target?: HTMLElement) {
         try {
-            const themes = themeFromSourceColor(argbFromHex(theme || '#f0c26f'))
+            const themes = themeFromSourceColor(argbFromHex(theme || '#F0C26F'))
             this.setThemeSchemeProperties(themes.schemes[$g.theme || 'dark'], target)
         } catch (err) {
-            throw new Error('The `theme` variable only supports HEX (e.g. `#ffffff`).')
+            throw new Error('The `theme` variable only supports HEX (e.g. `#FFFFFF`).')
         }
     }
 
@@ -566,6 +592,7 @@ class MiTools {
  *  - {@link $tools.back2top} 回到顶部
  *  - {@link $tools.back2pos} 回到指定 `DOM` 位置
  *  - {@link $tools.px2rem} 转 rem ( 不带单位的数字 )
+ *  - {@link $tools.hex2rgba} HEX 颜色转 RGBA
  *  - {@link $tools.convert2rem} 转 rem ( 附带单位的字符串 )
  *  - {@link $tools.on} 添加事件监听
  *  - {@link $tools.off} 移除事件监听

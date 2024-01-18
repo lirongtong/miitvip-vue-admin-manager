@@ -1,0 +1,74 @@
+@import '../../../styles/core/variables.module.less';
+
+.container {
+    .transition();
+    .flex();
+    .ellipsis();
+    position: relative;
+    .properties(width, @mi-sider-width);
+    .properties(height, @mi-sider-logo-height);
+    color: var(--mi-layout-sider-logo-text);
+    cursor: pointer;
+}
+
+.logo {
+    .properties(width, @mi-sider-logo);
+    .properties(height, @mi-sider-logo);
+    .transition();
+    overflow: hidden;
+}
+
+.circle {
+    .logo {
+        .circle();
+        border: .125rem solid var(--mi-layout-sider-logo-border);
+
+        > img {
+            .circle();
+            transform: scale(1.1);
+        }
+
+        &:hover {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+.site {
+    .flex();
+    .ellipsis();
+
+    svg {
+        .font-size(30);
+    }
+
+    h1 {
+        .transition(ease-in-out);
+        .flex();
+        .ellipsis();
+        margin: 0;
+        .font-size(20, bold);
+        .properties(margin-left, 12);
+        font-family: @mi-font-code;
+        zoom: 1;
+    }
+}
+
+.vertical {
+    .properties(height, @mi-sider-logo-large-height);
+
+    .logo {
+        .properties(width, @mi-sider-logo-large);
+        .properties(height, @mi-sider-logo-large);
+        .properties(margin-bottom);
+    }
+
+    .site {
+        flex-direction: column;
+    }
+}
+
+:export {
+    --layout-sider-logo-text: var(--mi-primary);
+    --layout-sider-logo-border: var(--mi-primary);
+}

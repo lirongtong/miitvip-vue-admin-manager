@@ -28,6 +28,10 @@
 
 // sider
 @mi-sider-width: @mi-gap * 32;
+@mi-sider-logo: @mi-gap * 4;
+@mi-sider-logo-height: @mi-gap * 16;
+@mi-sider-logo-large: @mi-gap * 8;
+@mi-sider-logo-large-height: @mi-gap * 24;
 
 // font
 @mi-font-basic: "Pingfang SC", "Microsoft YaHei", "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -39,8 +43,9 @@
 }
 
 // font size
-.font-size(@value: 14) {
+.font-size(@value: 14, @weight: normal) {
     .properties(font-size, @value);
+    font-weight: @weight;
 }
 
 // letter spacing.

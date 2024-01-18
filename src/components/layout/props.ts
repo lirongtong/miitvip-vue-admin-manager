@@ -46,15 +46,30 @@ export interface LayoutHeaderProperties extends DefaultProps {}
  */
 export type LayoutSiderProperties = {
     logo?: VueTypeValidableDef<any>
+    logoSetting?: VueTypeValidableDef<LayoutSiderLogoProperties>
     menu?: VueTypeValidableDef<any>
     background?: VueTypeValidableDef<string>
 }
-
 export const LayoutSiderProps = (): LayoutSiderProperties & DefaultProps => ({
     prefixCls: PropTypes.string,
     logo: PropTypes.any,
+    logoSetting: PropTypes.object,
     menu: PropTypes.any,
     background: PropTypes.string
+})
+
+/**
+ * 布局侧边 Logo 配置
+ * @param vertical 竖排
+ */
+export type LayoutSiderLogoProperties = {
+    circle?: VueTypeValidableDef<boolean>
+    vertical?: VueTypeValidableDef<boolean>
+}
+export const LayoutSiderLogoProp = (): LayoutSiderLogoProperties & DefaultProps => ({
+    prefixCls: PropTypes.string,
+    circle: PropTypes.bool.def(true),
+    vertical: PropTypes.bool.def(true)
 })
 
 /**

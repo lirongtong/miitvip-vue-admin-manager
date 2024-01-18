@@ -1,4 +1,6 @@
 import { PropTypes } from '../../utils/types'
+import type { DefaultProps } from '../../utils/types'
+import type { VueTypeValidableDef } from 'vue-types'
 
 /**
  * 主题属性
@@ -15,7 +17,10 @@ import { PropTypes } from '../../utils/types'
  * ```
  * @returns
  */
-export const ThemeProps = () => ({
+export type ThemeProperties = {
+    theme?: VueTypeValidableDef<object>
+}
+export const ThemeProps = (): ThemeProperties & DefaultProps => ({
     prefixCls: PropTypes.string,
     theme: PropTypes.object.def({})
 })

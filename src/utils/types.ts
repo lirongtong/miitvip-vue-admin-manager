@@ -24,10 +24,13 @@ export type RequestConfig = AxiosRequestConfig & {
  * @param title 文档标题
  * @param site 站点名称
  * @param author 作者
+ * @param logo 站点图标
  * @param powered 提供方
  * @param keywords 关键词
  * @param description 描述
  * @param theme 主题
+ * @param primaryColor 主色
+ * @param radius 圆角
  * @param prefix 前缀
  * @param emptyFormatter 空串格式化的字符串
  * @param apiVersion API 版本
@@ -41,10 +44,13 @@ export interface GlobalProperties extends Record<string, any> {
     title?: string
     site?: string
     author?: string
+    logo?: string
     powered?: string
     keywords?: string
     description?: string
     theme?: string
+    primaryColor?: string
+    radius?: number
     prefix?: string
     emptyFormatter?: string
     apiVersion?: string
