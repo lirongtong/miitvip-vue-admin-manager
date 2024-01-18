@@ -1,4 +1,4 @@
-import { App, reactive } from 'vue'
+import { type App, reactive } from 'vue'
 import { $g } from './global'
 import { $tools } from './tools'
 

@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 import { $g } from './global'
 import { $cookie } from './cookie'
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios'

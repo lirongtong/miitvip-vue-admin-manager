@@ -5,7 +5,7 @@ import { useWindowResize } from '../../hooks/useWindowResize'
 import applyTheme from '../_utils/theme'
 import styled from './style/footer.module.less'
 
-export default defineComponent({
+const MiLayoutFooter = defineComponent({
     name: 'MiLayoutFooter',
     inheritAttrs: false,
     setup(props, { slots }) {
@@ -25,3 +25,5 @@ export default defineComponent({
         )
     }
 })
+
+export default MiLayoutFooter

@@ -3,7 +3,7 @@ import { LayoutHeaderProps } from './props'
 import applyTheme from '../_utils/theme'
 import styled from './style/header.module.less'
 
-export default defineComponent({
+const MiLayoutHeader = defineComponent({
     name: 'MiLayoutHeader',
     inheritAttrs: false,
     slots: Object as SlotsType<{
@@ -26,3 +26,5 @@ export default defineComponent({
         )
     }
 })
+
+export default MiLayoutHeader

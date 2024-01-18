@@ -1,4 +1,4 @@
-import { type App } from 'vue'
+import type { App } from 'vue'
 import { type I18n, createI18n, type VueI18n } from 'vue-i18n'
 import { $g } from '../utils/global'
 import { $storage } from '../utils/storage'

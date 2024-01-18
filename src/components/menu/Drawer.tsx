@@ -1,9 +1,11 @@
 import { defineComponent } from 'vue'
 
-export default defineComponent({
+const MiDrawerMenu = defineComponent({
     name: 'MiDrawerMenu',
     inheritAttrs: false,
     setup() {
         return <div></div>
     }
 })
+
+export default MiDrawerMenu

@@ -57,10 +57,14 @@ const MiLayout = defineComponent({
     }
 })
 
+MiLayout.Header = MiLayoutHeader
+MiLayout.Sider = MiLayoutSider
 MiLayout.Content = MiLayoutContent
 MiLayout.Footer = MiLayoutFooter
 
 export default MiLayout as typeof MiLayout & {
+    readonly Header: typeof MiLayoutHeader
+    readonly Sider: typeof MiLayoutSider
     readonly Content: typeof MiLayoutContent
     readonly Footer: typeof MiLayoutFooter
 }

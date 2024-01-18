@@ -8,7 +8,7 @@ import MiLayoutFooter from './Footer'
 import applyTheme from '../_utils/theme'
 import styled from './style/content.module.less'
 
-export default defineComponent({
+const MiLayoutContent = defineComponent({
     name: 'MiLayoutContent',
     inheritAttrs: false,
     props: LayoutContentProps(),
@@ -40,3 +40,5 @@ export default defineComponent({
         )
     }
 })
+
+export default MiLayoutContent

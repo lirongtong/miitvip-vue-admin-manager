@@ -5,7 +5,7 @@ import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import styled from './style/theme.module.less'
 
-export default defineComponent({
+const MiTheme = defineComponent({
     name: 'MiTheme',
     inheritAttrs: false,
     props: ThemeProps(),
@@ -21,3 +21,5 @@ export default defineComponent({
         return () => slots?.default()
     }
 })
+
+export default MiTheme

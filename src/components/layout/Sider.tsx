@@ -5,7 +5,7 @@ import MiLayoutSiderLogo from './Logo'
 import applyTheme from '../_utils/theme'
 import styled from './style/sider.module.less'
 
-export default defineComponent({
+const MiLayoutSider = defineComponent({
     name: 'MiLayoutSider',
     inheritAttrs: false,
     slots: Object as SlotsType<{
@@ -30,3 +30,5 @@ export default defineComponent({
         )
     }
 })
+
+export default MiLayoutSider
