@@ -5,5 +5,6 @@ import { Layout } from '../src/index'
 
 const app = createApp(App)
 app.use(router)
-app.use(Layout)
+const components = [Layout]
+components.forEach((component) => app.use(component))
 app.mount('#app')
