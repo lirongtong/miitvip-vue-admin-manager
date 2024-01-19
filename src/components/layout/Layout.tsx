@@ -16,6 +16,7 @@ const MiLayout = defineComponent({
     name: `MiLayout`,
     inheritAttrs: false,
     slots: Object as SlotsType<{
+        default: any
         header: any
         sider: any
         footer: any
@@ -29,7 +30,9 @@ const MiLayout = defineComponent({
         applyTheme(styled)
 
         const renderLayout = () => {
-            return (
+            return slots?.default ? (
+                slots.default()
+            ) : (
                 <>
                     {getPropSlot(slots, props, 'sider') ?? (
                         <MiLayoutSider {...props.siderSetting} />

@@ -1,6 +1,6 @@
 import { PropTypes } from '../../utils/types'
-import type { DefaultProps } from '../../utils/types'
-import type { VueTypeValidableDef } from 'vue-types'
+import { object } from 'vue-types'
+import { ThemeTokens } from './tokens'
 
 /**
  * 主题属性
@@ -15,12 +15,10 @@ import type { VueTypeValidableDef } from 'vue-types'
  *     </mi-layout>
  * </mi-theme>
  * ```
- * @returns
+ * @see ThemeTokens
  */
-export type ThemeProperties = {
-    theme?: VueTypeValidableDef<object>
-}
-export const ThemeProps = (): ThemeProperties & DefaultProps => ({
+
+export const ThemeProps = () => ({
     prefixCls: PropTypes.string,
-    theme: PropTypes.object.def({})
+    theme: object<Partial<ThemeTokens>>()
 })

@@ -1,38 +1,38 @@
-import { type VueTypeValidableDef } from 'vue-types'
+import { object } from 'vue-types'
 import { PropTypes, DefaultProps } from '../../utils/types'
 import type { BreadcrumbProperties } from '../breadcrumb/props'
 
 /**
  * 布局属性
- * @param contentSetting 内容组件的配置参数
  * @param showHistoryMenu 是否显示历史菜单
  * @param showBreadcrumbs 是否显示面包屑
+ * @param contentSetting 内容组件的配置参数
  * @param header 顶栏<slot />
  * @param headerSetting 顶栏组件的配置参数
  * @param sider 侧边栏<slot />
  * @param siderSetting 侧边栏组件的配置参数
  * @param footer 页脚<slot />
  */
-export type LayoutProperties = {
-    showHistoryMenu?: VueTypeValidableDef<boolean>
-    showBreadcrumbs?: VueTypeValidableDef<boolean>
-    contentSetting?: VueTypeValidableDef<LayoutContentProperties>
-    header?: VueTypeValidableDef<any>
-    headerSetting?: VueTypeValidableDef<LayoutHeaderProperties>
-    sider?: VueTypeValidableDef<any>
-    siderSetting?: VueTypeValidableDef<LayoutSiderProperties>
-    footer?: VueTypeValidableDef<any>
+export interface LayoutProperties extends DefaultProps {
+    showHistoryMenu: boolean
+    showBreadcrumbs: boolean
+    header: any
+    sider: any
+    footer: any
+    headerSetting: Partial<LayoutHeaderProperties>
+    siderSetting: Partial<LayoutSiderProperties>
+    contentSetting: Partial<LayoutContentProperties>
 }
-export const LayoutProps = (): LayoutProperties & DefaultProps => ({
+export const LayoutProps = () => ({
     prefixCls: PropTypes.string,
     showHistoryMenu: PropTypes.bool.def(true),
     showBreadcrumbs: PropTypes.bool.def(true),
-    contentSetting: PropTypes.object,
     header: PropTypes.any,
-    headerSetting: PropTypes.object,
     sider: PropTypes.any,
-    siderSetting: PropTypes.object,
-    footer: PropTypes.any
+    footer: PropTypes.any,
+    headerSetting: object<Partial<LayoutHeaderProperties>>(),
+    siderSetting: object<Partial<LayoutSiderProperties>>(),
+    contentSetting: object<Partial<LayoutContentProperties>>()
 })
 
 /**
@@ -44,21 +44,21 @@ export const LayoutProps = (): LayoutProperties & DefaultProps => ({
  * @param breadcrumbSetting 面包屑组件配置
  * @param custom 自定义配置<Slot />(置于右侧)
  */
-export type LayoutHeaderProperties = {
-    stretch?: VueTypeValidableDef<any>
-    notice?: VueTypeValidableDef<any>
-    dropdown?: VueTypeValidableDef<any>
-    breadcrumb?: VueTypeValidableDef<any>
-    breadcrumbSetting?: VueTypeValidableDef<BreadcrumbProperties>
-    custom?: VueTypeValidableDef<any>
+export interface LayoutHeaderProperties extends DefaultProps {
+    stretch: any
+    notice: any
+    dropdown: any
+    breadcrumb: any
+    custom: any
+    breadcrumbSetting: Partial<BreadcrumbProperties>
 }
-export const LayoutHeaderProps = (): LayoutHeaderProperties & DefaultProps => ({
+export const LayoutHeaderProps = () => ({
     prefixCls: PropTypes.string,
     stretch: PropTypes.any,
     notice: PropTypes.any,
     dropdown: PropTypes.any,
     breadcrumb: PropTypes.any,
-    breadcrumbSetting: PropTypes.object,
+    breadcrumbSetting: object<Partial<BreadcrumbProperties>>(),
     custom: PropTypes.any
 })
 
@@ -68,29 +68,30 @@ export const LayoutHeaderProps = (): LayoutHeaderProperties & DefaultProps => ({
  * @param menu 菜单
  * @param background 背景色
  */
-export type LayoutSiderProperties = {
-    logo?: VueTypeValidableDef<any>
-    logoSetting?: VueTypeValidableDef<LayoutSiderLogoProperties>
-    menu?: VueTypeValidableDef<any>
-    background?: VueTypeValidableDef<string>
+export interface LayoutSiderProperties extends DefaultProps {
+    logo: any
+    menu: any
+    background: string
+    logoSetting: Partial<LayoutSiderLogoProperties>
 }
-export const LayoutSiderProps = (): LayoutSiderProperties & DefaultProps => ({
+export const LayoutSiderProps = () => ({
     prefixCls: PropTypes.string,
     logo: PropTypes.any,
-    logoSetting: PropTypes.object,
+    logoSetting: object<Partial<LayoutSiderLogoProperties>>(),
     menu: PropTypes.any,
     background: PropTypes.string
 })
 
 /**
  * 布局侧边LOGO配置
+ * @param circle 圆形显示LOGO
  * @param vertical 竖排
  */
-export type LayoutSiderLogoProperties = {
-    circle?: VueTypeValidableDef<boolean>
-    vertical?: VueTypeValidableDef<boolean>
+export interface LayoutSiderLogoProperties extends DefaultProps {
+    circle: boolean
+    vertical: boolean
 }
-export const LayoutSiderLogoProp = (): LayoutSiderLogoProperties & DefaultProps => ({
+export const LayoutSiderLogoProps = () => ({
     prefixCls: PropTypes.string,
     circle: PropTypes.bool.def(true),
     vertical: PropTypes.bool.def(true)
@@ -103,11 +104,11 @@ export const LayoutSiderLogoProp = (): LayoutSiderLogoProperties & DefaultProps 
  * @param footer 页脚配置 <Slot />
  */
 export type LayoutContentProperties = {
-    animation?: VueTypeValidableDef<string>
-    showHistoryMenu?: VueTypeValidableDef<boolean>
-    footer?: VueTypeValidableDef<any>
-}
-export const LayoutContentProps = (): LayoutContentProperties & DefaultProps => ({
+    animation?: string
+    showHistoryMenu?: boolean
+    footer?: any
+} & DefaultProps
+export const LayoutContentProps = () => ({
     prefixCls: PropTypes.string,
     animation: PropTypes.string.def('page-slide'),
     showHistoryMenu: PropTypes.bool.def(true),

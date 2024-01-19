@@ -1,4 +1,4 @@
-import type { App } from 'vue'
+import { type App } from 'vue'
 import { createPinia } from 'pinia'
 import i18n from '../locales'
 import Global, { $g } from './global'
@@ -9,7 +9,7 @@ import Request, { $request } from './request'
 import Tools, { $tools } from './tools'
 import Prism from '../directives/prism'
 import Limit from '../directives/limit'
-import '../styles/index.module.less'
+import Theme from '../components/theme'
 
 const pinia = createPinia()
 const components = [pinia, i18n, Global, Api, Cookie, Storage, Request, Prism, Limit, Tools]
@@ -41,6 +41,10 @@ export default {
         components.forEach((component) => [
             app.use(component as typeof component & { install: () => void })
         ])
+        // 主题
+        if (typeof app.component(Theme.name) === 'undefined') {
+            app.component(Theme.name, Theme)
+        }
         return app
     }
 }

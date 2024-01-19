@@ -12,7 +12,7 @@ export const install = <T>(component: T, alias?: string) => {
     const comp = component as any
     comp.install = (app: App) => {
         if (!__tree_shaking_basic__) app.use(Basic)
-        app.component(comp.name, component)
+        if (typeof app.component(comp.name) === 'undefined') app.component(comp.name, component)
         if (alias) app.config.globalProperties[alias] = comp
     }
     return comp as T & Plugin

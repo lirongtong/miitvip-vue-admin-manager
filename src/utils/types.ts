@@ -75,6 +75,6 @@ export interface RouterViewSlot {
  * 默认 Props
  * @param prefixCls 样式前缀
  */
-export type DefaultProps = {
-    prefixCls?: VueTypeValidableDef<string>
+export interface DefaultProps {
+    prefixCls: string
 }

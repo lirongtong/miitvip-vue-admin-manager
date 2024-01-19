@@ -1,4 +1,4 @@
-@import '../../../styles/core/variables.module.less';
+@import '../../theme/style/variables.module.less';
 
 .container {
     .transition();
@@ -46,6 +46,7 @@
         .transition(ease-in-out);
         .flex();
         .ellipsis();
+        width: auto;
         margin: 0;
         .font-size(20, bold);
         .properties(margin-left, 12);
@@ -71,4 +72,5 @@
 :export {
     --layout-sider-logo-text: var(--mi-primary);
     --layout-sider-logo-border: var(--mi-primary);
+    --layout-sider-logo-stretch: var(--mi-on-surface);
 }

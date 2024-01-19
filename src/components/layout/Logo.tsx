@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { LayoutSiderLogoProp } from './props'
+import { LayoutSiderLogoProps } from './props'
 import { RouterLink } from 'vue-router'
 import { $g } from '../../utils/global'
 import { useI18n } from 'vue-i18n'
@@ -10,7 +10,7 @@ import styled from './style/logo.module.less'
 export default defineComponent({
     name: 'MiLayoutSiderLogo',
     inheritAttrs: false,
-    props: LayoutSiderLogoProp(),
+    props: LayoutSiderLogoProps(),
     setup(props, { slots }) {
         const { t } = useI18n()
         const title = $g.site || t('site')
@@ -26,7 +26,7 @@ export default defineComponent({
         const slot = slots?.default ?? (
             <RouterLink to={{ path: '/' }} class={styled.site}>
                 {renderLogo}
-                <h1 innerHTML={title} />
+                {title ? <h1 innerHTML={title} /> : null}
             </RouterLink>
         )
         return () => (
