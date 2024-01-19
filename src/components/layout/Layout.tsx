@@ -38,10 +38,13 @@ const MiLayout = defineComponent({
                         <MiLayoutSider {...props.siderSetting} />
                     )}
                     <section class={styled.content}>
-                        {getPropSlot(slots, props, 'header') ?? (
-                            <MiLayoutHeader {...props.headerSetting} />
-                        )}
-                        <MiLayoutContent {...props.contentSetting} />
+                        <div class={styled.inner}>
+                            {getPropSlot(slots, props, 'header') ?? (
+                                <MiLayoutHeader {...props.headerSetting} />
+                            )}
+                            <MiLayoutContent {...props.contentSetting} />
+                            {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
+                        </div>
                     </section>
                 </>
             )

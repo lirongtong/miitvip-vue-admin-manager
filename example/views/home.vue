@@ -1,3 +1,5 @@
 <template>
-    <mi-layout />
+    <mi-theme>
+        <mi-layout />
+    </mi-theme>
 </template>

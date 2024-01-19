@@ -11,10 +11,29 @@
     width: 100%;
     .transition();
     .hide-scrollbar();
-    min-height: 100vh;
     .properties(padding-left, @mi-sider-width);
+    overflow: hidden;
+    position: relative;
+    z-index: @mi-zindex + 100;
 
     @media only screen and (max-width: @mi-md) {
         padding-left: 0;
     }
+}
+
+.inner {
+    width: calc(100% - 1.25rem);
+    height: calc(100vh - 2.5rem);
+    .properties(margin-top, 20);
+    .properties(margin-bottom, 20);
+    .properties(margin-right, 20);
+    .radius(16);
+    .hide-scrollbar();
+    background: var(--mi-layout-background);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+:export {
+    --layout-background: var(--mi-surface-variant);
 }

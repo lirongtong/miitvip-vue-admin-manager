@@ -31,10 +31,8 @@ class MiTools {
             id = id ?? `${$g.prefix}common-css-variables`
             const oldStyle = document.querySelector(`#${id}`)
             if (oldStyle) oldStyle.remove()
-            const hash = this.uid()
             const style = document.createElement('style')
             style.setAttribute('id', id)
-            style.setAttribute('data-hash', hash)
             style.textContent = `:root {${tokens.join('')}}`
             const head = document.head || document.getElementsByTagName('head')[0]
             const first = head.firstChild

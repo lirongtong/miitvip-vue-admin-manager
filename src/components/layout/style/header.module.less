@@ -3,14 +3,12 @@
 .container {
     .transition();
     .flex(center, space-between);
-    position: fixed;
-    left: 0;
     .properties(left, @mi-sider-width);
-    width: calc(100% - @mi-sider-width);
+    width: 100%;
     .properties(height, @mi-header-height);
     .properties(padding, 16);
-    background-color: var(--mi-layout-header-background);
-    box-shadow: 0 0 0.625rem var(--mi-layout-header-shadow);
+    position: sticky;
+    top: 0;
     z-index: @mi-zindex;
 }
 
@@ -18,8 +16,6 @@
     width: 100%;
     height: 100%;
     position: relative;
-    border: 0.0625rem solid var(--mi-layout-header-barBorder);
-    background-color: var(--mi-layout-header-bar);
     .radius(48);
 }
 

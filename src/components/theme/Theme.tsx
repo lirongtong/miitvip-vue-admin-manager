@@ -13,7 +13,7 @@ const MiTheme = defineComponent({
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
         $g.primaryColor =
-            globalThemeVars?.theme || globalThemeVars?.primary || styled?.theme || '#F0C26F'
+            globalThemeVars?.theme || globalThemeVars?.primary || styled?.theme || '#FFD464'
         $g.radius = globalThemeVars?.radius || styled?.radius || 4
         $tools.createThemeProperties($g.primaryColor)
         const store = useThemeStore()
