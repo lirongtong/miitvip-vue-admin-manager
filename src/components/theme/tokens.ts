@@ -39,6 +39,7 @@ export interface LayoutSiderLogoTokens {
 
 /**
  * 布局
+ * @param background Layout.Main 背景色
  * @param header Layout.Header
  * @param sider Layout.Sider
  * @param content Layout.Content
@@ -49,6 +50,7 @@ export interface LayoutSiderLogoTokens {
  */
 export interface LayoutTokens {
     [key: string]: any
+    background: string
     header: Partial<LayoutHeaderTokens>
     sider: Partial<LayoutSiderTokens>
     content: Partial<LayoutContentTokens>

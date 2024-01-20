@@ -57,7 +57,10 @@
 
 // 透明度 ( less fade 无法编译 css variables )
 .opacity(@key: color, @var, @opacity: 0.3) {
-    @{key}: linear-gradient(to bottom, var(--mi-layout-sider-logo-trigger) calc((@opacity - 1) * 10000%), transparent calc(@opacity * 10000%));
+    @{key}: .fade(@var, @opacity)[@result];
+}
+.fade(@var, @opacity) {
+    @result: linear-gradient(to bottom, @var calc((@opacity - 1) * 10000%), transparent calc(@opacity * 10000%));
 }
 
 // letter spacing.
