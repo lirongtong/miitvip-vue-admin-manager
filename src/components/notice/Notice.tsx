@@ -4,6 +4,7 @@ import { ConfigProvider, Tabs, Popover, Badge } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
 import { getPropSlot, getSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
+import { useI18n } from 'vue-i18n'
 import applyTheme from '../_utils/theme'
 import styled from './style/notice.module.less'
 
@@ -16,6 +17,8 @@ const MiNotice = defineComponent({
     }>,
     props: NoticeProps(),
     setup(props, { slots }) {
+        const { tm } = useI18n()
+
         applyTheme(styled)
 
         const renderIcon = () => {
@@ -39,7 +42,23 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderEmpty = () => {}
+        const renderEmpty = () => {
+            const date = new Date()
+            const weeks: string[] = Object.values(tm('global.week') || {})
+            const week: string | null = weeks[date.getDay()]
+            const y = date.getFullYear()
+            const m = date.getMonth() + 1
+            const d = date.getDate()
+            const times = `${y}-${m > 9 ? m : `0` + m}-${d > 9 ? d : `0` + d}`
+            return (
+                <>
+                    <div class={styled.emptyTime}>
+                        <div class={styled.emptyDate} innerHTML={times}></div>
+                        <div class={styled.emptyWeek} innerHTML={week}></div>
+                    </div>
+                </>
+            )
+        }
 
         const renderTabs = () => {
             const allSlots = getPropSlot(slots, props)
@@ -73,14 +92,12 @@ const MiNotice = defineComponent({
 
         const renderContent = () => {
             const content = renderTabs()
-            return <div class={styled.content}>{content ?? renderEmpty()}</div>
+            return (
+                <div class={`${styled.content}${!content ? ` ${styled.empty}` : ''}`}>
+                    {content ?? renderEmpty()}
+                </div>
+            )
         }
-
-        console.log(
-            $tools.getAntdvThemeProperties({
-                components: { tooltip: { colorBgElevated: '#fff' } }
-            })
-        )
 
         return () => (
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>

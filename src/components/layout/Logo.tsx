@@ -23,7 +23,7 @@ export default defineComponent({
     props: LayoutSiderLogoProps(),
     setup(props, { slots }) {
         const { t } = useI18n()
-        const title = $g.site || t('site')
+        const title = $g.site || t('global.site')
         const { width } = useWindowResize()
         const store = useLayoutStore()
         const collapsedState = computed(() => store.collapsed)

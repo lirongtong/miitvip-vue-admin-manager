@@ -1,18 +1,33 @@
 @import '../../theme/style/variables.module.less';
+@import '../../theme/style/antdv/popover.modules.less';
 
 .container {
     position: relative;
-    max-width: 100%;
-    .properties(width, 480);
     z-index: @mi-zindex + 100;
-
-    > .ant-popover-content {
-        background: var(--mi-notice-background);
-    }
+    .antdv-popover();
 }
 
 .content {
     color: var(--mi-notice-text);
+}
+
+.empty {
+    .properties(padding-left, 24);
+    .properties(padding-right, 24);
+
+    &-time {
+        .flex();
+        .properties(margin-bottom, 16);
+    }
+
+    &-date,
+    &-week {
+        .font-size(18, bold);
+    }
+
+    &-week {
+        .properties(margin-left, 16);
+    }
 }
 
 .tabs {
@@ -26,7 +41,8 @@
 }
 
 :export {
-    --notice-background: var(--mi-surface-variant);
+    --notice-border: var(--mi-primary);
+    --notice-background: var(--mi-background);
     --notice-icon: var(--mi-on-background);
     --notice-text: var(--mi-on-background);
 }

@@ -1,0 +1,24 @@
+.antdv-popover() {
+    > :global(.ant-popover-content) {
+        background: var(--mi-notice-background);
+    
+        :global(.ant-popover) {
+            &-inner {
+                background: var(--mi-notice-background);
+                border: 0.0625rem solid var(--mi-notice-border);
+            }
+    
+            &-arrow {
+                transform: translateX(-50%) translateY(-90%);
+                
+                &:before {
+                    background: var(--mi-notice-background);
+                }
+    
+                &:after {
+                    border: .0625rem solid var(--mi-notice-border);
+                }
+            }
+        }
+    }
+}

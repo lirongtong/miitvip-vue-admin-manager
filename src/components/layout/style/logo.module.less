@@ -22,9 +22,9 @@
     .font-size(16);
     color: var(--mi-layout-sider-collapsed);
     width: 100%;
-    .properties(padding-left, 16);
-    .properties(padding-right, 16);
-    .properties(padding-top, 20);
+    .properties(padding-left, @mi-padding);
+    .properties(padding-right, @mi-padding);
+    .properties(padding-top, @mi-margin);
     .properties(padding-bottom);
     position: absolute;
     top: 0;
@@ -37,6 +37,7 @@
     .circle();
     .opacity(background, var(--mi-layout-sider-logo-trigger), .2);
     cursor: pointer;
+    position: relative;
 }
 
 .logo {

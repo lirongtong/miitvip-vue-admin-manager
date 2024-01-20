@@ -1,5 +1,5 @@
 export default {
-    site: `麦可易特网`,
+    site: `Admin Pro`,
     ok: `确定`,
     cancel: `取消`,
     save: `保存`,
@@ -46,5 +46,14 @@ export default {
     internal: `内部`,
     external: `外部`,
     vite: `点击查看`,
-    back2top: `回到顶部`
+    back2top: `回到顶部`,
+    week: {
+        sun: '周日',
+        mon: '周一',
+        tues: '周二',
+        wed: '周三',
+        thur: '周四',
+        fri: '周五',
+        sat: '周六'
+    }
 }

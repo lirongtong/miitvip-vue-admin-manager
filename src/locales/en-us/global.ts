@@ -1,5 +1,5 @@
 export default {
-    site: `makeit.vip`,
+    site: `Admin Pro`,
     ok: `Ok`,
     cancel: `Cancel`,
     save: `Save`,
@@ -46,5 +46,14 @@ export default {
     internal: `Internal`,
     external: `External`,
     vite: `Click to view`,
-    back2top: `Back to top`
+    back2top: `Back to top`,
+    week: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tues: 'Tuesday',
+        wed: 'Wednesday',
+        thur: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday'
+    }
 }
