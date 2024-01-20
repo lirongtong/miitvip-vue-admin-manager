@@ -2,6 +2,21 @@
 
 .container {
     position: relative;
+    max-width: 100%;
+    .properties(width, 480);
+    z-index: @mi-zindex + 100;
+
+    > .ant-popover-content {
+        background: var(--mi-notice-background);
+    }
+}
+
+.content {
+    color: var(--mi-notice-text);
+}
+
+.tabs {
+    position: relative;
 }
 
 .icon {
@@ -11,5 +26,7 @@
 }
 
 :export {
+    --notice-background: var(--mi-surface-variant);
     --notice-icon: var(--mi-on-background);
+    --notice-text: var(--mi-on-background);
 }

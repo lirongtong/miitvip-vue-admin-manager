@@ -450,8 +450,8 @@ class MiTools {
      */
     createThemeProperties(theme?: string, target?: HTMLElement) {
         try {
-            const themes = themeFromSourceColor(argbFromHex(theme || '#F0C26F'))
-            this.setThemeSchemeProperties(themes.schemes[$g.theme || 'dark'], target)
+            const themes = themeFromSourceColor(argbFromHex(theme || '#FFD464'))
+            this.setThemeSchemeProperties(themes.schemes[$g.theme?.type || 'dark'], target)
         } catch (err) {
             throw new Error('The `theme` variable only supports HEX (e.g. `#FFFFFF`).')
         }
@@ -614,16 +614,19 @@ class MiTools {
 
     /**
      * Antdv 的主题配置
-     * @param algorithm
+     * @param config
      * @returns
      */
-    getAntdvThemeProperties() {
+    getAntdvThemeProperties(props?: Record<string, any>) {
         const theme = {
-            borderRadius: $g.radius,
-            colorPrimary: $g.primaryColor
+            borderRadius: $g.theme?.radius,
+            colorPrimary: $g.theme?.primary
         } as any
-        if ($g.theme === 'dark') theme.algorithm = AntdvTheme.darkAlgorithm
-        return theme
+        return {
+            algorithm:
+                $g.theme.type === 'dark' ? AntdvTheme.darkAlgorithm : AntdvTheme.defaultAlgorithm,
+            token: Object.assign(theme, props)
+        }
     }
 }
 

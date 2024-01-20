@@ -12,3 +12,6 @@ export { default as Layout } from './layout'
 
 export type { BreadcrumbProperties } from './breadcrumb/props'
 export { default as Breadcrumb } from './breadcrumb'
+
+export type { NoticeProperties } from './notice/props'
+export { default as Notice } from './notice'

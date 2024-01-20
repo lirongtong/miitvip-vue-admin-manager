@@ -7,6 +7,12 @@ export const PropTypes = createTypes() as VueTypesInterface & {
     readonly style: VueTypeValidableDef<CSSProperties>
 }
 
+export interface Theme {
+    type: 'dark' | 'light'
+    primary: string
+    radius: number
+}
+
 export interface Breakpoints {
     xs: number
     sm: number
@@ -67,7 +73,7 @@ export type RequestConfig = AxiosRequestConfig & {
  * @param description 描述
  * @param theme 主题
  * @param primaryColor 主色
- * @param radius 圆角
+ * @param borderRadius 圆角
  * @param prefix 前缀
  * @param emptyFormatter 空串格式化的字符串
  * @param apiVersion API 版本
@@ -79,11 +85,13 @@ export type RequestConfig = AxiosRequestConfig & {
  * @param winSize 窗口大小
  *
  * @see Size
+ * @see Theme
  * @see RegExpTokens
  * @see CacheTokens
  * @see Breakpoints
  */
-export interface GlobalProperties extends Record<string, any> {
+export interface GlobalProperties {
+    [key: string]: any
     title?: string
     site?: string
     author?: string
@@ -91,9 +99,7 @@ export interface GlobalProperties extends Record<string, any> {
     powered?: string
     keywords?: string
     description?: string
-    theme?: 'dark' | 'light'
-    primaryColor?: string
-    radius?: number
+    theme?: Partial<Theme>
     prefix?: string
     emptyFormatter?: string
     apiVersion?: string

@@ -12,10 +12,10 @@ const MiTheme = defineComponent({
     setup(props, { slots }) {
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
-        $g.primaryColor =
-            globalThemeVars?.theme || globalThemeVars?.primary || styled?.theme || '#FFD464'
-        $g.radius = globalThemeVars?.radius || styled?.radius || 4
-        $tools.createThemeProperties($g.primaryColor)
+        $g.theme.type = globalThemeVars?.theme || styled?.theme
+        $g.theme.primary = globalThemeVars?.primary || styled?.primary
+        $g.theme.radius = parseInt(globalThemeVars?.radius || styled?.radius)
+        $tools.createThemeProperties($g.theme.primary)
         const store = useThemeStore()
         store.$patch({ properties: { ...globalThemeVars } })
         return () => slots?.default()

@@ -53,6 +53,14 @@ export interface LayoutTokens {
 }
 
 /**
+ * 消息中心
+ * @param icon 图标颜色
+ */
+export interface NoticeTokens {
+    icon: string
+}
+
+/**
  * 组件
  * @param layout 布局
  *
@@ -61,11 +69,12 @@ export interface LayoutTokens {
 export interface ComponentTokens {
     [key: string]: any
     layout: Partial<LayoutTokens>
+    notice: Partial<NoticeTokens>
 }
 
 /**
  * 主题
- * @param theme 主题色
+ * @param primary 主题色
  * @param radius 圆角
  * @param components 组件
  *
@@ -73,7 +82,7 @@ export interface ComponentTokens {
  */
 export interface ThemeTokens {
     [key: string]: any
-    theme: string
+    primary: string
     radius: number
     components: Partial<ComponentTokens>
 }

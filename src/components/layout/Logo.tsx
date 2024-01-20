@@ -31,13 +31,26 @@ export default defineComponent({
         applyTheme(styled)
 
         const renderCollapsed = () => {
-            let collapsed = getPropSlot(slots, props, 'collapsed')
-            if (!collapsed) {
-                if (width.value < $g.breakpoints.md) collapsed = <MenuUnfoldOutlined />
-                else if (!collapsedState.value) collapsed = <MenuFoldOutlined />
-                else collapsed = <MenuUnfoldOutlined />
-            }
-            return collapsed
+            const collapsed = (
+                <div class={styled.trigger}>
+                    {width.value < $g.breakpoints.md ? (
+                        <MenuUnfoldOutlined />
+                    ) : !collapsedState.value ? (
+                        <MenuFoldOutlined />
+                    ) : (
+                        <MenuUnfoldOutlined />
+                    )}
+                </div>
+            )
+            return getPropSlot(slots, props, 'collapsed') ?? collapsed
+        }
+
+        const renderNotice = () => {
+            return (
+                <div class={styled.trigger}>
+                    {getPropSlot(slots, props, 'notice') ?? <MiNotice iconSetting={{ size: 16 }} />}
+                </div>
+            )
         }
 
         const renderLogo = (
@@ -52,11 +65,12 @@ export default defineComponent({
                 {title ? <h3 innerHTML={title} /> : null}
             </RouterLink>
         )
+
         return () => (
             <div class={`${styled.container}${props.circle ? ` ${styled.circle}` : ''}`}>
                 <div class={styled.action}>
                     {renderCollapsed()}
-                    {getPropSlot(slots, props, 'notice') ?? <MiNotice iconSetting={{ size: 18 }} />}
+                    {renderNotice()}
                 </div>
                 <div class={styled.inner}>{slot}</div>
             </div>
