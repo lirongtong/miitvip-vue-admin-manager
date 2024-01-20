@@ -27,12 +27,14 @@ export interface LayoutContentTokens {
  * @param border 边框
  * @param collapsed 菜单ICON
  * @param notice 消息ICON
+ * @param trigger 触发器背景
  */
 export interface LayoutSiderLogoTokens {
     text: string
     border: string
     collapsed: string
     notice: string
+    trigger: string
 }
 
 /**
