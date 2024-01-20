@@ -4,6 +4,22 @@ import { $tools } from '../../utils/tools'
 
 export const tuple = <T extends string[]>(...args: T) => args
 
+export const actions = ['click', 'hover', 'focus', 'contextmenu']
+export const placement = [
+    'top',
+    'left',
+    'right',
+    'bottom',
+    'topLeft',
+    'topRight',
+    'bottomLeft',
+    'bottomRight',
+    'leftTop',
+    'leftBottom',
+    'rightTop',
+    'rightBottom'
+]
+
 const isOn = (key: string) => /^on[^a-z]/.test(key)
 
 const splitAttrs = (attrs: any) => {

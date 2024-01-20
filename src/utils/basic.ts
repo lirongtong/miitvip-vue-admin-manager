@@ -37,6 +37,8 @@ export default {
         $tools.setKeywords($g.keywords, true)
         // 描述
         $tools.setDescription($g.description, true)
+        // 窗口大小
+        $tools.setWinSize()
         // 注册组件
         components.forEach((component) => [
             app.use(component as typeof component & { install: () => void })

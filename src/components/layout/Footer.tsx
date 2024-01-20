@@ -11,7 +11,7 @@ const MiLayoutFooter = defineComponent({
     setup(props, { slots }) {
         const { width } = useWindowResize()
         const copyright = computed(() => {
-            return width.value < $g.breakpoints.md ? $g.copyright.mobile : $g.copyright.desktop
+            return width.value < $g.breakpoints.md ? $g.copyright.mobile : $g.copyright.laptop
         })
 
         applyTheme(styled)

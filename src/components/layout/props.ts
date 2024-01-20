@@ -1,6 +1,7 @@
 import { object } from 'vue-types'
 import { PropTypes, DefaultProps } from '../../utils/types'
 import type { BreadcrumbProperties } from '../breadcrumb/props'
+import type { NoticeProperties } from '../notice/props'
 
 /**
  * 布局属性
@@ -85,16 +86,21 @@ export const LayoutSiderProps = () => ({
 /**
  * 布局侧边LOGO配置
  * @param circle 圆形显示LOGO
- * @param vertical 竖排
+ * @param collapsed 展开/收起按钮配置<Slot />
+ * @param notice 消息配置<Slot />
  */
 export interface LayoutSiderLogoProperties extends DefaultProps {
     circle: boolean
-    vertical: boolean
+    collapsed: any
+    notice: any
+    noticeSetting: NoticeProperties
 }
 export const LayoutSiderLogoProps = () => ({
     prefixCls: PropTypes.string,
     circle: PropTypes.bool.def(true),
-    vertical: PropTypes.bool.def(true)
+    collapsed: PropTypes.any,
+    notice: PropTypes.any,
+    noticeSetting: object<NoticeProperties>()
 })
 
 /**

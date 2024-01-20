@@ -1,11 +1,13 @@
 import type { App } from 'vue'
 import { $g } from './global'
+import { DeviceSize } from './types'
 import {
     argbFromHex,
     themeFromSourceColor,
     hexFromArgb,
     type Scheme
 } from '@material/material-color-utilities'
+import { theme as AntdvTheme } from 'ant-design-vue'
 
 class MiTools {
     /**
@@ -77,6 +79,19 @@ class MiTools {
         const description = document.querySelector(`meta[name="description"]`)
         if (description) description.setAttribute('content', desc as string)
         else this.createMeta('description', desc)
+    }
+
+    /**
+     * 设置全局变量 - 窗口大小
+     * @param width
+     * @param height
+     */
+    setWinSize(width?: number, height?: number) {
+        if (typeof window !== 'undefined') {
+            if (!$g.winSize) $g.winSize = {}
+            $g.winSize.width = width ?? window.innerWidth
+            $g.winSize.height = height ?? window.innerHeight
+        }
     }
 
     /**
@@ -565,6 +580,51 @@ class MiTools {
         const elem = document.getElementById(token)
         if (elem) elem.remove()
     }
+
+    /**
+     * 根据窗口尺寸获取配置的大小值
+     * @param value 大小值
+     *
+     * @see DeviceSize
+     * @see Breakpoints
+     */
+    distinguishSize(value?: string | number | DeviceSize) {
+        if (value) {
+            if (typeof value === 'string' || typeof value === 'number') {
+                return value
+            } else {
+                const width = $g?.winSize?.width || 0
+                if (!width) return null
+                const values = Object.values(value)
+                const breakpoints = {
+                    md: $g?.breakpoints?.md || 768,
+                    lg: $g?.breakpoints?.md || 992
+                }
+                if (values.length > 0) {
+                    if (width < breakpoints.md) return value?.mobile || values[0]
+                    if (width >= breakpoints.lg) return value?.laptop || values[0]
+                    if (width >= breakpoints.md && width < breakpoints.lg) {
+                        return value?.tablet || values[0]
+                    }
+                } else return null
+            }
+        }
+        return null
+    }
+
+    /**
+     * Antdv 的主题配置
+     * @param algorithm
+     * @returns
+     */
+    getAntdvThemeProperties() {
+        const theme = {
+            borderRadius: $g.radius,
+            colorPrimary: $g.primaryColor
+        } as any
+        if ($g.theme === 'dark') theme.algorithm = AntdvTheme.darkAlgorithm
+        return theme
+    }
 }
 
 /**
@@ -573,6 +633,7 @@ class MiTools {
  *  - {@link $tools.setTitle} 设置标题
  *  - {@link $tools.setKeywords} 设置关键词
  *  - {@link $tools.setDescription} 设置描述内容
+ *  - {@link $tools.setWinSize} 设置全局变量 - 窗口大小
  *  - {@link $tools.isEmpty} 判断是否为空
  *  - {@link $tools.isValid} 判断是否有效
  *  - {@link $tools.isNumber} 判断是否为数字
@@ -601,6 +662,8 @@ class MiTools {
  *  - {@link $tools.applyThemeModuleProperties} 设定局部的主题变量
  *  - {@link $tools.assignThemeModuleProperties} 合并局部的主题变量
  *  - {@link $tools.destroyThemeModuleProperties} 销毁局部主题变量
+ *  - {@link $tools.distinguishSize} 根据屏幕尺寸大小选取所需尺寸
+ *  - {@link $tools.getAntdvThemeProperties} Antdv 的主题配置
  */
 export const $tools: MiTools = new MiTools()
 

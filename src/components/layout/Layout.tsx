@@ -2,6 +2,7 @@ import { defineComponent, type SlotsType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { LayoutProps } from './props'
 import { $g } from '../../utils/global'
+import { $tools } from '../../utils/tools'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { ConfigProvider } from 'ant-design-vue'
@@ -51,8 +52,7 @@ const MiLayout = defineComponent({
         }
 
         return () => (
-            <ConfigProvider
-                theme={{ token: { colorPrimary: $g.primaryColor, borderRadius: $g.radius } }}>
+            <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                 <section
                     class={`${styled.container} ${langClass}`}
                     hasSider={width.value < $g.breakpoints?.md}>

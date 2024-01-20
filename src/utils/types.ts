@@ -7,6 +7,43 @@ export const PropTypes = createTypes() as VueTypesInterface & {
     readonly style: VueTypeValidableDef<CSSProperties>
 }
 
+export interface Breakpoints {
+    xs: number
+    sm: number
+    md: number
+    lg: number
+    xl: number
+    xxl: number
+    xxxl: number
+}
+
+export interface Size {
+    width: number
+    height: number
+}
+
+export interface RegExpTokens {
+    [key: string]: any
+    phone: RegExp
+    password: RegExp
+    username: RegExp
+    email: RegExp
+    chinese: RegExp
+}
+
+export interface CacheTokens {
+    storages: {
+        [key: string]: any
+    }
+    cookies: {
+        [key: string]: any
+        token: {
+            access: string
+            refresh: string
+        }
+    }
+}
+
 /**
  * 请求配置 ( 继承 AxiosRequestConfig )
  * @param retry: 第 N 次重试请求
@@ -39,6 +76,12 @@ export type RequestConfig = AxiosRequestConfig & {
  * @param regExp 常用正则
  * @param caches 缓存 key 值
  * @param breakpoints 断点
+ * @param winSize 窗口大小
+ *
+ * @see Size
+ * @see RegExpTokens
+ * @see CacheTokens
+ * @see Breakpoints
  */
 export interface GlobalProperties extends Record<string, any> {
     title?: string
@@ -48,17 +91,22 @@ export interface GlobalProperties extends Record<string, any> {
     powered?: string
     keywords?: string
     description?: string
-    theme?: string
+    theme?: 'dark' | 'light'
     primaryColor?: string
     radius?: number
     prefix?: string
     emptyFormatter?: string
     apiVersion?: string
-    copyright?: Record<string, any>
+    copyright?: {
+        laptop?: any
+        tablet?: any
+        mobile?: any
+    }
     protocols?: string[]
-    regExp?: Record<string, any>
-    caches?: Record<string, any>
-    breakpoints?: Record<string, number>
+    regExp?: Partial<RegExpTokens>
+    caches?: Partial<CacheTokens>
+    breakpoints?: Partial<Breakpoints>
+    winSize?: Partial<Size>
 }
 
 /**
@@ -77,4 +125,39 @@ export interface RouterViewSlot {
  */
 export interface DefaultProps {
     prefixCls: string
+}
+
+/**
+ * 不同设备下的尺寸配置
+ * @param laptop 笔记本 ( > breakpoints.lg )
+ * @param mobile 移动端 ( < breakpoints.md )
+ * @param tablet 平板 ( < breakpoints.lg )
+ *
+ * e.g.
+ * ```
+ * const size = {
+ *     laptop: 48,
+ *     mobile: 32,
+ *     tablet: 36
+ * }
+ * ```
+ *
+ * @see Breakpoints
+ */
+export interface DeviceSize {
+    laptop: string | number
+    mobile: string | number
+    tablet: string | number
+}
+
+/**
+ * 大小颜色
+ * @param size 大小
+ * @param color 颜色
+ *
+ * @see SizeColor
+ */
+export interface SizeColor {
+    size: number | string | DeviceSize
+    color: string
 }

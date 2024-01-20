@@ -3,6 +3,10 @@ export interface LayoutHeaderTokens {
     background: string
 }
 
+export interface LayoutSiderTokens {
+    logo: Partial<LayoutSiderLogoTokens>
+}
+
 /**
  * 布局内容
  * @param text 文案
@@ -17,17 +21,56 @@ export interface LayoutContentTokens {
     background: string
 }
 
+/**
+ * 布局侧边LOGO
+ * @param text 文案
+ * @param border 边框
+ * @param collapsed 菜单ICON
+ * @param notice 消息ICON
+ */
+export interface LayoutSiderLogoTokens {
+    text: string
+    border: string
+    collapsed: string
+    notice: string
+}
+
+/**
+ * 布局
+ * @param header Layout.Header
+ * @param sider Layout.Sider
+ * @param content Layout.Content
+ *
+ * @see LayoutHeaderTokens
+ * @see LayoutSiderTokens
+ * @see LayoutContentTokens
+ */
 export interface LayoutTokens {
     [key: string]: any
     header: Partial<LayoutHeaderTokens>
+    sider: Partial<LayoutSiderTokens>
     content: Partial<LayoutContentTokens>
 }
 
+/**
+ * 组件
+ * @param layout 布局
+ *
+ * @see LayoutTokens
+ */
 export interface ComponentTokens {
     [key: string]: any
     layout: Partial<LayoutTokens>
 }
 
+/**
+ * 主题
+ * @param theme 主题色
+ * @param radius 圆角
+ * @param components 组件
+ *
+ * @see ComponentTokens
+ */
 export interface ThemeTokens {
     [key: string]: any
     theme: string

@@ -36,10 +36,10 @@ export const $g = reactive({
     apiVersion: 'v1',
     emptyFormatter: '-',
     theme: 'dark',
-    primaryColor: '#F0C26F',
+    primaryColor: '#FFD464',
     radius: 4,
     copyright: {
-        desktop: `&copy; Copyright 2020 - ${MI_YEAR} <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号-2</a> )`,
+        laptop: `&copy; Copyright 2020 - ${MI_YEAR} <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号-2</a> )`,
         mobile: `&copy; Copyright ${MI_YEAR} <a href="https://www.makeit.vip" target="_blank">makeit.vip</a>`
     },
     protocols: ['https', 'http', 'ftp', 'mms', 'rtsp'],

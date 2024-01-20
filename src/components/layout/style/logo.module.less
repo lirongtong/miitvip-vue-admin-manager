@@ -1,19 +1,38 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
+    .flex(center, center, column);
+    width: 100%;
+    .properties(padding-top, 48);
+    .properties(padding-bottom, 48);
+    position: relative;
+}
+
+.inner {
     .transition();
     .flex();
     .ellipsis();
-    position: relative;
     .properties(width, @mi-sider-width);
-    .properties(height, @mi-sider-logo-height);
     color: var(--mi-layout-sider-logo-text);
     cursor: pointer;
+    position: relative;
+}
+
+.action {
+    .flex(center, space-between);
+    .properties(padding-left, 16);
+    .properties(padding-right, 16);
+    .font-size(16);
+    color: var(--mi-layout-sider-collapsed);
+    width: 100%;
+    position: absolute;
+    .properties(top, 24);
 }
 
 .logo {
-    .properties(width, @mi-sider-logo);
-    .properties(height, @mi-sider-logo);
+    .properties(width, @mi-sider-logo-large);
+    .properties(height, @mi-sider-logo-large);
+    .properties(margin-bottom);
     .transition();
     overflow: hidden;
 }
@@ -35,42 +54,25 @@
 }
 
 .site {
-    .flex();
+    .flex(center, center, column);
     .ellipsis();
 
-    svg {
-        .font-size(30);
-    }
-
-    h1 {
+    h3 {
         .transition(ease-in-out);
         .flex();
         .ellipsis();
         width: auto;
         margin: 0;
-        .font-size(20, bold);
+        .font-size(20);
         .properties(margin-left, 12);
         font-family: @mi-font-code;
         zoom: 1;
     }
 }
 
-.vertical {
-    .properties(height, @mi-sider-logo-large-height);
-
-    .logo {
-        .properties(width, @mi-sider-logo-large);
-        .properties(height, @mi-sider-logo-large);
-        .properties(margin-bottom);
-    }
-
-    .site {
-        flex-direction: column;
-    }
-}
-
 :export {
     --layout-sider-logo-text: var(--mi-primary);
     --layout-sider-logo-border: var(--mi-primary);
-    --layout-sider-logo-stretch: var(--mi-on-surface);
+    --layout-sider-logo-collapsed: var(--mi-on-background);
+    --layout-sider-logo-notice: var(--mi-on-background);
 }
