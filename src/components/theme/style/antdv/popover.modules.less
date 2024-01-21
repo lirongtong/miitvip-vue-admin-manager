@@ -1,24 +1,35 @@
+@popover: ant-popover;
+@placement: ant-popover-placement;
+
 .antdv-popover() {
-    > :global(.ant-popover-content) {
-        background: var(--mi-notice-background);
-    
-        :global(.ant-popover) {
-            &-inner {
+    :global(.ant-popover) {
+        width: 80%;
+
+        &-content {
+            background: var(--mi-notice-background);
+        }
+
+        &-inner {
+            background: var(--mi-notice-background);
+            border: 0.0625rem solid var(--mi-notice-border);
+        }
+
+        &-arrow {
+            &:before {
                 background: var(--mi-notice-background);
-                border: 0.0625rem solid var(--mi-notice-border);
             }
-    
-            &-arrow {
-                transform: translateX(-50%) translateY(-90%);
-                
-                &:before {
-                    background: var(--mi-notice-background);
-                }
-    
-                &:after {
-                    border: .0625rem solid var(--mi-notice-border);
-                }
+
+            &:after {
+                border: .0625rem solid var(--mi-notice-border);
             }
         }
+    }
+
+    &:global(.@{placement}-bottom .@{popover}-arrow) {
+        transform: translateX(-50%) translateY(-90%);
+    }
+
+    &:global(.@{placement}-right .@{popover}-arrow) {
+        transform: translateY(-50%) translateX(-92%) rotate(-90deg);
     }
 }
