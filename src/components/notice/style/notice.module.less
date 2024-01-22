@@ -22,6 +22,20 @@
 
 .content {
     color: var(--mi-notice-text);
+
+    :global {
+        .ant-tabs {
+            color: var(--mi-notice-tab-default);
+
+            & &-tab {
+                color: var(--mi-notice-tab-default);
+            }
+
+            & &-tab-active &-tab-btn {
+                color: var(--mi-notice-tab-active);
+            }
+        }
+    }
 }
 
 .empty {
@@ -94,4 +108,6 @@
     --notice-background: var(--mi-surface-variant);
     --notice-icon: var(--mi-on-surface-variant);
     --notice-text: var(--mi-on-surface-variant);
+    --notice-tab-default: var(--mi-on-surface-variant);
+    --notice-tab-active: var(--mi-primary);
 }

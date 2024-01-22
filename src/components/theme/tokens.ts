@@ -82,10 +82,16 @@ export interface LayoutTokens {
 
 /**
  * 消息中心
+ * @param background 弹窗背景色
  * @param icon 图标颜色
+ * @param text 文案颜色 ( 默认空状态时 )
+ * @param tab 选项卡文案颜色
  */
 export interface NoticeTokens {
+    background: string
     icon: string
+    text: string
+    tab: Partial<{ default: string; active: string }>
 }
 
 /**
