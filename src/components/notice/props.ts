@@ -13,6 +13,7 @@ import { DefaultProps, DeviceSize, PropTypes, SizeColor } from '../../utils/type
  * @param dot 是否显示红点 ( 默认: true )
  * @param showZero 当数值为 0 时，是否展示 Badge ( 默认: false )
  * @param placement 弹窗打开位置
+ * @param background 弹窗背景色
  * @param extra 自定义配置<Slot />
  * @param tabChange Tab 变化事件
  *
@@ -28,6 +29,7 @@ export interface NoticeProperties extends DefaultProps {
     dot: boolean
     showZero: boolean
     placement: string
+    background: string
     extra: any
     tabChange: () => {}
 }
@@ -43,6 +45,7 @@ export const NoticeProps = () => ({
     showZero: PropTypes.bool.def(false),
     iconSetting: object<SizeColor>(),
     placement: PropTypes.oneOf(tuple(...placement)).def('bottom'),
+    background: PropTypes.string,
     icon: PropTypes.any,
     extra: PropTypes.any,
     tabChange: PropTypes.func

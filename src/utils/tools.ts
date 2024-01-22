@@ -463,7 +463,7 @@ class MiTools {
      * @returns
      */
     setThemeSchemeProperties(scheme: Scheme, target?: HTMLElement) {
-        const tokens: string[] = []
+        const tokens: string[] = [`--mi-radius: ${$tools.convert2rem($g?.theme?.radius)};`]
         for (const [key, value] of Object.entries(scheme.toJSON())) {
             const token = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
             const color = hexFromArgb(value)

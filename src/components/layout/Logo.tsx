@@ -48,7 +48,9 @@ export default defineComponent({
         const renderNotice = () => {
             return (
                 <div class={styled.trigger}>
-                    {getPropSlot(slots, props, 'notice') ?? <MiNotice iconSetting={{ size: 16 }} />}
+                    {getPropSlot(slots, props, 'notice') ?? (
+                        <MiNotice iconSetting={{ size: 16 }} width={340} />
+                    )}
                 </div>
             )
         }

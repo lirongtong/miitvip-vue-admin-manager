@@ -38,7 +38,7 @@ export const $g = reactive({
     theme: {
         type: 'dark',
         primary: '#FFD464',
-        radius: 4
+        radius: 6
     },
     copyright: {
         laptop: `&copy; Copyright 2020 - ${MI_YEAR} <a href="https://www.makeit.vip" target="_blank">www.makeit.vip</a> All Rights Reserved. 版权所有 ( <a href="http://beian.miit.gov.cn" target="_blank">粤ICP备17018474号-2</a> )`,

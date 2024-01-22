@@ -1,3 +1,4 @@
 import global from './global'
+import notice from './notice'
 
-export default { global }
+export default { global, notice }

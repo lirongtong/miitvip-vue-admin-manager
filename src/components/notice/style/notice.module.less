@@ -1,10 +1,23 @@
 @import '../../theme/style/variables.module.less';
-@import '../../theme/style/antdv/popover.modules.less';
 
 .container {
     position: relative;
     z-index: @mi-zindex + 100;
-    .antdv-popover();
+    
+    :global(.ant-popover) {
+        &-content,
+        &-inner {
+            background: var(--mi-notice-background);
+            border: solid .0625rem var(--mi-notice-background);
+            border-radius: var(--mi-radius);
+        }
+
+        &-arrow {
+            &:before {
+                background: var(--mi-notice-background);
+            }
+        }
+    }
 }
 
 .content {
@@ -14,6 +27,7 @@
 .empty {
     .properties(padding-left, 24);
     .properties(padding-right, 24);
+    .flex(center, center, column);
 
     &-time {
         .flex();
@@ -28,6 +42,42 @@
     &-week {
         .properties(margin-left, 16);
     }
+
+    &-title {
+        .font-size(32, bold);
+        .flex();
+        .properties(margin-top, 16);
+    }
+
+    &-items {
+        .flex(center, center, column);
+        .properties(margin-top, 12);
+    }
+
+    &-item {
+        .properties(margin-bottom);
+
+        :global(.ant-checkbox) {
+            & + span {
+                color: var(--mi-notice-text);
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &-fine {
+        .flex();
+        .font-size(24);
+        .properties(margin-top, 16);
+        .properties(margin-bottom, 16);
+
+        :global(.anticon) {
+            .properties(margin-right);
+        }
+    }
 }
 
 .tabs {
@@ -41,8 +91,7 @@
 }
 
 :export {
-    --notice-border: var(--mi-primary);
-    --notice-background: var(--mi-background);
-    --notice-icon: var(--mi-on-background);
-    --notice-text: var(--mi-on-background);
+    --notice-background: var(--mi-surface-variant);
+    --notice-icon: var(--mi-on-surface-variant);
+    --notice-text: var(--mi-on-surface-variant);
 }

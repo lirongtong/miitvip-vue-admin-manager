@@ -1,6 +1,6 @@
-import { defineComponent, type SlotsType, type Plugin } from 'vue'
-import { BellOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Tabs, Popover, Badge } from 'ant-design-vue'
+import { defineComponent, type SlotsType, type Plugin, ref } from 'vue'
+import { BellOutlined, ShoppingOutlined } from '@ant-design/icons-vue'
+import { ConfigProvider, Tabs, Popover, Badge, Checkbox } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
 import { getPropSlot, getSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
@@ -22,6 +22,7 @@ const MiNotice = defineComponent({
     setup(props, { slots }) {
         const { tm } = useI18n()
         const width = $tools.convert2rem($tools.distinguishSize(props.width))
+        const iconRef = ref<HTMLElement>()
 
         applyTheme(styled)
 
@@ -34,7 +35,7 @@ const MiNotice = defineComponent({
                 color: props?.iconSetting?.color ?? null
             }
             return (
-                <div class={styled.icon}>
+                <div class={styled.icon} ref={iconRef}>
                     <Badge
                         count={props.amount}
                         overflowCount={props.maxAmount}
@@ -48,6 +49,7 @@ const MiNotice = defineComponent({
 
         const renderEmpty = () => {
             const date = new Date()
+            const messages: Record<string, any> = tm('notice') || {}
             const weeks: string[] = Object.values(tm('global.week') || {})
             const week: string | null = weeks[date.getDay()]
             const y = date.getFullYear()
@@ -61,6 +63,28 @@ const MiNotice = defineComponent({
                         <div class={styled.emptyWeek} innerHTML={week}></div>
                     </div>
                     <MiClock />
+                    <div class={styled.emptyTitle} innerHTML={messages?.wonderful} />
+                    <div class={styled.emptyItems}>
+                        <div class={styled.emptyItem}>
+                            <Checkbox checked={true} disabled={true}>
+                                {messages?.empty?.bugs}
+                            </Checkbox>
+                        </div>
+                        <div class={styled.emptyItem}>
+                            <Checkbox checked={true} disabled={true}>
+                                {messages?.empty?.metting}
+                            </Checkbox>
+                        </div>
+                        <div class={styled.emptyItem}>
+                            <Checkbox checked={true} disabled={true}>
+                                {messages?.empty?.business}
+                            </Checkbox>
+                        </div>
+                    </div>
+                    <div class={styled.emptyFine}>
+                        <ShoppingOutlined />
+                        <span innerHTML={messages?.fine} />
+                    </div>
                 </>
             )
         }
@@ -109,10 +133,9 @@ const MiNotice = defineComponent({
                 <Popover
                     overlayClassName={styled.container}
                     overlayStyle={{ width }}
-                    destroyTooltipOnHide={true}
                     trigger={props.trigger}
                     placement={props.placement}
-                    arrowPointAtCenter={true}
+                    color={props.background}
                     content={renderContent()}>
                     {renderIcon()}
                 </Popover>
