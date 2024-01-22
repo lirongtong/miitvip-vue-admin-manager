@@ -1,4 +1,4 @@
-export type { ThemeProps } from './theme/props'
+export type { ThemeProperties } from './theme/props'
 export { default as Theme } from './theme'
 
 export type {
@@ -13,7 +13,7 @@ export { default as Layout } from './layout'
 export type { BreadcrumbProperties } from './breadcrumb/props'
 export { default as Breadcrumb } from './breadcrumb'
 
-export type { NoticeProperties, NoticeTabProperties } from './notice/props'
+export type { NoticeProperties, NoticeTabProperties, NoticeItemProperties } from './notice/props'
 export { default as Notice } from './notice'
 
 export type { ClockProperties } from './clock/props'

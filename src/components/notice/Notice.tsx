@@ -94,7 +94,7 @@ const MiNotice = defineComponent({
             const tabs: any[] = []
             let content: any = null
             if (allSlots && allSlots.length > 0) {
-                const hasTab = allSlots[0].type.name === 'MiNoticeTab'
+                const hasTab = allSlots[0].type.name === MiNoticeTab.name
                 allSlots.map((tab: any) => {
                     const name = getSlotContent(tab, 'name')
                     const content = getSlot(tab)
@@ -109,7 +109,7 @@ const MiNotice = defineComponent({
                     )
                 })
                 content = hasTab ? (
-                    <Tabs class={styled.tabs} onChange={props.tabChange}>
+                    <Tabs class={styled.tabs} centered={props.tabCenter} onChange={props.tabChange}>
                         {...tabs}
                     </Tabs>
                 ) : (

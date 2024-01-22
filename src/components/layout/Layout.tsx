@@ -26,7 +26,7 @@ const MiLayout = defineComponent({
     setup(props, { slots }) {
         const { locale } = useI18n()
         const { width } = useWindowResize()
-        const langClass = getPrefixCls(`lang-${locale}`, props.prefixCls)
+        const langClass = getPrefixCls(`lang-${locale}`, $g.prefix || 'mi-')
 
         applyTheme(styled)
 

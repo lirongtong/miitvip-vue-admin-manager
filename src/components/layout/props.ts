@@ -1,5 +1,5 @@
 import { object } from 'vue-types'
-import { PropTypes, DefaultProps } from '../../utils/types'
+import { PropTypes } from '../../utils/types'
 import type { BreadcrumbProperties } from '../breadcrumb/props'
 import type { NoticeProperties } from '../notice/props'
 
@@ -14,7 +14,7 @@ import type { NoticeProperties } from '../notice/props'
  * @param siderSetting 侧边栏组件的配置参数
  * @param footer 页脚<slot />
  */
-export interface LayoutProperties extends DefaultProps {
+export interface LayoutProperties {
     showHistoryMenu: boolean
     showBreadcrumbs: boolean
     header: any
@@ -25,7 +25,6 @@ export interface LayoutProperties extends DefaultProps {
     contentSetting: Partial<LayoutContentProperties>
 }
 export const LayoutProps = () => ({
-    prefixCls: PropTypes.string,
     showHistoryMenu: PropTypes.bool.def(true),
     showBreadcrumbs: PropTypes.bool.def(true),
     header: PropTypes.any,
@@ -43,24 +42,23 @@ export const LayoutProps = () => ({
  * @param dropdown 下拉菜单配置<Slot />
  * @param breadcrumb 面包屑配置<Slot />
  * @param breadcrumbSetting 面包屑组件配置
- * @param custom 自定义配置<Slot />(置于右侧)
+ * @param extra 额外的自定义配置<Slot />(置于右侧)
  */
-export interface LayoutHeaderProperties extends DefaultProps {
+export interface LayoutHeaderProperties {
     stretch: any
     notice: any
     dropdown: any
     breadcrumb: any
-    custom: any
+    extra: any
     breadcrumbSetting: Partial<BreadcrumbProperties>
 }
 export const LayoutHeaderProps = () => ({
-    prefixCls: PropTypes.string,
     stretch: PropTypes.any,
     notice: PropTypes.any,
     dropdown: PropTypes.any,
     breadcrumb: PropTypes.any,
     breadcrumbSetting: object<Partial<BreadcrumbProperties>>(),
-    custom: PropTypes.any
+    extra: PropTypes.any
 })
 
 /**
@@ -69,14 +67,13 @@ export const LayoutHeaderProps = () => ({
  * @param menu 菜单
  * @param background 背景色
  */
-export interface LayoutSiderProperties extends DefaultProps {
+export interface LayoutSiderProperties {
     logo: any
     menu: any
     background: string
     logoSetting: Partial<LayoutSiderLogoProperties>
 }
 export const LayoutSiderProps = () => ({
-    prefixCls: PropTypes.string,
     logo: PropTypes.any,
     logoSetting: object<Partial<LayoutSiderLogoProperties>>(),
     menu: PropTypes.any,
@@ -89,14 +86,13 @@ export const LayoutSiderProps = () => ({
  * @param collapsed 展开/收起按钮配置<Slot />
  * @param notice 消息配置<Slot />
  */
-export interface LayoutSiderLogoProperties extends DefaultProps {
+export interface LayoutSiderLogoProperties {
     circle: boolean
     collapsed: any
     notice: any
     noticeSetting: NoticeProperties
 }
 export const LayoutSiderLogoProps = () => ({
-    prefixCls: PropTypes.string,
     circle: PropTypes.bool.def(true),
     collapsed: PropTypes.any,
     notice: PropTypes.any,
@@ -109,13 +105,12 @@ export const LayoutSiderLogoProps = () => ({
  * @param showHistoryMenu 显示历史菜单
  * @param footer 页脚配置 <Slot />
  */
-export type LayoutContentProperties = {
+export interface LayoutContentProperties {
     animation?: string
     showHistoryMenu?: boolean
     footer?: any
-} & DefaultProps
+}
 export const LayoutContentProps = () => ({
-    prefixCls: PropTypes.string,
     animation: PropTypes.string.def('page-slide'),
     showHistoryMenu: PropTypes.bool.def(true),
     footer: PropTypes.any

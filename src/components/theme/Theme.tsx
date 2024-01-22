@@ -14,7 +14,7 @@ const MiTheme = defineComponent({
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
         $g.theme.type = globalThemeVars?.theme || styled?.theme
         $g.theme.primary = globalThemeVars?.primary || styled?.primary
-        $g.theme.radius = parseInt(globalThemeVars?.radius || styled?.radius)
+        $g.theme.radius = parseInt($g?.theme?.radius || globalThemeVars?.radius || styled?.radius)
         $tools.createThemeProperties($g.theme.primary)
         const store = useThemeStore()
         store.$patch({ properties: { ...globalThemeVars } })

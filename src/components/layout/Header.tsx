@@ -13,7 +13,7 @@ const MiLayoutHeader = defineComponent({
         notice: any
         dropdown: any
         breadcrumb: any
-        custom: any
+        extra: any
     }>,
     props: LayoutHeaderProps(),
     setup(props, { slots }) {

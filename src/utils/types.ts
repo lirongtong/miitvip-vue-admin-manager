@@ -126,14 +126,6 @@ export interface RouterViewSlot {
 }
 
 /**
- * 默认 Props
- * @param prefixCls 样式前缀
- */
-export interface DefaultProps {
-    prefixCls: string
-}
-
-/**
  * 不同设备下的尺寸配置
  * @param laptop 笔记本 ( > breakpoints.lg )
  * @param mobile 移动端 ( < breakpoints.md )

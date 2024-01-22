@@ -1,6 +1,6 @@
 import { object } from 'vue-types'
 import { tuple, placement, actions } from './../_utils/props'
-import { DefaultProps, DeviceSize, PropTypes, SizeColor } from '../../utils/types'
+import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
 
 /**
  * 消息配置
@@ -16,10 +16,11 @@ import { DefaultProps, DeviceSize, PropTypes, SizeColor } from '../../utils/type
  * @param background 弹窗背景色
  * @param extra 自定义配置<Slot />
  * @param tabChange Tab 变化事件
+ * @param tabCenter Tab 是否居中
  *
  * @see SizeColor
  */
-export interface NoticeProperties extends DefaultProps {
+export interface NoticeProperties {
     icon: any
     iconSetting: SizeColor
     width: string | number | DeviceSize
@@ -32,9 +33,9 @@ export interface NoticeProperties extends DefaultProps {
     background: string
     extra: any
     tabChange: () => {}
+    tabCenter: boolean
 }
 export const NoticeProps = () => ({
-    prefixCls: PropTypes.string,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
         '100%'
     ),
@@ -48,7 +49,8 @@ export const NoticeProps = () => ({
     background: PropTypes.string,
     icon: PropTypes.any,
     extra: PropTypes.any,
-    tabChange: PropTypes.func
+    tabChange: PropTypes.func,
+    tabCenter: PropTypes.bool.def(true)
 })
 
 /**
@@ -56,12 +58,34 @@ export const NoticeProps = () => ({
  * @param key 唯一标识
  * @param name 显示名称
  */
-export interface NoticeTabProperties extends DefaultProps {
+export interface NoticeTabProperties {
     key: string
     name: string
 }
 export const NoticeTabProps = () => ({
-    prefixCls: PropTypes.string,
     key: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired.def('')
+})
+
+/**
+ * 消息列表
+ * @param title 标题<Slot />
+ * @param summary 摘要<Slot />
+ * @param tag 标签<Slot />
+ * @param date 日期<Slot />
+ * @param avatar 头像<Slot />
+ */
+export interface NoticeItemProperties {
+    title: any
+    summary: any
+    tag: any
+    date: any
+    avatar: any
+}
+export const NoticeItemProps = () => ({
+    title: PropTypes.any,
+    summary: PropTypes.any,
+    tag: PropTypes.any,
+    date: PropTypes.any,
+    avatar: PropTypes.any
 })

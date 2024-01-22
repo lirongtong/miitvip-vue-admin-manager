@@ -1,4 +1,3 @@
-import { PropTypes } from '../../utils/types'
 import { object } from 'vue-types'
 import { ThemeTokens } from './tokens'
 
@@ -17,8 +16,9 @@ import { ThemeTokens } from './tokens'
  * ```
  * @see ThemeTokens
  */
-
+export interface ThemeProperties {
+    theme: Partial<ThemeTokens>
+}
 export const ThemeProps = () => ({
-    prefixCls: PropTypes.string,
     theme: object<Partial<ThemeTokens>>()
 })

@@ -1,0 +1,65 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .properties(padding-top, 16);
+    .properties(padding-bottom, 16);
+    border-bottom: .0625rem solid var(--mi-notice-item-border);
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+        border: none;
+    }
+}
+
+.default {
+    .flex(flex-start, flex-start);
+}
+
+.avatar {
+    .properties(width, 32);
+    .properties(height, 32);
+    .circle();
+    .properties(min-width, 32);
+    overflow: hidden;
+    border: .125rem solid var(--mi-notice-item-avatar);
+
+    > img {
+        transform: scale(1.1);
+        .circle();
+    }
+
+    & + .info {
+        .properties(margin-left, 12);
+    }
+}
+
+.info {
+    .flex(flex-start, flex-start, column);
+}
+
+.title,
+.date {
+    color: var(--mi-notice-item-text);
+}
+
+.title {
+    .font-size(14, bold);
+    .lines(2);
+}
+
+.summary {
+    color: var(--mi-notice-item-summary);
+    .font-size(12);
+    .lines(3);
+}
+
+:export {
+    --notice-item-border: var(--mi-inverse-on-surface);
+    --notice-item-avatar: var(--mi-primary);
+    --notice-item-text: var(--mi-on-surface);
+    --notice-item-summary: var(--mi-inverse-surface);
+}

@@ -1,4 +1,4 @@
-import { defineComponent, type SlotsType } from 'vue'
+import { defineComponent, type SlotsType, type Plugin } from 'vue'
 import { LayoutSiderProps } from './props'
 import { getPropSlot } from '../_utils/props'
 import MiLayoutSiderLogo from './Logo'
@@ -31,4 +31,9 @@ const MiLayoutSider = defineComponent({
     }
 })
 
-export default MiLayoutSider
+MiLayoutSider.Logo = MiLayoutSiderLogo
+
+export default MiLayoutSider as typeof MiLayoutSider &
+    Plugin & {
+        readonly Logo: typeof MiLayoutSiderLogo
+    }

@@ -57,12 +57,9 @@
     font-weight: @weight;
 }
 
-// 透明度 ( less fade 无法编译 css variables )
-.opacity(@key: color, @var, @opacity: 0.3) {
-    @{key}: .fade(@var, @opacity)[@result];
-}
+// 背景透明度 ( less fade 无法编译 css variables )
 .fade(@var, @opacity) {
-    @result: linear-gradient(to bottom, @var calc((@opacity - 1) * 10000%), transparent calc(@opacity * 10000%));
+    background: linear-gradient(to bottom, @var calc((@opacity - 1) * 10000%), transparent calc(@opacity * 10000%));
 }
 
 // 背景渐变

@@ -1,4 +1,4 @@
-import type { App, Plugin } from 'vue'
+import type { App } from 'vue'
 import Basic, { __tree_shaking_basic__ } from './basic'
 
 /**
@@ -15,5 +15,5 @@ export const install = <T>(component: T, alias?: string) => {
         if (typeof app.component(comp.name) === 'undefined') app.component(comp.name, component)
         if (alias) app.config.globalProperties[alias] = comp
     }
-    return comp as T & Plugin
+    return comp as T
 }
