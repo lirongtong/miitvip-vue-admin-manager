@@ -1,0 +1,129 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .properties(width, 240);
+    .properties(height, 240);
+    .circle();
+    background-color: var(--mi-clock-background-color);
+    .background-gradient(var(--mi-clock-background-gradient-start), var(--mi-clock-background-gradient-stop));
+    box-shadow: 0 0 .625rem var(--mi-clock-shadow);
+    position: relative;
+}
+
+.calibration {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.anchor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+}
+
+.hour,
+.mins {
+    &-text {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        .properties(font-size, 12);
+        color: var(--mi-clock-minute-text);
+    }
+}
+
+.hour {
+    &-text {
+        .font-size(28);
+    }
+}
+
+.mins {
+    &-line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: var(--mi-clock-minute-line);
+        .properties(width, 1);
+        .properties(height, 10);
+    }
+}
+
+.pointer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    .properties(width, 12);
+    .properties(height, 12);
+    background: var(--mi-clock-pointer);
+    transform: translate(-50%, -50%);
+    .circle();
+
+    &-mid {
+        .properties(width, 8);
+        .properties(height, 8);
+        background: var(--mi-clock-pointer-mid);
+        .circle();
+    }
+
+    &-top {
+        .properties(width, 4);
+        .properties(height, 4);
+        background: var(--mi-clock-pointer-top);
+        .circle();
+    }
+}
+
+.point {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+}
+
+.hand {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -100%);
+    .properties(width, 4);
+    .properties(height, 50);
+    background: var(--mi-clock-point-background);
+
+    &-fat {
+        .properties(width, 10);
+        .radius(10);
+        transform: translate(-50%,-100%) translateY(-1.125rem);
+    }
+
+    &-hour,
+    &-minute {
+        background: var(--mi-clock-point-background);
+    }
+
+    &-second {
+        transform: translate(-50%, -100%) translateY(1.5rem);
+        .properties(width, 2);
+        background: var(--mi-clock-point-second);
+    }
+}
+
+:export {
+    --clock-shadow: var(--mi-shadow);
+    --clock-background-color: var(--mi-surface);
+    --clock-background-gradient-start: var(--mi-surface);
+    --clock-background-gradient-stop: var(--mi-surface-variant);
+    --clock-hour-text: var(--mi-on-surface);
+    --clock-minute-text: var(--mi-on-surface);
+    --clock-minute-line: var(--mi-on-surface);
+    --clock-pointer-background: var(--mi-on-surface);
+    --clock-pointer-mid: var(--mi-primary);
+    --clock-pointer-top: var(--mi-shadow);
+    --clock-point-background: var(--mi-on-surface);
+    --clock-point-hour: var(--mi-on-surface);
+    --clock-point-minute: var(--mi-on-surface);
+    --clock-point-second: var(--mi-primary);
+}

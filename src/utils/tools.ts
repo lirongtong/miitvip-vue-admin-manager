@@ -250,7 +250,7 @@ class MiTools {
      * @param rid
      */
     caf(rid: number) {
-        window.cancelAnimationFrame(rid)
+        if (rid) window.cancelAnimationFrame(rid)
     }
 
     /**

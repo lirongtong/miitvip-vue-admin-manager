@@ -58,6 +58,7 @@ export interface NoticeTabProperties extends DefaultProps {
     name: string
 }
 export const NoticeTabProps = () => ({
+    prefixCls: PropTypes.string,
     key: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired.def('')
 })

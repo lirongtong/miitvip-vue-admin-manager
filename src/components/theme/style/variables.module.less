@@ -65,6 +65,11 @@
     @result: linear-gradient(to bottom, @var calc((@opacity - 1) * 10000%), transparent calc(@opacity * 10000%));
 }
 
+// 背景渐变
+.background-gradient(@s: var(--mi-inverse-on-surface), @e: var(--mi-inverse-surface), @r: 315deg) {
+    background-image: linear-gradient(@r, @s 0%, @e 74%);
+}
+
 // letter spacing.
 .letter-spacing(@value: 2) {
     .properties(letter-spacing, @value);

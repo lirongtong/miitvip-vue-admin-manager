@@ -5,6 +5,7 @@ import { $tools } from '../../utils/tools'
 import { getPropSlot, getSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
+import MiClock from '../clock'
 import MiNoticeTab from './Tab'
 import MiNoticeItem from './Item'
 import applyTheme from '../_utils/theme'
@@ -59,6 +60,7 @@ const MiNotice = defineComponent({
                         <div class={styled.emptyDate} innerHTML={times}></div>
                         <div class={styled.emptyWeek} innerHTML={week}></div>
                     </div>
+                    <MiClock />
                 </>
             )
         }
