@@ -24,16 +24,16 @@
     color: var(--mi-notice-text);
 
     :global {
-        .ant-tabs {
+        .ant-tabs-tab {
             color: var(--mi-notice-tab-default);
+        }
 
-            & &-tab {
-                color: var(--mi-notice-tab-default);
-            }
+        .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+            color: var(--mi-notice-tab-active);
+        }
 
-            & &-tab-active &-tab-btn {
-                color: var(--mi-notice-tab-active);
-            }
+        .ant-tabs .ant-tabs-ink-bar {
+            background: var(--mi-notice-tab-bar);
         }
     }
 }
@@ -110,4 +110,5 @@
     --notice-text: var(--mi-on-surface-variant);
     --notice-tab-default: var(--mi-on-surface-variant);
     --notice-tab-active: var(--mi-primary);
+    --notice-tab-bar: var(--mi-primary);
 }

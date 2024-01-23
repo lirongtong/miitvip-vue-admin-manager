@@ -30,7 +30,7 @@ export default {
     install(app: App) {
         __tree_shaking_basic__ = true
         // 默认主题
-        $tools.createThemeProperties('#f0c26f')
+        $tools.createThemeProperties($g.theme.primary || '#FFD464')
         // 标题
         $tools.setTitle()
         // 关键词
