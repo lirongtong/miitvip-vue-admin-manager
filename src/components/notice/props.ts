@@ -50,7 +50,7 @@ export const NoticeProps = () => ({
     icon: PropTypes.any,
     extra: PropTypes.any,
     tabChange: PropTypes.func,
-    tabCenter: PropTypes.bool.def(true)
+    tabCenter: PropTypes.bool.def(false)
 })
 
 /**
@@ -60,11 +60,13 @@ export const NoticeProps = () => ({
  */
 export interface NoticeTabProperties {
     key: string
-    name: string
+    name: any
+    icon: any
 }
 export const NoticeTabProps = () => ({
     key: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired.def('')
+    name: PropTypes.any,
+    icon: PropTypes.any
 })
 
 /**

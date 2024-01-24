@@ -9,6 +9,7 @@ const MiNoticeTab = defineComponent({
     inheritAttrs: false,
     slots: Object as SlotsType<{
         name: any
+        icon: any
     }>,
     props: NoticeTabProps(),
     setup(props, { slots }) {

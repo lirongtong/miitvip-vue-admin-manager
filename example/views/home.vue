@@ -7,8 +7,7 @@
                         <mi-layout-sider-logo>
                             <template #notice>
                                 <mi-notice :width="360">
-                                    <mi-notice-tab key="1">
-                                        <template #name>Tab Title 1</template>
+                                    <mi-notice-tab key="1" name="系统消息">
                                         <mi-notice-item title="Item Title 1" summary="Item Summary 1" />
                                         <mi-notice-item title="Item Title 2" summary="Item Summary 2" />
                                         <mi-notice-item title="Item Title 2" summary="Item Summary 2" />
@@ -27,4 +26,6 @@
     </mi-theme>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { MessageOutlined } from '@ant-design/icons-vue'
+</script>

@@ -100,7 +100,7 @@ const getSlotContent = (instance: any, prop = 'default', options = instance, exe
             return typeof temp === 'function' && exec ? temp(options) : temp
         } else if (instance.type === Fragment) {
             content = instance?.children
-        } else if ((instance?.children as any[])[prop]) {
+        } else if (instance?.children && (instance?.children as any[])[prop]) {
             content = (instance?.children as any[])[prop] as any
             content = content && exec ? content(options) : content
         }

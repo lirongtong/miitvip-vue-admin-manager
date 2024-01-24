@@ -1,8 +1,10 @@
-import { defineComponent, type SlotsType, type Plugin, ref } from 'vue'
-import { BellOutlined, ShoppingOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Tabs, Popover, Badge, Checkbox } from 'ant-design-vue'
+/* eslint-disable import/no-unresolved */
+import { defineComponent, type SlotsType, ref } from 'vue'
+import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
+import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
-import { getPropSlot, getSlot, getSlotContent } from '../_utils/props'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
 import MiClock from '../clock'
@@ -10,11 +12,13 @@ import MiNoticeTab from './Tab'
 import MiNoticeItem from './Item'
 import applyTheme from '../_utils/theme'
 import styled from './style/notice.module.less'
+import 'swiper/less'
 
 const MiNotice = defineComponent({
     name: 'MiNotice',
     inheritAttrs: false,
     slots: Object as SlotsType<{
+        default: any
         icon: any
         extra: any
     }>,
@@ -89,34 +93,35 @@ const MiNotice = defineComponent({
             )
         }
 
+        const renderTab = (tab: any) => {
+            const name = getSlotContent(tab, 'name')
+            const icon = getSlotContent(tab, 'icon') ?? <MessageOutlined />
+            return (
+                <Flex class={styled.tab} vertical={true} align="center">
+                    <Row class={styled.tabIcon}>{icon}</Row>
+                    <Row class={styled.tabName}>{name}</Row>
+                </Flex>
+            )
+        }
+
         const renderTabs = () => {
             const allSlots = getPropSlot(slots, props)
-            const tabs: any[] = []
-            let content: any = null
+            const tabs: any = []
             if (allSlots && allSlots.length > 0) {
-                const hasTab = allSlots[0].type.name === MiNoticeTab.name
-                allSlots.map((tab: any) => {
-                    const name = getSlotContent(tab, 'name')
-                    const content = getSlot(tab)
-                    tabs.push(
-                        hasTab ? (
-                            <Tabs.TabPane key={tab.props?.key} tab={name}>
-                                {content ?? tab}
-                            </Tabs.TabPane>
-                        ) : (
-                            tab
-                        )
-                    )
+                allSlots.map((singleSlot: any) => {
+                    if (singleSlot?.type?.name === MiNoticeTab.name) {
+                        tabs.push(renderTab(singleSlot))
+                    }
                 })
-                content = hasTab ? (
-                    <Tabs class={styled.tabs} centered={props.tabCenter} onChange={props.tabChange}>
-                        {...tabs}
-                    </Tabs>
-                ) : (
-                    [...tabs]
-                )
             }
-            return content
+            const swiperSlots = {
+                default: () => {
+                    return tabs.map((tab: any) => {
+                        return <SwiperSlide>{tab}</SwiperSlide>
+                    })
+                }
+            }
+            return <Swiper v-slots={swiperSlots}></Swiper>
         }
 
         const renderContent = () => {
@@ -147,8 +152,7 @@ const MiNotice = defineComponent({
 MiNotice.Tab = MiNoticeTab
 MiNotice.Item = MiNoticeItem
 
-export default MiNotice as typeof MiNotice &
-    Plugin & {
-        readonly Tab: typeof MiNoticeTab
-        readonly Item: typeof MiNoticeItem
-    }
+export default MiNotice as typeof MiNotice & {
+    readonly Tab: typeof MiNoticeTab
+    readonly Item: typeof MiNoticeItem
+}

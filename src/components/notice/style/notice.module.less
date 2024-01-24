@@ -1,7 +1,7 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
-    position: relative;
+    position: fixed;
     z-index: @mi-zindex + 100;
     
     :global(.ant-popover) {
@@ -9,7 +9,8 @@
         &-inner {
             background: var(--mi-notice-background);
             border: solid .0625rem var(--mi-notice-background);
-            border-radius: var(--mi-radius);
+            .radius(16);
+            max-height: calc(100vh - 10rem);
         }
 
         &-arrow {
@@ -33,7 +34,15 @@
         }
 
         .ant-tabs .ant-tabs-ink-bar {
-            background: var(--mi-notice-tab-bar);
+            background: transparent;
+            .flex();
+            
+            &:before {
+                content: '';
+                background: var(--mi-notice-tab-bar);
+                .properties(width, 32);
+                .properties(height, 2);
+            }
         }
     }
 }
@@ -96,6 +105,22 @@
 
 .tabs {
     position: relative;
+}
+
+.tab {
+    width: 100%;
+    height: 100%;
+    .radius(8);
+    .properties(padding);
+    background: var(--mi-tertiary);
+
+    &-icon {
+        :global(.anticon) {
+            .font-size(20);
+            .properties(margin-left, 12);
+            .properties(margin-bottom);
+        }
+    }
 }
 
 .icon {
