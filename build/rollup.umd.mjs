@@ -7,6 +7,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import babel from '@rollup/plugin-babel'
 import path from 'path'
+import filesize from 'rollup-plugin-filesize'
 import { createRequire } from 'module'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -62,11 +63,13 @@ const plugins = [
     babel(babelOptions),
     commonjs(),
     postcss({
+        modules: { generateScopedName: 'mi-[name]-[hash:base64:8]', localsConvention: 'camelCase' },
         plugins: [autoprefixer()],
         minimize: true
     }),
     gzip(),
-    visualizer()
+    visualizer(),
+    filesize()
 ]
 
 const config = defineConfig([
@@ -92,7 +95,10 @@ const config = defineConfig([
             }
         ],
         external: externalPackages,
-        plugins
+        plugins,
+        onwarn(warning) {
+            if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.exporter === 'vue') return
+        }
     }
 ])
 

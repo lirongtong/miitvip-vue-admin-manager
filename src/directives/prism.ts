@@ -11,5 +11,6 @@ export default {
                 Prism.highlightAllUnder(el)
             }
         })
+        return app
     }
 }

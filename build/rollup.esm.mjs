@@ -61,11 +61,7 @@ const plugins = [
     babel(babelOptions),
     commonjs(),
     postcss({
-        modules: {
-            hasPrefix: 'mi-',
-            generateScopedName: 'mi-[name]-[hash:base64:8]',
-            localsConvention: 'camelCase'
-        },
+        modules: { generateScopedName: 'mi-[name]-[hash:base64:8]', localsConvention: 'camelCase' },
         minimize: true
     }),
     {
@@ -102,7 +98,10 @@ const config = defineConfig([
             }
         ],
         external: [...externalPackages, /@babel\/runtime/, /style-inject/],
-        plugins
+        plugins,
+        onwarn(warning) {
+            if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.exporter === 'vue') return
+        }
     }
 ])
 

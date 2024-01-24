@@ -1,5 +1,5 @@
 {
-    "name": "makeit-admin-pro",
+    "name": "@makeit/admin-pro",
     "private": false,
     "version": "3.1.0",
     "type": "module",
@@ -121,6 +121,7 @@
         "prettier": "^3.1.1",
         "rimraf": "^5.0.5",
         "rollup": "^4.9.3",
+        "rollup-plugin-filesize": "^10.0.0",
         "rollup-plugin-gzip": "^3.1.1",
         "rollup-plugin-postcss": "^4.0.2",
         "rollup-plugin-typescript2": "^0.36.0",

@@ -57,12 +57,16 @@ const config = defineConfig([
             typescript({ tsconfig: path.resolve(process.cwd(), './tsconfig.umd.json') }),
             ...plugins,
             postcss({
+                modules: { generateScopedName: 'mi-[name]-[hash:base64:8]', localsConvention: 'camelCase' },
                 plugins: [autoprefixer()],
                 minimize: true,
                 sourcemap: true,
                 extract: `${fileName}.min.css`
             })
-        ]
+        ],
+        onwarn(warning) {
+            if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.exporter === 'vue') return
+        }
     }
 ])
 

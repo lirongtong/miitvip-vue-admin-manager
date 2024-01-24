@@ -15,7 +15,7 @@ import { $tools } from './tools'
  *
  * @param $g.apiVersion API 版本号
  */
-export const api = reactive({
+export const api = {
     login: '/login',
     logout: '/logout',
     register: '/register',
@@ -65,7 +65,7 @@ export const api = reactive({
         delete: '/apps/{id}',
         images: '/images'
     }
-}) as Record<string, any>
+} as Record<string, any>
 
 class MiApi {
     version: string
@@ -111,7 +111,7 @@ new MiApi()
 
 export default {
     install(app: App) {
-        app.config.globalProperties.api = api
+        app.config.globalProperties.api = reactive(api)
         return app
     }
 }
