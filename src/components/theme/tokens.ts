@@ -3,11 +3,23 @@
  * @param color 颜色值
  * @param gradient 渐变色
  *
- * @see BackgroundGradientTokens
+ * @see GradientTokens
  */
 export interface BackgroundTokens {
     color: string
-    gradient: Partial<BackgroundGradientTokens>
+    gradient: Partial<GradientTokens>
+}
+
+/**
+ * 颜色状态
+ * @param default 默认
+ * @param active 选中
+ * @param hover 悬停
+ */
+export interface ColorStateTokens {
+    default: string
+    active: string
+    hover: string
 }
 
 /**
@@ -16,7 +28,7 @@ export interface BackgroundTokens {
  * @param hint 相邻色标之间的渐变过程颜色值
  * @param stop 色标位置的颜色值
  */
-export interface BackgroundGradientTokens {
+export interface GradientTokens {
     start: string
     hint: string
     stop: string
@@ -27,6 +39,12 @@ export interface LayoutHeaderTokens {
     background: string
 }
 
+/**
+ * 布局侧边Sider
+ * @param logo 图标
+ *
+ * @see LayoutSiderLogoTokens
+ */
 export interface LayoutSiderTokens {
     logo: Partial<LayoutSiderLogoTokens>
 }
@@ -81,17 +99,30 @@ export interface LayoutTokens {
 }
 
 /**
+ * 消息中心 Tab
+ * @param text 文案
+ * @param background 背景色
+ */
+export interface NoticeTabTokens {
+    text: string
+    background: string
+}
+
+/**
  * 消息中心
  * @param background 弹窗背景色
  * @param icon 图标颜色
  * @param text 文案颜色 ( 默认空状态时 )
  * @param tab 选项卡文案颜色
+ *
+ * @see NoticeTabTokens
+ * @see DefaultActiveTokens
  */
 export interface NoticeTokens {
     background: string
     icon: string
     text: string
-    tab: Partial<{ default: string; active: string }>
+    tab: Partial<NoticeTabTokens>
 }
 
 /**

@@ -46,7 +46,7 @@ const babelOptions = {
 
 const dependencies = Object.keys(pkg.dependencies || {})
 const globalDependencies = {}
-Object.entries(dependencies).forEach(([key, value]) => globalDependencies[value] = value)
+Object.entries(dependencies).forEach(([_key, value]) => globalDependencies[value] = value)
 
 const externalPackages = [
     ...dependencies,
@@ -55,7 +55,7 @@ const externalPackages = [
 
 const plugins = [
     typescript({ tsconfig: path.resolve(process.cwd(), './tsconfig.json') }),
-    nodeResolve({ browser: true }),
+    nodeResolve({ browser: true, jsnext: true }),
     json(),
     strip(),
     babel(babelOptions),

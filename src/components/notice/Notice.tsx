@@ -1,18 +1,17 @@
-/* eslint-disable import/no-unresolved */
 import { defineComponent, type SlotsType, ref } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
+import { ConfigProvider, Popover, Badge, Checkbox } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
-import { Swiper, SwiperSlide } from 'swiper/vue'
 import { getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
+// eslint-disable-next-line import/no-unresolved
+import { Navigation, FreeMode } from 'swiper/modules'
 import MiClock from '../clock'
 import MiNoticeTab from './Tab'
 import MiNoticeItem from './Item'
 import applyTheme from '../_utils/theme'
 import styled from './style/notice.module.less'
-import 'swiper/less'
 
 const MiNotice = defineComponent({
     name: 'MiNotice',
@@ -93,14 +92,18 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTab = (tab: any) => {
+        const renderTab = (tab: any, first?: boolean) => {
             const name = getSlotContent(tab, 'name')
             const icon = getSlotContent(tab, 'icon') ?? <MessageOutlined />
+            const active = first ? tab?.props?.key || false : false
             return (
-                <Flex class={styled.tab} vertical={true} align="center">
-                    <Row class={styled.tabIcon}>{icon}</Row>
-                    <Row class={styled.tabName}>{name}</Row>
-                </Flex>
+                <div
+                    class={`${styled.tab}${active ? ` ${styled.tabActive}` : ''}`}
+                    vertical={true}
+                    align="center">
+                    <div class={styled.tabIcon}>{icon}</div>
+                    <div class={styled.tabName}>{name}</div>
+                </div>
             )
         }
 
@@ -108,20 +111,25 @@ const MiNotice = defineComponent({
             const allSlots = getPropSlot(slots, props)
             const tabs: any = []
             if (allSlots && allSlots.length > 0) {
-                allSlots.map((singleSlot: any) => {
+                allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        tabs.push(renderTab(singleSlot))
+                        tabs.push(renderTab(singleSlot, idx === 0))
                     }
                 })
             }
-            const swiperSlots = {
-                default: () => {
-                    return tabs.map((tab: any) => {
-                        return <SwiperSlide>{tab}</SwiperSlide>
-                    })
-                }
-            }
-            return <Swiper v-slots={swiperSlots}></Swiper>
+            return (
+                <swiper-container
+                    freeMode={true}
+                    modules={[FreeMode, Navigation]}
+                    slidesPerView="auto"
+                    direction="horizontal"
+                    injectStyles={[`::slotted(swiper-slide) { width: auto; }`]}
+                    spaceBetween={$tools.distinguishSize(props.tabGap)}>
+                    {tabs.map((tab: any) => {
+                        return <swiper-slide>{tab}</swiper-slide>
+                    })}
+                </swiper-container>
+            )
         }
 
         const renderContent = () => {

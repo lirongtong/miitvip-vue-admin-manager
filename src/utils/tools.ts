@@ -341,28 +341,50 @@ class MiTools {
     }
 
     /**
-     * HEX 颜色转 RGBA
+     * Hex 转 rgb 数值
+     * @param color
+     * @returns
+     */
+    hex2rgbValues(color: string): number[] {
+        const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+        if (reg.test(color)) {
+            if (color.length === 4) {
+                let newColor = '#'
+                for (let i = 1; i < 4; i++) {
+                    newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
+                }
+                color = newColor
+            }
+            const changeColor: number[] = []
+            for (let i = 1; i < 7; i += 2) {
+                changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
+            }
+            return changeColor
+        } else return []
+    }
+
+    /**
+     * Hex 转 rgb
+     * @param color
+     * @returns
+     */
+    hex2rgb(color?: string) {
+        if (color) {
+            const rgb = this.hex2rgbValues(color)
+            return rgb.length > 0 ? `rgb(${rgb.join(',')})` : color
+        } else return color
+    }
+
+    /**
+     * Hex 转 rgba
      * @param color
      * @param opacity
      * @returns
      */
     hex2rgba(color?: string, opacity = 1): string | undefined {
         if (color) {
-            const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-            if (reg.test(color)) {
-                if (color.length === 4) {
-                    let newColor = '#'
-                    for (let i = 1; i < 4; i++) {
-                        newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
-                    }
-                    color = newColor
-                }
-                const changeColor: number[] = []
-                for (let i = 1; i < 7; i += 2) {
-                    changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
-                }
-                return `rgba(${changeColor.join(',')}, ${opacity})`
-            }
+            const rgb = this.hex2rgbValues(color)
+            return rgb.length > 0 ? `rgba(${rgb.join(',')}, ${opacity})` : color
         } else return color
     }
 
@@ -467,7 +489,8 @@ class MiTools {
         for (const [key, value] of Object.entries(scheme.toJSON())) {
             const token = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
             const color = hexFromArgb(value)
-            tokens.push(`--mi-${token}: ${color};`)
+            const rgb = this.hex2rgbValues(color)
+            tokens.push(`--mi-${token}: ${color};`, `--mi-rgb-${token}: ${rgb.join(',')};`)
             if (target) target.style.setProperty(`--mi-${token}`, color)
         }
         if (!target) this.createCssVariablesElement(tokens)
@@ -654,7 +677,9 @@ class MiTools {
  *  - {@link $tools.back2top} 回到顶部
  *  - {@link $tools.back2pos} 回到指定 `DOM` 位置
  *  - {@link $tools.px2rem} 转 rem ( 不带单位的数字 )
- *  - {@link $tools.hex2rgba} HEX 颜色转 RGBA
+ *  - {@link $tools.hex2rgbValues} Hex 转 rgb 数值
+ *  - {@link $tools.hex2rgb} Hex 转 rgb
+ *  - {@link $tools.hex2rgba} Hex 转 rgba
  *  - {@link $tools.convert2rem} 转 rem ( 附带单位的字符串 )
  *  - {@link $tools.on} 添加事件监听
  *  - {@link $tools.off} 移除事件监听

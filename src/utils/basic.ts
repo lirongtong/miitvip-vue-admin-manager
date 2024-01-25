@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { type App } from 'vue'
 import { createPinia } from 'pinia'
 import i18n from '../locales'
@@ -9,6 +10,10 @@ import Request, { $request } from './request'
 import Tools, { $tools } from './tools'
 import Prism from '../directives/prism'
 import Limit from '../directives/limit'
+import { register } from 'swiper/element/bundle'
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
 
 const pinia = createPinia()
 const components = [pinia, i18n, Global, Api, Cookie, Storage, Request, Prism, Limit, Tools]
@@ -38,6 +43,8 @@ export default {
         $tools.setDescription($g.description, true)
         // 窗口大小
         $tools.setWinSize()
+        // swiper
+        register()
         // 注册组件
         components.forEach((component) => [
             app.use(component as typeof component & { install: () => void })

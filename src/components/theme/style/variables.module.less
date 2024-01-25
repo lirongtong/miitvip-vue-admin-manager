@@ -57,14 +57,19 @@
     font-weight: @weight;
 }
 
-// 背景透明度 ( less fade 无法编译 css variables )
-.fade(@var, @opacity) {
-    background: linear-gradient(to bottom, @var calc((@opacity - 1) * 10000%), transparent calc(@opacity * 10000%));
+// gradient
+.gradient(@start: var(--mi-inverse-on-surface), @stop: var(--mi-inverse-surface), @r: 315deg) {
+    background-image: linear-gradient(@r, @start 0%, @stop 74%);
 }
-
-// 背景渐变
-.background-gradient(@s: var(--mi-inverse-on-surface), @e: var(--mi-inverse-surface), @r: 315deg) {
-    background-image: linear-gradient(@r, @s 0%, @e 74%);
+.gradient-hint(@start: var(--mi-primary), @hint: var(--mi-secondary), @stop: var(--mi-tertiary), @r: 127deg) {
+    background-color: @start;
+    background-image: linear-gradient(@r, @start 0%, @hint 52%, @stop 100%);
+}
+.gradient-text(@start: var(--mi-primary), @hint: var(--mi-secondary), @stop: var(--mi-tertiary), @r: 127deg) {
+    background: transparent linear-gradient(@r, @start 0%, @hint 52%, @stop 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 // letter spacing.

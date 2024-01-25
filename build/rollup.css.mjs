@@ -38,7 +38,7 @@ const externalPackages = [
     ...builtins
 ]
 
-const plugins = [nodeResolve({ browser: true }), json(), babel(babelOptions), commonjs(), terser()]
+const plugins = [nodeResolve({ browser: true, jsnext: true }), json(), babel(babelOptions), commonjs(), terser()]
 
 const config = defineConfig([
     {

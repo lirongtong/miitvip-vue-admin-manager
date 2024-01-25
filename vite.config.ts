@@ -57,7 +57,9 @@ export default defineConfig({
     },
     plugins: [
         vue(),
-        vueJsx(),
+        vueJsx({
+            isCustomElement: (tag) => tag.includes('-')
+        }),
         EslintPlugin(),
         VueI18nPlugin({ include: resolve('./src/locales') })
     ],

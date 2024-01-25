@@ -35,7 +35,7 @@
     .properties(height, 40);
     .flex();
     .circle();
-    .fade(var(--mi-layout-sider-logo-trigger), .1);
+    background: var(--mi-layout-sider-logo-trigger);
     cursor: pointer;
     position: relative;
 }
@@ -74,9 +74,10 @@
         .ellipsis();
         width: auto;
         margin: 0;
-        .font-size(20);
+        .font-size(20, bold);
         .properties(margin-left, 12);
         font-family: @mi-font-code;
+        .gradient-text();
         zoom: 1;
     }
 }
@@ -86,5 +87,5 @@
     --layout-sider-logo-border: var(--mi-primary);
     --layout-sider-logo-collapsed: var(--mi-on-background);
     --layout-sider-logo-notice: var(--mi-on-background);
-    --layout-sider-logo-trigger: var(--mi-on-surface);
+    --layout-sider-logo-trigger: rgba(var(--mi-rgb-on-surface), .1);
 }

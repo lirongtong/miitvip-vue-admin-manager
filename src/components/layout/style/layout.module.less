@@ -29,10 +29,11 @@
     .radius(16);
     .hide-scrollbar();
     background: var(--mi-layout-background);
+    backdrop-filter: blur(1rem);
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 :export {
-    --layout-background: .fade(var(--mi-surface-variant), .5)[background];
+    --layout-background: rgba(var(--mi-rgb-surface-variant), .6);
 }
