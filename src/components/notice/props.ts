@@ -15,6 +15,7 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  * @param placement 弹窗打开位置
  * @param background 弹窗背景色
  * @param extra 自定义配置<Slot />
+ * @param tabActive 选中 Tab ( 默认第1个 )
  * @param tabGap Tab 间距
  * @param tabChange Tab 变化事件
  *
@@ -32,6 +33,7 @@ export interface NoticeProperties {
     placement: string
     background: string
     extra: any
+    tabActive: number | string
     tabGap: number | string | DeviceSize
     tabChange: () => {}
 }
@@ -49,6 +51,7 @@ export const NoticeProps = () => ({
     background: PropTypes.string,
     icon: PropTypes.any,
     extra: PropTypes.any,
+    tabActive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(0),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
     tabChange: PropTypes.func
 })

@@ -1,8 +1,8 @@
 import { defineComponent, type SlotsType, ref } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Popover, Badge, Checkbox } from 'ant-design-vue'
+import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
-import { getPropSlot, getSlotContent } from '../_utils/props'
+import { getSlot, getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
 // eslint-disable-next-line import/no-unresolved
@@ -92,19 +92,33 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTab = (tab: any, first?: boolean) => {
+        const renderTab = (tab: any, idx?: number) => {
             const name = getSlotContent(tab, 'name')
             const icon = getSlotContent(tab, 'icon') ?? <MessageOutlined />
-            const active = first ? tab?.props?.key || false : false
+            const key = tab?.type?.key || idx
             return (
-                <div
-                    class={`${styled.tab}${active ? ` ${styled.tabActive}` : ''}`}
-                    vertical={true}
-                    align="center">
-                    <div class={styled.tabIcon}>{icon}</div>
-                    <div class={styled.tabName}>{name}</div>
-                </div>
+                <Flex class={styled.tab} vertical={true} align="center" key={key}>
+                    <Row class={styled.tabIcon}>{icon}</Row>
+                    <Row class={styled.tabName}>{name}</Row>
+                </Flex>
             )
+        }
+
+        const renderTabSlot = (tabs: any) => {
+            let tabSlot: any = null
+            tabs.map((tab: any, idx: number) => {
+                if (tab?.type?.name === MiNoticeTab.name) {
+                    const key = tab?.type?.key || idx
+                    if (key === props.tabActive) {
+                        tabSlot = (
+                            <Flex class={styled.items} vertical={true}>
+                                {getSlot(tab)}
+                            </Flex>
+                        )
+                    }
+                }
+            })
+            return tabSlot
         }
 
         const renderTabs = () => {
@@ -113,22 +127,27 @@ const MiNotice = defineComponent({
             if (allSlots && allSlots.length > 0) {
                 allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        tabs.push(renderTab(singleSlot, idx === 0))
+                        tabs.push(renderTab(singleSlot, idx))
                     }
                 })
             }
             return (
-                <swiper-container
-                    freeMode={true}
-                    modules={[FreeMode, Navigation]}
-                    slidesPerView="auto"
-                    direction="horizontal"
-                    injectStyles={[`::slotted(swiper-slide) { width: auto; }`]}
-                    spaceBetween={$tools.distinguishSize(props.tabGap)}>
-                    {tabs.map((tab: any) => {
-                        return <swiper-slide>{tab}</swiper-slide>
-                    })}
-                </swiper-container>
+                <>
+                    <swiper-container
+                        freeMode={true}
+                        modules={[FreeMode, Navigation]}
+                        slidesPerView="auto"
+                        direction="horizontal"
+                        injectStyles={[
+                            `::slotted(swiper-slide) { width: auto; } ::slotted(swiper-slide:last-child) { margin-right: 0 !important; }`
+                        ]}
+                        spaceBetween={$tools.distinguishSize(props.tabGap)}>
+                        {tabs.map((tab: any) => {
+                            return <swiper-slide>{tab}</swiper-slide>
+                        })}
+                    </swiper-container>
+                    {renderTabSlot(allSlots)}
+                </>
             )
         }
 

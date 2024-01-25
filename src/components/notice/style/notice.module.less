@@ -23,6 +23,7 @@
 }
 
 .content {
+    .flex(flex-start, center, column);
     color: var(--mi-notice-text);
 
     :global {
@@ -97,6 +98,7 @@
     height: 100%;
     .radius(8);
     .properties(padding);
+    color: var(--mi-notice-tab-text);
     .gradient-hint(var(--mi-notice-tab-background-start), var(--mi-notice-tab-background-hint), var(--mi-notice-tab-background-stop));
     cursor: pointer;
     .transition();
@@ -124,6 +126,11 @@
     .flex();
     color: var(--mi-notice-icon);
     cursor: pointer;
+}
+
+.items {
+    width: 100%;
+    .properties(margin-top, 24);
 }
 
 :export {
