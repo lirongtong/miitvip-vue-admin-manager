@@ -1,9 +1,11 @@
 export default {
-    wonderful: `美好的一天`,
-    fine: `诸事皆宜`,
+    title: `Message Center`,
+    wonderful: `Wonderful Day`,
+    fine: `Everything is find`,
     empty: {
-        bugs: `无缺陷`,
-        metting: `无会议`,
-        business: `无需求`
-    }
+        bugs: `No Bugs`,
+        metting: `No Meetings`,
+        business: `No Business Needs`
+    },
+    view: `View details`
 }

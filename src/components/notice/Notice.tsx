@@ -1,6 +1,6 @@
 import { defineComponent, type SlotsType, ref } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
+import { ConfigProvider, Popover, Badge, Checkbox, Flex } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
 import { getSlot, getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
@@ -92,16 +92,11 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTab = (tab: any, idx?: number) => {
+        const renderTab = (tab: any, idx: number, active?: boolean) => {
             const name = getSlotContent(tab, 'name')
             const icon = getSlotContent(tab, 'icon') ?? <MessageOutlined />
             const key = tab?.type?.key || idx
-            return (
-                <Flex class={styled.tab} vertical={true} align="center" key={key}>
-                    <Row class={styled.tabIcon}>{icon}</Row>
-                    <Row class={styled.tabName}>{name}</Row>
-                </Flex>
-            )
+            return <MiNoticeTab name={name} icon={icon} key={key} active={active} />
         }
 
         const renderTabSlot = (tabs: any) => {
@@ -127,7 +122,8 @@ const MiNotice = defineComponent({
             if (allSlots && allSlots.length > 0) {
                 allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        tabs.push(renderTab(singleSlot, idx))
+                        const key = singleSlot?.props?.key || idx
+                        tabs.push(renderTab(singleSlot, idx, key === props.tabActive))
                     }
                 })
             }

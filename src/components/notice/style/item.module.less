@@ -1,22 +1,15 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
-    .properties(padding-top, 16);
-    .properties(padding-bottom, 16);
-    border-bottom: .0625rem solid var(--mi-notice-item-border);
-
-    &:first-child {
-        padding-top: 0;
-    }
-
-    &:last-child {
-        padding-bottom: 0;
-        border: none;
-    }
+    .properties(padding, 16);
+    background: rgba(var(--mi-rgb-background), .3);
+    .radius(8);
+    .properties(margin-bottom);
 }
 
 .default {
     .flex(flex-start, flex-start);
+    width: 100%;
 }
 
 .avatar {
@@ -38,23 +31,30 @@
 }
 
 .info {
+    width: 100%;
     .flex(flex-start, flex-start, column);
-}
 
-.title,
-.date {
-    color: var(--mi-notice-item-text);
+    &-title {
+        .flex(flex-start, space-between);
+        width: 100%;
+    }
 }
 
 .title {
     .font-size(14, bold);
-    .lines(2);
+    .lines(1);
+    color: var(--mi-notice-item-text);
+}
+
+.date {
+    .font-size(12);
+    color: var(--mi-notice-item-date);
 }
 
 .summary {
     color: var(--mi-notice-item-summary);
     .font-size(12);
-    .lines(3);
+    .lines(1);
 }
 
 :export {
@@ -62,4 +62,5 @@
     --notice-item-avatar: var(--mi-primary);
     --notice-item-text: var(--mi-on-surface);
     --notice-item-summary: var(--mi-inverse-surface);
+    --notice-item-date: rgba(var(--mi-rgb-inverse-surface), .5);
 }

@@ -651,6 +651,22 @@ class MiTools {
             token: Object.assign(theme, props)
         }
     }
+
+    /**
+     * 截取字符串
+     * @param str
+     * @param len
+     * @returns
+     */
+    beautySub(str: string, len: number = 0): string {
+        if (str && len) {
+            const slice = str.substring(0, len)
+            const reg = $g.regExp.chinese || /^[\u4e00-\u9fa5]*$/
+            const charNum = ~~(slice.match(reg) && slice.match(reg).length)
+            const realNum = slice.length * 2 - charNum - 1
+            return `${str.substring(0, realNum)}${realNum < str.length ? '...' : ''}`
+        } else return str
+    }
 }
 
 /**
@@ -692,6 +708,7 @@ class MiTools {
  *  - {@link $tools.destroyThemeModuleProperties} 销毁局部主题变量
  *  - {@link $tools.distinguishSize} 根据屏幕尺寸大小选取所需尺寸
  *  - {@link $tools.getAntdvThemeProperties} Antdv 的主题配置
+ *  - {@link $tools.beautySub} 截取字符串
  */
 export const $tools: MiTools = new MiTools()
 

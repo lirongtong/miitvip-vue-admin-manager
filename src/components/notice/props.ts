@@ -59,15 +59,19 @@ export const NoticeProps = () => ({
 /**
  * 消息 Tab
  * @param key 唯一标识
+ * @param active 选中状态
  * @param name 显示名称
+ * @param icon 图标
  */
 export interface NoticeTabProperties {
     key: string
+    active: boolean
     name: any
     icon: any
 }
 export const NoticeTabProps = () => ({
-    key: PropTypes.string.isRequired,
+    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    active: PropTypes.bool.def(false),
     name: PropTypes.any,
     icon: PropTypes.any
 })

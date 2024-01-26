@@ -48,12 +48,12 @@ export default {
     vite: `Click to view`,
     back2top: `Back to top`,
     week: {
-        sun: 'Sunday',
-        mon: 'Monday',
-        tues: 'Tuesday',
-        wed: 'Wednesday',
-        thur: 'Thursday',
-        fri: 'Friday',
-        sat: 'Saturday'
+        sun: `Sunday`,
+        mon: `Monday`,
+        tues: `Tuesday`,
+        wed: `Wednesday`,
+        thur: `Thursday`,
+        fri: `Friday`,
+        sat: `Saturday`
     }
 }

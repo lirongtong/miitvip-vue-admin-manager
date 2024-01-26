@@ -25,6 +25,7 @@
 .content {
     .flex(flex-start, center, column);
     color: var(--mi-notice-text);
+    overflow: hidden;
 
     :global {
         .swiper-slide {
@@ -93,52 +94,19 @@
     position: relative;
 }
 
-.tab {
-    width: 100%;
-    height: 100%;
-    .radius(8);
-    .properties(padding);
-    color: var(--mi-notice-tab-text);
-    .gradient-hint(var(--mi-notice-tab-background-start), var(--mi-notice-tab-background-hint), var(--mi-notice-tab-background-stop));
-    cursor: pointer;
-    .transition();
-
-    &-icon {
-        :global(.anticon) {
-            .font-size(32);
-            color: var(--mi-notice-tab-text);
-            .properties(margin-bottom);
-        }
-    }
-
-    &-name {
-        color: var(--mi-notice-tab-text);
-        .font-size(14, bold);
-    }
-
-    &-active &-name,
-    &-active &-icon {
-        color: var(--mi-notice-tab-text);
-    }
-}
-
 .icon {
     .flex();
-    color: var(--mi-notice-icon);
+    color: var(--mi-notice-icon-default);
     cursor: pointer;
 }
 
 .items {
     width: 100%;
-    .properties(margin-top, 24);
+    .properties(margin-top, 16);
+    .transition();
 }
 
 :export {
-    --notice-background: var(--mi-surface-variant);
-    --notice-icon: var(--mi-on-surface-variant);
     --notice-text: var(--mi-on-surface-variant);
-    --notice-tab-text: var(--mi-on-secondary);
-    --notice-tab-background-start: var(--mi-primary);
-    --notice-tab-background-hint: var(--mi-secondary);
-    --notice-tab-background-stop: var(--mi-tertiary);
+    --notice-background: var(--mi-surface-variant);
 }

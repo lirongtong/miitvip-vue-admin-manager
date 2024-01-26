@@ -48,12 +48,12 @@ export default {
     vite: `点击查看`,
     back2top: `回到顶部`,
     week: {
-        sun: '周日',
-        mon: '周一',
-        tues: '周二',
-        wed: '周三',
-        thur: '周四',
-        fri: '周五',
-        sat: '周六'
+        sun: `周日`,
+        mon: `周一`,
+        tues: `周二`,
+        wed: `周三`,
+        thur: `周四`,
+        fri: `周五`,
+        sat: `周六`
     }
 }

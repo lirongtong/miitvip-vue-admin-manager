@@ -2,6 +2,8 @@ import { SlotsType, defineComponent } from 'vue'
 import { getPropSlot } from '../_utils/props'
 import { NoticeItemProps } from './props'
 import { logo } from '../../utils/images'
+import { Row } from 'ant-design-vue'
+import { $tools } from '../../utils/tools'
 import applyTheme from '../_utils/theme'
 import styled from './style/item.module.less'
 
@@ -30,9 +32,24 @@ const MiNoticeItem = defineComponent({
             )
         }
 
-        const renderDynamic = (name: string) => {
+        const renderDate = () => {
+            let date = new Date()
+            const y = date.getFullYear()
+            const m = date.getMonth() + 1
+            const d = date.getDate()
+            const times = `${y}-${m > 9 ? m : `0` + m}-${d > 9 ? d : `0` + d}`
+            return <div class={styled.date}>{times}</div>
+        }
+
+        const renderDynamic = (name: string, truncateLen = 0) => {
             const dynamic = getPropSlot(slots, props, name)
-            return dynamic ? <div class={styled[name]}>{dynamic}</div> : null
+            return dynamic ? (
+                <div class={styled[name]}>
+                    {truncateLen && typeof dynamic === 'string'
+                        ? $tools.beautySub(dynamic, truncateLen)
+                        : dynamic}
+                </div>
+            ) : null
         }
 
         return () =>
@@ -41,9 +58,14 @@ const MiNoticeItem = defineComponent({
                     <div class={styled.default}>
                         {renderAvatar()}
                         <div class={styled.info}>
-                            {renderDynamic('title')}
-                            {renderDynamic('summary')}
-                            {renderDynamic('date')}
+                            <div class={styled.infoTitle}>
+                                <Row>
+                                    {renderDynamic('title', 12)}
+                                    {renderDynamic('tag')}
+                                </Row>
+                                <Row>{renderDynamic('date') ?? renderDate()}</Row>
+                            </div>
+                            {renderDynamic('summary', 24)}
                         </div>
                     </div>
                 </div>
