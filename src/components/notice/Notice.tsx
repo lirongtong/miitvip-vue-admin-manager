@@ -19,7 +19,6 @@ const MiNotice = defineComponent({
     slots: Object as SlotsType<{
         default: any
         icon: any
-        extra: any
     }>,
     props: NoticeProps(),
     emits: ['tabClick', 'tabChange', 'update:tabActive'],
@@ -33,6 +32,16 @@ const MiNotice = defineComponent({
         const handleTabClick = (key: string) => {
             emit('tabClick', key)
             emit('update:tabActive', key)
+        }
+
+        const getItemSlotContent = (itemSlot: any) => {
+            return {
+                title: getSlotContent(itemSlot, 'title'),
+                summary: getSlotContent(itemSlot, 'summary'),
+                date: getSlotContent(itemSlot, 'date'),
+                tag: getSlotContent(itemSlot, 'tag'),
+                avatar: getSlotContent(itemSlot, 'avatar')
+            }
         }
 
         const renderIcon = () => {
@@ -157,14 +166,7 @@ const MiNotice = defineComponent({
                     tabItemSlots.forEach((tabItemSlot: any) => {
                         const comp = tabItemSlot?.type?.name
                         if (comp === MiNoticeItem.name) {
-                            const item = {
-                                title: getSlotContent(tabItemSlot, 'title'),
-                                summary: getSlotContent(tabItemSlot, 'summary'),
-                                date: getSlotContent(tabItemSlot, 'date'),
-                                tag: getSlotContent(tabItemSlot, 'tag'),
-                                avatar: getSlotContent(tabItemSlot, 'avatar')
-                            }
-                            items.push(renderTabItem(item))
+                            items.push(renderTabItem(getItemSlotContent(tabItemSlot)))
                         } else extra.push(tabItemSlot)
                         if (extra.length > 0) items.push(...extra)
                     })
@@ -176,6 +178,55 @@ const MiNotice = defineComponent({
                 }
             }
             return items
+        }
+
+        const renderItemsOnly = (allSlots: any[]) => {
+            const items: any[] = []
+            const extras: any[] = []
+            if (allSlots && allSlots.length > 0) {
+                allSlots.map((singleSlot: any) => {
+                    if (singleSlot?.type?.name === MiNoticeItem.name) {
+                        items.push(renderTabItem(getItemSlotContent(singleSlot)))
+                    } else if (
+                        !(
+                            typeof singleSlot?.type === 'symbol' &&
+                            typeof singleSlot?.children === 'string'
+                        )
+                    )
+                        extras.push(singleSlot)
+                })
+            }
+            if (items.length <= 0 && props.items && props.items.length > 0) {
+                ;(props.items || []).forEach((item: Partial<NoticeItemProperties>) => {
+                    if (!Array.isArray(item)) items.push(renderTabItem(item))
+                })
+            }
+            return items.length > 0 ? (
+                <>
+                    <Flex vertical={true} class={styled.items}>
+                        {...items}
+                    </Flex>
+                    {...extras}
+                </>
+            ) : extras.length > 0 ? (
+                { ...extras }
+            ) : null
+        }
+
+        const renderExtra = (extras: any[]) => {
+            const items: any[] = []
+            const others: any[] = []
+            ;(extras || []).forEach((extra: any) => {
+                if (extra?.type?.name === MiNoticeItem.name) {
+                    items.push(renderTabItem(getItemSlotContent(extra)))
+                } else others.push(extra)
+            })
+            return (
+                <Row class={styled.extra}>
+                    {...items}
+                    {...others}
+                </Row>
+            )
         }
 
         const renderTabSlot = (tabs: any[]): any[] => {
@@ -194,15 +245,18 @@ const MiNotice = defineComponent({
         const renderTabs = () => {
             let allSlots = getPropSlot(slots, props)
             const tabs: any[] = []
+            const extras: any[] = []
             if (allSlots && allSlots.length > 0) {
+                // 自定义配置 mi-notice-tab
                 allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
                         const key = singleSlot?.props?.key || idx.toString()
                         tabs.push(renderTab(singleSlot, key))
-                    }
+                    } else extras.push(singleSlot)
                 })
             }
             if (tabs.length <= 0 && props.tabs && props.tabs.length > 0) {
+                // 参数配置 tabs ( 快速生成 )
                 allSlots = props.tabs
                 ;(props.tabs || []).forEach((tab: any, idx: number) => {
                     let key = idx.toString()
@@ -229,9 +283,11 @@ const MiNotice = defineComponent({
                     <Flex vertical={true} class={styled.items}>
                         {...renderTabSlot(allSlots)}
                     </Flex>
-                    {getPropSlot(slots, props, 'extra')}
+                    {renderExtra(extras)}
                 </>
-            ) : null
+            ) : (
+                renderItemsOnly(allSlots)
+            )
         }
 
         const renderContent = () => {

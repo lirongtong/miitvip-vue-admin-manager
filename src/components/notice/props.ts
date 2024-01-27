@@ -32,7 +32,6 @@ export interface NoticeProperties {
     showZero: boolean
     placement: string
     background: string
-    extra: any
     items: NoticeTabProperties[] | NoticeTabProperties[][]
     tabs: string[] | NoticeTabProperties[]
     tabActive: number | string
@@ -52,7 +51,6 @@ export const NoticeProps = () => ({
     placement: PropTypes.oneOf(tuple(...placement)).def('bottom'),
     background: PropTypes.string,
     icon: PropTypes.any,
-    extra: PropTypes.any,
     items: PropTypes.array.def([]),
     tabs: PropTypes.oneOfType([array<string>(), array<NoticeTabProperties>()]).def([]),
     tabActive: PropTypes.string.def('0'),
@@ -103,7 +101,7 @@ export interface NoticeItemProperties {
     avatar: any
 }
 export const NoticeItemProps = () => ({
-    key: PropTypes.string.isRequired,
+    key: PropTypes.string,
     title: PropTypes.any,
     summary: PropTypes.any,
     tag: PropTypes.any,
