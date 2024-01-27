@@ -1,8 +1,8 @@
 import { defineComponent, type SlotsType, ref } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Popover, Badge, Checkbox, Flex } from 'ant-design-vue'
+import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
-import { getSlot, getPropSlot, getSlotContent } from '../_utils/props'
+import { getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
 // eslint-disable-next-line import/no-unresolved
@@ -22,12 +22,18 @@ const MiNotice = defineComponent({
         extra: any
     }>,
     props: NoticeProps(),
-    setup(props, { slots }) {
-        const { tm } = useI18n()
+    emits: ['tabClick', 'tabChange', 'update:tabActive'],
+    setup(props, { slots, emit }) {
+        const { t, tm } = useI18n()
         const width = $tools.convert2rem($tools.distinguishSize(props.width))
         const iconRef = ref<HTMLElement>()
 
         applyTheme(styled)
+
+        const handleTabClick = (key: string) => {
+            emit('tabClick', key)
+            emit('update:tabActive', key)
+        }
 
         const renderIcon = () => {
             const icon = getPropSlot(slots, props, 'icon')
@@ -92,22 +98,29 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTab = (tab: any, idx: number, active?: boolean) => {
-            const name = getSlotContent(tab, 'name')
+        const renderTab = (tab: any) => {
+            const name = getSlotContent(tab, 'name') ?? t('notice.title')
             const icon = getSlotContent(tab, 'icon') ?? <MessageOutlined />
-            const key = tab?.type?.key || idx
-            return <MiNoticeTab name={name} icon={icon} key={key} active={active} />
+            const key = tab?.props?.key
+            return (
+                <Row
+                    class={`${styled.tab}${key === props.tabActive ? ` ${styled.tabActive}` : ``}`}
+                    onClick={() => handleTabClick(key)}>
+                    <Row class={styled.tabIcon}>{icon}</Row>
+                    <Row class={styled.tabName}>{name}</Row>
+                </Row>
+            )
         }
 
-        const renderTabSlot = (tabs: any) => {
+        const renderTabSlot = (tabs: any[]) => {
             let tabSlot: any = null
-            tabs.map((tab: any, idx: number) => {
+            ;(tabs || []).map((tab: any) => {
                 if (tab?.type?.name === MiNoticeTab.name) {
-                    const key = tab?.type?.key || idx
+                    const key = tab?.props?.key
                     if (key === props.tabActive) {
                         tabSlot = (
                             <Flex class={styled.items} vertical={true}>
-                                {getSlot(tab)}
+                                {tab}
                             </Flex>
                         )
                     }
@@ -118,13 +131,13 @@ const MiNotice = defineComponent({
 
         const renderTabs = () => {
             const allSlots = getPropSlot(slots, props)
-            const tabs: any = []
+            const tabs: any[] = []
+            const extras: any[] = []
             if (allSlots && allSlots.length > 0) {
-                allSlots.map((singleSlot: any, idx: number) => {
+                allSlots.map((singleSlot: any) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        const key = singleSlot?.props?.key || idx
-                        tabs.push(renderTab(singleSlot, idx, key === props.tabActive))
-                    }
+                        tabs.push(renderTab(singleSlot))
+                    } else extras.push(singleSlot)
                 })
             }
             return (
@@ -135,7 +148,8 @@ const MiNotice = defineComponent({
                         slidesPerView="auto"
                         direction="horizontal"
                         injectStyles={[
-                            `::slotted(swiper-slide) { width: auto; } ::slotted(swiper-slide:last-child) { margin-right: 0 !important; }`
+                            `::slotted(swiper-slide) { width: auto; }
+                            ::slotted(swiper-slide:last-child) { margin-right: 0 !important; }`
                         ]}
                         spaceBetween={$tools.distinguishSize(props.tabGap)}>
                         {tabs.map((tab: any) => {
@@ -143,6 +157,7 @@ const MiNotice = defineComponent({
                         })}
                     </swiper-container>
                     {renderTabSlot(allSlots)}
+                    {...extras}
                 </>
             )
         }

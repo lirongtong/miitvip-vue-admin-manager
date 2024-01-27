@@ -621,7 +621,7 @@ class MiTools {
                 const values = Object.values(value)
                 const breakpoints = {
                     md: $g?.breakpoints?.md || 768,
-                    lg: $g?.breakpoints?.md || 992
+                    lg: $g?.breakpoints?.lg || 992
                 }
                 if (values.length > 0) {
                     if (width < breakpoints.md) return value?.mobile || values[0]

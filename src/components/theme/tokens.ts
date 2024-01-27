@@ -1,3 +1,4 @@
+import { Theme } from '../../utils/types'
 /**
  * +====================+
  * |        通用        |
@@ -47,11 +48,7 @@ export interface GradientTokens {
  * @param radius 圆角
  * @param components 组件
  */
-export interface ThemeTokens {
-    [key: string]: any
-    theme: 'dark' | 'light'
-    primary: string
-    radius: number
+export interface ThemeTokens extends Theme {
     components: Partial<ComponentTokens>
 }
 

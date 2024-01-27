@@ -58,22 +58,22 @@ export const NoticeProps = () => ({
 
 /**
  * 消息 Tab
- * @param key 唯一标识
- * @param active 选中状态
+ * @param key 唯一值 ( 对应 notice 的 tabActive )
  * @param name 显示名称
  * @param icon 图标
+ * @param items 消息列表
  */
 export interface NoticeTabProperties {
     key: string
-    active: boolean
     name: any
     icon: any
+    items: Partial<NoticeItemProperties>[]
 }
 export const NoticeTabProps = () => ({
-    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    active: PropTypes.bool.def(false),
+    key: PropTypes.string.isRequired,
     name: PropTypes.any,
-    icon: PropTypes.any
+    icon: PropTypes.any,
+    items: PropTypes.array.def([])
 })
 
 /**
@@ -85,6 +85,7 @@ export const NoticeTabProps = () => ({
  * @param avatar 头像<Slot />
  */
 export interface NoticeItemProperties {
+    [key: string]: any
     title: any
     summary: any
     tag: any

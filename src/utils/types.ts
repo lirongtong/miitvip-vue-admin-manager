@@ -7,12 +7,33 @@ export const PropTypes = createTypes() as VueTypesInterface & {
     readonly style: VueTypeValidableDef<CSSProperties>
 }
 
+/**
+ * +====================+
+ * |      主题设置       |
+ * +====================+
+ * @param type 深色 / 浅色
+ * @param primary 主题色
+ * @param radius 圆角
+ */
 export interface Theme {
+    [key: string]: any
     type: 'dark' | 'light'
     primary: string
     radius: number
 }
 
+/**
+ * +====================+
+ * |      断点设置       |
+ * +====================+
+ * @param xs 480
+ * @param sm 576
+ * @param md 768
+ * @param lg 992
+ * @param xl 1200
+ * @param xxl 1600
+ * @param xxxl 2000
+ */
 export interface Breakpoints {
     xs: number
     sm: number
@@ -23,11 +44,28 @@ export interface Breakpoints {
     xxxl: number
 }
 
+/**
+ * +====================+
+ * |      宽高设置       |
+ * +====================+
+ * @param width 宽度
+ * @param height 高度
+ */
 export interface Size {
     width: number
     height: number
 }
 
+/**
+ * +========================+
+ * |      常用 RegExp       |
+ * +========================+
+ * @param phone 手机
+ * @param password 密码
+ * @param username 用户名
+ * @param email 邮箱
+ * @param chinese 中文
+ */
 export interface RegExpTokens {
     [key: string]: any
     phone: RegExp
@@ -37,6 +75,13 @@ export interface RegExpTokens {
     chinese: RegExp
 }
 
+/**
+ * +===========================+
+ * |      常用 Cache Key       |
+ * +===========================+
+ * @param storages
+ * @param cookies
+ */
 export interface CacheTokens {
     storages: {
         [key: string]: any
@@ -51,7 +96,9 @@ export interface CacheTokens {
 }
 
 /**
- * 请求配置 ( 继承 AxiosRequestConfig )
+ * +================================================+
+ * |      请求配置 ( 继承 AxiosRequestConfig )       |
+ * +================================================+
  * @param retry: 第 N 次重试请求
  * @param retryDelay: 重试请求的延迟时间 ( 单位: ms )
  * @param retryCount: 最大重试请求的次数 ( retry > retryCount 时, 停止 )
@@ -63,7 +110,9 @@ export type RequestConfig = AxiosRequestConfig & {
 }
 
 /**
- * 全局变量
+ * +====================+
+ * |      全局变量       |
+ * +====================+
  * @param title 文档标题
  * @param site 站点名称
  * @param author 作者
@@ -116,7 +165,9 @@ export interface GlobalProperties {
 }
 
 /**
- * 路由插槽
+ * +====================+
+ * |      路由插槽       |
+ * +====================+
  * @param Component 组件
  * @param route 路由
  */
@@ -126,7 +177,9 @@ export interface RouterViewSlot {
 }
 
 /**
- * 不同设备下的尺寸配置
+ * +===============================+
+ * |      不同设备下的尺寸配置       |
+ * +===============================+
  * @param laptop 笔记本 ( > breakpoints.lg )
  * @param mobile 移动端 ( < breakpoints.md )
  * @param tablet 平板 ( < breakpoints.lg )
@@ -149,7 +202,9 @@ export interface DeviceSize {
 }
 
 /**
- * 大小颜色
+ * +====================+
+ * |      大小颜色       |
+ * +====================+
  * @param size 大小
  * @param color 颜色
  *

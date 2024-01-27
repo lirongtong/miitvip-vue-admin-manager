@@ -94,6 +94,56 @@
     position: relative;
 }
 
+.tab {
+    width: 100%;
+    height: 100%;
+    .radius(8);
+    .flex(center, center, column);
+    .properties(padding);
+    color: var(--mi-notice-tab-text-default);
+    background: var(--mi-notice-tab-background-default);
+    cursor: pointer;
+
+    &-icon {
+        :global(.anticon) {
+            .font-size(32);
+            color: var(--mi-notice-tab-icon-default);
+            .properties(margin-bottom);
+        }
+    }
+
+    &-name {
+        color: var(--mi-notice-tab-text-default);
+        .font-size(14, bold);
+    }
+
+    &:hover &-icon {
+        :global(.anticon) {
+            color: var(--mi-notice-tab-icon-hover);
+        }
+    }
+
+    &:hover &-name {
+        color: var(--mi-notice-tab-text-hover);
+    }
+
+    &-active {
+        .gradient-hint(var(--mi-notice-tab-background-start), var(--mi-notice-tab-background-hint), var(--mi-notice-tab-background-stop));
+    }
+
+    &-active &-icon,
+    &-active:hover &-icon {
+        :global(.anticon) {
+            color: var(--mi-notice-tab-icon-active);
+        }
+    }
+
+    &-active &-name,
+    &-active:hover &-name {
+        color: var(--mi-notice-tab-text-active);
+    }
+}
+
 .icon {
     .flex();
     color: var(--mi-notice-icon-default);
@@ -104,9 +154,20 @@
     width: 100%;
     .properties(margin-top, 16);
     .transition();
+    max-height: 100vh;
 }
 
 :export {
     --notice-text: var(--mi-on-surface-variant);
     --notice-background: var(--mi-surface-variant);
+    --notice-tab-icon-default: var(--mi-on-background);
+    --notice-tab-icon-active: var(--mi-on-secondary);
+    --notice-tab-icon-hover: var(--mi-on-background);
+    --notice-tab-text-default: var(--mi-on-background);
+    --notice-tab-text-active: var(--mi-on-secondary);
+    --notice-tab-text-hover: var(--mi-on-background);
+    --notice-tab-background-default: rgba(var(--mi-rgb-background), .5);
+    --notice-tab-background-start: var(--mi-primary);
+    --notice-tab-background-hint: var(--mi-secondary);
+    --notice-tab-background-stop: var(--mi-tertiary);
 }
