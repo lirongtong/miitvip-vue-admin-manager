@@ -27,18 +27,20 @@ class MiTools {
      * 创建 style 标签并写入 css variables
      * @param tokens
      * @param id
+     * @param overwritten 强制覆盖
      */
-    createCssVariablesElement(tokens: string[], id?: string) {
+    createCssVariablesElement(tokens: string[], id?: string, overwritten?: boolean) {
         if (tokens.length > 0) {
             id = id ?? `${$g.prefix}common-css-variables`
             const oldStyle = document.querySelector(`#${id}`)
-            if (oldStyle) oldStyle.remove()
-            const style = document.createElement('style')
-            style.setAttribute('id', id)
-            style.textContent = `:root {${tokens.join('')}}`
-            const head = document.head || document.getElementsByTagName('head')[0]
-            const first = head.firstChild
-            head.insertBefore(style, first)
+            if (!oldStyle || overwritten) {
+                const style = document.createElement('style')
+                style.setAttribute('id', id)
+                style.textContent = `:root {${tokens.join('')}}`
+                const head = document.head || document.getElementsByTagName('head')[0]
+                const first = head.firstChild
+                head.insertBefore(style, first)
+            }
         }
     }
 
