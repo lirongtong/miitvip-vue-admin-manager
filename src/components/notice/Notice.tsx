@@ -151,26 +151,23 @@ const MiNotice = defineComponent({
                     }
                 }
             } else if (isVNode(tab)) {
-                const key = tab?.props?.key
-                if (key === props.tabActive) {
-                    const tabItemSlots = getSlotContent(tab)
-                    if (tabItemSlots.length > 0) {
-                        const extra = []
-                        tabItemSlots.forEach((tabItemSlot: any) => {
-                            const comp = tabItemSlot?.type?.name
-                            if (comp === MiNoticeItem.name) {
-                                const item = {
-                                    title: getSlotContent(tabItemSlot, 'title'),
-                                    summary: getSlotContent(tabItemSlot, 'summary'),
-                                    date: getSlotContent(tabItemSlot, 'date'),
-                                    tag: getSlotContent(tabItemSlot, 'tag'),
-                                    avatar: getSlotContent(tabItemSlot, 'avatar')
-                                }
-                                items.push(renderTabItem(item))
-                            } else extra.push(tabItemSlot)
-                            if (extra.length > 0) items.push(...extra)
-                        })
-                    }
+                const tabItemSlots = getSlotContent(tab)
+                if (tabItemSlots.length > 0) {
+                    const extra = []
+                    tabItemSlots.forEach((tabItemSlot: any) => {
+                        const comp = tabItemSlot?.type?.name
+                        if (comp === MiNoticeItem.name) {
+                            const item = {
+                                title: getSlotContent(tabItemSlot, 'title'),
+                                summary: getSlotContent(tabItemSlot, 'summary'),
+                                date: getSlotContent(tabItemSlot, 'date'),
+                                tag: getSlotContent(tabItemSlot, 'tag'),
+                                avatar: getSlotContent(tabItemSlot, 'avatar')
+                            }
+                            items.push(renderTabItem(item))
+                        } else extra.push(tabItemSlot)
+                        if (extra.length > 0) items.push(...extra)
+                    })
                 }
             } else {
                 for (let i = 0, l = (tab?.items || []).length; i < l; i++) {
@@ -185,8 +182,11 @@ const MiNotice = defineComponent({
             let tabSlots: any[] = []
             for (let i = 0, l = tabs.length; i < l; i++) {
                 const tab = tabs[i]
-                tabSlots = renderTabItems(tab)
-                if (tabSlots.length > 0) break
+                const key = isVNode(tab) ? tab?.props?.key : i.toString()
+                if (key === props.tabActive) {
+                    tabSlots = renderTabItems(tab)
+                    break
+                }
             }
             return tabSlots
         }

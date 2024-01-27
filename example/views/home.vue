@@ -6,8 +6,8 @@
                     <template #logo>
                         <mi-layout-sider-logo>
                             <template #notice>
-                                <mi-notice :width="360" :tabs="data.tabs2" v-model:tab-active="noticeActiveTab" @tab-click="handleClick" @tab-change="handleChange">
-                                    <mi-notice-tab key="0" name="我的消息">
+                                <mi-notice :width="360" :items="data.items2" v-model:tab-active="noticeActiveTab" @tab-click="handleClick" @tab-change="handleChange">
+                                    <!-- <mi-notice-tab key="0" name="我的消息">
                                         <mi-notice-item title="推荐有奖" summary="邀请好友，享8重好礼！" />
                                         <mi-notice-item title="每日签到" summary="连续签到，奖励丰厚！" />
                                     </mi-notice-tab>
@@ -23,7 +23,7 @@
                                         <mi-notice-item title="每日签到" summary="连续签到，奖励丰厚！" />
                                         <mi-notice-item title="推荐有奖" summary="邀请好友，享8重好礼！" />
                                         <mi-notice-item title="每日签到" summary="连续签到，奖励丰厚！" />
-                                    </mi-notice-tab>
+                                    </mi-notice-tab> -->
                                 </mi-notice>
                             </template>
                         </mi-layout-sider-logo>
@@ -56,6 +56,12 @@ const data = reactive({
             {title: '推荐有奖3', summary: '邀请好友，享8重好礼！', date: '2014-01-27'},
             {title: '每日签到3', summary: '连续签到，奖励丰厚！', date: '2014-01-27'}
         ]
+    ],
+    items2: [
+        {title: '推荐有奖3', summary: '邀请好友，享8重好礼！', date: '2014-01-27'},
+        {title: '每日签到3', summary: '连续签到，奖励丰厚！', date: '2014-01-27'},
+        {title: '推荐有奖3', summary: '邀请好友，享8重好礼！', date: '2014-01-27'},
+        {title: '每日签到3', summary: '连续签到，奖励丰厚！', date: '2014-01-27'}
     ],
     tabs2: [{
         name: '我的消息',
