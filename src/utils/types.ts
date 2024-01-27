@@ -30,6 +30,7 @@ export interface Theme {
  * @param sm 576
  * @param md 768
  * @param lg 992
+ * @param xm 1024
  * @param xl 1200
  * @param xxl 1600
  * @param xxxl 2000
@@ -39,6 +40,7 @@ export interface Breakpoints {
     sm: number
     md: number
     lg: number
+    xm: number
     xl: number
     xxl: number
     xxxl: number

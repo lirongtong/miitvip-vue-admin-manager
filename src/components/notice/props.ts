@@ -1,4 +1,4 @@
-import { object } from 'vue-types'
+import { array, object } from 'vue-types'
 import { tuple, placement, actions } from './../_utils/props'
 import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
 
@@ -33,6 +33,7 @@ export interface NoticeProperties {
     placement: string
     background: string
     extra: any
+    tabs: string[] | NoticeTabProperties[]
     tabActive: number | string
     tabGap: number | string | DeviceSize
     tabChange: () => {}
@@ -51,7 +52,8 @@ export const NoticeProps = () => ({
     background: PropTypes.string,
     icon: PropTypes.any,
     extra: PropTypes.any,
-    tabActive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(0),
+    tabs: PropTypes.oneOfType([array<string>(), array<NoticeTabProperties>()]).def([]),
+    tabActive: PropTypes.string.def('0'),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
     tabChange: PropTypes.func
 })

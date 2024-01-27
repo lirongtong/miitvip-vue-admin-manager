@@ -1,4 +1,4 @@
-import { defineComponent, type SlotsType, ref } from 'vue'
+import { defineComponent, type SlotsType, ref, isVNode } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
@@ -98,10 +98,20 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTab = (tab: any) => {
-            const name = getSlotContent(tab, 'name') ?? t('notice.title')
-            const icon = getSlotContent(tab, 'icon') ?? <MessageOutlined />
-            const key = tab?.props?.key
+        const renderTab = (tab: any, key: string) => {
+            const tabIsStr = typeof tab === 'string'
+            const defaultIcon = <MessageOutlined />
+            const defaultName = t('notice.title')
+            const name = tabIsStr
+                ? tab
+                : isVNode(tab)
+                  ? getSlotContent(tab, 'name') ?? defaultName
+                  : tab?.name ?? defaultName
+            const icon = tabIsStr
+                ? defaultIcon
+                : isVNode(tab)
+                  ? getSlotContent(tab, 'icon') ?? defaultIcon
+                  : tab?.icon ?? defaultIcon
             return (
                 <Row
                     class={`${styled.tab}${key === props.tabActive ? ` ${styled.tabActive}` : ``}`}
@@ -130,17 +140,25 @@ const MiNotice = defineComponent({
         }
 
         const renderTabs = () => {
-            const allSlots = getPropSlot(slots, props)
+            let allSlots = getPropSlot(slots, props)
             const tabs: any[] = []
-            const extras: any[] = []
             if (allSlots && allSlots.length > 0) {
-                allSlots.map((singleSlot: any) => {
+                allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        tabs.push(renderTab(singleSlot))
-                    } else extras.push(singleSlot)
+                        const key = singleSlot?.props?.key || idx.toString()
+                        tabs.push(renderTab(singleSlot, key))
+                    }
                 })
             }
-            return (
+            if (tabs.length <= 0 && props.tabs && props.tabs.length > 0) {
+                allSlots = props.tabs
+                ;(props.tabs || []).forEach((tab: any, idx: number) => {
+                    let key = idx.toString()
+                    key = typeof tab === 'string' ? key : tab?.key ?? key
+                    tabs.push(renderTab(tab, key))
+                })
+            }
+            return tabs.length > 0 ? (
                 <>
                     <swiper-container
                         freeMode={true}
@@ -157,9 +175,9 @@ const MiNotice = defineComponent({
                         })}
                     </swiper-container>
                     {renderTabSlot(allSlots)}
-                    {...extras}
+                    {getPropSlot(slots, props, 'extra')}
                 </>
-            )
+            ) : null
         }
 
         const renderContent = () => {
