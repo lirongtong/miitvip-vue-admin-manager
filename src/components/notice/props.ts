@@ -3,7 +3,9 @@ import { tuple, placement, actions } from './../_utils/props'
 import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
 
 /**
- * 消息配置
+ * +=====================+
+ * |       Notice        |
+ * +=====================+
  * @param icon 图表<Slot />
  * @param iconSetting ICON 配置 ( slot icon 设定时无效 )
  * @param trigger 触发方式
@@ -18,8 +20,6 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  * @param tabActive 选中 Tab ( 默认第1个 )
  * @param tabGap Tab 间距
  * @param tabChange Tab 变化事件
- *
- * @see SizeColor
  */
 export interface NoticeProperties {
     icon: any
@@ -33,6 +33,7 @@ export interface NoticeProperties {
     placement: string
     background: string
     extra: any
+    items: NoticeTabProperties[] | NoticeTabProperties[][]
     tabs: string[] | NoticeTabProperties[]
     tabActive: number | string
     tabGap: number | string | DeviceSize
@@ -52,6 +53,7 @@ export const NoticeProps = () => ({
     background: PropTypes.string,
     icon: PropTypes.any,
     extra: PropTypes.any,
+    items: PropTypes.array.def([]),
     tabs: PropTypes.oneOfType([array<string>(), array<NoticeTabProperties>()]).def([]),
     tabActive: PropTypes.string.def('0'),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
@@ -59,7 +61,9 @@ export const NoticeProps = () => ({
 })
 
 /**
- * 消息 Tab
+ * +=========================+
+ * |       Notice Tab        |
+ * +=========================+
  * @param key 唯一值 ( 对应 notice 的 tabActive )
  * @param name 显示名称
  * @param icon 图标
@@ -79,7 +83,10 @@ export const NoticeTabProps = () => ({
 })
 
 /**
- * 消息列表
+ * +==========================+
+ * |       Notice Item        |
+ * +==========================+
+ * @param key 标识符
  * @param title 标题<Slot />
  * @param summary 摘要<Slot />
  * @param tag 标签<Slot />
@@ -88,6 +95,7 @@ export const NoticeTabProps = () => ({
  */
 export interface NoticeItemProperties {
     [key: string]: any
+    key: string | number
     title: any
     summary: any
     tag: any
@@ -95,6 +103,7 @@ export interface NoticeItemProperties {
     avatar: any
 }
 export const NoticeItemProps = () => ({
+    key: PropTypes.string.isRequired,
     title: PropTypes.any,
     summary: PropTypes.any,
     tag: PropTypes.any,

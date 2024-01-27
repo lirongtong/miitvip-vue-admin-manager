@@ -1,9 +1,8 @@
 import { Theme } from '../../utils/types'
 /**
  * +====================+
- * |        通用        |
+ * |        背景        |
  * +====================+
- *
  * @param color 颜色值
  * @param gradient 渐变色
  *
@@ -15,7 +14,9 @@ export interface BackgroundTokens {
 }
 
 /**
- * 颜色状态
+ * +=======================+
+ * |        颜色状态        |
+ * +=======================+
  * @param default 默认
  * @param active 选中
  * @param hover 悬停
@@ -27,7 +28,9 @@ export interface ColorStateTokens {
 }
 
 /**
- * 渐变色
+ * +=======================+
+ * |         渐变色        |
+ * +=======================+
  * @param start 渐变线的起始点颜色值
  * @param hint 相邻色标之间的渐变过程颜色值
  * @param stop 色标位置的颜色值
@@ -42,11 +45,13 @@ export interface GradientTokens {
  * +====================+
  * |        主题        |
  * +====================+
- *
  * @param theme 主题 ( 深色 / 浅色 )
  * @param primary 主题色
  * @param radius 圆角
  * @param components 组件
+ *
+ * @see Theme
+ * @see ComponentTokens
  */
 export interface ThemeTokens extends Theme {
     components: Partial<ComponentTokens>
@@ -56,10 +61,13 @@ export interface ThemeTokens extends Theme {
  * +====================+
  * |        组件        |
  * +====================+
- *
  * @param layout 布局
  * @param notice 消息中心
  * @param clock 时钟
+ *
+ * @see LayoutTokens
+ * @see NoticeTokens
+ * @see ClockTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -72,11 +80,14 @@ export interface ComponentTokens {
  * +====================+
  * |        布局        |
  * +====================+
- *
- * @param background Layout.Main 背景色
+ * @param background Layout.Main
  * @param header Layout.Header
  * @param sider Layout.Sider
  * @param content Layout.Content
+ *
+ * @see LayoutHeaderTokens
+ * @see LayoutSiderTokens
+ * @see LayoutContentTokens
  */
 export interface LayoutTokens {
     [key: string]: any
@@ -87,7 +98,9 @@ export interface LayoutTokens {
 }
 
 /**
- * Header
+ * +=============================+
+ * |        布局 - Header        |
+ * +=============================+
  */
 export interface LayoutHeaderTokens {
     text: string
@@ -95,15 +108,21 @@ export interface LayoutHeaderTokens {
 }
 
 /**
- * Sider
+ * +============================+
+ * |        布局 - Sider        |
+ * +============================+
  * @param logo 图标
+ *
+ * @see LayoutSiderLogoTokens
  */
 export interface LayoutSiderTokens {
     logo: Partial<LayoutSiderLogoTokens>
 }
 
 /**
- * Sider Logo
+ * +=================================+
+ * |        布局 - Sider Logo        |
+ * +=================================+
  * @param text 文案
  * @param border 边框
  * @param collapsed 菜单ICON
@@ -119,7 +138,9 @@ export interface LayoutSiderLogoTokens {
 }
 
 /**
- * Content
+ * +==============================+
+ * |        布局 - Content        |
+ * +==============================+
  * @param text 文案
  * @param mask 遮罩
  * @param shadow 阴影
@@ -136,12 +157,14 @@ export interface LayoutContentTokens {
  * +====================+
  * |      消息中心      |
  * +====================+
- *
  * @param background 弹窗背景色
  * @param icon 图标颜色
  * @param text 文案颜色 ( 默认空状态时 )
  * @param tab 选项卡文案颜色
  * @param item 选项配置
+ *
+ * @see NoticeTabTokens
+ * @see NoticeItemTokens
  */
 export interface NoticeTokens {
     text: string
@@ -151,9 +174,15 @@ export interface NoticeTokens {
 }
 
 /**
+ * +==========================+
+ * |      消息中心 - Tab      |
+ * +==========================+
  * @param text 文案
  * @param icon 图标颜色
  * @param background 背景色
+ *
+ * @see ColorStateTokens
+ * @see GradientTokens
  */
 export interface NoticeTabTokens {
     text: Partial<ColorStateTokens>
@@ -161,13 +190,17 @@ export interface NoticeTabTokens {
     background: Partial<GradientTokens> & { default?: string }
 }
 
+/**
+ * +==========================+
+ * |      消息中心 - Item      |
+ * +==========================+
+ */
 export interface NoticeItemTokens {}
 
 /**
  * +====================+
  * |        时钟        |
  * +====================+
- *
  * @param shadow 阴影颜色
  * @param background 背景色
  * @param hour.text 小时刻度文案颜色
@@ -178,6 +211,8 @@ export interface NoticeItemTokens {}
  * @param pointer.background 时分秒针汇聚的中间点颜色
  * @param pointer.mid 中间点中间层颜色 ( 大小不一, 层叠 )
  * @param pointer.top 中间点最上层颜色 ( 大小不一, 层叠 )
+ *
+ * @see BackgroundTokens
  */
 export interface ClockTokens {
     shadow: string

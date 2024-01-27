@@ -1,9 +1,9 @@
-import { defineComponent, type SlotsType, ref, isVNode } from 'vue'
+import { defineComponent, type SlotsType, ref, isVNode, watch } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
-import { ConfigProvider, Popover, Badge, Checkbox, Flex, Row } from 'ant-design-vue'
+import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
 import { getPropSlot, getSlotContent } from '../_utils/props'
-import { NoticeProps } from './props'
+import { NoticeItemProperties, NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
 // eslint-disable-next-line import/no-unresolved
 import { Navigation, FreeMode } from 'swiper/modules'
@@ -99,21 +99,22 @@ const MiNotice = defineComponent({
         }
 
         const renderTab = (tab: any, key: string) => {
-            const tabIsStr = typeof tab === 'string'
+            const isStrTab = typeof tab === 'string'
             const defaultIcon = <MessageOutlined />
             const defaultName = t('notice.title')
-            const name = tabIsStr
+            const name = isStrTab
                 ? tab
                 : isVNode(tab)
                   ? getSlotContent(tab, 'name') ?? defaultName
                   : tab?.name ?? defaultName
-            const icon = tabIsStr
+            const icon = isStrTab
                 ? defaultIcon
                 : isVNode(tab)
                   ? getSlotContent(tab, 'icon') ?? defaultIcon
                   : tab?.icon ?? defaultIcon
             return (
                 <Row
+                    key={$tools.uid()}
                     class={`${styled.tab}${key === props.tabActive ? ` ${styled.tabActive}` : ``}`}
                     onClick={() => handleTabClick(key)}>
                     <Row class={styled.tabIcon}>{icon}</Row>
@@ -122,21 +123,72 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTabSlot = (tabs: any[]) => {
-            let tabSlot: any = null
-            ;(tabs || []).map((tab: any) => {
-                if (tab?.type?.name === MiNoticeTab.name) {
-                    const key = tab?.props?.key
-                    if (key === props.tabActive) {
-                        tabSlot = (
-                            <Flex class={styled.items} vertical={true}>
-                                {tab}
-                            </Flex>
-                        )
+        const renderTabItem = (item: Partial<NoticeItemProperties>) => {
+            return (
+                <MiNoticeItem
+                    key={$tools.uid()}
+                    title={item?.title}
+                    summary={item?.summary}
+                    date={item?.date}
+                    tag={item?.tag}
+                    avatar={item?.avatar}
+                />
+            )
+        }
+
+        const renderTabItems = (tab: any) => {
+            let items: any[] = []
+            const isStrTab = typeof tab === 'string'
+            if (isStrTab) {
+                for (let i = 0, l = (props.items || []).length; i < l; i++) {
+                    const key = i.toString()
+                    const item = props.items[i]
+                    if (Array.isArray(item) && key === props.tabActive) {
+                        ;(item || []).forEach((data: Partial<NoticeItemProperties>) => {
+                            items.push(renderTabItem(data))
+                        })
+                        break
                     }
                 }
-            })
-            return tabSlot
+            } else if (isVNode(tab)) {
+                const key = tab?.props?.key
+                if (key === props.tabActive) {
+                    const tabItemSlots = getSlotContent(tab)
+                    if (tabItemSlots.length > 0) {
+                        const extra = []
+                        tabItemSlots.forEach((tabItemSlot: any) => {
+                            const comp = tabItemSlot?.type?.name
+                            if (comp === MiNoticeItem.name) {
+                                const item = {
+                                    title: getSlotContent(tabItemSlot, 'title'),
+                                    summary: getSlotContent(tabItemSlot, 'summary'),
+                                    date: getSlotContent(tabItemSlot, 'date'),
+                                    tag: getSlotContent(tabItemSlot, 'tag'),
+                                    avatar: getSlotContent(tabItemSlot, 'avatar')
+                                }
+                                items.push(renderTabItem(item))
+                            } else extra.push(tabItemSlot)
+                            if (extra.length > 0) items.push(...extra)
+                        })
+                    }
+                }
+            } else {
+                for (let i = 0, l = (tab?.items || []).length; i < l; i++) {
+                    const item = tab.items[i]
+                    items.push(renderTabItem(item))
+                }
+            }
+            return items
+        }
+
+        const renderTabSlot = (tabs: any[]): any[] => {
+            let tabSlots: any[] = []
+            for (let i = 0, l = tabs.length; i < l; i++) {
+                const tab = tabs[i]
+                tabSlots = renderTabItems(tab)
+                if (tabSlots.length > 0) break
+            }
+            return tabSlots
         }
 
         const renderTabs = () => {
@@ -174,7 +226,9 @@ const MiNotice = defineComponent({
                             return <swiper-slide>{tab}</swiper-slide>
                         })}
                     </swiper-container>
-                    {renderTabSlot(allSlots)}
+                    <Flex vertical={true} class={styled.items}>
+                        {...renderTabSlot(allSlots)}
+                    </Flex>
                     {getPropSlot(slots, props, 'extra')}
                 </>
             ) : null
@@ -188,6 +242,11 @@ const MiNotice = defineComponent({
                 </div>
             )
         }
+
+        watch(
+            () => props.tabActive,
+            (nVal: string) => emit('tabChange', nVal)
+        )
 
         return () => (
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
