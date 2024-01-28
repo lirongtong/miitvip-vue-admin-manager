@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { type App } from 'vue'
 import { createPinia } from 'pinia'
 import i18n from '../locales'

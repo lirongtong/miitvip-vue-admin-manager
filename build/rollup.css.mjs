@@ -6,14 +6,11 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import babel from '@rollup/plugin-babel'
 import path from 'path'
-import { createRequire } from 'module'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
-import builtins from 'builtin-modules'
+import { externalPackages, externalGlobals } from './rollup.external.mjs'
 
-const requireRes = createRequire(import.meta.url)
-const pkg = requireRes('../package.json')
 const fileName = 'makeit-admin-pro'
 
 const babelOptions = {
@@ -27,16 +24,6 @@ const babelOptions = {
     exclude: /[\\/]node_modules[\\/]/,
     babelHelpers: 'runtime'
 }
-
-const dependencies = Object.keys(pkg.dependencies || {})
-const globalDependencies = {}
-Object.entries(dependencies).forEach(([_key, value]) => globalDependencies[value] = value)
-
-const externalGlobals = Object.assign(globalDependencies, { 'style-inject': 'styleInject' })
-const externalPackages = [
-    ...dependencies,
-    ...builtins
-]
 
 const plugins = [nodeResolve({ browser: true, jsnext: true }), json(), babel(babelOptions), commonjs(), terser()]
 

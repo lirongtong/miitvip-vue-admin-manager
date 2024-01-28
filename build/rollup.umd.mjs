@@ -13,7 +13,7 @@ import { DEFAULT_EXTENSIONS } from '@babel/core'
 import { visualizer } from 'rollup-plugin-visualizer'
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
-import builtins from 'builtin-modules'
+import { externalPackages, externalGlobals } from './rollup.external.mjs'
 import { rimraf } from 'rimraf'
 import strip from '@rollup/plugin-strip'
 
@@ -44,16 +44,6 @@ const babelOptions = {
     exclude: /[\\/]node_modules[\\/]/,
     babelHelpers: 'runtime'
 }
-
-const dependencies = Object.keys(pkg.dependencies || {})
-const globalDependencies = {}
-Object.entries(dependencies).forEach(([_key, value]) => globalDependencies[value] = value)
-
-const externalGlobals = Object.assign(globalDependencies, { 'style-inject': 'styleInject' })
-const externalPackages = [
-    ...dependencies,
-    ...builtins
-]
 
 const plugins = [
     typescript({ tsconfig: path.resolve(process.cwd(), './tsconfig.umd.json') }),
