@@ -39,6 +39,7 @@ export default defineConfig({
             'screenfull',
             'style-inject',
             'vue-types',
+            'swiper',
             '@material/material-color-utilities'
         ]
     },
