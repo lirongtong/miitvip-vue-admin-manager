@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { defineComponent, type SlotsType, ref, isVNode, watch } from 'vue'
+import { defineComponent, type SlotsType, ref, isVNode, watch, h } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
@@ -40,6 +40,8 @@ const MiNotice = defineComponent({
                 summary: getSlotContent(itemSlot, 'summary'),
                 date: getSlotContent(itemSlot, 'date'),
                 tag: getSlotContent(itemSlot, 'tag'),
+                tagColor: itemSlot?.props?.tagColor || itemSlot?.props?.['tag-color'],
+                tagIcon: itemSlot?.children?.icon,
                 avatar: getSlotContent(itemSlot, 'avatar')
             }
         }
@@ -140,6 +142,8 @@ const MiNotice = defineComponent({
                     summary={item?.summary}
                     date={item?.date}
                     tag={item?.tag}
+                    tagIcon={h(item?.tagIcon)}
+                    tagColor={item?.tagColor}
                     avatar={item?.avatar}
                 />
             )

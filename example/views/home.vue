@@ -8,7 +8,7 @@
                             <template #notice>
                                 <mi-notice :width="360">
                                     <mi-notice-tab name="系统消息">
-                                        <mi-notice-item title="每日签到" summary="连续签到，享8重好礼！"></mi-notice-item>
+                                        <mi-notice-item title="每日签到" summary="连续签到，享8重好礼！" />
                                     </mi-notice-tab>
                                     <mi-notice-tab name="我的消息"></mi-notice-tab>
                                 </mi-notice>

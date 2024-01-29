@@ -2,7 +2,7 @@
 
 .container {
     .properties(padding, 16);
-    background: rgba(var(--mi-rgb-background), .3);
+    background: var(--mi-notice-item-background);
     .radius(8);
     .properties(margin-bottom);
     width: 100%;
@@ -38,6 +38,13 @@
     &-title {
         .flex(flex-start, space-between);
         width: 100%;
+        .properties(margin-bottom, 4);
+
+        :global {
+            .ant-tag {
+                .properties(margin-left, 4);
+            }
+        }
     }
 }
 
@@ -58,10 +65,20 @@
     .lines(1);
 }
 
+.tag {
+    background: var(--mi-notice-item-tag-background);
+    color: var(--mi-notice-item-tag-text);
+    border-color: var(--mi-notice-item-tag-border);
+}
+
 :export {
+    --notice-item-background: rgba(var(--mi-rgb-background), .5);
     --notice-item-border: var(--mi-inverse-on-surface);
     --notice-item-avatar: var(--mi-primary);
     --notice-item-text: var(--mi-on-surface);
     --notice-item-summary: var(--mi-inverse-surface);
     --notice-item-date: rgba(var(--mi-rgb-inverse-surface), .5);
+    --notice-item-tag-text: var(--mi-on-tertiary);
+    --notice-item-tag-background: var(--mi-tertiary);
+    --notice-item-tag-border: var(--mi-tertiary);
 }

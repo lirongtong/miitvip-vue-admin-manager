@@ -7,5 +7,6 @@ export default {
         metting: `No Meetings`,
         business: `No Business Needs`
     },
-    view: `View details`
+    view: `View details`,
+    official: `Official`
 }

@@ -195,7 +195,20 @@ export interface NoticeTabTokens {
  * |      消息中心 - Item      |
  * +==========================+
  */
-export interface NoticeItemTokens {}
+export interface NoticeItemTokens {
+    background: string
+    border: string
+    text: string
+    avatar: string
+    summary: string
+    date: string
+    tag: Partial<NoticeItemTagTokens>
+}
+export interface NoticeItemTagTokens {
+    border: string
+    background: string
+    text: string
+}
 
 /**
  * +====================+

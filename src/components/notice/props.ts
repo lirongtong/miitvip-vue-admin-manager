@@ -88,6 +88,8 @@ export const NoticeTabProps = () => ({
  * @param title 标题<Slot />
  * @param summary 摘要<Slot />
  * @param tag 标签<Slot />
+ * @param tagColor 标签颜色 ( tag 非 slot 时生效 )
+ * @param tagIcon 标签图标 ( tag 非 slot 时生效 )
  * @param date 日期<Slot />
  * @param avatar 头像<Slot />
  */
@@ -97,6 +99,8 @@ export interface NoticeItemProperties {
     title: any
     summary: any
     tag: any
+    tagColor: string
+    tagIcon: any
     date: any
     avatar: any
 }
@@ -105,6 +109,8 @@ export const NoticeItemProps = () => ({
     title: PropTypes.any,
     summary: PropTypes.any,
     tag: PropTypes.any,
+    tagColor: PropTypes.string,
+    tagIcon: PropTypes.any,
     date: PropTypes.any,
     avatar: PropTypes.any
 })

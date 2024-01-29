@@ -34,6 +34,7 @@ class MiTools {
             id = id ?? `${$g.prefix}common-css-variables`
             const oldStyle = document.querySelector(`#${id}`)
             if (!oldStyle || overwritten) {
+                if (oldStyle) oldStyle.remove()
                 const style = document.createElement('style')
                 style.setAttribute('id', id)
                 style.textContent = `:root {${tokens.join('')}}`
@@ -469,13 +470,13 @@ class MiTools {
 
     /**
      * 根据主色调生成主题变量
-     * @param theme 主题色 ( hex )
+     * @param primary 主题色 ( hex )
      * @param target 变量插入的节点
      */
-    createThemeProperties(theme?: string, target?: HTMLElement) {
+    createThemeProperties(primary?: string, target?: HTMLElement) {
         try {
-            const themes = themeFromSourceColor(argbFromHex(theme || '#FFD464'))
-            this.setThemeSchemeProperties(themes.schemes[$g.theme?.type || 'dark'], target)
+            const themes = themeFromSourceColor(argbFromHex(primary || '#FFD464'))
+            this.setThemeSchemeProperties(themes.schemes[$g?.theme?.type || 'dark'], target)
         } catch (err) {
             throw new Error('The `theme` variable only supports HEX (e.g. `#FFFFFF`).')
         }
@@ -493,9 +494,12 @@ class MiTools {
             const color = hexFromArgb(value)
             const rgb = this.hex2rgbValues(color)
             tokens.push(`--mi-${token}: ${color};`, `--mi-rgb-${token}: ${rgb.join(',')};`)
-            if (target) target.style.setProperty(`--mi-${token}`, color)
+            if (target) {
+                target.style.setProperty(`--mi-${token}`, color)
+                target.style.setProperty(`--mi-rgb-${token}`, rgb as any)
+            }
         }
-        if (!target) this.createCssVariablesElement(tokens)
+        if (!target) this.createCssVariablesElement(tokens, undefined, true)
     }
 
     /**

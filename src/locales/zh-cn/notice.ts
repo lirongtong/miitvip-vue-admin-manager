@@ -7,5 +7,6 @@ export default {
         metting: `无会议`,
         business: `无需求`
     },
-    view: `查看详情`
+    view: `查看详情`,
+    official: `官方`
 }

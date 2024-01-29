@@ -2,7 +2,8 @@ import { SlotsType, defineComponent } from 'vue'
 import { getPropSlot } from '../_utils/props'
 import { NoticeItemProps } from './props'
 import { logo } from '../../utils/images'
-import { Row } from 'ant-design-vue'
+import { Row, Tag } from 'ant-design-vue'
+import { useI18n } from 'vue-i18n'
 import { $tools } from '../../utils/tools'
 import applyTheme from '../_utils/theme'
 import styled from './style/item.module.less'
@@ -20,6 +21,7 @@ const MiNoticeItem = defineComponent({
     }>,
     props: NoticeItemProps(),
     setup(props, { slots }) {
+        const { t } = useI18n()
         applyTheme(styled)
 
         const renderAvatar = () => {
@@ -39,6 +41,26 @@ const MiNoticeItem = defineComponent({
             const d = date.getDate()
             const times = `${y}-${m > 9 ? m : `0` + m}-${d > 9 ? d : `0` + d}`
             return <div class={styled.date}>{times}</div>
+        }
+
+        const renderTag = () => {
+            return typeof props.tag === 'string' ? (
+                <Tag
+                    class={props.tagColor ? '' : styled.tag}
+                    color={props.tagColor}
+                    icon={props.tagIcon}>
+                    <span innerHTML={props.tag}></span>
+                </Tag>
+            ) : (
+                getPropSlot(slots, props, 'tag') ?? (
+                    <Tag
+                        class={props.tagColor ? '' : styled.tag}
+                        color={props.tagColor}
+                        icon={props.tagIcon}>
+                        <span innerHTML={t('notice.official')}></span>
+                    </Tag>
+                )
+            )
         }
 
         const renderDynamic = (name: string, truncateLen = 0) => {
@@ -61,7 +83,7 @@ const MiNoticeItem = defineComponent({
                             <div class={styled.infoTitle}>
                                 <Row>
                                     {renderDynamic('title', 12)}
-                                    {renderDynamic('tag')}
+                                    {renderTag()}
                                 </Row>
                                 <Row>{renderDynamic('date') ?? renderDate()}</Row>
                             </div>
