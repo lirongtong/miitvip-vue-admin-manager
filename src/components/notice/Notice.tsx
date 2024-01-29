@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { defineComponent, type SlotsType, ref, isVNode, watch } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
@@ -5,7 +6,6 @@ import { $tools } from '../../utils/tools'
 import { getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeItemProperties, NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
-// eslint-disable-next-line import/no-unresolved
 import { Navigation, FreeMode } from 'swiper/modules'
 import MiClock from '../clock'
 import MiNoticeTab from './Tab'
@@ -161,8 +161,8 @@ const MiNotice = defineComponent({
                 }
             } else if (isVNode(tab)) {
                 const tabItemSlots = getSlotContent(tab)
-                if (tabItemSlots.length > 0) {
-                    const extra = []
+                const extra = []
+                if (Array.isArray(tabItemSlots) && tabItemSlots.length > 0) {
                     tabItemSlots.forEach((tabItemSlot: any) => {
                         const comp = tabItemSlot?.type?.name
                         if (comp === MiNoticeItem.name) {
@@ -170,7 +170,9 @@ const MiNotice = defineComponent({
                         } else extra.push(tabItemSlot)
                         if (extra.length > 0) items.push(...extra)
                     })
-                }
+                } else if (tabItemSlots?.type?.name === MiNoticeItem.name) {
+                    items.push(renderTabItem(getItemSlotContent(tabItemSlots)))
+                } else extra.push(tabItemSlots)
             } else {
                 for (let i = 0, l = (tab?.items || []).length; i < l; i++) {
                     const item = tab.items[i]
@@ -233,7 +235,7 @@ const MiNotice = defineComponent({
             let tabSlots: any[] = []
             for (let i = 0, l = tabs.length; i < l; i++) {
                 const tab = tabs[i]
-                const key = isVNode(tab) ? tab?.props?.key : i.toString()
+                const key = isVNode(tab) ? tab?.props?.key ?? i.toString() : i.toString()
                 if (key === props.tabActive) {
                     tabSlots = renderTabItems(tab)
                     break

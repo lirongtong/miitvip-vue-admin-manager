@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { type App } from 'vue'
 import { createPinia } from 'pinia'
 import i18n from '../locales'
@@ -42,7 +43,7 @@ export default {
         $tools.setDescription($g.description, true)
         // 窗口大小
         $tools.setWinSize()
-        // swiper
+        // 轮播
         register()
         // 注册组件
         components.forEach((component) => [
