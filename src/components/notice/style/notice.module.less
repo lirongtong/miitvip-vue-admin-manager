@@ -9,7 +9,7 @@
         &-inner {
             background: var(--mi-notice-background);
             backdrop-filter: blur(1rem);
-            border: solid .0625rem var(--mi-notice-background);
+            border: solid .0625rem var(--mi-notice-border);
             .radius(16);
             max-height: calc(100vh - 10rem);
         }
@@ -23,8 +23,10 @@
 }
 
 .content {
-    .flex(flex-start, center, column);
+    .flex(flex-start, flex-start, column);
     color: var(--mi-notice-text);
+    .transition();
+    .properties(min-height, 160);
     overflow: hidden;
 
     :global {
@@ -153,8 +155,11 @@
 .items {
     width: 100%;
     .properties(margin-top, 16);
+    .properties(max-height, 340);
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
     .transition();
-    max-height: 100vh;
 }
 
 .extra {
@@ -165,6 +170,7 @@
 :export {
     --notice-text: var(--mi-on-surface-variant);
     --notice-background: var(--mi-surface-variant);
+    --notice-border: var(--mi-surface-variant);
     --notice-tab-icon-default: var(--mi-on-background);
     --notice-tab-icon-active: var(--mi-on-secondary);
     --notice-tab-icon-hover: var(--mi-on-background);

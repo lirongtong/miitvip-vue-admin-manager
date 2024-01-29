@@ -184,6 +184,66 @@ class MiTools {
     }
 
     /**
+     * 格式化时间
+     * @param onlyYmd 仅显示年月日
+     * @param onlyHms 仅显示时分秒
+     * @returns string
+     */
+    /**
+     * 格式化时间
+     * @param formatter 格式 ( YMD H:m:s )
+     * @returns
+     */
+    formatDateNow(formatter: string = 'Y-M-D H:m:s'): string {
+        const formatters = formatter.split(' ') || []
+        const delimiter = { day: '', time: '' }
+        const singleFormatter = { day: [], time: [] }
+        for (let i = 0, l = formatters.length; i < l; i++) {
+            if (i > 1) break
+            const cur = formatters[i]
+            const delimiters = cur
+                .replace(/[a-zA-Z]+/g, '')
+                .trim()
+                .split('')
+            if (i === 0) {
+                delimiter.day = delimiters[0] || '-'
+                singleFormatter.day.push(...(cur.split(delimiter.day) || []))
+            }
+            if (i === 1) {
+                delimiter.time = delimiters[0] || ':'
+                singleFormatter.time.push(...(cur.split(delimiter.time) || []))
+            }
+        }
+        const date = new Date()
+        const y = date.getFullYear()
+        const m = date.getMonth() + 1
+        const month = m > 9 ? m.toString() : `0` + m
+        const d = date.getDate()
+        const day = d > 9 ? d.toString() : `0` + d
+        const h = date.getHours()
+        const hour = h > 9 ? h.toString() : `0` + h
+        const mm = date.getMinutes()
+        const minute = mm > 9 ? mm.toString() : `0` + mm
+        const s = date.getSeconds()
+        const second = s > 9 ? s.toString() : `0` + s
+        let str = singleFormatter.day.includes('Y') ? y.toString() : ''
+        str += str ? (singleFormatter.day.includes('M') ? `${delimiter.day}${month}` : '') : month
+        str += str ? (singleFormatter.day.includes('D') ? `${delimiter.day}${day}` : '') : day
+        str += str ? (singleFormatter.time.includes('H') ? ` ${hour}` : '') : hour
+        str += str
+            ? singleFormatter.time.includes('m')
+                ? `${delimiter.time}${minute}`
+                : ''
+            : minute
+        str += str
+            ? singleFormatter.time.includes('s')
+                ? `${delimiter.time}${second}`
+                : ''
+            : second
+        return str
+    }
+
+    /**
      * 替换 URL 参数
      * @param url
      * @param params
@@ -667,9 +727,9 @@ class MiTools {
     beautySub(str: string, len: number = 0): string {
         if (str && len) {
             const slice = str.substring(0, len)
-            const reg = $g.regExp.chinese || /^[\u4e00-\u9fa5]*$/
+            const reg = /[\u4e00-\u9fa5]/g
             const charNum = ~~(slice.match(reg) && slice.match(reg).length)
-            const realNum = slice.length * 2 - charNum - 1
+            const realNum = slice.length * 2 - charNum
             return `${str.substring(0, realNum)}${realNum < str.length ? '...' : ''}`
         } else return str
     }
@@ -688,6 +748,7 @@ class MiTools {
  *  - {@link $tools.isUrl} 判断是否为 `URL`
  *  - {@link $tools.isMobile} 判断是否为移动端
  *  - {@link $tools.formatEmpty} 格式化空字符串
+ *  - {@link $tools.formatDateNow} 格式化时间
  *  - {@link $tools.replaceUrlParams} 替换 `URL` 参数
  *  - {@link $tools.random} 随机生成字符串
  *  - {@link $tools.randomNumberInRange} 生成范围内的随机数

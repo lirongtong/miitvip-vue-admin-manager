@@ -45,7 +45,8 @@ export default {
     menu: `Menu`,
     internal: `Internal`,
     external: `External`,
-    vite: `Click to view`,
+    view: `Click to view`,
+    back: `Back`,
     back2top: `Back to top`,
     week: {
         sun: `Sunday`,

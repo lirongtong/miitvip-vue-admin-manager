@@ -36,7 +36,8 @@ export interface NoticeProperties {
     tabs: string[] | NoticeTabProperties[]
     tabActive: number | string
     tabGap: number | string | DeviceSize
-    tabChange: () => {}
+    tabChange: (key?: string) => {}
+    itemClick: () => {}
 }
 export const NoticeProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
@@ -55,7 +56,8 @@ export const NoticeProps = () => ({
     tabs: PropTypes.oneOfType([array<string>(), array<NoticeTabProperties>()]).def([]),
     tabActive: PropTypes.string.def('0'),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
-    tabChange: PropTypes.func
+    tabChange: PropTypes.func,
+    itemClick: PropTypes.func
 })
 
 /**
@@ -92,6 +94,7 @@ export const NoticeTabProps = () => ({
  * @param tagIcon 标签图标 ( tag 非 slot 时生效 )
  * @param date 日期<Slot />
  * @param avatar 头像<Slot />
+ * @param content 详情<Slot />
  */
 export interface NoticeItemProperties {
     [key: string]: any
@@ -103,6 +106,7 @@ export interface NoticeItemProperties {
     tagIcon: any
     date: any
     avatar: any
+    content: any
 }
 export const NoticeItemProps = () => ({
     key: PropTypes.string,
@@ -112,5 +116,6 @@ export const NoticeItemProps = () => ({
     tagColor: PropTypes.string,
     tagIcon: PropTypes.any,
     date: PropTypes.any,
-    avatar: PropTypes.any
+    avatar: PropTypes.any,
+    content: PropTypes.any
 })

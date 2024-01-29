@@ -45,7 +45,8 @@ export default {
     menu: `菜单`,
     internal: `内部`,
     external: `外部`,
-    vite: `点击查看`,
+    view: `点击查看`,
+    back: `返回`,
     back2top: `回到顶部`,
     week: {
         sun: `周日`,

@@ -6,9 +6,14 @@
     .radius(8);
     .properties(margin-bottom);
     width: 100%;
+    position: relative;
 }
 
-.default {
+.cursor {
+    cursor: pointer;
+}
+
+.inner {
     .flex(flex-start, flex-start);
     width: 100%;
 }
@@ -20,6 +25,7 @@
     .properties(min-width, 32);
     overflow: hidden;
     border: .125rem solid var(--mi-notice-item-avatar);
+    .properties(margin-top, 4);
 
     > img {
         transform: scale(1.1);
@@ -39,12 +45,6 @@
         .flex(flex-start, space-between);
         width: 100%;
         .properties(margin-bottom, 4);
-
-        :global {
-            .ant-tag {
-                .properties(margin-left, 4);
-            }
-        }
     }
 }
 
@@ -52,6 +52,7 @@
     .font-size(14, bold);
     .lines(1);
     color: var(--mi-notice-item-text);
+    .properties(margin-right);
 }
 
 .date {
@@ -71,6 +72,50 @@
     border-color: var(--mi-notice-item-tag-border);
 }
 
+.detail {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 2;
+    border: solid .0625rem var(--mi-notice-item-content-border);
+    background: var(--mi-notice-item-content-background);
+    backdrop-filter: blur(1rem);
+    .properties(padding, 1);
+    .radius(8);
+    .transition();
+    overflow: hidden;
+
+    &-inner {
+        .properties(padding, 16);
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    &-title {
+        .properties(margin-left);
+    }
+
+    &-back {
+        .properties(margin-bottom, 16);
+        cursor: pointer;
+
+        :global(.anticon) {
+            .properties(margin-right);
+        }
+    }
+
+    &-info {
+        .properties(margin-top, 16);
+        overflow-x: hidden;
+        overflow-y: auto;
+        word-break: break-all;
+        color: var(--mi-notice-item-content-text);
+    }
+}
+
 :export {
     --notice-item-background: rgba(var(--mi-rgb-background), .5);
     --notice-item-border: var(--mi-inverse-on-surface);
@@ -81,4 +126,7 @@
     --notice-item-tag-text: var(--mi-on-tertiary);
     --notice-item-tag-background: var(--mi-tertiary);
     --notice-item-tag-border: var(--mi-tertiary);
+    --notice-item-content-background: rgba(var(--mi-rgb-background), .7);
+    --notice-item-content-border: var(--mi-surface-variant);
+    --notice-item-content-text: var(--mi-on-surface-variant);
 }

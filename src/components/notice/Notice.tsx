@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { defineComponent, type SlotsType, ref, isVNode, watch, h } from 'vue'
+import { defineComponent, type SlotsType, ref, isVNode, watch, createVNode } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
@@ -21,7 +21,7 @@ const MiNotice = defineComponent({
         icon: any
     }>,
     props: NoticeProps(),
-    emits: ['tabClick', 'tabChange', 'update:tabActive'],
+    emits: ['tabClick', 'tabChange', 'update:tabActive', 'itemClick'],
     setup(props, { slots, emit }) {
         const { t, tm } = useI18n()
         const width = $tools.convert2rem($tools.distinguishSize(props.width))
@@ -34,6 +34,11 @@ const MiNotice = defineComponent({
             emit('update:tabActive', key)
         }
 
+        const handleItemClick = (func?: any) => {
+            if (func) func()
+            else emit('itemClick')
+        }
+
         const getItemSlotContent = (itemSlot: any) => {
             return {
                 title: getSlotContent(itemSlot, 'title'),
@@ -42,7 +47,9 @@ const MiNotice = defineComponent({
                 tag: getSlotContent(itemSlot, 'tag'),
                 tagColor: itemSlot?.props?.tagColor || itemSlot?.props?.['tag-color'],
                 tagIcon: itemSlot?.children?.icon,
-                avatar: getSlotContent(itemSlot, 'avatar')
+                avatar: getSlotContent(itemSlot, 'avatar'),
+                content: getSlotContent(itemSlot, 'content'),
+                onClick: itemSlot?.props?.onClick
             }
         }
 
@@ -142,8 +149,10 @@ const MiNotice = defineComponent({
                     summary={item?.summary}
                     date={item?.date}
                     tag={item?.tag}
-                    tagIcon={h(item?.tagIcon)}
+                    tagIcon={item?.tagIcon ? createVNode(item?.tagIcon) : null}
                     tagColor={item?.tagColor}
+                    onClick={() => handleItemClick(item?.onClick)}
+                    content={item?.content}
                     avatar={item?.avatar}
                 />
             )

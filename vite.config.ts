@@ -42,7 +42,8 @@ export default defineConfig({
             'swiper/element/bundle',
             'swiper/modules',
             'swiper/css/*',
-            '@material/material-color-utilities'
+            '@material/material-color-utilities',
+            'vue3-touch-events'
         ]
     },
     server: {

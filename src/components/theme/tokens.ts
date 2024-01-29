@@ -159,6 +159,7 @@ export interface LayoutContentTokens {
  * +====================+
  * @param background 弹窗背景色
  * @param icon 图标颜色
+ * @param border 边框颜色
  * @param text 文案颜色 ( 默认空状态时 )
  * @param tab 选项卡文案颜色
  * @param item 选项配置
@@ -168,6 +169,7 @@ export interface LayoutContentTokens {
  */
 export interface NoticeTokens {
     text: string
+    border: string
     background: string
     tab: Partial<NoticeTabTokens>
     item: Partial<NoticeItemTokens>
@@ -194,6 +196,17 @@ export interface NoticeTabTokens {
  * +==========================+
  * |      消息中心 - Item      |
  * +==========================+
+ * @param background 背景色
+ * @param border 边框色
+ * @param text 文案色
+ * @param avatar 头像边框颜色
+ * @param summary 摘要文案颜色
+ * @param date 摘要文案颜色
+ * @param tag 标签配置
+ * @param content 消息详情配置
+ *
+ * @see NoticeItemTagTokens
+ * @see NoticeItemContentTokens
  */
 export interface NoticeItemTokens {
     background: string
@@ -203,8 +216,14 @@ export interface NoticeItemTokens {
     summary: string
     date: string
     tag: Partial<NoticeItemTagTokens>
+    content: Partial<NoticeItemContentTokens>
 }
 export interface NoticeItemTagTokens {
+    border: string
+    background: string
+    text: string
+}
+export interface NoticeItemContentTokens {
     border: string
     background: string
     text: string

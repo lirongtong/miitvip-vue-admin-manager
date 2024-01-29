@@ -1,8 +1,9 @@
-import { SlotsType, defineComponent } from 'vue'
-import { getPropSlot } from '../_utils/props'
+import { SlotsType, defineComponent, Transition, ref } from 'vue'
+import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { NoticeItemProps } from './props'
 import { logo } from '../../utils/images'
-import { Row, Tag } from 'ant-design-vue'
+import { Row, Tag, Flex } from 'ant-design-vue'
+import { ArrowLeftOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import { $tools } from '../../utils/tools'
 import applyTheme from '../_utils/theme'
@@ -18,11 +19,25 @@ const MiNoticeItem = defineComponent({
         date: any
         tag: any
         avatar: any
+        content: any
     }>,
     props: NoticeItemProps(),
-    setup(props, { slots }) {
+    emits: ['click'],
+    setup(props, { slots, emit }) {
         const { t } = useI18n()
+        const anim = getPrefixCls('anim-slide')
+        const showContent = ref<boolean>(false)
+
         applyTheme(styled)
+
+        const handleClick = () => {
+            if (props.content) showContent.value = !showContent.value
+            emit('click')
+        }
+
+        const handleContentBack = () => {
+            showContent.value = !showContent.value
+        }
 
         const renderAvatar = () => {
             return (
@@ -35,12 +50,7 @@ const MiNoticeItem = defineComponent({
         }
 
         const renderDate = () => {
-            let date = new Date()
-            const y = date.getFullYear()
-            const m = date.getMonth() + 1
-            const d = date.getDate()
-            const times = `${y}-${m > 9 ? m : `0` + m}-${d > 9 ? d : `0` + d}`
-            return <div class={styled.date}>{times}</div>
+            return <div class={styled.date}>{$tools.formatDateNow('Y-M-D')}</div>
         }
 
         const renderTag = () => {
@@ -76,21 +86,52 @@ const MiNoticeItem = defineComponent({
 
         return () =>
             getPropSlot(slots, props) ?? (
-                <div class={styled.container}>
-                    <div class={styled.default}>
-                        {renderAvatar()}
-                        <div class={styled.info}>
-                            <div class={styled.infoTitle}>
-                                <Row>
-                                    {renderDynamic('title', 12)}
-                                    {renderTag()}
-                                </Row>
-                                <Row>{renderDynamic('date') ?? renderDate()}</Row>
+                <>
+                    <div
+                        class={`${styled.container}${
+                            props?.onClick || props?.content ? ` ${styled.cursor}` : ''
+                        }`}
+                        onClick={() => handleClick()}>
+                        <div class={styled.inner}>
+                            {renderAvatar()}
+                            <div class={styled.info}>
+                                <div class={styled.infoTitle}>
+                                    <Row>
+                                        {renderDynamic('title', 12)}
+                                        {renderTag()}
+                                    </Row>
+                                    <Row>{renderDynamic('date') ?? renderDate()}</Row>
+                                </div>
+                                {renderDynamic('summary', 24) || renderDynamic('content', 24)}
                             </div>
-                            {renderDynamic('summary', 24)}
                         </div>
                     </div>
-                </div>
+                    <Transition name={anim} appear={true}>
+                        {showContent.value ? (
+                            <Row class={styled.detail}>
+                                <Flex vertical={true} class={styled.detailInner}>
+                                    <Row
+                                        class={styled.detailBack}
+                                        onClick={() => handleContentBack()}>
+                                        <ArrowLeftOutlined />
+                                        <span innerHTML={t('global.back')}></span>
+                                    </Row>
+                                    <Flex>
+                                        {renderAvatar()}
+                                        <Flex vertical={true} class={styled.detailTitle}>
+                                            <Row>
+                                                {renderDynamic('title', 12)}
+                                                {renderTag()}
+                                            </Row>
+                                            {renderDynamic('date') ?? renderDate()}
+                                        </Flex>
+                                    </Flex>
+                                    <Row class={styled.detailInfo} innerHTML={props?.content}></Row>
+                                </Flex>
+                            </Row>
+                        ) : null}
+                    </Transition>
+                </>
             )
     }
 })
