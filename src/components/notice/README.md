@@ -4,42 +4,86 @@
 
 ## 使用
 
+### 默认状态
+
 ```html
-<!-- 默认空状态 -->
 <mi-notice />
 ```
 
+### 快捷配置 `items` 列表属性
+
 ```html
-<!-- 仅设定 items 参数 -->
+<!-- 仅设定 items, 默认采用 mi-notice-item 生成列表 -->
 <mi-notice :width="360" :items="items" />
-<!-- 包含 Tabs 的消息列表 -->
-<mi-notice v-model:tab-active="active" :width="360" :tabs="tabs" :items="items" />
 
 <script lang="ts" setup>
     import { ref } from 'vue'
 
-    const active = ref<string>('0')
-    // string 类型的 tabs 根据下标取 items 对应的值
-    const tabs = ref<string[]>(['系统消息', '我的消息'])
     const items = ref([
-        [
-            {title: '每日签到', summary: '连续签到，享8重好礼！'},
-            {title: '每日签到', summary: '连续签到，享8重好礼！'}
-        ],
-        [{title: '每日签到', summary: '连续签到，享8重好礼！'}]
+        {title: '每日签到', summary: '连续签到，享8重好礼！'},
+        {title: '每日签到', summary: '连续签到，享8重好礼！'}
     ])
 </script>
 ```
 
+### 快速配置 `tabs` 消息列表
+
 ```html
-<!-- 自定义 Tabs 及 Items 内容 -->
-<mi-notice :width="360" v-model:tab-active="active">
+<mi-notice v-model:tab-active="active" :width="360" :tabs="tabs" :items="items" />
+<mi-notice v-model:tab-active="active" :width="360" :tabs="tabsObj" />
+
+<script lang="ts" setup>
+    import { ref, reactive } from 'vue'
+
+    const active = ref<string>('0')
+    // string tabs ( 根据 tabs index 取值 - items )
+    const tabs = ref<string[]>(['系统消息', '活动通知'])
+    const items = reactive([
+        [
+            {title: '每日签到', summary: '连续签到，享8重好礼！'},
+            {title: '每日签到', summary: '连续签到，享8重好礼！'}
+        ],
+        [
+            {title: '每日签到', summary: '连续签到，享8重好礼！'},
+            {title: '每日签到', summary: '连续签到，享8重好礼！'}
+        ]
+    ])
+    // object tabs
+    const tabsObj = reactive([
+        {
+            key: '0',
+            name: '系统消息',
+            items: [
+                {title: '每日签到', summary: '连续签到，享8重好礼！'},
+                {title: '每日签到', summary: '连续签到，享8重好礼！'}
+            ]
+        },
+        {
+            key: '1',
+            name: '活动通知',
+            items: [
+                {title: '每日签到', summary: '连续签到，享8重好礼！'},
+                {title: '每日签到', summary: '连续签到，享8重好礼！'}
+            ]
+        }
+    ])
+</script>
+```
+
+### 自定义 `tabs` / `items` / `Click` 事件等
+
+```html
+<mi-notice :width="360" v-model:tab-active="active" @item-click="handleItemClick">
     <mi-notice-tab key="1" name="系统消息">
         <template #icon><AuditOutlined /></template>
-        <mi-notice-item v-for="item in items" :title="item?.title" :content="item?.content" />
+        <mi-notice-item v-for="item in items" :title="item?.title" :content="item?.content">
+            <template v-if="item?.tag" #tag>
+                <component :is="item?.tag" />
+            </template>
+        </mi-notice-item>
     </mi-notice-tab>
-    <mi-notice-tab key="2" name="我的消息">
-        <mi-notice-item title="每日签到" summary="连续签到，享8重好礼！" />
+    <mi-notice-tab key="2" name="活动通知">
+        <mi-notice-item title="每日签到" summary="连续签到，享8重好礼！" @click="handleSingleItemClick" />
     </mi-notice-tab>
 </mi-notice>
 
@@ -64,5 +108,114 @@
             tag: createVNode(LikeFilled, { color: 'green' })
         }
     ]
+    const handleItemClick = () => {
+        console.log('绑定在 tabs 上的 item click 事件')
+    }
+
+    const handleSingleItemClick = () => {
+        console.log('单独的 item click 事件, 优先级高于 tabs 上的 item click')
+    }
 </script>
 ```
+
+## 主题配置
+
+```html
+<mi-theme :theme={ components: { notice: { text: '#fff', border: '...', tab: { text: { default: '#000', active: '...' } } } } } />
+```
+
+### Tokens
+
+#### Notice Tokens
+
+| Token | 默认值
+| :---- | :----
+| `--mi-notice-text` | `--mi-on-surface-variant`
+| `--mi-notice-border` | `--mi-surface-variant`
+| `--mi-notice-background` | `--mi-surface-variant`
+
+#### Notice Tab Tokens
+
+| Token | 默认值
+| :---- | :----
+| `--mi-notice-tab-text-default` | `--mi-on-background`
+| `--mi-notice-tab-text-active` | `--mi-on-secondary`
+| `--mi-notice-tab-text-hover` | `--mi-on-background`
+| `--mi-notice-tab-icon-default` | `--mi-on-background`
+| `--mi-notice-tab-icon-active` | `--mi-on-secondary`
+| `--mi-notice-tab-icon-hover` | `--mi-on-background`
+| `--mi-notice-tab-background-default` | `rgba(--mi-rgb-background, .5)`
+| `--mi-notice-tab-background-start` | `--mi-primary`
+| `--mi-notice-tab-background-hint` | `--mi-secondary`
+| `--mi-notice-tab-background-stop` | `--mi-tertiary`
+
+#### Notice Item Tokens
+
+| Token | 默认值
+| :---- | :----
+| `--mi-notice-item-background` | `rgba(--mi-rgb-background, .5)`
+| `--mi-notice-item-border` | `--mi-inverse-on-surface`
+| `--mi-notice-item-avatar` | `--mi-primary`
+| `--mi-notice-item-text` | `--mi-on-surface`
+| `--mi-notice-item-summary` | `--mi-inverse-surface`
+| `--mi-notice-item-date` | `rgba(--mi-rgb-inverse-surface, .5)`
+| `--mi-notice-item-tag-text` | `--mi-on-tertiary`
+| `--mi-notice-item-tag-background` | `--mi-tertiary`
+| `--mi-notice-item-tag-border` | `--mi-tertiary`
+| `--mi-notice-item-content-background` | `rgba(--mi-rgb-background, .7)`
+| `--mi-notice-item-content-border` | `--mi-surface-variant`
+| `--mi-notice-item-content-text` | `--mi-on-surface-variant`
+
+## API
+
+### MiNotice `<mi-notice>`
+
+#### `MiNotice` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `icon` | `vSlot` | `''` | 弹窗触发点的图标
+| `trigger` | `string` | `click` | 弹窗触发方式 `['click', 'hover', 'focus', 'contextmenu']`
+| `amount` | `number` | `1` | 数量
+| `maxAmount` | `number` | `99` | 封顶展示的数字值
+| `dot` | `boolean` | `true` | 是否显示红点
+| `showZero` | `boolean` | `false` | 当数值为 `0` 时，是否展示 `Badge`
+| `placement` | `string` | `bottom` | 弹窗打开位置 `['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']`
+| `background` | `string` | `''` | 弹窗背景色
+| `tabActive` | `string` | `0` | 选中 Tab ( 默认第`1`个 )
+| `tabGap` | `number \| string \| DeviceSize` | `16` | Tab 间距
+
+#### `MiNotice` 事件 ( `Events` )
+
+| 方法 | 返回值 | 说明
+| :---- | :---- | :----
+| `tabChange` | *Active Tab* `key` | `Tab` 切换回调事件
+| `tabClick` | *Active Tab* `key` | `Tab` 点击回调事件
+| `itemClick` | *None* | `Item` 点击回调事件
+
+### MiNoticeTab `<mi-notice-tab>`
+
+#### `MiNoticeTab` 属性 ( `Properties` )
+
+| 参数 | 类型 | 是否必填 | 默认值 | 说明
+| :---- | :---- | :---- | :---- | :----
+| `key` | `string` | `true` | `''` | 唯一值 ( 对应 `notice` 的 `tab-active` )
+| `name` | `vSlot` | |  `''` | `Tab` 显示名称
+| `icon` | `vSlot` | |  `''` | 图标
+| `items` | `NoticeItem` | |  `[]` | 消息列表
+
+### MiNoticeItem `<mi-notice-item>`
+
+#### `MiNoticeItem` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `key` | `string` | `''` | `item` 唯一值
+| `title` | `vSlot` | `''` | 标题
+| `summary` | `vSlot` | `''` | 摘要 ( 未设定时, 根据 `content` 裁剪 )
+| `tag` | `vSlot` | `''` | 标签
+| `tagColor` | `vSlot` | `''` | 标签颜色 ( `tag` 非 `slot` 时有效 )
+| `tagIcon` | `vSlot` | `''` | 标签图标 ( `tag` 非 `slot` 时有效 )
+| `date` | `vSlot` | `''` | 日期
+| `avatar` | `vSlot` | `''` | 头像
+| `content` | `vSlot` | `''` | 详情

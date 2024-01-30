@@ -11,15 +11,16 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  * @param trigger 触发方式
  * @param width 弹窗宽度
  * @param amount 数量
- * @param maxAmount 展示封顶的数字值
+ * @param maxAmount 封顶展示的数字值
  * @param dot 是否显示红点 ( 默认: true )
  * @param showZero 当数值为 0 时，是否展示 Badge ( 默认: false )
  * @param placement 弹窗打开位置
  * @param background 弹窗背景色
- * @param extra 自定义配置<Slot />
  * @param tabActive 选中 Tab ( 默认第1个 )
  * @param tabGap Tab 间距
- * @param tabChange Tab 变化事件
+ * @param tabChange Tab 切换事件
+ * @param tabClick Tab 点击事件
+ * @param itemClick Item Click 事件
  */
 export interface NoticeProperties {
     icon: any
@@ -36,8 +37,6 @@ export interface NoticeProperties {
     tabs: string[] | NoticeTabProperties[]
     tabActive: number | string
     tabGap: number | string | DeviceSize
-    tabChange: (key?: string) => {}
-    itemClick: () => {}
 }
 export const NoticeProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
@@ -55,9 +54,7 @@ export const NoticeProps = () => ({
     items: PropTypes.array.def([]),
     tabs: PropTypes.oneOfType([array<string>(), array<NoticeTabProperties>()]).def([]),
     tabActive: PropTypes.string.def('0'),
-    tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
-    tabChange: PropTypes.func,
-    itemClick: PropTypes.func
+    tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16)
 })
 
 /**
