@@ -22,6 +22,7 @@ export const __MI_LOGO__ = logo
  * @param protocols URL 校验协议数组
  * @param regExp 常用正则
  * @param caches 缓存 key 值
+ * @param menus 菜单
  */
 export const $g = reactive({
     title: 'Makeit Admin Pro',
@@ -90,7 +91,8 @@ export const $g = reactive({
         xl: 1200,
         xxl: 1600,
         xxxl: 2000
-    }
+    },
+    menus: []
 }) as GlobalProperties
 
 export default {

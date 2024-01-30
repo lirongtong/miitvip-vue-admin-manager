@@ -10,4 +10,8 @@
     top: 0;
     overflow: hidden;
     z-index: @mi-zindex + 100;
+
+    &.collapsed {
+        .properties(width, @mi-sider-width-mini);
+    }
 }

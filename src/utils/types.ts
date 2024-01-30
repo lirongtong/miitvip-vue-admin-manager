@@ -164,6 +164,7 @@ export interface GlobalProperties {
     caches?: Partial<CacheTokens>
     breakpoints?: Partial<Breakpoints>
     winSize?: Partial<Size>
+    menus?: Partial<MenuItem>[]
 }
 
 /**
@@ -215,4 +216,24 @@ export interface DeviceSize {
 export interface SizeColor {
     size: number | string | DeviceSize
     color: string
+}
+
+/**
+ * +====================+
+ * |      菜单项目       |
+ * +====================+
+ * Path of the record. Should start with `/` unless
+ * the record is the child of another record.
+ * @example `/users/:id` matches `/users/1` as well as `/users/posva`.
+ *
+ * @param path 路由
+ * @param name 名称 ( 唯一值 )
+ * @param meta 其他配置
+ * @param children 子菜单
+ */
+export interface MenuItem {
+    path: string
+    name: string
+    meta?: Record<string | number, any>
+    children?: MenuItem[] | undefined
 }

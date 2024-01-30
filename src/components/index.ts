@@ -10,6 +10,8 @@ export type {
 } from './layout/props'
 export { default as Layout } from './layout'
 
+export { default as Menu } from './menu'
+
 export type { BreadcrumbProperties } from './breadcrumb/props'
 export { default as Breadcrumb } from './breadcrumb'
 

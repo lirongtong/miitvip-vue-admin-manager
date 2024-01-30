@@ -1,12 +1,11 @@
-import { defineComponent, computed, type SlotsType } from 'vue'
+import { defineComponent, computed, type SlotsType, Transition } from 'vue'
 import { LayoutSiderLogoProps } from './props'
 import { RouterLink } from 'vue-router'
 import { $g } from '../../utils/global'
-import { getPropSlot } from '../_utils/props'
+import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { useI18n } from 'vue-i18n'
 import { useLayoutStore } from '../../stores/layout'
 import { logo } from '../../utils/images'
-import { useWindowResize } from '../../hooks/useWindowResize'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
 import MiNotice from '../notice'
 import applyTheme from '../_utils/theme'
@@ -24,22 +23,17 @@ export default defineComponent({
     setup(props, { slots }) {
         const { t } = useI18n()
         const title = $g.site || t('global.site')
-        const { width } = useWindowResize()
         const store = useLayoutStore()
         const collapsedState = computed(() => store.collapsed)
-
+        const anim = getPrefixCls('anim-fade')
         applyTheme(styled)
 
         const renderCollapsed = () => {
             const collapsed = (
-                <div class={styled.trigger}>
-                    {width.value < $g.breakpoints.md ? (
-                        <MenuUnfoldOutlined />
-                    ) : !collapsedState.value ? (
-                        <MenuFoldOutlined />
-                    ) : (
-                        <MenuUnfoldOutlined />
-                    )}
+                <div
+                    class={styled.trigger}
+                    onClick={() => store.$patch({ collapsed: !collapsedState.value })}>
+                    {!collapsedState.value ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                 </div>
             )
             return getPropSlot(slots, props, 'collapsed') ?? collapsed
@@ -49,7 +43,11 @@ export default defineComponent({
             return (
                 <div class={styled.trigger}>
                     {getPropSlot(slots, props, 'notice') ?? (
-                        <MiNotice iconSetting={{ size: 16 }} width={340} />
+                        <MiNotice
+                            iconSetting={{ size: 16 }}
+                            width={340}
+                            placement={collapsedState.value ? 'topRight' : 'bottom'}
+                        />
                     )}
                 </div>
             )
@@ -64,12 +62,17 @@ export default defineComponent({
         const slot = slots?.default ?? (
             <RouterLink to={{ path: '/' }} class={styled.site}>
                 {renderLogo}
-                {title ? <h3 innerHTML={title} /> : null}
+                <Transition name={anim} appear={true}>
+                    {title && !collapsedState.value ? <h3 innerHTML={title} /> : null}
+                </Transition>
             </RouterLink>
         )
 
         return () => (
-            <div class={`${styled.container}${props.circle ? ` ${styled.circle}` : ''}`}>
+            <div
+                class={`${styled.container}${props.circle ? ` ${styled.circle}` : ''}${
+                    collapsedState.value ? ` ${styled.collapsed}` : ''
+                }`}>
                 <div class={styled.action}>
                     {renderCollapsed()}
                     {renderNotice()}

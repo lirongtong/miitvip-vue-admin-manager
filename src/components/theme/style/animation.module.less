@@ -25,6 +25,17 @@
             transform: translateX(-100%);
             opacity: 0;
         }
+
+        /** fade */
+        &-fade-enter-active,
+        &-fade-leave-active {
+            opacity: 1;
+        }
+
+        &-fade-enter-from,
+        &-fade-leave-to {
+            opacity: 0;
+        }
     
         /** scale */
         &-scale-enter-active,

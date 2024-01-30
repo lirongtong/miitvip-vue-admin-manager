@@ -69,7 +69,7 @@
     .ellipsis();
 
     h3 {
-        .transition(ease-in-out);
+        .transition();
         .flex();
         .ellipsis();
         width: auto;
@@ -79,6 +79,32 @@
         font-family: @mi-font-code;
         .gradient-text();
         zoom: 1;
+    }
+}
+
+.collapsed {
+    .properties(padding-top, @mi-margin);
+    .properties(padding-bottom, @mi-margin);
+
+    .action {
+        .flex(center, center, column);
+        position: relative;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .trigger + .trigger {
+        .properties(margin-top);
+    }
+
+    .inner {
+        width: 100%;
+    }
+
+    .logo {
+        .properties(width, @mi-sider-logo-small);
+        .properties(height, @mi-sider-logo-small);
+        .properties(margin-top);
     }
 }
 

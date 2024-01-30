@@ -1,9 +1,9 @@
-import { defineComponent, type SlotsType } from 'vue'
+import { computed, defineComponent, type SlotsType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { LayoutProps } from './props'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
-import { useWindowResize } from '../../hooks/useWindowResize'
+import { useLayoutStore } from '../../stores/layout'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { ConfigProvider } from 'ant-design-vue'
 import MiLayoutHeader from './Header'
@@ -24,8 +24,9 @@ const MiLayout = defineComponent({
     }>,
     props: LayoutProps(),
     setup(props, { slots }) {
+        const store = useLayoutStore()
+        const collapsed = computed(() => store.collapsed)
         const { locale } = useI18n()
-        const { width } = useWindowResize()
         const langClass = getPrefixCls(`lang-${locale}`, $g.prefix || 'mi-')
 
         applyTheme(styled)
@@ -38,7 +39,8 @@ const MiLayout = defineComponent({
                     {getPropSlot(slots, props, 'sider') ?? (
                         <MiLayoutSider {...props.siderSetting} />
                     )}
-                    <section class={styled.content}>
+                    <section
+                        class={`${styled.content}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
                         <div class={styled.inner}>
                             {getPropSlot(slots, props, 'header') ?? (
                                 <MiLayoutHeader {...props.headerSetting} />
@@ -53,11 +55,7 @@ const MiLayout = defineComponent({
 
         return () => (
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
-                <section
-                    class={`${styled.container} ${langClass}`}
-                    hasSider={width.value < $g.breakpoints?.md}>
-                    {renderLayout()}
-                </section>
+                <section class={`${styled.container} ${langClass}`}>{renderLayout()}</section>
             </ConfigProvider>
         )
     }
