@@ -121,7 +121,31 @@
 ## 主题配置
 
 ```html
-<mi-theme :theme={ components: { notice: { text: '#fff', border: '...', tab: { text: { default: '#000', active: '...' } } } } } />
+<mi-theme :theme="theme">
+    <!-- ... -->
+    <mi-layout />
+</mi-theme>
+
+<script lang="ts" setup>
+    import { reactive } from 'vue'
+
+    const theme = reactive({
+        components: {
+            notice: {
+                text: '#fff',
+                border: '#000',
+                tab: {
+                    text: {
+                        default: '#000',
+                        active: '#fff',
+                        hover: '#333'
+                    }
+                },
+                // ...
+            }
+        }
+    })
+</script>
 ```
 
 ### Tokens
