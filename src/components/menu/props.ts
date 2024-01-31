@@ -2,7 +2,25 @@ import { array, object } from 'vue-types'
 import { PropTypes, type MenuItem } from '../../utils/types'
 
 /**
- * 菜单属性
+ * +==========================+
+ * |       Menu Common        |
+ * +==========================+
+ * @param item 单个菜单选项配置
+ * @param showTitle 是否显示菜单名称
+ * @param collapsed 菜单是否是收起状态
+ *
+ * @see MenuItem
+ */
+interface MenuCommonProperties {
+    item: MenuItem
+    showTitle: boolean
+    collapsed: boolean
+}
+
+/**
+ * +===================+
+ * |       Menu        |
+ * +===================+
  * @param indent 缩进
  * @param items 菜单
  *
@@ -18,14 +36,27 @@ export const MenuProps = () => ({
 })
 
 /**
- * 菜单选项
- * @param item 单个菜单选项配置
- *
- * @see MenuItem
+ * +========================+
+ * |       Menu Item        |
+ * +========================+
+ * @see MenuCommonProperties
  */
-export interface MenuItemProperties {
-    item: MenuItem
-}
+export interface MenuItemProperties extends MenuCommonProperties {}
 export const MenuItemProps = () => ({
-    item: object<MenuItem>()
+    item: object<MenuItem>(),
+    showTitle: PropTypes.bool.def(true),
+    collapsed: PropTypes.bool.def(false)
+})
+
+/**
+ * +==============================+
+ * |       Menu Item Title        |
+ * +==============================+
+ * @see MenuCommonProperties
+ */
+export interface MenuTitleProperties extends MenuCommonProperties {}
+export const MenuTitleProperties = () => ({
+    item: object<MenuItem>(),
+    showTitle: PropTypes.bool.def(true),
+    collapsed: PropTypes.bool.def(false)
 })

@@ -13,3 +13,5 @@ export const useAuthStore = defineStore('auth', {
         login: async () => {}
     }
 })
+
+export default useAuthStore

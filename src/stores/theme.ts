@@ -9,3 +9,5 @@ export const useThemeStore = defineStore('themes', {
         }
     }
 })
+
+export default useThemeStore

@@ -4,10 +4,12 @@ import Basic from './utils/basic'
 import { default as Theme } from './components/theme'
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
+import { default as Menu } from './components/menu'
 import { default as Clock } from './components/clock'
 
 import * as components from './components'
 export * from './components'
+export * from './stores'
 
 let _init = false
 const install = (app: App) => {
@@ -35,6 +37,9 @@ declare module '@vue/runtime-core' {
         MiNoticeTab: typeof Notice.Tab
         MiNoticeItem: typeof Notice.Item
         MiClock: typeof Clock
+        MiMenu: typeof Menu
+        MiMenuItem: typeof Menu.Item
+        MiSubMenu: typeof Menu.SubMenu
     }
 }
 

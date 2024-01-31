@@ -58,6 +58,7 @@ export const $g = reactive({
             user: 'user-info',
             email: 'user-email',
             locale: 'language-locale',
+            collapsed: 'layout-menu-collapsed',
             languages: {
                 custom: 'languages-custom',
                 categories: 'languages-categories'

@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme'
 import { ThemeProps } from './props'
 import { $g } from '../../utils/global'
@@ -18,6 +18,13 @@ const MiTheme = defineComponent({
         $tools.createThemeProperties($g.theme.primary)
         const store = useThemeStore()
         store.$patch({ properties: { ...globalThemeVars } })
+
+        watch(
+            () => [$g?.theme?.type, $g?.theme?.primary],
+            () => store.updateProperties($g.theme.primary),
+            { immediate: false, deep: true }
+        )
+
         return () => slots?.default()
     }
 })

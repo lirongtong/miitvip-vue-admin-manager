@@ -1,10 +1,12 @@
 import { defineComponent } from 'vue'
+import { Menu } from 'ant-design-vue'
 
 const MiSubMenu = defineComponent({
     name: 'MiSubMenu',
     inheritAttrs: false,
     setup() {
-        return () => <div></div>
+        const getSubmenuItem = () => {}
+        return () => <Menu.SubMenu>{getSubmenuItem()}</Menu.SubMenu>
     }
 })
 

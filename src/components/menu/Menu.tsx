@@ -3,9 +3,9 @@ import { MenuProps } from './props'
 import type { MenuItem } from '../../utils/types'
 import { $g } from '../../utils/global'
 import { Menu } from 'ant-design-vue'
-import MiSubMenu from './Sub'
+import MiSubMenu from './Submenu'
 import MiMenuItem from './Item'
-import MiMenuItemLink from './Link'
+import MiMenuTitle from './Title'
 import applyTheme from '../_utils/theme'
 import styled from './style/menu.module.less'
 
@@ -21,11 +21,12 @@ const MiMenu = defineComponent({
             const items = []
             data.value.forEach((item: MenuItem) => {
                 if (item?.children?.length > 0) {
-                    items.push(<MiSubMenu />)
+                    items.push(<MiSubMenu item={item} />)
                 } else {
-                    items.push(<MiMenuItem />)
+                    items.push(<MiMenuItem item={item} />)
                 }
             })
+            return items
         }
 
         return () => (
@@ -38,10 +39,10 @@ const MiMenu = defineComponent({
 
 MiMenu.SubMenu = MiSubMenu
 MiMenu.Item = MiMenuItem
-MiMenu.Link = MiMenuItemLink
+MiMenu.Title = MiMenuTitle
 
 export default MiMenu as typeof MiMenu & {
     readonly SubMenu: typeof MiSubMenu
     readonly Item: typeof MiMenuItem
-    readonly Link: typeof MiMenuItemLink
+    readonly Title: typeof MiMenuTitle
 }

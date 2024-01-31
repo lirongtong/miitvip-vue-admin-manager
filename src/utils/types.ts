@@ -87,6 +87,7 @@ export interface RegExpTokens {
 export interface CacheTokens {
     storages: {
         [key: string]: any
+        collapsed: string
     }
     cookies: {
         [key: string]: any

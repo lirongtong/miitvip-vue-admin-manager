@@ -30,9 +30,7 @@ export default defineComponent({
 
         const renderCollapsed = () => {
             const collapsed = (
-                <div
-                    class={styled.trigger}
-                    onClick={() => store.$patch({ collapsed: !collapsedState.value })}>
+                <div class={styled.trigger} onClick={() => store.updateCollapsed()}>
                     {!collapsedState.value ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                 </div>
             )
