@@ -11,6 +11,7 @@
     .font-size(14);
     .properties(line-height, 20);
     color: var(--mi-menu-item-title-text);
+    .transition();
 
     &-sub {
         .font-size(12);
@@ -20,6 +21,7 @@
 
 .icon {
     .properties(margin-right, 12);
+    .transition();
     
     :global(.anticon) {
         color: var(--mi-menu-item-title-icon);
@@ -35,6 +37,7 @@
     width: auto;
     .flex();
     .properties(max-width, @mi-gap * 8);
+    .transition();
 }
 
 :export {

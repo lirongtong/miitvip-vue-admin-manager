@@ -1,9 +1,10 @@
-import { defineComponent, h, isVNode, ref, computed } from 'vue'
+import { defineComponent, h, isVNode, ref, computed, Transition } from 'vue'
 import { MenuTitleProperties } from './props'
 import { Flex, Row, Tag } from 'ant-design-vue'
 import { TagsFilled } from '@ant-design/icons-vue'
 import { useLayoutStore } from '../../stores/layout'
 import { $tools } from '../../utils/tools'
+import { getPrefixCls } from '../_utils/props'
 import applyTheme from '../_utils/theme'
 import styled from './style/title.module.less'
 
@@ -12,6 +13,7 @@ const MiMenuTitle = defineComponent({
     inheritAttrs: false,
     props: MenuTitleProperties(),
     setup(props) {
+        const anim = getPrefixCls('anim-fade')
         const layoutStore = useLayoutStore()
         const collapsed = computed(() => layoutStore.collapsed)
         applyTheme(styled)
@@ -24,12 +26,18 @@ const MiMenuTitle = defineComponent({
         const renderTitle = () => {
             const title = props?.item?.meta?.title || null
             const subTitle = props?.item?.meta?.subTitle || null
-            return title && !collapsed.value ? (
-                <div class={styled.title}>
-                    {title ? <span innerHTML={title} /> : null}
-                    {subTitle ? <span class={styled.titleSub} innerHTML={subTitle} /> : null}
-                </div>
-            ) : null
+            return (
+                <Transition name={anim} appear={true}>
+                    {title && !collapsed.value ? (
+                        <div class={styled.title}>
+                            {title ? <span innerHTML={title} /> : null}
+                            {subTitle ? (
+                                <span class={styled.titleSub} innerHTML={subTitle} />
+                            ) : null}
+                        </div>
+                    ) : null}
+                </Transition>
+            )
         }
 
         const renderTag = () => {
@@ -67,7 +75,11 @@ const MiMenuTitle = defineComponent({
                     )
                 }
             }
-            return tag.value
+            return (
+                <Transition name={anim} appear={true}>
+                    {tag.value}
+                </Transition>
+            )
         }
 
         return () => (
