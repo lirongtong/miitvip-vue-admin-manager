@@ -65,6 +65,8 @@
 | `--mi-clock-point-minute` | `--mi-on-surface`
 | `--mi-clock-point-second` | `--mi-primary`
 
+## API
+
 ### MiClock `<mi-clock>`
 
 #### `MiClock` 属性 ( `Properties` )
