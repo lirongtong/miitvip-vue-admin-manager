@@ -57,7 +57,9 @@ export default defineComponent({
             </div>
         )
 
-        const slot = slots?.default ?? (
+        const slot = slots?.default ? (
+            slots?.default()
+        ) : (
             <RouterLink to={{ path: '/' }} class={styled.site}>
                 {renderLogo}
                 <Transition name={anim} appear={true}>
