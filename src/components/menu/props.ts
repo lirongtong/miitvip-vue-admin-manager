@@ -13,8 +13,6 @@ import { PropTypes, type MenuItem } from '../../utils/types'
  */
 interface MenuCommonProperties {
     item: MenuItem
-    showTitle: boolean
-    collapsed: boolean
 }
 
 /**
@@ -43,9 +41,7 @@ export const MenuProps = () => ({
  */
 export interface MenuItemProperties extends MenuCommonProperties {}
 export const MenuItemProps = () => ({
-    item: object<MenuItem>(),
-    showTitle: PropTypes.bool.def(true),
-    collapsed: PropTypes.bool.def(false)
+    item: object<MenuItem>()
 })
 
 /**
@@ -56,7 +52,5 @@ export const MenuItemProps = () => ({
  */
 export interface MenuTitleProperties extends MenuCommonProperties {}
 export const MenuTitleProperties = () => ({
-    item: object<MenuItem>(),
-    showTitle: PropTypes.bool.def(true),
-    collapsed: PropTypes.bool.def(false)
+    item: object<MenuItem>()
 })

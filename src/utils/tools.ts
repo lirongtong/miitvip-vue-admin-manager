@@ -148,6 +148,16 @@ class MiTools {
     }
 
     /**
+     * 是否是 `Email`
+     * @param email
+     * @returns
+     */
+    isEmail(email: string) {
+        if (email) return $g.regExp.email.test(email)
+        else return false
+    }
+
+    /**
      * 是否为移动端.
      * 注: iPad Safari 获取的 ua 与 Mac Safari 一致, 需独立判断.
      * @returns
@@ -678,7 +688,7 @@ class MiTools {
      * @see Breakpoints
      */
     distinguishSize(value?: string | number | DeviceSize) {
-        if (value) {
+        if (typeof value !== 'undefined') {
             if (typeof value === 'string' || typeof value === 'number') {
                 return value
             } else {
@@ -746,6 +756,7 @@ class MiTools {
  *  - {@link $tools.isValid} 判断是否有效
  *  - {@link $tools.isNumber} 判断是否为数字
  *  - {@link $tools.isUrl} 判断是否为 `URL`
+ *  - {@link $tools.isEmail} 判断是否为 `Email`
  *  - {@link $tools.isMobile} 判断是否为移动端
  *  - {@link $tools.formatEmpty} 格式化空字符串
  *  - {@link $tools.formatDateNow} 格式化时间

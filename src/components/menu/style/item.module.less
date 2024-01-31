@@ -1,5 +1,13 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
-    overflow: hidden;
+    .flex();
+}
+
+.link {
+    color: var(--mi-menu-item-text);
+}
+
+:export {
+    --menu-item-text: var(--mi-on-background);
 }

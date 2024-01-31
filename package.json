@@ -46,7 +46,8 @@
     "files": [
         "dist",
         "lib",
-        "es"
+        "es",
+        "typings.d.ts"
     ],
     "main": "lib/index.js",
     "module": "es/index.js",

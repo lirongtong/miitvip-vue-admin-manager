@@ -165,7 +165,6 @@ export interface GlobalProperties {
     caches?: Partial<CacheTokens>
     breakpoints?: Partial<Breakpoints>
     winSize?: Partial<Size>
-    menus?: Partial<MenuItem>[]
 }
 
 /**
@@ -228,13 +227,36 @@ export interface SizeColor {
  * @example `/users/:id` matches `/users/1` as well as `/users/posva`.
  *
  * @param path 路由
+ * @param query 路由参数
  * @param name 名称 ( 唯一值 )
  * @param meta 其他配置
  * @param children 子菜单
+ *
+ * @see MenuItemMeta
  */
 export interface MenuItem {
     path: string
     name: string
-    meta?: Record<string | number, any>
+    query?: Record<string, any>
+    meta?: Partial<MenuItemMeta>
     children?: MenuItem[] | undefined
+}
+/**
+ * @param title 菜单项的标题
+ * @param icon 图标
+ * @param tag 标签
+ */
+export interface MenuItemMeta {
+    [key: string]: any
+    title: string
+    icon: any
+    tag: Partial<MenuItemMetaTag>
+}
+export interface MenuItemMetaTag {
+    [key: string]: any
+    color: string
+    content: string
+    icon: any
+    size: string | number | DeviceSize
+    radius: string | number | DeviceSize
 }

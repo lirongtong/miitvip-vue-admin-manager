@@ -1,9 +1,15 @@
 import { defineStore } from 'pinia'
+import { MenuItem } from '../utils/types'
 
-const useMenuStore = defineStore('menus', {
+export const useMenuStore = defineStore('menus', {
     state: () => ({
-        menus: []
-    })
+        menus: [] as MenuItem[]
+    }),
+    actions: {
+        updateMenus(menus: MenuItem[]) {
+            this.menus = menus
+        }
+    }
 })
 
 export default useMenuStore

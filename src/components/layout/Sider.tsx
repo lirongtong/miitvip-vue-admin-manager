@@ -1,8 +1,8 @@
 import { defineComponent, type SlotsType, type Plugin, computed } from 'vue'
 import { LayoutSiderProps } from './props'
-import { $g } from '../../utils/global'
 import { getPropSlot } from '../_utils/props'
 import { useLayoutStore } from '../../stores/layout'
+import { useMenuStore } from '../../stores/menu'
 import MiMenu from '../menu'
 import MiLayoutSiderLogo from './Logo'
 import applyTheme from '../_utils/theme'
@@ -17,8 +17,10 @@ const MiLayoutSider = defineComponent({
     }>,
     props: LayoutSiderProps(),
     setup(props, { slots }) {
-        const store = useLayoutStore()
-        const collapsed = computed(() => store.collapsed)
+        const layoutStore = useLayoutStore()
+        const menuStore = useMenuStore()
+        const collapsed = computed(() => layoutStore.collapsed)
+        const menus = computed(() => menuStore.menus)
         applyTheme(styled)
 
         const renderLogo = () => {
@@ -26,7 +28,7 @@ const MiLayoutSider = defineComponent({
         }
 
         const renderMenu = () => {
-            return getPropSlot(slots, props, 'menu') ?? <MiMenu items={$g.menus} />
+            return getPropSlot(slots, props, 'menu') ?? <MiMenu items={menus.value} />
         }
 
         return () => (

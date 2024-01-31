@@ -1,8 +1,16 @@
 @import '../../theme/style/variables.module.less';
 
+.container {
+    position: relative;
+    width: 100%;
+}
+
 .title {
     .flex(flex-start, center, column);
     .properties(height, @mi-menu-item-height);
+    .font-size(14);
+    .properties(line-height, 20);
+    color: var(--mi-menu-item-title-text);
 
     &-sub {
         .font-size(12);
@@ -10,6 +18,27 @@
     }
 }
 
+.icon {
+    .properties(margin-right, 12);
+    
+    :global(.anticon) {
+        color: var(--mi-menu-item-title-icon);
+    }
+}
+
+.tag {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    .ellipsis();
+    width: auto;
+    .flex();
+    .properties(max-width, @mi-gap * 8);
+}
+
 :export {
-    --menu-item-title-sub: var(--mi-on-background);
+    --menu-item-title-text: var(--mi-on-background);
+    --menu-item-title-sub: rgba(var(--mi-rgb-on-background), .5);
+    --menu-item-title-icon: var(--mi-on-background);
 }

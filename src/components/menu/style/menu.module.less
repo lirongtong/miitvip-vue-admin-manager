@@ -1,1 +1,25 @@
 @import '../../theme/style/variables.module.less';
+
+.container {
+    background: var(--mi-menu-background);
+    .properties(padding-left, 16);
+    .properties(padding-right, 16);
+    .hide-scrollbar();
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    :global {
+        .ant-menu-item {
+            .properties(height, @mi-menu-item-height);
+            .properties(line-height, @mi-menu-item-height);
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+            width: 100%;
+        }
+    }
+}
+
+:export {
+    --menu-background: var(--mi-background);
+}

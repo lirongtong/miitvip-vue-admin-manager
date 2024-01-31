@@ -92,8 +92,7 @@ export const $g = reactive({
         xl: 1200,
         xxl: 1600,
         xxxl: 2000
-    },
-    menus: []
+    }
 }) as GlobalProperties
 
 export default {

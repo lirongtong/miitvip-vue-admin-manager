@@ -30,7 +30,11 @@ const MiMenu = defineComponent({
         }
 
         return () => (
-            <Menu mode="inline" theme={$g.theme.type}>
+            <Menu
+                class={styled.container}
+                mode="inline"
+                theme={$g.theme.type}
+                inlineIndent={props.indent}>
                 {getMenuItems()}
             </Menu>
         )

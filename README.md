@@ -108,14 +108,14 @@
 ## 安装
 
 ```bash
-npm i makeit-admin-pro
+npm i @makeit/admin-pro
 ```
 
 ## 全局引入
 
 ```ts
 import { createApp } from 'vue'
-import MakeitAdminPro from 'makeit-admin-pro'
+import MakeitAdminPro from '@makeit/admin-pro'
 import App from './app.vue'
 
 const app = createApp(App)
@@ -129,67 +129,40 @@ app.mount('#app')
 import { createApp } from 'vue'
 import router from './router'
 import App from './app.vue'
-import { Layout } from 'makeit-admin-pro'
+import { Layout, Notice } from '@makeit/admin-pro'
 
 const app = createApp(App)
 app.use(router)
-const components = [Layout]
+const components = [Layout, Notice]
 components.forEach((component) => app.use(component))
 app.mount('#app')
 ```
 
 ## 布局
 
-```vue
+```html
 <template>
-    <mi-layout>
-        <template #headerExtra>
-            <mi-search
-                :data="searchData"
-                search-key="title"
-                :width="120"
-                :height="48"
-                placeholder="搜索组件"
-                :list-width="320"
-                :list-height="335"
-                :gap="4"
-                :page-size="3"
-                :list-radius="8"
-                border-color="transparent"
-                background-color="transparent" />
-        </template>
-    </mi-layout>
+    <mi-layout />
 </template>
 
 <script lang="ts" setup>
-    import { getCurrentInstance } from 'vue'
-    import { DashboardOutlined, LayoutOutlined } from '@ant-design/icons-vue'
+    import { useMapMenuStore } from '@makeit/admin-pro'
 
-    const { appContext: {config: {globalProperties: vm}} } = getCurrentInstance()
-
-    // 全局变量, 直接设定左侧菜单
-    vm.$g.menus.items = [{
-        name: 'dashboard',
-        path: '/dashboard',
-        meta: {
-            title: '控制中心',
-            subTitle: 'Dashboard',
-            icon: DashboardOutlined,
-            tag: {color: '#f50', content: 'Hot'}
+    const menuStore = useMapMenuStore()
+    menuStore.updateMenus([
+        {
+            name: 'dashboard',
+            path: '/dashboard',
+            meta: {
+                title: '控制中心',
+                subTitle: 'Dashboard',
+                icon: DashboardOutlined,
+                tag: {color: '#f50', content: 'Hot'}
+            }
+        }, {
+            // ... sider menus
         }
-    }, {
-        // ... sider menu
-    }]
-    
-    // 搜索数据
-    const searchData = [{
-        title: '页面布局',
-        content: '基于 Layout 组件的二次定制',
-        link: '/layout',
-        icon: LayoutOutlined
-    }, {
-        // ... search data
-    }]
+    ])
 </script>
 ```
 

@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import Basic from './utils/basic'
 
 import { default as Theme } from './components/theme'
+import { default as Link } from './components/link'
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Menu } from './components/menu'
@@ -27,6 +28,7 @@ const install = (app: App) => {
 declare module '@vue/runtime-core' {
     export interface GlobalComponents {
         MiTheme: typeof Theme
+        MiLink: typeof Link
         MiLayout: typeof Layout
         MiLayoutHeader: typeof Layout.Header
         MiLayoutSider: typeof Layout.Sider

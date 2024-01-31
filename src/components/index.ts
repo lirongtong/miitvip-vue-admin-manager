@@ -1,6 +1,9 @@
 export type { ThemeProperties } from './theme/props'
 export { default as Theme } from './theme'
 
+export type { LinkProperties } from './link/props'
+export { default as Link } from './link'
+
 export type {
     LayoutProperties,
     LayoutHeaderProperties,
