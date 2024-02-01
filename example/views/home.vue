@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
 const menuStore = useMapMenuStore()
@@ -77,6 +77,40 @@ menuStore.updateMenus([
                 title: '工具函数',
                 subTitle: 'Utility Function',
                 icon: ToolOutlined
+            }
+        }]
+    },
+    {
+        name: 'pages',
+        path: '/pages',
+        meta: {
+            title: '常用页面',
+            subTitle: 'General Pages',
+            icon: SnippetsOutlined
+        },
+        children: [{
+            name: 'pages-login',
+            path: '/pages/login',
+            meta: {
+                title: '登录页面',
+                subTitle: 'Login Page',
+                icon: LoginOutlined
+            }
+        }, {
+            name: 'pages-register',
+            path: '/pages/register',
+            meta: {
+                title: '注册页面',
+                subTitle: 'Register Page',
+                icon: ScheduleOutlined
+            }
+        }, {
+            name: 'pages-forget',
+            path: '/pages/forget',
+            meta: {
+                title: '忘记密码',
+                subTitle: 'Forget Page',
+                icon: QuestionCircleOutlined
             }
         }]
     }

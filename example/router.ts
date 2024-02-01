@@ -11,6 +11,11 @@ const ToolsRequest = () => import('./views/tools/request.vue')
 const ToolsCache = () => import('./views/tools/cache.vue')
 const ToolsFunction = () => import('./views/tools/function.vue')
 
+const Pages = () => import('./views/pages/index.vue')
+const PagesLogin = () => import('./views/pages/login.vue')
+const PagesRegister = () => import('./views/pages/register.vue')
+const PagesForget = () => import('./views/pages/forget.vue')
+
 const PassportLogin = () => import('./views/passport/login.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [
@@ -60,6 +65,28 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'tools-function',
                 meta: { title: '工具函数' },
                 component: ToolsFunction
+            }]
+        }, {
+            path: '/pages',
+            name: 'pages',
+            meta: { title: '常用页面' },
+            component: Pages,
+            redirect: '/pages/login',
+            children: [{
+                path: '/pages/login',
+                name: 'pages-global',
+                meta: { title: '登录页面' },
+                component: PagesLogin
+            }, {
+                path: '/pages/register',
+                name: 'pages-register',
+                meta: { title: '注册页面' },
+                component: PagesRegister
+            }, {
+                path: '/pages/forget',
+                name: 'pages-forget',
+                meta: { title: '忘记密码' },
+                component: PagesForget
             }]
         }]
     }
