@@ -3,6 +3,25 @@
 .container {
     position: relative;
     width: 100%;
+    .flex(center, flex-start);
+    .transition();
+
+    &.active {
+        .title {
+            color: var(--mi-menu-item-title-active-text);
+            font-weight: bold;
+
+            &-sub {
+                color: var(--mi-menu-item-title-active-sub);
+            }
+        }
+
+        .icon {
+            :global(.anticon) {
+                color: var(--mi-menu-item-title-active-icon);
+            }
+        }
+    }
 }
 
 .title {
@@ -24,6 +43,7 @@
     .transition();
     
     :global(.anticon) {
+        .transition();
         color: var(--mi-menu-item-title-icon);
     }
 
@@ -47,10 +67,14 @@
     .flex();
     .properties(max-width, @mi-gap * 8);
     .transition();
+    margin-inline-end: 0;
 }
 
 :export {
     --menu-item-title-text: var(--mi-on-background);
     --menu-item-title-sub: rgba(var(--mi-rgb-on-background), .5);
     --menu-item-title-icon: var(--mi-on-background);
+    --menu-item-title-active-text: var(--mi-on-primary);
+    --menu-item-title-active-sub: rgba(var(--mi-rgb-on-primary), .6);
+    --menu-item-title-active-icon: var(--mi-on-primary);
 }

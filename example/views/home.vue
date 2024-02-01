@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined } from '@ant-design/icons-vue'
-import { useMapMenuStore } from '@makeit/admin-pro'
+import { useMapMenuStore } from '../../src/index'
 
 const menuStore = useMapMenuStore()
 menuStore.updateMenus([

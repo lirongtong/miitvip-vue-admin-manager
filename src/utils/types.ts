@@ -146,13 +146,13 @@ export interface GlobalProperties {
     [key: string]: any
     title?: string
     site?: string
-    author?: string
+    readonly author?: string
     logo?: string
     powered?: string
     keywords?: string
     description?: string
     theme?: Partial<Theme>
-    prefix?: string
+    readonly prefix?: string
     emptyFormatter?: string
     apiVersion?: string
     copyright?: {

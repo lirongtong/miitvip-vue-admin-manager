@@ -1,8 +1,10 @@
 import { defineComponent, h, isVNode, ref, computed, Transition } from 'vue'
 import { MenuTitleProperties } from './props'
-import { Flex, Row, Tag } from 'ant-design-vue'
+import { Row, Tag } from 'ant-design-vue'
 import { TagsFilled } from '@ant-design/icons-vue'
 import { useLayoutStore } from '../../stores/layout'
+import { useMenuStore } from '../../stores/menu'
+import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { getPrefixCls } from '../_utils/props'
 import applyTheme from '../_utils/theme'
@@ -15,7 +17,9 @@ const MiMenuTitle = defineComponent({
     setup(props) {
         const anim = getPrefixCls('anim-fade')
         const layoutStore = useLayoutStore()
+        const menuStore = useMenuStore()
         const collapsed = computed(() => layoutStore.collapsed)
+        const activeKeys = computed(() => menuStore.activeKeys)
         applyTheme(styled)
 
         const renderIcon = () => {
@@ -88,12 +92,17 @@ const MiMenuTitle = defineComponent({
             )
         }
 
+        const classes = computed(() => {
+            const key = $g.prefix + props?.item?.name
+            return [styled.container, { [styled.active]: activeKeys.value.includes(key) }]
+        })
+
         return () => (
-            <Flex class={styled.container}>
+            <Row class={classes.value}>
                 {renderIcon()}
                 {renderTitle()}
                 {renderTag()}
-            </Flex>
+            </Row>
         )
     }
 })

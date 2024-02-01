@@ -2,11 +2,23 @@
 
 .container {
     .flex();
+    background-color: var(--mi-menu-item-background-default);
 
     &.collapsed {
         > :global(.ant-menu-title-content) {
             flex: none !important;
         }
+    }
+
+    &.active {
+        .gradient-hint(var(--mi-menu-item-background-active-start), var(--mi-menu-item-background-active-hint), var(--mi-menu-item-background-active-stop));
+    }
+
+    &:hover,
+    &:visited,
+    &:active,
+    &:link {
+        background-color: transparent !important;
     }
 }
 
@@ -16,4 +28,8 @@
 
 :export {
     --menu-item-text: var(--mi-on-background);
+    --menu-item-background-default: transparent;
+    --menu-item-background-active-start: var(--mi-primary);
+    --menu-item-background-active-hint: var(--mi-secondary);
+    --menu-item-background-active-stop: var(--mi-tertiary);
 }

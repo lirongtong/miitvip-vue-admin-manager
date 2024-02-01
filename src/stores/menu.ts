@@ -3,7 +3,11 @@ import { MenuItem } from '../utils/types'
 
 export const useMenuStore = defineStore('menus', {
     state: () => ({
-        menus: [] as MenuItem[]
+        menus: [] as MenuItem[],
+        accordion: false,
+        openKeys: [] as (string | number)[],
+        activeKeys: [] as (string | number)[],
+        relationshipChain: [] as string[]
     }),
     actions: {
         updateMenus(menus: MenuItem[]) {

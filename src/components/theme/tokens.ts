@@ -54,6 +54,10 @@ export interface GradientTokens {
  * @see ComponentTokens
  */
 export interface ThemeTokens extends Theme {
+    [key: string]: any
+    theme: string
+    primary: string
+    radius: number
     components: Partial<ComponentTokens>
 }
 

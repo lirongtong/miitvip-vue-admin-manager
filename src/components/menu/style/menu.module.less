@@ -15,11 +15,26 @@
             margin-left: 0;
             margin-right: 0;
             margin-bottom: 0;
+            .properties(margin-top);
             width: 100%;
+            background-color: var(--mi-menu-item-background-default);
+        }
+
+        .ant-menu-submenu {
+            .properties(height, @mi-menu-item-height);
+            .properties(line-height, @mi-menu-item-height);
+            .properties(margin-top);
+            .flex();
+
+            &-title {
+                .properties(height, @mi-menu-item-height);
+                .properties(line-height, @mi-menu-item-height);
+            }
         }
     }
 }
 
 :export {
+    --menu-text: var(--mi-on-background);
     --menu-background: var(--mi-background);
 }

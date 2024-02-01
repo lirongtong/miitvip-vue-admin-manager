@@ -27,7 +27,7 @@ const MiLayout = defineComponent({
         const store = useLayoutStore()
         const collapsed = computed(() => store.collapsed)
         const { locale } = useI18n()
-        const langClass = getPrefixCls(`lang-${locale}`, $g.prefix || 'mi-')
+        const langClass = getPrefixCls(`lang-${locale}`, $g.prefix)
 
         applyTheme(styled)
 

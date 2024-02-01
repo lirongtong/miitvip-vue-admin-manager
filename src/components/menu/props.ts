@@ -14,6 +14,9 @@ import { PropTypes, type MenuItem } from '../../utils/types'
 interface MenuCommonProperties {
     item: MenuItem
 }
+const MenuCommonProps = () => ({
+    item: object<MenuItem>()
+})
 
 /**
  * +===================+
@@ -34,15 +37,22 @@ export const MenuProps = () => ({
 })
 
 /**
+ * +=======================+
+ * |       Menu Sub        |
+ * +=======================+
+ * @see MenuCommonProperties
+ */
+export interface MenuSubProperties extends MenuCommonProperties {}
+export const MenuSubProps = MenuCommonProps
+
+/**
  * +========================+
  * |       Menu Item        |
  * +========================+
  * @see MenuCommonProperties
  */
 export interface MenuItemProperties extends MenuCommonProperties {}
-export const MenuItemProps = () => ({
-    item: object<MenuItem>()
-})
+export const MenuItemProps = MenuCommonProps
 
 /**
  * +==============================+
@@ -51,6 +61,4 @@ export const MenuItemProps = () => ({
  * @see MenuCommonProperties
  */
 export interface MenuTitleProperties extends MenuCommonProperties {}
-export const MenuTitleProperties = () => ({
-    item: object<MenuItem>()
-})
+export const MenuTitleProperties = MenuCommonProps
