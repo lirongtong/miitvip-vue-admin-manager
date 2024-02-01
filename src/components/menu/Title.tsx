@@ -20,6 +20,8 @@ const MiMenuTitle = defineComponent({
         const menuStore = useMenuStore()
         const collapsed = computed(() => layoutStore.collapsed)
         const activeKeys = computed(() => menuStore.activeKeys)
+        const openKeys = computed(() => menuStore.openKeys)
+        const relationshipChain = computed(() => menuStore.relationshipChain)
         applyTheme(styled)
 
         const renderIcon = () => {
@@ -94,7 +96,16 @@ const MiMenuTitle = defineComponent({
 
         const classes = computed(() => {
             const key = $g.prefix + props?.item?.name
-            return [styled.container, { [styled.active]: activeKeys.value.includes(key) }]
+            return [
+                styled.container,
+                { [styled.active]: activeKeys.value.includes(key) },
+                {
+                    [styled.opened]:
+                        props?.activeKey &&
+                        relationshipChain.value.includes(props?.activeKey) &&
+                        !openKeys.value.includes(props.activeKey)
+                }
+            ]
         })
 
         return () => (

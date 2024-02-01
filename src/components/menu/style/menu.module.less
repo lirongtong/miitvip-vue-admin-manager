@@ -1,5 +1,16 @@
 @import '../../theme/style/variables.module.less';
 
+@ant-menu-submenu: ant-menu-submenu;
+
+.submenu-item-title-background-default() {
+    &:hover,
+    &:active,
+    &:visited,
+    &:link {
+        background-color: var(--mi-menu-item-background-default);
+    }
+}
+
 .container {
     background: var(--mi-menu-background);
     .properties(padding-left, 16);
@@ -20,15 +31,37 @@
             background-color: var(--mi-menu-item-background-default);
         }
 
-        .ant-menu-submenu {
-            .properties(height, @mi-menu-item-height);
-            .properties(line-height, @mi-menu-item-height);
+        .@{ant-menu-submenu} {
             .properties(margin-top);
-            .flex();
+            .flex(center, center, column);
+            .transition();
 
-            &-title {
+            & .@{ant-menu-submenu}-title {
                 .properties(height, @mi-menu-item-height);
                 .properties(line-height, @mi-menu-item-height);
+                margin: 0;
+                .transition();
+                .submenu-item-title-background-default();
+            }
+
+            & .@{ant-menu-submenu}-arrow {
+                color: var(--mi-submenu-item-title-arrow);
+            }
+
+            & .ant-menu-sub.ant-menu-inline {
+                background: var(--mi-menu-background);
+            }
+
+            &.@{ant-menu-submenu}-selected:not(.@{ant-menu-submenu}-open) {
+                .@{ant-menu-submenu}-title {
+                    .gradient-hint();
+                    background-color: var(--mi-menu-item-background-default);
+                    .submenu-item-title-background-default();
+                }
+
+                .@{ant-menu-submenu}-arrow {
+                    color: var(--mi-submenu-item-title-active-arrow);
+                }
             }
         }
     }
@@ -37,4 +70,6 @@
 :export {
     --menu-text: var(--mi-on-background);
     --menu-background: var(--mi-background);
+    --submenu-item-title-arrow: var(--mi-on-background);
+    --submenu-item-title-active-arrow: var(--mi-on-primary);
 }

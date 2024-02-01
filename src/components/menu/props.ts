@@ -6,8 +6,6 @@ import { PropTypes, type MenuItem } from '../../utils/types'
  * |       Menu Common        |
  * +==========================+
  * @param item 单个菜单选项配置
- * @param showTitle 是否显示菜单名称
- * @param collapsed 菜单是否是收起状态
  *
  * @see MenuItem
  */
@@ -40,6 +38,8 @@ export const MenuProps = () => ({
  * +=======================+
  * |       Menu Sub        |
  * +=======================+
+ * @param pKey 子菜单的父节点 key 值
+ *
  * @see MenuCommonProperties
  */
 export interface MenuSubProperties extends MenuCommonProperties {}
@@ -58,7 +58,13 @@ export const MenuItemProps = MenuCommonProps
  * +==============================+
  * |       Menu Item Title        |
  * +==============================+
+ * @param activeKey 选中的子菜单 key 值
  * @see MenuCommonProperties
  */
-export interface MenuTitleProperties extends MenuCommonProperties {}
-export const MenuTitleProperties = MenuCommonProps
+export interface MenuTitleProperties extends MenuCommonProperties {
+    activeKey: string
+}
+export const MenuTitleProperties = () => ({
+    item: object<MenuItem>(),
+    activeKey: PropTypes.string
+})

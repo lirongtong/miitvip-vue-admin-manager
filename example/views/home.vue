@@ -15,7 +15,7 @@ menuStore.updateMenus([
         path: '/dashboard',
         meta: {
             title: '控制中心',
-            subTitle: 'Dashboard',
+            subTitle: 'Control Center',
             icon: DashboardOutlined,
             tag: {color: '#f50', content: 'Hot'}
         }
@@ -30,11 +30,11 @@ menuStore.updateMenus([
         }
     },
     {
-        name: 'theme',
+        name: 'theming',
         path: '/theming',
         meta: {
             title: '主题定制',
-            subTitle: 'Theming',
+            subTitle: 'Custom Theme',
             icon: CrownOutlined
         }
     },
