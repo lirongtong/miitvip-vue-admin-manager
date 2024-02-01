@@ -26,6 +26,15 @@
     :global(.anticon) {
         color: var(--mi-menu-item-title-icon);
     }
+
+    &.collapsed {
+        margin-right: 0;
+
+        :global(.anticon) {
+            .font-size(20);
+            .flex();
+        }
+    }
 }
 
 .tag {

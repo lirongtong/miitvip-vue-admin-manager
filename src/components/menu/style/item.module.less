@@ -2,6 +2,12 @@
 
 .container {
     .flex();
+
+    &.collapsed {
+        > :global(.ant-menu-title-content) {
+            flex: none !important;
+        }
+    }
 }
 
 .link {

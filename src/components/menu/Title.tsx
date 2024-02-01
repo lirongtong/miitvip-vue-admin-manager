@@ -20,7 +20,13 @@ const MiMenuTitle = defineComponent({
 
         const renderIcon = () => {
             const icon = props?.item?.meta?.icon || <TagsFilled />
-            return <Row class={styled.icon}>{isVNode(icon) ? icon : h(icon)}</Row>
+            return (
+                <Transition name={anim} appear={true}>
+                    <Row class={`${styled.icon}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
+                        {isVNode(icon) ? icon : h(icon)}
+                    </Row>
+                </Transition>
+            )
         }
 
         const renderTitle = () => {
