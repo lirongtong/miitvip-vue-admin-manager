@@ -1,0 +1,1 @@
+<template>Global</template>
