@@ -1,11 +1,13 @@
-import { computed, defineComponent, reactive, watch } from 'vue'
+import { computed, defineComponent, reactive, watch, onMounted, nextTick, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { MenuProps } from './props'
 import type { MenuItem } from '../../utils/types'
 import { $g } from '../../utils/global'
+import { $tools } from '../../utils/tools'
 import { Menu } from 'ant-design-vue'
 import { useMenuStore } from '../../stores/menu'
 import { useLayoutStore } from '../../stores/layout'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiSubMenu from './Submenu'
 import MiMenuItem from './Item'
 import MiMenuTitle from './Title'
@@ -20,6 +22,8 @@ const MiMenu = defineComponent({
         const route = useRoute()
         const menuStore = useMenuStore()
         const layoutStore = useLayoutStore()
+        const menuRef = ref<any>(null)
+        const { width, height } = useWindowResize()
 
         const data = computed(() => props.items || [])
         const openKeys = computed(() => menuStore.openKeys)
@@ -125,9 +129,31 @@ const MiMenu = defineComponent({
             { immediate: false, deep: true }
         )
 
+        onMounted(() => {
+            nextTick().then(() => {
+                if (
+                    typeof window !== 'undefined' &&
+                    width.value > $g.breakpoints.md &&
+                    !collapsed.value
+                ) {
+                    const menuElem = menuRef.value.$el
+                    const top = menuElem ? $tools.getElementActualOffsetTopOrLeft(menuElem) : 0
+                    const itemElem = document.querySelector(
+                        `li[data-menu-id="${activeKeys.value}"]`
+                    ) as HTMLElement
+                    if (menuElem && itemElem) {
+                        const posTop = $tools.getElementActualOffsetTopOrLeft(itemElem)
+                        const diff = posTop + top - height.value
+                        if (diff > 0) $tools.scrollToPos(menuElem, 0, diff)
+                    }
+                }
+            })
+        })
+
         return () => (
             <Menu
                 class={styled.container}
+                ref={menuRef}
                 mode="inline"
                 theme={$g.theme.type}
                 inlineIndent={props.indent}

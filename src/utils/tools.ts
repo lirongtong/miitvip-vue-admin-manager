@@ -332,7 +332,7 @@ class MiTools {
      * @param pos
      * @returns
      */
-    getElementActualTopOrLeft(el: HTMLElement, pos = 'top') {
+    getElementActualOffsetTopOrLeft(el: HTMLElement, pos = 'top') {
         let actual = pos === 'left' ? el.offsetLeft : el.offsetTop
         let current = el.offsetParent as HTMLElement
         while (current !== null) {
@@ -396,7 +396,7 @@ class MiTools {
     back2pos(el: any, offset = 0, duration = 1000, endCallback?: Function) {
         if (el instanceof HTMLElement) {
             const cur = document.documentElement.scrollTop || document.body.scrollTop
-            const pos = this.getElementActualTopOrLeft(el) - offset
+            const pos = this.getElementActualOffsetTopOrLeft(el) - offset
             this.scrollToPos(window, cur, pos, duration, endCallback)
         }
     }
@@ -766,7 +766,7 @@ class MiTools {
  *  - {@link $tools.uid} 生成唯一的 `UID`
  *  - {@link $tools.raf} `requestAnimationFrame`
  *  - {@link $tools.caf} `cancelAnimationFrame`
- *  - {@link $tools.getElementActualTopOrLeft} 获取指定元素距离顶端或者左侧的距离 ( 可视区域 )
+ *  - {@link $tools.getElementActualOffsetTopOrLeft} 获取指定元素距离顶端或者左侧的距离 ( 可视区域 )
  *  - {@link $tools.scrollToPos} 指定 `DOM` 从指定位置滚动至另外一个指定位置
  *  - {@link $tools.back2top} 回到顶部
  *  - {@link $tools.back2pos} 回到指定 `DOM` 位置

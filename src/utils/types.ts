@@ -144,15 +144,15 @@ export type RequestConfig = AxiosRequestConfig & {
  */
 export interface GlobalProperties {
     [key: string]: any
+    readonly prefix?: string
+    readonly author?: string
     title?: string
     site?: string
-    readonly author?: string
     logo?: string
     powered?: string
     keywords?: string
     description?: string
     theme?: Partial<Theme>
-    readonly prefix?: string
     emptyFormatter?: string
     apiVersion?: string
     copyright?: {
