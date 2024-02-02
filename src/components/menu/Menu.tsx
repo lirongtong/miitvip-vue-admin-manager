@@ -42,7 +42,7 @@ const MiMenu = defineComponent({
                 if (menuStore.accordion) {
                     const first = openKeys[0]
                     const last = openKeys[openKeys.length - 1]
-                    if (relationship.menus?.[first] && relationship.menus?.[first]?.[last]) {
+                    if (relationship.menus?.[first] && !relationship.menus?.[first]?.[last]) {
                         opens = [last]
                     }
                 }
