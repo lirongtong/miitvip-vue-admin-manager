@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, RetweetOutlined, CodeOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
 const menuStore = useMapMenuStore()
@@ -111,6 +111,114 @@ menuStore.updateMenus([
                 title: '忘记密码',
                 subTitle: 'Forget Page',
                 icon: QuestionCircleOutlined
+            }
+        }]
+    },
+    {
+        name: 'components',
+        path: '/components',
+        meta: {
+            title: '定制组件',
+            subTitle: 'Components',
+            icon: AppstoreAddOutlined,
+            tag: {icon: FireFilled, color: '#ed4014'}
+        },
+        children: [{
+            name: 'components-layout',
+            path: '/components/layout',
+            meta: {
+                title: '基础布局',
+                subTitle: 'Layout',
+                icon: LayoutOutlined
+            }
+        }, {
+            name: 'components-notice',
+            path: '/components/notice',
+            meta: {
+                title: '消息中心',
+                subTitle: 'Notice',
+                icon: BellOutlined
+            }
+        }, {
+            name: 'components-modal',
+            path: '/components/modal',
+            meta: {
+                title: '弹窗提示',
+                subTitle: 'Modal',
+                icon: SwitcherOutlined
+            }
+        }, {
+            name: 'components-captcha',
+            path: '/components/captcha',
+            meta: {
+                title: '滑块验证',
+                subTitle: 'Captcha',
+                icon: ScanOutlined,
+                tag: {icon: LikeFilled, color: '#4caf50'}
+            }
+        }, {
+            name: 'components-search',
+            path: '/components/search',
+            meta: {
+                title: '搜索联想',
+                subTitle: 'Search',
+                icon: SearchOutlined
+            }
+        }, {
+            name: 'components-clock',
+            path: '/components/clock',
+            meta: {
+                title: '无聊钟表',
+                subTitle: 'Clock',
+                icon: ClockCircleOutlined
+            }
+        }, {
+            name: 'components-password',
+            path: '/components/password',
+            meta: {
+                title: '密码设置',
+                subTitle: 'Password',
+                icon: SafetyCertificateOutlined
+            }
+        }, {
+            name: 'components-anchor',
+            path: '/components/anchor',
+            meta: {
+                title: '锚点链接',
+                subTitle: 'Anchor',
+                icon: BorderlessTableOutlined
+            }
+        }, {
+            name: 'components-menu',
+            path: '/components/menu',
+            meta: {
+                title: '导航菜单',
+                subTitle: 'Menu',
+                icon: OrderedListOutlined
+            }
+        }, {
+            name: 'components-dropdown',
+            path: '/components/dropdown',
+            meta: {
+                title: '下拉菜单',
+                subTitle: 'Dropdown',
+                icon: MenuOutlined
+            }
+        }, {
+            name: 'components-history',
+            path: '/components/history',
+            meta: {
+                title: '历史路由',
+                subTitle: 'History',
+                icon: RetweetOutlined
+            }
+        }, {
+            name: 'components-code',
+            path: '/components/code',
+            meta: {
+                title: '代码高亮',
+                subTitle: 'Code',
+                icon: CodeOutlined
             }
         }]
     }

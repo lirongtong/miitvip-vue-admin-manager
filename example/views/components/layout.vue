@@ -1,0 +1,1 @@
+<template>Layout</template>

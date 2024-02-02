@@ -15,7 +15,7 @@
     background: var(--mi-menu-background);
     .properties(padding-left, 16);
     .properties(padding-right, 16);
-    .properties(margin-bottom, @mi-margin);
+    .properties(padding-bottom, @mi-menu-item-height);
     max-height: calc(100vh - @mi-sider-logo-container);
     overflow-x: hidden;
     overflow-y: auto;
@@ -48,6 +48,7 @@
 
             & .@{ant-menu-submenu}-arrow {
                 color: var(--mi-submenu-item-title-arrow);
+                .properties(inset-inline-end);
             }
 
             & .ant-menu-sub.ant-menu-inline {

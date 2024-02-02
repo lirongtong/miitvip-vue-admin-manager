@@ -38,13 +38,23 @@ const MiMenuTitle = defineComponent({
         const renderTitle = () => {
             const title = props?.item?.meta?.title || null
             const subTitle = props?.item?.meta?.subTitle || null
+            console.log(subTitle)
             return (
                 <Transition name={anim} appear={true}>
                     {title && !collapsed.value ? (
                         <div class={styled.title}>
-                            {title ? <span innerHTML={title} /> : null}
+                            {title ? (
+                                <span
+                                    title={title}
+                                    innerHTML={$tools.beautySub(props?.item?.meta?.title, 4)}
+                                />
+                            ) : null}
                             {subTitle ? (
-                                <span class={styled.titleSub} innerHTML={subTitle} />
+                                <span
+                                    class={styled.titleSub}
+                                    innerHTML={$tools.beautySub(props?.item?.meta?.subTitle, 7)}
+                                    title={subTitle}
+                                />
                             ) : null}
                         </div>
                     ) : null}

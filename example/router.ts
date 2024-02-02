@@ -16,6 +16,20 @@ const PagesLogin = () => import('./views/pages/login.vue')
 const PagesRegister = () => import('./views/pages/register.vue')
 const PagesForget = () => import('./views/pages/forget.vue')
 
+const Components = () => import('./views/components/index.vue')
+const ComponentsLayout = () => import('./views/components/layout.vue')
+const ComponentsMenu = () => import('./views/components/menu.vue')
+const ComponentsDropdown = () => import('./views/components/dropdown.vue')
+const ComponentsNotice = () => import('./views/components/notice.vue')
+const ComponentsModal = () => import('./views/components/modal.vue')
+const ComponentsCaptcha = () => import('./views/components/captcha.vue')
+const ComponentsSearch = () => import('./views/components/search.vue')
+const ComponentsClock = () => import('./views/components/clock.vue')
+const ComponentsPassword = () => import('./views/components/password.vue')
+const ComponentsAnchor = () => import('./views/components/anchor.vue')
+const ComponentsHistory = () => import('./views/components/history.vue')
+const ComponentsCode = () => import('./views/components/code.vue')
+
 const PassportLogin = () => import('./views/passport/login.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [
@@ -87,6 +101,73 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'pages-forget',
                 meta: { title: '忘记密码' },
                 component: PagesForget
+            }]
+        }, {
+            path: '/components',
+            name: 'components',
+            meta: { title: '定制组件' },
+            component: Components,
+            redirect: '/components/layout',
+            children: [{
+                path: '/components/layout',
+                name: 'components-layout',
+                meta: { title: '基础布局' },
+                component: ComponentsLayout
+            }, {
+                path: '/components/menu',
+                name: 'components-menu',
+                meta: { title: '左侧菜单' },
+                component: ComponentsMenu
+            }, {
+                path: '/components/notice',
+                name: 'components-notice',
+                meta: { title: '消息中心' },
+                component: ComponentsNotice
+            }, {
+                path: '/components/clock',
+                name: 'components-clock',
+                meta: { title: '无聊钟表' },
+                component: ComponentsClock
+            }, {
+                path: '/components/modal',
+                name: 'components-modal',
+                meta: { title: '弹窗提示' },
+                component: ComponentsModal
+            }, {
+                path: '/components/captcha',
+                name: 'components-captcha',
+                meta: { title: '滑块验证' },
+                component: ComponentsCaptcha
+            }, {
+                path: '/components/search',
+                name: 'components-search',
+                meta: { title: '搜索联想' },
+                component: ComponentsSearch
+            }, {
+                path: '/components/password',
+                name: 'components-password',
+                meta: { title: '密码设置' },
+                component: ComponentsPassword
+            }, {
+                path: '/components/dropdown',
+                name: 'components-dropdown',
+                meta: { title: '下拉菜单' },
+                component: ComponentsDropdown
+            }, {
+                path: '/components/anchor',
+                name: 'components-anchor',
+                meta: { title: '锚点链接' },
+                component: ComponentsAnchor
+            }, {
+                path: '/components/history',
+                name: 'components-history',
+                meta: { title: '历史路由' },
+                component: ComponentsHistory
+            }, {
+                path: '/components/code',
+                name: 'components-code',
+                meta: { title: '代码高亮' },
+                component: ComponentsCode
             }]
         }]
     }
