@@ -36,7 +36,7 @@ const MiMenuItem = defineComponent({
         return () => (
             <Menu.Item class={classes.value} key={key}>
                 <MiLink class={styled.link} {...linkProps}>
-                    <MiMenuItemTitle item={props.item} />
+                    <MiMenuItemTitle item={props.item} key={key} />
                 </MiLink>
             </Menu.Item>
         )

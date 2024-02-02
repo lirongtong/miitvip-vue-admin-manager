@@ -234,6 +234,55 @@ export interface NoticeItemContentTokens {
 }
 
 /**
+ * +==========================+
+ * |      导航菜单 - Menu      |
+ * +==========================+
+ * @param background 背景色
+ * @param text 文案色
+ * @param collapsed 收缩菜单后的配置
+ * @param submenu 子菜单配置
+ *
+ * @see MenuSubmenuToken
+ */
+export interface MenuTokens {
+    text: string
+    background: string
+    collapsed: Partial<{ tooltip: Partial<{ text: string; background: string }> }>
+    submenu: Partial<MenuSubmenuToken>
+}
+/**
+ * @param item 子选项的 arrow 配置
+ * @param popup 收缩状态下的子菜单弹窗配置
+ */
+export interface MenuSubmenuToken {
+    item: Partial<{ title: Partial<{ arrow: Partial<{ default: string; active: string }> }> }>
+    popup: Partial<{ text: string; border: string; background: string }>
+}
+/**
+ * @param text 菜单选项的默认文案颜色
+ * @param title 菜单选项的 Title 配置
+ * @param background 菜单选项背景设置
+ *
+ * @see MenuItemTitleTokens
+ * @see GradientTokens
+ */
+export interface MenuItemTokens {
+    text: string
+    title: Partial<MenuItemTitleTokens>
+    background: Partial<{ default: string; active: Partial<GradientTokens> }>
+}
+/**
+ * @param text 标题颜色
+ * @param sub 子标题颜色
+ * @param active 选中状态的标题及子标题颜色配置
+ */
+export interface MenuItemTitleTokens {
+    text: string
+    sub: string
+    active: Partial<{ text: string; sub: string; icon: string }>
+}
+
+/**
  * +====================+
  * |        时钟        |
  * +====================+

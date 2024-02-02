@@ -18,7 +18,9 @@ const MiSubMenu = defineComponent({
         const children = props?.item?.children
         const hasChildren = children && children.length > 0
         const pk = $g.prefix + props?.item?.name
-        const title = <MiMenuItemTitle item={props?.item} activeKey={hasChildren ? pk : ''} />
+        const title = (
+            <MiMenuItemTitle item={props?.item} activeKey={hasChildren ? pk : ''} key={pk} />
+        )
         const key = $g.prefix + props?.item?.name
         const collapsed = computed(() => layoutStore.collapsed)
         applyTheme(styled)

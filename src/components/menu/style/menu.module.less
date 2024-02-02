@@ -55,7 +55,7 @@
             }
 
             & .@{ant-menu-submenu}-arrow {
-                color: var(--mi-menu-submenu-item-title-arrow);
+                color: var(--mi-menu-submenu-item-title-arrow-default);
                 .properties(inset-inline-end);
             }
 
@@ -72,7 +72,7 @@
                 }
 
                 .@{ant-menu-submenu}-arrow {
-                    color: var(--mi-menu-submenu-item-title-active-arrow);
+                    color: var(--mi-menu-submenu-item-title-arrow-active);
                 }
             }
         }
@@ -85,9 +85,7 @@
 
         .ant-tooltip-content {
             .ant-tooltip-arrow {
-                &:before {
-                    background: var(--mi-menu-collapsed-tooltip-background);
-                }
+                display: none;
             }
         }
 
@@ -120,7 +118,7 @@
     --menu-background: var(--mi-background);
     --menu-collapsed-tooltip-background: var(--mi-surface-variant);
     --menu-collapsed-tooltip-text: var(--mi-on-surface-variant);
-    --menu-submenu-item-title-arrow: var(--mi-on-background);
-    --menu-submenu-item-title-active-arrow: var(--mi-on-primary);
+    --menu-submenu-item-title-arrow-default: var(--mi-on-background);
+    --menu-submenu-item-title-arrow-active: var(--mi-on-primary);
 
 }
