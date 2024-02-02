@@ -15,9 +15,11 @@
     background: var(--mi-menu-background);
     .properties(padding-left, 16);
     .properties(padding-right, 16);
-    .hide-scrollbar();
+    .properties(margin-bottom, @mi-margin);
+    max-height: calc(100vh - @mi-sider-logo-container);
     overflow-x: hidden;
     overflow-y: auto;
+    .hide-scrollbar();
 
     :global {
         .ant-menu-item {
