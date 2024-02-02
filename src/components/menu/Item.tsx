@@ -1,11 +1,11 @@
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, type Plugin } from 'vue'
 import { MenuItemProps } from './props'
 import { Menu } from 'ant-design-vue'
 import { $g } from '../../utils/global'
 import { useMenuStore } from '../../stores/menu'
 import { useLayoutStore } from '../../stores/layout'
 import MiLink from '../link'
-import MiMenuTitle from './Title'
+import MiMenuItemTitle from './Title'
 import applyTheme from '../_utils/theme'
 import styled from './style/item.module.less'
 
@@ -36,11 +36,16 @@ const MiMenuItem = defineComponent({
         return () => (
             <Menu.Item class={classes.value} key={key}>
                 <MiLink class={styled.link} {...linkProps}>
-                    <MiMenuTitle item={props.item} />
+                    <MiMenuItemTitle item={props.item} />
                 </MiLink>
             </Menu.Item>
         )
     }
 })
 
-export default MiMenuItem
+MiMenuItem.Title = MiMenuItemTitle
+
+export default MiMenuItem as typeof MiMenuItem &
+    Plugin & {
+        readonly Title: typeof MiMenuItemTitle
+    }

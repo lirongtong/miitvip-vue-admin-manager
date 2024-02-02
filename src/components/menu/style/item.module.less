@@ -1,17 +1,15 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
-    .flex();
+    .transition();
     background-color: var(--mi-menu-item-background-default);
-
-    &.collapsed {
-        > :global(.ant-menu-title-content) {
-            flex: none !important;
-        }
-    }
 
     &.active {
         .gradient-hint(var(--mi-menu-item-background-active-start), var(--mi-menu-item-background-active-hint), var(--mi-menu-item-background-active-stop));
+    }
+
+    &.collapsed {
+        .flex(center, flex-start);
     }
 
     &:hover,

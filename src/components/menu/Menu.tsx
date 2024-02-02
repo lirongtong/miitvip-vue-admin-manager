@@ -10,7 +10,6 @@ import { useLayoutStore } from '../../stores/layout'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import MiSubMenu from './Submenu'
 import MiMenuItem from './Item'
-import MiMenuTitle from './Title'
 import applyTheme from '../_utils/theme'
 import styled from './style/menu.module.less'
 
@@ -157,6 +156,7 @@ const MiMenu = defineComponent({
                 mode="inline"
                 theme={$g.theme.type}
                 inlineIndent={props.indent}
+                inlineCollapsed={collapsed.value}
                 openKeys={openKeys.value}
                 selectedKeys={activeKeys.value}
                 onOpenChange={setOpenKeys}>
@@ -168,10 +168,8 @@ const MiMenu = defineComponent({
 
 MiMenu.SubMenu = MiSubMenu
 MiMenu.Item = MiMenuItem
-MiMenu.Title = MiMenuTitle
 
 export default MiMenu as typeof MiMenu & {
     readonly SubMenu: typeof MiSubMenu
     readonly Item: typeof MiMenuItem
-    readonly Title: typeof MiMenuTitle
 }

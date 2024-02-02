@@ -1,6 +1,6 @@
 import { defineComponent, h, isVNode, ref, computed, Transition } from 'vue'
 import { MenuTitleProperties } from './props'
-import { Row, Tag } from 'ant-design-vue'
+import { Tag } from 'ant-design-vue'
 import { TagsFilled } from '@ant-design/icons-vue'
 import { useLayoutStore } from '../../stores/layout'
 import { useMenuStore } from '../../stores/menu'
@@ -10,27 +10,32 @@ import { getPrefixCls } from '../_utils/props'
 import applyTheme from '../_utils/theme'
 import styled from './style/title.module.less'
 
-const MiMenuTitle = defineComponent({
-    name: 'MiMenuTitle',
+const MiMenuItemTitle = defineComponent({
+    name: 'MiMenuItemTitle',
     inheritAttrs: false,
     props: MenuTitleProperties(),
     setup(props) {
-        const anim = getPrefixCls('anim-fade')
+        const fadeAnim = getPrefixCls('anim-fade')
+        const scaleAnim = getPrefixCls('anim-scale')
         const layoutStore = useLayoutStore()
         const menuStore = useMenuStore()
         const collapsed = computed(() => layoutStore.collapsed)
         const activeKeys = computed(() => menuStore.activeKeys)
         const openKeys = computed(() => menuStore.openKeys)
         const relationshipChain = computed(() => menuStore.relationshipChain)
+        const prefixCls = getPrefixCls('menu-item-title')
         applyTheme(styled)
 
         const renderIcon = () => {
             const icon = props?.item?.meta?.icon || <TagsFilled />
+            const classes = [
+                styled.icon,
+                { [styled.collapsed]: collapsed.value },
+                `${prefixCls}-icon`
+            ]
             return (
-                <Transition name={anim} appear={true}>
-                    <Row class={`${styled.icon}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
-                        {isVNode(icon) ? icon : h(icon)}
-                    </Row>
+                <Transition name={fadeAnim} appear={true}>
+                    <div class={classes}>{isVNode(icon) ? icon : h(icon)}</div>
                 </Transition>
             )
         }
@@ -39,9 +44,9 @@ const MiMenuTitle = defineComponent({
             const title = props?.item?.meta?.title || null
             const subTitle = props?.item?.meta?.subTitle || null
             return (
-                <Transition name={anim} appear={true}>
-                    {title && !collapsed.value ? (
-                        <div class={styled.title}>
+                <Transition name={fadeAnim} appear={true}>
+                    {title ? (
+                        <div class={[styled.title, `${prefixCls}-name`]} v-show={!collapsed.value}>
                             {title ? (
                                 <span
                                     title={title}
@@ -51,7 +56,7 @@ const MiMenuTitle = defineComponent({
                             {subTitle ? (
                                 <span
                                     class={styled.titleSub}
-                                    innerHTML={$tools.beautySub(props?.item?.meta?.subTitle, 7)}
+                                    innerHTML={$tools.beautySub(props?.item?.meta?.subTitle, 8)}
                                     title={subTitle}
                                 />
                             ) : null}
@@ -64,13 +69,14 @@ const MiMenuTitle = defineComponent({
         const renderTag = () => {
             const tag: any = ref(null)
             const tagInfo = props?.item?.meta?.tag || {}
-            if (Object.keys(tagInfo).length > 0 && !collapsed.value) {
+            if (Object.keys(tagInfo).length > 0) {
                 if (tagInfo?.content) {
                     tag.value = (
                         <Tag
-                            class={styled.tag}
+                            class={[styled.tag, `${prefixCls}-tag`]}
                             color={tagInfo?.color}
                             innerHTML={tagInfo.content}
+                            v-show={!collapsed.value}
                             style={{
                                 borderRadius: $tools.convert2rem(
                                     $tools.distinguishSize(tagInfo?.radius)
@@ -79,12 +85,13 @@ const MiMenuTitle = defineComponent({
                         />
                     )
                 } else if (tagInfo?.icon) {
-                    const MiMenuTitleTagIcon: any = isVNode(tagInfo?.icon)
+                    const MiMenuItemTitleTagIcon: any = isVNode(tagInfo?.icon)
                         ? tagInfo?.icon
                         : h(tagInfo?.icon)
                     tag.value = (
-                        <MiMenuTitleTagIcon
-                            class={styled.tag}
+                        <MiMenuItemTitleTagIcon
+                            class={[styled.tag, `${prefixCls}-tag`]}
+                            v-show={!collapsed.value}
                             style={{
                                 color: tagInfo?.color,
                                 fontSize: $tools.convert2rem($tools.distinguishSize(tagInfo?.size)),
@@ -97,7 +104,7 @@ const MiMenuTitle = defineComponent({
                 }
             }
             return (
-                <Transition name={anim} appear={true}>
+                <Transition name={scaleAnim} appear={true}>
                     {tag.value}
                 </Transition>
             )
@@ -108,6 +115,7 @@ const MiMenuTitle = defineComponent({
             return [
                 styled.container,
                 { [styled.active]: activeKeys.value.includes(key) },
+                { [styled.collapsed]: collapsed.value },
                 {
                     [styled.opened]:
                         props?.activeKey &&
@@ -118,13 +126,13 @@ const MiMenuTitle = defineComponent({
         })
 
         return () => (
-            <Row class={classes.value}>
+            <div class={classes.value}>
                 {renderIcon()}
                 {renderTitle()}
                 {renderTag()}
-            </Row>
+            </div>
         )
     }
 })
 
-export default MiMenuTitle
+export default MiMenuItemTitle
