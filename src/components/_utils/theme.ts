@@ -2,7 +2,7 @@ import { onMounted, onUnmounted } from 'vue'
 import { $tools } from '../../utils/tools'
 import { useThemeStore } from '../../stores/theme'
 
-export default function (moduleStyled: any) {
+export default function (moduleStyled: any, destroy = false) {
     onMounted(() => {
         const properties = useThemeStore()?.$state?.properties || {}
         $tools.applyThemeModuleProperties(
@@ -11,5 +11,7 @@ export default function (moduleStyled: any) {
         )
     })
 
-    onUnmounted(() => $tools.destroyThemeModuleProperties(moduleStyled))
+    onUnmounted(() => {
+        if (destroy) $tools.destroyThemeModuleProperties(moduleStyled)
+    })
 }

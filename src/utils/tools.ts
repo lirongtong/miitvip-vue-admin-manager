@@ -37,6 +37,7 @@ class MiTools {
                 if (oldStyle) oldStyle.remove()
                 const style = document.createElement('style')
                 style.setAttribute('id', id)
+                style.setAttribute('data-css-hash', Math.random().toString(36).slice(-8))
                 style.textContent = `:root {${tokens.join('')}}`
                 const head = document.head || document.getElementsByTagName('head')[0]
                 const first = head.firstChild
@@ -519,6 +520,24 @@ class MiTools {
     }
 
     /**
+     * 获取模块css variabled 的唯一 id
+     * @param record
+     * @returns
+     */
+    getThemeModuleId(record: Record<string, any>) {
+        let id = ''
+        for (const key in record) {
+            if (this.isEmpty(id)) {
+                const keys = (key || '').split('-') || []
+                if (keys.length > 0) keys.pop()
+                id = `${$g.prefix}components-${keys.join('-')}-css-variables`
+                break
+            }
+        }
+        return id
+    }
+
+    /**
      * 主题变量
      * @param record
      * @returns
@@ -777,6 +796,8 @@ class MiTools {
  *  - {@link $tools.convert2rem} 转 rem ( 附带单位的字符串 )
  *  - {@link $tools.on} 添加事件监听
  *  - {@link $tools.off} 移除事件监听
+ *  - {@link $tools.getThemeModuleId} 获取模块css variabled 的唯一 id
+ *  - {@link $tools.setThemeModuleTokens} 设置模块的主题变量
  *  - {@link $tools.createThemeProperties} 根据主色调生成主题变量
  *  - {@link $tools.setThemeSchemeProperties} 设置主题变量 ( 全局 )
  *  - {@link $tools.getThemeModuleProperties} 获取主题变量 ( 局部 )
