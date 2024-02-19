@@ -11,13 +11,9 @@
     width: 100%;
     .transition();
     .hide-scrollbar();
-    .properties(padding-left, @mi-sider-width);
+    .properties(padding-left, @mi-margin);
     overflow: hidden;
     position: relative;
-
-    &.collapsed {
-        .properties(padding-left, @mi-sider-width-mini);
-    }
 }
 
 .inner {
@@ -32,6 +28,14 @@
     backdrop-filter: blur(1rem);
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.hasSider {
+    .properties(padding-left, @mi-sider-width);
+
+    &.collapsed {
+        .properties(padding-left, @mi-sider-width-mini);
+    }
 }
 
 :export {
