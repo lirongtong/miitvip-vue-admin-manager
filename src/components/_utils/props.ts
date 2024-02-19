@@ -119,7 +119,7 @@ const getPropSlot = (slots: Slots, props: any, prop = 'default') => {
 
 const getPrefixCls = (suffixCls: string, prefixCls?: string, customizeCls?: string) => {
     if (customizeCls) return customizeCls
-    return `${prefixCls ?? 'mi'}-${suffixCls}`
+    return `${prefixCls ?? 'mi-'}${suffixCls}`
 }
 
 const initProps = <T>(
