@@ -2,7 +2,7 @@
 
 > 「 面包屑导航 」 组件根据 `route` 路由配置信息自动生成面包屑导航数据
 
-## 使用
+## 使用示例
 
 ### 默认
 
@@ -16,7 +16,7 @@
 <mi-breadcrumbs separator="~" />
 ```
 
-### 动画效果
+### 动画
 
 ```html
 <!-- 内置的动画效果请看 animation.module.less -->
@@ -50,6 +50,8 @@
 
 ### Tokens
 
+#### Breadcrumbs Tokens
+
 | Token | 默认值
 | :---- | :----
 | `--mi-breadcrumbs-text-default` | `--mi-on-surface-variant`
@@ -58,7 +60,9 @@
 
 ## API
 
-### `MiBreadcrumbs` 属性 ( `Properties` )
+### MiBreadcrumbs `<mi-breadcrumbs>`
+
+#### `MiBreadcrumbs` 属性 ( `Properties` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
