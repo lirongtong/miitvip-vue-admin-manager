@@ -4,13 +4,13 @@
 
 ## 使用
 
-### 默认状态
+### 默认
 
 ```html
 <mi-notice />
 ```
 
-### 快捷配置 `items` 列表属性
+### 配置 `items` 消息列表
 
 ```html
 <!-- 仅设定 items, 默认采用 mi-notice-item 生成列表 -->
@@ -26,7 +26,7 @@
 </script>
 ```
 
-### 快速配置 `tabs` 消息列表
+### 配置 `tabs` 消息列表
 
 ```html
 <mi-notice v-model:tab-active="active" :width="360" :tabs="tabs" :items="items" />
