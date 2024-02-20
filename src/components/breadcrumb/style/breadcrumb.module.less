@@ -8,4 +8,52 @@
     .flex(center, flex-start);
     flex-wrap: nowrap;
     .ellipsis();
+    .transition();
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: @mi-zindex;
+}
+
+.separator {
+    .properties(margin-right);
+    .properties(margin-left);
+    color: var(--mi-breadcrumbs-text-default);
+}
+
+.item {
+    color: var(--mi-breadcrumbs-text-active);
+    .flex(center, flex-start);
+
+    span {
+        a {
+            .flex();
+
+            :global(.anticon) {
+                .properties(margin-right, 6);
+
+                &-home {
+                    .properties(margin-top, -2);
+                }
+            }
+        }
+    }
+
+    &:last-child {
+        span {
+            a {
+                cursor: default;
+                color: var(--mi-breadcrumbs-text-default);
+            }
+
+            &:last-child {
+                display: none;
+            }
+        }
+    }
+}
+
+:export {
+    --breadcrumbs-text-default: var(--mi-on-surface-variant);
+    --breadcrumbs-text-active: var(--mi-primary);
 }
