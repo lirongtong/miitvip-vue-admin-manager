@@ -7,6 +7,7 @@ import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
 import { default as Menu } from './components/menu'
 import { default as Clock } from './components/clock'
+import { default as Search } from './components/search'
 
 import * as components from './components'
 export * from './components'
@@ -42,6 +43,8 @@ declare module '@vue/runtime-core' {
         MiMenu: typeof Menu
         MiMenuItem: typeof Menu.Item
         MiSubMenu: typeof Menu.SubMenu
+        MiSearch: typeof Search
+        MiSearchKey: typeof Search.Key
     }
 }
 

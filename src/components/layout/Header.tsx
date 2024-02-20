@@ -1,6 +1,8 @@
-import { defineComponent, type SlotsType } from 'vue'
+import { defineComponent, type SlotsType, ref, computed } from 'vue'
 import { LayoutHeaderProps } from './props'
 import { getPropSlot } from '../_utils/props'
+import { useLayoutStore } from '../../stores/layout'
+import MiSearch from '../search/Search'
 import MiBreadcrumb from '../breadcrumb/Breadcrumb'
 import applyTheme from '../_utils/theme'
 import styled from './style/header.module.less'
@@ -9,28 +11,31 @@ const MiLayoutHeader = defineComponent({
     name: 'MiLayoutHeader',
     inheritAttrs: false,
     slots: Object as SlotsType<{
-        stretch: any
         notice: any
         dropdown: any
         breadcrumb: any
+        search: any
         extra: any
     }>,
     props: LayoutHeaderProps(),
     setup(props, { slots }) {
+        const store = useLayoutStore()
+        const collapsed = computed(() => store.collapsed)
+        const searchKey = ref('')
         applyTheme(styled)
 
-        const renderStretch = () => {}
-
         return () => (
-            <header class={styled.container}>
+            <header class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
                 <div class={styled.inner}>
                     <div class={styled.left}>
-                        <div class={styled.trigger}>{renderStretch()}</div>
-                        <div class={styled.trigger}>
-                            {getPropSlot(slots, props, 'breadcrumb') ?? (
-                                <MiBreadcrumb {...props.breadcrumbSetting} />
-                            )}
-                        </div>
+                        {getPropSlot(slots, props, 'breadcrumb') ?? (
+                            <MiBreadcrumb {...props.breadcrumbSetting} />
+                        )}
+                    </div>
+                    <div class={styled.middle}>
+                        {getPropSlot(slots, props, 'search') ?? (
+                            <MiSearch searchKey={searchKey.value} {...props.searchSetting} />
+                        )}
                     </div>
                     <div class={styled.right}></div>
                 </div>

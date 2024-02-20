@@ -11,7 +11,7 @@ import MiNotice from '../notice'
 import applyTheme from '../_utils/theme'
 import styled from './style/logo.module.less'
 
-export default defineComponent({
+const MiLayoutSiderLogo = defineComponent({
     name: 'MiLayoutSiderLogo',
     inheritAttrs: false,
     slots: Object as SlotsType<{
@@ -82,3 +82,5 @@ export default defineComponent({
         )
     }
 })
+
+export default MiLayoutSiderLogo

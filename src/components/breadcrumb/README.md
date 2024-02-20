@@ -19,7 +19,7 @@
 ### 动画
 
 ```html
-<!-- 内置的动画效果请看 animation.module.less -->
+<!-- 内置的动画效果请看 `components/_utils/props` - animations -->
 <mi-breadcrumbs animation="scale" />
 ```
 

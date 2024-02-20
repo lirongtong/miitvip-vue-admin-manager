@@ -1,6 +1,7 @@
 import { object } from 'vue-types'
 import { PropTypes } from '../../utils/types'
 import type { BreadcrumbProperties } from '../breadcrumb/props'
+import type { SearchProperties } from '../search/props'
 import type { NoticeProperties } from '../notice/props'
 
 /**
@@ -34,27 +35,30 @@ export const LayoutProps = () => ({
 
 /**
  * 布局顶栏配置
- * @param stretch 展开/收起按钮配置<Slot />
  * @param notice 消息配置<Slot />
  * @param dropdown 下拉菜单配置<Slot />
  * @param breadcrumb 面包屑配置<Slot />
  * @param breadcrumbSetting 面包屑组件配置
+ * @param search 搜索配置<Slot />
+ * @param searchSetting 搜索组件属性配置
  * @param extra 额外的自定义配置<Slot />(置于右侧)
  */
 export interface LayoutHeaderProperties {
-    stretch: any
     notice: any
     dropdown: any
     breadcrumb: any
-    extra: any
     breadcrumbSetting: Partial<BreadcrumbProperties>
+    search: any
+    searchSetting: Partial<SearchProperties>
+    extra: any
 }
 export const LayoutHeaderProps = () => ({
-    stretch: PropTypes.any,
     notice: PropTypes.any,
     dropdown: PropTypes.any,
     breadcrumb: PropTypes.any,
     breadcrumbSetting: object<Partial<BreadcrumbProperties>>(),
+    search: PropTypes.any,
+    searchSetting: object<Partial<SearchProperties>>(),
     extra: PropTypes.any
 })
 

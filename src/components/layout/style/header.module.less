@@ -2,13 +2,11 @@
 
 .container {
     .transition();
-    .flex(center, space-between);
-    .properties(left, @mi-sider-width);
+    .flex();
     width: 100%;
     .properties(height, @mi-header-height);
-    .properties(padding, 16);
-    position: sticky;
-    top: 0;
+    .properties(margin-top, 4);
+    position: relative;
     z-index: @mi-zindex;
 }
 
@@ -16,13 +14,35 @@
     width: 100%;
     height: 100%;
     position: relative;
-    .radius(48);
+    .flex();
 }
 
 .left,
 .right,
+.middle,
 .trigger {
     .flex();
+}
+
+.left,
+.right,
+.middle {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.left {
+    left: 0;
+}
+
+.middle {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.right {
+    right: 0;
 }
 
 .trigger {
@@ -36,11 +56,4 @@
         .flex();
         .circle();
     }
-}
-
-:export {
-    --layout-header-shadow: var(--mi-shadow);
-    --layout-header-background: var(--mi-background);
-    --layout-header-bar: var(--mi-surface-variant);
-    --layout-header-barBorder: var(--mi-on-surface-variant);
 }

@@ -1,3 +1,4 @@
+import { tuple, animations } from './../_utils/props'
 import { PropTypes } from '../../utils/types'
 
 /**
@@ -11,5 +12,5 @@ export interface BreadcrumbProperties {
 }
 export const BreadcrumbProps = () => ({
     separator: PropTypes.string.def('/'),
-    animation: PropTypes.string.def('breadcrumb')
+    animation: PropTypes.oneOf(tuple(...animations)).def('breadcrumb')
 })

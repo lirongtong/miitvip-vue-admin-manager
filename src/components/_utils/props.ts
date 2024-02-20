@@ -4,6 +4,18 @@ import { $tools } from '../../utils/tools'
 
 export const tuple = <T extends string[]>(...args: T) => args
 
+export const methods = [
+    'get',
+    'post',
+    'put',
+    'patch',
+    'delete',
+    'options',
+    'head',
+    'link',
+    'unlink',
+    'purge'
+]
 export const actions = ['click', 'hover', 'focus', 'contextmenu']
 export const placement = [
     'top',
@@ -18,6 +30,27 @@ export const placement = [
     'leftBottom',
     'rightTop',
     'rightBottom'
+]
+export const animations = [
+    'fade',
+    'scale',
+    'slide',
+    'slide-right',
+    'slide-bottom',
+    'page-slide',
+    'slide-fall',
+    'newspaper',
+    'sticky',
+    'flip',
+    'flip-horizontal',
+    'flip-vertical',
+    'fall',
+    'rotate',
+    'sign',
+    'slit',
+    'shake',
+    'breadcrumb',
+    'anchor'
 ]
 
 const isOn = (key: string) => /^on[^a-z]/.test(key)
