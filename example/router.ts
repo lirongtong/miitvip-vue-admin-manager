@@ -27,7 +27,6 @@ const ComponentsSearch = () => import('./views/components/search.vue')
 const ComponentsClock = () => import('./views/components/clock.vue')
 const ComponentsPassword = () => import('./views/components/password.vue')
 const ComponentsAnchor = () => import('./views/components/anchor.vue')
-const ComponentsHistory = () => import('./views/components/history.vue')
 const ComponentsCode = () => import('./views/components/code.vue')
 
 const PassportLogin = () => import('./views/passport/login.vue')
@@ -158,11 +157,6 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'components-anchor',
                 meta: { title: '锚点链接' },
                 component: ComponentsAnchor
-            }, {
-                path: '/components/history',
-                name: 'components-history',
-                meta: { title: '历史路由' },
-                component: ComponentsHistory
             }, {
                 path: '/components/code',
                 name: 'components-code',

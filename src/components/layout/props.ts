@@ -5,7 +5,6 @@ import type { NoticeProperties } from '../notice/props'
 
 /**
  * 布局属性
- * @param showHistoryMenu 是否显示历史菜单
  * @param showBreadcrumbs 是否显示面包屑
  * @param contentSetting 内容组件的配置参数
  * @param header 顶栏<slot />
@@ -15,7 +14,6 @@ import type { NoticeProperties } from '../notice/props'
  * @param footer 页脚<slot />
  */
 export interface LayoutProperties {
-    showHistoryMenu: boolean
     showBreadcrumbs: boolean
     header: any
     sider: any
@@ -25,7 +23,6 @@ export interface LayoutProperties {
     contentSetting: Partial<LayoutContentProperties>
 }
 export const LayoutProps = () => ({
-    showHistoryMenu: PropTypes.bool.def(true),
     showBreadcrumbs: PropTypes.bool.def(true),
     header: PropTypes.any,
     sider: PropTypes.any,
