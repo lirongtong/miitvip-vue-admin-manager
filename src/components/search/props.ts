@@ -20,6 +20,7 @@ import { animations, tuple, methods } from '../_utils/props'
  * @param listHeight 列表高度
  * @param listRadius 列表圆角弧度
  * @param listAnimation 列表显示动画
+ * @param listNoDataText 空数据提示语
  * @param pagination 搜索列表是否分页
  * @param pageSize 每一页的条数
  * @param data 所有数据
@@ -41,6 +42,7 @@ export interface SearchProperties {
     listHeight: number | string | DeviceSize
     listRadius: number | string | DeviceSize
     listAnimation: string
+    listNoDataText: string
     pagination: boolean
     pageSize: number | string | DeviceSize
     data: Array<any>
@@ -61,9 +63,10 @@ export const SearchProps = () => ({
     listWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]),
     listHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]),
     listRadius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
-        24
+        8
     ),
     listAnimation: PropTypes.oneOf(tuple(...animations)).def('scale'),
+    listNoDataText: PropTypes.string,
     pagination: PropTypes.bool.def(true),
     pageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
         10

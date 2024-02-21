@@ -56,5 +56,6 @@ export default {
         thur: `Thursday`,
         fri: `Friday`,
         sat: `Saturday`
-    }
+    },
+    'no-data': `No data yet`
 }

@@ -2,7 +2,7 @@
 
 .container {
     .flex(center, flex-end);
-    z-index: @mi-zindex + 100;
+    z-index: @mi-zindex + 1000;
     position: relative;
 }
 
@@ -21,6 +21,8 @@
     .properties(height, 32);
     .properties(padding-top);
     .properties(padding-bottom);
+    position: relative;
+    z-index: @mi-zindex + 1000;
 
     &::placeholder {
         color: var(--mi-search-input-placeholder);
@@ -35,8 +37,43 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    z-index: 10;
+    z-index: @mi-zindex + 1000;
     .transition();
+}
+
+.mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    z-index: @mi-zindex + 500;
+}
+
+.list {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    border: 0.0625rem solid var(--mi-search-list-border);
+    background: var(--mi-search-list-background);
+    overflow: hidden;
+    .properties(height, 164);
+    .properties(min-height, 164);
+    transform-origin: top right;
+    .transition();
+    .radius(8);
+    .flex(center, center, column);
+    z-index: @mi-zindex + 1000;
+}
+
+.noData {
+    .flex(center, center, column);
+    .transition();
+
+    :global(.anticon) {
+        .font-size(20);
+    }
 }
 
 .focused {
@@ -56,4 +93,6 @@
     --search-input-background: transparent;
     --search-input-placeholder: var(--mi-on-surface-variant);
     --search-input-border: rgba(var(--mi-rgb-on-surface-variant), .5);
+    --search-list-border: rgba(var(--mi-rgb-on-surface-variant), .5);
+    --search-list-background: transparent;
 }

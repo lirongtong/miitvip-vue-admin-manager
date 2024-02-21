@@ -56,5 +56,6 @@ export default {
         thur: `周四`,
         fri: `周五`,
         sat: `周六`
-    }
+    },
+    'no-data': `暂无符合条件的数据`
 }
