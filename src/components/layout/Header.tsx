@@ -1,7 +1,6 @@
-import { defineComponent, type SlotsType, ref, computed } from 'vue'
+import { defineComponent, type SlotsType, ref } from 'vue'
 import { LayoutHeaderProps } from './props'
 import { getPropSlot } from '../_utils/props'
-import { useLayoutStore } from '../../stores/layout'
 import MiSearch from '../search/Search'
 import MiBreadcrumb from '../breadcrumb/Breadcrumb'
 import applyTheme from '../_utils/theme'
@@ -19,25 +18,22 @@ const MiLayoutHeader = defineComponent({
     }>,
     props: LayoutHeaderProps(),
     setup(props, { slots }) {
-        const store = useLayoutStore()
-        const collapsed = computed(() => store.collapsed)
         const searchKey = ref('')
         applyTheme(styled)
 
         return () => (
-            <header class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
+            <header class={styled.container}>
                 <div class={styled.inner}>
                     <div class={styled.left}>
                         {getPropSlot(slots, props, 'breadcrumb') ?? (
                             <MiBreadcrumb {...props.breadcrumbSetting} />
                         )}
                     </div>
-                    <div class={styled.middle}>
+                    <div class={styled.right}>
                         {getPropSlot(slots, props, 'search') ?? (
                             <MiSearch searchKey={searchKey.value} {...props.searchSetting} />
                         )}
                     </div>
-                    <div class={styled.right}></div>
                 </div>
             </header>
         )

@@ -1,6 +1,59 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
-    .flex();
+    .flex(center, flex-end);
     z-index: @mi-zindex + 100;
+    position: relative;
+}
+
+.input {
+    .ellipsis();
+    background: var(--mi-search-input-background);
+    outline: none;
+    border: .0625rem solid var(--mi-search-input-border);
+    .properties(line-height, 22);
+    .transition();
+    list-style: none;
+    .radius(48);
+    color: var(--mi-search-input-text);
+    .letter-spacing();
+    .properties(width, 72);
+    .properties(height, 32);
+    .properties(padding-top);
+    .properties(padding-bottom);
+
+    &::placeholder {
+        color: var(--mi-search-input-placeholder);
+        .properties(padding-left);
+        .transition();
+    }
+}
+
+.suffix {
+    position: absolute;
+    .properties(right, 12);
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+    .transition();
+}
+
+.focused {
+    .input {
+        .properties(padding-left, 12);
+        .properties(padding-right, 36);
+        width: 100%;
+
+        &::placeholder {
+            padding-left: 0;
+        }
+    }
+}
+
+:export {
+    --search-input-text: var(--mi-primary);
+    --search-input-background: transparent;
+    --search-input-placeholder: var(--mi-on-surface-variant);
+    --search-input-border: rgba(var(--mi-rgb-on-surface-variant), .5);
 }

@@ -19,14 +19,12 @@
 
 .left,
 .right,
-.middle,
 .trigger {
     .flex();
 }
 
 .left,
-.right,
-.middle {
+.right {
     position: absolute;
     top: 0;
     width: 100%;
@@ -36,13 +34,13 @@
     left: 0;
 }
 
-.middle {
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 .right {
-    right: 0;
+    .properties(right, 16);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: @mi-zindex;
+    justify-content: flex-end;
+    width: calc(100% - 1rem);
 }
 
 .trigger {

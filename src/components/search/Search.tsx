@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
+import { SearchOutlined } from '@ant-design/icons-vue'
 import MiSearchKey from './Key'
 import applyTheme from '../_utils/theme'
 import styled from './style/search.module.less'
@@ -46,7 +47,6 @@ const MiSearch = defineComponent({
         const handleFocus = (evt: Event) => {
             params.focused = true
             params.show = true
-            console.log(333)
             emit('focus', evt)
         }
 
@@ -82,23 +82,26 @@ const MiSearch = defineComponent({
 
         const renderSuffix = () => {
             const suffix = getPropSlot(slots, props, 'suffix')
-            return props.suffix ? (
+            return (
                 <div class={styled.suffix} onClick={handleSearch}>
-                    {isVNode(suffix) ? suffix : h(suffix)}
+                    {props.suffix ? isVNode(suffix) ? suffix : h(suffix) : <SearchOutlined />}
                 </div>
-            ) : null
+            )
         }
 
         const renderList = () => {}
 
         return () => (
             <>
-                <div class={styled.container}>
+                <div
+                    class={`${styled.container}${
+                        params.focused || params.keyword ? ` ${styled.focused}` : ''
+                    }`}>
                     <input
                         class={styled.input}
                         name={prefixCls}
                         ref={prefixCls}
-                        placeholder={props.placeholder ?? t('search.placeholder')}
+                        placeholder={props.placeholder || t('search.name')}
                         value={params.keyword}
                         onFocus={handleFocus}
                         onBlur={handleBlur}

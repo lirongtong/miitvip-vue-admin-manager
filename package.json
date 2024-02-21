@@ -57,7 +57,7 @@
     "dependencies": {
         "@ant-design/icons-vue": "^7.0.1",
         "@material/material-color-utilities": "^0.2.7",
-        "ant-design-vue": "^4.1.1",
+        "ant-design-vue": "^4.1.2",
         "axios": "^1.6.2",
         "classnames": "^2.5.1",
         "md5": "^2.3.0",
