@@ -54,6 +54,7 @@ const MiSearch = defineComponent({
                 params.loading = true
                 if (props.searchAction) {
                     if (typeof props.searchAction === 'function') {
+                        props.searchAction()
                     } else {
                         $request[(props.searchMethod || 'post').toLowerCase()](
                             props.searchAction,
@@ -98,7 +99,7 @@ const MiSearch = defineComponent({
                     renderResultList()
                 }
             }
-            if (props.searchDelay) {
+            if (!$tools.isEmpty(props.searchDelay)) {
                 if (params.timer) clearTimeout(params.timer)
                 params.timer = setTimeout(() => search(), parseInt(props.searchDelay.toString()))
             } else search()
@@ -107,7 +108,6 @@ const MiSearch = defineComponent({
         const handleMaskClick = () => {
             params.show = false
             params.focused = false
-            console.log('close')
             emit('close')
         }
 
@@ -128,10 +128,8 @@ const MiSearch = defineComponent({
             const keyword = (evt.target as HTMLInputElement).value
             params.list = []
             params.error = null
-            if (keyword) {
-                params.loading = true
-                handleSearch()
-            } else {
+            if (keyword) handleSearch()
+            else {
                 params.loading = false
                 params.list = params.data || []
             }
@@ -142,7 +140,10 @@ const MiSearch = defineComponent({
         }
 
         const handleKeydown = (evt: KeyboardEvent) => {
-            if (evt.key.toLowerCase() === 'enter') emit('pressEnter', evt)
+            if (evt.key.toLowerCase() === 'enter') {
+                handleSearch()
+                emit('pressEnter', evt)
+            }
             emit('keydown', evt)
         }
 
