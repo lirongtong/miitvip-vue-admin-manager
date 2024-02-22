@@ -25,6 +25,9 @@
 ![pinia](https://img.shields.io/badge/pinia-2.1.7-informational.svg)
 ![vue-i18n](https://img.shields.io/badge/vue%20i18n-9.8.0-default.svg)
 ![axios](https://img.shields.io/badge/axios-1.6.2-red.svg)
+![swiper](https://img.shields.io/badge/swiper-11.0.5-green.svg)
+![nprogress](https://img.shields.io/badge/nprogress-0.2.0-yellow.svg)
+![vue-router](https://img.shields.io/badge/vue%20router-4.2.5-blueviolet.svg)
 
 </div>
 
