@@ -18,6 +18,13 @@
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
 [![npm downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
+![nodejs](https://img.shields.io/badge/nodejs-18.18.2-red.svg)
+![vue](https://img.shields.io/badge/vue-3.4.7-green.svg)
+![vite](https://img.shields.io/badge/vite-5.0.10-yellow.svg)
+![ant design vue](https://img.shields.io/badge/ant%20design%20vue-4.1.2-blueviolet.svg)
+![pinia](https://img.shields.io/badge/pinia-2.1.7-informational.svg)
+![vue-i18n](https://img.shields.io/badge/vue%20i18n-9.8.0-default.svg)
+![axios](https://img.shields.io/badge/axios-1.6.2-red.svg)
 
 </div>
 
