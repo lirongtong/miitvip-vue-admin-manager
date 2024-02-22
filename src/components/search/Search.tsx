@@ -3,7 +3,8 @@ import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
-import { SearchOutlined, FormOutlined } from '@ant-design/icons-vue'
+import { $request } from '../../utils/request'
+import { SearchOutlined, FormOutlined, FrownOutlined } from '@ant-design/icons-vue'
 import MiSearchKey from './Key'
 import applyTheme from '../_utils/theme'
 import styled from './style/search.module.less'
@@ -37,6 +38,7 @@ const MiSearch = defineComponent({
             show: false,
             focused: false,
             error: null,
+            timer: null,
             data: props?.data || [],
             list: props?.data || [],
             animation: {
@@ -46,11 +48,66 @@ const MiSearch = defineComponent({
         })
         applyTheme(styled)
 
-        const handleSearch = () => {}
+        const handleSearch = () => {
+            if (params.loading || !params.keyword) return
+            const search = () => {
+                params.loading = true
+                if (props.searchAction) {
+                    if (typeof props.searchAction === 'function') {
+                    } else {
+                        $request[(props.searchMethod || 'post').toLowerCase()](
+                            props.searchAction,
+                            props.searchParams
+                        )
+                            .then((res: any) => {
+                                params.loading = false
+                                if (res?.ret?.code === 200) {
+                                    params.data = res?.data || []
+                                } else {
+                                    params.error = (
+                                        <>
+                                            <FrownOutlined />
+                                            <p innerHTML={t('search.failed.message')} />
+                                            <p
+                                                innerHTML={t('search.failed.code') + res?.ret?.code}
+                                            />
+                                            <p
+                                                innerHTML={
+                                                    t('search.failed.reason') + res?.ret?.message
+                                                }
+                                            />
+                                        </>
+                                    )
+                                }
+                            })
+                            .catch((err: any) => {
+                                if (params.loading) {
+                                    params.loading = false
+                                    params.error = (
+                                        <>
+                                            <FrownOutlined />
+                                            <p innerHTML={t('search.failed.error')} />
+                                            <p innerHTML={err.message} />
+                                        </>
+                                    )
+                                }
+                            })
+                    }
+                } else {
+                    params.loading = false
+                    renderResultList()
+                }
+            }
+            if (props.searchDelay) {
+                if (params.timer) clearTimeout(params.timer)
+                params.timer = setTimeout(() => search(), parseInt(props.searchDelay.toString()))
+            } else search()
+        }
 
         const handleMaskClick = () => {
             params.show = false
             params.focused = false
+            console.log('close')
             emit('close')
         }
 
@@ -61,14 +118,16 @@ const MiSearch = defineComponent({
         }
 
         const handleBlur = (evt: Event) => {
-            params.focused = !(params.list.length >= 0) && !params.keyword
-            params.show = !!params.keyword
-            emit('blur', evt)
+            setTimeout(() => {
+                params.focused = !(params.list.length >= 0) && !params.keyword
+                emit('blur', evt)
+            }, 0)
         }
 
         const handleInput = (evt: Event) => {
             const keyword = (evt.target as HTMLInputElement).value
             params.list = []
+            params.error = null
             if (keyword) {
                 params.loading = true
                 handleSearch()
@@ -162,11 +221,7 @@ const MiSearch = defineComponent({
                 </div>
                 {params.show ? (
                     <Teleport to="body">
-                        <div
-                            class={styled.mask}
-                            onClick={() => handleMaskClick()}
-                            key={$tools.uid()}
-                        />
+                        <div class={styled.mask} onClick={handleMaskClick} key={$tools.uid()} />
                     </Teleport>
                 ) : null}
             </>

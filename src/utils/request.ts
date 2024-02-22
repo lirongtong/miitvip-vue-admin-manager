@@ -13,6 +13,17 @@ class MiRequest {
 
     constructor() {
         this.instance = this
+        // 拦截器
+        axios.interceptors.request.use(
+            (config: any) => {
+                const token = $cookie.get($g.caches.cookies.token.access)
+                if (token) config.headers.Authorization = `Bearer ${token}`
+                return config
+            },
+            (err) => {
+                return Promise.reject(err)
+            }
+        )
         this.register()
     }
 
