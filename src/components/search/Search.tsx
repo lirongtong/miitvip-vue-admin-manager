@@ -1,4 +1,13 @@
-import { SlotsType, defineComponent, isVNode, h, reactive, Teleport, Transition } from 'vue'
+import {
+    SlotsType,
+    defineComponent,
+    isVNode,
+    h,
+    reactive,
+    Teleport,
+    Transition,
+    type VNode
+} from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
@@ -16,6 +25,7 @@ const MiSearch = defineComponent({
     slots: Object as SlotsType<{
         default: any
         suffix: any
+        itemTemplate: any
     }>,
     emits: [
         'focus',
@@ -45,10 +55,9 @@ const MiSearch = defineComponent({
                 item: getPrefixCls(`anim-slide`)
             },
             delayTimer: null,
-            search: {
-                timer: null,
-                interval: 600,
-                current: 0
+            page: {
+                total: 0,
+                active: 1
             }
         })
         applyTheme(styled)
@@ -185,7 +194,42 @@ const MiSearch = defineComponent({
                 </div>
             ) : null
         }
-        const renderResultList = () => {}
+
+        const renderDefaultResultList = (item: any) => {}
+
+        const renderCustomResultList = (templates: VNode[], item: object) => {}
+
+        const renderResultList = () => {
+            const res: any[] = []
+            const template = getPropSlot(slots, props, 'itemTemplate')
+            let min = 0
+            let max = 0
+            if (props.pagination) {
+                min = (params.page.active - 1) * $tools.distinguishSize(props.pageSize)
+                max = params.page.active * $tools.distinguishSize(props.pageSize)
+            }
+            const key = getPrefixCls(`item-${min}-${max}`)
+            const pushResultItem = (item: {}, elem: any) => {}
+            if (template) {
+                const templates = isVNode(template) ? [template] : template
+                params.list?.forEach((item: {}, idx: number) => {
+                    let elems: any[] = []
+                    if (props.pagination) {
+                        if (idx >= min && idx < max) elems = renderCustomResultList(templates, item)
+                    } else elems = renderCustomResultList(templates, item)
+                    if (elems.length > 0) pushResultItem(item, elems)
+                })
+            } else {
+                params.list?.forEach((item: {}, idx: number) => {
+                    let elem: any = null
+                    if (props.pagination) {
+                        if (idx >= min && idx < max) elem = renderDefaultResultList(item)
+                    } else elem = renderDefaultResultList(item)
+                    if (elem) pushResultItem(item, elem)
+                })
+            }
+        }
+
         const renderPagination = () => {}
 
         const renderList = () => {
