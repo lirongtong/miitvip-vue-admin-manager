@@ -1,6 +1,6 @@
 export default {
     name: `搜索`,
-    searching: `搜索中 ····`,
+    searching: `搜索中 ···`,
     placeholder: `请输入待搜索的关键词`,
     components: `搜索组件`,
     failed: {

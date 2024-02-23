@@ -762,6 +762,23 @@ class MiTools {
             return `${str.substring(0, realNum)}${realNum < str.length ? '...' : ''}`
         } else return str
     }
+
+    /**
+     * 防抖
+     * @param func
+     * @param delay
+     * @returns
+     */
+    debounce(func: Function, delay?: number) {
+        let timer = null
+        return (...args: any) => {
+            if (timer) clearTimeout(timer)
+            timer = setTimeout(() => {
+                func.apply(this, args)
+                timer = null
+            }, delay ?? 0)
+        }
+    }
 }
 
 /**
@@ -808,6 +825,7 @@ class MiTools {
  *  - {@link $tools.distinguishSize} 根据屏幕尺寸大小选取所需尺寸
  *  - {@link $tools.getAntdvThemeProperties} Antdv 的主题配置
  *  - {@link $tools.beautySub} 截取字符串
+ *  - {@link $tools.debounce} 防抖
  */
 export const $tools: MiTools = new MiTools()
 

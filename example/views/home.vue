@@ -1,13 +1,30 @@
 <template>
     <mi-theme>
-        <mi-layout />
+        <mi-layout>
+            <template #header>
+                <mi-layout-header :search-setting="{data: searchData}" />
+            </template>
+        </mi-layout>
     </mi-theme>
 </template>
 
 <script lang="ts" setup>
+import { reactive } from 'vue'
 import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
+// header search data
+const searchData = reactive([
+    {
+        title: `关于 MAP`,
+        summary: `框架特性 · 设计初衷`
+    },
+    {
+        title: `控制中心`,
+        summary: `纵观全局 · 运筹帷幄 · 权倾朝野`
+    }
+])
+// update menus
 const menuStore = useMapMenuStore()
 menuStore.updateMenus([
     {

@@ -5,16 +5,10 @@
     .flex();
     .properties(height, @mi-header-height);
     position: absolute;
-    top: 1.25rem;
-    .properties(top, @mi-margin);
-    .properties(left, @mi-sider-width);
-    width: calc(100% - @mi-sider-width - @mi-margin);
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: @mi-zindex + 1000;
-
-    &.collapsed {
-        .properties(left, @mi-sider-width-mini);
-        width: calc(100% - @mi-sider-width-mini - @mi-margin);
-    }
 }
 
 .inner {

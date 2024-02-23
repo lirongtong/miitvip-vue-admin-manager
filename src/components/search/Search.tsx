@@ -47,7 +47,8 @@ const MiSearch = defineComponent({
             delayTimer: null,
             search: {
                 timer: null,
-                interval: 600
+                interval: 600,
+                current: 0
             }
         })
         applyTheme(styled)
@@ -167,7 +168,23 @@ const MiSearch = defineComponent({
             )
         }
 
-        const renderLoading = () => {}
+        const renderLoading = () => {
+            return params.loading ? (
+                <div class={styled.loading}>
+                    <div class={styled.loadingSpinner}>
+                        <div class={styled.loadingAnim}>
+                            <div>
+                                <div>
+                                    <div />
+                                    <div />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class={styled.loadingText} innerHTML={t('search.searching')} />
+                </div>
+            ) : null
+        }
         const renderResultList = () => {}
         const renderPagination = () => {}
 
@@ -219,7 +236,7 @@ const MiSearch = defineComponent({
                         value={params.keyword}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
-                        onInput={handleInput}
+                        onInput={$tools.debounce(handleInput, 200)}
                         onKeydown={handleKeydown}
                         onKeyup={handleKeyup}
                     />

@@ -1,6 +1,6 @@
 export default {
     name: `Search`,
-    searching: `Searching ····`,
+    searching: `Searching ···`,
     placeholder: `Please enter keywords`,
     components: `Search components`,
     failed: {
