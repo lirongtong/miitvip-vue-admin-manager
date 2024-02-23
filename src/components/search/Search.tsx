@@ -118,10 +118,9 @@ const MiSearch = defineComponent({
         }
 
         const handleBlur = (evt: Event) => {
-            setTimeout(() => {
-                params.focused = !(params.list.length >= 0) && !params.keyword
-                emit('blur', evt)
-            }, 0)
+            params.focused = !(params.list.length >= 0) && !params.keyword
+            params.show = !(params.list.length >= 0) && !params.keyword
+            emit('blur', evt)
         }
 
         const handleInput = (evt: Event) => {
@@ -203,8 +202,7 @@ const MiSearch = defineComponent({
                 <div
                     class={`${styled.container}${
                         params.focused || params.keyword ? ` ${styled.focused}` : ''
-                    }`}
-                    style={{ zIndex: Date.now() }}>
+                    }`}>
                     <input
                         class={styled.input}
                         name={prefixCls}
@@ -222,7 +220,11 @@ const MiSearch = defineComponent({
                 </div>
                 {params.show ? (
                     <Teleport to="body">
-                        <div class={styled.mask} onClick={handleMaskClick} key={$tools.uid()} />
+                        <div
+                            class={styled.mask}
+                            onClick={() => handleMaskClick()}
+                            key={$tools.uid()}
+                        />
                     </Teleport>
                 ) : null}
             </>

@@ -4,12 +4,11 @@
     .properties(padding, 16);
     .flex(center, flex-start);
     flex-wrap: nowrap;
-    .ellipsis();
     .transition();
     position: absolute;
     top: 0;
     left: 0;
-    z-index: @mi-zindex;
+    z-index: @mi-zindex + 1000;
 }
 
 .separator {
@@ -21,6 +20,7 @@
 .item {
     color: var(--mi-breadcrumbs-text-active);
     .flex(center, flex-start);
+    .ellipsis();
 
     span {
         a {

@@ -22,7 +22,6 @@
     .properties(padding-top);
     .properties(padding-bottom);
     position: relative;
-    z-index: @mi-zindex + 1000;
 
     &::placeholder {
         color: var(--mi-search-input-placeholder);
@@ -37,12 +36,12 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    z-index: @mi-zindex + 1000;
+    z-index: 10;
     .transition();
 }
 
 .mask {
-    position: fixed;
+    position: absolute;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
