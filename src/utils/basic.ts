@@ -35,12 +35,6 @@ export default {
         __tree_shaking_basic__ = true
         // 默认主题
         $tools.createThemeProperties($g.theme.primary || '#FFD464')
-        // 标题
-        $tools.setTitle()
-        // 关键词
-        $tools.setKeywords($g.keywords, true)
-        // 描述
-        $tools.setDescription($g.description, true)
         // 窗口大小
         $tools.setWinSize()
         // 轮播

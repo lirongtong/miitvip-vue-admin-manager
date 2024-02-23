@@ -57,5 +57,8 @@ export default {
         fri: `Friday`,
         sat: `Saturday`
     },
-    'no-data': `No data yet`
+    'no-data': `No data yet`,
+    meta: {
+        description: `Makeit Admin Pro is a UI framework built on Vue3.x + Ant Design Vue4.x + Vite5.x that is suitable for backend management projects.The framework has built-in unified style page, such as layout page / registration page / login page and so on, and dynamic menu management, rights management and other common modules, which can be used out-of-box.The original intention of designing this framework is to avoid basic and repetitive page construction in backend management projects, and to encapsulate a series of behaviors within the page to form heavy components (one component ≈ one page), such as layout /Login / registration / forgot password modules, allow developers to focus more on the development of business content without spending too much time on basic construction. It is hoped that Makeit Admin Pro's series of components can provide fast and efficient construction of high-quality middleware. The application is still being improved at this stage and is being developed and updated ....`
+    }
 }

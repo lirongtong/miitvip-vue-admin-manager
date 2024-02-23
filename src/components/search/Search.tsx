@@ -38,17 +38,22 @@ const MiSearch = defineComponent({
             show: false,
             focused: false,
             error: null,
-            timer: null,
             data: props?.data || [],
             list: props?.data || [],
             animation: {
                 list: getPrefixCls(`anim-${props.listAnimation}`),
                 item: getPrefixCls(`anim-slide`)
+            },
+            delayTimer: null,
+            search: {
+                timer: null,
+                interval: 600
             }
         })
         applyTheme(styled)
 
-        const handleSearch = () => {
+        const handleSearch = (evt?: Event) => {
+            if (evt) evt.preventDefault()
             if (params.loading || !params.keyword) return
             const search = () => {
                 params.loading = true
@@ -100,8 +105,11 @@ const MiSearch = defineComponent({
                 }
             }
             if (!$tools.isEmpty(props.searchDelay)) {
-                if (params.timer) clearTimeout(params.timer)
-                params.timer = setTimeout(() => search(), parseInt(props.searchDelay.toString()))
+                if (params.delayTimer) clearTimeout(params.delayTimer)
+                params.delayTimer = setTimeout(
+                    () => search(),
+                    parseInt(props.searchDelay.toString())
+                )
             } else search()
         }
 
@@ -119,7 +127,7 @@ const MiSearch = defineComponent({
 
         const handleBlur = (evt: Event) => {
             params.focused = !(params.list.length >= 0) && !params.keyword
-            params.show = !(params.list.length >= 0) && !params.keyword
+            params.show = params.focused || !!params.keyword
             emit('blur', evt)
         }
 
@@ -153,7 +161,7 @@ const MiSearch = defineComponent({
         const renderSuffix = () => {
             const suffix = getPropSlot(slots, props, 'suffix')
             return (
-                <div class={styled.suffix} onClick={handleSearch}>
+                <div class={styled.suffix} onMousedown={handleSearch}>
                     {props.suffix ? isVNode(suffix) ? suffix : h(suffix) : <SearchOutlined />}
                 </div>
             )

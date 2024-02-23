@@ -1,6 +1,7 @@
 import { defineComponent, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme'
 import { ThemeProps } from './props'
+import { useI18n } from 'vue-i18n'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import styled from './style/theme.module.less'
@@ -10,6 +11,16 @@ const MiTheme = defineComponent({
     inheritAttrs: false,
     props: ThemeProps(),
     setup(props, { slots }) {
+        const { t, te } = useI18n()
+        $tools.setTitle(te('global.meta.title') ? t('global.meta.title') : null)
+        $tools.setKeywords(
+            te('global.meta.keywords') ? t('global.meta.keywords') : $g.keywords,
+            true
+        )
+        $tools.setDescription(
+            te('global.meta.description') ? t('global.meta.description') : $g.description,
+            true
+        )
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
         $g.theme.type = globalThemeVars?.theme || styled?.theme
