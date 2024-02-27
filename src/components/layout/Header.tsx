@@ -19,7 +19,7 @@ const MiLayoutHeader = defineComponent({
     }>,
     props: LayoutHeaderProps(),
     setup(props, { slots }) {
-        const searchKey = ref('')
+        const searchKey = ref('title')
         const store = useLayoutStore()
         const collapsed = computed(() => store.collapsed)
         applyTheme(styled)

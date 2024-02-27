@@ -6,12 +6,15 @@ import {
     reactive,
     Teleport,
     Transition,
-    type VNode
+    type VNode,
+    cloneVNode,
+    Component
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
+import { $g } from '../../utils/global'
 import { $request } from '../../utils/request'
 import { SearchOutlined, FormOutlined, FrownOutlined } from '@ant-design/icons-vue'
 import MiSearchKey from './Key'
@@ -42,6 +45,7 @@ const MiSearch = defineComponent({
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const prefixCls = getPrefixCls('search')
+        const prefixIdx = getPrefixCls('index')
         const params = reactive({
             loading: false,
             keyword: '',
@@ -168,6 +172,10 @@ const MiSearch = defineComponent({
             emit('keyup', evt)
         }
 
+        const handleListItemClick = (data: any, evt?: any) => {
+            emit('itemClick', data, evt)
+        }
+
         const renderSuffix = () => {
             const suffix = getPropSlot(slots, props, 'suffix')
             return (
@@ -195,9 +203,80 @@ const MiSearch = defineComponent({
             ) : null
         }
 
-        const renderDefaultResultList = (item: any) => {}
+        const renderSearchKey = (node: VNode, item: any) => {
+            const nodeProps = node?.props as any
+            const tag = nodeProps?.tag
+            const name = nodeProps?.name
+            const type = nodeProps?.type
+            const key = $tools.uid()
+            return (
+                <MiSearchKey
+                    name={name}
+                    tag={tag}
+                    type={type}
+                    key={key}
+                    data={name !== props.searchKey ? $tools.htmlEncode(item?.name) : item?.name}
+                />
+            )
+        }
 
-        const renderCustomResultList = (templates: VNode[], item: object) => {}
+        const renderDefaultResultList = (item: any) => {
+            const avatar = item?.avatar ? (
+                <div class={styled.itemAvatar}>
+                    <img src={item.avatar} alt={item?.name ?? $g.prowered} />
+                </div>
+            ) : null
+            let icon: any = null
+            if (item?.icon) {
+                const IconTag = isVNode(item.icon) ? item.icon : h(item.icon)
+                icon = <IconTag />
+            }
+            const info = (
+                <div class={styled.itemInfo}>
+                    <div class={styled.itemInfoTitle} innerHTML={item[props.searchKey]} />
+                    <div class={styled.itemInfoSummary} innerHTML={item?.summary || null} />
+                </div>
+            )
+            return (
+                <>
+                    {avatar ?? icon ?? null}
+                    {info}
+                </>
+            )
+        }
+
+        const renderCustomResultList = (templates: VNode[], item: object) => {
+            const elems: any[] = []
+            ;(templates || []).forEach((template: VNode) => {
+                if (isVNode(template)) {
+                    let elem = cloneVNode(template)
+                    if ((template?.type as Component).name === MiSearchKey.name) {
+                        elem = renderSearchKey(template, item)
+                    }
+                    elem = renderCustomResultListItem(elem, item)
+                    elems.push(elem)
+                }
+            })
+            return elems
+        }
+
+        const renderCustomResultListItem = (node: VNode | any, item: object) => {
+            if (node?.children?.length > 0) {
+                const data = { ...item }
+                const children: any[] = []
+                for (let i = 0, l = node.children.length; i < l; i++) {
+                    const cur = node.children[i]
+                    if (isVNode(cur)) {
+                        let child = cloneVNode(cur)
+                        if ((child?.type as Component).name === MiSearchKey.name) {
+                            children[i] = renderSearchKey(child, data)
+                        } else children[i] = child
+                    }
+                }
+                node.children = children
+            }
+            return node
+        }
 
         const renderResultList = () => {
             const res: any[] = []
@@ -209,7 +288,17 @@ const MiSearch = defineComponent({
                 max = params.page.active * $tools.distinguishSize(props.pageSize)
             }
             const key = getPrefixCls(`item-${min}-${max}`)
-            const pushResultItem = (item: {}, elem: any) => {}
+            const pushResultItem = (item: {}, elem: any) => {
+                res.push(
+                    <div
+                        class={styled.item}
+                        onClick={(evt: Event) =>
+                            handleListItemClick(params.data[item[prefixIdx]] || item, evt)
+                        }>
+                        {elem}
+                    </div>
+                )
+            }
             if (template) {
                 const templates = isVNode(template) ? [template] : template
                 params.list?.forEach((item: {}, idx: number) => {
@@ -228,6 +317,13 @@ const MiSearch = defineComponent({
                     if (elem) pushResultItem(item, elem)
                 })
             }
+            return res.length > 0 ? (
+                <Transition name={params.animation.item} appear={true}>
+                    <div class={styled.items} key={key}>
+                        {res}
+                    </div>
+                </Transition>
+            ) : null
         }
 
         const renderPagination = () => {}

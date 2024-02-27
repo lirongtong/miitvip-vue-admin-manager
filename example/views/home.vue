@@ -21,7 +21,7 @@ const searchData = reactive([
     },
     {
         title: `控制中心`,
-        summary: `纵观全局 · 运筹帷幄 · 权倾朝野`
+        summary: `纵观全局 · 运筹帷幄`
     }
 ])
 // update menus

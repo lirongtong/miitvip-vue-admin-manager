@@ -779,6 +779,19 @@ class MiTools {
             }, delay ?? 0)
         }
     }
+
+    /**
+     * HTML转换
+     * @param html
+     * @returns
+     */
+    htmlEncode(html: string) {
+        let temp: HTMLDivElement | null = document.createElement('div') as HTMLDivElement
+        temp.textContent !== null ? (temp.textContent = html) : (temp.innerText = html)
+        const output = temp.innerHTML
+        temp = null
+        return output
+    }
 }
 
 /**
@@ -826,6 +839,7 @@ class MiTools {
  *  - {@link $tools.getAntdvThemeProperties} Antdv 的主题配置
  *  - {@link $tools.beautySub} 截取字符串
  *  - {@link $tools.debounce} 防抖
+ *  - {@link $tools.htmlEncode} HTML转换
  */
 export const $tools: MiTools = new MiTools()
 
