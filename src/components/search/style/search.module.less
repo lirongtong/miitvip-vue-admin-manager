@@ -180,18 +180,29 @@
             .properties(margin-right, 12);
         }
 
+        &-avatar {
+            .properties(width, 20);
+            .properties(height, 20);
+            .circle();
+            .properties(margin-right, 12);
+            border: .0625rem solid var(--mi-search-list-item-avatar-border);
+            transform: scale(1.1);
+            overflow: hidden;
+        }
+
         &-info {
             .flex(flex-start, flex-start, column);
+            overflow: hidden;
 
             &-title {
                 .font-size(14, bold);
                 color: var(--mi-search-list-item-title);
+                .ellipsis();
             }
 
             &-summary {
                 .font-size(12);
-                .ellipsis();
-                .lines(1);
+                .lines(2);
                 color: var(--mi-search-list-item-summary);
             }
         }
@@ -304,6 +315,7 @@
     --search-list-item-divider: rgba(var(--mi-rgb-on-surface-variant), .15);
     --search-list-item-title: var(--mi-on-surface-variant);
     --search-list-item-summary: rgba(var(--mi-rgb-on-surface-variant), .6);
+    --search-list-item-avatar-border: var(--mi-primary);
     --search-list-pagination-border: rgba(var(--mi-rgb-on-surface-variant), .3);
     --search-list-pagination-background: rgba(var(--mi-rgb-surface-variant), .2);
     --search-list-pagination-input-border: rgba(var(--mi-rgb-on-surface-variant), .3);
