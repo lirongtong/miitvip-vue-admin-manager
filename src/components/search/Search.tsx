@@ -16,7 +16,13 @@ import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
 import { $g } from '../../utils/global'
 import { $request } from '../../utils/request'
-import { SearchOutlined, FormOutlined, FrownOutlined } from '@ant-design/icons-vue'
+import {
+    SearchOutlined,
+    FormOutlined,
+    FrownOutlined,
+    LeftCircleOutlined,
+    RightCircleOutlined
+} from '@ant-design/icons-vue'
 import MiSearchKey from './Key'
 import applyTheme from '../_utils/theme'
 import styled from './style/search.module.less'
@@ -68,12 +74,11 @@ const MiSearch = defineComponent({
 
         const handleSearch = (evt?: Event) => {
             if (evt) evt.preventDefault()
-            if (params.loading || !params.keyword) return
-            const search = () => {
-                params.loading = true
+            const search = async () => {
                 if (props.searchAction) {
                     if (typeof props.searchAction === 'function') {
-                        props.searchAction()
+                        await props.searchAction()
+                        params.loading = false
                     } else {
                         $request[(props.searchMethod || 'post').toLowerCase()](
                             props.searchAction,
@@ -83,6 +88,7 @@ const MiSearch = defineComponent({
                                 params.loading = false
                                 if (res?.ret?.code === 200) {
                                     params.data = res?.data || []
+                                    renderSearchResult()
                                 } else {
                                     params.error = (
                                         <>
@@ -115,7 +121,7 @@ const MiSearch = defineComponent({
                     }
                 } else {
                     params.loading = false
-                    renderResultList()
+                    renderSearchResult()
                 }
             }
             if (!$tools.isEmpty(props.searchDelay)) {
@@ -148,13 +154,16 @@ const MiSearch = defineComponent({
         const handleInput = (evt: Event) => {
             const keyword = (evt.target as HTMLInputElement).value
             params.list = []
+            params.page.active = 1
             params.error = null
-            if (keyword) handleSearch()
-            else {
+            params.keyword = keyword
+            if (keyword) {
+                params.loading = true
+                handleSearch()
+            } else {
                 params.loading = false
                 params.list = params.data || []
             }
-            params.keyword = keyword
             emit('update:value', keyword)
             emit('input', keyword, evt)
             emit('change', keyword, evt)
@@ -162,6 +171,7 @@ const MiSearch = defineComponent({
 
         const handleKeydown = (evt: KeyboardEvent) => {
             if (evt.key.toLowerCase() === 'enter') {
+                params.list = []
                 handleSearch()
                 emit('pressEnter', evt)
             }
@@ -174,6 +184,30 @@ const MiSearch = defineComponent({
 
         const handleListItemClick = (data: any, evt?: any) => {
             emit('itemClick', data, evt)
+        }
+
+        const handlePaginationInput = (evt: Event) => {
+            const value = parseInt((evt?.target as HTMLInputElement).value)
+            if (value) params.page.active = value
+            else params.page.active = 1
+            if (value > params.page.total) params.page.active = params.page.total
+        }
+
+        const handlePaginationBlur = (evt: Event) => {
+            handlePaginationInput(evt)
+        }
+
+        const handlePaginationKeydown = (evt: KeyboardEvent) => {
+            if (evt.key.toLowerCase() === 'enter') handlePaginationInput(evt)
+        }
+
+        const handlePaginationPrev = () => {
+            if (params.page.active > 1) params.page.active--
+        }
+
+        const handlePaginationNext = () => {
+            const next = params.page.active + 1
+            if (next <= params.page.total) params.page.active = next
         }
 
         const renderSuffix = () => {
@@ -326,7 +360,66 @@ const MiSearch = defineComponent({
             ) : null
         }
 
-        const renderPagination = () => {}
+        const renderSearchResult = () => {
+            const reg = new RegExp(params.keyword, 'ig')
+            ;(params.data || []).forEach((data: {}, idx: number) => {
+                if (data[props.searchKey] && reg.test(data[props.searchKey])) {
+                    const temp = { ...data }
+                    temp[props.searchKey] = data[props.searchKey].replace(
+                        reg,
+                        `<span class="${styled.searchKey}">${params.keyword}</span>`
+                    )
+                    temp[prefixIdx] = idx
+                    params.list.push(temp)
+                }
+            })
+        }
+
+        const renderPagination = () => {
+            const len = params.list.length
+            if (props.pagination && !params.error && !params.loading && len > 0) {
+                const total = Math.ceil(len / ($tools.distinguishSize(props.pageSize) || 10))
+                params.page.total = total
+                return (
+                    <div class={styled.pagination}>
+                        <div class={styled.paginationPage}>
+                            <span
+                                class={`${styled.paginationPrev}${
+                                    params.page.active <= 1 ? ' disabled' : ''
+                                }`}
+                                title={t('pagination.prev')}
+                                onClick={handlePaginationPrev}>
+                                <LeftCircleOutlined />
+                            </span>
+                            {t('pagination.prefix')}
+                            <input
+                                min={1}
+                                max={total}
+                                type="number"
+                                value={params.page.active}
+                                onInput={handlePaginationInput}
+                                onBlur={handlePaginationBlur}
+                                onKeydown={handlePaginationKeydown}
+                            />{' '}
+                            / {total} {t('pagination.unit')}
+                            <span
+                                class={`${styled.paginationNext}${
+                                    params.page.active >= params.page.total ? ' disabled' : ''
+                                }`}
+                                title={t('pagination.next')}
+                                onClick={handlePaginationNext}>
+                                <RightCircleOutlined />
+                            </span>
+                        </div>
+                        <div class={styled.paginationTotal}>
+                            {t('pagination.total')}
+                            <span innerHTML={len} />
+                            {t('pagination.strip')}
+                        </div>
+                    </div>
+                )
+            }
+        }
 
         const renderList = () => {
             const style = {
@@ -337,14 +430,12 @@ const MiSearch = defineComponent({
             }
             const elem = (
                 <>
-                    {/* no data */}
                     {params.list.length <= 0 && !params.loading && !params.error ? (
                         <div class={styled.noData}>
                             <FormOutlined />
                             <p innerHTML={props.listNoDataText || t('global.no-data')} />
                         </div>
                     ) : null}
-                    {/* error */}
                     {params.error ? <div class={styled.error} innerHTML={params.error} /> : null}
                     {renderLoading()}
                     {renderResultList()}

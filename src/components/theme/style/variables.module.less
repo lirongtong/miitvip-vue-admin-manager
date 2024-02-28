@@ -156,3 +156,10 @@
         display: none;
     }
 }
+
+// backdrop filter blur
+.frosted(@blur: 24) {
+    -webkit-backdrop-filter: blur((@blur / @mi-unit-base) * @mi-unit);
+    -moz-backdrop-filter: blur((@blur / @mi-unit-base) * @mi-unit);
+    backdrop-filter: blur((@blur / @mi-unit-base) * @mi-unit);
+}

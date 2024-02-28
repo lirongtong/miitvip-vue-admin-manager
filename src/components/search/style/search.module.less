@@ -121,6 +121,7 @@
     overflow: hidden;
     .properties(height, 164);
     .properties(min-height, 164);
+    max-height: 100vh;
     transform-origin: top right;
     .transition();
     .radius(8);
@@ -143,7 +144,8 @@
     .input {
         .properties(padding-left, 12);
         .properties(padding-right, 36);
-        width: 100%;
+        .properties(width, 260);
+        max-width: 100vw;
 
         &::placeholder {
             padding-left: 0;
@@ -153,7 +155,8 @@
 
 .items {
     .flex(flex-start, flex-start, column);
-    .properties(padding);
+    .properties(padding, 12);
+    .properties(padding-bottom, 56);
     width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -165,6 +168,7 @@
         .properties(padding-bottom);
         .properties(margin-bottom);
         border-bottom: .0625rem solid var(--mi-search-list-item-divider);
+        cursor: pointer;
 
         &:last-child {
             border-bottom: none;
@@ -176,14 +180,103 @@
 
             &-title {
                 .font-size(14, bold);
+                color: var(--mi-search-list-item-title);
             }
 
             &-summary {
                 .font-size(12);
                 .ellipsis();
                 .lines(1);
+                color: var(--mi-search-list-item-summary);
             }
         }
+    }
+}
+
+.pagination {
+    .flex();
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    .properties(height, 56);
+    border-top: .0625rem solid var(--mi-search-list-pagination-border);
+    .letter-spacing();
+    background-color: var(--mi-search-list-pagination-background);
+    z-index: 1;
+    .frosted();
+    border-radius: 0 0 .5rem .5rem;
+
+    &-page {
+        .flex();
+
+        input {
+            .properties(width, 36);
+            .properties(height, 22);
+            border: .0625rem solid var(--mi-search-list-pagination-input-borde);
+            .radius();
+            .properties(margin-left, 4);
+            .properties(margin-right, 4);
+            outline: none;
+            color: var(--mi-search-list-pagination-input-text);
+            text-align: center;
+            font-weight: bold;
+
+            &:hover,
+            &:focus,
+            &:visited,
+            &:active,
+            &:link {
+                outline: none;
+            }
+
+            &[type="number"] {
+                &::-ms-clear {
+                    display: none;
+                }
+
+                &::-webkit-inner-spin-button,
+                &::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    &-prev,
+    &-next {
+        .transition();
+        .flex();
+        cursor: pointer;
+        color: var(--mi-search-list-pagination-control-default);
+
+        &:global(.disabled) {
+            color: var(--mi-search-list-pagination-control-disabled);
+            cursor: not-allowed;
+        }
+    }
+
+    &-prev {
+        .properties(margin-right);
+    }
+
+    &-next {
+        .properties(margin-left);
+        .properties(margin-right);
+    }
+
+    &-total {
+        > span {
+            .properties(margin-left, 4);
+            .properties(margin-right, 4);
+        }
+    }
+}
+
+.search {
+    &-key {
+        color: var(--mi-search-key);
     }
 }
 
@@ -195,6 +288,7 @@
 }
 
 :export {
+    --search-key: var(--mi-primary);
     --search-loading: var(--mi-primary);
     --search-input-text: var(--mi-primary);
     --search-input-background: transparent;
@@ -202,5 +296,13 @@
     --search-input-border: rgba(var(--mi-rgb-on-surface-variant), .5);
     --search-list-border: rgba(var(--mi-rgb-on-surface-variant), .5);
     --search-list-background: transparent;
-    --search-list-item-divider: rgba(var(--mi-rgb-on-surface-variant), .1);
+    --search-list-item-divider: rgba(var(--mi-rgb-on-surface-variant), .15);
+    --search-list-item-title: var(--mi-on-surface-variant);
+    --search-list-item-summary: rgba(var(--mi-rgb-on-surface-variant), .6);
+    --search-list-pagination-border: rgba(var(--mi-rgb-on-surface-variant), .3);
+    --search-list-pagination-background: rgba(var(--mi-rgb-surface-variant), .2);
+    --search-list-pagination-input-border: rgba(var(--mi-rgb-on-surface-variant), .3);
+    --search-list-pagination-input-text: var(--mi-surface-variant);
+    --search-list-pagination-control-default: var(--mi-on-surface-variant);
+    --search-list-pagination-control-disabled: rgba(var(--mi-rgb-on-surface-variant), .2);
 }
