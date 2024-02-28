@@ -41,6 +41,7 @@ export const LayoutProps = () => ({
  * @param breadcrumbSetting 面包屑组件配置
  * @param search 搜索配置<Slot />
  * @param searchSetting 搜索组件属性配置
+ * @param palette 调色板<Slot />
  * @param extra 额外的自定义配置<Slot />(置于右侧)
  */
 export interface LayoutHeaderProperties {
@@ -50,6 +51,7 @@ export interface LayoutHeaderProperties {
     breadcrumbSetting: Partial<BreadcrumbProperties>
     search: any
     searchSetting: Partial<SearchProperties>
+    palette: any
     extra: any
 }
 export const LayoutHeaderProps = () => ({
@@ -59,6 +61,7 @@ export const LayoutHeaderProps = () => ({
     breadcrumbSetting: object<Partial<BreadcrumbProperties>>(),
     search: PropTypes.any,
     searchSetting: object<Partial<SearchProperties>>(),
+    palette: PropTypes.any,
     extra: PropTypes.any
 })
 

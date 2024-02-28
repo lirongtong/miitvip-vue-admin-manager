@@ -1,6 +1,6 @@
 import { VNode, defineComponent, h } from 'vue'
 import { SearchKeyProps } from './props'
-import MiLink from '../link'
+import MiLink from '../link/Link'
 
 const MiSearchKey = defineComponent({
     name: 'MiSearchKey',

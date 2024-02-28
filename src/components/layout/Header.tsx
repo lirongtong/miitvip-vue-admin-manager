@@ -7,6 +7,7 @@ import { $tools } from '../../utils/tools'
 import { useRouter } from 'vue-router'
 import type { SearchData } from '../../utils/types'
 import MiSearch from '../search/Search'
+import MiPalette from '../palette/Palette'
 import MiBreadcrumb from '../breadcrumb/Breadcrumb'
 import applyTheme from '../_utils/theme'
 import styled from './style/header.module.less'
@@ -19,6 +20,7 @@ const MiLayoutHeader = defineComponent({
         dropdown: any
         breadcrumb: any
         search: any
+        palette: any
         extra: any
     }>,
     props: LayoutHeaderProps(),
@@ -62,6 +64,7 @@ const MiLayoutHeader = defineComponent({
                                 {...props.searchSetting}
                             />
                         )}
+                        {getPropSlot(slots, props, 'palette') ?? <MiPalette />}
                     </div>
                 </div>
             </header>
