@@ -163,7 +163,7 @@
     .hide-scrollbar();
 
     .item {
-        .flex(flex-start, flex-start);
+        .flex(center, flex-start);
         width: 100%;
         .properties(padding-bottom);
         .properties(margin-bottom);
@@ -173,6 +173,11 @@
         &:last-child {
             border-bottom: none;
             padding-bottom: 0;
+        }
+
+        > :global(.anticon) {
+            .font-size(18);
+            .properties(margin-right, 12);
         }
 
         &-info {

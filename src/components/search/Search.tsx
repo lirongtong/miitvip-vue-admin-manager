@@ -145,12 +145,6 @@ const MiSearch = defineComponent({
             emit('focus', evt)
         }
 
-        const handleBlur = (evt: Event) => {
-            params.focused = !(params.list.length >= 0) && !params.keyword
-            params.show = params.focused || !!params.keyword
-            emit('blur', evt)
-        }
-
         const handleInput = (evt: Event) => {
             const keyword = (evt.target as HTMLInputElement).value
             params.list = []
@@ -263,6 +257,7 @@ const MiSearch = defineComponent({
             let icon: any = null
             if (item?.icon) {
                 const IconTag = isVNode(item.icon) ? item.icon : h(item.icon)
+                console.log(<IconTag />)
                 icon = <IconTag />
             }
             const info = (
@@ -466,7 +461,6 @@ const MiSearch = defineComponent({
                         placeholder={props.placeholder || t('search.name')}
                         value={params.keyword}
                         onFocus={handleFocus}
-                        onBlur={handleBlur}
                         onInput={$tools.debounce(handleInput, 200)}
                         onKeydown={handleKeydown}
                         onKeyup={handleKeyup}
