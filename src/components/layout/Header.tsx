@@ -64,7 +64,9 @@ const MiLayoutHeader = defineComponent({
                                 {...props.searchSetting}
                             />
                         )}
-                        {getPropSlot(slots, props, 'palette') ?? <MiPalette />}
+                        <div class={styled.palette}>
+                            {getPropSlot(slots, props, 'palette') ?? <MiPalette />}
+                        </div>
                     </div>
                 </div>
             </header>
