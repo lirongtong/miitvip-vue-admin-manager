@@ -239,18 +239,11 @@ const MiSearch = defineComponent({
         const renderSearchKey = (node: VNode, item: any) => {
             const nodeProps = node?.props as any
             const tag = nodeProps?.tag
-            const name = nodeProps?.name
+            const title = nodeProps?.title
             const type = nodeProps?.type
             const key = $tools.uid()
-            return (
-                <MiSearchKey
-                    name={name}
-                    tag={tag}
-                    type={type}
-                    key={key}
-                    data={name !== props.searchKey ? $tools.htmlEncode(item?.name) : item?.name}
-                />
-            )
+            const content = title !== props.searchKey ? $tools.htmlEncode(item?.title) : item?.title
+            return <MiSearchKey name={title} tag={tag} type={type} key={key} content={content} />
         }
 
         const renderDefaultResultList = (item: any) => {
@@ -302,8 +295,9 @@ const MiSearch = defineComponent({
                     if (isVNode(cur)) {
                         let child = cloneVNode(cur)
                         if ((child?.type as Component).name === MiSearchKey.name) {
-                            children[i] = renderSearchKey(child, data)
+                            children[i] = renderSearchKey(child, item)
                         } else children[i] = child
+                        child = renderCustomResultListItem(child, data)
                     }
                 }
                 node.children = children
@@ -326,7 +320,7 @@ const MiSearch = defineComponent({
                     <div
                         class={styled.item}
                         onClick={(evt: Event) =>
-                            handleListItemClick(params.data[item[prefixIdx]] || item, evt)
+                            handleListItemClick(params.data[item[prefixIdx]] ?? item, evt)
                         }>
                         {elem}
                     </div>

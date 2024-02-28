@@ -39,8 +39,7 @@ const MiLayoutHeader = defineComponent({
                         if (data.query && Object.keys(data.query || {}).length > 0) {
                             url += `?${$tools.getUrlParamsByObj(data.query)}`
                         }
-                        console.log(url)
-                        // window.open(url, '_blank')
+                        window.open(url, '_blank')
                     }
                 } else router.push({ path: data.path, query: data?.query || {} })
             }

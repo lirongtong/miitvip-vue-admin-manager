@@ -18,7 +18,7 @@ const install = (app: App) => {
     if (!_init) {
         _init = true
         app.use(Basic)
-        Object.keys(components).forEach((key: string) => {
+        Object.keys(components || {}).forEach((key: string) => {
             const component = components[key]
             if (component?.install) app.use(component)
         })

@@ -77,3 +77,25 @@ export const SearchProps = () => ({
     data: array<Partial<SearchData>>().def([]),
     zIndex: PropTypes.number
 })
+
+/**
+ * +=========================+
+ * |       Search Key        |
+ * +=========================+
+ * @param name 名称 ( 必填 )
+ * @param tag 标签名称
+ * @param type 类型
+ * @param content 内容
+ */
+export interface SearchKeyProperties {
+    name: string
+    tag: keyof HTMLElementTagNameMap
+    type: 'text' | 'image' | 'link'
+    content: any
+}
+export const SearchKeyProps = () => ({
+    name: PropTypes.string.isRequired,
+    tag: PropTypes.string.def('span'),
+    type: PropTypes.oneOf(tuple(...['text', 'image', 'link'])).def('text'),
+    content: PropTypes.any
+})
