@@ -68,6 +68,10 @@ const MiSearch = defineComponent({
             page: {
                 total: 0,
                 active: 1
+            },
+            size: {
+                width: $tools.distinguishSize(props.width),
+                height: $tools.distinguishSize(props.height)
             }
         })
         applyTheme(styled)
@@ -348,7 +352,11 @@ const MiSearch = defineComponent({
             }
             return res.length > 0 ? (
                 <Transition name={params.animation.item} appear={true}>
-                    <div class={styled.items} key={key}>
+                    <div
+                        class={`${styled.items}${
+                            props.pagination ? ` ${styled.itemsPagination}` : ''
+                        }`}
+                        key={key}>
                         {res}
                     </div>
                 </Transition>
@@ -453,6 +461,8 @@ const MiSearch = defineComponent({
                 <div
                     class={`${styled.container}${
                         params.focused || params.keyword ? ` ${styled.focused}` : ''
+                    }${params.size.width ? ` ${styled.customWidth}` : ''}${
+                        params.size.height ? ` ${styled.customHeight}` : ''
                     }`}>
                     <input
                         class={styled.input}
@@ -464,6 +474,10 @@ const MiSearch = defineComponent({
                         onInput={$tools.debounce(handleInput, 200)}
                         onKeydown={handleKeydown}
                         onKeyup={handleKeyup}
+                        style={{
+                            width: $tools.convert2rem(params.size.width),
+                            height: $tools.convert2rem(params.size.height)
+                        }}
                     />
                     {renderSuffix()}
                     {renderList()}

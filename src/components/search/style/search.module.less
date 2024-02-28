@@ -8,7 +8,8 @@
 
 .input {
     .ellipsis();
-    background: var(--mi-search-input-background);
+    background: var(--mi-search-input-background-color);
+    .gradient(var(--mi-search-input-background-gradient-start), var(--mi-search-input-background-gradient-stop));
     outline: none;
     border: .0625rem solid var(--mi-search-input-border);
     .properties(line-height, 22);
@@ -117,9 +118,10 @@
     position: absolute;
     left: 0;
     border: 0.0625rem solid var(--mi-search-list-border);
-    background: var(--mi-search-list-background);
+    background-color: var(--mi-search-list-background);
+    .gradient(var(--mi-search-list-background-gradient-start), var(--mi-search-list-background-gradient-stop));
     overflow: hidden;
-    .properties(height, 164);
+    .properties(height, 248);
     .properties(min-height, 164);
     max-height: 100vh;
     transform-origin: top right;
@@ -153,14 +155,31 @@
     }
 }
 
+.custom {
+    &-width {
+        .input {
+            line-height: unset;
+        }
+    }
+}
+
 .items {
     .flex(flex-start, flex-start, column);
     .properties(padding, 12);
-    .properties(padding-bottom, 56);
+    padding-bottom: 0;
     width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    .transition();
     overflow-x: hidden;
     overflow-y: auto;
     .hide-scrollbar();
+
+    &-pagination {
+        height: calc(100% - 3.5rem);
+    }
 
     .item {
         .flex(center, flex-start);
@@ -307,11 +326,15 @@
     --search-key: var(--mi-primary);
     --search-loading: var(--mi-primary);
     --search-input-text: var(--mi-primary);
-    --search-input-background: transparent;
+    --search-input-background-color: transparent;
+    --search-input-background-gradient-start: transparent;
+    --search-input-background-gradient-stop: transparent;
     --search-input-placeholder: var(--mi-on-surface-variant);
     --search-input-border: rgba(var(--mi-rgb-on-surface-variant), .5);
     --search-list-border: rgba(var(--mi-rgb-on-surface-variant), .5);
-    --search-list-background: transparent;
+    --search-list-background-color: transparent;
+    --search-list-background-gradient-start: var(--mi-surface);
+    --search-list-background-gradient-stop: var(--mi-surface-variant);
     --search-list-item-divider: rgba(var(--mi-rgb-on-surface-variant), .15);
     --search-list-item-title: var(--mi-on-surface-variant);
     --search-list-item-summary: rgba(var(--mi-rgb-on-surface-variant), .6);
@@ -319,7 +342,7 @@
     --search-list-pagination-border: rgba(var(--mi-rgb-on-surface-variant), .3);
     --search-list-pagination-background: rgba(var(--mi-rgb-surface-variant), .2);
     --search-list-pagination-input-border: rgba(var(--mi-rgb-on-surface-variant), .3);
-    --search-list-pagination-input-text: var(--mi-surface-variant);
+    --search-list-pagination-input-text: var(--mi-shadow);
     --search-list-pagination-control-default: var(--mi-on-surface-variant);
     --search-list-pagination-control-disabled: rgba(var(--mi-rgb-on-surface-variant), .2);
 }

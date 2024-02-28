@@ -1,22 +1,13 @@
 <template>
     <mi-theme>
-        <mi-layout>
-            <template #header>
-                <mi-layout-header :search-setting="{data: searchData, listHeight: 240}" />
-            </template>
-        </mi-layout>
+        <mi-layout />
     </mi-theme>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
-// header search data
-const { tm } = useI18n()
-const searchData = reactive(tm('search.data') as [])
 // update menus
 const menuStore = useMapMenuStore()
 menuStore.updateMenus([
