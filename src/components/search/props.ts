@@ -1,5 +1,5 @@
-import { object } from 'vue-types'
-import { PropTypes, DeviceSize } from '../../utils/types'
+import { object, array } from 'vue-types'
+import { PropTypes, DeviceSize, SearchData } from '../../utils/types'
 import { animations, tuple, methods } from '../_utils/props'
 
 /**
@@ -47,7 +47,7 @@ export interface SearchProperties {
     itemTemplate: any
     pagination: boolean
     pageSize: number | string | DeviceSize
-    data: Array<any>
+    data: Array<Partial<SearchData>>
     zIndex: number
 }
 export const SearchProps = () => ({
@@ -74,6 +74,6 @@ export const SearchProps = () => ({
     pageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
         10
     ),
-    data: PropTypes.array.def([]),
+    data: array<Partial<SearchData>>().def([]),
     zIndex: PropTypes.number
 })

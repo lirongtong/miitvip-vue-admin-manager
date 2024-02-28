@@ -149,6 +149,24 @@ class MiTools {
     }
 
     /**
+     * 通过 `query object` 形成 `url` 参数
+     * @param query
+     * @returns
+     */
+    getUrlParamsByObj(query?: {}) {
+        let res: string = ''
+        if (query && Object.keys(query || {}).length > 0) {
+            const values: string[] = []
+            for (const i in query) {
+                const val = `${i}=${query[i]}`
+                values.push(val)
+            }
+            if (values.length > 0) res = encodeURIComponent(values.join('&'))
+        }
+        return res
+    }
+
+    /**
      * 是否是 `Email`
      * @param email
      * @returns
@@ -805,6 +823,7 @@ class MiTools {
  *  - {@link $tools.isValid} 判断是否有效
  *  - {@link $tools.isNumber} 判断是否为数字
  *  - {@link $tools.isUrl} 判断是否为 `URL`
+ *  - {@link $tools.getUrlParamsByObj} 通过 `query object` 形成 `url` 参数
  *  - {@link $tools.isEmail} 判断是否为 `Email`
  *  - {@link $tools.isMobile} 判断是否为移动端
  *  - {@link $tools.formatEmpty} 格式化空字符串

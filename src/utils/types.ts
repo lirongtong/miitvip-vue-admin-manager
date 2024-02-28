@@ -233,6 +233,7 @@ export interface SizeColor {
  * @param children 子菜单
  *
  * @see MenuItemMeta
+ * @see MenuItemMetaTag
  */
 export interface MenuItem {
     path: string
@@ -252,6 +253,13 @@ export interface MenuItemMeta {
     icon: any
     tag: Partial<MenuItemMetaTag>
 }
+/**
+ * @param color 颜色
+ * @param content 内容
+ * @param icon 图标
+ * @param size 大小
+ * @param radius 圆角弧度
+ */
 export interface MenuItemMetaTag {
     [key: string]: any
     color: string
@@ -259,4 +267,24 @@ export interface MenuItemMetaTag {
     icon: any
     size: string | number | DeviceSize
     radius: string | number | DeviceSize
+}
+
+/**
+ * +============================+
+ * |      联想搜索数据规范       |
+ * +============================+
+ * @param title 标题
+ * @param summary 摘要
+ * @param icon 图标
+ * @param avatar 头像 ( 优先于 `icon` )
+ * @param path 跳转链接
+ */
+export interface SearchData {
+    [key: string]: any
+    title: string
+    summary: string
+    icon: any
+    avatar: string
+    path: string
+    query: Record<string, any>
 }

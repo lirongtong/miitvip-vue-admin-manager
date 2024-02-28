@@ -15,6 +15,7 @@ import { SearchProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
 import { $g } from '../../utils/global'
+import type { SearchData } from '../../utils/types'
 import { $request } from '../../utils/request'
 import {
     SearchOutlined,
@@ -58,8 +59,8 @@ const MiSearch = defineComponent({
             show: false,
             focused: false,
             error: null,
-            data: props?.data || [],
-            list: props?.data || [],
+            data: (props?.data || []) as SearchData[],
+            list: (props?.data || []) as SearchData[],
             animation: {
                 list: getPrefixCls(`anim-${props.listAnimation}`),
                 item: getPrefixCls(`anim-slide`)
@@ -261,7 +262,6 @@ const MiSearch = defineComponent({
             let icon: any = null
             if (item?.icon) {
                 const IconTag = isVNode(item.icon) ? item.icon : h(item.icon)
-                console.log(<IconTag />)
                 icon = <IconTag />
             }
             const info = (
@@ -365,7 +365,7 @@ const MiSearch = defineComponent({
 
         const renderSearchResult = () => {
             const reg = new RegExp(params.keyword, 'ig')
-            ;(params.data || []).forEach((data: {}, idx: number) => {
+            ;(params.data || []).forEach((data: SearchData, idx: number) => {
                 if (data[props.searchKey] && reg.test(data[props.searchKey])) {
                     const temp = { ...data }
                     temp[props.searchKey] = data[props.searchKey].replace(
