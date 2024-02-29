@@ -810,6 +810,39 @@ class MiTools {
         temp = null
         return output
     }
+
+    /**
+     * 默认内置的主题色
+     * @returns
+     */
+    getBuiltinColors() {
+        return {
+            '#000000': '黑色',
+            '#5f6368': '灰色 700',
+            '#9aa0a6': '灰色 500',
+            '#dadce0': '灰色 300',
+            '#f1f3f4': '灰色 100',
+            '#ffffff': '白色',
+            '#f28b82': '红色 300',
+            '#fdd663': '黄色 300',
+            '#81c995': '绿色 300',
+            '#78d9ec': '青色 300',
+            '#8ab4f8': '蓝色 300',
+            '#c58af9': '紫色 300',
+            '#ea4335': '红色 500',
+            '#fbbc04': '黄色 500',
+            '#34a853': '绿色 500',
+            '#24c1e0': '青色 500',
+            '#4285f4': '蓝色 500',
+            '#a142f4': '紫色 500',
+            '#c5221f': '红色 700',
+            '#f29900': '黄色 700',
+            '#188038': '绿色 700',
+            '#12a4af': '青色 700',
+            '#1967d2': '蓝色 700',
+            '#8430ce': '紫色 700'
+        }
+    }
 }
 
 /**
@@ -859,6 +892,7 @@ class MiTools {
  *  - {@link $tools.beautySub} 截取字符串
  *  - {@link $tools.debounce} 防抖
  *  - {@link $tools.htmlEncode} HTML转换
+ *  - {@link $tools.getBuiltinColors} 默认内置的主题色
  */
 export const $tools: MiTools = new MiTools()
 

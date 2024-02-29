@@ -1,0 +1,63 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    z-index: @mi-zindex + 100;
+
+    :global(.ant-popover) {
+        &-content,
+        &-inner {
+            background: var(--mi-palette-background);
+            .frosted();
+            .border(var(--mi-palette-border));
+            .radius(16);
+            .properties(min-width, 160);
+            max-height: calc(100vh - 10rem);
+        }
+
+        &-arrow {
+            &:before {
+                background: var(--mi-palette-background);
+            }
+        }
+    }
+
+    .tabs {
+        .flex();
+
+        span {
+            .properties(padding-left, 12);
+            .properties(padding-right, 12);
+            .properties(height, 28);
+            .flex();
+            .radius(28);
+            .ellipsis();
+            .properties(max-width, 120);
+            cursor: pointer;
+        }
+
+        &-active {
+            color: var(--mi-palette-tab-text);
+            background-color: var(--mi-palette-tab-default);
+            .gradient-hint(var(--mi-palette-tab-active-start), var(--mi-palette-tab-active-hint), var(--mi-palette-tab-active-stop));
+        }
+    }
+
+    .builtin {
+        .properties(width, 288);
+
+        &-swatches {
+            .grid(6, 48);
+        }
+    }
+}
+
+:export {
+    --palette-text: var(--mi-on-surface-variant);
+    --palette-background: var(--mi-surface-variant);
+    --palette-border: var(--mi-surface-variant);
+    --palette-tab-default: transparent;
+    --palette-tab-text: var(--mi-surface);
+    --palette-tab-active-start: var(--mi-primary);
+    --palette-tab-active-hint: var(--mi-secondary);
+    --palette-tab-active-stop: var(--mi-tertiary);
+}

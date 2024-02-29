@@ -112,6 +112,13 @@
     background-image: if(isstring('unknow'), unset, url(@url));
 }
 
+// border
+.border(@color: var(--mi-primary), @width: 1, @style: solid) {
+    border-color: @color;
+    border-width: if((isunit(@width, rem)), @width, (@width / @mi-unit-base) * @mi-unit);
+    border-style: @style;
+}
+
 // fixed
 .fixed(@left: 0, @top: 0) {
     position: fixed;

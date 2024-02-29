@@ -4,11 +4,13 @@ import {
     isVNode,
     h,
     reactive,
-    Teleport,
     Transition,
     type VNode,
     cloneVNode,
-    Component
+    Component,
+    onMounted,
+    onUnmounted,
+    nextTick
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
@@ -54,6 +56,7 @@ const MiSearch = defineComponent({
         const prefixCls = getPrefixCls('search')
         const prefixIdx = getPrefixCls('index')
         const params = reactive({
+            id: $tools.uid(),
             loading: false,
             keyword: '',
             show: false,
@@ -136,12 +139,6 @@ const MiSearch = defineComponent({
                     parseInt(props.searchDelay.toString())
                 )
             } else search()
-        }
-
-        const handleMaskClick = () => {
-            params.show = false
-            params.focused = false
-            emit('close')
         }
 
         const handleFocus = (evt: Event) => {
@@ -450,42 +447,49 @@ const MiSearch = defineComponent({
             )
         }
 
+        const handleClose = (evt: any) => {
+            nextTick().then(() => {
+                const target = evt?.target
+                const elem = document.getElementById(params.id)
+                if (elem && target !== elem && !elem.contains(target)) {
+                    params.focused = false
+                    params.show = false
+                    emit('close')
+                    if (evt.preventDefault) evt.preventDefault()
+                }
+            })
+        }
+
+        onMounted(() => $tools.on(window, 'click', (evt) => handleClose(evt)))
+        onUnmounted(() => $tools.off(window, 'click', (evt) => handleClose(evt)))
+
         return () => (
-            <>
-                <div
-                    class={`${styled.container}${
-                        params.focused || params.keyword ? ` ${styled.focused}` : ''
-                    }${params.size.width ? ` ${styled.customWidth}` : ''}${
-                        params.size.height ? ` ${styled.customHeight}` : ''
-                    }`}>
-                    <input
-                        class={styled.input}
-                        name={prefixCls}
-                        ref={prefixCls}
-                        placeholder={props.placeholder || t('search.name')}
-                        value={params.keyword}
-                        onFocus={handleFocus}
-                        onInput={$tools.debounce(handleInput, 200)}
-                        onKeydown={handleKeydown}
-                        onKeyup={handleKeyup}
-                        style={{
-                            width: $tools.convert2rem(params.size.width),
-                            height: $tools.convert2rem(params.size.height)
-                        }}
-                    />
-                    {renderSuffix()}
-                    {renderList()}
-                </div>
-                {params.show ? (
-                    <Teleport to="body">
-                        <div
-                            class={styled.mask}
-                            onClick={() => handleMaskClick()}
-                            key={$tools.uid()}
-                        />
-                    </Teleport>
-                ) : null}
-            </>
+            <div
+                class={`${styled.container}${
+                    params.focused || params.keyword ? ` ${styled.focused}` : ''
+                }${params.size.width ? ` ${styled.customWidth}` : ''}${
+                    params.size.height ? ` ${styled.customHeight}` : ''
+                }`}
+                id={params.id}>
+                <input
+                    class={styled.input}
+                    name={prefixCls}
+                    ref={prefixCls}
+                    placeholder={props.placeholder || t('search.name')}
+                    value={params.keyword}
+                    autoComplete="off"
+                    onFocus={handleFocus}
+                    onInput={$tools.debounce(handleInput, 200)}
+                    onKeydown={handleKeydown}
+                    onKeyup={handleKeyup}
+                    style={{
+                        width: $tools.convert2rem(params.size.width),
+                        height: $tools.convert2rem(params.size.height)
+                    }}
+                />
+                {renderSuffix()}
+                {renderList()}
+            </div>
         )
     }
 })

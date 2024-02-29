@@ -8,8 +8,8 @@
         &-content,
         &-inner {
             background: var(--mi-notice-background);
-            backdrop-filter: blur(1rem);
-            border: solid .0625rem var(--mi-notice-border);
+            .frosted();
+            .border(var(--mi-notice-border));
             .radius(16);
             max-height: calc(100vh - 10rem);
         }
