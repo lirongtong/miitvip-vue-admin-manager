@@ -4,6 +4,8 @@ import { Popover, Radio } from 'ant-design-vue'
 import { useI18n } from 'vue-i18n'
 import { PaletteProps } from './props'
 import { $tools } from '../../utils/tools'
+import { ColorPicker } from 'vue3-colorpicker'
+import 'vue3-colorpicker/style.css'
 import applyTheme from '../_utils/theme'
 import styled from './style/palette.module.less'
 
@@ -16,6 +18,13 @@ const MiPalette = defineComponent({
         const active = ref<number>(1)
         const builtinColor = ref<string>('')
         applyTheme(styled)
+
+        const handleClick = (key: string) => {
+            if (builtinColor.value !== key) {
+                builtinColor.value = key
+                $tools.createThemeProperties(key)
+            }
+        }
 
         const renderTabs = () => {
             return (
@@ -32,13 +41,6 @@ const MiPalette = defineComponent({
                     />
                 </div>
             )
-        }
-
-        const handleClick = (key: string) => {
-            if (builtinColor.value !== key) {
-                builtinColor.value = key
-                $tools.createThemeProperties(key)
-            }
         }
 
         const renderBulitin = () => {
@@ -73,7 +75,16 @@ const MiPalette = defineComponent({
         }
 
         const renderCustomize = () => {
-            return active.value === 2 ? <div class={styled.customize}></div> : null
+            return active.value === 2 ? (
+                <div class={styled.customize}>
+                    <ColorPicker
+                        class={styled.customizeColor}
+                        isWidget={true}
+                        disableHistory={true}
+                        pickerType="chrome"
+                    />
+                </div>
+            ) : null
         }
 
         const renderContent = () => {

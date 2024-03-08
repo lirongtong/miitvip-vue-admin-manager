@@ -43,7 +43,8 @@ export default defineConfig({
             'swiper/modules',
             'swiper/css/*',
             '@material/material-color-utilities',
-            'vue3-touch-events'
+            'vue3-touch-events',
+            'vue3-colorpicker'
         ]
     },
     server: {
