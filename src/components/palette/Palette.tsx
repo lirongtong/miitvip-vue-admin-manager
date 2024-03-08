@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue'
 import { BgColorsOutlined } from '@ant-design/icons-vue'
-import { Popover } from 'ant-design-vue'
+import { Popover, Radio } from 'ant-design-vue'
 import { useI18n } from 'vue-i18n'
 import { PaletteProps } from './props'
 import { $tools } from '../../utils/tools'
@@ -12,8 +12,9 @@ const MiPalette = defineComponent({
     inheritAttrs: false,
     props: PaletteProps(),
     setup(props) {
-        const { t } = useI18n()
+        const { t, te } = useI18n()
         const active = ref<number>(1)
+        const builtinColor = ref<string>('')
         applyTheme(styled)
 
         const renderTabs = () => {
@@ -22,13 +23,22 @@ const MiPalette = defineComponent({
                     <span
                         class={active.value === 1 ? styled.tabsActive : ''}
                         innerHTML={t('global.builtin')}
+                        onClick={() => (active.value = 1)}
                     />
                     <span
                         class={active.value === 2 ? styled.tabsActive : ''}
                         innerHTML={t('global.customize')}
+                        onClick={() => (active.value = 2)}
                     />
                 </div>
             )
+        }
+
+        const handleClick = (key: string) => {
+            if (builtinColor.value !== key) {
+                builtinColor.value = key
+                $tools.createThemeProperties(key)
+            }
         }
 
         const renderBulitin = () => {
@@ -36,14 +46,28 @@ const MiPalette = defineComponent({
             const swatches = []
             for (const key in colors) {
                 swatches.push(
-                    <div class={styled.builtinSwatchesColor}>
-                        <span style={{ background: key }}></span>
-                    </div>
+                    <Radio class={styled.builtinSwatchesColor} value={key} key={key}>
+                        <span
+                            class={`${styled.builtinSwatchesColorItem}${
+                                builtinColor.value === key
+                                    ? ` ${styled.builtinSwatchesColorItemActive}`
+                                    : ''
+                            }`}
+                            style={{ background: key }}
+                            title={te(`color.${colors[key]}`) ? t(`color.${colors[key]}`) : ''}
+                            onClick={() => handleClick(key)}
+                        />
+                    </Radio>
                 )
             }
             return active.value === 1 ? (
                 <div class={styled.builtin}>
-                    <div classs={styled.builtinSwatches}>{...swatches}</div>
+                    <Radio.Group
+                        name="builtin-color"
+                        value={builtinColor.value}
+                        class={styled.builtinSwatches}>
+                        {...swatches}
+                    </Radio.Group>
                 </div>
             ) : null
         }

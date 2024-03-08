@@ -23,6 +23,7 @@
 
     .tabs {
         .flex();
+        .properties(margin-top);
 
         span {
             .properties(padding-left, 12);
@@ -31,7 +32,7 @@
             .flex();
             .radius(28);
             .ellipsis();
-            .properties(max-width, 120);
+            .properties(max-width, 88);
             cursor: pointer;
         }
 
@@ -44,9 +45,49 @@
 
     .builtin {
         .properties(width, 288);
+        .properties(margin-top, 16);
 
         &-swatches {
-            .grid(6, 48);
+            display: grid;
+            grid-template-columns: repeat(6, 3rem);
+            grid-auto-rows: 4rem;
+            width: 100%;
+
+            :global(.ant-radio-wrapper) {
+                margin-inline-start: 0;
+                margin-inline-end: 0;
+            }
+
+            &-color {
+                .flex();
+                width: 100%;
+                height: 100%;
+
+                :global(.ant-radio) {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    .flex();
+                    opacity: 0;
+                    visibility: hidden;
+                }
+
+                &-item {
+                    .properties(width, 24);
+                    .properties(height, 24);
+                    .circle();
+                    .flex();
+                    .transition();
+
+                    &-active {
+                        .properties(width, 36);
+                        .properties(height, 36);
+                        box-shadow: 0 0 10px #6b6b6b;
+                    }
+                }
+            }
         }
     }
 }
