@@ -4,6 +4,7 @@ import { ThemeProps } from './props'
 import { useI18n } from 'vue-i18n'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
+import { $storage } from '../../utils/storage'
 import styled from './style/theme.module.less'
 
 const MiTheme = defineComponent({
@@ -21,10 +22,11 @@ const MiTheme = defineComponent({
             te('global.meta.description') ? t('global.meta.description') : $g.description,
             true
         )
+        const primaryColor = $storage.get($g.caches.storages.theme)
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
         $g.theme.type = globalThemeVars?.theme || styled?.theme
-        $g.theme.primary = globalThemeVars?.primary || styled?.primary
+        $g.theme.primary = primaryColor || globalThemeVars?.primary || styled?.primary
         $g.theme.radius = parseInt($g?.theme?.radius || globalThemeVars?.radius || styled?.radius)
         $tools.createThemeProperties($g.theme.primary)
         const store = useThemeStore()
