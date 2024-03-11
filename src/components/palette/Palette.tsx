@@ -1,7 +1,6 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { BgColorsOutlined } from '@ant-design/icons-vue'
-import { Popover, Radio } from 'ant-design-vue'
-import { useI18n } from 'vue-i18n'
+import { Popover } from 'ant-design-vue'
 import { PaletteProps } from './props'
 import { $tools } from '../../utils/tools'
 import { ColorPicker } from 'vue3-colorpicker'
@@ -14,87 +13,32 @@ const MiPalette = defineComponent({
     inheritAttrs: false,
     props: PaletteProps(),
     setup(props) {
-        const { t, te } = useI18n()
-        const active = ref<number>(1)
-        const builtinColor = ref<string>('')
         applyTheme(styled)
 
-        const handleClick = (key: string) => {
-            if (builtinColor.value !== key) {
-                builtinColor.value = key
-                $tools.createThemeProperties(key)
-            }
+        const handleColorChange = (hex: string) => {
+            $tools.createThemeProperties(hex)
         }
 
-        const renderTabs = () => {
+        const renderCustomize = () => {
             return (
-                <div class={styled.tabs}>
-                    <span
-                        class={active.value === 1 ? styled.tabsActive : ''}
-                        innerHTML={t('global.builtin')}
-                        onClick={() => (active.value = 1)}
-                    />
-                    <span
-                        class={active.value === 2 ? styled.tabsActive : ''}
-                        innerHTML={t('global.customize')}
-                        onClick={() => (active.value = 2)}
+                <div class={styled.customize}>
+                    <ColorPicker
+                        class={styled.customizeColor}
+                        isWidget={true}
+                        theme="white"
+                        disableHistory={true}
+                        pickerType="chrome"
+                        format="hex"
+                        onPureColorChange={handleColorChange}
                     />
                 </div>
             )
         }
 
-        const renderBulitin = () => {
-            const colors = $tools.getBuiltinColors() || {}
-            const swatches = []
-            for (const key in colors) {
-                swatches.push(
-                    <Radio class={styled.builtinSwatchesColor} value={key} key={key}>
-                        <span
-                            class={`${styled.builtinSwatchesColorItem}${
-                                builtinColor.value === key
-                                    ? ` ${styled.builtinSwatchesColorItemActive}`
-                                    : ''
-                            }`}
-                            style={{ background: key }}
-                            title={te(`color.${colors[key]}`) ? t(`color.${colors[key]}`) : ''}
-                            onClick={() => handleClick(key)}
-                        />
-                    </Radio>
-                )
-            }
-            return active.value === 1 ? (
-                <div class={styled.builtin}>
-                    <Radio.Group
-                        name="builtin-color"
-                        value={builtinColor.value}
-                        class={styled.builtinSwatches}>
-                        {...swatches}
-                    </Radio.Group>
-                </div>
-            ) : null
-        }
-
-        const renderCustomize = () => {
-            return active.value === 2 ? (
-                <div class={styled.customize}>
-                    <ColorPicker
-                        class={styled.customizeColor}
-                        isWidget={true}
-                        disableHistory={true}
-                        pickerType="chrome"
-                    />
-                </div>
-            ) : null
-        }
-
         const renderContent = () => {
             return (
                 <div class={styled.content}>
-                    {renderTabs()}
-                    <div class={styled.contentInner}>
-                        {renderBulitin()}
-                        {renderCustomize()}
-                    </div>
+                    <div class={styled.contentInner}>{renderCustomize()}</div>
                 </div>
             )
         }

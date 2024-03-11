@@ -810,39 +810,6 @@ class MiTools {
         temp = null
         return output
     }
-
-    /**
-     * 默认内置的主题色
-     * @returns
-     */
-    getBuiltinColors() {
-        return {
-            '#000000': 'black',
-            '#5f6368': 'grey700',
-            '#9aa0a6': 'grey500',
-            '#dadce0': 'grey300',
-            '#f1f3f4': 'grey100',
-            '#ffffff': 'white',
-            '#f28b82': 'red300',
-            '#fdd663': 'yellow300',
-            '#81c995': 'green300',
-            '#78d9ec': 'cyan300',
-            '#8ab4f8': 'blue300',
-            '#c58af9': 'purple300',
-            '#ea4335': 'red500',
-            '#fbbc04': 'yellow500',
-            '#34a853': 'green500',
-            '#24c1e0': 'cyan500',
-            '#4285f4': 'blue500',
-            '#a142f4': 'purple500',
-            '#c5221f': 'red700',
-            '#f29900': 'yellow700',
-            '#188038': 'green700',
-            '#12a4af': 'cyan700',
-            '#1967d2': 'blue700',
-            '#8430ce': 'purple700'
-        }
-    }
 }
 
 /**
