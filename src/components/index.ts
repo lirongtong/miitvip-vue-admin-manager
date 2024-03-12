@@ -27,3 +27,9 @@ export { default as Clock } from './clock'
 
 export type { SearchProperties } from './search/props'
 export { default as Search } from './search'
+
+export type { PaletteProperties } from './palette/props'
+export { default as Palette } from './palette'
+
+export type { DropdownProperties, DropdownItemProperties } from './dropdown/props'
+export { default as Dropdown } from './dropdown'
