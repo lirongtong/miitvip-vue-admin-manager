@@ -1,6 +1,14 @@
 import { defineComponent, reactive } from 'vue'
 import { BgColorsOutlined } from '@ant-design/icons-vue'
-import { Popover, Row, Button, message, Switch } from 'ant-design-vue'
+import {
+    Popover,
+    Row,
+    Button,
+    message,
+    Switch,
+    ConfigProvider,
+    theme as AntdvTheme
+} from 'ant-design-vue'
 import { PaletteProps } from './props'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
@@ -20,7 +28,8 @@ const MiPalette = defineComponent({
         const params = reactive({
             hex: $storage.get($g.caches.storages.theme.hex) || '',
             tip: te('global.success') ? t('global.success') : '',
-            checked: $g.caches.storages.theme.type || $g?.theme?.type || 'dark'
+            checked: $storage.get($g.caches.storages.theme.type) || $g?.theme?.type || 'dark',
+            default: '#FFD464'
         })
         applyTheme(styled)
 
@@ -47,8 +56,12 @@ const MiPalette = defineComponent({
         }
 
         const handleColorReset = () => {
-            $storage.del($g.caches.storages.theme.hex)
-            $tools.createThemeProperties('#FFD464')
+            $storage.set($g.caches.storages.theme.type, 'dark')
+            $storage.set($g.caches.storages.theme.hex, params.default)
+            params.checked = 'dark'
+            $g.theme.type = 'dark'
+            params.hex = params.default
+            $tools.createThemeProperties(params.default)
             if (params.tip) {
                 message.destroy()
                 message.success(params.tip)
@@ -60,6 +73,16 @@ const MiPalette = defineComponent({
             if (params.tip) {
                 message.destroy()
                 message.success(params.tip)
+            }
+        }
+
+        const getAntdvSwitchThemeProperties = () => {
+            return {
+                algorithm:
+                    params.checked === 'dark'
+                        ? AntdvTheme.darkAlgorithm
+                        : AntdvTheme.defaultAlgorithm,
+                token: { colorPrimary: params.hex }
             }
         }
 
@@ -83,14 +106,16 @@ const MiPalette = defineComponent({
         const renderSwitch = () => {
             return (
                 <div class={styled.switch}>
-                    <Switch
-                        checked={params.checked}
-                        checkedChildren={t('global.dark')}
-                        checkedValue="dark"
-                        unCheckedChildren={t('global.light')}
-                        unCheckedValue="light"
-                        onChange={handleSwitchChange}
-                    />
+                    <ConfigProvider theme={{ ...getAntdvSwitchThemeProperties() }}>
+                        <Switch
+                            checked={params.checked}
+                            checkedChildren={t('global.dark')}
+                            checkedValue="dark"
+                            unCheckedChildren={t('global.light')}
+                            unCheckedValue="light"
+                            onChange={handleSwitchChange}
+                        />
+                    </ConfigProvider>
                 </div>
             )
         }
