@@ -5,9 +5,16 @@ import { useLayoutStore } from '../../stores/layout'
 import { useI18n } from 'vue-i18n'
 import { $tools } from '../../utils/tools'
 import { useRouter } from 'vue-router'
-import type { SearchData } from '../../utils/types'
+import type { SearchData, DropdownItem } from '../../utils/types'
+import {
+    GithubOutlined,
+    AppstoreAddOutlined,
+    FireFilled,
+    LogoutOutlined
+} from '@ant-design/icons-vue'
 import MiSearch from '../search/Search'
 import MiPalette from '../palette/Palette'
+import MiDropdown from '../dropdown/Dropdown'
 import MiBreadcrumb from '../breadcrumb/Breadcrumb'
 import applyTheme from '../_utils/theme'
 import styled from './style/header.module.less'
@@ -30,6 +37,29 @@ const MiLayoutHeader = defineComponent({
         const store = useLayoutStore()
         const searchKey = ref('title')
         const searchData = ref(tm('search.data') as SearchData[])
+        const dropdownData = ref<Partial<DropdownItem>[]>([
+            {
+                name: 'github',
+                title: 'Github',
+                path: 'https://github.com/lirongtong/miitvip-vue-admin-manager',
+                target: '_blank',
+                icon: GithubOutlined,
+                tag: { content: 'Hot' }
+            },
+            {
+                name: 'npmjs',
+                title: 'NpmJS',
+                path: 'https://www.npmjs.com/package/makeit-admin-pro',
+                target: '_blank',
+                icon: AppstoreAddOutlined,
+                tag: { icon: FireFilled, color: '#ff4d4f' }
+            },
+            {
+                name: 'logout',
+                title: '退出登录',
+                icon: LogoutOutlined
+            }
+        ])
         const collapsed = computed(() => store.collapsed)
         applyTheme(styled)
 
@@ -66,6 +96,11 @@ const MiLayoutHeader = defineComponent({
                         )}
                         <div class={styled.palette}>
                             {getPropSlot(slots, props, 'palette') ?? <MiPalette />}
+                        </div>
+                        <div class={styled.user}>
+                            {getPropSlot(slots, props, 'dropdown') ?? (
+                                <MiDropdown items={dropdownData.value} />
+                            )}
                         </div>
                     </div>
                 </div>

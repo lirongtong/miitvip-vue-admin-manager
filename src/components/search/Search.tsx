@@ -449,13 +449,15 @@ const MiSearch = defineComponent({
 
         const handleClose = (evt: any) => {
             nextTick().then(() => {
-                const target = evt?.target
-                const elem = document.getElementById(params.id)
-                if (elem && target !== elem && !elem.contains(target)) {
-                    params.focused = false
-                    params.show = false
-                    emit('close')
-                    if (evt.preventDefault) evt.preventDefault()
+                if (params.show) {
+                    const target = evt?.target
+                    const elem = document.getElementById(params.id)
+                    if (elem && target !== elem && !elem.contains(target)) {
+                        params.focused = false
+                        params.show = false
+                        emit('close')
+                        if (evt.preventDefault) evt.preventDefault()
+                    }
                 }
             })
         }

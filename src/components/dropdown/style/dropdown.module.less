@@ -1,0 +1,20 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    z-index: @mi-zindex + 1000;
+}
+
+.avatar {
+    .properties(width, 32);
+    .properties(height, 32);
+    overflow: hidden;
+    .flex();
+    .circle();
+
+    :global(.ant-avatar) {
+        width: 100%;
+        height: 100%;
+        transform: scale(1.2);
+        .circle();
+    }
+}

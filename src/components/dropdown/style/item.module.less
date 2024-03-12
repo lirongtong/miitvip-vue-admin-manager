@@ -1,0 +1,34 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .flex(center, flex-start);
+    color: var(--mi-dropdown-item-text);
+    .properties(padding-top, 2);
+    .properties(padding-bottom, 2);
+
+    .title {
+        .properties(margin-left);
+    }
+
+    .tag {
+        color: var(--mi-dropdown-item-tag-text);
+        .gradient-hint(var(--mi-dropdown-item-tag-start), var(--mi-dropdown-item-tag-hint), var(--mi-dropdown-item-tag-stop));
+        .properties(margin-left, 24);
+        .ellipsis();
+        .radius();
+        .properties(padding-left);
+        .properties(padding-right);
+    }
+
+    .icon {
+        .properties(margin-left, 24);
+    }
+}
+
+:export {
+    --dropdown-item-text: var(--mi-on-surface);
+    --dropdown-item-tag-text: var(--mi-surface);
+    --dropdown-item-tag-start: var(--mi-primary);
+    --dropdown-item-tag-hint: var(--mi-secondary);
+    --dropdown-item-tag-stop: var(--mi-tertiary);
+}

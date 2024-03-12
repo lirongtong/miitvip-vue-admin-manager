@@ -149,7 +149,7 @@ export interface GlobalProperties {
     title?: string
     site?: string
     logo?: string
-    powered?: string
+    readonly powered?: string
     keywords?: string
     description?: string
     theme?: Partial<Theme>
@@ -233,7 +233,7 @@ export interface SizeColor {
  * @param children 子菜单
  *
  * @see MenuItemMeta
- * @see MenuItemMetaTag
+ * @see ItemTag
  */
 export interface MenuItem {
     path: string
@@ -251,16 +251,20 @@ export interface MenuItemMeta {
     [key: string]: any
     title: string
     icon: any
-    tag: Partial<MenuItemMetaTag>
+    tag: Partial<ItemTag>
 }
+
 /**
+ * +=====================+
+ * |      项目 Item      |
+ * +=====================+
  * @param color 颜色
  * @param content 内容
  * @param icon 图标
  * @param size 大小
  * @param radius 圆角弧度
  */
-export interface MenuItemMetaTag {
+export interface ItemTag {
     [key: string]: any
     color: string
     content: string
@@ -287,4 +291,33 @@ export interface SearchData {
     avatar: string
     path: string
     query: Record<string, any>
+}
+
+/**
+ * +=====================+
+ * |      下拉选项        |
+ * +=====================+
+ * @param name key 值
+ * @param title 菜单项的标题
+ * @param titleSize 标题大小
+ * @param path 链接地址
+ * @param query 链接参数
+ * @param target 弹窗类型
+ * @param icon 图标
+ * @param iconSize 图标大小
+ * @param tag 标签
+ * @param callback 回调
+ */
+export interface DropdownItem {
+    [key: string]: any
+    name: string
+    title: string
+    titleSize: string | number | DeviceSize
+    path: string
+    query: object
+    target: string
+    icon: any
+    iconSize: string | number | DeviceSize
+    tag: Partial<ItemTag>
+    callback: Function
 }
