@@ -11,6 +11,7 @@ export default {
     update: `更新`,
     submit: `提交`,
     close: `关闭`,
+    logout: `退出登录`,
     delete: {
         normal: `删除`,
         batch: `批量删除`,

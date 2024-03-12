@@ -11,6 +11,7 @@ export default {
     update: `Update`,
     submit: `Submit`,
     close: `Close`,
+    logout: `Logout`,
     delete: {
         normal: `Delete`,
         batch: `Batch Delete`,

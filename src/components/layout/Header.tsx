@@ -32,7 +32,7 @@ const MiLayoutHeader = defineComponent({
     }>,
     props: LayoutHeaderProps(),
     setup(props, { slots }) {
-        const { tm } = useI18n()
+        const { t, tm } = useI18n()
         const router = useRouter()
         const store = useLayoutStore()
         const searchKey = ref('title')
@@ -56,7 +56,7 @@ const MiLayoutHeader = defineComponent({
             },
             {
                 name: 'logout',
-                title: '退出登录',
+                title: t('global.logout'),
                 icon: LogoutOutlined
             }
         ])
