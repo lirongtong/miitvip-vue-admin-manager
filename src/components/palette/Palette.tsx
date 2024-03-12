@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue'
 import { BgColorsOutlined } from '@ant-design/icons-vue'
-import { Popover, Row, Button } from 'ant-design-vue'
+import { Popover, Row, Button, message } from 'ant-design-vue'
 import { PaletteProps } from './props'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
@@ -16,9 +16,20 @@ const MiPalette = defineComponent({
     inheritAttrs: false,
     props: PaletteProps(),
     setup(props) {
-        const { t } = useI18n()
+        const { t, te } = useI18n()
         const HEX = ref<string>($storage.get($g.caches.storages.theme) || '')
+        const tip = ref<string>(te('global.success') ? t('global.success') : '')
         applyTheme(styled)
+
+        const handleOpenChange = (visible: boolean) => {
+            if (!visible) {
+                const hex = $storage.get($g.caches.storages.theme) || ''
+                if (HEX.value !== hex) {
+                    $tools.createThemeProperties(hex)
+                    HEX.value = hex
+                }
+            }
+        }
 
         const handleColorChange = (hex: string) => {
             HEX.value = hex
@@ -26,12 +37,20 @@ const MiPalette = defineComponent({
         }
 
         const handleColorReset = () => {
-            $storage.del($g.caches.storages.theme, HEX.value)
-            $tools.createThemeProperties($g?.theme?.primary || '#FFD464')
+            $storage.del($g.caches.storages.theme)
+            $tools.createThemeProperties('#FFD464')
+            if (tip.value) {
+                message.destroy()
+                message.success(tip.value)
+            }
         }
 
         const handleColorSave = () => {
             $storage.set($g.caches.storages.theme, HEX.value)
+            if (tip.value) {
+                message.destroy()
+                message.success(tip.value)
+            }
         }
 
         const renderCustomize = () => {
@@ -80,6 +99,7 @@ const MiPalette = defineComponent({
                 overlayClassName={styled.container}
                 trigger={props.trigger}
                 placement={props.placement}
+                onOpenChange={handleOpenChange}
                 content={renderContent()}>
                 <BgColorsOutlined />
             </Popover>
