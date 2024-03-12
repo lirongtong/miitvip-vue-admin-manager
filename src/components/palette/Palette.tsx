@@ -52,6 +52,7 @@ const MiPalette = defineComponent({
 
         const handleColorChange = (hex: string) => {
             params.hex = hex
+            $g.theme.primary = hex
             $tools.createThemeProperties(hex)
         }
 
