@@ -1,5 +1,5 @@
 <template>
-    <mi-code language="js" :content="content" />
+    <mi-code language="shell" :content="content" />
 </template>
 
 <script setup lang="ts">

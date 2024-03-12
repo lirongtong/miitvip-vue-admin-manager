@@ -5,12 +5,21 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
 // update menus
 const menuStore = useMapMenuStore()
 menuStore.updateMenus([
+    {
+        name: 'about',
+        path: '/about',
+        meta: {
+            title: '关于 MAP',
+            subTitle: 'About us',
+            icon: InfoCircleOutlined
+        }
+    },
     {
         name: 'dashboard',
         path: '/dashboard',

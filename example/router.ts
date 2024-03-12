@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const Home = () => import('./views/home.vue')
+const About = () => import('./views/about.vue')
 const Dashboard = () => import('./views/dashboard.vue')
 const Start = () => import('./views/start.vue')
 const Theming = () => import('./views/theming.vue')
@@ -36,8 +37,13 @@ const menuRoutes: Array<RouteRecordRaw> = [
         path: '/',
         meta: { title: '首页' },
         component: Home,
-        redirect: '/dashboard',
+        redirect: '/about',
         children: [{
+            path: 'about',
+            name: 'about',
+            meta: { title: '关于 MAP' },
+            component: About
+        }, {
             path: 'dashboard',
             name: 'dashboard',
             meta: { title: '控制中心' },
