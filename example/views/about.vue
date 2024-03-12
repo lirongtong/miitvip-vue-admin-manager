@@ -1,1 +1,3 @@
-<template>About</template>
+<template>
+    <mi-title title="Makeit Admin Pro" />
+</template>

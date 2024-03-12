@@ -36,3 +36,6 @@ export { default as Dropdown } from './dropdown'
 
 export type { CodeProperties } from './code/props'
 export { default as Code } from './code'
+
+export type { TitleProperties } from './title/props'
+export { default as Title } from './title'

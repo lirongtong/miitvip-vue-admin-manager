@@ -1,0 +1,69 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .flex();
+    width: 100%;
+
+    .inner {
+        .flex(center, space-between);
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .center {
+        align-items: center;
+        justify-content: center;
+
+        .content {
+            &:after {
+                left: calc(50% - 1rem);
+            }
+        }
+    }
+
+    .content {
+        position: relative;
+        .font-size(32, bold);
+
+        @media only screen and (max-width: @mi-md) {
+            width: 100%;
+        }
+
+        &:after {
+            position: absolute;
+            left: 0;
+            .properties(bottom, -8);
+            .properties(width, 32);
+            .properties(height, 2);
+            content: '';
+            .gradient-hint(var(--mi-title-undeline-start), var(--mi-title-undeline-hint), var(--mi-title-undeline-stop));
+            .flex();
+        }
+    }
+
+    .extra {
+        .flex();
+        position: relative;
+
+        @media only screen and (max-width: @mi-md) {
+            .properties(margin-top, 32);
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        > div {
+            .flex(flex-start, flex-start);
+
+            @media only screen and (max-width: @mi-md) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+:export {
+    --title-undeline-start: var(--mi-primary);
+    --title-undeline-hint: var(--mi-secondary);
+    --title-undeline-stop: var(--mi-tertiary);
+}
