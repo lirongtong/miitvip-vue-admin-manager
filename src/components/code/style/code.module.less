@@ -1,0 +1,80 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    position: relative;
+
+    :global {
+        pre[class*="language-"] {
+            .properties(padding, 16);
+            white-space: pre-line;
+            background: var(--mi-code-background);
+            border: .0625rem solid var(--mi--code-border);
+            .radius(8);
+            position: relative;
+
+            code {
+                padding: 0;
+                margin: 0;
+            }
+
+            &::-webkit-scrollbar {
+                .properties(height, 4);
+            }
+        
+            &::-webkit-scrollbar-thumb {
+                .radius(2);
+                background: var(--mi-code-scrollbar);
+            }
+        }
+
+        code {
+            .properties(padding-top, 2);
+            .properties(padding-bottom, 2);
+            .properties(padding-left, 6);
+            .properties(padding-right, 6);
+            .properties(margin-right, 6);
+            .properties(margin-left, 6);
+        }
+    }
+
+    .title {
+        .flex(center, flex-start);
+        position: sticky;
+        top: 0;
+        left: 0;
+        .properties(margin-bottom);
+
+        span {
+            .properties(width, 14);
+            .properties(height, 14);
+            .circle();
+        }
+
+        span + span {
+            .properties(margin-left, 12);
+        }
+
+        &-dot {
+            &-red {
+                background: var(--mi-code-dot-red);
+            }
+
+            &-orange {
+                background: var(--mi-code-dot-orange);
+            }
+
+            &-green {
+                background: var(--mi-code-dot-green);
+            }
+        }
+    }
+}
+
+:export {
+    --code-scrollbar: var(--mi-primary);
+    --code-background: var(--mi-background);
+    --code-border: var(--mi-background);
+    --code-dot-red: var(--mi-primary);
+    --code-dot-orange: var(--mi-secondary);
+    --code-dot-green: var(--mi-tertiary);
+}

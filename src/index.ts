@@ -10,6 +10,7 @@ import { default as Clock } from './components/clock'
 import { default as Search } from './components/search'
 import { default as Palette } from './components/palette'
 import { default as Dropdown } from './components/dropdown'
+import { default as Code } from './components/code'
 
 import * as components from './components'
 export * from './components'
@@ -50,6 +51,7 @@ declare module '@vue/runtime-core' {
         MiPalette: typeof Palette
         MiDropdown: typeof Dropdown
         MiDropdownItem: typeof Dropdown.Item
+        MiCode: typeof Code
     }
 }
 
