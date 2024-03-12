@@ -22,10 +22,11 @@ const MiTheme = defineComponent({
             te('global.meta.description') ? t('global.meta.description') : $g.description,
             true
         )
-        const primaryColor = $storage.get($g.caches.storages.theme)
+        const primaryColor = $storage.get($g.caches.storages.theme.hex)
+        const themeType = $storage.get($g.caches.storages.theme.type)
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
-        $g.theme.type = globalThemeVars?.theme || styled?.theme
+        $g.theme.type = themeType || globalThemeVars?.theme || styled?.theme
         $g.theme.primary = primaryColor || globalThemeVars?.primary || styled?.primary
         $g.theme.radius = parseInt($g?.theme?.radius || globalThemeVars?.radius || styled?.radius)
         $tools.createThemeProperties($g.theme.primary)

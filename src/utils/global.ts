@@ -58,7 +58,10 @@ export const $g = reactive({
     },
     caches: {
         storages: {
-            theme: 'theme-color-hex',
+            theme: {
+                type: 'theme-type',
+                hex: 'theme-color-hex'
+            },
             user: 'user-info',
             email: 'user-email',
             locale: 'language-locale',

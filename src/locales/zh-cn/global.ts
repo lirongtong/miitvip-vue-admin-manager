@@ -57,5 +57,7 @@ export default {
         fri: `周五`,
         sat: `周六`
     },
+    dark: `深色`,
+    light: `浅色`,
     'no-data': `暂无符合条件的数据`
 }

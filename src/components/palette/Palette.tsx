@@ -1,6 +1,6 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { BgColorsOutlined } from '@ant-design/icons-vue'
-import { Popover, Row, Button, message } from 'ant-design-vue'
+import { Popover, Row, Button, message, Switch } from 'ant-design-vue'
 import { PaletteProps } from './props'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
@@ -17,39 +17,49 @@ const MiPalette = defineComponent({
     props: PaletteProps(),
     setup(props) {
         const { t, te } = useI18n()
-        const HEX = ref<string>($storage.get($g.caches.storages.theme) || '')
-        const tip = ref<string>(te('global.success') ? t('global.success') : '')
+        const params = reactive({
+            hex: $storage.get($g.caches.storages.theme.hex) || '',
+            tip: te('global.success') ? t('global.success') : '',
+            checked: $g.caches.storages.theme.type || $g?.theme?.type || 'dark'
+        })
         applyTheme(styled)
 
         const handleOpenChange = (visible: boolean) => {
             if (!visible) {
-                const hex = $storage.get($g.caches.storages.theme) || ''
-                if (HEX.value !== hex) {
+                const hex = $storage.get($g.caches.storages.theme.hex) || ''
+                if (params.hex !== hex) {
                     $tools.createThemeProperties(hex)
-                    HEX.value = hex
+                    params.hex = hex
                 }
             }
         }
 
+        const handleSwitchChange = (checked: 'dark' | 'light') => {
+            params.checked = checked
+            $g.theme.type = checked
+            $storage.set($g.caches.storages.theme.type, checked)
+            $tools.createThemeProperties(params.hex)
+        }
+
         const handleColorChange = (hex: string) => {
-            HEX.value = hex
+            params.hex = hex
             $tools.createThemeProperties(hex)
         }
 
         const handleColorReset = () => {
-            $storage.del($g.caches.storages.theme)
+            $storage.del($g.caches.storages.theme.hex)
             $tools.createThemeProperties('#FFD464')
-            if (tip.value) {
+            if (params.tip) {
                 message.destroy()
-                message.success(tip.value)
+                message.success(params.tip)
             }
         }
 
         const handleColorSave = () => {
-            $storage.set($g.caches.storages.theme, HEX.value)
-            if (tip.value) {
+            $storage.set($g.caches.storages.theme.hex, params.hex)
+            if (params.tip) {
                 message.destroy()
-                message.success(tip.value)
+                message.success(params.tip)
             }
         }
 
@@ -60,11 +70,26 @@ const MiPalette = defineComponent({
                         class={styled.customizeColor}
                         isWidget={true}
                         theme="white"
-                        pureColor={HEX.value}
+                        pureColor={params.hex}
                         disableHistory={true}
                         pickerType="chrome"
                         format="hex"
                         onPureColorChange={handleColorChange}
+                    />
+                </div>
+            )
+        }
+
+        const renderSwitch = () => {
+            return (
+                <div class={styled.switch}>
+                    <Switch
+                        checked={params.checked}
+                        checkedChildren={t('global.dark')}
+                        checkedValue="dark"
+                        unCheckedChildren={t('global.light')}
+                        unCheckedValue="light"
+                        onChange={handleSwitchChange}
                     />
                 </div>
             )
@@ -87,6 +112,7 @@ const MiPalette = defineComponent({
             return (
                 <div class={styled.content}>
                     <div class={styled.contentInner}>
+                        {renderSwitch()}
                         {renderCustomize()}
                         {renderButton()}
                     </div>
