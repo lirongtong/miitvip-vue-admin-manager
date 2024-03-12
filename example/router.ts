@@ -29,6 +29,8 @@ const ComponentsClock = () => import('./views/components/clock.vue')
 const ComponentsPassword = () => import('./views/components/password.vue')
 const ComponentsAnchor = () => import('./views/components/anchor.vue')
 const ComponentsCode = () => import('./views/components/code.vue')
+const ComponentsTitle = () => import('./views/components/title.vue')
+const ComponentsQuote = () => import('./views/components/quote.vue')
 
 const PassportLogin = () => import('./views/passport/login.vue')
 
@@ -168,6 +170,16 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'components-code',
                 meta: { title: '代码高亮' },
                 component: ComponentsCode
+            }, {
+                path: '/components/title',
+                name: 'components-title',
+                meta: { title: '标题设置' },
+                component: ComponentsTitle
+            }, {
+                path: '/components/quote',
+                name: 'components-quote',
+                meta: { title: '引用说明' },
+                component: ComponentsQuote
             }]
         }]
     }

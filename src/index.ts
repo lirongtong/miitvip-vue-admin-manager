@@ -12,6 +12,7 @@ import { default as Palette } from './components/palette'
 import { default as Dropdown } from './components/dropdown'
 import { default as Code } from './components/code'
 import { default as Title } from './components/title'
+import { default as Quote } from './components/quote'
 
 import * as components from './components'
 export * from './components'
@@ -54,6 +55,7 @@ declare module '@vue/runtime-core' {
         MiDropdownItem: typeof Dropdown.Item
         MiCode: typeof Code
         MiTitle: typeof Title
+        MiQuote: typeof Quote
     }
 }
 

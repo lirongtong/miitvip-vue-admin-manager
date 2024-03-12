@@ -39,3 +39,6 @@ export { default as Code } from './code'
 
 export type { TitleProperties } from './title/props'
 export { default as Title } from './title'
+
+export type { QuoteProperties } from './quote/props'
+export { default as Quote } from './quote'

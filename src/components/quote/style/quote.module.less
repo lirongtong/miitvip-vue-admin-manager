@@ -1,0 +1,28 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .properties(margin-top, 24);
+    .properties(margin-bottom, 24);
+    .properties(padding, 24);
+    .radius(8);
+    .gradient-hint(var(--mi-quote-background-start), var(--mi-quote-background-hint), var(--mi-quote-background-stop));
+    color: var(--mi-quote-text);
+    overflow: hidden;
+
+    @media only screen and (max-width: @mi-md) {
+        .properties(padding, 16);
+    }
+
+    li {
+        list-style: circle;
+        .properties(margin-left, 20);
+        .properties(padding-left, 4);
+    }
+}
+
+:export {
+    --quote-text: var(--mi-on-secondary);
+    --quote-background-start: var(--mi-primary);
+    --quote-background-hint: var(--mi-secondary);
+    --quote-background-stop: var(--mi-tertiary);
+}

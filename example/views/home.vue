@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
 // update menus
@@ -221,6 +221,22 @@ menuStore.updateMenus([
                 title: '代码高亮',
                 subTitle: 'Code',
                 icon: CodeOutlined
+            }
+        }, {
+            name: 'components-title',
+            path: '/components/title',
+            meta: {
+                title: '标题设置',
+                subTitle: 'Title',
+                icon: HighlightOutlined
+            }
+        }, {
+            name: 'components-quote',
+            path: '/components/quote',
+            meta: {
+                title: '引用说明',
+                subTitle: 'Quote',
+                icon: ExclamationCircleOutlined
             }
         }]
     }
