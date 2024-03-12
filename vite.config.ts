@@ -36,7 +36,6 @@ export default defineConfig({
             'pinia',
             'md5',
             'prismjs',
-            'screenfull',
             'style-inject',
             'vue-types',
             'swiper/element/bundle',

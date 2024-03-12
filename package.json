@@ -64,7 +64,6 @@
         "nprogress": "^0.2.0",
         "pinia": "^2.1.7",
         "prismjs": "^1.29.0",
-        "screenfull": "^6.0.2",
         "style-inject": "^0.3.0",
         "swiper": "^11.0.5",
         "vue": "^3.4.7",
