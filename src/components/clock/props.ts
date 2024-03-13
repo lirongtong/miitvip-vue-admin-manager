@@ -2,7 +2,9 @@ import { object } from 'vue-types'
 import { DeviceSize, PropTypes } from '../../utils/types'
 
 /**
- * 时钟
+ * +====================+
+ * |       Clock        |
+ * +====================+
  * @param width 宽度
  */
 export interface ClockProperties {

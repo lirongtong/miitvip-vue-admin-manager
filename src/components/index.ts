@@ -43,5 +43,5 @@ export { default as Title } from './title'
 export type { QuoteProperties } from './quote/props'
 export { default as Quote } from './quote'
 
-export type { ModalProperties } from './modal/props'
+export type { ModalProperties, TeleportProperties } from './modal/props'
 export { default as Modal } from './modal'
