@@ -13,6 +13,7 @@ import { default as Dropdown } from './components/dropdown'
 import { default as Code } from './components/code'
 import { default as Title } from './components/title'
 import { default as Quote } from './components/quote'
+import { default as Modal } from './components/modal'
 
 import * as components from './components'
 export * from './components'
@@ -56,6 +57,7 @@ declare module '@vue/runtime-core' {
         MiCode: typeof Code
         MiTitle: typeof Title
         MiQuote: typeof Quote
+        MiModal: typeof Modal
     }
 }
 

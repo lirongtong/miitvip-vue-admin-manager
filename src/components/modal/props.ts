@@ -38,8 +38,8 @@ export interface ModalProperties {
     cancelText: VNodeTypes
     okText: VNodeTypes
     open: boolean
-    ok: (...args: any[]) => any
-    cancel: (...args: any[]) => any
+    ok: Function
+    cancel: Function
     mask: boolean
     maskStyle: CSSProperties
     maskClosable: boolean
@@ -48,7 +48,7 @@ export interface ModalProperties {
     height: string | number | DeviceSize
     zIndex: number
     closable: boolean
-    container: string | Function | HTMLElement
+    container: string | Function | HTMLElement | boolean
     forceRender: boolean
     destroyOnClose: boolean
     wrapClass: string[] | string
@@ -67,7 +67,7 @@ export const ModalProps = () => ({
     maskClosable: PropTypes.bool.def(true),
     closable: PropTypes.bool.def(true),
     open: PropTypes.bool.def(false),
-    container: PropTypes.oneOfType([PropTypes.func, PropTypes.string, HTMLElement]),
+    container: PropTypes.oneOfType([PropTypes.func, PropTypes.string, HTMLElement, PropTypes.bool]),
     forceRender: PropTypes.bool.def(false),
     destroyOnClose: PropTypes.bool.def(false),
     wrapClass: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -79,7 +79,7 @@ export const ModalProps = () => ({
     cancelText: PropTypes.any,
     ok: PropTypes.func,
     cancel: PropTypes.func,
-    zIndex: PropTypes.number,
+    zIndex: PropTypes.number.def(Date.now()),
     animation: PropTypes.oneOf(tuple(...animations)).def('scale'),
     placement: PropTypes.oneOf(tuple('left', 'top', 'right', 'bottom', 'center')).def('center'),
     afterClose: PropTypes.func

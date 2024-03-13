@@ -1,6 +1,6 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, Transition, computed, ref } from 'vue'
 import { ModalProps } from './props'
-import { getPrefixCls } from '../_utils/props'
+import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { $tools } from '../../utils/tools'
 import applyTheme from '../_utils/theme'
 import styled from './style/popup.module.less'
@@ -10,19 +10,99 @@ const MiModalPopup = defineComponent({
     inheritAttrs: false,
     props: ModalProps(),
     emits: ['cancel'],
-    setup(props) {
-        applyTheme(styled)
-
-        const renderMask = () => {}
-
+    setup(props, { slots, emit }) {
+        const prefixCls = getPrefixCls('modal')
+        const wrapRef = ref(null)
+        const headerRef = ref(null)
+        const footerRef = ref(null)
         const params = reactive({
             key: getPrefixCls(`modal-${$tools.uid()}`),
-            anim: getPrefixCls(`anim-${props.animation}`)
+            anim: getPrefixCls(`anim-${props.animation}`),
+            fade: getPrefixCls(`anim-fade`)
         })
+        applyTheme(styled)
+
+        const innerClasses = computed(() => {
+            let cls = styled.inner
+            if (props.placement !== undefined) cls += ` ${styled[props.placement]}`
+            if (props.wrapClass !== undefined) {
+                if (Array.isArray(props.wrapClass)) cls += ` ${props.wrapClass.join(' ')}`
+                else cls += ` ${props.wrapClass}`
+            }
+            return cls
+        })
+
+        const handleAnimAfterLeave = () => {
+            if (props.afterClose) props.afterClose()
+        }
+
+        const handleWrapClick = (evt?: Event) => {
+            if (!props.maskClosable) return null
+            if (wrapRef.value && wrapRef.value === evt?.target) handleCloseClick(evt)
+        }
+
+        const handleCloseClick = (evt?: Event) => {
+            emit('cancel', evt)
+        }
+
+        const renderMask = () => {
+            return props.mask ? (
+                <Transition name={params.fade} appear={true}>
+                    <div
+                        class={styled.mask}
+                        style={{ zIndex: props.zIndex ?? null, ...props.maskStyle }}
+                        v-show={props.open}
+                    />
+                </Transition>
+            ) : null
+        }
+
+        const renderModal = () => {
+            const size = {
+                width: $tools.convert2rem($tools.distinguishSize(props.width)),
+                height: $tools.convert2rem($tools.distinguishSize(props.height))
+            }
+            const header = props.title ? (
+                <div ref={headerRef} class={styled.header} key={`${prefixCls}-header`}>
+                    {getPropSlot(slots, props, 'title')}
+                </div>
+            ) : null
+            const footer = props.footer ? (
+                <div
+                    ref={footerRef}
+                    class={`${styled.footer} ${styled[props.footerBtnPosition]}`}
+                    key={`${prefixCls}-footer`}>
+                    {getPropSlot(slots, props, 'footer')}
+                </div>
+            ) : null
+            const closer = props.closable ? (
+                <button onClick={handleCloseClick} class={styled.close} key={`${prefixCls}-close`}>
+                    {getPropSlot(slots, props, 'closeIcon')}
+                </button>
+            ) : null
+            return (
+                <div class={styled.content} style={size}>
+                    {closer}
+                    {header}
+                    <div class={styled.body}>{getPropSlot(slots, props)}</div>
+                    {footer}
+                </div>
+            )
+        }
 
         return () => (
             <div class={styled.container} key={params.key}>
                 {renderMask()}
+                <Transition name={params.anim} onAfterLeave={handleAnimAfterLeave} appear={true}>
+                    <div
+                        ref={wrapRef}
+                        class={innerClasses.value}
+                        style={{ zIndex: props.zIndex ?? null }}
+                        onClick={handleWrapClick}
+                        v-show={props.open}>
+                        {renderModal()}
+                    </div>
+                </Transition>
             </div>
         )
     }

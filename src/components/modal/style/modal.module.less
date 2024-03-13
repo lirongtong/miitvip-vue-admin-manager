@@ -1,0 +1,39 @@
+@import '../../theme/style/variables.module.less';
+
+.close {
+    .flex();
+    .properties(width, 50);
+    .properties(height, 50);
+    .font-size(16);
+}
+
+.btns {
+    & &-ok,
+    & &-cancel {
+        border-color: var(--mi-modal-btn-border);
+        color: var(--mi-modal-btn-text-default);
+    }
+
+    & &-ok {
+        .gradient-hint(var(--mi-modal-btn-active-start), var(--mi-modal-btn-active-hint), var(--mi-modal-btn-active-stop));
+        color: var(--mi-modal-btn-text-active);
+        box-shadow: none;
+        border-color: transparent;
+
+        &:hover,
+        &:active,
+        &:visited
+        &:focus {
+            color: var(--mi-modal-btn-text-active);
+        }
+    }
+}
+
+:export {
+    --modal-btn-text-default: var(--mi-on-surface-variant);
+    --modal-btn-text-active: var(--mi-surface);
+    --modal-btn-active-start: var(--mi-primary);
+    --modal-btn-active-hint: var(--mi-secondary);
+    --modal-btn-active-stop: var(--mi-tertiary);
+    --modal-btn-border: rgba(var(--mi-rgb-on-surface-variant), .5);
+}

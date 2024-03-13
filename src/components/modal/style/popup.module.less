@@ -1,0 +1,108 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    position: relative;
+
+    .inner,
+    .mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        .transition();
+        z-index: @mi-zindex;
+    }
+
+    .mask {
+        background: var(--mi-modal-popup-mask-background);
+    }
+
+    .inner {
+        .flex();
+        .properties(perspective, 1200);
+
+        &.top {
+            align-items: flex-start;
+        }
+
+        &.bottom {
+            align-items: flex-end
+        }
+
+        &.left {
+            justify-content: flex-start;
+        }
+
+        &.right {
+            justify-content: flex-end;
+        }
+    }
+
+    .content {
+        .properties(width, 520);
+        max-width: 92%;
+        max-height: 92%;
+        .radius();
+        .transition();
+        border: solid .0625rem var(--mi-modal-popup-border);
+        .gradient(var(--mi-modal-popup-background-start), var(--mi-modal-popup-background-stop));
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .header {
+        .flex(center, flex-start);
+        .properties(padding-left, 24);
+        .properties(padding-right, 24);
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 16);
+        border-bottom: .0625rem solid var(--mi-modal-popup-header-border);
+    }
+
+    .body {
+        .properties(padding, 24);
+        border-bottom: .0625rem solid var(--mi-modal-popup-header-border);
+    }
+
+    .footer {
+        .flex(center, flex-end);
+        .properties(padding, 16);
+
+        button {
+            .properties(margin-right);
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        &.center {
+            justify-content: center;
+        }
+
+        &.left {
+            justify-content: flex-start;
+        }
+    }
+
+    .close {
+        background: transparent;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-decoration: none;
+    }
+}
+
+:export {
+    --modal-popup-border: var(--mi-primary);
+    --modal-popup-background-start: var(--mi-surface);
+    --modal-popup-background-stop: var(--mi-surface-variant);
+    --modal-popup-header-border: rgba(var(--mi-rgb-primary), .1);
+    --modal-popup-mask-background: rgba(var(--mi-rgb-shadow), .5);
+}
