@@ -9,7 +9,7 @@ const MiModalPopup = defineComponent({
     name: 'MiModalPopup',
     inheritAttrs: false,
     props: ModalProps(),
-    emits: ['cancel'],
+    emits: ['cancel', 'afterClose'],
     setup(props, { slots, emit }) {
         const prefixCls = getPrefixCls('modal')
         const wrapRef = ref(null)
@@ -33,7 +33,7 @@ const MiModalPopup = defineComponent({
         })
 
         const handleAnimAfterLeave = () => {
-            if (props.afterClose) props.afterClose()
+            emit('afterClose')
         }
 
         const handleWrapClick = (evt?: Event) => {

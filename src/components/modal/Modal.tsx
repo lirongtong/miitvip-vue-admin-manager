@@ -13,13 +13,14 @@ const MiModal = defineComponent({
     name: 'MiModal',
     inheritAttrs: false,
     props: ModalProps(),
-    emits: ['ok', 'cancel', 'update:open'],
+    emits: ['ok', 'cancel', 'afterClose', 'update:open'],
     slots: Object as SlotsType<{
         title: any
         content: any
         footer: any
         okText: any
         cancelText: any
+        icon: any
         closeIcon: any
     }>,
     setup(props, { slots, attrs, emit }) {
@@ -33,6 +34,10 @@ const MiModal = defineComponent({
         const handleCancel = (evt?: Event) => {
             emit('update:open', false)
             emit('cancel', evt)
+        }
+
+        const handleAfterClose = (evt?: Event) => {
+            emit('afterClose', evt)
         }
 
         const renderCloseIcon = () => {
@@ -65,7 +70,8 @@ const MiModal = defineComponent({
                 title: getPropSlot(slots, props, 'title') ?? t('global.tips'),
                 footer: getPropSlot(slots, props, 'footer') ?? renderFooter(),
                 closeIcon: renderCloseIcon(),
-                onCancel: handleCancel
+                onCancel: handleCancel,
+                onAfterClose: handleAfterClose
             })
             return props.container === false ? (
                 <MiModalPopup {...properties}>{getPropSlot(slots, props)}</MiModalPopup>
@@ -86,14 +92,15 @@ const MiModal = defineComponent({
     }
 })
 
-const prefixCls = getPrefixCls('modal')
+const prefixCls = getPrefixCls('modal-quick')
 const defaultConfig = {
     centered: true,
     keyboard: true,
     mask: true,
     maskClosable: true,
     width: 360,
-    okText: `知道了`
+    okText: `知道了`,
+    zIndex: Date.now()
 }
 const mergeConfig = (config: string | {}, type: string) => {
     if (typeof config === 'string') config = { content: config }

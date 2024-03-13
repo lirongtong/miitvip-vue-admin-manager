@@ -29,11 +29,49 @@
     }
 }
 
+:global {
+    .mi-modal-quick {
+        &-error,
+        &-success,
+        &-confirm,
+        &-warning,
+        &-warn,
+        &-info {
+            .ant-modal {
+                &-content {
+                    .radius(8);
+                    .gradient(var(--mi-modal-quick-background-start), var(--mi-modal-quick-background-stop));
+                    border: solid .0625rem var(--mi-modal-quick-border);
+                    .properties(padding-top, 32);
+                    .properties(padding-left, 32);
+                    .properties(padding-right, 32);
+                    .properties(padding-bottom, 24);
+
+                    .ant-btn-primary {
+                        .gradient-hint(var(--mi-modal-btn-active-start), var(--mi-modal-btn-active-hint), var(--mi-modal-btn-active-stop));
+                        color: var(--mi-modal-btn-text-active);
+                        box-shadow: none;
+                        border-color: transparent;
+                        outline: none;
+                    }
+
+                    .ant-modal-confirm-btns {
+                        .properties(margin-top, 24);
+                    }
+                }
+            }
+        }
+    }
+}
+
 :export {
     --modal-btn-text-default: var(--mi-on-surface-variant);
     --modal-btn-text-active: var(--mi-surface);
     --modal-btn-active-start: var(--mi-primary);
     --modal-btn-active-hint: var(--mi-secondary);
     --modal-btn-active-stop: var(--mi-tertiary);
+    --modal-quick-background-start: var(--mi-surface);
+    --modal-quick-background-stop: var(--mi-surface-variant);
+    --modal-quick-border: rgba(var(--mi-rgb-primary), .1);
     --modal-btn-border: rgba(var(--mi-rgb-on-surface-variant), .5);
 }

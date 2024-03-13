@@ -48,7 +48,7 @@ export interface ModalProperties {
     height: string | number | DeviceSize
     zIndex: number
     closable: boolean
-    container: string | Function | HTMLElement | boolean
+    container: string | Function | boolean | HTMLElement
     forceRender: boolean
     destroyOnClose: boolean
     wrapClass: string[] | string
@@ -67,7 +67,12 @@ export const ModalProps = () => ({
     maskClosable: PropTypes.bool.def(true),
     closable: PropTypes.bool.def(true),
     open: PropTypes.bool.def(false),
-    container: PropTypes.oneOfType([PropTypes.func, PropTypes.string, HTMLElement, PropTypes.bool]),
+    container: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.string,
+        PropTypes.bool,
+        HTMLElement
+    ]).def(undefined),
     forceRender: PropTypes.bool.def(false),
     destroyOnClose: PropTypes.bool.def(false),
     wrapClass: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -83,6 +88,28 @@ export const ModalProps = () => ({
     animation: PropTypes.oneOf(tuple(...animations)).def('scale'),
     placement: PropTypes.oneOf(tuple('left', 'top', 'right', 'bottom', 'center')).def('center'),
     afterClose: PropTypes.func
+})
+
+/**
+ * +============================+
+ * |       Modal Teleport       |
+ * +============================+
+ * @param open 打开状态
+ * @param container 渲染容器
+ * @param children 节点
+ * @param forceRender 强制渲染
+ */
+export interface TeleportProperties {
+    open: boolean
+    container: string | Function | HTMLElement
+    children: Function
+    forceRender: boolean
+}
+export const TeleportProps = () => ({
+    open: PropTypes.bool,
+    container: PropTypes.oneOfType([PropTypes.func, PropTypes.string, HTMLElement]),
+    children: PropTypes.func,
+    forceRender: PropTypes.bool
 })
 
 export type ModalFunc = (props: ModalFuncProps) => {

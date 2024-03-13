@@ -33,6 +33,12 @@ const install = (app: App) => {
 }
 
 declare module '@vue/runtime-core' {
+    export interface ComponentCustomProperties {
+        $modal: typeof Modal
+    }
+}
+
+declare module '@vue/runtime-core' {
     export interface GlobalComponents {
         MiTheme: typeof Theme
         MiLink: typeof Link
