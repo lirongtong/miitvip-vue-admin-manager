@@ -14,6 +14,7 @@ import { default as Code } from './components/code'
 import { default as Title } from './components/title'
 import { default as Quote } from './components/quote'
 import { default as Modal } from './components/modal'
+import { default as Captcha } from './components/captcha'
 
 import * as components from './components'
 export * from './components'
@@ -64,6 +65,7 @@ declare module '@vue/runtime-core' {
         MiTitle: typeof Title
         MiQuote: typeof Quote
         MiModal: typeof Modal
+        MiCaptcha: typeof Captcha
     }
 }
 

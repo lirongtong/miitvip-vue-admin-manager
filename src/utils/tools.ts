@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import { $g } from './global'
-import { DeviceSize } from './types'
+import type { DeviceSize, Position, KeyValue } from './types'
 import {
     argbFromHex,
     themeFromSourceColor,
@@ -810,6 +810,97 @@ class MiTools {
         temp = null
         return output
     }
+
+    /**
+     * 封装定位或间距
+     * @param [string, number] value 数值
+     * @param prefix 前缀 (如: margin)
+     */
+    wrapPositionOrSpacing(data: Position, prefix?: string) {
+        const position: Record<string, string> = {}
+        if (Object.keys(data).length > 0) {
+            const getKeys = (): KeyValue[] => {
+                const defaultPosition = ['top', 'bottom', 'left', 'right']
+                const keys: KeyValue[] = []
+                const ucfirst = (letter: string): string => {
+                    return letter.slice(0, 1).toUpperCase() + letter.slice(1).toLowerCase()
+                }
+                defaultPosition.forEach((pos: string) => {
+                    const name = prefix ? `${prefix}${ucfirst(pos)}` : pos
+                    keys.push({
+                        key: pos,
+                        value: name
+                    })
+                })
+                return keys
+            }
+            const items = getKeys()
+            items.forEach((item: KeyValue) => {
+                const v = data[item.key]
+                position[item.value] = v ? $tools.convert2rem($tools.distinguishSize(v)) : null
+            })
+        }
+        return position
+    }
+
+    /**
+     * 颜色转换 hex -> rgba
+     * @param color
+     * @param opacity
+     * @returns
+     */
+    colorHex2Rgba(color: string, opacity = 1): string {
+        if (color) {
+            if ($g.regExp.hex.test(color)) {
+                if (color.length === 4) {
+                    if (color.length === 4) {
+                        let newColor = '#'
+                        for (let i = 1; i < 4; i++) {
+                            newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
+                        }
+                        color = newColor
+                    }
+                    const changeColor: number[] = []
+                    for (let i = 1; i < 7; i += 2) {
+                        changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
+                    }
+                    return `rgba(${changeColor.join(',')}, ${opacity})`
+                }
+            }
+        } else return color
+    }
+
+    /**
+     * 颜色转换 rgb -> hex
+     * @param color
+     * @returns
+     */
+    colorRgb2Hex(color: string): string {
+        if (color) {
+            if ($g.regExp.rgb.test(color)) {
+                const aColor = color.replace(/(?:\(|\)|rgb|RGB)*/g, '').split(',')
+                let strHex = '#'
+                for (let i = 0; i < aColor.length; i++) {
+                    let hex = Number(aColor[i]).toString(16)
+                    if (hex === '0') hex += hex
+                    strHex += hex
+                }
+                if (strHex.length !== 7) strHex = color
+                return strHex
+            } else if ($g.regExp.hex.test(color)) {
+                const aNum = color.replace(/#/, '').split('')
+                if (aNum.length === 6) {
+                    return color
+                } else if (aNum.length === 3) {
+                    let numHex = '#'
+                    for (let i = 0; i < aNum.length; i += 1) {
+                        numHex += aNum[i] + aNum[i]
+                    }
+                    return numHex
+                }
+            }
+        } else return color
+    }
 }
 
 /**
@@ -859,7 +950,9 @@ class MiTools {
  *  - {@link $tools.beautySub} 截取字符串
  *  - {@link $tools.debounce} 防抖
  *  - {@link $tools.htmlEncode} HTML转换
- *  - {@link $tools.getBuiltinColors} 默认内置的主题色
+ *  - {@link $tools.wrapPositionOrSpacing} 封装定位或间距
+ *  - {@link $tools.colorHex2Rgba} 颜色转换 hex -> rgba
+ *  - {@link $tools.colorRgb2Hex} 颜色转换 rgb -> hex
  */
 export const $tools: MiTools = new MiTools()
 

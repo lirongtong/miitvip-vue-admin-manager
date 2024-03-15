@@ -1,0 +1,67 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    position: absolute;
+    display: block;
+    .transition();
+    transform-origin: left center;
+    z-index: @mi-zindex + 1500;
+}
+
+.mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: hidden;
+}
+
+.arrow {
+    display: block;
+    .properties(margin-left, -21);
+    .properties(margin-top, -11);
+
+    &-in {
+        position: absolute;
+        border-style: solid;
+        .properties(border-width, 10);
+        .properties(margin-top, 1);
+        .properties(margin-right, 0);
+        .properties(margin-bottom, 1);
+        .properties(margin-left, 2);
+        border-color: transparent var(--mi-captcha-modal-arrow-border-in) transparent transparent;
+        z-index: 1;
+    }
+
+    &-out{
+        position: absolute;
+        border-style: solid;
+        .properties(border-width, 11);
+        border-color: transparent var(--mi-captcha-modal-arrow-border-out) transparent transparent;
+        z-index: 1;
+    }
+}
+
+.content {
+    .properties(width, 286);
+    max-width: 100vw;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    .radius(8);
+    box-shadow: 0 0 .5rem var(--mi-captcha-modal-content-shadow);
+    border: solid .0625rem var(--mi-captcha-modal-content-border);
+    .gradient(var(--mi-captcha-modal-content-background-start), var(--mi-captcha-modal-content-background-stop));
+}
+
+:export {
+    --captcha-modal-arrow-border-in: var(--mi-surface);
+    --captcha-modal-arrow-border-out: var(--mi-primary);
+    --captcha-modal-content-border: var(--mi-primary);
+    --captcha-modal-content-shadow: var(--mi-surface);
+    --captcha-modal-content-background-start: var(--mi-surface);
+    --captcha-modal-content-background-stop: var(--mi-surface-variant);
+}

@@ -67,6 +67,8 @@ export interface Size {
  * @param username 用户名
  * @param email 邮箱
  * @param chinese 中文
+ * @param hex 十六进制颜色值
+ * @param rgb RGB 颜色值
  */
 export interface RegExpTokens {
     [key: string]: any
@@ -75,6 +77,8 @@ export interface RegExpTokens {
     username: RegExp
     email: RegExp
     chinese: RegExp
+    hex: RegExp
+    rgb: RegExp
 }
 
 /**
@@ -199,9 +203,9 @@ export interface RouterViewSlot {
  * @see Breakpoints
  */
 export interface DeviceSize {
-    laptop: string | number
-    mobile: string | number
-    tablet: string | number
+    laptop?: string | number
+    mobile?: string | number
+    tablet?: string | number
 }
 
 /**
@@ -320,4 +324,54 @@ export interface DropdownItem {
     iconSize: string | number | DeviceSize
     tag: Partial<ItemTag>
     callback: Function
+}
+
+/**
+ * +==================+
+ * |      位置        |
+ * +==================+
+ * @param left 左边距 ( 数字或百分比 )
+ * @param right 右边距
+ * @param top 上边距
+ * @param bottom 下边距
+ */
+export interface Position {
+    left?: string | number | DeviceSize
+    right?: string | number | DeviceSize
+    top?: string | number | DeviceSize
+    bottom?: string | number | DeviceSize
+}
+
+/**
+ * +=============================+
+ * |      Key-Value 键值对        |
+ * +=============================+
+ * @param key 键
+ * @param value 值
+ */
+export interface KeyValue {
+    key: string | number
+    value: any
+}
+
+/**
+ * +=============================+
+ * |      接口响应默认结构        |
+ * +=============================+
+ * @param ret 结果信息与结果码
+ * @param data 数据
+ *
+ * @see ResponseRet
+ */
+export interface ResponseData {
+    ret: ResponseRet
+    data: any
+}
+/**
+ * @param code 结果码
+ * @param message 结果信息
+ */
+export interface ResponseRet {
+    code: string
+    message: string
 }

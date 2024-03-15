@@ -55,7 +55,9 @@ export const $g = reactive({
         password: /^[A-Za-z0-9~!@#$%^&*()_+=\-.,]{6,32}$/,
         username: /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){3,15}$/,
         email: /^[A-Za-z0-9\.-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
-        chinese: /^[\u4e00-\u9fa5]*$/
+        chinese: /^[\u4e00-\u9fa5]*$/,
+        hex: /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/,
+        rgb: /^(rgb|RGB)/
     },
     caches: {
         storages: {
