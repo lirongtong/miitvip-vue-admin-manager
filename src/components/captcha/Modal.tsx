@@ -373,7 +373,9 @@ const MiCaptchaModal = defineComponent({
                             })
                             .catch((err: any) => error(err?.message))
                     } else if (typeof props.verifyAction === 'function') {
-                        await props.verifyAction()
+                        const result = await props.verifyAction()
+                        if (result === true) succcess()
+                        else error(typeof result === 'string' ? result : null)
                     }
                 } else {
                     params.check.correct = true

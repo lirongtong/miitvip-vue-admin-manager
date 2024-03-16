@@ -54,7 +54,8 @@ const MiCaptcha = defineComponent({
                 being: false,
                 success: false
             },
-            verifyParams: { ...props.verifyParams }
+            verifyParams: { ...props.verifyParams },
+            actionConfig: { ...props.actionConfig }
         })
         const themeColorStyle = computed(() => {
             return props.color
@@ -70,17 +71,19 @@ const MiCaptcha = defineComponent({
             const afterInit = (tip = t('captcha.click'), failed = false) => {
                 params.failed = failed
                 params.init = true
-                params.tip = tip
+                params.tip = tip ?? t('captcha.click')
             }
             if (props.initAction) {
                 if (typeof props.initAction === 'function') {
-                    const initSuccess = await props.initAction()
-                    if (initSuccess) afterInit()
+                    const initStatus = await props.initAction()
+                    if (initStatus === true) afterInit()
+                    else afterInit(typeof initStatus === 'string' ? initStatus : undefined, true)
+                    emit('init')
                 } else if (typeof props.initAction === 'string') {
                     await $request[(props.initMethod || 'GET').toLowerCase()](
                         props.initAction,
                         props.initParams,
-                        props.actionConfig
+                        params.actionConfig
                     )
                         .then((res: ResponseData) => {
                             afterInit()
@@ -152,7 +155,7 @@ const MiCaptcha = defineComponent({
                         $request[(props.checkMethod || 'GET').toLowerCase()](
                             props.checkAction,
                             props.checkParams,
-                            props.actionConfig
+                            params.actionConfig
                         )
                             .then((res: ResponseData) => {
                                 if (res?.data?.pass) params.pass = true
@@ -164,8 +167,11 @@ const MiCaptcha = defineComponent({
                                 initCaptchaModal()
                             })
                     } else if (typeof props.checkAction === 'function') {
-                        params.pass = await props.checkAction()
+                        const checkStatus = await props.checkAction()
+                        if (typeof checkStatus === 'boolean') params.pass = checkStatus
+                        else params.pass = false
                         initCaptchaModal()
+                        emit('checked')
                     }
                 } else initCaptchaModal()
             }
@@ -307,7 +313,7 @@ const MiCaptcha = defineComponent({
                         verifyParams={props.verifyParams}
                         verifyMethod={props.verifyMethod}
                         verifyAction={props.verifyAction}
-                        actionConfig={props.actionConfig}
+                        actionConfig={params.actionConfig}
                         onClose={handleCaptchaModalClose}
                         image={props.image}
                     />
@@ -328,6 +334,8 @@ const MiCaptcha = defineComponent({
         }
 
         onMounted(() => {
+            if (params.actionConfig?.url) delete params.actionConfig.url
+            if (params.actionConfig.method) delete params.actionConfig.method
             initCaptcha()
             $tools.on(window, 'resize', resetCaptchaStatus)
         })

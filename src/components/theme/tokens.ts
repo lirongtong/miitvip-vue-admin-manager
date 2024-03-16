@@ -68,16 +68,19 @@ export interface ThemeTokens extends Theme {
  * @param layout 布局
  * @param notice 消息中心
  * @param clock 时钟
+ * @param captcha 滑块验证码
  *
  * @see LayoutTokens
  * @see NoticeTokens
  * @see ClockTokens
+ * @see CaptchaTokens
  */
 export interface ComponentTokens {
     [key: string]: any
     layout: Partial<LayoutTokens>
     notice: Partial<NoticeTokens>
     clock: Partial<ClockTokens>
+    captcha: Partial<CaptchaTokens>
 }
 
 /**
@@ -306,4 +309,98 @@ export interface ClockTokens {
     minute: Partial<{ text: string; line: string }>
     point: Partial<{ background: string; hour: string; minute: string; second: string }>
     pointer: Partial<{ background: string; mid: string; top: string }>
+}
+
+/**
+ * +=========================+
+ * |        滑块验证码        |
+ * +=========================+
+ * @param radar 雷达配置
+ * @param modal 弹窗配置
+ *
+ * @see CaptchaRadarTokens
+ * @see CaptchaModalTokens
+ */
+export interface CaptchaTokens {
+    [key: string]: any
+    radar: Partial<CaptchaRadarTokens>
+    modal: Partial<CaptchaModalTokens>
+}
+/**
+ * @param border 边框
+ * @param text 文本
+ * @param ready 准备状态的背景色
+ * @param ring 大圆圈
+ * @param dot 小圆点
+ * @param scan 扫描状态的边框
+ * @param success 成功图标及背景色
+ */
+export interface CaptchaRadarTokens {
+    [key: string]: any
+    border: string
+    text: string
+    ready: { background: Partial<GradientTokens> }
+    ring: string
+    dot: string
+    scan: Partial<{ border: string }>
+    success: Partial<{ icon: string; background: string }>
+}
+/**
+ * @param arrow 箭头
+ * @param content 内容
+ *
+ * @see CaptchaModalContentTokens
+ */
+export interface CaptchaModalTokens {
+    [key: string]: any
+    arrow: Partial<{ border: Partial<{ in: string; out: string }> }>
+    content: Partial<CaptchaModalContentTokens>
+}
+/**
+ * @param border 边框
+ * @param shadow 阴影
+ * @param background 背景色
+ * @param loading 加载状态
+ * @param result 结果展示
+ * @param slider 滑动条
+ * @param panel 底部面板
+ */
+export interface CaptchaModalContentTokens {
+    [key: string]: any
+    border: string
+    shadow: string
+    background: Partial<GradientTokens>
+    loading: Partial<{
+        [key: string]: any
+        text: string
+        background: Partial<GradientTokens>
+        spinner: string
+    }>
+    result: Partial<{
+        [key: string]: any
+        text: string
+        success: Partial<{ [key: string]: any; text: string; background: string }>
+        error: Partial<{ [key: string]: any; text: string; background: string }>
+    }>
+    slider: Partial<{
+        [key: string]: any
+        text: string
+        background: string
+        btn: Partial<{
+            [key: string]: any
+            border: string
+            shadow: string
+            scan: Partial<{
+                [key: string]: any
+                line: string
+                background: string
+            }>
+        }>
+    }>
+    panel: Partial<{
+        [key: string]: any
+        icon: string
+        border: string
+        copyright: Partial<{ [key: string]: any; border: string }>
+    }>
 }
