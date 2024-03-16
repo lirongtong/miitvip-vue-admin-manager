@@ -12,7 +12,9 @@
 
 ```html
 <!-- python -->
-<mi-code language="python" :content="code" />
+<template>
+    <mi-code language="python" :content="code" />
+</template>
 
 <script setup lang="ts">
     import 'prismjs/components/prism-python.js'
@@ -32,12 +34,14 @@ def getTime():
 ## 主题配置
 
 ```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-layout>
-        <mi-code :content="code" />
-    </mi-layout>
-</mi-theme>
+<template>
+    <mi-theme :theme="theme">
+        <!-- ... -->
+        <mi-layout>
+            <mi-code :content="code" />
+        </mi-layout>
+    </mi-theme>
+</template>
 
 <script lang="ts" setup>
     import { reactive } from 'vue'

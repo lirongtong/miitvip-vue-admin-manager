@@ -20,12 +20,14 @@
 ## 主题配置
 
 ```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-layout>
-        <mi-clock />
-    </mi-layout>
-</mi-theme>
+<template>
+    <mi-theme :theme="theme">
+        <!-- ... -->
+        <mi-layout>
+            <mi-clock />
+        </mi-layout>
+    </mi-theme>
+</template>
 
 <script lang="ts" setup>
     import { reactive } from 'vue'

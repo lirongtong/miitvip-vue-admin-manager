@@ -15,11 +15,13 @@
 > 初始化失败将不进行弹窗校验等后续动作。
 
 ```html
-<!-- api ( string ) -->
-<mi-captcha init-action="/v1/captcha/init" />
+<template>
+    <!-- api ( string ) -->
+    <mi-captcha init-action="/v1/captcha/init" />
 
-<!-- action ( function ) -->
-<mi-captcha :init-action="() => handleInitAction()" />
+    <!-- action ( function ) -->
+    <mi-captcha :init-action="() => handleInitAction()" />
+</template>
 
 <script setup lang="ts">
 const handleInitAction = () => {
@@ -32,7 +34,9 @@ const handleInitAction = () => {
 ### 自定义背景底图
 
 ```html
-<mi-captcha :image="background" />
+<template>
+    <mi-captcha :image="background" />
+</template>
 
 <script setup lang="ts">
 import background from '@/assets/images/captcha-background.png'
@@ -44,11 +48,13 @@ import background from '@/assets/images/captcha-background.png'
 > 验证码弹窗前的校验, `true` 的情况下可直接免弹窗通过验证。
 
 ```html
-<!-- api ( string ) -->
-<mi-captcha check-action="/v1/captcha/check" />
+<template>
+    <!-- api ( string ) -->
+    <mi-captcha check-action="/v1/captcha/check" />
 
-<!-- action ( function ) -->
-<mi-captcha :check-action="() => handleCheckAction()" />
+    <!-- action ( function ) -->
+    <mi-captcha :check-action="() => handleCheckAction()" />
+</template>
 
 <script setup lang="ts">
 const handleCheckAction = () => {
@@ -63,11 +69,13 @@ const handleCheckAction = () => {
 > 结合「`initAction`」初始化动作得到的配置项，对结果进行自定义校验。
 
 ```html
-<!-- api ( string ) -->
-<mi-captcha verify-action="/v1/captcha/verify" />
+<template>
+    <!-- api ( string ) -->
+    <mi-captcha verify-action="/v1/captcha/verify" />
 
-<!-- action ( function ) -->
-<mi-captcha :verify-action="() => handleVerifyAction()" />
+    <!-- action ( function ) -->
+    <mi-captcha :verify-action="() => handleVerifyAction()" />
+</template>
 
 <script setup lang="ts">
 const handleVerifyAction = () => {
@@ -82,10 +90,12 @@ const handleVerifyAction = () => {
 ## 主题配置
 
 ```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-captcha />
-</mi-theme>
+<template>
+    <mi-theme :theme="theme">
+        <!-- ... -->
+        <mi-captcha />
+    </mi-theme>
+</template>
 
 <script lang="ts" setup>
     import { reactive } from 'vue'

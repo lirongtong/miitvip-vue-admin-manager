@@ -13,8 +13,10 @@
 ### 配置 `items` 消息列表
 
 ```html
-<!-- 仅设定 items, 默认采用 mi-notice-item 生成列表 -->
-<mi-notice :width="360" :items="items" />
+<template>
+    <!-- 仅设定 items, 默认采用 mi-notice-item 生成列表 -->
+    <mi-notice :width="360" :items="items" />
+</template>
 
 <script lang="ts" setup>
     import { ref } from 'vue'
@@ -29,8 +31,10 @@
 ### 配置 `tabs` 消息列表
 
 ```html
-<mi-notice v-model:tab-active="active" :width="360" :tabs="tabs" :items="items" />
-<mi-notice v-model:tab-active="active" :width="360" :tabs="tabsObj" />
+<template>
+    <mi-notice v-model:tab-active="active" :width="360" :tabs="tabs" :items="items" />
+    <mi-notice v-model:tab-active="active" :width="360" :tabs="tabsObj" />
+</template>
 
 <script lang="ts" setup>
     import { ref, reactive } from 'vue'
@@ -73,19 +77,21 @@
 ### 自定义 `tabs` / `items` / `Click` 事件等
 
 ```html
-<mi-notice :width="360" v-model:tab-active="active" @item-click="handleItemClick">
-    <mi-notice-tab key="1" name="系统消息">
-        <template #icon><AuditOutlined /></template>
-        <mi-notice-item v-for="item in items" :title="item?.title" :content="item?.content">
-            <template v-if="item?.tag" #tag>
-                <component :is="item?.tag" />
-            </template>
-        </mi-notice-item>
-    </mi-notice-tab>
-    <mi-notice-tab key="2" name="活动通知">
-        <mi-notice-item title="每日签到" summary="连续签到，享8重好礼！" @click="handleSingleItemClick" />
-    </mi-notice-tab>
-</mi-notice>
+<template>
+    <mi-notice :width="360" v-model:tab-active="active" @item-click="handleItemClick">
+        <mi-notice-tab key="1" name="系统消息">
+            <template #icon><AuditOutlined /></template>
+            <mi-notice-item v-for="item in items" :title="item?.title" :content="item?.content">
+                <template v-if="item?.tag" #tag>
+                    <component :is="item?.tag" />
+                </template>
+            </mi-notice-item>
+        </mi-notice-tab>
+        <mi-notice-tab key="2" name="活动通知">
+            <mi-notice-item title="每日签到" summary="连续签到，享8重好礼！" @click="handleSingleItemClick" />
+        </mi-notice-tab>
+    </mi-notice>
+</template>
 
 <script lang="ts" setup>
     import { ref, createVNode } from 'vue'
@@ -121,10 +127,12 @@
 ## 主题配置
 
 ```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-layout />
-</mi-theme>
+<template>
+    <mi-theme :theme="theme">
+        <!-- ... -->
+        <mi-layout />
+    </mi-theme>
+</template>
 
 <script lang="ts" setup>
     import { reactive } from 'vue'

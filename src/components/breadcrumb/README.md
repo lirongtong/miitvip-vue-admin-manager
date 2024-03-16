@@ -26,10 +26,12 @@
 ## 主题配置
 
 ```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-breadcrumbs />
-</mi-theme>
+<template>
+    <mi-theme :theme="theme">
+        <!-- ... -->
+        <mi-breadcrumbs />
+    </mi-theme>
+</template>
 
 <script lang="ts" setup>
     import { reactive } from 'vue'

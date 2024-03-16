@@ -38,16 +38,14 @@
 ### 自定义菜单
 
 ```html
-<template>
-    <mi-dropdown>
-        <template v-slot:overlay>
-            <ul>
-                <li>自定义菜单一</li>
-                <li>自定义菜单二</li>
-            </ul>
-        </template>
-    </mi-dropdown>
-</template>
+<mi-dropdown>
+    <template v-slot:overlay>
+        <ul>
+            <li>自定义菜单一</li>
+            <li>自定义菜单二</li>
+        </ul>
+    </template>
+</mi-dropdown>
 ```
 
 ## 主题配置
