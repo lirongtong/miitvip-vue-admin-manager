@@ -19,6 +19,7 @@ import { default as Captcha } from './components/captcha'
 import * as components from './components'
 export * from './components'
 export * from './stores'
+export * from './utils/types'
 
 let _init = false
 const install = (app: App) => {

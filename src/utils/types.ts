@@ -15,7 +15,7 @@ export const PropTypes = createTypes() as VueTypesInterface & {
  * @param primary 主题色
  * @param radius 圆角
  */
-export interface Theme {
+export interface ThemeConfig {
     [key: string]: any
     type: 'dark' | 'light'
     primary: string
@@ -156,7 +156,7 @@ export interface GlobalProperties {
     readonly powered?: string
     keywords?: string
     description?: string
-    theme?: Partial<Theme>
+    theme?: Partial<ThemeConfig>
     emptyFormatter?: string
     apiVersion?: string
     copyright?: {

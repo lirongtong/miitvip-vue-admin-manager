@@ -31,10 +31,9 @@ export const DropdownProps = () => ({
  * +===========================+
  * |       Dropdown Item       |
  * +===========================+
- * @param title 显示名称
- * @param placement popup 弹出位置
- * @param trigger 触发方式
- * @param items 数据
+ * @param item 数据
+ *
+ * @see DropdownItem
  */
 export interface DropdownItemProperties {
     item: Partial<DropdownItem>

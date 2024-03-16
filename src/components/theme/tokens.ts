@@ -1,4 +1,4 @@
-import { Theme } from '../../utils/types'
+import { ThemeConfig } from '../../utils/types'
 /**
  * +====================+
  * |        背景        |
@@ -53,7 +53,7 @@ export interface GradientTokens {
  * @see Theme
  * @see ComponentTokens
  */
-export interface ThemeTokens extends Theme {
+export interface ThemeTokens extends ThemeConfig {
     [key: string]: any
     theme: string
     primary: string
