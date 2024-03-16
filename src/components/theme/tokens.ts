@@ -81,6 +81,7 @@ export interface ComponentTokens {
     notice: Partial<NoticeTokens>
     clock: Partial<ClockTokens>
     captcha: Partial<CaptchaTokens>
+    breadcrumbs: Partial<BreadcrumbsTokens>
 }
 
 /**
@@ -403,4 +404,18 @@ export interface CaptchaModalContentTokens {
         border: string
         copyright: Partial<{ [key: string]: any; border: string }>
     }>
+}
+
+/**
+ * +======================+
+ * |        面包屑        |
+ * +======================+
+ * @param text 文本
+ * @param separator 分隔符
+ *
+ * @see ColorStateTokens
+ */
+export interface BreadcrumbsTokens {
+    text: Partial<ColorStateTokens>
+    separator: string
 }
