@@ -33,7 +33,7 @@
 
 ## 关于
 
-> :triangular_flag_on_post: `Makeit Admin Pro` 是基于 `Vue 3.x + Vite 5.x + Ant Design Vue 4.x` 构建开发的一套适合中后台管理项目的 `UI` 框架 ( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 更改为 `@makeit/admin-pro` )。
+> :triangular_flag_on_post: `Makeit Admin Pro` 是基于 `Vue 3.x + Vite 5.x + Ant Design Vue 4.x` 构建开发的一套适合中后台管理项目的 `UI` 框架 ( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 更改为 `@makeit/admin-pro`, 正在重构中 ... )。
 > >
 > :beginner: 框架内置了统一风格的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用。
 > >
