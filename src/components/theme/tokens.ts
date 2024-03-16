@@ -69,11 +69,15 @@ export interface ThemeTokens extends Theme {
  * @param notice 消息中心
  * @param clock 时钟
  * @param captcha 滑块验证码
+ * @param breadcrumbs 面包屑
+ * @param code 代码高亮
  *
  * @see LayoutTokens
  * @see NoticeTokens
  * @see ClockTokens
  * @see CaptchaTokens
+ * @see BreadcrumbsTokens
+ * @see CodeTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -82,6 +86,7 @@ export interface ComponentTokens {
     clock: Partial<ClockTokens>
     captcha: Partial<CaptchaTokens>
     breadcrumbs: Partial<BreadcrumbsTokens>
+    code: Partial<CodeTokens>
 }
 
 /**
@@ -416,6 +421,29 @@ export interface CaptchaModalContentTokens {
  * @see ColorStateTokens
  */
 export interface BreadcrumbsTokens {
+    [key: string]: any
     text: Partial<ColorStateTokens>
     separator: string
+}
+
+/**
+ * +=======================+
+ * |        代码高亮        |
+ * +=======================+
+ * @param scrollbar 滚动条
+ * @param background 背景
+ * @param border 边框
+ * @param dot 点
+ */
+export interface CodeTokens {
+    [key: string]: any
+    scrollbar: string
+    background: string
+    border: string
+    dot: Partial<{
+        [key: string]: any
+        red: string
+        orange: string
+        green: string
+    }>
 }
