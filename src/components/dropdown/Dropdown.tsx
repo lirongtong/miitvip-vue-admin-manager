@@ -2,7 +2,7 @@ import { SlotsType, defineComponent } from 'vue'
 import { DropdownProps } from './props'
 import { Dropdown, Avatar, Menu } from 'ant-design-vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
-import { logo } from '../../utils/images'
+import { __LOGO__ } from '../../utils/images'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { DropdownItem } from '../../utils/types'
@@ -53,7 +53,7 @@ const MiDropdown = defineComponent({
                 <div class={styled.title}>{title}</div>
             ) : (
                 <div class={styled.avatar}>
-                    <Avatar src={$g?.logo || logo} size="small" alt={$g?.powered} />
+                    <Avatar src={$g?.logo || __LOGO__} size="small" alt={$g?.powered} />
                 </div>
             )
         }

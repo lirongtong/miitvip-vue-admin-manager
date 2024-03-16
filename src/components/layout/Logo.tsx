@@ -5,7 +5,7 @@ import { $g } from '../../utils/global'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { useI18n } from 'vue-i18n'
 import { useLayoutStore } from '../../stores/layout'
-import { logo } from '../../utils/images'
+import { __LOGO__ } from '../../utils/images'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
 import MiNotice from '../notice'
 import applyTheme from '../_utils/theme'
@@ -53,7 +53,7 @@ const MiLayoutSiderLogo = defineComponent({
 
         const renderLogo = (
             <div class={styled.logo}>
-                <img src={$g.logo ?? logo} alt={title} />
+                <img src={$g.logo ?? __LOGO__} alt={title} />
             </div>
         )
 

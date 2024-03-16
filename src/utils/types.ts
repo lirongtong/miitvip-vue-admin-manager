@@ -372,6 +372,6 @@ export interface ResponseData {
  * @param message 结果信息
  */
 export interface ResponseRet {
-    code: string
+    code: string | number
     message: string
 }

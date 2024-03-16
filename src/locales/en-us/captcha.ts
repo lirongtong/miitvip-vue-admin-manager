@@ -1,8 +1,8 @@
 export default {
-    loading: `Loading verification code ····`,
-    init: `Initializing verification code ····`,
+    loading: `Loading verification code ···`,
+    init: `Initializing verification code ···`,
     click: `Click the button to verify`,
-    checking: `Intelligent detection ····`,
+    checking: `Intelligent detection ···`,
     pass: `Approved`,
     tip: `Error message`,
     error: {
@@ -15,7 +15,7 @@ export default {
     close: `Close verification`,
     refresh: `Refresh verification`,
     feedback: `Help feedback`,
-    provide: `makeit.vip provide technical support`,
+    provide: `「 makeit.vip 」provide technical support`,
     success: `It took {take} seconds to complete the image stitching verification`,
     flatten: `Drag the slider`,
     verify: `To complete verification`

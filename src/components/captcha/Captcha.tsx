@@ -1,13 +1,24 @@
-import { defineComponent, ref, Teleport, reactive, computed, Transition } from 'vue'
+import {
+    defineComponent,
+    ref,
+    Teleport,
+    reactive,
+    computed,
+    Transition,
+    onMounted,
+    onUnmounted
+} from 'vue'
 import { CaptchaProps } from './props'
 import { getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
 import { $request } from '../../utils/request'
 import { $g } from '../../utils/global'
-import { logo } from '../../utils/images'
+import { __LOGO__ } from '../../utils/images'
 import { useI18n } from 'vue-i18n'
+import { message } from 'ant-design-vue'
 import { VerifiedOutlined } from '@ant-design/icons-vue'
 import type { Position, ResponseData } from '../../utils/types'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiCaptchaModal from './Modal'
 import applyTheme from '../_utils/theme'
 import styled from './style/captcha.module.less'
@@ -18,8 +29,9 @@ const MiCaptcha = defineComponent({
     inheritAttrs: false,
     props: CaptchaProps(),
     emits: ['init', 'checked', 'success'],
-    setup(props) {
-        const { t } = useI18n()
+    setup(props, { emit }) {
+        const { t, te } = useI18n()
+        const { width } = useWindowResize()
         const captchaRef = ref(null)
         const captchaModalRef = ref(null)
         const params = reactive({
@@ -29,7 +41,7 @@ const MiCaptcha = defineComponent({
             pass: false,
             modal: {
                 open: false,
-                position: {}
+                position: {} as Position
             },
             offset: {
                 top: 22.5,
@@ -41,7 +53,8 @@ const MiCaptcha = defineComponent({
                 scanning: false,
                 being: false,
                 success: false
-            }
+            },
+            verifyParams: { ...props.verifyParams }
         })
         const themeColorStyle = computed(() => {
             return props.color
@@ -53,43 +66,121 @@ const MiCaptcha = defineComponent({
         })
         applyTheme(styled)
 
+        const initCaptcha = async () => {
+            const afterInit = (tip = t('captcha.click'), failed = false) => {
+                params.failed = failed
+                params.init = true
+                params.tip = tip
+            }
+            if (props.initAction) {
+                if (typeof props.initAction === 'function') {
+                    const initSuccess = await props.initAction()
+                    if (initSuccess) afterInit()
+                } else if (typeof props.initAction === 'string') {
+                    await $request[(props.initMethod || 'GET').toLowerCase()](
+                        props.initAction,
+                        props.initParams,
+                        props.actionConfig
+                    )
+                        .then((res: ResponseData) => {
+                            afterInit()
+                            if (res?.data?.key && !params.verifyParams.key)
+                                params.verifyParams.key = res?.data?.key
+                            emit('init', res)
+                        })
+                        .catch(() => afterInit(t('captcha.error.init'), true))
+                }
+            } else afterInit()
+        }
+
         const initCaptchaModal = () => {
-            params.status.scanning = false
-            params.status.being = true
-            params.modal.position = getCaptchaModalPosition()
-            params.modal.open = true
-            params.tip = t('captcha.move')
+            if (params.pass) {
+                handleCaptchaSuccess()
+            } else {
+                params.status.scanning = false
+                params.status.being = true
+                params.modal.position = getCaptchaModalPosition()
+                params.modal.open = true
+                params.tip = t('captcha.move')
+            }
         }
 
         const getCaptchaModalPosition = (): Position => {
             const elem = captchaRef.value as HTMLElement
-            let position = { left: 0, top: 0 }
+            let position = { left: 0, top: 0 } as Position
             if (elem) {
-                const rect = elem.getBoundingClientRect()
-                const top = Math.round(rect.top * 1000) / 1000 + params.offset.top
-                const left = Math.round(rect.left * 1000) / 1000 + params.offset.left
-                position = { left, top }
+                if (width.value < $g.breakpoints.md) {
+                    position = { left: '50%', top: '50%' }
+                } else {
+                    const rect = elem.getBoundingClientRect()
+                    const top = Math.round(rect.top * 1000) / 1000 + params.offset.top
+                    const left = Math.round(rect.left * 1000) / 1000 + params.offset.left
+                    position = { left, top }
+                }
             }
             return position
         }
 
-        const handleCaptchaModal = () => {
-            params.status.ready = false
-            params.status.scanning = true
-            if (props.checkAction) {
-                if (typeof props.checkAction === 'string') {
-                    $request[(props.checkMethod || 'GET').toLowerCase()](
-                        props.checkAction,
-                        props.checkParams,
-                        props.actionConfig
-                    ).then((res: ResponseData) => {
-                        if (res?.data?.pass) params
-                    })
-                } else if (typeof props.checkAction === 'function') props.checkAction()
-            } else initCaptchaModal()
+        const resetCaptchaStatus = () => {
+            params.status.ready = true
+            params.status.scanning = false
+            params.status.success = false
+            params.status.being = false
+            params.modal.open = false
+            params.tip = props.initAction ? t('captcha.init') : t('captcha.click')
         }
 
-        const handleCaptchaModalClose = () => {}
+        const handleCaptchaSuccess = (data?: any) => {
+            params.tip = te('captcha.pass') ? t('captcha.pass') : 'Pass'
+            emit('success', data)
+            setTimeout(() => {
+                params.status.ready = false
+                params.status.being = false
+                params.status.scanning = false
+                params.status.success = true
+                params.modal.open = false
+            })
+        }
+
+        const handleCaptchaModal = async () => {
+            if (!params.failed) {
+                params.status.ready = false
+                params.status.scanning = true
+                params.tip = te('captcha.checking') ? t('captcha.checking') : 'Scanning ···'
+                if (props.checkAction) {
+                    if (typeof props.checkAction === 'string') {
+                        $request[(props.checkMethod || 'GET').toLowerCase()](
+                            props.checkAction,
+                            props.checkParams,
+                            props.actionConfig
+                        )
+                            .then((res: ResponseData) => {
+                                if (res?.data?.pass) params.pass = true
+                                initCaptchaModal()
+                                emit('checked', res)
+                            })
+                            .catch(() => {
+                                params.pass = false
+                                initCaptchaModal()
+                            })
+                    } else if (typeof props.checkAction === 'function') {
+                        params.pass = await props.checkAction()
+                        initCaptchaModal()
+                    }
+                } else initCaptchaModal()
+            }
+        }
+
+        const handleCaptchaModalClose = (data: any) => {
+            if (data) {
+                if (data?.status === 'close') resetCaptchaStatus()
+                if (data?.status === 'success') handleCaptchaSuccess(data?.data)
+                if (data?.status === 'frequently') {
+                    resetCaptchaStatus()
+                    message.error(t('captcha.error.try', { num: props.maxTries }))
+                }
+            } else resetCaptchaStatus()
+        }
 
         const renderRadarReady = () => {
             return params.status.ready ? (
@@ -149,7 +240,7 @@ const MiCaptcha = defineComponent({
             return (
                 <div class={styled.radarLogo}>
                     <Link path={props.link} target="_blank">
-                        <img src={props.logo ?? logo} alt={$g.powered} />
+                        <img src={props.logo ?? __LOGO__} alt={$g.powered} />
                     </Link>
                 </div>
             )
@@ -199,14 +290,6 @@ const MiCaptcha = defineComponent({
                     <div class={styled.success} style={style} />
                 </Transition>
             ) : null
-            // return (
-            //     <div
-            //         class={`${styled.success}${
-            //             params.status.success ? ` ${styled.successOpen}` : ''
-            //         }`}
-            //         style={style}
-            //     />
-            // )
         }
 
         const renderContent = () => {
@@ -233,7 +316,7 @@ const MiCaptcha = defineComponent({
             return (
                 <>
                     <div
-                        class={styled.content}
+                        class={`${styled.content}${params.failed ? ` ${styled.failed}` : ''}`}
                         onClick={handleCaptchaModal}
                         style={{ width, height }}>
                         {renderRadar()}
@@ -243,6 +326,16 @@ const MiCaptcha = defineComponent({
                 </>
             )
         }
+
+        onMounted(() => {
+            initCaptcha()
+            $tools.on(window, 'resize', resetCaptchaStatus)
+        })
+
+        onUnmounted(() => {
+            handleCaptchaModalClose({ status: 'close' })
+            $tools.off(window, 'resize', resetCaptchaStatus)
+        })
 
         return () => (
             <div ref={captchaRef} class={styled.container} key={$tools.uid()}>

@@ -1,7 +1,7 @@
 import { SlotsType, defineComponent, Transition, ref } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { NoticeItemProps } from './props'
-import { logo } from '../../utils/images'
+import { __LOGO__ } from '../../utils/images'
 import { Row, Tag, Flex } from 'ant-design-vue'
 import { ArrowLeftOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
@@ -43,7 +43,7 @@ const MiNoticeItem = defineComponent({
             return (
                 getPropSlot(slots, props, 'avatar') ?? (
                     <div class={styled.avatar}>
-                        <img src={logo} />
+                        <img src={__LOGO__} />
                     </div>
                 )
             )

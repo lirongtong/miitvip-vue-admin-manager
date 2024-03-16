@@ -108,8 +108,8 @@ export interface CaptchaModalProperties {
 export const CaptchaModalProps = () => ({
     open: PropTypes.bool.def(false),
     position: object<Position>(),
-    image: PropTypes.string,
-    color: PropTypes.string,
+    image: PropTypes.string.def(undefined),
+    color: PropTypes.string.def(undefined),
     mask: PropTypes.bool.def(true),
     maskClosable: PropTypes.bool.def(true),
     maxTries: PropTypes.number.def(5),
@@ -118,3 +118,8 @@ export const CaptchaModalProps = () => ({
     verifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     actionConfig: object<AxiosRequestConfig>().def({})
 })
+
+export interface CaptchaModalBlockPosition {
+    type: string
+    direction: keyof Position
+}

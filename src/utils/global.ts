@@ -1,11 +1,12 @@
 import { type App, reactive } from 'vue'
 import type { GlobalProperties } from './types'
-import { logo } from './images'
+import { __LOGO__ } from './images'
 
 const MI_YEAR = new Date().getFullYear()
 export const __MI_AUTHOR__ = 'makeit.vip'
 export const __MI_POWERED__ = 'Powered By makeit.vip'
-export const __MI_LOGO__ = logo
+export const __MI_LOGO__ = __LOGO__
+export const __MI_SITE__ = 'https://admin.makeit.vip'
 
 /**
  * 全局变量 - ( `this.$g` )

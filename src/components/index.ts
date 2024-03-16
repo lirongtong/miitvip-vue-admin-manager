@@ -46,5 +46,9 @@ export { default as Quote } from './quote'
 export type { ModalProperties, TeleportProperties } from './modal/props'
 export { default as Modal } from './modal'
 
-export type { CaptchaProperties, CaptchaModalProperties } from './captcha/props'
+export type {
+    CaptchaProperties,
+    CaptchaModalProperties,
+    CaptchaModalBlockPosition
+} from './captcha/props'
 export { default as Captcha } from './captcha'
