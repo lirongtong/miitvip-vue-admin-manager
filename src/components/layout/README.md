@@ -1,6 +1,14 @@
 # 基础布局
 
-> 「 链接 」 组件用于快速生成 `a` 标签链接，根据传入的 `path` 属性，区分是内部跳转（不携带协议的地址）或是外部跳转地址，同时可用于邮箱类型的快速生成（`type="email"`）
+> 「 基础布局 」 组件主体设计
+>
+> 「 `Header` 」顶部布局，内置在 「 `Content` 」顶部，放置面包屑，搜索等全局通用模块
+>
+> 「 `Sider` 」侧边栏位，展开宽度「 `256px` 」，收起宽度「 `80px` 」，用于放置站点图标及菜单导航等选项
+>
+> 「 `Content` 」内容布局，自定义内容区域
+>
+> 「 `Footer` 」底部布局，放置版权，友链等内容
 
 ## 使用示例
 
@@ -9,3 +17,116 @@
 ```html
 <mi-layout />
 ```
+
+## 主题配置
+
+```html
+<mi-theme :theme="theme">
+    <!-- ... -->
+    <mi-layout>
+        <!-- ... -->
+    </mi-layout>
+</mi-theme>
+
+<script lang="ts" setup>
+    import { reactive } from 'vue'
+
+    const theme = reactive({
+        components: {
+            layout: {
+                background: '#fff',
+                // ...
+            }
+        }
+    })
+</script>
+```
+
+### Tokens
+
+#### Layout Tokens
+
+| Token | 默认值
+| :---- | :----
+| `--mi-layout-background` | `rgba(--mi-rgb-surface-variant, .6)`
+
+#### Layout Content Tokens
+
+| Token | 默认值
+| :---- | :----
+| `--mi-layout-content-text` | `--mi-on-background`
+| `--mi-layout-content-mask` | `--mi-shadow`
+| `--mi-layout-content-shadow` | `--mi-shadow`
+| `--mi-layout-content-background` | `--mi-background`
+
+#### Layout Sider Logo Tokens
+
+| Token | 默认值
+| :---- | :----
+| `--mi-layout-ider-logo-text` | `--mi-primary`
+| `--mi-layout-ider-logo-border` | `--mi-primary`
+| `--mi-layout-ider-logo-collapsed` | `--mi-on-background`
+| `--mi-layout-ider-logo-notice` | `--mi-on-background`
+| `--mi-layout-ider-logo-trigger` | `rgba(--mi-rgb-on-surface, .1)`
+
+## API
+
+### MiLayout `<mi-layout>`
+
+#### `MiLayout` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `showBreadcrumbs` | `boolean | true | 是否显示面包屑导航
+| `header` | `vSlot` | `''` | 顶栏
+| `sider` | `vSlot` | `''` | 侧边栏
+| `footer` | `vSlot` | `''` | 页脚
+| `headerSetting` | `LayoutHeaderProperties` | `{}` | `Layout Header` 配置
+| `siderSetting` | `LayoutSiderProperties` | `{}` | `Layout Sider` 配置
+| `contentSetting` | `LayoutContentProperties` | `{}` | `Layout Content` 配置
+
+### MiLayoutHeader `<mi-layout-header>`
+
+#### `MiLayoutHeader` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `notice` | `vSlot` | `''` | 消息配置
+| `dropdown` | `vSlot` | `''` | 下拉菜单配置
+| `breadcrumb` | `vSlot` | `''` | 面包屑配置
+| `search` | `vSlot` | `''` | 搜索配置
+| `breadcrumbSetting` | `BreadcrumbProperties` | `{}` | 面包屑组件属性配置
+| `searchSetting` | `SearchProperties` | `{}` | 搜索组件属性配置
+| `palette` | `vSlot` | `''` | 调色板
+| `extra` | `vSlot` | `''` | 额外的自定义配置
+
+### MiLayoutSider `<mi-layout-sider>`
+
+#### `MiLayoutSider` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `logo` | `vSlot` | `''` | 图标
+| `menu` | `vSlot` | `''` | 菜单
+| `background` | `vSlot` | `''` | 背景色
+| `logoSetting` | `LayoutSiderLogoProperties` | `{}` | `Logo` 组件属性配置
+
+### MiLayoutSiderLogo `<mi-layout-sider-logo>`
+
+#### `MiLayoutSiderLogo` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `circle` | `boolean` | `true` | 圆形显示 LOGO
+| `collapsed` | `vSlot` | `<MenuFoldOutlined />` | 展开/收起按钮配置
+| `notice` | `vSlot` | `''` | 消息配置
+| `noticeSetting` | `NoticeProperties` | `{}` | 消息组件属性配置
+
+### MiLayoutContent `<mi-layout-content>`
+
+#### `MiLayoutContent` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `animation` | `string` | `page-slide` | 切换动画
+| `footer` | `vSlot` | `<MiLayoutFooter />` | 页脚配置
