@@ -32,8 +32,10 @@ const MiModal = defineComponent({
         }
 
         const handleCancel = (evt?: Event) => {
-            emit('update:open', false)
-            emit('cancel', evt)
+            if (props.closable) {
+                emit('update:open', false)
+                emit('cancel', evt)
+            }
         }
 
         const handleAfterClose = (evt?: Event) => {
@@ -53,9 +55,11 @@ const MiModal = defineComponent({
         const renderFooter = () => {
             return (
                 <div class={styled.btns}>
-                    <Button ghost={true} class={styled.btnsCancel} onClick={handleCancel}>
-                        {getPropSlot(slots, props, 'cancelText') ?? t('global.cancel')}
-                    </Button>
+                    {props.closable ? (
+                        <Button ghost={true} class={styled.btnsCancel} onClick={handleCancel}>
+                            {getPropSlot(slots, props, 'cancelText') ?? t('global.cancel')}
+                        </Button>
+                    ) : null}
                     <Button class={styled.btnsOk} type="primary" onClick={handleOk}>
                         {getPropSlot(slots, props, 'okText') ?? t('global.ok')}
                     </Button>

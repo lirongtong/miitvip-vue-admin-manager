@@ -15,16 +15,16 @@ import type { ModalFuncProps } from 'ant-design-vue'
  * @param open 弹窗开启状态
  * @param ok 确定回调
  * @param cancel 取消回调
- * @param mask 遮罩
+ * @param mask 是否显示遮罩
  * @param maskStyle 遮罩样式
- * @param maskClosable 开启遮罩点击关闭
- * @param icon 开启遮罩点击关闭
+ * @param maskClosable 遮罩是否可以点击关闭弹窗
  * @param width 宽度
  * @param zIndex 层级
  * @param closable 可关闭
  * @param container 渲染容器
  * @param forceRender 强制渲染
  * @param destroyOnClose 关闭 Modal 时, 销毁弹窗内的子元素
+ * @param wrapClass Modal 容器的自定义样式名
  * @param footer Modal Footer 配置<Slot />
  * @param footerBtnPosition Modal Footer 按钮位置
  * @param closeIcon 关闭按钮<Slot />
@@ -43,7 +43,6 @@ export interface ModalProperties {
     mask: boolean
     maskStyle: CSSProperties
     maskClosable: boolean
-    icon: VNodeTypes
     width: string | number | DeviceSize
     height: string | number | DeviceSize
     zIndex: number

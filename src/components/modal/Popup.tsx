@@ -37,7 +37,7 @@ const MiModalPopup = defineComponent({
         }
 
         const handleWrapClick = (evt?: Event) => {
-            if (!props.maskClosable) return null
+            if (!props.maskClosable || !props.closable) return null
             if (wrapRef.value && wrapRef.value === evt?.target) handleCloseClick(evt)
         }
 
@@ -82,7 +82,7 @@ const MiModalPopup = defineComponent({
             ) : null
             return (
                 <div class={styled.content} style={size}>
-                    {closer}
+                    {props.closable ? closer : null}
                     {header}
                     <div class={styled.body}>{getPropSlot(slots, props)}</div>
                     {footer}
