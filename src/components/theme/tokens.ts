@@ -69,15 +69,17 @@ export interface ThemeTokens extends ThemeConfig {
  * @param notice 消息中心
  * @param clock 时钟
  * @param captcha 滑块验证码
- * @param breadcrumbs 面包屑
+ * @param breadcrumb 面包屑
  * @param code 代码高亮
+ * @param dropdown 下拉菜单
  *
  * @see LayoutTokens
  * @see NoticeTokens
  * @see ClockTokens
  * @see CaptchaTokens
- * @see BreadcrumbsTokens
+ * @see BreadcrumbTokens
  * @see CodeTokens
+ * @see DropdownTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -85,8 +87,9 @@ export interface ComponentTokens {
     notice: Partial<NoticeTokens>
     clock: Partial<ClockTokens>
     captcha: Partial<CaptchaTokens>
-    breadcrumbs: Partial<BreadcrumbsTokens>
+    breadcrumb: Partial<BreadcrumbTokens>
     code: Partial<CodeTokens>
+    dropdown: Partial<DropdownTokens>
 }
 
 /**
@@ -420,7 +423,7 @@ export interface CaptchaModalContentTokens {
  *
  * @see ColorStateTokens
  */
-export interface BreadcrumbsTokens {
+export interface BreadcrumbTokens {
     [key: string]: any
     text: Partial<ColorStateTokens>
     separator: string
@@ -445,5 +448,31 @@ export interface CodeTokens {
         red: string
         orange: string
         green: string
+    }>
+}
+
+/**
+ * +=======================+
+ * |        下拉菜单        |
+ * +=======================+
+ * @param item 下拉选项
+ *
+ * @see DropdownItemTokens
+ */
+export interface DropdownTokens {
+    [key: string]: any
+    item: Partial<DropdownItemTokens>
+}
+/**
+ * @param text 文案
+ * @param tag 标签
+ */
+export interface DropdownItemTokens {
+    [key: string]: any
+    text: string
+    tag: Partial<{
+        [key: string]: any
+        text: string
+        tag: Partial<GradientTokens>
     }>
 }

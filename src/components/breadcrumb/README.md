@@ -7,20 +7,20 @@
 ### 默认
 
 ```html
-<mi-breadcrumbs />
+<mi-breadcrumb />
 ```
 
 ### 分隔符
 
 ```html
-<mi-breadcrumbs separator="~" />
+<mi-breadcrumb separator="~" />
 ```
 
 ### 动画
 
 ```html
 <!-- 内置的动画效果请看 `components/_utils/props` - animations -->
-<mi-breadcrumbs animation="scale" />
+<mi-breadcrumb animation="scale" />
 ```
 
 ## 主题配置
@@ -29,7 +29,7 @@
 <template>
     <mi-theme :theme="theme">
         <!-- ... -->
-        <mi-breadcrumbs />
+        <mi-breadcrumb />
     </mi-theme>
 </template>
 
@@ -38,7 +38,7 @@
 
     const theme = reactive({
         components: {
-            breadcrumbs: {
+            breadcrumb: {
                 text: {
                     default: '#000',
                     active: '#fff'
@@ -56,15 +56,15 @@
 
 | Token | 默认值
 | :---- | :----
-| `--mi-breadcrumbs-text-default` | `--mi-on-surface-variant`
-| `--mi-breadcrumbs-text-active` | `--mi-primary`
-| `--mi-breadcrumbs-separator` | `--mi-on-surface-variant`
+| `--mi-breadcrumb-text-default` | `--mi-on-surface-variant`
+| `--mi-breadcrumb-text-active` | `--mi-primary`
+| `--mi-breadcrumb-separator` | `--mi-on-surface-variant`
 
 ## API
 
-### MiBreadcrumbs `<mi-breadcrumbs>`
+### MiBreadcrumb `<mi-breadcrumb>`
 
-#### `MiBreadcrumbs` 属性 ( `Properties` )
+#### `MiBreadcrumb` 属性 ( `Properties` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
