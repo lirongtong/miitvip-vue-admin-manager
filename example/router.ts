@@ -33,6 +33,8 @@ const ComponentsTitle = () => import('./views/components/title.vue')
 const ComponentsQuote = () => import('./views/components/quote.vue')
 
 const PassportLogin = () => import('./views/passport/login.vue')
+const PassportRegister = () => import('./views/passport/register.vue')
+const PassportForget = () => import('./views/passport/forget.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [
     {
@@ -191,6 +193,18 @@ const passportRoutes: Array<RouteRecordRaw> = [
         name: 'single-login',
         meta: { title: '登录' },
         component: PassportLogin
+    },
+    {
+        path: '/register',
+        name: 'single-register',
+        meta: { title: '注册' },
+        component: PassportRegister
+    },
+    {
+        path: '/forget',
+        name: 'single-forget',
+        meta: { title: '忘记密码' },
+        component: PassportForget
     }
 ]
 

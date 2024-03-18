@@ -10,7 +10,7 @@ import { $request } from '../../utils/request'
 import type { ResponseData } from '../../utils/types'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { __LOGO__, __CAPTCHA_DEFAULT_BACKGRUOND__ } from '../../utils/images'
-import Link from '../link'
+import MiLink from '../link/Link'
 import applyTheme from '../_utils/theme'
 import styled from './style/modal.module.less'
 
@@ -544,9 +544,9 @@ const MiCaptchaModal = defineComponent({
                         autoAdjustOverflow={false}
                         overlayClassName={styled.panelActionTooltip}
                         zIndex={Date.now()}>
-                        <Link path={params.site} target="_blank">
+                        <MiLink path={params.site} target="_blank">
                             <QuestionCircleOutlined />
-                        </Link>
+                        </MiLink>
                     </Tooltip>
                 </div>
             )
@@ -562,9 +562,9 @@ const MiCaptchaModal = defineComponent({
                             autoAdjustOverflow={false}
                             overlayClassName={styled.panelActionTooltip}
                             zIndex={Date.now()}>
-                            <Link path={params.site} target="_blank">
+                            <MiLink path={params.site} target="_blank">
                                 <img src={$g.logo || __LOGO__} alt={params.powered} />
-                            </Link>
+                            </MiLink>
                         </Tooltip>
                     </div>
                 </div>

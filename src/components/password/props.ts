@@ -10,6 +10,7 @@ import { placement, tuple } from '../_utils/props'
  * @param height 输入框高度
  * @param radius 输入框圆角弧度
  * @param value v-model
+ * @param skipCheck 跳过密码检查
  * @param min 密码最低长度
  * @param max 密码最大长度
  * @param complexity 是否为复杂密码 ( 字母 + 数字 + 符号 )
@@ -25,6 +26,7 @@ export interface PasswordProperties {
     height: string | number | DeviceSize
     radius: string | number | DeviceSize
     value: string | number
+    skipCheck: boolean
     min: number
     max: number
     complexity: boolean
@@ -41,6 +43,7 @@ export const PasswordProps = () => ({
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(42),
     radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(42),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    skipCheck: PropTypes.bool.def(false),
     min: PropTypes.number.def(6),
     max: PropTypes.number.def(32),
     complexity: PropTypes.bool.def(true),

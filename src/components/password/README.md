@@ -101,6 +101,7 @@
 | `height` | `string \| number \| DeviceSize` | `42` | 输入框高度
 | `radius` | `string \| number \| DeviceSize` | `42` | 输入框圆角弧度
 | `value ( v-model )` | `string \| number` | `''` | 密码值
+| `skipCheck` | `boolean` | `false` | 跳过密码校验 ( 仅生成密码框 )
 | `min` | `number` | `6` | 密码值最低长度
 | `max` | `number` | `32` | 密码值最大长度
 | `complexity` | `boolean` | `true` | 是否为复杂密码

@@ -4,5 +4,6 @@ import search from './search'
 import pagination from './pagination'
 import captcha from './captcha'
 import password from './password'
+import login from './login'
 
-export default { global, notice, search, pagination, captcha, password }
+export default { global, notice, search, pagination, captcha, password, login }

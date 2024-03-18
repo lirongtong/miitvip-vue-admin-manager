@@ -1,1 +1,3 @@
-<template>PassportLogin</template>
+<template>
+    <mi-login />
+</template>

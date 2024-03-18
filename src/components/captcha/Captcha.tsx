@@ -20,9 +20,9 @@ import { VerifiedOutlined } from '@ant-design/icons-vue'
 import type { Position, ResponseData } from '../../utils/types'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import MiCaptchaModal from './Modal'
+import MiLink from '../link/Link'
 import applyTheme from '../_utils/theme'
 import styled from './style/captcha.module.less'
-import Link from '../link'
 
 const MiCaptcha = defineComponent({
     name: 'MiCaptcha',
@@ -245,9 +245,9 @@ const MiCaptcha = defineComponent({
         const renderRadarLogo = () => {
             return (
                 <div class={styled.radarLogo}>
-                    <Link path={props.link} target="_blank">
+                    <MiLink path={props.link} target="_blank">
                         <img src={props.logo ?? __LOGO__} alt={$g.powered} />
-                    </Link>
+                    </MiLink>
                 </div>
             )
         }

@@ -41,6 +41,7 @@ const MiPassword = defineComponent({
         const defaultTip = ref<string>(props.complexityTip ?? t('password.tip'))
 
         const checkPassword = (_rule: any, value: string) => {
+            if (props.skipCheck) return Promise.resolve()
             if ($tools.isEmpty(value)) {
                 params.password = {
                     strength: 0,
@@ -84,6 +85,7 @@ const MiPassword = defineComponent({
         }
 
         const checkConfirm = (_rule: any, value: string) => {
+            if (props.skipCheck) return Promise.resolve()
             if ($tools.isEmpty(value)) {
                 return Promise.reject(t('password.repeat'))
             } else {
@@ -275,15 +277,23 @@ const MiPassword = defineComponent({
                 model={params.form.validate}
                 rules={params.form.rules}>
                 <Form.Item name="password">
-                    <Popover
-                        trigger="focus"
-                        placement={props.placement}
-                        content={renderPopoverContent()}
-                        overlayClassName={getPrefixCls(`password-${locale.value}`)}>
-                        {renderPassword(params.form.validate.password, handleInput, handleVisible)}
-                    </Popover>
+                    {props.skipCheck ? (
+                        renderPassword(params.form.validate.password, handleInput, handleVisible)
+                    ) : (
+                        <Popover
+                            trigger="focus"
+                            placement={props.placement}
+                            content={renderPopoverContent()}
+                            overlayClassName={getPrefixCls(`password-${locale.value}`)}>
+                            {renderPassword(
+                                params.form.validate.password,
+                                handleInput,
+                                handleVisible
+                            )}
+                        </Popover>
+                    )}
                 </Form.Item>
-                {renderConfirm()}
+                {props.skipCheck ? null : renderConfirm()}
             </Form>
         )
     }

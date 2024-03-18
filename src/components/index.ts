@@ -56,3 +56,6 @@ export { default as Captcha } from './captcha'
 
 export type { PasswordProperties } from './password/props'
 export { default as Password } from './password'
+
+export type { LoginProperties, LoginSocialiteProperties } from './login/props'
+export { default as Login } from './login'

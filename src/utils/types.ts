@@ -95,6 +95,7 @@ export interface CacheTokens {
     }
     cookies: {
         [key: string]: any
+        autoLogin: string
         token: {
             access: string
             refresh: string
@@ -374,4 +375,53 @@ export interface ResponseData {
 export interface ResponseRet {
     code: string | number
     message: string
+}
+
+/**
+ * +=========================+
+ * |      登录参数结构        |
+ * +=========================+
+ * @param username 用户名
+ * @param password 密码
+ * @param remember 是否自动登录
+ * @param captcha 是否开启验证码
+ * @param url 接口地址
+ * @param method 请求方式
+ * @param cuid 验证码校验 UID
+ */
+export interface LoginParams {
+    username: string
+    password: string
+    remember?: boolean | number
+    captcha?: boolean
+    url?: string
+    method?: string
+    cuid?: string
+}
+
+/**
+ * +======================+
+ * |      授权登录        |
+ * +======================+
+ * @param url 接口地址
+ * @param token 授权码
+ */
+export interface LoginAuth {
+    url: string
+    token: string
+}
+
+/**
+ * +=============================+
+ * |      登录响应数据结构        |
+ * +=============================+
+ * @param user 用户数据
+ * @param tokens 授权
+ */
+export interface LoginResponseData {
+    user: any
+    tokens: Partial<{
+        access: string
+        refresh: string
+    }>
 }

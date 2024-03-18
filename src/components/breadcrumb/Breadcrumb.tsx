@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 import { $tools } from '../../utils/tools'
 import { useBreadcrumbsStore } from '../../stores/breadcrumbs'
 import { HomeOutlined } from '@ant-design/icons-vue'
-import MiLink from '../link'
+import MiLink from '../link/Link'
 import applyTheme from '../_utils/theme'
 import styled from './style/breadcrumb.module.less'
 

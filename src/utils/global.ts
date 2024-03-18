@@ -103,8 +103,12 @@ export const $g = reactive({
         xl: 1200,
         xxl: 1600,
         xxxl: 2000
+    },
+    winSize: {
+        width: 0,
+        height: 0
     }
-}) as GlobalProperties
+}) as unknown as GlobalProperties
 
 export default {
     install(app: App) {
