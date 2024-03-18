@@ -1,4 +1,5 @@
 export type { ThemeProperties } from './theme/props'
+export * from './theme/tokens'
 export { default as Theme } from './theme'
 
 export type { LinkProperties } from './link/props'
