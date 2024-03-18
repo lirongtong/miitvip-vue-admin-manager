@@ -15,6 +15,7 @@ import { default as Title } from './components/title'
 import { default as Quote } from './components/quote'
 import { default as Modal } from './components/modal'
 import { default as Captcha } from './components/captcha'
+import { default as Password } from './components/password'
 
 import * as components from './components'
 export * from './components'
@@ -67,6 +68,7 @@ declare module '@vue/runtime-core' {
         MiQuote: typeof Quote
         MiModal: typeof Modal
         MiCaptcha: typeof Captcha
+        MiPassword: typeof Password
     }
 }
 
