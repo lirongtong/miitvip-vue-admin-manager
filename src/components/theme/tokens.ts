@@ -74,6 +74,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param dropdown 下拉菜单
  * @param menu 菜单
  * @param modal 弹窗
+ * @param palette 调色板
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -84,6 +85,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see DropdownTokens
  * @see MenuTokens
  * @see ModalTokens
+ * @see PaletteTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -96,6 +98,7 @@ export interface ComponentTokens {
     dropdown: Partial<DropdownTokens>
     menu: Partial<MenuTokens>
     modal: Partial<ModalTokens>
+    palette: Partial<PaletteTokens>
 }
 
 /**
@@ -521,4 +524,40 @@ export interface ModalQuickTokens {
     [key: string]: any
     border: string
     background: Partial<GradientTokens>
+}
+
+/**
+ * +=====================+
+ * |        调色版        |
+ * +=====================+
+ * @param text 文案
+ * @param background 背景色
+ * @param border 边框
+ * @param btn 按钮
+ *
+ * @see PaletteBtnTokens
+ */
+export interface PaletteTokens {
+    [key: string]: any
+    text: string
+    background: string
+    border: string
+    btn: Partial<PaletteBtnTokens>
+}
+/**
+ * @param border 边框
+ * @param text 文案
+ * @param save 按钮
+ */
+export interface PaletteBtnTokens {
+    [key: string]: any
+    border: string
+    text: string
+    save: Partial<{
+        [key: string]: any
+        color: string
+        start: string
+        hint: string
+        stop: string
+    }>
 }
