@@ -181,6 +181,14 @@
 | `placement` | `string` | `scale` | 弹窗弹出位置「 查看 `./components/_utils/props - placement` 」
 | `afterClose` | `function` | `''` | 弹窗关闭后的事件回调
 
+#### Interface `DeviceSize` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `laptop` | `string \| number` | `''` | 电脑端
+| `mobile` | `string \| number` | `''` | 移动端
+| `tablet` | `string \| number` | `''` | 平板端
+
 #### `MiModal` 事件 ( `Events` )
 
 | 方法 | 返回值 | 说明

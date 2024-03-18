@@ -211,6 +211,14 @@
 | `pageSize` | `number \| string \| DeviceSize` | `10` | 分页每页数据
 | `data` | `SearchData` | `[]` | 本地搜索数据
 
+#### Interface `DeviceSize` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `laptop` | `string \| number` | `''` | 电脑端
+| `mobile` | `string \| number` | `''` | 移动端
+| `tablet` | `string \| number` | `''` | 平板端
+
 #### `MiSearch` 事件 ( `Events` )
 
 | 方法 | 返回值 | 说明
