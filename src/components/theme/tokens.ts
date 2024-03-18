@@ -77,6 +77,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param palette 调色板
  * @param quote 引用说明
  * @param search 联想搜索
+ * @param title 标题设置
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -90,6 +91,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see PaletteTokens
  * @see QuoteTokens
  * @see SearchTokens
+ * @see TitleTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -105,6 +107,7 @@ export interface ComponentTokens {
     palette: Partial<PaletteTokens>
     quote: Partial<QuoteTokens>
     search: Partial<SearchTokens>
+    title: Partial<TitleTokens>
 }
 
 /**
@@ -681,4 +684,15 @@ export interface SearchListTokens {
             disabled: string
         }>
     }>
+}
+
+/**
+ * +=======================+
+ * |        标题设置        |
+ * +=======================+
+ * @param undeline 底线
+ */
+export interface TitleTokens {
+    [key: string]: any
+    undeline: Partial<GradientTokens>
 }
