@@ -137,3 +137,11 @@
 | `icon` | `vSlot` | `''` | 图标
 | `size` | `string \| number \| DeviceSize` | `''` | 大小
 | `radius` | `string \| number \| DeviceSize` | `''` | 圆角弧度
+
+#### Interface `DeviceSize` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `laptop` | `string \| number` | `''` | 电脑端
+| `mobile` | `string \| number` | `''` | 移动端
+| `tablet` | `string \| number` | `''` | 平板端

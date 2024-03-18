@@ -1,5 +1,5 @@
 import { array, object } from 'vue-types'
-import { PropTypes, type MenuItem } from '../../utils/types'
+import { PropTypes, type MenuItem, type DeviceSize } from '../../utils/types'
 
 /**
  * +==========================+
@@ -26,11 +26,11 @@ const MenuCommonProps = () => ({
  * @see MenuItem
  */
 export interface MenuProperties {
-    indent: number | string
+    indent: number | string | DeviceSize
     items: MenuItem[]
 }
 export const MenuProps = () => ({
-    indent: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).def(16),
+    indent: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(16),
     items: array<MenuItem>().def([])
 })
 

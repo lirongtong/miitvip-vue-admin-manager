@@ -203,6 +203,14 @@ const handleVerifyAction = () => {
 | `verifyAction` | `string \| function` | `''` | 验证码校验的动作处理
 | `actionConfig` | `AxiosRequestConfig` | `{}` | 远程接口的通用配置参数
 
+#### Interface `DeviceSize` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `laptop` | `string \| number` | `''` | 电脑端
+| `mobile` | `string \| number` | `''` | 移动端
+| `tablet` | `string \| number` | `''` | 平板端
+
 #### `MiCaptcha` 事件 ( `Events` )
 
 | 方法 | 返回值 | 说明
