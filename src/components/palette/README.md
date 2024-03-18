@@ -25,7 +25,7 @@
         components: {
             palette: {
                 text: '#333',
-                border: '#000'
+                border: '#000',
                 // ...
             }
         }
