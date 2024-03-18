@@ -76,6 +76,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param modal 弹窗
  * @param palette 调色板
  * @param quote 引用说明
+ * @param search 联想搜索
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -88,6 +89,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see ModalTokens
  * @see PaletteTokens
  * @see QuoteTokens
+ * @see SearchTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -102,6 +104,7 @@ export interface ComponentTokens {
     modal: Partial<ModalTokens>
     palette: Partial<PaletteTokens>
     quote: Partial<QuoteTokens>
+    search: Partial<SearchTokens>
 }
 
 /**
@@ -131,6 +134,7 @@ export interface LayoutTokens {
  * +=============================+
  */
 export interface LayoutHeaderTokens {
+    [key: string]: any
     text: string
     background: string
 }
@@ -144,6 +148,7 @@ export interface LayoutHeaderTokens {
  * @see LayoutSiderLogoTokens
  */
 export interface LayoutSiderTokens {
+    [key: string]: any
     logo: Partial<LayoutSiderLogoTokens>
 }
 
@@ -158,6 +163,7 @@ export interface LayoutSiderTokens {
  * @param trigger 触发器背景
  */
 export interface LayoutSiderLogoTokens {
+    [key: string]: any
     text: string
     border: string
     collapsed: string
@@ -175,6 +181,7 @@ export interface LayoutSiderLogoTokens {
  * @param background 背景
  */
 export interface LayoutContentTokens {
+    [key: string]: any
     text: string
     mask: string
     shadow: string
@@ -196,6 +203,7 @@ export interface LayoutContentTokens {
  * @see NoticeItemTokens
  */
 export interface NoticeTokens {
+    [key: string]: any
     text: string
     border: string
     background: string
@@ -215,6 +223,7 @@ export interface NoticeTokens {
  * @see GradientTokens
  */
 export interface NoticeTabTokens {
+    [key: string]: any
     text: Partial<ColorStateTokens>
     icon: Partial<ColorStateTokens>
     background: Partial<GradientTokens> & { default?: string }
@@ -237,6 +246,7 @@ export interface NoticeTabTokens {
  * @see NoticeItemContentTokens
  */
 export interface NoticeItemTokens {
+    [key: string]: any
     background: string
     border: string
     text: string
@@ -247,11 +257,13 @@ export interface NoticeItemTokens {
     content: Partial<NoticeItemContentTokens>
 }
 export interface NoticeItemTagTokens {
+    [key: string]: any
     border: string
     background: string
     text: string
 }
 export interface NoticeItemContentTokens {
+    [key: string]: any
     border: string
     background: string
     text: string
@@ -271,7 +283,10 @@ export interface NoticeItemContentTokens {
 export interface MenuTokens {
     text: string
     background: string
-    collapsed: Partial<{ tooltip: Partial<{ text: string; background: string }> }>
+    collapsed: Partial<{
+        [key: string]: any
+        tooltip: Partial<{ [key: string]: any; text: string; background: string }>
+    }>
     submenu: Partial<MenuSubmenuToken>
 }
 /**
@@ -279,8 +294,11 @@ export interface MenuTokens {
  * @param popup 收缩状态下的子菜单弹窗配置
  */
 export interface MenuSubmenuToken {
-    item: Partial<{ title: Partial<{ arrow: Partial<{ default: string; active: string }> }> }>
-    popup: Partial<{ text: string; border: string; background: string }>
+    item: Partial<{
+        [key: string]: any
+        title: Partial<{ [key: string]: any; arrow: Partial<{ default: string; active: string }> }>
+    }>
+    popup: Partial<{ [key: string]: any; text: string; border: string; background: string }>
 }
 /**
  * @param text 菜单选项的默认文案颜色
@@ -293,7 +311,7 @@ export interface MenuSubmenuToken {
 export interface MenuItemTokens {
     text: string
     title: Partial<MenuItemTitleTokens>
-    background: Partial<{ default: string; active: Partial<GradientTokens> }>
+    background: Partial<{ [key: string]: any; default: string; active: Partial<GradientTokens> }>
 }
 /**
  * @param text 标题颜色
@@ -303,7 +321,7 @@ export interface MenuItemTokens {
 export interface MenuItemTitleTokens {
     text: string
     sub: string
-    active: Partial<{ text: string; sub: string; icon: string }>
+    active: Partial<{ [key: string]: any; text: string; sub: string; icon: string }>
 }
 
 /**
@@ -327,9 +345,15 @@ export interface ClockTokens {
     shadow: string
     background: Partial<BackgroundTokens>
     hour: Partial<{ text: string }>
-    minute: Partial<{ text: string; line: string }>
-    point: Partial<{ background: string; hour: string; minute: string; second: string }>
-    pointer: Partial<{ background: string; mid: string; top: string }>
+    minute: Partial<{ [key: string]: any; text: string; line: string }>
+    point: Partial<{
+        [key: string]: any
+        background: string
+        hour: string
+        minute: string
+        second: string
+    }>
+    pointer: Partial<{ [key: string]: any; background: string; mid: string; top: string }>
 }
 
 /**
@@ -363,8 +387,8 @@ export interface CaptchaRadarTokens {
     ready: { background: Partial<GradientTokens> }
     ring: string
     dot: string
-    scan: Partial<{ border: string }>
-    success: Partial<{ icon: string; background: string }>
+    scan: Partial<{ [key: string]: any; border: string }>
+    success: Partial<{ [key: string]: any; icon: string; background: string }>
 }
 /**
  * @param arrow 箭头
@@ -374,7 +398,10 @@ export interface CaptchaRadarTokens {
  */
 export interface CaptchaModalTokens {
     [key: string]: any
-    arrow: Partial<{ border: Partial<{ in: string; out: string }> }>
+    arrow: Partial<{
+        [key: string]: any
+        border: Partial<{ [key: string]: any; in: string; out: string }>
+    }>
     content: Partial<CaptchaModalContentTokens>
 }
 /**
@@ -576,4 +603,82 @@ export interface QuoteTokens {
     [key: string]: any
     text: string
     bacground: Partial<GradientTokens>
+}
+
+/**
+ * +=======================+
+ * |        联想搜索        |
+ * +=======================+
+ * @param key 关键词
+ * @param loading 加载中
+ * @param input 输入框
+ * @param list 列表
+ *
+ * @see SearchInputTokens
+ * @see SearchListTokens
+ */
+export interface SearchTokens {
+    [key: string]: any
+    key: string
+    loading: string
+    input: Partial<SearchInputTokens>
+    list: Partial<SearchListTokens>
+}
+
+/**
+ * @param text 文案
+ * @param background 背景色
+ * @param placeholder 占位符颜色
+ * @param border 边框
+ */
+export interface SearchInputTokens {
+    [key: string]: any
+    text: string
+    background: Partial<{
+        [key: string]: any
+        color: string
+        gradient: Partial<GradientTokens>
+    }>
+    placeholder: string
+    border: string
+}
+/**
+ * @param border 边框
+ * @param background 背景色
+ * @param item 单项
+ * @param pagination 分页
+ */
+export interface SearchListTokens {
+    [key: string]: any
+    border: string
+    background: Partial<{
+        [key: string]: any
+        color: string
+        gradient: Partial<GradientTokens>
+    }>
+    item: Partial<{
+        [key: string]: any
+        divider: string
+        title: string
+        summary: string
+        avatar: Partial<{
+            [key: string]: any
+            border: string
+        }>
+    }>
+    pagination: Partial<{
+        [key: string]: any
+        border: string
+        background: string
+        input: Partial<{
+            [key: string]: any
+            border: string
+            text: string
+        }>
+        control: Partial<{
+            [key: string]: any
+            default: string
+            disabled: string
+        }>
+    }>
 }
