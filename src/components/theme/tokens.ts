@@ -75,6 +75,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param menu 菜单
  * @param modal 弹窗
  * @param palette 调色板
+ * @param quote 引用说明
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -86,6 +87,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see MenuTokens
  * @see ModalTokens
  * @see PaletteTokens
+ * @see QuoteTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -99,6 +101,7 @@ export interface ComponentTokens {
     menu: Partial<MenuTokens>
     modal: Partial<ModalTokens>
     palette: Partial<PaletteTokens>
+    quote: Partial<QuoteTokens>
 }
 
 /**
@@ -560,4 +563,17 @@ export interface PaletteBtnTokens {
         hint: string
         stop: string
     }>
+}
+
+/**
+ * +=======================+
+ * |        引用说明        |
+ * +=======================+
+ * @param text 文案
+ * @param bacground 背景色
+ */
+export interface QuoteTokens {
+    [key: string]: any
+    text: string
+    bacground: Partial<GradientTokens>
 }
