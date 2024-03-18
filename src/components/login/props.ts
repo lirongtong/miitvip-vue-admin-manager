@@ -1,5 +1,5 @@
 import { VNodeTypes } from 'vue'
-import { PropTypes } from '../../utils/types'
+import { PropTypes, type DropdownItem } from '../../utils/types'
 import { object } from 'vue-types'
 import type { CaptchaProperties } from '../captcha/props'
 
@@ -52,6 +52,19 @@ export const LoginProps = () => ({
     socialiteLoginDomain: PropTypes.string
 })
 
-export interface LoginSocialiteProperties {}
+/**
+ * +==============================+
+ * |       Login Socialite        |
+ * +==============================+
+ * @param domain 域名
+ * @param items 下拉数据
+ */
+export interface LoginSocialiteProperties {
+    domain: string
+    items: Partial<DropdownItem>[]
+}
 
-export const LoginSocialiteProps = () => ({})
+export const LoginSocialiteProps = () => ({
+    domain: PropTypes.string,
+    items: object<Partial<DropdownItem>[]>().def([])
+})
