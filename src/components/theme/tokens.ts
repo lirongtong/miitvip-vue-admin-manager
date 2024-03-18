@@ -72,6 +72,8 @@ export interface ThemeTokens extends ThemeConfig {
  * @param breadcrumb 面包屑
  * @param code 代码高亮
  * @param dropdown 下拉菜单
+ * @param menu 菜单
+ * @param modal 弹窗
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -80,6 +82,8 @@ export interface ThemeTokens extends ThemeConfig {
  * @see BreadcrumbTokens
  * @see CodeTokens
  * @see DropdownTokens
+ * @see MenuTokens
+ * @see ModalTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -90,6 +94,8 @@ export interface ComponentTokens {
     breadcrumb: Partial<BreadcrumbTokens>
     code: Partial<CodeTokens>
     dropdown: Partial<DropdownTokens>
+    menu: Partial<MenuTokens>
+    modal: Partial<ModalTokens>
 }
 
 /**
@@ -475,4 +481,44 @@ export interface DropdownItemTokens {
         text: string
         tag: Partial<GradientTokens>
     }>
+}
+
+/**
+ * +====================+
+ * |        弹窗        |
+ * +====================+
+ * @param btn 按钮
+ * @param quick 快捷弹窗
+ *
+ * @see ModalBtnTokens
+ * @see ModalQuickTokens
+ */
+export interface ModalTokens {
+    [key: string]: any
+    btn: Partial<ModalBtnTokens>
+    quick: Partial<ModalQuickTokens>
+}
+/**
+ * @param text 文案
+ * @param active 高亮
+ * @param border 边框
+ */
+export interface ModalBtnTokens {
+    [key: string]: any
+    text: Partial<{
+        [key: string]: any
+        default: string
+        active: string
+    }>
+    active: Partial<GradientTokens>
+    border: string
+}
+/**
+ * @param background 背景色
+ * @param border 边框
+ */
+export interface ModalQuickTokens {
+    [key: string]: any
+    border: string
+    background: Partial<GradientTokens>
 }
