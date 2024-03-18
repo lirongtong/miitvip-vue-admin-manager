@@ -29,7 +29,7 @@ const MiCaptcha = defineComponent({
     inheritAttrs: false,
     props: CaptchaProps(),
     emits: ['init', 'checked', 'success'],
-    setup(props, { emit }) {
+    setup(props, { emit, expose }) {
         const { t, te } = useI18n()
         const { width } = useWindowResize()
         const captchaRef = ref(null)
@@ -344,6 +344,13 @@ const MiCaptcha = defineComponent({
             handleCaptchaModalClose({ status: 'close' })
             $tools.off(window, 'resize', resetCaptchaStatus)
         })
+
+        const resetCaptcha = (reinit = true) => {
+            resetCaptchaStatus()
+            if (reinit) initCaptcha()
+        }
+
+        expose({ reset: (reinit = true) => resetCaptcha(reinit) })
 
         return () => (
             <div ref={captchaRef} class={styled.container} key={$tools.uid()}>

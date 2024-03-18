@@ -1,5 +1,5 @@
-export type { ThemeProperties } from './theme/props'
 export * from './theme/tokens'
+export type { ThemeProperties } from './theme/props'
 export { default as Theme } from './theme'
 
 export type { LinkProperties } from './link/props'
@@ -53,3 +53,6 @@ export type {
     CaptchaModalBlockPosition
 } from './captcha/props'
 export { default as Captcha } from './captcha'
+
+export type { PasswordProperties } from './password/props'
+export { default as Password } from './password'

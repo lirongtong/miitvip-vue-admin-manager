@@ -78,6 +78,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param quote 引用说明
  * @param search 联想搜索
  * @param title 标题设置
+ * @param password 密码设置
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -92,6 +93,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see QuoteTokens
  * @see SearchTokens
  * @see TitleTokens
+ * @see PasswordTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -108,6 +110,7 @@ export interface ComponentTokens {
     quote: Partial<QuoteTokens>
     search: Partial<SearchTokens>
     title: Partial<TitleTokens>
+    password: Partial<PasswordTokens>
 }
 
 /**
@@ -695,4 +698,37 @@ export interface SearchListTokens {
 export interface TitleTokens {
     [key: string]: any
     undeline: Partial<GradientTokens>
+}
+
+/**
+ * +=======================+
+ * |        密码设置        |
+ * +=======================+
+ * @param input 输入框
+ * @param strength 密码强度
+ */
+export interface PasswordTokens {
+    [key: string]: any
+    input: Partial<{ [key: string]: any; border: string }>
+    strength: Partial<PasswordStrengthTokens>
+}
+/**
+ * @param item 每一项强度
+ */
+export interface PasswordStrengthTokens {
+    [key: string]: any
+    item: Partial<PasswordStrengthItemTokens>
+}
+/**
+ * @param error 错误
+ * @param success 正确
+ * @param tips 提示
+ * @param background 背景
+ */
+export interface PasswordStrengthItemTokens {
+    [key: string]: any
+    error: string
+    success: string
+    tips: string
+    background: Partial<ColorStateTokens>
 }

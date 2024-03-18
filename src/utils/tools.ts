@@ -167,6 +167,27 @@ class MiTools {
     }
 
     /**
+     * 密码强度 ( Get the password strength. )
+     * return a number level ( 1 - 4 ).
+     * @param password
+     * @returns
+     */
+    getPasswordStrength(password: string): number {
+        const reg = {
+            lower: /[a-z]/,
+            upper: /[A-Z]/,
+            number: /[\d]/,
+            character: /[~!@#$%^&*()_+=\-.,]/
+        }
+        let strength = 0
+        if (reg.lower.test(password)) strength++
+        if (reg.upper.test(password)) strength++
+        if (reg.number.test(password)) strength++
+        if (reg.character.test(password)) strength++
+        return strength
+    }
+
+    /**
      * 是否是 `Email`
      * @param email
      * @returns
@@ -199,6 +220,15 @@ class MiTools {
             }
         }
         return mobile
+    }
+
+    /**
+     * 密码校验
+     * @param password
+     * @returns
+     */
+    checkPassword(password: string): boolean {
+        return $g.regExp.password.test(password)
     }
 
     /**
@@ -917,6 +947,7 @@ class MiTools {
  *  - {@link $tools.getUrlParamsByObj} 通过 `query object` 形成 `url` 参数
  *  - {@link $tools.isEmail} 判断是否为 `Email`
  *  - {@link $tools.isMobile} 判断是否为移动端
+ *  - {@link $tools.checkPassword} 密码校验
  *  - {@link $tools.formatEmpty} 格式化空字符串
  *  - {@link $tools.formatDateNow} 格式化时间
  *  - {@link $tools.replaceUrlParams} 替换 `URL` 参数
