@@ -25,7 +25,6 @@ import { animations, tuple, methods } from '../_utils/props'
  * @param pagination 搜索列表是否分页
  * @param pageSize 每一页的条数
  * @param data 所有数据
- * @param zIndex 层级
  */
 export interface SearchProperties {
     width: number | string | DeviceSize
@@ -48,7 +47,6 @@ export interface SearchProperties {
     pagination: boolean
     pageSize: number | string | DeviceSize
     data: Array<Partial<SearchData>>
-    zIndex: number
 }
 export const SearchProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]),
@@ -74,8 +72,7 @@ export const SearchProps = () => ({
     pageSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
         10
     ),
-    data: array<Partial<SearchData>>().def([]),
-    zIndex: PropTypes.number
+    data: array<Partial<SearchData>>().def([])
 })
 
 /**
