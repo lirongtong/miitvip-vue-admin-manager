@@ -275,7 +275,8 @@ const MiPassword = defineComponent({
                 layout="vertical"
                 name={params.form.name}
                 model={params.form.validate}
-                rules={params.form.rules}>
+                rules={params.form.rules}
+                autocomplete="off">
                 <Form.Item name="password">
                     {props.skipCheck ? (
                         renderPassword(params.form.validate.password, handleInput, handleVisible)

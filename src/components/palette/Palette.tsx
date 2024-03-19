@@ -26,6 +26,7 @@ const MiPalette = defineComponent({
     setup(props) {
         const { t, te } = useI18n()
         const params = reactive({
+            open: false,
             hex: $storage.get($g.caches.storages.theme.hex) || '',
             tip: te('global.success') ? t('global.success') : '',
             checked: $storage.get($g.caches.storages.theme.type) || $g?.theme?.type || 'dark',
@@ -67,6 +68,7 @@ const MiPalette = defineComponent({
                 message.destroy()
                 message.success(params.tip)
             }
+            params.open = false
         }
 
         const handleColorSave = () => {
@@ -75,6 +77,7 @@ const MiPalette = defineComponent({
                 message.destroy()
                 message.success(params.tip)
             }
+            params.open = false
         }
 
         const getAntdvSwitchThemeProperties = () => {
@@ -148,6 +151,7 @@ const MiPalette = defineComponent({
 
         return () => (
             <Popover
+                v-model:open={params.open}
                 overlayClassName={styled.container}
                 trigger={props.trigger}
                 placement={props.placement}

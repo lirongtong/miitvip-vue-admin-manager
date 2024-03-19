@@ -73,6 +73,8 @@
 
 :white_check_mark: 链接地址 ( `Link` ) :guitar:
 
+:white_check_mark: 调色板 ( `Palette` ) :books:
+
 :white_check_mark: 登录组件 ( `Login` ) :cherries:
 
 :white_check_mark: 注册组件 ( `Register` ) :european_castle:

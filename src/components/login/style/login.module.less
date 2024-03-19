@@ -3,6 +3,7 @@
 .container {
     margin: 0 auto;
     height: 100%;
+    min-height: 100vh;
     overflow: hidden;
     background-position: center center;
     background-repeat: no-repeat;
@@ -68,6 +69,19 @@
             }
         }
 
+        .palette {
+            position: absolute;
+            .properties(right, 16);
+            .properties(top, 16);
+            z-index: @mi-zindex + 1000;
+
+            :global {
+                .anticon {
+                    .font-size(16);
+                }
+            }
+        }
+
         .form {
             width: 100%;
             .properties(max-width, 380);
@@ -83,6 +97,27 @@
 
                 input {
                     .letter-spacing(2);
+                }
+
+                &:global(.ant-input-affix-wrapper-status-error) {
+                    border-color: var(--mi-login-form-error);
+                }
+            }
+
+            :global {
+                .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper .ant-input-prefix {
+                    color: var(--mi-login-form-error);
+                }
+            }
+
+            .item {
+                :global {
+                    .ant-form-item-explain-error {
+                        .font-size(12);
+                        .properties(text-indent, 16);
+                        .properties(padding-top, 2);
+                        color: var(--mi-login-form-error);
+                    }
                 }
             }
         }
@@ -140,6 +175,7 @@
                 .flex();
                 .gradient-hint(var(--mi-login-form-btn-active-start), var(--mi-login-form-btn-active-hint), var(--mi-login-form-btn-active-stop));
                 color: var(--mi-login-form-btn-active-text);
+                box-shadow: none;
             }
         }
     }
@@ -149,12 +185,17 @@
         width: 100%;
         position: relative;
         .properties(margin-top, -74);
+        
+        > div {
+            color: var(--mi-login-form-text);
+        }
     }
 }
 
 :export {
     --login-form-input-border: var(--mi-primary);
     --login-form-text: var(--mi-on-surface);
+    --login-form-error: var(--mi-error);
     --login-form-btn-active-start: var(--mi-primary);
     --login-form-btn-active-hint: var(--mi-secondary);
     --login-form-btn-active-stop: var(--mi-tertiary);

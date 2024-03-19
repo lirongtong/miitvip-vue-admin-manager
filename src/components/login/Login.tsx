@@ -27,6 +27,8 @@ import MiLayoutFooter from '../layout/Footer'
 import MiPassword from '../password/Password'
 import MiCaptcha from '../captcha/Captcha'
 import MiLink from '../link/Link'
+import MiPalette from '../palette/Palette'
+import MiTheme from '../theme/Theme'
 import applyTheme from '../_utils/theme'
 import styled from './style/login.module.less'
 
@@ -79,7 +81,18 @@ const MiLogin = defineComponent({
         !params.form.validate.captcha && delete params.form.validate.cuid
         applyTheme(styled)
 
-        const handleLogin = () => {}
+        const handleLogin = () => {
+            if (params.loading) return
+            if (formRef.value) {
+                params.loading = true
+                formRef.value
+                    ?.validate()
+                    .then((data: { [key: string]: any }) => {
+                        console.log(data)
+                    })
+                    .finally(() => (params.loading = false))
+            }
+        }
 
         const handleCaptchaSuccess = (data?: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
@@ -105,9 +118,17 @@ const MiLogin = defineComponent({
             )
         }
 
+        const renderPalette = () => {
+            return (
+                <div class={styled.palette}>
+                    <MiPalette />
+                </div>
+            )
+        }
+
         const renderUserName = () => {
             return (
-                <Form.Item name="username">
+                <Form.Item name="username" class={styled.item}>
                     <Input
                         prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
@@ -123,7 +144,7 @@ const MiLogin = defineComponent({
 
         const renderCaptcha = () => {
             return props.captcha ? (
-                <Form.Item name="captcha" class={styled.captcha}>
+                <Form.Item name="captcha" class={[styled.captcha, styled.item]}>
                     <MiCaptcha
                         {...Object.assign(
                             {},
@@ -231,24 +252,27 @@ const MiLogin = defineComponent({
                     .catch((err: any) => message.error(err?.message || t('login.unknown')))
             }
             return socialite && token ? null : (
-                <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
-                    <div
-                        class={styled.container}
-                        style={{
-                            backgroundImage: `url(${
-                                props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
-                            })`
-                        }}>
-                        <Row class={styled.content}>
-                            <Col class={styled.inner} xs={24} sm={18} md={12} lg={12}>
-                                {renderMask()}
-                                {renderTitle()}
-                                {getPropSlot(slots, props, 'content') ?? renderForm()}
-                            </Col>
-                        </Row>
-                        {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
-                    </div>
-                </ConfigProvider>
+                <MiTheme>
+                    <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
+                        <div
+                            class={styled.container}
+                            style={{
+                                backgroundImage: `url(${
+                                    props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
+                                })`
+                            }}>
+                            <Row class={styled.content}>
+                                <Col class={styled.inner} xs={24} sm={18} md={12} lg={12}>
+                                    {renderMask()}
+                                    {renderTitle()}
+                                    {renderPalette()}
+                                    {getPropSlot(slots, props, 'content') ?? renderForm()}
+                                </Col>
+                            </Row>
+                            {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
+                        </div>
+                    </ConfigProvider>
+                </MiTheme>
             )
         }
     }
