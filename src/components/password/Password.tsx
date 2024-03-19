@@ -41,8 +41,7 @@ const MiPassword = defineComponent({
         const defaultTip = ref<string>(props.complexityTip ?? t('password.tip'))
 
         const checkPassword = (_rule: any, value: string) => {
-            if (props.skipCheck) return Promise.resolve()
-            if ($tools.isEmpty(value)) {
+            const reset = () => {
                 params.password = {
                     strength: 0,
                     tips: null,
@@ -50,6 +49,18 @@ const MiPassword = defineComponent({
                     format: false,
                     complexity: false
                 }
+            }
+            if (props.skipCheck) {
+                if (props.isRequired) {
+                    if ($tools.isEmpty(value)) {
+                        reset()
+                        return Promise.reject(t('password.setting'))
+                    } else return Promise.resolve()
+                }
+                return Promise.resolve()
+            }
+            if ($tools.isEmpty(value)) {
+                reset()
                 return Promise.reject(t('password.setting'))
             } else {
                 params.password.format = true
@@ -85,7 +96,14 @@ const MiPassword = defineComponent({
         }
 
         const checkConfirm = (_rule: any, value: string) => {
-            if (props.skipCheck) return Promise.resolve()
+            if (props.skipCheck) {
+                if (props.isRequired) {
+                    if ($tools.isEmpty(value)) {
+                        return Promise.reject(t('password.repeat'))
+                    } else return Promise.resolve()
+                }
+                return Promise.resolve()
+            }
             if ($tools.isEmpty(value)) {
                 return Promise.reject(t('password.repeat'))
             } else {
@@ -277,7 +295,7 @@ const MiPassword = defineComponent({
                 model={params.form.validate}
                 rules={params.form.rules}
                 autocomplete="off">
-                <Form.Item name="password">
+                <Form.Item name="password" class={styled.item}>
                     {props.skipCheck ? (
                         renderPassword(params.form.validate.password, handleInput, handleVisible)
                     ) : (

@@ -33,13 +33,13 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         async login(data: LoginParams): Promise<any> {
-            const url = data.url ?? api.login
+            const url = data.url || api.login
             const method = data.method ?? 'post'
             const params = { ...data }
             if (params.url) delete params.url
             if (params.method) delete params.method
             return new Promise((resolve, reject) => {
-                $request[method.toLowerCase()](url, params)
+                return $request[method.toLowerCase()](url, params)
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
                             const autoLogin = data?.remember ?? false

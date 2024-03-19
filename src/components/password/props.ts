@@ -20,6 +20,7 @@ import { placement, tuple } from '../_utils/props'
  * @param level 密码等级提示语
  * @param rules 校验规则 ( Form Rules )
  * @param placement 弹出位置
+ * @param isRequired 是否必填 ( 结合 skipCheck 单独生成密码输入框时 )
  */
 export interface PasswordProperties {
     width: string | number | DeviceSize
@@ -36,6 +37,7 @@ export interface PasswordProperties {
     level: object
     rules: object
     placement: string
+    isRequired: boolean
 }
 
 export const PasswordProps = () => ({
@@ -52,5 +54,6 @@ export const PasswordProps = () => ({
     confirmValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     level: object<{ [index: number]: string }>().def(),
     rules: PropTypes.object.def({}),
-    placement: PropTypes.oneOf(tuple(...placement)).def('top')
+    placement: PropTypes.oneOf(tuple(...placement)).def('top'),
+    isRequired: PropTypes.bool.def(false)
 })

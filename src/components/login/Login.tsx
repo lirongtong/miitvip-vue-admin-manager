@@ -47,6 +47,7 @@ const MiLogin = defineComponent({
         const route = useRoute()
         const router = useRouter()
         const formRef = ref<FormInstance>()
+        const passwordFormRef = ref<FormInstance>()
         const { width } = useWindowResize()
 
         const validateCaptcha = () => {
@@ -81,14 +82,43 @@ const MiLogin = defineComponent({
         !params.form.validate.captcha && delete params.form.validate.cuid
         applyTheme(styled)
 
-        const handleLogin = () => {
+        const handleLogin = async () => {
             if (params.loading) return
             if (formRef.value) {
                 params.loading = true
+                const passwordState = await passwordFormRef.value
+                    .validate()
+                    .then(() => {
+                        return true
+                    })
+                    .catch(() => {
+                        return false
+                    })
                 formRef.value
                     ?.validate()
-                    .then((data: { [key: string]: any }) => {
-                        console.log(data)
+                    .then(() => {
+                        if (
+                            passwordState &&
+                            (!params.form.validate.captcha ||
+                                (params.form.validate.captcha && params.captcha))
+                        ) {
+                            if (typeof props.action === 'string') {
+                                api.login = props.action
+                                params.form.validate.url = api.login
+                                auth.login(params.form.validate).then((res: ResponseData) => {
+                                    if (res?.ret?.code === 200) {
+                                        const path = route.query?.redirect as string
+                                        if (path) {
+                                            if ($tools.isUrl(path)) window.location.href = path
+                                            else router.push({ path })
+                                        }
+                                    } else message.error(res?.ret?.message)
+                                    emit('afterLogin', res)
+                                })
+                            } else if (typeof props.action === 'function') {
+                                props.action(params.form.validate)
+                            }
+                        }
                     })
                     .finally(() => (params.loading = false))
             }
@@ -223,8 +253,10 @@ const MiLogin = defineComponent({
                         {renderUserName()}
                         {
                             <MiPassword
+                                ref={passwordFormRef}
                                 value={params.form.validate.password}
                                 skipCheck={true}
+                                isRequired={true}
                                 onPressEnter={handleLogin}
                             />
                         }

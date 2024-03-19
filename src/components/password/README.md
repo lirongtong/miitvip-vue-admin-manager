@@ -111,6 +111,7 @@
 | `level` | `object` | `{ 0: '弱不禁风', 1: '平淡无奇', 2: '出神入化', 3: '登峰造极' }` | 等级提示语
 | `rules` | `object` | `{}` | 输入框校验规则 `Form Rules`
 | `placement` | `string` | `top` | 提示语弹窗弹出位置
+| `isRequired` | `boolean` | `false` | 是否必填 ( 针对 `skipCheck` 生成独立的密码框, 触发校验 )
 
 #### `MiPassword` 事件 ( `Events` )
 

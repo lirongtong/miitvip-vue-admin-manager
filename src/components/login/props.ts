@@ -45,7 +45,7 @@ export const LoginProps = () => ({
     footer: PropTypes.any,
     captcha: PropTypes.bool.def(true),
     captchaSetting: object<Partial<CaptchaProperties>>().def({}),
-    action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    action: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
     registerLink: PropTypes.string.def('/register'),
     forgetPasswordLink: PropTypes.string.def('/forget'),
     socialiteLogin: PropTypes.bool.def(false),
