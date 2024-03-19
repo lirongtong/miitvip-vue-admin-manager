@@ -65,6 +65,6 @@ export interface LoginSocialiteProperties {
 }
 
 export const LoginSocialiteProps = () => ({
-    domain: PropTypes.string,
+    domain: PropTypes.string.def(undefined),
     items: object<Partial<DropdownItem>[]>()
 })

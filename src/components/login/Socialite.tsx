@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, isVNode, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
     MoreOutlined,
@@ -12,8 +12,9 @@ import { LoginSocialiteProps } from './props'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import type { DropdownItem } from '../../utils/types'
 import MiDropdown from '../dropdown/Dropdown'
+import MiLink from '../link/Link'
 import applyTheme from '../_utils/theme'
-import styled from './style/login.module.less'
+import styled from './style/socialite.module.less'
 
 const MiLoginSocialite = defineComponent({
     name: 'MiLoginSocialite',
@@ -55,7 +56,51 @@ const MiLoginSocialite = defineComponent({
         }
         parseItems()
 
-        return () => <div></div>
+        return () => {
+            if (width.value < $g.breakpoints.md) {
+                const items: DropdownItem[] = [{ ...params.first }].concat(params.remain)
+                const icons: any[] = []
+                ;(items || []).forEach((item: DropdownItem) => {
+                    icons.push(
+                        <MiLink
+                            onClick={(evt?: any) => (item.callback ? item.callback(evt) : null)}>
+                            <MiDropdown.Item item={item} />
+                        </MiLink>
+                    )
+                })
+                return (
+                    <div class={styled.mobile}>
+                        <div class={styled.mobileLine} />
+                        <div class={styled.mobileTitle} innerHTML={t('login.socialite')} />
+                        <div class={styled.mobileCates}>{...icons}</div>
+                    </div>
+                )
+            } else {
+                const hasCallback =
+                    params.first?.callback && typeof params.first?.callback === 'function'
+                return (
+                    <div class={styled.container}>
+                        {t('login.socialite')}
+                        <div
+                            onClick={(evt?: any) =>
+                                hasCallback ? params.first.callback(evt) : null
+                            }
+                            class={styled.first}>
+                            {params.first && params.first?.icon ? (
+                                isVNode(params.first.icon) ? (
+                                    params.first.icon
+                                ) : (
+                                    h(params.first.icon)
+                                )
+                            ) : (
+                                <GithubOutlined />
+                            )}
+                        </div>
+                        <MiDropdown title={<MoreOutlined />} items={params.remain} />
+                    </div>
+                )
+            }
+        }
     }
 })
 

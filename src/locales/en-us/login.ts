@@ -9,5 +9,6 @@ export default {
     verify: `Please click the button to verify`,
     forget: `Forget password`,
     remember: `Remember me`,
-    register: `Register`
+    register: `Register`,
+    socialite: `Others`
 }

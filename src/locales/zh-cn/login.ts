@@ -9,5 +9,6 @@ export default {
     verify: `请点击按钮进行验证码校验`,
     forget: `忘记密码`,
     remember: `保持登录`,
-    register: `注册`
+    register: `注册`,
+    socialite: `快捷登录方式`
 }
