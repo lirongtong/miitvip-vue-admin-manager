@@ -66,5 +66,5 @@ export interface LoginSocialiteProperties {
 
 export const LoginSocialiteProps = () => ({
     domain: PropTypes.string,
-    items: object<Partial<DropdownItem>[]>().def([])
+    items: object<Partial<DropdownItem>[]>()
 })

@@ -67,8 +67,10 @@ class MiStorage {
      * @returns
      */
     change(type?: string): MiStorage {
-        this.instance =
-            type === 'local' ? localStorage : type === 'session' ? sessionStorage : localStorage
+        if (typeof window !== 'undefined') {
+            this.instance =
+                type === 'local' ? localStorage : type === 'session' ? sessionStorage : localStorage
+        }
         return this
     }
 }
