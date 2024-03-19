@@ -19,6 +19,7 @@ import type { CaptchaProperties } from '../captcha/props'
  * @param forgetPasswordLink 忘记密码链接
  * @param socialiteLogin 是否为社会化登录回调
  * @param socialiteLoginDomain 社会化登录的域名配置
+ * @param socialiteItems 社会化登录方式配置
  *
  * @see CaptchaProperties
  */
@@ -35,6 +36,7 @@ export interface LoginProperties {
     forgetPasswordLink: string
     socialiteLogin: boolean
     socialiteLoginDomain: string
+    socialiteItems: Partial<DropdownItem>[]
 }
 
 export const LoginProps = () => ({
@@ -49,7 +51,8 @@ export const LoginProps = () => ({
     registerLink: PropTypes.string.def('/register'),
     forgetPasswordLink: PropTypes.string.def('/forget'),
     socialiteLogin: PropTypes.bool.def(false),
-    socialiteLoginDomain: PropTypes.string
+    socialiteLoginDomain: PropTypes.string,
+    socialiteItems: object<Partial<DropdownItem>[]>().def([])
 })
 
 /**
@@ -66,5 +69,5 @@ export interface LoginSocialiteProperties {
 
 export const LoginSocialiteProps = () => ({
     domain: PropTypes.string.def(undefined),
-    items: object<Partial<DropdownItem>[]>()
+    items: object<Partial<DropdownItem>[]>().def([])
 })

@@ -236,7 +236,7 @@ const MiLogin = defineComponent({
                             </MiLink>
                         </div>
                     ) : null}
-                    <MiLoginSocialite />
+                    <MiLoginSocialite items={props.socialiteItems || []} />
                 </Form.Item>
             )
         }
