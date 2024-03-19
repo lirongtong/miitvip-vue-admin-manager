@@ -71,7 +71,7 @@
 
 :white_check_mark: 忘记密码 ( `Forget` ) :hammer:
 
-:white_check_mark: 历史路由 ( `History` ) :guitar:
+:white_check_mark: 链接地址 ( `Link` ) :guitar:
 
 :white_check_mark: 登录组件 ( `Login` ) :cherries:
 
