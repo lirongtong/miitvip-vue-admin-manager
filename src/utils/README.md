@@ -62,3 +62,17 @@
 | `title` | `string` | `''` | 菜单项的标题
 | `icon` | `vSlot` | `''` | 图标
 | `tag` | `ItemTag` | `''` | 标签
+
+### Interface `ThemeConfig`
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `type` | `string` | `dark` | 深浅主题 `['dark', 'light']`
+| `primary` | `string` | `#FFD464` | 主题色
+| `radius` | `number` | `6` | 圆角弧度
+
+### Interface `ThemeToken` extends `ThemeConfig`
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `components` | [`ComponentTokens`](./types.ts) | `{}` | 主题 `Token` 配置
