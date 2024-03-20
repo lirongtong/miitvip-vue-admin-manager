@@ -125,14 +125,6 @@ const MiRegister = defineComponent({
             } else params.tips[key] = null
         }
 
-        const handleCheckUsername = async () => {
-            handleVerify('username')
-        }
-
-        const handleCheckEmail = async () => {
-            handleVerify('email')
-        }
-
         const handleCaptchaSuccess = (data?: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
             params.captcha = true
@@ -187,7 +179,7 @@ const MiRegister = defineComponent({
                     maxlength={32}
                     autcomplete="off"
                     onPressEnter={handleRegister}
-                    onBlur={handleCheckUsername}
+                    onBlur={handleVerify('username')}
                     class={styled.input}
                     placeholder={t('register.placeholder.username')}
                 />
@@ -214,7 +206,7 @@ const MiRegister = defineComponent({
                         type="email"
                         prefix={createVNode(MailOutlined)}
                         v-model:value={params.form.validate.email}
-                        onBlur={handleCheckEmail}
+                        onBlur={handleVerify('email')}
                         onPressEnter={handleRegister}
                         maxlength={256}
                         class={styled.input}
