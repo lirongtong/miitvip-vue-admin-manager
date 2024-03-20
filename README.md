@@ -1,20 +1,17 @@
 <p align="center">
-    <a href="https://admin.makeit.vip/">
-        <img width="200" src="https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png" alt="makeit.vip">
-    </a>
+    [<img width="200" src="https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png" alt="makeit.vip">](https://admin.makeit.vip)
 </p>
 
 <h1 align="center">
-    <a href="https://admin.makeit.vip/" target="_blank">
-        <font color="#f6ca9d">Makeit Admin Pro 3.x</font>
-    </a>
+    [Makeit Admin Pro 3.x](https://admin.makeit.vip)
 </h1>
 
 <div align="center">
 
-<div>基于 `Vue3.x` 构建的适用于中后台管理系统的开箱即用的组合模板框架。</div>
-<div>( An out-of-box UI solution for enterprise applications built on Vue3.x. )</div>
-<div> </div>
+<p align="center">
+    <div>基于 `Vue3.x` 构建的适用于中后台管理系统的开箱即用的组合模板框架。</div>
+    <div>( An out-of-box UI solution for enterprise applications built on Vue3.x. )</div>
+</p>
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
 [![npm downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
