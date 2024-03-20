@@ -111,7 +111,7 @@
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
 | `indent` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `16` | 缩进
-| `items` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
+| `items` | [`MenuItem[]`](../../utils/README.md) | `[]` | 菜单项
 
 ### MiSubMenu `<mi-sub-menu>`
 
@@ -119,7 +119,7 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `item` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
+| `item` | [`MenuItem[]`](../../utils/README.md) | `[]` | 菜单项
 
 ### MiMenuItem `<mi-menu-item>`
 
@@ -127,7 +127,7 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `item` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
+| `item` | [`MenuItem[]`](../../utils/README.md) | `[]` | 菜单项
 
 ### MiMenuItemTitle `<mi-menu-item-title>`
 
@@ -135,5 +135,5 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `item` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
+| `item` | [`MenuItem[]`](../../utils/README.md) | `[]` | 菜单项
 | `activeKey` | `string` | `''` | 选中项
