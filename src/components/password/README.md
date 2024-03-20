@@ -97,9 +97,9 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `string \| number \| DeviceSize` | `100%` | 输入框宽度
-| `height` | `string \| number \| DeviceSize` | `42` | 输入框高度
-| `radius` | `string \| number \| DeviceSize` | `42` | 输入框圆角弧度
+| `width` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `100%` | 输入框宽度
+| `height` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `42` | 输入框高度
+| `radius` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `42` | 输入框圆角弧度
 | `value ( v-model )` | `string \| number` | `''` | 密码值
 | `skipCheck` | `boolean` | `false` | 跳过密码校验 ( 仅生成密码框 )
 | `min` | `number` | `6` | 密码值最低长度

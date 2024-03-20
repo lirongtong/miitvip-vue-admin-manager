@@ -190,9 +190,9 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `number \| string \| DeviceSize` | `''` | 搜索框宽度
-| `height` | `number \| string \| DeviceSize` | `''` | 搜索框高度
-| `radius` | `number \| string \| DeviceSize` | `48` | 搜索框圆角弧度
+| `width` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `''` | 搜索框宽度
+| `height` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `''` | 搜索框高度
+| `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `48` | 搜索框圆角弧度
 | `value ( v-model )` | `number \| string` | `48` | 搜索值
 | `placeholder` | `string` | `'搜索'` | 搜索框占位内容
 | `suffix` | `vSlot` | `<SearchOutlined />` | 后缀
@@ -201,23 +201,15 @@
 | `searchAction` | `string \| function` | `''` | 搜索动作
 | `searchKey` | `string` | `''` | 搜索关键词 `key` ( 必填 )
 | `searchDelay` | `number \| string` | `''` | 搜索延迟
-| `listWidth` | `number \| string \| DeviceSize` | `''` | 列表宽度
-| `listHeight` | `number \| string \| DeviceSize` | `''` | 列表高度
-| `listRadius` | `number \| string \| DeviceSize` | `8` | 列表圆角弧度
+| `listWidth` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `''` | 列表宽度
+| `listHeight` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `''` | 列表高度
+| `listRadius` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `8` | 列表圆角弧度
 | `listAnimation` | `string` | `8` | 列表动画效果
 | `listNoDataText` | `string \| vSlot` | `'暂无符合条件的数据'` | 搜素结果无数据提示语
 | `itemTemplate` | `vSlot` | `''` | 自定义 `item` 模板
 | `pagination` | `boolean` | `true` | 是否分页
-| `pageSize` | `number \| string \| DeviceSize` | `10` | 分页每页数据
+| `pageSize` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `10` | 分页每页数据
 | `data` | `SearchData` | `[]` | 本地搜索数据
-
-#### Interface `DeviceSize` 属性 ( `Properties` )
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
 
 #### `MiSearch` 事件 ( `Events` )
 
