@@ -1,6 +1,7 @@
 import type { App } from 'vue'
 import { $g } from './global'
 import { $cookie } from './cookie'
+import { $storage } from './storage'
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import type { RequestConfig } from './types'
 
@@ -16,7 +17,9 @@ class MiRequest {
         // 拦截器
         axios.interceptors.request.use(
             (config: any) => {
-                const token = $cookie.get($g.caches.cookies.token.access)
+                const token =
+                    $cookie.get($g.caches.cookies.token.access) ||
+                    $storage.get($g.caches.storages.token.access)
                 if (token) config.headers.Authorization = `Bearer ${token}`
                 return config
             },
@@ -69,19 +72,9 @@ class MiRequest {
 
     private async send(config: AxiosRequestConfig): Promise<any> {
         if (!config.timeout) config.timeout = 60000
-        axios.interceptors.request.use(
-            (config: any) => {
-                const token = $cookie.get($g.caches.cookies.token.access)
-                if (token) config.headers.Authorization = `Bearer ${token}`
-                return config
-            },
-            (err) => {
-                return Promise.reject(err)
-            }
-        )
         return await axios(config)
             .then((res: AxiosResponse) => {
-                return Promise.resolve(res?.data)
+                return Promise.resolve(res?.data || res)
             })
             .catch((err: any) => {
                 return Promise.reject(err)
