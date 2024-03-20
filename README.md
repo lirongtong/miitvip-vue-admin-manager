@@ -12,8 +12,8 @@
 
 <div align="center">
 
-基于 `Vue3.x` 构建的适用于中后台管理系统的开箱即用的组合模板框架。
-( An out-of-box UI solution for enterprise applications built on Vue3.x. )
+<div>基于 `Vue3.x` 构建的适用于中后台管理系统的开箱即用的组合模板框架。</div>
+<div>( An out-of-box UI solution for enterprise applications built on Vue3.x. )</div>
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
 [![npm downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
