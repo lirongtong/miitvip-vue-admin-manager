@@ -12,11 +12,13 @@ import {
 } from 'ant-design-vue'
 import { UserOutlined, MailOutlined } from '@ant-design/icons-vue'
 import { $tools } from '../../utils/tools'
+import { $request } from '../../utils/request'
 import { $g } from '../../utils/global'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { getPropSlot } from '../_utils/props'
 import { __LOGO__, __PASSPORT_DEFAULT_BACKGROUND__ } from '../../utils/images'
 import { useI18n } from 'vue-i18n'
+import type { ResponseData } from '../../utils/types'
 import MiTheme from '../theme/Theme'
 import MiLink from '../link/Link'
 import MiLayoutFooter from '../layout/Footer'
@@ -100,9 +102,36 @@ const MiRegister = defineComponent({
 
         const handleRegister = () => {}
 
-        const handleCheckUsername = async () => {}
+        const handleVerify = async (key: 'username' | 'email') => {
+            if ($tools.isEmpty(params.form.validate?.[key])) return
+            const action = props.verify?.[key]?.action
+            if (action) {
+                if (typeof action === 'string') {
+                    const method = props.verify?.[key]?.method || 'post'
+                    const data = { data: params.form.validate?.[key] }
+                    await $request[method.toLowerCase()](action, data)
+                        .then((res: ResponseData) => {
+                            if (res?.ret?.code === 200) params.tips[key] = null
+                            else params.tips[key] = res?.ret?.message
+                        })
+                        .catch((err: any) => (params.tips[key] = err?.message))
+                } else if (typeof action === 'function') {
+                    const state = await action()
+                    if (state === true) params.tips[key] = null
+                    else if (typeof state === 'string') params.tips[key] = state
+                    else params.tips[key] = t('register.unknown')
+                }
+                if (formRef.value) formRef.value?.validateFields([key])
+            } else params.tips[key] = null
+        }
 
-        const handleCheckEmail = async () => {}
+        const handleCheckUsername = async () => {
+            handleVerify('username')
+        }
+
+        const handleCheckEmail = async () => {
+            handleVerify('email')
+        }
 
         const handleCaptchaSuccess = (data?: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid

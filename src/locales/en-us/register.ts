@@ -19,5 +19,6 @@ export default {
         length: `- Username length is <span class="theme">4-16</span> characters.`
     },
     login: `Go to sign in`,
-    socialite: `Others`
+    socialite: `Others`,
+    unknown: `Unknown Error`
 }

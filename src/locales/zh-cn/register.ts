@@ -19,5 +19,6 @@ export default {
         length: `- 用户名长度为 <span class="theme">4-16</span> 个字符。`
     },
     login: `前往登录`,
-    socialite: `快捷注册方式`
+    socialite: `快捷注册方式`,
+    unknown: `未知错误`
 }
