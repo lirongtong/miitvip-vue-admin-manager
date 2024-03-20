@@ -10,7 +10,7 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `ret` | [`ResponseRet`](./README.md) | `{}` | 电脑端
+| `ret` | [`ResponseRet`](./README.md) | `{}` | 结果信息 `result`
 | `data` | `any` | `''` | 响应数据
 
 ### Interface `ResponseRet` 属性 ( `Properties` )

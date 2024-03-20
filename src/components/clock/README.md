@@ -75,4 +75,4 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `string \| number \| DeviceSize` | `240` | 宽度
+| `width` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `240` | 宽度

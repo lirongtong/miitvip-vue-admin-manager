@@ -181,9 +181,9 @@ const handleVerifyAction = () => {
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `string \| number` \| [`DeviceSize`](../../utils/README.md) | `320` | 初始框的宽度
-| `height` | `string \| number` \| [`DeviceSize`](../../utils/README.md) | `''` | 初始框的高度
-| `radius` | `string \| number` \| [`DeviceSize`](../../utils/README.md) | `48` | 初始框的圆角弧度
+| `width` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `320` | 初始框的宽度
+| `height` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `''` | 初始框的高度
+| `radius` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `48` | 初始框的圆角弧度
 | `color` | `string` | `undefined` | 主题色
 | `image` | `string` | `undefined` | 弹窗底图
 | `logo` | `string` | `undefined` | 初始框内右侧的图标
