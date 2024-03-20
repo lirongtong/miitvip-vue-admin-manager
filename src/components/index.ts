@@ -59,3 +59,6 @@ export { default as Password } from './password'
 
 export type { LoginProperties, LoginSocialiteProperties } from './login/props'
 export { default as Login } from './login'
+
+export type { RegisterProperties, RegisterVerifyProperties } from './register/props'
+export { default as Register } from './register'

@@ -108,6 +108,7 @@
 
 | Token | 默认值
 | :---- | :----
+| `--mi-login-logo-border` | `--mi-primary`
 | `--mi-login-form-input-border` | `--mi-primary`
 | `--mi-login-form-text` | `--mi-on-surface`
 | `--mi-login-form-error` | `--mi-error`
@@ -147,3 +148,13 @@
 | `captchaChecked` | *None* | 验证码弹窗开启前的校验回调事件
 | `captchaSuccess` | *None* | 验证码校验成功后的回调事件
 | `afterLogin` | *None* | 登录成功后的回调事件
+
+### MiLoginSocialite `<mi-login-socialite>`
+
+#### `MiLoginSocialite` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `tip` | `string` | `快捷登录方式` | 提示文案
+| `domain` | `string` | `''` | 社会化登录跳转链接
+| `items` | [`DropdownItem`](../dropdown/README.md) | `[]` | 下拉选项

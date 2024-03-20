@@ -17,6 +17,7 @@ import { default as Modal } from './components/modal'
 import { default as Captcha } from './components/captcha'
 import { default as Password } from './components/password'
 import { default as Login } from './components/login'
+import { default as Register } from './components/register'
 
 import * as components from './components'
 export * from './components'
@@ -71,6 +72,7 @@ declare module '@vue/runtime-core' {
         MiCaptcha: typeof Captcha
         MiPassword: typeof Password
         MiLogin: typeof Login
+        MiRegister: typeof Register
     }
 }
 

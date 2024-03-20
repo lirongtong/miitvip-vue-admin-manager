@@ -59,15 +59,18 @@ export const LoginProps = () => ({
  * +==============================+
  * |       Login Socialite        |
  * +==============================+
+ * @param tip 显示文案
  * @param domain 域名
  * @param items 下拉数据
  */
 export interface LoginSocialiteProperties {
+    tip: string
     domain: string
     items: Partial<DropdownItem>[]
 }
 
 export const LoginSocialiteProps = () => ({
+    tip: PropTypes.string,
     domain: PropTypes.string.def(undefined),
     items: object<Partial<DropdownItem>[]>()
 })

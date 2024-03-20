@@ -265,7 +265,7 @@ const MiPassword = defineComponent({
 
         const renderConfirm = () => {
             return props.confirm ? (
-                <Form.Item name="confirm">
+                <Form.Item name="confirm" class={styled.item}>
                     {renderPassword(
                         params.form.validate.confirm,
                         handleConfirmInput,
@@ -303,7 +303,8 @@ const MiPassword = defineComponent({
                             trigger="focus"
                             placement={props.placement}
                             content={renderPopoverContent()}
-                            overlayClassName={getPrefixCls(`password-${locale.value}`)}>
+                            overlayClassName={getPrefixCls(`password-${locale.value}`)}
+                            zIndex={Date.now()}>
                             {renderPassword(
                                 params.form.validate.password,
                                 handleInput,

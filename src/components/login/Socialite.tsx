@@ -80,7 +80,7 @@ const MiLoginSocialite = defineComponent({
                     params.first?.callback && typeof params.first?.callback === 'function'
                 return (
                     <div class={styled.container}>
-                        {t('login.socialite')}
+                        {props.tip || t('login.socialite')}
                         <div
                             onClick={(evt?: any) =>
                                 hasCallback ? params.first.callback(evt) : null

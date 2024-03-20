@@ -425,3 +425,17 @@ export interface LoginResponseData {
         refresh: string
     }>
 }
+
+/**
+ * +=====================+
+ * |      校验配置        |
+ * +=====================+
+ * @param action 动作
+ * @param params 参数
+ * @param method 方式
+ */
+export interface VerifyConfig {
+    action: string | Function
+    params: object
+    method: string
+}

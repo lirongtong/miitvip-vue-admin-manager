@@ -5,5 +5,6 @@ import pagination from './pagination'
 import captcha from './captcha'
 import password from './password'
 import login from './login'
+import register from './register'
 
-export default { global, notice, search, pagination, captcha, password, login }
+export default { global, notice, search, pagination, captcha, password, login, register }

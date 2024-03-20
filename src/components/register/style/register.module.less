@@ -25,7 +25,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: var(--mi-login-mask);
+        background: var(--mi-register-mask);
         backdrop-filter: blur(2rem);
         .radius(16);
         z-index: @mi-zindex;
@@ -45,6 +45,7 @@
             .gradient-text();
             z-index: @mi-zindex + 100;
             .flex();
+            .no-select();
 
             sup {
                 .properties(margin-left);
@@ -60,7 +61,7 @@
 
             img {
                 .circle();
-                border: .0625rem solid var(--mi-login-logo-border);
+                border: .0625rem solid var(--mi-register-logo-border);
                 .transition();
 
                 &:hover {
@@ -90,7 +91,7 @@
 
             .input {
                 outline: none;
-                border-color: var(--mi-login-form-input-border);
+                border-color: var(--mi-register-form-input-border);
                 box-shadow: none;
                 .properties(height, 42);
                 .radius(42);
@@ -100,13 +101,13 @@
                 }
 
                 &:global(.ant-input-affix-wrapper-status-error) {
-                    border-color: var(--mi-login-form-error);
+                    border-color: var(--mi-register-form-error);
                 }
             }
 
             :global {
                 .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper .ant-input-prefix {
-                    color: var(--mi-login-form-error);
+                    color: var(--mi-register-form-error);
                 }
             }
 
@@ -116,39 +117,8 @@
                         .font-size(12);
                         .properties(text-indent, 16);
                         .properties(padding-top, 2);
-                        color: var(--mi-login-form-error);
+                        color: var(--mi-register-form-error);
                     }
-                }
-            }
-        }
-
-        .remember {
-            .properties(margin-bottom);
-            .properties(padding-left, 12);
-
-            :global {
-                .ant-form-item-control-input-content {
-                    .flex(center, space-between);
-                }
-
-                .ant-checkbox-wrapper {
-                    .ant-checkbox + span {
-                        color: var(--mi-login-form-text);
-                    }
-                }
-            }
-
-            .forget {
-                color: var(--mi-login-form-text);
-
-                :global(.anticon) {
-                    .properties(margin-right);
-                }
-
-                a,
-                a:hover,
-                a:focus {
-                    color: var(--mi-login-form-text);
                 }
             }
         }
@@ -165,16 +135,16 @@
             }
         }
 
-        .btns { .properties(margin-bottom, 24); }
+        .btns {
+            .properties(margin-bottom, 24);
 
-        .btn {
             &-primary {
                 width: 100%;
                 .radius(42);
                 .properties(height, 42);
                 .flex();
-                .gradient-hint(var(--mi-login-form-btn-active-start), var(--mi-login-form-btn-active-hint), var(--mi-login-form-btn-active-stop));
-                color: var(--mi-login-form-btn-active-text);
+                .gradient-hint(var(--mi-register-form-btn-active-start), var(--mi-register-form-btn-active-hint), var(--mi-register-form-btn-active-stop));
+                color: var(--mi-register-form-btn-active-text);
                 box-shadow: none;
             }
         }
@@ -187,19 +157,48 @@
         .properties(margin-top, -74);
         
         > div {
-            color: var(--mi-login-form-text);
+            color: var(--mi-register-text);
+        }
+    }
+}
+
+.tips {
+    .flex(flex-start, center, column);
+    color: var(--mi-register-text);
+
+    p {
+        margin: 0;
+        .properties(line-height, 24);
+    }
+
+    :global {
+        .red {
+            color: var(--mi-register-tip-important);
+        }
+
+        .theme {
+            color: var(--mi-primary);
+        }
+
+        .info {
+            color: var(--mi-secondary);
+        }
+
+        .success {
+            color: var(--mi-tertiary);
         }
     }
 }
 
 :export {
-    --login-logo-border: var(--mi-primary);
-    --login-form-input-border: var(--mi-primary);
-    --login-form-text: var(--mi-on-surface);
-    --login-form-error: var(--mi-error);
-    --login-form-btn-active-start: var(--mi-primary);
-    --login-form-btn-active-hint: var(--mi-secondary);
-    --login-form-btn-active-stop: var(--mi-tertiary);
-    --login-form-btn-active-text: var(--mi-surface);
-    --login-mask: rgba(var(--mi-rgb-surface-variant), .5);
+    --register-text: var(--mi-on-surface);
+    --register-logo-border: var(--mi-primary);
+    --register-tip-important: var(--mi-error);
+    --register-form-input-border: var(--mi-primary);
+    --register-form-error: var(--mi-error);
+    --register-form-btn-active-start: var(--mi-primary);
+    --register-form-btn-active-hint: var(--mi-secondary);
+    --register-form-btn-active-stop: var(--mi-tertiary);
+    --register-form-btn-active-text: var(--mi-surface);
+    --register-mask: rgba(var(--mi-rgb-surface-variant), .5);
 }
