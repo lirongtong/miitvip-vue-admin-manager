@@ -1,4 +1,4 @@
-### Interface `DeviceSize` 属性 ( `Properties` )
+### Interface `DeviceSize`
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
@@ -6,14 +6,14 @@
 | `mobile` | `string \| number` | `''` | 移动端
 | `tablet` | `string \| number` | `''` | 平板端
 
-### Interface `ResponseData` 属性 ( `Properties` )
+### Interface `ResponseData`
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
 | `ret` | [`ResponseRet`](./README.md) | `{}` | 结果信息 `result`
 | `data` | `any` | `''` | 响应数据
 
-### Interface `ResponseRet` 属性 ( `Properties` )
+### Interface `ResponseRet`
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----

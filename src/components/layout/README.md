@@ -95,8 +95,8 @@
 | `dropdown` | `vSlot` | `''` | 下拉菜单配置
 | `breadcrumb` | `vSlot` | `''` | 面包屑配置
 | `search` | `vSlot` | `''` | 搜索配置
-| `breadcrumbSetting` | `BreadcrumbProperties` | `{}` | 面包屑组件属性配置
-| `searchSetting` | `SearchProperties` | `{}` | 搜索组件属性配置
+| `breadcrumbSetting` | [`BreadcrumbProperties`](../breadcrumb/README.md) | `{}` | 面包屑组件属性配置
+| `searchSetting` | [`SearchProperties`](../search/README.md) | `{}` | 搜索组件属性配置
 | `palette` | `vSlot` | `''` | 调色板
 | `extra` | `vSlot` | `''` | 额外的自定义配置
 
@@ -120,7 +120,7 @@
 | `circle` | `boolean` | `true` | 圆形显示 LOGO
 | `collapsed` | `vSlot` | `<MenuFoldOutlined />` | 展开/收起按钮配置
 | `notice` | `vSlot` | `''` | 消息配置
-| `noticeSetting` | `NoticeProperties` | `{}` | 消息组件属性配置
+| `noticeSetting` | [`NoticeProperties`](../notice/README.md) | `{}` | 消息组件属性配置
 
 ### MiLayoutContent `<mi-layout-content>`
 
