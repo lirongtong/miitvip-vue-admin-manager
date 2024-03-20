@@ -1,10 +1,8 @@
 <p align="center">
-    [<img width="200" src="https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png" alt="makeit.vip">](https://admin.makeit.vip)
+    [![MAKEIT.VIP](https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png "makeit.vip")](https://admin.makeit.vip)
 </p>
 
-<h1 align="center">
-    [Makeit Admin Pro 3.x](https://admin.makeit.vip)
-</h1>
+<div align="center"># [Makeit Admin Pro 3.x](https://admin.makeit.vip)</div>
 
 <div align="center">
 
