@@ -52,7 +52,7 @@ export const LoginProps = () => ({
     forgetPasswordLink: PropTypes.string.def('/forget'),
     socialiteLogin: PropTypes.bool.def(false),
     socialiteLoginDomain: PropTypes.string,
-    socialiteItems: object<Partial<DropdownItem>[]>().def([])
+    socialiteItems: object<Partial<DropdownItem>[]>()
 })
 
 /**
@@ -69,5 +69,5 @@ export interface LoginSocialiteProperties {
 
 export const LoginSocialiteProps = () => ({
     domain: PropTypes.string.def(undefined),
-    items: object<Partial<DropdownItem>[]>().def([])
+    items: object<Partial<DropdownItem>[]>()
 })
