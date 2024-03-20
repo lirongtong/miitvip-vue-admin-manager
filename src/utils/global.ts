@@ -7,7 +7,7 @@ export const __MI_AUTHOR__ = 'makeit.vip'
 export const __MI_POWERED__ = 'Powered By makeit.vip'
 export const __MI_LOGO__ = __LOGO__
 export const __MI_SITE__ = 'https://admin.makeit.vip'
-export const __MI_SOCIALITE_DOMAIN__ = 'https://api.makeit.vip/v1/oauth'
+export const __MI_SOCIALITE_DOMAIN__ = 'https://account.makeit.vip/v1/oauth'
 
 /**
  * 全局变量 - ( `this.$g` )
