@@ -110,41 +110,30 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `indent` | `string \| number \| DeviceSize` | `16` | 缩进
-| `items` | `MenuItem[]` | `[]` | 菜单项
+| `indent` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `16` | 缩进
+| `items` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
 
-#### Interface `DeviceSize` 属性 ( `Properties` )
+### MiSubMenu `<mi-sub-menu>`
 
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
-
-#### Interface `MenuItem` 属性 ( `Properties` )
+#### `MiSubMenu` 属性 ( `Properties` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `path` | `string` | `''` | 路由
-| `name` | `string` | `''` | 名称 ( 唯一值 )
-| `query` | `object` | `{}` | 路由参数
-| `meta` | `MenuItemMeta` | `{}` | 其他配置
-| `children` | `MenuItem[]` | `[]` | 子菜单项
+| `item` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
 
-#### Interface `MenuItemMeta` 属性 ( `Properties` )
+### MiMenuItem `<mi-menu-item>`
+
+#### `MiMenuItem` 属性 ( `Properties` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `title` | `string` | `''` | 菜单项的标题
-| `icon` | `vSlot` | `''` | 图标
-| `tag` | `ItemTag` | `''` | 标签
+| `item` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
 
-#### Interface `ItemTag` 属性 ( `Properties` )
+### MiMenuItemTitle `<mi-menu-item-title>`
+
+#### `MiMenuItemTitle` 属性 ( `Properties` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `color` | `string` | `''` | 颜色
-| `content` | `string` | `''` | 内容
-| `icon` | `vSlot` | `''` | 图标
-| `size` | `string \| number \| DeviceSize` | `''` | 大小
-| `radius` | `string \| number \| DeviceSize` | `''` | 圆角弧度
+| `item` | [`MenuItem`](../../utils/README.md)`[]` | `[]` | 菜单项
+| `activeKey` | `string` | `''` | 选中项

@@ -20,7 +20,7 @@
 | `code` | `string \| number` | `''` | 状态码
 | `message` | `string` | `''` | 信息
 
-#### Interface `DropdownItem`
+### Interface `DropdownItem`
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
@@ -35,7 +35,7 @@
 | `tag` | `ItemTag` | `''` | 图标大小
 | `callback` | `function` | `''` | 点击回调事件
 
-#### Interface `ItemTag`
+### Interface `ItemTag`
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
@@ -44,3 +44,21 @@
 | `icon` | `vSlot` | `''` | 图标
 | `size` | `string \| number \| DeviceSize` | `''` | 大小
 | `radius` | `string \| number \| DeviceSize` | `''` | 圆角弧度
+
+### Interface `MenuItem`
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `path` | `string` | `''` | 路由
+| `name` | `string` | `''` | 名称 ( 唯一值 )
+| `query` | `object` | `{}` | 路由参数
+| `meta` | [`MenuItemMeta`]('./README.md') | `{}` | 其他配置
+| `children` | `MenuItem[]` | `[]` | 子菜单项
+
+### Interface `MenuItemMeta`
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `title` | `string` | `''` | 菜单项的标题
+| `icon` | `vSlot` | `''` | 图标
+| `tag` | `ItemTag` | `''` | 标签
