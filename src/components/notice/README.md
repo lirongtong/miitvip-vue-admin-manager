@@ -215,15 +215,7 @@
 | `placement` | `string` | `bottom` | 弹窗打开位置 `['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']`
 | `background` | `string` | `''` | 弹窗背景色
 | `tabActive` | `string` | `0` | 选中 Tab ( 默认第`1`个 )
-| `tabGap` | `number \| string \| DeviceSize` | `16` | Tab 间距
-
-#### Interface `DeviceSize` 属性 ( `Properties` )
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
+| `tabGap` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `16` | Tab 间距
 
 #### `MiNotice` 事件 ( `Events` )
 
