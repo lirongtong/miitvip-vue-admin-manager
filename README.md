@@ -1,14 +1,30 @@
-<p align="center">
-    [![MAKEIT.VIP](https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png "makeit.vip")](https://admin.makeit.vip)
-</p>
+<div align="center">
 
-<div align="center"># [Makeit Admin Pro 3.x](https://admin.makeit.vip)</div>
+[![makeit.vip](https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png "makeit.vip")](https://admin.makeit.vip)
+
+</div>
+
+<h1 align="center">
+
+[*Makeit Admin Pro 3.x*](https://admin.makeit.vip)
+
+</h1>
 
 <div align="center">
 
 <p align="center">
-    <div>基于 `Vue3.x` 构建的适用于中后台管理系统的开箱即用的组合模板框架。</div>
-    <div>( An out-of-box UI solution for enterprise applications built on Vue3.x. )</div>
+
+<div>
+
+基于 `Vue3.x` 构建的适用于中后台管理系统的开箱即用的组合模板框架。
+
+</div>
+<div>
+
+( An out-of-box UI solution for enterprise applications built on Vue3.x. )
+
+</div>
+
 </p>
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
