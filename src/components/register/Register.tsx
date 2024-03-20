@@ -179,7 +179,7 @@ const MiRegister = defineComponent({
                     maxlength={32}
                     autcomplete="off"
                     onPressEnter={handleRegister}
-                    onBlur={handleVerify('username')}
+                    onBlur={() => handleVerify('username')}
                     class={styled.input}
                     placeholder={t('register.placeholder.username')}
                 />
@@ -206,7 +206,7 @@ const MiRegister = defineComponent({
                         type="email"
                         prefix={createVNode(MailOutlined)}
                         v-model:value={params.form.validate.email}
-                        onBlur={handleVerify('email')}
+                        onBlur={() => handleVerify('email')}
                         onPressEnter={handleRegister}
                         maxlength={256}
                         class={styled.input}
