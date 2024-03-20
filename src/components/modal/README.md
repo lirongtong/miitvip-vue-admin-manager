@@ -166,8 +166,8 @@
 | `mask` | `boolean` | `true` | 是否显示遮罩
 | `maskStyle` | `CSSProperties` | `{}` | 遮罩样式
 | `maskClosable` | `boolean` | `true` | 遮罩是否可以点击关闭弹窗
-| `width` | `string \| number \| DeviceSize` | `520` | 弹窗宽度
-| `height` | `string \| number \| DeviceSize` | `''` | 弹窗高度
+| `width` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `520` | 弹窗宽度
+| `height` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `''` | 弹窗高度
 | `zIndex` | `number` | `Date.now()` | 弹窗显示层级
 | `closable` | `boolean` | `true` | 是否可以关闭弹窗
 | `container` | `string \| Function \| boolean \| HTMLElement` | `true` | 渲染容器
@@ -180,14 +180,6 @@
 | `animation` | `string` | `scale` | 动画效果「 查看 `./components/_utils/props - animations` 」
 | `placement` | `string` | `scale` | 弹窗弹出位置「 查看 `./components/_utils/props - placement` 」
 | `afterClose` | `function` | `''` | 弹窗关闭后的事件回调
-
-#### Interface `DeviceSize` 属性 ( `Properties` )
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
 
 #### `MiModal` 事件 ( `Events` )
 
