@@ -69,14 +69,6 @@
 | :---- | :---- | :---- | :----
 | `title` | `string` | `''` | 标题
 | `center` | `boolean` | `false` | 是否居中
-| `size` | `string \| number \| DeviceSize` | `24` | 大小
+| `size` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `24` | 大小
 | `color` | `string` | `''` | 颜色
 | `extra` | `vSlot` | `''` | 自定义内容
-
-#### Interface `DeviceSize` 属性 ( `Properties` )
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
