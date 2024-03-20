@@ -181,9 +181,9 @@ const handleVerifyAction = () => {
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `string \| number \| DeviceSize` | `320` | 初始框的宽度
-| `height` | `string \| number \| DeviceSize` | `''` | 初始框的高度
-| `radius` | `string \| number \| DeviceSize` | `48` | 初始框的圆角弧度
+| `width` | `string \| number \| [DeviceSize](../../utils/README.md)` | `320` | 初始框的宽度
+| `height` | `string \| number \| [DeviceSize](../../utils/README.md)` | `''` | 初始框的高度
+| `radius` | `string \| number \| [DeviceSize](../../utils/README.md)` | `48` | 初始框的圆角弧度
 | `color` | `string` | `undefined` | 主题色
 | `image` | `string` | `undefined` | 弹窗底图
 | `logo` | `string` | `undefined` | 初始框内右侧的图标
@@ -201,20 +201,12 @@ const handleVerifyAction = () => {
 | `verifyParams` | `object` | `{}` | 验证码校验配置参数
 | `verifyMethod` | `string` | `get` | 验证码远程接口请求方式
 | `verifyAction` | `string \| function` | `''` | 验证码校验的动作处理
-| `actionConfig` | `AxiosRequestConfig` | `{}` | 远程接口的通用配置参数
-
-#### Interface `DeviceSize` 属性 ( `Properties` )
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
+| `actionConfig` | [`AxiosRequestConfig`](https://axios-http.com/zh/docs/req_config) | `{}` | 远程接口的通用配置参数
 
 #### `MiCaptcha` 事件 ( `Events` )
 
 | 方法 | 返回值 | 说明
 | :---- | :---- | :----
-| `init` | `Response Data` \| *None*  | 初始化后的回调事件
-| `checked` | `Response Data` \| *None* | 弹窗前的校验后的回调事件
-| `success` | `Response Data` \| *None* | 验证码校验成功后的回调事件
+| `init` | [`ResponseData`](../../utils/README.md) \| *None*  | 初始化后的回调事件
+| `checked` | [`ResponseData`](../../utils/README.md) \| *None* | 弹窗前的校验后的回调事件
+| `success` | [`ResponseData`](../../utils/README.md) \| *None* | 验证码校验成功后的回调事件
