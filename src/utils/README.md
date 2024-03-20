@@ -19,3 +19,28 @@
 | :---- | :---- | :---- | :----
 | `code` | `string \| number` | `''` | 状态码
 | `message` | `string` | `''` | 信息
+
+#### Interface `DropdownItem`
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `name` | `string` | `''` | 用于 `key` 值生成
+| `title` | `string` | `''` | 菜单项的标题
+| `titleSize` | `string \| number \| DeviceSize` | `''` | 菜单项的标题的大小
+| `path` | `string` | `''` | 链接地址
+| `query` | `object` | `{}` | 链接参数
+| `target` | `string` | `''` | 链接的弹窗类型
+| `icon` | `vSlot` | `''` | 图标
+| `iconSize` | `string \| number \| DeviceSize` | `''` | 图标大小
+| `tag` | `ItemTag` | `''` | 图标大小
+| `callback` | `function` | `''` | 点击回调事件
+
+#### Interface `ItemTag`
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `color` | `string` | `''` | 颜色
+| `content` | `string` | `''` | 内容
+| `icon` | `vSlot` | `''` | 图标
+| `size` | `string \| number \| DeviceSize` | `''` | 大小
+| `radius` | `string \| number \| DeviceSize` | `''` | 圆角弧度

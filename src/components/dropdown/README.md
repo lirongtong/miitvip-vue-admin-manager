@@ -102,7 +102,7 @@
 | `title` | `string \| vSlot` | `Avatar` | 下拉菜单的触发点
 | `placement` | `string` | `bottom` | 弹窗打开位置 `['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']`
 | `trigger` | `string` | `click` | 触发方式 `['click', 'hover', 'focus', 'contextmenu']`
-| `items` | `DropdownItem` | `[]` | 菜单选项
+| `items` | [`DropdownItem`](../../utils/README.md) | `[]` | 菜单选项
 | `overlay` | `vSlot` | `''` | 自定义菜单
 
 ### MiDropdownItem `<mi-dropdown-item>`
@@ -111,37 +111,4 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `item` | `DropdownItem` | `{}` | 下拉菜单的触发点
-
-#### Interface `DropdownItem`
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `name` | `string` | `''` | 用于 `key` 值生成
-| `title` | `string` | `''` | 菜单项的标题
-| `titleSize` | `string \| number \| DeviceSize` | `''` | 菜单项的标题的大小
-| `path` | `string` | `''` | 链接地址
-| `query` | `object` | `{}` | 链接参数
-| `target` | `string` | `''` | 链接的弹窗类型
-| `icon` | `vSlot` | `''` | 图标
-| `iconSize` | `string \| number \| DeviceSize` | `''` | 图标大小
-| `tag` | `ItemTag` | `''` | 图标大小
-| `callback` | `function` | `''` | 点击回调事件
-
-#### Interface `ItemTag`
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `color` | `string` | `''` | 颜色
-| `content` | `string` | `''` | 内容
-| `icon` | `vSlot` | `''` | 图标
-| `size` | `string \| number \| DeviceSize` | `''` | 大小
-| `radius` | `string \| number \| DeviceSize` | `''` | 圆角弧度
-
-#### Interface `DeviceSize` 属性 ( `Properties` )
-
-| 参数 | 类型 | 默认值 | 说明
-| :---- | :---- | :---- | :----
-| `laptop` | `string \| number` | `''` | 电脑端
-| `mobile` | `string \| number` | `''` | 移动端
-| `tablet` | `string \| number` | `''` | 平板端
+| `item` | [`DropdownItem`](../../utils/README.md) | `{}` | 下拉菜单的触发点
