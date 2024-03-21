@@ -3,6 +3,7 @@ import { PropTypes } from '../../utils/types'
 import type { BreadcrumbProperties } from '../breadcrumb/props'
 import type { SearchProperties } from '../search/props'
 import type { NoticeProperties } from '../notice/props'
+import { BacktopProperties } from '../backtop/props'
 
 /**
  * 布局属性
@@ -108,12 +109,17 @@ export const LayoutSiderLogoProps = () => ({
  * 布局内容属性
  * @param animation 切换动画
  * @param footer 页脚配置 <Slot />
+ * @param backtopSetting 回到顶部配置
+ *
+ * @see BacktopProperties
  */
 export interface LayoutContentProperties {
     animation?: string
     footer?: any
+    backtopSetting?: BacktopProperties
 }
 export const LayoutContentProps = () => ({
     animation: PropTypes.string.def('page-slide'),
+    backtopSetting: object<BacktopProperties>(),
     footer: PropTypes.any
 })

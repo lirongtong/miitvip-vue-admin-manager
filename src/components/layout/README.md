@@ -130,3 +130,4 @@
 | :---- | :---- | :---- | :----
 | `animation` | `string` | `page-slide` | 切换动画
 | `footer` | `vSlot` | `<MiLayoutFooter />` | 页脚配置
+| `backtopSetting` | `BacktopProperties` | `{}` | 回到顶部配置

@@ -36,7 +36,7 @@ const MiLayoutContent = defineComponent({
                         }
                     }}
                 />
-                <MiBacktop listenerContainer={backtopContainer.value} />
+                <MiBacktop listenerContainer={backtopContainer.value} {...props.backtopSetting} />
             </main>
         )
     }
