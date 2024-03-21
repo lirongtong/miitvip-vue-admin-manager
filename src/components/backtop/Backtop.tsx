@@ -8,12 +8,14 @@ import {
     watch
 } from 'vue'
 import { BacktopProps } from './props'
+import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { Tooltip } from 'ant-design-vue'
 import { RocketOutlined } from '@ant-design/icons-vue'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import applyTheme from '../_utils/theme'
 import styled from './style/backtop.module.less'
 
@@ -26,6 +28,7 @@ const MiBacktop = defineComponent({
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const router = useRouter()
+        const { width } = useWindowResize()
         const params = reactive({
             show: false,
             key: $tools.uid(),
@@ -51,6 +54,16 @@ const MiBacktop = defineComponent({
                     callback && callback()
                     emit('end')
                 }
+            )
+        }
+
+        const renderInner = () => {
+            return (
+                <div class={styled.inner} onClick={handleBacktop}>
+                    <div class={styled.icon}>
+                        {getPropSlot(slots, props, 'icon') ?? <RocketOutlined />}
+                    </div>
+                </div>
             )
         }
 
@@ -91,13 +104,13 @@ const MiBacktop = defineComponent({
                     }}
                     key={params.key}
                     v-show={params.show}>
-                    <Tooltip title={params.tip} placement="top">
-                        <div class={styled.inner} onClick={handleBacktop}>
-                            <div class={styled.icon}>
-                                {getPropSlot(slots, props, 'icon') ?? <RocketOutlined />}
-                            </div>
-                        </div>
-                    </Tooltip>
+                    {width.value < $g.breakpoints.md || $tools.isMobile() ? (
+                        renderInner()
+                    ) : (
+                        <Tooltip title={params.tip} placement="top">
+                            {renderInner()}
+                        </Tooltip>
+                    )}
                 </div>
             </Transition>
         )

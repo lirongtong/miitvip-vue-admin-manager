@@ -73,7 +73,7 @@
 | `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `48` | 圆角弧度
 | `offset` | `number` | `200` | 触发偏移量
 | `duration` | `number` | `1000` | 滚动时长
-| `tip` | `string` | `回到顶部` | 提示语
+| `tip` | `string` | `回到顶部` | 提示语 ( 移动端无效 )
 | `zIndex` | `number` | `Date.now()` | 容器层级
 | `position` | [`Position`](../../utils/README.md) | `{ bottom: 40, right: 40 }` | 容器定位
 | `icon` | `vSlot` | `<RocketOutlined />` | 图标
