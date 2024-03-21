@@ -71,41 +71,41 @@
 
 ## 基础组件
 
-:white_check_mark: 基础布局 ( `Layout` ) :sparkling_heart:
+:white_check_mark: [基础布局](./src/components/layout/README.md) ( `Layout` ) :sparkling_heart:
 
-:white_check_mark: 滑块验证码 ( `Captcha` ) :collision:
+:white_check_mark: [滑块验证码](./src/components/captcha/README.md) ( `Captcha` ) :collision:
 
 :white_check_mark: 锚点链接 ( `Anchor` ) :balloon:
 
-:white_check_mark: 时钟 ( `Clock` - 仿 `Apple Watch` 表盘 ) :clock130:
+:white_check_mark: [时钟](./src/components/clock/README.md) ( `Clock` - 仿 `Apple Watch` 表盘 ) :clock130:
 
-:white_check_mark: 下拉菜单 ( `Dropdown` ) :palm_tree:
+:white_check_mark: [下拉菜单](./src/components/dropdown/README.md) ( `Dropdown` ) :palm_tree:
 
 :white_check_mark: 忘记密码 ( `Forget` ) :hammer:
 
-:white_check_mark: 链接地址 ( `Link` ) :guitar:
+:white_check_mark: [链接地址](./src/components/link/README.md) ( `Link` ) :guitar:
 
-:white_check_mark: 调色板 ( `Palette` ) :books:
+:white_check_mark: [调色板](./src/components/palette/README.md) ( `Palette` ) :books:
 
-:white_check_mark: 登录组件 ( `Login` ) :cherries:
+:white_check_mark: [登录组件](./src/components/login/README.md) ( `Login` ) :cherries:
 
-:white_check_mark: 注册组件 ( `Register` ) :european_castle:
+:white_check_mark: [注册组件](./src/components/register/README.md) ( `Register` ) :european_castle:
 
-:white_check_mark: 菜单组件 ( `Menu` ) :rocket:
+:white_check_mark: [菜单组件](./src/components/menu/README.md) ( `Menu` ) :rocket:
 
-:white_check_mark: 弹窗动效 ( `Modal` ) :traffic_light:
+:white_check_mark: [弹窗动效](./src/components/modal/README.md) ( `Modal` ) :traffic_light:
 
-:white_check_mark: 消息中心 ( `Notice` ) :round_pushpin:
+:white_check_mark: [消息中心](./src/components/notice/README.md) ( `Notice` ) :round_pushpin:
 
-:white_check_mark: 密码设置 ( `Password` ) :u7981:
+:white_check_mark: [密码设置](./src/components/password/README.md) ( `Password` ) :u7981:
 
-:white_check_mark: 搜索组件 ( `Search` ) :bookmark_tabs:
+:white_check_mark: [搜索组件](./src/components/search/README.md) ( `Search` ) :bookmark_tabs:
 
-:white_check_mark: 代码高亮 ( `Code` ) :flight_arrival:
+:white_check_mark: [代码高亮](./src/components/code/README.md) ( `Code` ) :flight_arrival:
 
-:white_check_mark: 标题设置 ( `Title` ) :palm_tree:
+:white_check_mark: [标题设置](./src/components/title/README.md) ( `Title` ) :palm_tree:
 
-:white_check_mark: 引用说明 ( `Quotes` ) :hash:
+:white_check_mark: [引用说明](./src/components/quote/README.md) ( `Quotes` ) :hash:
 
 :white_check_mark: 回到顶部 ( `Backtop` ) :top:
 
