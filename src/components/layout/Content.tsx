@@ -23,19 +23,19 @@ const MiLayoutContent = defineComponent({
 
         return () => (
             <main class={styled.container}>
-                <RouterView
-                    v-slots={{
-                        default: ({ Component }: RouterViewSlot) => {
-                            return (
-                                <Transition name={animation} appear={true}>
-                                    <div ref={container} class={styled.inner} key={route.name}>
-                                        {createVNode(Component)}
-                                    </div>
-                                </Transition>
-                            )
-                        }
-                    }}
-                />
+                <div ref={container} class={styled.inner} key={route.name}>
+                    <RouterView
+                        v-slots={{
+                            default: ({ Component }: RouterViewSlot) => {
+                                return (
+                                    <Transition name={animation} appear={true}>
+                                        <div class={styled.box}>{createVNode(Component)}</div>
+                                    </Transition>
+                                )
+                            }
+                        }}
+                    />
+                </div>
                 <MiBacktop listenerContainer={backtopContainer.value} {...props.backtopSetting} />
             </main>
         )

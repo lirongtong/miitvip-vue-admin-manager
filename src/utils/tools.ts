@@ -431,7 +431,7 @@ class MiTools {
      */
     back2top(container: any, duration = 1000, endCallback?: Function) {
         const top = container
-            ? container.scrollTop
+            ? container?.scrollTop || 0
             : document.documentElement.scrollTop || document.body.scrollTop
         this.scrollToPos(container, top, 0, duration, endCallback)
     }

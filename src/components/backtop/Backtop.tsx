@@ -43,11 +43,14 @@ const MiBacktop = defineComponent({
             else params.show = false
         }
 
-        const handleBacktop = (duration?: number) => {
+        const handleBacktop = (duration?: number, callback?: Function) => {
             $tools.back2top(
                 params.container,
                 typeof duration === 'number' ? duration : props.duration,
-                () => emit('end')
+                () => {
+                    callback && callback()
+                    emit('end')
+                }
             )
         }
 
@@ -68,9 +71,11 @@ const MiBacktop = defineComponent({
         )
 
         router.beforeEach((_to, _from, next) => {
-            handleBacktop(0)
-            $tools.off(params.container, 'scroll', () => handleContainerScroll())
-            next()
+            handleBacktop(0, () => {
+                console.log(3)
+                $tools.off(params.container, 'scroll', () => handleContainerScroll())
+                next()
+            })
         })
 
         return () => (
