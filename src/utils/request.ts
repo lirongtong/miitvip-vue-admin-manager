@@ -47,7 +47,8 @@ class MiRequest {
             this.instance[method.toLowerCase()] = (
                 url: string,
                 data: { [index: string]: any } = {},
-                config?: RequestConfig
+                config?: RequestConfig,
+                settled?: boolean
             ): Promise<any> => {
                 const args: { [index: string]: any } = {
                     url,
@@ -65,36 +66,41 @@ class MiRequest {
                     ...args,
                     ...config
                 }
-                return this.send(configuration)
+                return this.send(configuration, settled)
             }
         })
     }
 
-    private async send(config: AxiosRequestConfig): Promise<any> {
+    private async send(config: AxiosRequestConfig, settled?: boolean): Promise<any> {
         if (!config.timeout) config.timeout = 60000
         return await axios(config)
             .then((res: AxiosResponse) => {
                 return Promise.resolve(res?.data || res)
             })
             .catch((err: any) => {
-                return Promise.reject(err)
+                if (settled) return Promise.resolve(err)
+                else return Promise.reject(err)
             })
     }
 
-    get(url: string, params?: {}, config?: RequestConfig): Promise<any> {
-        return this.instance['get'](url, params, config)
+    get(url: string, params?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+        return this.instance['get'](url, params, config, settled)
     }
 
-    post(url: string, data?: {}, config?: RequestConfig): Promise<any> {
-        return this.instance['post'](url, data, config)
+    post(url: string, data?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+        return this.instance['post'](url, data, config, settled)
     }
 
-    put(url: string, data?: {}, config?: RequestConfig): Promise<any> {
-        return this.instance['put'](url, data, config)
+    put(url: string, data?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+        return this.instance['put'](url, data, config, settled)
     }
 
-    delete(url: string, data?: {}, config?: RequestConfig): Promise<any> {
-        return this.instance['delete'](url, data, config)
+    delete(url: string, data?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+        return this.instance['delete'](url, data, config, settled)
+    }
+
+    async all<T>(values: Array<T | Promise<T>>): Promise<T[]> {
+        return Promise.all(values)
     }
 }
 
