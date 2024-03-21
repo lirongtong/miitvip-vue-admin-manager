@@ -22,13 +22,13 @@ const MiLayoutContent = defineComponent({
         applyTheme(styled)
 
         return () => (
-            <main ref={container} class={styled.container}>
+            <main class={styled.container}>
                 <RouterView
                     v-slots={{
                         default: ({ Component }: RouterViewSlot) => {
                             return (
                                 <Transition name={animation} appear={true}>
-                                    <div class={styled.inner} key={route.name}>
+                                    <div ref={container} class={styled.inner} key={route.name}>
                                         {createVNode(Component)}
                                     </div>
                                 </Transition>
