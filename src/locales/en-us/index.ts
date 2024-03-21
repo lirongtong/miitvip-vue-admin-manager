@@ -6,5 +6,6 @@ import captcha from './captcha'
 import password from './password'
 import login from './login'
 import register from './register'
+import anchor from './anchor'
 
-export default { global, notice, search, pagination, captcha, password, login, register }
+export default { global, notice, search, pagination, captcha, password, login, register, anchor }

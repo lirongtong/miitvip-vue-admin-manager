@@ -1,0 +1,58 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    position: relative;
+
+    .anchor {
+        position: fixed;
+        .properties(min-height, 120);
+        max-height: calc(100vh - 24rem);
+        border: .0625rem solid var(--mi-anchor-border);
+        .transition();
+        .gradient(var(--mi-anchor-background-start), var(--mi-anchor-background-stop));
+        overflow-y: auto;
+        overflow-x: hidden;
+        .properties(top, 200);
+        .properties(right, -4);
+        .properties(padding, 16);
+        .properties(max-width, 360);
+        .scrollbar();
+    }
+
+    .sticky {
+        position: fixed;
+        .properties(right, -4);
+        .properties(top, 200);
+        border: .0625rem solid var(--mi-anchor-border);
+        .transition();
+        .gradient(var(--mi-anchor-background-start), var(--mi-anchor-background-stop));
+        cursor: pointer;
+        .flex(center, center, column);
+        .properties(padding-left, 12);
+        .properties(padding-right, 14);
+        .properties(padding-top, 12);
+        .properties(padding-bottom, 12);
+        .radius(4);
+
+        &-text {
+            .flex(center, center, column-reverse);
+            .properties(margin-top, 4);
+
+            > span {
+                transform: rotate(-90deg);
+                .properties(line-height, 18);
+            }
+
+            &-empty {
+                .properties(height, 4);
+            }
+        }
+    }
+}
+
+:export {
+    --anchor-border: var(--mi-primary);
+    --anchor-background-start: var(--mi-surface);
+    --anchor-background-stop: var(--mi-surface-variant);
+    --anchor-text: var(--mi-surface-variant);
+}

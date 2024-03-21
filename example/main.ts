@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import router from './router'
 import App from './app.vue'
-import { Layout, Code, Title, Quote, Modal, Captcha, Dropdown, Password, Login, Register, Backtop } from '../src/index'
+import { Layout, Code, Title, Quote, Modal, Captcha, Dropdown, Password, Login, Register, Backtop, Anchor } from '../src/index'
 
 const app = createApp(App)
 app.use(router)
 
-const components = [Layout, Code, Title, Quote, Modal, Captcha, Dropdown, Password, Login, Register, Backtop]
+const components = [Layout, Code, Title, Quote, Modal, Captcha, Dropdown, Password, Login, Register, Backtop, Anchor]
 components.forEach((component) => app.use(component))
 
 app.mount('#app')

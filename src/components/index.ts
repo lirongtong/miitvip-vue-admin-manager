@@ -65,3 +65,6 @@ export { default as Register } from './register'
 
 export type { BacktopProperties } from './backtop/props'
 export { default as Backtop } from './backtop'
+
+export type { AnchorProperties } from './anchor/props'
+export { default as Anchor } from './anchor'

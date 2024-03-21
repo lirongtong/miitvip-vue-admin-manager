@@ -382,8 +382,8 @@ class MiTools {
      * @returns
      */
     getElementActualOffsetTopOrLeft(el: HTMLElement, pos = 'top') {
-        let actual = pos === 'left' ? el.offsetLeft : el.offsetTop
-        let current = el.offsetParent as HTMLElement
+        let actual = pos === 'left' ? el?.offsetLeft : el?.offsetTop
+        let current = el?.offsetParent as HTMLElement
         while (current !== null) {
             actual += pos === 'left' ? current.offsetLeft : current.offsetTop
             current = current.offsetParent as HTMLElement

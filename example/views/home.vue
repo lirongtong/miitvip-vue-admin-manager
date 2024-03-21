@@ -1,6 +1,7 @@
 <template>
     <mi-theme>
         <mi-layout />
+        <mi-anchor />
     </mi-theme>
 </template>
 
