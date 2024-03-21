@@ -9,7 +9,7 @@
     }
 
     &.collapsed {
-        .flex(center, flex-start);
+        .flex();
     }
 
     &:hover,
@@ -21,7 +21,12 @@
 }
 
 .link {
+    .properties(margin-top);
     color: var(--mi-menu-item-text);
+
+    > a {
+        .flex();
+    }
 }
 
 :export {

@@ -25,10 +25,7 @@
         .ant-menu-item {
             .properties(height, @mi-menu-item-height);
             .properties(line-height, @mi-menu-item-height);
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom: 0;
-            .properties(margin-top);
+            margin: 0;
             width: 100%;
             background-color: var(--mi-menu-item-background-default);
             flex-wrap: nowrap;
@@ -109,6 +106,12 @@
             span {
                 color: var(--mi-menu-collapsed-tooltip-text) !important;
             }
+        }
+    }
+
+    .ant-menu-submenu-popup {
+        .ant-menu-vertical.ant-menu-sub {
+            .scrollbar();
         }
     }
 }

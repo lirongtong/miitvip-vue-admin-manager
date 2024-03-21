@@ -21,19 +21,11 @@ body {
     color: var(--mi-on-background);
     background: var(--mi-background);
     .letter-spacing();
+    .scrollbar();
 
     ::-moz-selection,
     ::selection {
         color: var(--mi-on-primary);
-        background: var(--mi-primary);
-    }
-
-    &::-webkit-scrollbar {
-        .properties(width, 4);
-    }
-
-    &::-webkit-scrollbar-thumb {
-        .radius(2);
         background: var(--mi-primary);
     }
 }

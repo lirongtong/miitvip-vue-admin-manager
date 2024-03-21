@@ -10,6 +10,10 @@
     position: relative;
     min-width: unset;
 
+    &.collapsed {
+        .flex();
+    }
+
     .icon {
         .properties(margin-right, 12);
         .transition();
@@ -21,11 +25,11 @@
 
         &.collapsed {
             margin-right: 0;
-            width: 100%;
+            .properties(width, 20);
     
             :global(.anticon) {
                 .font-size(20);
-                width: 100%;
+                .properties(width, 20);
                 .flex();
             }
         }
