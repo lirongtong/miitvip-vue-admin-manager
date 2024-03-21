@@ -1,0 +1,36 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    position: fixed;
+    .flex();
+    .gradient-hint(var(--mi-backtop-background-start), var(--mi-backtop-background-hint), var(--mi-backtop-background-stop));
+    .transition();
+    cursor: pointer;
+
+    .inner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        right: 0;
+        .flex();
+    }
+
+    .icon {
+        .font-size(22, bold);
+
+        :global {
+            .anticon {
+                .flex();
+                color: var(--mi-backtop-icon);
+            }
+        }
+    }
+}
+
+:export {
+    --backtop-background-start: var(--mi-primary);
+    --backtop-background-hint: var(--mi-secondary);
+    --backtop-background-stop: var(--mi-tertiary);
+    --backtop-icon: var(--mi-on-secondary);
+}

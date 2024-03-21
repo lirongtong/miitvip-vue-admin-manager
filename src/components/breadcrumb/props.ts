@@ -2,7 +2,9 @@ import { tuple, animations } from './../_utils/props'
 import { PropTypes } from '../../utils/types'
 
 /**
- * 面包屑
+ * +=====================+
+ * |       面包屑        |
+ * +=====================+
  * @param separator 分隔符
  * @param animation 动画效果
  */

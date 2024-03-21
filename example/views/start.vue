@@ -1,5 +1,6 @@
 <template>
     <mi-code language="shell" :content="content" />
+    <div style="height: 1200px"></div>
 </template>
 
 <script setup lang="ts">

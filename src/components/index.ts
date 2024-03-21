@@ -62,3 +62,6 @@ export { default as Login } from './login'
 
 export type { RegisterProperties, RegisterVerifyProperties } from './register/props'
 export { default as Register } from './register'
+
+export type { BacktopProperties } from './backtop/props'
+export { default as Backtop } from './backtop'

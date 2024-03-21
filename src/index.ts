@@ -18,6 +18,7 @@ import { default as Captcha } from './components/captcha'
 import { default as Password } from './components/password'
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
+import { default as Backtop } from './components/backtop'
 
 import * as components from './components'
 export * from './components'
@@ -73,6 +74,7 @@ declare module '@vue/runtime-core' {
         MiPassword: typeof Password
         MiLogin: typeof Login
         MiRegister: typeof Register
+        MiBacktop: typeof Backtop
     }
 }
 
