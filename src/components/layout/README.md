@@ -77,7 +77,7 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `showBreadcrumbs` | `boolean | true | 是否显示面包屑导航
+| `showBreadcrumbs` | `boolean` | `true` | 是否显示面包屑导航
 | `header` | `vSlot` | `''` | 顶栏
 | `sider` | `vSlot` | `''` | 侧边栏
 | `footer` | `vSlot` | `''` | 页脚
@@ -130,4 +130,4 @@
 | :---- | :---- | :---- | :----
 | `animation` | `string` | `page-slide` | 切换动画
 | `footer` | `vSlot` | `<MiLayoutFooter />` | 页脚配置
-| `backtopSetting` | `BacktopProperties` | `{}` | 回到顶部配置
+| `backtopSetting` | [`BacktopProperties`](../backtop/README.md) | `{}` | 回到顶部配置
