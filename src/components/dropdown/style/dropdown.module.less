@@ -10,11 +10,17 @@
     overflow: hidden;
     .flex();
     .circle();
+    border: .0625rem solid var(--mi-primary);
+    .transition();
+
+    &:hover {
+        transform: rotate(360deg);
+    }
 
     :global(.ant-avatar) {
         width: 100%;
         height: 100%;
-        transform: scale(1.2);
+        transform: scale(1.1);
         .circle();
     }
 }
