@@ -1,4 +1,4 @@
-import { defineComponent, watch } from 'vue'
+import { defineComponent, inject, watch } from 'vue'
 import { useThemeStore } from '../../stores/theme'
 import { ThemeProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -13,16 +13,11 @@ const MiTheme = defineComponent({
     inheritAttrs: false,
     props: ThemeProps(),
     setup(props, { slots }) {
-        const { t, te } = useI18n()
-        $tools.setTitle(te('global.meta.title') ? t('global.meta.title') : null)
-        $tools.setKeywords(
-            te('global.meta.keywords') ? t('global.meta.keywords') : $g.keywords,
-            true
-        )
-        $tools.setDescription(
-            te('global.meta.description') ? t('global.meta.description') : $g.description,
-            true
-        )
+        const { t } = useI18n()
+        const setLocale = inject('setLocale') as any
+        $tools.setTitle(t('global.meta.title'))
+        $tools.setKeywords($g?.keywords || t('global.meta.keywords'), true)
+        $tools.setDescription($g.description || t('global.meta.description'), true)
         const primaryColor = $storage.get($g.caches.storages.theme.hex)
         const themeType = $storage.get($g.caches.storages.theme.type)
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
@@ -34,6 +29,8 @@ const MiTheme = defineComponent({
         $tools.createThemeProperties($g.theme.primary)
         const store = useThemeStore()
         store.$patch({ properties: { ...globalThemeVars } })
+        $g.locale = $tools.getLanguage()
+        setLocale($g.locale)
 
         watch(
             () => [$g?.theme?.type, $g?.theme?.primary],

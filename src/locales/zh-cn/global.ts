@@ -61,5 +61,10 @@ export default {
     dark: `深色`,
     light: `浅色`,
     'no-data': `暂无符合条件的数据`,
-    backtop: `回到顶部`
+    backtop: `回到顶部`,
+    meta: {
+        title: ``,
+        keywords: ``,
+        description: ``
+    }
 }

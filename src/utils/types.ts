@@ -89,18 +89,44 @@ export interface RegExpTokens {
  * @param cookies
  */
 export interface CacheTokens {
-    storages: {
+    storages: Partial<{
         [key: string]: any
+        theme: Partial<{
+            [key: string]: any
+            type: string
+            hex: string
+        }>
+        user: string
+        email: string
         collapsed: string
-    }
-    cookies: {
+        locale: string
+        languages: Partial<{
+            [key: string]: any
+            custom: string
+            categories: string
+        }>
+        captcha: Partial<{
+            [key: string]: any
+            login: string
+            register: string
+            email: string
+        }>
+        password: Partial<{
+            [key: string]: any
+            time: string
+            token: string
+            uid: string
+            input: string
+        }>
+    }>
+    cookies: Partial<{
         [key: string]: any
         autoLogin: string
         token: {
             access: string
             refresh: string
         }
-    }
+    }>
 }
 
 /**
@@ -154,6 +180,7 @@ export interface GlobalProperties {
     title?: string
     site?: string
     logo?: string
+    locale?: string
     readonly powered?: string
     keywords?: string
     description?: string

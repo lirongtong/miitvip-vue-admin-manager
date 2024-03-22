@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, createVNode } from 'vue'
+import { defineComponent, ref, reactive, createVNode, computed } from 'vue'
 import { RegisterProps } from './props'
 import {
     ConfigProvider,
@@ -98,6 +98,15 @@ const MiRegister = defineComponent({
                 email: null
             }
         })
+        const socialiteSetting = computed(() => {
+            return Object.assign(
+                {
+                    tip: t('register.socialite'),
+                    showMore: width.value >= $g.breakpoints.md
+                },
+                props.socialiteSetting
+            )
+        })
         applyTheme(styled)
 
         const handleRegister = () => {}
@@ -187,7 +196,12 @@ const MiRegister = defineComponent({
             let template = input
             if (tip) {
                 template = (
-                    <Popover placement="top" trigger={['focus']} content={tip} zIndex={Date.now()}>
+                    <Popover
+                        placement="top"
+                        trigger={['focus']}
+                        content={tip}
+                        zIndex={Date.now()}
+                        overlayClassName={styled.usernamePopover}>
                         {input}
                     </Popover>
                 )
@@ -241,11 +255,11 @@ const MiRegister = defineComponent({
                         type="primary"
                         onClick={handleRegister}
                         loading={params.loading}
-                        class={styled.btnsPrimary}>
+                        class={[styled.btn, styled.btnPrimary]}>
                         {t('register.title')}
                     </Button>
                     {width.value < $g.breakpoints.md ? (
-                        <Button>
+                        <Button class={styled.btn}>
                             <MiLink path="/login">
                                 {t('register.no-account')}
                                 {t('register.login')}
@@ -267,7 +281,7 @@ const MiRegister = defineComponent({
                             </MiLink>
                         </div>
                     ) : null}
-                    <MiSocialite items={props.socialiteItems || []} tip={t('register.socialite')} />
+                    <MiSocialite {...socialiteSetting.value} />
                 </Form.Item>
             )
         }

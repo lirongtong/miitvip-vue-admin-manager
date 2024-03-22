@@ -17,6 +17,15 @@
         height: 100%;
         min-height: 100vh;
         overflow: hidden;
+
+        @media only screen and (max-width: @mi-sm) {
+            overflow-y: auto;
+            overflow-x: hidden;
+            .hide-scrollbar();
+            align-items: flex-start;
+            background: var(--mi-register-mask);
+            backdrop-filter: blur(1rem);
+        }
     }
 
     .mask {
@@ -26,7 +35,7 @@
         width: 100%;
         height: 100%;
         background: var(--mi-register-mask);
-        backdrop-filter: blur(2rem);
+        backdrop-filter: blur(1rem);
         .radius(16);
         z-index: @mi-zindex;
     }
@@ -40,7 +49,7 @@
         position: relative;
 
         .title {
-            .font-size(26, bold);
+            .font-size(32, bold);
             .letter-spacing(4);
             .gradient-text();
             z-index: @mi-zindex + 100;
@@ -76,9 +85,17 @@
             .properties(top, 16);
             z-index: @mi-zindex + 1000;
 
+            @media only screen and (max-width: @mi-sm) {
+                .properties(top, -4);
+            }
+
             :global {
                 .anticon {
                     .font-size(18);
+
+                    @media only screen and (max-width: @mi-sm) {
+                        .font-size(20);
+                    }
                 }
             }
         }
@@ -124,6 +141,10 @@
         }
 
         .socialite {
+            @media only screen and (max-width: @mi-sm) {
+                .properties(margin-top, 64);
+            }
+
             &-link {
                 .flex();
             }
@@ -146,6 +167,28 @@
                 .gradient-hint(var(--mi-register-form-btn-active-start), var(--mi-register-form-btn-active-hint), var(--mi-register-form-btn-active-stop));
                 color: var(--mi-register-form-btn-active-text);
                 box-shadow: none;
+            }
+        }
+
+        .btn {
+            width: 100%;
+            .radius(42);
+            .properties(height, 42);
+            .flex();
+            .gradient(var(--mi-register-form-btn-default-start), var(--mi-register-form-btn-default-stop));
+            box-shadow: none;
+            color: var(--mi-register-form-btn-default-text);
+
+            a,
+            a:focus,
+            a:hover {
+                color: var(--mi-login-form-btn-default-text);
+            }
+
+            &-primary {
+                .gradient-hint(var(--mi-register-form-btn-active-start), var(--mi-register-form-btn-active-hint), var(--mi-register-form-btn-active-stop));
+                color: var(--mi-register-form-btn-active-text);
+                .properties(margin-bottom);
             }
         }
     }
@@ -190,12 +233,27 @@
     }
 }
 
+.username {
+    &-popover {
+        .flex();
+
+        :global {
+            .ant-popover-content {
+                max-width: 96%;
+            }
+        }
+    }
+}
+
 :export {
     --register-text: var(--mi-on-surface);
     --register-logo-border: var(--mi-primary);
     --register-tip-important: var(--mi-error);
     --register-form-input-border: var(--mi-primary);
     --register-form-error: var(--mi-error);
+    --register-form-btn-default-start: var(--mi-surface);
+    --register-form-btn-default-stop: var(--mi-surface-variant);
+    --register-form-btn-default-text: var(--mi-on-surface);
     --register-form-btn-active-start: var(--mi-primary);
     --register-form-btn-active-hint: var(--mi-secondary);
     --register-form-btn-active-stop: var(--mi-tertiary);

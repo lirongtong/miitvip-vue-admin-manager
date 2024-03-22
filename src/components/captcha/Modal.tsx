@@ -389,7 +389,9 @@ const MiCaptchaModal = defineComponent({
                 params.drag.moving = false
                 if (result)
                     result.style.bottom =
-                        locale.value === 'en-us' ? $tools.convert2rem(-48) : $tools.convert2rem(-32)
+                        (locale as unknown as string) === 'en-us'
+                            ? $tools.convert2rem(-48)
+                            : $tools.convert2rem(-32)
             }, 1000)
             setTimeout(() => {
                 params.check.show = false
@@ -610,7 +612,7 @@ const MiCaptchaModal = defineComponent({
                 <Transition name={params.anim} appear={true}>
                     <div
                         ref={modalRef}
-                        class={`${styled.container} ${styled[locale.value]}${
+                        class={`${styled.container} ${getPrefixCls(`modal-${locale}`)}${
                             !params.check.correct && params.check.show ? ` ${styled.error}` : ''
                         }${width.value < $g.breakpoints.md ? ` ${styled.mobile}` : ''}`}
                         style={{

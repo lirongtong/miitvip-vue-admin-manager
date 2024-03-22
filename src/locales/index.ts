@@ -5,7 +5,7 @@ import { $storage } from '../utils/storage'
 import zhCN from './zh-cn'
 import enUS from './en-us'
 
-const DEFAULT_LANG = $g.locale || 'zh-cn'
+const DEFAULT_LANG = $g?.locale || 'zh-cn'
 const LOCALE_KEY = $g.caches.storages.locale || 'language-locale'
 
 const locales = {
@@ -30,16 +30,16 @@ const setLocale = async (locale?: string, message?: {}) => {
     } else if (Object.keys(message || {}).length > 0) {
         i18nIns.global.setLocaleMessage(locale, message)
     } else locale = DEFAULT_LANG
-    i18nIns.global.locale = locale
+    ;(i18nIns.global.locale as any).value = locale
     $storage.set(LOCALE_KEY, locale)
 }
-setLocale($g.locale)
+i18nIns.setLocale = setLocale
 
 export default {
     install(app: App) {
-        i18nIns.setLocale = setLocale
         app.use(i18nIns)
         app.config.globalProperties.$i18n = i18nIns
+        app.provide('setLocale', (lang: string, message?: {}) => setLocale(lang, message))
         return app
     }
 }

@@ -942,6 +942,20 @@ class MiTools {
             }
         } else return color
     }
+
+    /**
+     * 获取浏览器语系
+     * @returns
+     */
+    getLanguage() {
+        let lang = 'en-us'
+        if (typeof window !== 'undefined') {
+            lang = (
+                navigator ? navigator.language ?? (navigator as any).browerLanguage : 'en-us'
+            ).toLowerCase()
+        }
+        return lang
+    }
 }
 
 /**
@@ -995,6 +1009,7 @@ class MiTools {
  *  - {@link $tools.wrapPositionOrSpacing} 封装定位或间距
  *  - {@link $tools.colorHex2Rgba} 颜色转换 hex -> rgba
  *  - {@link $tools.colorRgb2Hex} 颜色转换 rgb -> hex
+ *  - {@link $tools.getLanguage} 获取浏览器语系
  */
 export const $tools: MiTools = new MiTools()
 

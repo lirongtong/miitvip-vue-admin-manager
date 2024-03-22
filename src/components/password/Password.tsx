@@ -303,7 +303,9 @@ const MiPassword = defineComponent({
                             trigger="focus"
                             placement={props.placement}
                             content={renderPopoverContent()}
-                            overlayClassName={getPrefixCls(`password-${locale.value}`)}
+                            overlayClassName={`${styled.popover} ${getPrefixCls(
+                                `password-${locale}`
+                            )}`}
                             zIndex={Date.now()}>
                             {renderPassword(
                                 params.form.validate.password,
