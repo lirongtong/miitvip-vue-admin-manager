@@ -17,6 +17,13 @@
         height: 100%;
         min-height: 100vh;
         overflow: hidden;
+
+        @media only screen and (max-width: @mi-sm) {
+            overflow-y: auto;
+            overflow-x: hidden;
+            .hide-scrollbar();
+            align-items: flex-start;
+        }
     }
 
     .mask {
@@ -38,6 +45,10 @@
 		.properties(margin, 24);
 		.properties(margin-bottom, 72);
         position: relative;
+
+        @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+            .properties(margin-bottom, 96);
+        }
 
         .title {
             .font-size(26, bold);
@@ -75,9 +86,17 @@
             .properties(top, 16);
             z-index: @mi-zindex + 1000;
 
+            @media only screen and (max-width: @mi-sm) {
+                .properties(top, -4);
+            }
+
             :global {
                 .anticon {
                     .font-size(18);
+
+                    @media only screen and (max-width: @mi-sm) {
+                        .font-size(20);
+                    }
                 }
             }
         }
@@ -154,6 +173,10 @@
         }
 
         .socialite {
+            @media only screen and (max-width: @mi-sm) {
+                .properties(margin-top, 64);
+            }
+
             &-link {
                 .flex();
             }
@@ -162,7 +185,7 @@
                 .ant-form-item-control-input-content {
                     .flex(center, space-between);
 
-                    @media only screen and (max-width: @mi-md) {
+                    @media only screen and (max-width: @mi-sm) {
                         .flex(center, center, column);
                     }
                 }
@@ -172,14 +195,24 @@
         .btns { .properties(margin-bottom, 24); }
 
         .btn {
+            width: 100%;
+            .radius(42);
+            .properties(height, 42);
+            .flex();
+            .gradient(var(--mi-login-form-btn-default-start), var(--mi-login-form-btn-default-stop));
+            box-shadow: none;
+            color: var(--mi-login-form-btn-default-text);
+
+            a,
+            a:focus,
+            a:hover {
+                color: var(--mi-login-form-btn-default-text);
+            }
+
             &-primary {
-                width: 100%;
-                .radius(42);
-                .properties(height, 42);
-                .flex();
                 .gradient-hint(var(--mi-login-form-btn-active-start), var(--mi-login-form-btn-active-hint), var(--mi-login-form-btn-active-stop));
                 color: var(--mi-login-form-btn-active-text);
-                box-shadow: none;
+                .properties(margin-bottom);
             }
         }
     }
@@ -193,6 +226,10 @@
         > div {
             color: var(--mi-login-form-text);
         }
+
+        @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+            .properties(margin-top, -98);
+        }
     }
 }
 
@@ -201,6 +238,9 @@
     --login-form-input-border: var(--mi-primary);
     --login-form-text: var(--mi-on-surface);
     --login-form-error: var(--mi-error);
+    --login-form-btn-default-text: var(--mi-on-surface);
+    --login-form-btn-default-start: var(--mi-surface);
+    --login-form-btn-default-stop: var(--mi-surface-variant);
     --login-form-btn-active-start: var(--mi-primary);
     --login-form-btn-active-hint: var(--mi-secondary);
     --login-form-btn-active-stop: var(--mi-tertiary);

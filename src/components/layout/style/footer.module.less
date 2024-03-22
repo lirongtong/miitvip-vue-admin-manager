@@ -12,6 +12,10 @@
     color: var(--mi-layout-footer-text);
     text-align: center;
     .letter-spacing();
+
+    @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+        .properties(max-width, 550);
+    }
 }
 
 :export {

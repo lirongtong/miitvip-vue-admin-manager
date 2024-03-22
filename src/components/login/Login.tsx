@@ -219,11 +219,11 @@ const MiLogin = defineComponent({
                         type="primary"
                         onClick={handleLogin}
                         loading={params.loading}
-                        class={styled.btnPrimary}>
+                        class={[styled.btn, styled.btnPrimary]}>
                         {t('login.title')}
                     </Button>
                     {width.value < $g.breakpoints.md ? (
-                        <Button>
+                        <Button class={styled.btn}>
                             <MiLink path="/register">
                                 {t('login.no-account')}
                                 {t('login.signup')}
