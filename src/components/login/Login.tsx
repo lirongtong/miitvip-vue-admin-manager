@@ -1,4 +1,4 @@
-import { defineComponent, type SlotsType, ref, reactive, createVNode } from 'vue'
+import { defineComponent, type SlotsType, ref, reactive, createVNode, computed } from 'vue'
 import type { ResponseData } from '../../utils/types'
 import { LoginProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -77,8 +77,11 @@ const MiLogin = defineComponent({
                     },
                     props.rules
                 )
-            },
-            socialiteSetting: Object.assign(
+            }
+        })
+        !params.form.validate.captcha && delete params.form.validate.cuid
+        const socialiteSetting = computed(() => {
+            return Object.assign(
                 {
                     tip: t('login.socialite'),
                     showMore: width.value >= $g.breakpoints.md
@@ -86,7 +89,6 @@ const MiLogin = defineComponent({
                 props.socialiteSetting
             )
         })
-        !params.form.validate.captcha && delete params.form.validate.cuid
         applyTheme(styled)
 
         const handleLogin = async () => {
@@ -243,7 +245,7 @@ const MiLogin = defineComponent({
                             </MiLink>
                         </div>
                     ) : null}
-                    <MiSocialite {...params.socialiteSetting} />
+                    <MiSocialite {...socialiteSetting.value} />
                 </Form.Item>
             )
         }
