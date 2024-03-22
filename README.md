@@ -77,7 +77,7 @@
 
 :white_check_mark: [锚点链接](./src/components/anchor/README.md) ( `Anchor` ) :balloon:
 
-:white_check_mark: [时钟](./src/components/clock/README.md) ( `Clock` - 仿 `Apple Watch` 表盘 ) :clock130:
+:white_check_mark: [精美时钟](./src/components/clock/README.md) ( `Clock` - 仿 `Apple Watch` 表盘 ) :clock130:
 
 :white_check_mark: [下拉菜单](./src/components/dropdown/README.md) ( `Dropdown` ) :palm_tree:
 
@@ -85,13 +85,15 @@
 
 :white_check_mark: [链接地址](./src/components/link/README.md) ( `Link` ) :guitar:
 
-:white_check_mark: [调色板](./src/components/palette/README.md) ( `Palette` ) :books:
+:white_check_mark: [调色面板](./src/components/palette/README.md) ( `Palette` ) :books:
 
-:white_check_mark: [登录组件](./src/components/login/README.md) ( `Login` ) :cherries:
+:white_check_mark: [登录页面](./src/components/login/README.md) ( `Login` ) :cherries:
 
-:white_check_mark: [注册组件](./src/components/register/README.md) ( `Register` ) :european_castle:
+:white_check_mark: [注册页面](./src/components/register/README.md) ( `Register` ) :european_castle:
 
-:white_check_mark: [菜单组件](./src/components/menu/README.md) ( `Menu` ) :rocket:
+:white_check_mark: [社会化登录 / 注册](./src/components/socialite/README.md) ( `Socialite` ) :dizzy:
+
+:white_check_mark: [菜单导航](./src/components/menu/README.md) ( `Menu` ) :rocket:
 
 :white_check_mark: [弹窗动效](./src/components/modal/README.md) ( `Modal` ) :traffic_light:
 

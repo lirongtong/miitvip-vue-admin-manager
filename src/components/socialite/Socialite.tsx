@@ -1,5 +1,4 @@
 import { defineComponent, reactive, isVNode, h } from 'vue'
-import { useI18n } from 'vue-i18n'
 import {
     MoreOutlined,
     GithubOutlined,
@@ -7,22 +6,19 @@ import {
     QqOutlined,
     GoogleOutlined
 } from '@ant-design/icons-vue'
-import { $g, __MI_SOCIALITE_DOMAIN__ } from '../../utils/global'
-import { LoginSocialiteProps } from './props'
-import { useWindowResize } from '../../hooks/useWindowResize'
+import { __MI_SOCIALITE_DOMAIN__ } from '../../utils/global'
+import { SocialiteProps } from './props'
 import type { DropdownItem } from '../../utils/types'
 import MiDropdown from '../dropdown/Dropdown'
 import MiLink from '../link/Link'
 import applyTheme from '../_utils/theme'
 import styled from './style/socialite.module.less'
 
-const MiLoginSocialite = defineComponent({
-    name: 'MiLoginSocialite',
+const MiSocialite = defineComponent({
+    name: 'MiSocialite',
     inheritAttrs: false,
-    props: LoginSocialiteProps(),
+    props: SocialiteProps(),
     setup(props) {
-        const { t } = useI18n()
-        const { width } = useWindowResize()
         const params = reactive({
             remain: [] as DropdownItem[],
             first: {} as DropdownItem
@@ -57,7 +53,7 @@ const MiLoginSocialite = defineComponent({
         parseItems()
 
         return () => {
-            if (width.value < $g.breakpoints.md) {
+            if (!props.showMore) {
                 const items: DropdownItem[] = [{ ...params.first }].concat(params.remain)
                 const icons: any[] = []
                 ;(items || []).forEach((item: DropdownItem) => {
@@ -71,7 +67,7 @@ const MiLoginSocialite = defineComponent({
                 return (
                     <div class={styled.mobile}>
                         <div class={styled.mobileLine} />
-                        <div class={styled.mobileTitle} innerHTML={t('login.socialite')} />
+                        <div class={styled.mobileTitle} innerHTML={props.tip} />
                         <div class={styled.mobileCates}>{...icons}</div>
                     </div>
                 )
@@ -80,7 +76,7 @@ const MiLoginSocialite = defineComponent({
                     params.first?.callback && typeof params.first?.callback === 'function'
                 return (
                     <div class={styled.container}>
-                        {props.tip || t('login.socialite')}
+                        {props.tip}
                         <div
                             onClick={(evt?: any) =>
                                 hasCallback ? params.first.callback(evt) : null
@@ -104,4 +100,4 @@ const MiLoginSocialite = defineComponent({
     }
 })
 
-export default MiLoginSocialite
+export default MiSocialite

@@ -20,6 +20,7 @@ import { default as Login } from './components/login'
 import { default as Register } from './components/register'
 import { default as Backtop } from './components/backtop'
 import { default as Anchor } from './components/anchor'
+import { default as Soocialite } from './components/socialite'
 
 import * as components from './components'
 export * from './components'
@@ -78,6 +79,7 @@ declare module '@vue/runtime-core' {
         MiRegister: typeof Register
         MiBacktop: typeof Backtop
         MiAnchor: typeof Anchor
+        MiSoocialite: typeof Soocialite
     }
 }
 

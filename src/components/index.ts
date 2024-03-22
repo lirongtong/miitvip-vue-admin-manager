@@ -57,7 +57,7 @@ export { default as Captcha } from './captcha'
 export type { PasswordProperties } from './password/props'
 export { default as Password } from './password'
 
-export type { LoginProperties, LoginSocialiteProperties } from './login/props'
+export type { LoginProperties } from './login/props'
 export { default as Login } from './login'
 
 export type { RegisterProperties, RegisterVerifyProperties } from './register/props'
@@ -68,3 +68,6 @@ export { default as Backtop } from './backtop'
 
 export type { AnchorProperties, AnchorLinkProperties } from './anchor/props'
 export { default as Anchor } from './anchor'
+
+export type { SocialiteProperties } from './socialite/props'
+export { default as Socialite } from './socialite'

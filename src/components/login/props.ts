@@ -2,6 +2,7 @@ import { VNodeTypes } from 'vue'
 import { PropTypes, type DropdownItem } from '../../utils/types'
 import { object } from 'vue-types'
 import type { CaptchaProperties } from '../captcha/props'
+import { SocialiteProperties } from '../socialite/props'
 
 /**
  * +====================+
@@ -18,8 +19,7 @@ import type { CaptchaProperties } from '../captcha/props'
  * @param registerLink 注册链接
  * @param forgetPasswordLink 忘记密码链接
  * @param socialiteLogin 是否为社会化登录回调
- * @param socialiteLoginDomain 社会化登录的域名配置
- * @param socialiteItems 社会化登录方式配置
+ * @param socialiteSetting 社会化登录组件配置
  *
  * @see CaptchaProperties
  */
@@ -35,8 +35,7 @@ export interface LoginProperties {
     registerLink: string
     forgetPasswordLink: string
     socialiteLogin: boolean
-    socialiteLoginDomain: string
-    socialiteItems: Partial<DropdownItem>[]
+    socialiteSetting: Partial<SocialiteProperties>
 }
 
 export const LoginProps = () => ({
@@ -51,8 +50,7 @@ export const LoginProps = () => ({
     registerLink: PropTypes.string.def('/register'),
     forgetPasswordLink: PropTypes.string.def('/forget'),
     socialiteLogin: PropTypes.bool.def(false),
-    socialiteLoginDomain: PropTypes.string,
-    socialiteItems: object<Partial<DropdownItem>[]>()
+    socialiteSetting: object<Partial<SocialiteProperties>>().def({})
 })
 
 /**

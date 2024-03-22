@@ -161,6 +161,10 @@
             :global {
                 .ant-form-item-control-input-content {
                     .flex(center, space-between);
+
+                    @media only screen and (max-width: @mi-md) {
+                        .flex(center, center, column);
+                    }
                 }
             }
         }

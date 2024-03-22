@@ -1,0 +1,66 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .flex();
+    color: var(--mi-socialite-title-text);
+
+    :global {
+        .anticon {
+            .font-size(16);
+            .properties(margin-left);
+            cursor: pointer;
+            color: var(--mi-socialite-icon);
+        }
+    }
+}
+
+.mobile {
+    width: 100%;
+    .flex(center, center, column);
+    position: relative;
+
+    &-line {
+        border-top: .0625rem solid var(--mi-socialite-mobile-line);
+        position: absolute;
+        .properties(top, 16);
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        .flex();
+    }
+
+    &-title {
+        .gradient-hint(var(--mi-socialite-mobile-title-background-start), var(--mi-socialite-mobile-title-background-hint), var(--mi-socialite-mobile-title-background-stop));
+        .properties(height, 32);
+        .flex();
+        .radius(32);
+        .properties(padding-left, 16);
+        .properties(padding-right, 16);
+        color: var(--mi-socialite-mobile-title-text);
+        z-index: 2;
+    }
+
+    &-cates {
+        .flex(center, space-between);
+        .properties(margin-top, 24);
+        width: 85%;
+
+        :global {
+            .anticon {
+                .properties(font-size, 28);
+                color: var(--mi-socialite-mobile-icon);
+            }
+        }
+    }
+}
+
+:export {
+    --socialite-icon: var(--mi-on-background);
+    --socialite-title-text: var(--mi-on-background);
+    --socialite-mobile-line: var(--mi-primary);
+    --socialite-mobile-icon: var(--mi-primary);
+    --socialite-mobile-title-text: var(--mi-surface-variant);
+    --socialite-mobile-title-background-start: var(--mi-primary);
+    --socialite-mobile-title-background-hint: var(--mi-secondary);
+    --socialite-mobile-title-background-stop: var(--mi-tertiary);
+}

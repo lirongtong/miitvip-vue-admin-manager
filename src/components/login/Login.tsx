@@ -22,13 +22,13 @@ import { getPropSlot } from '../_utils/props'
 import { useAuthStore } from '../../stores/auth'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { __LOGO__, __PASSPORT_DEFAULT_BACKGROUND__ } from '../../utils/images'
-import MiLoginSocialite from './Socialite'
 import MiLayoutFooter from '../layout/Footer'
 import MiPassword from '../password/Password'
 import MiCaptcha from '../captcha/Captcha'
 import MiLink from '../link/Link'
 import MiPalette from '../palette/Palette'
 import MiTheme from '../theme/Theme'
+import MiSocialite from '../socialite/Socialite'
 import applyTheme from '../_utils/theme'
 import styled from './style/login.module.less'
 
@@ -77,7 +77,14 @@ const MiLogin = defineComponent({
                     },
                     props.rules
                 )
-            }
+            },
+            socialiteSetting: Object.assign(
+                {
+                    tip: t('login.socialite'),
+                    showMore: width.value >= $g.breakpoints.md
+                },
+                props.socialiteSetting
+            )
         })
         !params.form.validate.captcha && delete params.form.validate.cuid
         applyTheme(styled)
@@ -236,7 +243,7 @@ const MiLogin = defineComponent({
                             </MiLink>
                         </div>
                     ) : null}
-                    <MiLoginSocialite items={props.socialiteItems || []} />
+                    <MiSocialite {...params.socialiteSetting} />
                 </Form.Item>
             )
         }
@@ -310,8 +317,4 @@ const MiLogin = defineComponent({
     }
 })
 
-MiLogin.Socialite = MiLoginSocialite
-
-export default MiLogin as typeof MiLogin & {
-    readonly Socialite: typeof MiLoginSocialite
-}
+export default MiLogin

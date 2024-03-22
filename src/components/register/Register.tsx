@@ -25,7 +25,7 @@ import MiLayoutFooter from '../layout/Footer'
 import MiPalette from '../palette/Palette'
 import MiPassword from '../password/Password'
 import MiCaptcha from '../captcha/Captcha'
-import MiLoginSocialite from '../login/Socialite'
+import MiSocialite from '../socialite/Socialite'
 import applyTheme from '../_utils/theme'
 import styled from './style/register.module.less'
 
@@ -267,10 +267,7 @@ const MiRegister = defineComponent({
                             </MiLink>
                         </div>
                     ) : null}
-                    <MiLoginSocialite
-                        items={props.socialiteItems || []}
-                        tip={t('register.socialite')}
-                    />
+                    <MiSocialite items={props.socialiteItems || []} tip={t('register.socialite')} />
                 </Form.Item>
             )
         }
