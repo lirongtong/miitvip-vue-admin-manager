@@ -14,6 +14,8 @@ import { object } from 'vue-types'
  * @param reserveOffset 预留偏移量
  * @param delayInit 延迟初始化 ( 避免渲染未完成, 节点获取失败 )
  * @param affixText 悬浮状态显示的文案
+ * @param duration 动画时长
+ * @param listenerContainer scroll 监听容器
  */
 export interface AnchorProperties {
     collectContainer: string
@@ -25,6 +27,8 @@ export interface AnchorProperties {
     reserveOffset: number
     delayInit: number
     affixText: string
+    duration: number
+    listenerContainer: HTMLElement
 }
 
 export const AnchorProps = () => ({
@@ -42,6 +46,37 @@ export const AnchorProps = () => ({
     position: object<Position>().def({ top: 200 }),
     scrollOffset: PropTypes.number.def(80),
     reserveOffset: PropTypes.number,
-    delayInit: PropTypes.number.def(400),
-    affixText: PropTypes.string
+    delayInit: PropTypes.number.def(800),
+    affixText: PropTypes.string,
+    duration: PropTypes.number.def(1000),
+    listenerContainer: PropTypes.oneOfType([HTMLElement])
+})
+
+/**
+ * +==========================+
+ * |       Anchor Link        |
+ * +==========================+
+ * @param id 唯一值
+ * @param title 标题
+ * @param active 是否选中
+ * @param offset 偏移量
+ * @param reserveOffset 预留偏移量
+ * @param listenerContainer scroll 监听容器
+ */
+export interface AnchorLinkProperties {
+    id: string
+    title: string
+    active: boolean
+    offset: number
+    reserveOffset: number
+    listenerContainer: HTMLElement
+}
+
+export const AnchorLinkProps = () => ({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    active: PropTypes.bool.def(false),
+    offset: PropTypes.number.def(80),
+    reserveOffset: PropTypes.number,
+    listenerContainer: PropTypes.oneOfType([HTMLElement])
 })

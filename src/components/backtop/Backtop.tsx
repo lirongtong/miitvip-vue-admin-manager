@@ -12,7 +12,6 @@ import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { Tooltip } from 'ant-design-vue'
 import { RocketOutlined } from '@ant-design/icons-vue'
 import { useWindowResize } from '../../hooks/useWindowResize'
@@ -27,7 +26,6 @@ const MiBacktop = defineComponent({
     emits: ['end'],
     setup(props, { slots, emit }) {
         const { t } = useI18n()
-        const router = useRouter()
         const { width } = useWindowResize()
         const params = reactive({
             show: false,
@@ -69,27 +67,20 @@ const MiBacktop = defineComponent({
 
         onMounted(() => $tools.on(params.container, 'scroll', () => handleContainerScroll()))
         onBeforeUnmount(() => {
-            handleBacktop()
-            $tools.off(params.container, 'scroll', () => handleContainerScroll())
+            handleBacktop(0, () => {
+                $tools.off(params.container, 'scroll', () => handleContainerScroll())
+            })
         })
 
         watch(
             () => props.listenerContainer,
-            (container: Window | HTMLElement) => {
-                params.container = container
-                $tools.off(container, 'scroll', () => handleContainerScroll(container))
-                $tools.on(container, 'scroll', () => handleContainerScroll(container))
+            (container: HTMLElement) => {
+                $tools.off(params.container, 'scroll', () => handleContainerScroll(container))
+                params.container = container ?? (document.body || document.documentElement)
+                $tools.on(params.container, 'scroll', () => handleContainerScroll(container))
             },
             { immediate: true, deep: true }
         )
-
-        router.beforeEach((_to, _from, next) => {
-            handleBacktop(0, () => {
-                console.log(3)
-                $tools.off(params.container, 'scroll', () => handleContainerScroll())
-                next()
-            })
-        })
 
         return () => (
             <Transition name={params.anim} appear={true}>

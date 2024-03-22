@@ -41,5 +41,5 @@ export const BacktopProps = () => ({
     tip: PropTypes.string,
     position: object<Position>().def({ bottom: 40, right: 40 }),
     icon: PropTypes.any,
-    listenerContainer: PropTypes.oneOfType([Window, HTMLElement])
+    listenerContainer: PropTypes.oneOfType([HTMLElement])
 })

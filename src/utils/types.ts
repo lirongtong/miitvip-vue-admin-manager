@@ -439,3 +439,27 @@ export interface VerifyConfig {
     params: object
     method: string
 }
+
+/**
+ * +=========================+
+ * |      锚点链接配置        |
+ * +=========================+
+ * @param id 唯一值
+ * @param title 标题
+ */
+export interface AnchorLinkItem {
+    id: string
+    title: string
+}
+/**
+ * +=========================+
+ * |      锚点链接配置        |
+ * +=========================+
+ * @param id 唯一值
+ * @param title 标题
+ */
+export interface AnchorListItem {
+    id: string
+    title: string
+    offset: number
+}

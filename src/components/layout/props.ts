@@ -3,7 +3,8 @@ import { PropTypes } from '../../utils/types'
 import type { BreadcrumbProperties } from '../breadcrumb/props'
 import type { SearchProperties } from '../search/props'
 import type { NoticeProperties } from '../notice/props'
-import { BacktopProperties } from '../backtop/props'
+import type { BacktopProperties } from '../backtop/props'
+import type { AnchorProperties } from '../anchor/props'
 
 /**
  * 布局属性
@@ -109,17 +110,26 @@ export const LayoutSiderLogoProps = () => ({
  * 布局内容属性
  * @param animation 切换动画
  * @param footer 页脚配置 <Slot />
+ * @param showBacktop 是否显示返回顶部
  * @param backtopSetting 回到顶部配置
+ * @param showAnchor 是否显示锚点
+ * @param anchorSetting 锚点链接配置
  *
  * @see BacktopProperties
  */
 export interface LayoutContentProperties {
     animation?: string
     footer?: any
-    backtopSetting?: BacktopProperties
+    showBacktop?: boolean
+    backtopSetting?: Partial<BacktopProperties>
+    showAnchor?: boolean
+    anchorSetting?: Partial<AnchorProperties>
 }
 export const LayoutContentProps = () => ({
     animation: PropTypes.string.def('page-slide'),
-    backtopSetting: object<BacktopProperties>(),
+    showBacktop: PropTypes.bool.def(true),
+    backtopSetting: object<Partial<BacktopProperties>>(),
+    showAnchor: PropTypes.bool.def(true),
+    anchorSetting: object<Partial<AnchorProperties>>(),
     footer: PropTypes.any
 })

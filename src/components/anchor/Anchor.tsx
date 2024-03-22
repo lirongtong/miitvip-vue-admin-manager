@@ -1,9 +1,19 @@
-import { defineComponent, onMounted, reactive, nextTick, ref, Transition } from 'vue'
+import {
+    defineComponent,
+    onMounted,
+    reactive,
+    nextTick,
+    ref,
+    Transition,
+    watch,
+    onBeforeUnmount
+} from 'vue'
 import { AnchorProps } from './props'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { $tools } from '../../utils/tools'
-import { CaretLeftOutlined } from '@ant-design/icons-vue'
+import { CaretLeftOutlined, PushpinOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
+import type { AnchorLinkItem, AnchorListItem } from '../../utils/types'
 import MiAnchorLink from './Link'
 import applyTheme from '../_utils/theme'
 import styled from './style/anchor.module.less'
@@ -24,10 +34,15 @@ const MiAnchor = defineComponent({
             affixText: [],
             open: false,
             sticky: false,
-            list: [] as any[],
+            list: [] as AnchorListItem[],
             actives: [] as boolean[],
             anim: getPrefixCls('anim-anchor'),
-            hover: false
+            affix: false,
+            container: props.listenerContainer ?? document.body,
+            manual: {
+                status: false,
+                timer: null
+            }
         })
         applyTheme(styled)
 
@@ -46,15 +61,11 @@ const MiAnchor = defineComponent({
                 )
             )
             await nextTick()
-            if (anchorRef.value) {
-                const height = anchorRef.value?.clientHeight
-                const offset = $tools.getElementActualOffsetTopOrLeft(anchorRef.value)
-                console.log(height, offset)
-            }
-            if (stickyRef.value && !params.hover) {
+            if (stickyRef.value && !params.affix) {
                 params.open = false
                 params.sticky = true
             }
+            $tools.on(params.container, 'scroll', handleContainerScroll)
         }
 
         const parseAnchorData = (nodes: NodeListOf<HTMLElement>) => {
@@ -89,7 +100,11 @@ const MiAnchor = defineComponent({
                     />
                 )
             })
-            console.log(params.affixText)
+        }
+
+        const handleAnchorAffix = () => {
+            params.affix = !params.affix
+            if ($tools.isMobile() && !params.affix) handleMouseleaveAnchor()
         }
 
         const handleMouseenterSticky = () => {
@@ -98,15 +113,94 @@ const MiAnchor = defineComponent({
         }
 
         const handleMouseleaveAnchor = () => {
-            params.open = false
-            params.sticky = true
+            if (!params.affix) {
+                params.open = false
+                params.sticky = true
+            }
         }
+
+        const handleAnchorClose = () => {
+            params.open = false
+            params.sticky = false
+            if (stickyRef.value) stickyRef.value?.remove()
+            setTimeout(() => {
+                // 400 - animation duration
+                if (anchorRef.value) anchorRef.value?.remove()
+            }, 400)
+        }
+
+        const handleContainerScroll = () => {
+            if (!params.manual) {
+                const top = params.container?.scrollTop + props.scrollOffset
+                ;(params.list || []).forEach((item: AnchorListItem, idx: number) => {
+                    const next = params.list[idx + 1]
+                    params.actives[idx] = false
+                    if (next) {
+                        if (item.offset <= top && next.offset >= top) {
+                            params.actives[idx] = true
+                        }
+                    } else if (item.offset <= top) params.actives[idx] = true
+                })
+            }
+        }
+
+        const handleAnchorLink = (data: AnchorLinkItem, evt?: Event) => {
+            const elem = document.getElementById(data.id)
+            if (elem) {
+                const top = $tools.getElementActualOffsetTopOrLeft(elem) - props.scrollOffset
+                $tools.scrollToPos(
+                    params.container,
+                    params.container?.scrollTop,
+                    top - (props.reserveOffset || 0),
+                    props.duration
+                )
+            }
+            ;(params.list || []).forEach((item: AnchorListItem, idx: number) => {
+                params.actives[idx] = false
+                if (item.id === data.id) params.actives[idx] = true
+            })
+            params.manual.status = true
+            if (params.manual.timer) clearTimeout(params.manual.timer)
+            params.manual.timer = setTimeout(() => (params.manual.status = false), props.duration)
+            emit('click', evt)
+        }
+
+        const renderAnchorList = () => {
+            const links: any[] = []
+            ;(params.list || []).forEach((link: AnchorListItem, idx: number) => {
+                links.push(
+                    <MiAnchorLink
+                        id={link.id}
+                        title={link.title}
+                        active={params.actives[idx]}
+                        reserveOffset={props.reserveOffset}
+                        listenerContainer={params.container}
+                        onClick={handleAnchorLink}
+                    />
+                )
+            })
+            return links
+        }
+
+        watch(
+            () => props.listenerContainer,
+            (container: HTMLElement) => {
+                $tools.off(params.container, 'scroll', handleContainerScroll)
+                params.container = container ?? (document.body || document.documentElement)
+                $tools.on(params.container, 'scroll', handleContainerScroll)
+            },
+            { immediate: true, deep: true }
+        )
 
         onMounted(async () => {
             await nextTick()
-            parseAnchorText()
-            init()
+            setTimeout(() => {
+                parseAnchorText()
+                init()
+            }, props.delayInit)
         })
+
+        onBeforeUnmount(() => $tools.on(params.container, 'scroll', handleContainerScroll))
 
         return () =>
             getPropSlot(slots, props) || params.list.length > 0 ? (
@@ -117,7 +211,31 @@ const MiAnchor = defineComponent({
                             class={styled.anchor}
                             key={params.id}
                             onMouseleave={handleMouseleaveAnchor}
-                            v-show={params.open}></div>
+                            style={{ ...$tools.wrapPositionOrSpacing(props.position) }}
+                            v-show={params.open}>
+                            <div class={styled.anchorTitle}>
+                                <div class={styled.anchorIcon}>
+                                    <PushpinOutlined
+                                        title={
+                                            params.affix
+                                                ? t('anchor.sticky.no')
+                                                : t('anchor.sticky.yes')
+                                        }
+                                        rotate={params.affix ? -45 : 0}
+                                        onClick={handleAnchorAffix}
+                                    />
+                                </div>
+                                <div class={styled.anchorIcon}>
+                                    <CloseCircleOutlined
+                                        title={t('anchor.close')}
+                                        onClick={handleAnchorClose}
+                                    />
+                                </div>
+                            </div>
+                            <div class={styled.anchorInner}>
+                                {getPropSlot(slots, props) ?? renderAnchorList()}
+                            </div>
+                        </div>
                     </Transition>
                     <Transition name={params.anim} appear={true}>
                         <div
@@ -125,6 +243,7 @@ const MiAnchor = defineComponent({
                             class={styled.sticky}
                             key={params.key}
                             onMouseenter={handleMouseenterSticky}
+                            style={{ ...$tools.wrapPositionOrSpacing(props.position) }}
                             v-show={params.sticky}>
                             <CaretLeftOutlined />
                             <div class={styled.stickyText}>{...params.affixText}</div>

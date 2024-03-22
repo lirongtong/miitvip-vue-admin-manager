@@ -1,10 +1,16 @@
 <template>
+    <h2>快速上手</h2>
     <mi-code language="shell" :content="content" />
     <div style="height: 1200px">
+        <h2>引入组件</h2>
         <mi-code language="shell" :content="content" />
+        <h2>按需加载</h2>
         <mi-code language="shell" :content="content" />
+        <h2>定制方式</h2>
         <mi-code language="shell" :content="content" />
+        <h2>在线示例</h2>
         <mi-code language="shell" :content="content" />
+        <h2>配置参数</h2>
         <mi-code language="shell" :content="content" />
     </div>
 </template>

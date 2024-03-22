@@ -1,0 +1,26 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    .flex(center, flex-start);
+    .properties(padding-top);
+    .properties(padding-bottom);
+    cursor: pointer;
+    .transition();
+    color: var(--mi-anchor-link-text-default);
+
+    .link {
+        .ellipsis();
+        .properties(max-width, 180);
+        .properties(margin-left, 16);
+    }
+
+    &.active,
+    &:hover {
+        color: var(--mi-anchor-link-text-active);
+    }
+}
+
+:export {
+    --anchor-link-text-default: var(--mi-on-surface);
+    --anchor-link-text-active: var(--mi-primary);
+}

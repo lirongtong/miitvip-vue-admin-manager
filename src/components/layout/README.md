@@ -130,4 +130,7 @@
 | :---- | :---- | :---- | :----
 | `animation` | `string` | `page-slide` | 切换动画
 | `footer` | `vSlot` | `<MiLayoutFooter />` | 页脚配置
+| `showBacktop` | `boolean` | `true` | 是否显示回到顶部
 | `backtopSetting` | [`BacktopProperties`](../backtop/README.md) | `{}` | 回到顶部配置
+| `showAnchor` | `boolean` | `true` | 是否显示锚点
+| `anchorSetting` | [`AnchorProperties`](../anchor/README.md) | `{}` | 锚点链接配置

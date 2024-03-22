@@ -16,7 +16,35 @@
         .properties(right, -4);
         .properties(padding, 16);
         .properties(max-width, 360);
+        .radius(4);
         .scrollbar();
+
+        &-title {
+            .flex();
+            .properties(margin-bottom);
+        }
+
+        &-icon {
+            .properties(margin-right, 24);
+            .font-size(18);
+            cursor: pointer;
+            .transition();
+
+            &:hover {
+                color: var(--mi-primary);
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        &-inner {
+            .properties(padding-right, 16);
+            .properties(padding-left, 16);
+            list-style: none;
+            position: relative;
+        }
     }
 
     .sticky {

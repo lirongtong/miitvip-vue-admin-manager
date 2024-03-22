@@ -4,6 +4,7 @@ import { getPrefixCls } from '../_utils/props'
 import { RouterViewSlot } from '../../utils/types'
 import { useRoute, RouterView } from 'vue-router'
 import MiBacktop from '../backtop/Backtop'
+import MiAnchor from '../anchor/Anchor'
 import applyTheme from '../_utils/theme'
 import styled from './style/content.module.less'
 
@@ -29,14 +30,27 @@ const MiLayoutContent = defineComponent({
                             default: ({ Component }: RouterViewSlot) => {
                                 return (
                                     <Transition name={animation} appear={true}>
-                                        <div class={styled.box}>{createVNode(Component)}</div>
+                                        <div class={styled.box}>
+                                            {createVNode(Component)}
+                                            {props.showBacktop ? (
+                                                <MiBacktop
+                                                    listenerContainer={backtopContainer.value}
+                                                    {...props.backtopSetting}
+                                                />
+                                            ) : null}
+                                            {props.showAnchor ? (
+                                                <MiAnchor
+                                                    listenerContainer={backtopContainer.value}
+                                                    {...props.backtopSetting}
+                                                />
+                                            ) : null}
+                                        </div>
                                     </Transition>
                                 )
                             }
                         }}
                     />
                 </div>
-                <MiBacktop listenerContainer={backtopContainer.value} {...props.backtopSetting} />
             </main>
         )
     }
