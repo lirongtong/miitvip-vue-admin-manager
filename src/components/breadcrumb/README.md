@@ -25,30 +25,9 @@
 
 ## 主题配置
 
-```html
-<template>
-    <mi-theme :theme="theme">
-        <!-- ... -->
-        <mi-breadcrumb />
-    </mi-theme>
-</template>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive } from 'vue'
-
-    const theme = reactive({
-        components: {
-            breadcrumb: {
-                text: {
-                    default: '#000',
-                    active: '#fff'
-                },
-                separator: '#333'
-            }
-        }
-    })
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

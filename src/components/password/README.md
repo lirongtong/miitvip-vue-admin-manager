@@ -50,31 +50,9 @@
 
 ## 主题配置
 
-```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-palette />
-</mi-theme>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive } from 'vue'
-
-    const theme = reactive({
-        components: {
-            password: {
-                input: { border: '#333' },
-                strength: {
-                    item: {
-                        error: '#f00',
-                        // ...
-                    }
-                },
-                // ...
-            }
-        }
-    })
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

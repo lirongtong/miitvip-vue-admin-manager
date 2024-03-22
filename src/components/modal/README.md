@@ -89,38 +89,9 @@
 
 ## 主题配置
 
-```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-layout>
-        <a-button>点击打开弹窗</a-button>
-        <mi-modal v-model:open="open" @click="handleModal" title="自定义弹窗标题（Title）">
-            自定义弹窗内容（Content）
-        </mi-modal>
-    </mi-layout>
-</mi-theme>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive, ref } from 'vue'
-
-    const open = ref<boolean>(false)
-
-    const theme = reactive({
-        components: {
-            modal: {
-                btn: {
-                    text: '#fff',
-                    active: '#333',
-                    // ...
-                },
-                // ...
-            }
-        }
-    })
-
-    const handleModal = () => open.value = !open.value
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

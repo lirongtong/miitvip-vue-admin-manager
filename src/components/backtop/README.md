@@ -28,25 +28,9 @@
 
 ## 主题配置
 
-```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-backtop />
-</mi-theme>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive } from 'vue'
-
-    const theme = reactive({
-        components: {
-            backtop: {
-                icon: '#000',
-                // ...
-            }
-        }
-    })
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

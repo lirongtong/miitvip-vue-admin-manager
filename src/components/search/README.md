@@ -115,43 +115,9 @@
 
 ## 主题配置
 
-```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-search :data="data" search-key="title" />
-</mi-theme>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive, ref } from 'vue'
-    import type { SearchData } from '@makeit/admin-pro'
-    import { GlobalOutlined, SendOutlined } from '@ant-design/icons-vue'
-
-    const theme = reactive({
-        components: {
-            search: {
-                key: '#333',
-                loading: '#fff',
-                // ...
-            }
-        }
-    })
-
-    const data = ref<SearchData[]>([
-        {
-            title: `全局变量`,
-            summary: `以一驭万 · 顾全大局`,
-            icon: GlobalOutlined,
-            path: '/tools/global'
-        },
-        {
-            title: `请求响应`,
-            summary: `为民请命 · 响应风从`,
-            icon: SendOutlined,
-            path: '/tools/request'
-        }
-    ])
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

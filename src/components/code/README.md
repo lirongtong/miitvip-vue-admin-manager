@@ -33,36 +33,9 @@ def getTime():
 
 ## 主题配置
 
-```html
-<template>
-    <mi-theme :theme="theme">
-        <!-- ... -->
-        <mi-layout>
-            <mi-code :content="code" />
-        </mi-layout>
-    </mi-theme>
-</template>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive } from 'vue'
-
-    const theme = reactive({
-        components: {
-            code: {
-                scrollbar: '#fff',
-                background: '#000',
-                // ...
-            }
-        }
-    })
-
-    const code = `
-<template>
-    <mi-captcha />
-</template>
-`
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

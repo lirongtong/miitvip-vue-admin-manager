@@ -39,26 +39,9 @@
 
 ## 主题配置
 
-```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-menu :items="[]">
-</mi-theme>
+### 配置示例
 
-<script lang="ts" setup>
-    import { reactive } from 'vue'
-
-    const theme = reactive({
-        components: {
-            menu: {
-                background: '#fff',
-                text: '#333',
-                // ...
-            }
-        }
-    })
-</script>
-```
+> 请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 
