@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { $storage } from '../../utils/storage'
+import MiThemeProvider from './Provider'
 import styled from './style/theme.module.less'
 
 const MiTheme = defineComponent({
@@ -26,8 +27,9 @@ const MiTheme = defineComponent({
         const themeType = $storage.get($g.caches.storages.theme.type)
         const moduleThemeVars = $tools.getThemeModuleProperties(styled)
         const globalThemeVars: Record<string, any> = Object.assign({}, moduleThemeVars, props.theme)
-        $g.theme.type = themeType || globalThemeVars?.theme || styled?.theme
-        $g.theme.primary = primaryColor || globalThemeVars?.primary || styled?.primary
+        $g.theme.type = props.theme?.type || themeType || globalThemeVars?.theme || styled?.theme
+        $g.theme.primary =
+            props.theme?.primary || primaryColor || globalThemeVars?.primary || styled?.primary
         $g.theme.radius = parseInt($g?.theme?.radius || globalThemeVars?.radius || styled?.radius)
         $tools.createThemeProperties($g.theme.primary)
         const store = useThemeStore()
@@ -43,4 +45,7 @@ const MiTheme = defineComponent({
     }
 })
 
-export default MiTheme
+MiTheme.Provider = MiThemeProvider
+export default MiTheme as typeof MiTheme & {
+    readonly Provider: typeof MiThemeProvider
+}

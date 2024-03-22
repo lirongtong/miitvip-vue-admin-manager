@@ -26,28 +26,7 @@
 
 ## 主题配置
 
-```html
-<mi-theme :theme="theme">
-    <!-- ... -->
-    <mi-title title="默认的标题设置组件效果" />
-</mi-theme>
-
-<script lang="ts" setup>
-    import { reactive } from 'vue'
-
-    const theme = reactive({
-        components: {
-            title: {
-                undeline: {
-                    start: '#333',
-                    // ...
-                },
-                // ...
-            }
-        }
-    })
-</script>
-```
+> 使用示例请查看 「 [`主题配置`](../theme/README.md) 」组件
 
 ### Tokens
 

@@ -1,10 +1,13 @@
 import { object } from 'vue-types'
-import { ThemeTokens } from './tokens'
+import { ComponentTokens, ThemeTokens } from './tokens'
 
 /**
- * 主题属性
+ * +====================+
+ * |       Theme        |
+ * +====================+
  * @param theme 主题配置
  *  - `Record<string, any>`
+ *  - 全局一次性载入配置
  *
  * e.g.
  * ```
@@ -21,4 +24,18 @@ export interface ThemeProperties {
 }
 export const ThemeProps = () => ({
     theme: object<Partial<ThemeTokens>>()
+})
+
+/**
+ * +============================+
+ * |       Theme Provider       |
+ * +============================+
+ * @param tokens 独立组件 Token 配置
+ */
+export interface ThemeProviderProperties {
+    tokens: Partial<ComponentTokens>
+}
+
+export const ThemeProviderProps = () => ({
+    tokens: object<Partial<ComponentTokens>>().def({})
 })

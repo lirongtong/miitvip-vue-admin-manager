@@ -48,6 +48,7 @@ declare module '@vue/runtime-core' {
 declare module '@vue/runtime-core' {
     export interface GlobalComponents {
         MiTheme: typeof Theme
+        MiThemeProvider: typeof Theme.Provider
         MiLink: typeof Link
         MiLayout: typeof Layout
         MiLayoutHeader: typeof Layout.Header

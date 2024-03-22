@@ -28,8 +28,14 @@ class MiTools {
      * @param tokens
      * @param id
      * @param overwritten 强制覆盖
+     * @param append head 末尾追加
      */
-    createCssVariablesElement(tokens: string[], id?: string, overwritten?: boolean) {
+    createCssVariablesElement(
+        tokens: string[],
+        id?: string,
+        overwritten?: boolean,
+        append?: boolean
+    ) {
         if (tokens.length > 0) {
             id = id ?? `${$g.prefix}common-css-variables`
             const oldStyle = document.querySelector(`#${id}`)
@@ -41,7 +47,8 @@ class MiTools {
                 style.textContent = `:root {${tokens.join('')}}`
                 const head = document.head || document.getElementsByTagName('head')[0]
                 const first = head.firstChild
-                head.insertBefore(style, first)
+                if (append) head.appendChild(style)
+                else head.insertBefore(style, first)
             }
         }
     }
@@ -354,7 +361,7 @@ class MiTools {
             this.random() +
             this.random()
         ).toLocaleUpperCase()
-        str = (prefix || $g.prefix) + str
+        str = (prefix ?? $g.prefix) + str
         return upper ? str.toUpperCase() : str.toLowerCase()
     }
 
@@ -718,11 +725,15 @@ class MiTools {
         target?: HTMLElement
     ) {
         const themeVars = this.getThemeModuleProperties(properties) || {}
-        for (const key in customProperties) {
-            if (typeof customProperties[key] === 'string') {
-                themeVars[key] = customProperties[key]
+        const getCustomTokens = (data: Record<string, any>, name?: string) => {
+            for (const key in data) {
+                const index = `${name ? `${name}-` : ''}${key}`
+                if (typeof data[key] === 'string') {
+                    themeVars[index] = data[key]
+                } else if (typeof data[key] === 'object') getCustomTokens(data[key], index)
             }
         }
+        getCustomTokens(customProperties)
         if (Object.keys(themeVars).length > 0) this.setThemeModuleTokens(themeVars, target)
     }
 
