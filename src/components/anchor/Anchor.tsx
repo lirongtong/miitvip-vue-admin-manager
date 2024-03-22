@@ -37,7 +37,7 @@ const MiAnchor = defineComponent({
             list: [] as AnchorListItem[],
             actives: [] as boolean[],
             anim: getPrefixCls('anim-anchor'),
-            affix: false,
+            affix: props.affix ?? false,
             container: props.listenerContainer ?? document.body,
             manual: {
                 status: false,
@@ -61,10 +61,8 @@ const MiAnchor = defineComponent({
                 )
             )
             await nextTick()
-            if (stickyRef.value && !params.affix) {
-                params.open = false
-                params.sticky = true
-            }
+            params.open = params.affix
+            params.sticky = !params.affix
             $tools.on(params.container, 'scroll', handleContainerScroll)
         }
 

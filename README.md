@@ -75,7 +75,7 @@
 
 :white_check_mark: [滑块验证码](./src/components/captcha/README.md) ( `Captcha` ) :collision:
 
-:white_check_mark: [`锚点链接`](./src/components/anchor/README.md) ( `Anchor` ) :balloon:
+:white_check_mark: [锚点链接](./src/components/anchor/README.md) ( `Anchor` ) :balloon:
 
 :white_check_mark: [时钟](./src/components/clock/README.md) ( `Clock` - 仿 `Apple Watch` 表盘 ) :clock130:
 

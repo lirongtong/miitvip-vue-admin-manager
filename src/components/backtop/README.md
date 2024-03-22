@@ -19,11 +19,10 @@
 </template>
 
 <script setup lang="ts">
-    import { computed } from 'vue'
-    
-    const container = computed(() => {
-        return document.getElement('mi-backtop-container')
-    })
+    import { ref, onMounted, nextTick } from 'vue'
+
+    const container = ref<HTMLElement | null>(null)
+    onMounted(() => nextTick().then(() => container.value = document.getElement('mi-anchor-container')))
 </script>
 ```
 
