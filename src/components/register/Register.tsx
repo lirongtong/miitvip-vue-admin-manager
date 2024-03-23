@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, createVNode, computed } from 'vue'
+import { defineComponent, ref, reactive, createVNode, computed, type SlotsType } from 'vue'
 import { RegisterProps } from './props'
 import {
     ConfigProvider,
@@ -39,6 +39,11 @@ const MiRegister = defineComponent({
     inheritAttrs: false,
     props: RegisterProps(),
     emits: ['captchaInit', 'captchaChecked', 'captchaSuccess', 'afterRegister'],
+    slots: Object as SlotsType<{
+        content: any
+        footer: any
+        usernameTip: any
+    }>,
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const { width } = useWindowResize()

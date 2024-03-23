@@ -1,6 +1,6 @@
 # 登录页面
 
-> 「 登录页面 」 组件用于快速生成登录表单，属于「 重型组件 」，一个组件相当于一个页面。
+> 「 登录页面 」 组件用于快速生成登录表单，属于「 重型组件 」，一个组件相当于一个页面
 
 ## 使用示例
 
@@ -57,7 +57,7 @@
 
 ```html
 <template>
-    <mi-login action="/v1/login" :socialite-items="items" :socialite-domain="domain" />
+    <mi-login action="/v1/login" :socialite-setting="{items, domain}" />
 </template>
 
 <script setup lang="ts">
