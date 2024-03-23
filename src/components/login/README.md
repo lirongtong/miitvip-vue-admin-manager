@@ -75,6 +75,22 @@
 </script>
 ```
 
+### 自定义校验逻辑
+
+```html
+<template>
+    <mi-login :action="() => handleLogin()" />
+</template>
+
+<script setup lang="ts">
+const handleLogin = () => {
+    console.log('sign in')
+    // do sometion
+    // return `boolean` or `string - ( error message )`
+    return true
+}
+```
+
 ## 主题配置
 
 ### 配置示例

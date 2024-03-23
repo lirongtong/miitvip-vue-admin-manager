@@ -64,21 +64,21 @@
 const handleSendCode = () => {
     console.log('send code')
     // do sometion
-    // return `boolean` or `string`
+    // return `boolean` or `string - ( error message )`
     return true
 }
 
 const handleCheckCode = () => {
     console.log('check code')
     // do sometion
-    // return `boolean` or `string`
+    // return `boolean` or `string - ( error message )`
     return true
 }
 
 const handleResetPassword = () => {
     console.log('reset password')
     // do sometion
-    // return `boolean` or `string`
+    // return `boolean` or `string - ( error message )`
     return `重置失败，请稍后再试`
 }
 </script>
