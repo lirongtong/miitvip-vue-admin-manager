@@ -94,7 +94,7 @@ const MiLayoutHeader = defineComponent({
                             )
                         ) : (
                             <div class={styled.drawer}>
-                                <MiDrawerMenu v-model:open={open.value} />
+                                <MiDrawerMenu open={open.value} />
                             </div>
                         )}
                     </div>
