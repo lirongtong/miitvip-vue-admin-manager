@@ -91,6 +91,7 @@ const handleLogin = (data?: LoginFormParams) => {
     // return `boolean` or `string - ( error message )`
     return true
 }
+</script>
 ```
 
 ## 主题配置
