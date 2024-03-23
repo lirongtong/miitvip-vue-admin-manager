@@ -198,7 +198,7 @@ export interface GlobalProperties {
     protocols?: string[]
     regExp?: Partial<RegExpTokens>
     caches?: Partial<CacheTokens>
-    breakpoints?: Partial<Breakpoints>
+    readonly breakpoints?: Partial<Breakpoints>
     winSize?: Partial<Size>
 }
 

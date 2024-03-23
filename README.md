@@ -174,8 +174,8 @@ app.mount('#app')
 <script lang="ts" setup>
     import { useMapMenuStore } from '@makeit/admin-pro'
 
-    const menuStore = useMapMenuStore()
-    menuStore.updateMenus([
+    const useMenu = useMapMenuStore()
+    useMenu.updateMenus([
         {
             name: 'dashboard',
             path: '/dashboard',

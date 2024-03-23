@@ -1,5 +1,6 @@
 import { array, object } from 'vue-types'
 import { PropTypes, type MenuItem, type DeviceSize } from '../../utils/types'
+import { tuple } from '../_utils/props'
 
 /**
  * +==========================+
@@ -67,4 +68,32 @@ export interface MenuTitleProperties extends MenuCommonProperties {
 export const MenuTitleProperties = () => ({
     item: object<MenuItem>(),
     activeKey: PropTypes.string
+})
+
+/**
+ * +===========================+
+ * |       Drawer Menu         |
+ * +===========================+
+ * @param open v-model
+ * @param width 宽度
+ * @param placement 弹出方向
+ * @param zIndex 层级
+ * @param mask 是否展示遮罩
+ * @param maskClosable 点击蒙层是否允许关闭
+ */
+export interface DrawerMenuProperties {
+    open: boolean
+    width: string | number | DeviceSize
+    placement: string
+    zIndex: number
+    mask: boolean
+    maskClosable: boolean
+}
+export const DrawerMenuProps = () => ({
+    open: PropTypes.bool.def(false),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(256),
+    placement: PropTypes.oneOf(tuple(...['left', 'right', 'top', 'bottom'])).def('left'),
+    zIndex: PropTypes.number.def(Date.now()),
+    mask: PropTypes.bool.def(true),
+    maskClosable: PropTypes.bool.def(true)
 })

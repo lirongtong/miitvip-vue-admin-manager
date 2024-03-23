@@ -1,10 +1,13 @@
 import { defineComponent, type SlotsType, ref, computed } from 'vue'
 import { LayoutHeaderProps } from './props'
 import { getPropSlot } from '../_utils/props'
+import { useMenuStore } from '../../stores/menu'
 import { useLayoutStore } from '../../stores/layout'
 import { useI18n } from 'vue-i18n'
 import { $tools } from '../../utils/tools'
+import { $g } from '../../utils/global'
 import { useRouter } from 'vue-router'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import type { SearchData, DropdownItem } from '../../utils/types'
 import {
     GithubOutlined,
@@ -16,6 +19,7 @@ import MiSearch from '../search/Search'
 import MiPalette from '../palette/Palette'
 import MiDropdown from '../dropdown/Dropdown'
 import MiBreadcrumb from '../breadcrumb/Breadcrumb'
+import MiDrawerMenu from '../menu/Drawer'
 import applyTheme from '../_utils/theme'
 import styled from './style/header.module.less'
 
@@ -33,8 +37,10 @@ const MiLayoutHeader = defineComponent({
     props: LayoutHeaderProps(),
     setup(props, { slots }) {
         const { t, tm } = useI18n()
+        const { width } = useWindowResize()
         const router = useRouter()
-        const store = useLayoutStore()
+        const useLayout = useLayoutStore()
+        const useMenu = useMenuStore()
         const searchKey = ref('title')
         const searchData = ref(tm('search.data') as SearchData[])
         const dropdownData = ref<Partial<DropdownItem>[]>([
@@ -49,7 +55,7 @@ const MiLayoutHeader = defineComponent({
             {
                 name: 'npmjs',
                 title: 'NpmJS',
-                path: 'https://www.npmjs.com/package/makeit-admin-pro',
+                path: 'https://www.npmjs.com/package/@makeit/admin-pro',
                 target: '_blank',
                 icon: AppstoreAddOutlined,
                 tag: { icon: FireFilled, color: '#ff4d4f' }
@@ -60,7 +66,8 @@ const MiLayoutHeader = defineComponent({
                 icon: LogoutOutlined
             }
         ])
-        const collapsed = computed(() => store.collapsed)
+        const collapsed = computed(() => useLayout.collapsed)
+        const open = computed(() => useMenu.drawer)
         applyTheme(styled)
 
         const handleSearchListItemClick = (data: SearchData) => {
@@ -81,19 +88,28 @@ const MiLayoutHeader = defineComponent({
             <header class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
                 <div class={styled.inner}>
                     <div class={styled.left}>
-                        {getPropSlot(slots, props, 'breadcrumb') ?? (
-                            <MiBreadcrumb {...props.breadcrumbSetting} />
+                        {width.value > $g.breakpoints.sm ? (
+                            getPropSlot(slots, props, 'breadcrumb') ?? (
+                                <MiBreadcrumb {...props.breadcrumbSetting} />
+                            )
+                        ) : (
+                            <div class={styled.drawer}>
+                                <MiDrawerMenu v-model:open={open.value} />
+                            </div>
                         )}
                     </div>
                     <div class={styled.right}>
-                        {getPropSlot(slots, props, 'search') ?? (
-                            <MiSearch
-                                searchKey={searchKey.value}
-                                data={searchData.value}
-                                onItemClick={handleSearchListItemClick}
-                                {...props.searchSetting}
-                            />
-                        )}
+                        {getPropSlot(slots, props, 'extra')}
+                        {width.value > $g.breakpoints.sm
+                            ? getPropSlot(slots, props, 'search') ?? (
+                                  <MiSearch
+                                      searchKey={searchKey.value}
+                                      data={searchData.value}
+                                      onItemClick={handleSearchListItemClick}
+                                      {...props.searchSetting}
+                                  />
+                              )
+                            : null}
                         <div class={styled.palette}>
                             {getPropSlot(slots, props, 'palette') ?? <MiPalette />}
                         </div>

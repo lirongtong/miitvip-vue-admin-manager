@@ -9,8 +9,8 @@ import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlin
 import { useMapMenuStore } from '../../src/index'
 
 // update menus
-const menuStore = useMapMenuStore()
-menuStore.updateMenus([
+const useMenu = useMapMenuStore()
+useMenu.updateMenus([
     {
         name: 'about',
         path: '/about',

@@ -33,6 +33,12 @@
 .left {
     .flex();
     left: 0;
+
+    @media only screen and (max-width: @mi-sm) {
+        .properties(left, 16);
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
 
 .right {
@@ -56,7 +62,8 @@
 }
 
 .palette,
-.screenfull {
+.screenfull,
+.drawer {
     .properties(width, 32);
     .properties(height, 32);
     .flex();
@@ -72,4 +79,9 @@
     .flex();
     .properties(margin-left, 16);
     cursor: pointer;
+}
+
+.drawer {
+    margin-left: 0;
+    .flex();
 }

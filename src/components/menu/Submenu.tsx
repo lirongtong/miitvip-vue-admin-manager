@@ -14,7 +14,7 @@ const MiSubMenu = defineComponent({
     inheritAttrs: false,
     props: MenuSubProps(),
     setup(props, { attrs }) {
-        const layoutStore = useLayoutStore()
+        const store = useLayoutStore()
         const children = props?.item?.children
         const hasChildren = children && children.length > 0
         const pk = $g.prefix + props?.item?.name
@@ -22,7 +22,7 @@ const MiSubMenu = defineComponent({
             <MiMenuItemTitle item={props?.item} activeKey={hasChildren ? pk : ''} key={pk} />
         )
         const key = $g.prefix + props?.item?.name
-        const collapsed = computed(() => layoutStore.collapsed)
+        const collapsed = computed(() => store.collapsed)
         applyTheme(styled)
 
         const getSubmenuItem = (): any[] => {

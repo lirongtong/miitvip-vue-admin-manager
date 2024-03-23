@@ -57,7 +57,7 @@ const MiNotice = defineComponent({
             const icon = getPropSlot(slots, props, 'icon')
             const style = {
                 fontSize: props?.iconSetting?.size
-                    ? $tools.convert2rem($tools.distinguishSize(props?.iconSetting?.size))
+                    ? $tools.convert2rem($tools.distinguishSize(props?.iconSetting.size))
                     : null,
                 color: props?.iconSetting?.color ?? null
             }
@@ -323,11 +323,12 @@ const MiNotice = defineComponent({
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                 <Popover
                     overlayClassName={styled.container}
-                    overlayStyle={{ width }}
+                    overlayStyle={{ width, maxWidth: '100%' }}
                     trigger={props.trigger}
                     placement={props.placement}
                     color={props.background}
-                    content={renderContent()}>
+                    content={renderContent()}
+                    zIndex={Date.now()}>
                     {renderIcon()}
                 </Popover>
             </ConfigProvider>

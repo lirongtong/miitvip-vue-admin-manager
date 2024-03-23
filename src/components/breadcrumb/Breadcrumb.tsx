@@ -15,7 +15,7 @@ const MiBreadcrumb = defineComponent({
     props: BreadcrumbProps(),
     setup(props) {
         const route = useRoute()
-        const breadcrumbsStore = useBreadcrumbsStore()
+        const useBreadcrumbs = useBreadcrumbsStore()
         applyTheme(styled)
 
         const getBreadcrumbs = () => {
@@ -58,12 +58,12 @@ const MiBreadcrumb = defineComponent({
                     }
                 })
             }
-            breadcrumbsStore.$patch({ breadcrumbs })
+            useBreadcrumbs.$patch({ breadcrumbs })
         }
 
         const renderBreadcrumbItems = (): any[] => {
             const items: any[] = []
-            const breadcrumbs = (breadcrumbsStore.breadcrumbs || []) as any[]
+            const breadcrumbs = (useBreadcrumbs.breadcrumbs || []) as any[]
             breadcrumbs.forEach((breadcrumb: any) => {
                 const link = (
                     <MiLink path={breadcrumb?.path} key={breadcrumb?.title ?? breadcrumb.name}>

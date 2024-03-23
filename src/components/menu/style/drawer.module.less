@@ -1,0 +1,31 @@
+@import '../../theme/style/variables.module.less';
+
+.container {
+    z-index: @mi-zindex + 2000;
+
+    :global {
+        .ant-layout {
+            background: transparent;
+
+            .ant-layout-sider {
+                background: transparent;
+            }
+        }
+
+        .ant-drawer-body {
+            padding: 0;
+        }
+
+        .ant-menu {
+            background: transparent;
+
+            .ant-menu-submenu .ant-menu-sub.ant-menu-inline {
+                background: transparent;
+            }
+        }
+    }
+}
+
+.icon {
+    .font-size(20);
+}

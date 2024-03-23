@@ -19,15 +19,15 @@ const MiMenu = defineComponent({
     props: MenuProps(),
     setup(props) {
         const route = useRoute()
-        const menuStore = useMenuStore()
-        const layoutStore = useLayoutStore()
+        const useMenu = useMenuStore()
+        const useLayout = useLayoutStore()
         const menuRef = ref<any>(null)
         const { width, height } = useWindowResize()
 
         const data = computed(() => props.items || [])
-        const openKeys = computed(() => menuStore.openKeys)
-        const activeKeys = computed(() => menuStore.activeKeys)
-        const collapsed = computed(() => layoutStore.collapsed)
+        const openKeys = computed(() => useMenu.openKeys)
+        const activeKeys = computed(() => useMenu.activeKeys)
+        const collapsed = computed(() => useLayout.collapsed)
         applyTheme(styled)
 
         const relationship = reactive({
@@ -42,7 +42,7 @@ const MiMenu = defineComponent({
             let opens: (string | number)[] = []
             if (openKeys && openKeys.length > 0) {
                 opens = [...openKeys]
-                if (menuStore.accordion) {
+                if (useMenu.accordion) {
                     const first = openKeys[0]
                     const last = openKeys[openKeys.length - 1]
                     if (relationship.menus?.[first] && !relationship.menus?.[first]?.[last]) {
@@ -50,16 +50,16 @@ const MiMenu = defineComponent({
                     }
                 }
             }
-            menuStore.$patch({ openKeys: opens })
+            useMenu.$patch({ openKeys: opens })
         }
 
         const setRelationshipChain = (data: string[]) => {
             if (data && data.length > 0) {
-                menuStore.$patch({ relationshipChain: [...data] })
-                menuStore.$patch({ activeKeys: [data[data.length - 1]] })
-                if (!collapsed.value && menuStore.accordion) {
+                useMenu.$patch({ relationshipChain: [...data] })
+                useMenu.$patch({ activeKeys: [data[data.length - 1]] })
+                if (!collapsed.value && useMenu.accordion) {
                     data.pop()
-                    menuStore.$patch({ openKeys: [...data] })
+                    useMenu.$patch({ openKeys: [...data] })
                 }
             }
         }
@@ -122,7 +122,7 @@ const MiMenu = defineComponent({
             () => route,
             () => {
                 const active = `${$g.prefix}${route.name as string}`
-                menuStore.$patch({ activeKeys: [active] })
+                useMenu.$patch({ activeKeys: [active], drawer: false })
                 getRelationshipChain(false)
             },
             { immediate: false, deep: true }

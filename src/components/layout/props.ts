@@ -92,18 +92,21 @@ export const LayoutSiderProps = () => ({
  * @param collapsed 展开/收起按钮配置<Slot />
  * @param notice 消息配置<Slot />
  * @param noticeSetting 消息组件属性配置
+ * @param showAction 是否显示 `Notice` 与 `Collapsed` 按钮
  */
 export interface LayoutSiderLogoProperties {
     circle: boolean
     collapsed: any
     notice: any
     noticeSetting: NoticeProperties
+    showAction: boolean
 }
 export const LayoutSiderLogoProps = () => ({
     circle: PropTypes.bool.def(true),
     collapsed: PropTypes.any,
     notice: PropTypes.any,
-    noticeSetting: object<NoticeProperties>()
+    noticeSetting: object<NoticeProperties>(),
+    showAction: PropTypes.bool.def(true)
 })
 
 /**

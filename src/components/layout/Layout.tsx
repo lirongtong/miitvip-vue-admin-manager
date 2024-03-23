@@ -7,6 +7,7 @@ import { useLayoutStore } from '../../stores/layout'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { ConfigProvider } from 'ant-design-vue'
 import { useWindowResize } from '../../hooks/useWindowResize'
+import MiNotice from '../notice/Notice'
 import MiLayoutHeader from './Header'
 import MiLayoutSider from './Sider'
 import MiLayoutContent from './Content'
@@ -34,6 +35,14 @@ const MiLayout = defineComponent({
 
         applyTheme(styled)
 
+        const renderLayoutHeaderExtra = () => {
+            return width.value < $g.breakpoints.sm ? (
+                <div class={styled.notice}>
+                    <MiNotice iconSetting={{ size: 20 }} width={340} placement={'bottom'} />
+                </div>
+            ) : null
+        }
+
         const renderLayout = () => {
             return slots?.default ? (
                 slots.default()
@@ -52,7 +61,10 @@ const MiLayout = defineComponent({
                         }`}>
                         <div class={styled.inner}>
                             {getPropSlot(slots, props, 'header') ?? (
-                                <MiLayoutHeader {...props.headerSetting} />
+                                <MiLayoutHeader
+                                    extra={renderLayoutHeaderExtra()}
+                                    {...props.headerSetting}
+                                />
                             )}
                             <MiLayoutContent {...props.contentSetting} />
                             {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}

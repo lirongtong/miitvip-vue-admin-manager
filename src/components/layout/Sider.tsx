@@ -3,7 +3,7 @@ import { LayoutSiderProps } from './props'
 import { getPropSlot } from '../_utils/props'
 import { useLayoutStore } from '../../stores/layout'
 import { useMenuStore } from '../../stores/menu'
-import MiMenu from '../menu'
+import MiMenu from '../menu/Menu'
 import MiLayoutSiderLogo from './Logo'
 import applyTheme from '../_utils/theme'
 import styled from './style/sider.module.less'
@@ -17,10 +17,10 @@ const MiLayoutSider = defineComponent({
     }>,
     props: LayoutSiderProps(),
     setup(props, { slots }) {
-        const layoutStore = useLayoutStore()
-        const menuStore = useMenuStore()
-        const collapsed = computed(() => layoutStore.collapsed)
-        const menus = computed(() => menuStore.menus)
+        const useLayout = useLayoutStore()
+        const useMenu = useMenuStore()
+        const collapsed = computed(() => useLayout.collapsed)
+        const menus = computed(() => useMenu.menus)
         applyTheme(styled)
 
         const renderLogo = () => {

@@ -14,10 +14,10 @@ const MiMenuItem = defineComponent({
     inheritAttrs: false,
     props: MenuItemProps(),
     setup(props) {
-        const layoutStore = useLayoutStore()
-        const menuStore = useMenuStore()
-        const collapsed = computed(() => layoutStore.collapsed)
-        const activeKeys = computed(() => menuStore.activeKeys)
+        const useLayout = useLayoutStore()
+        const useMenu = useMenuStore()
+        const collapsed = computed(() => useLayout.collapsed)
+        const activeKeys = computed(() => useMenu.activeKeys)
         applyTheme(styled)
 
         const key = $g.prefix + props?.item?.name

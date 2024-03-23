@@ -9,6 +9,7 @@ import type { MenuItem, DropdownItem } from '../utils/types'
  * @param openKeys 打开的子菜单 key 值数组
  * @param activeKeys 当前选中的菜单项 key 值数组
  * @param relationshipChain 选中菜单的关系链
+ * @param drawer 抽屉式菜单的状态
  */
 export const useMenuStore = defineStore('menus', {
     state: () => ({
@@ -17,7 +18,8 @@ export const useMenuStore = defineStore('menus', {
         accordion: true,
         openKeys: [] as (string | number)[],
         activeKeys: [] as (string | number)[],
-        relationshipChain: [] as string[]
+        relationshipChain: [] as string[],
+        drawer: false
     }),
     actions: {
         updateMenus(menus: MenuItem[]) {

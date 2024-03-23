@@ -17,12 +17,12 @@ const MiMenuItemTitle = defineComponent({
     setup(props) {
         const fadeAnim = getPrefixCls('anim-fade')
         const scaleAnim = getPrefixCls('anim-scale')
-        const layoutStore = useLayoutStore()
-        const menuStore = useMenuStore()
-        const collapsed = computed(() => layoutStore.collapsed)
-        const activeKeys = computed(() => menuStore.activeKeys)
-        const openKeys = computed(() => menuStore.openKeys)
-        const relationshipChain = computed(() => menuStore.relationshipChain)
+        const useLayout = useLayoutStore()
+        const useMenu = useMenuStore()
+        const collapsed = computed(() => useLayout.collapsed)
+        const activeKeys = computed(() => useMenu.activeKeys)
+        const openKeys = computed(() => useMenu.openKeys)
+        const relationshipChain = computed(() => useMenu.relationshipChain)
         const prefixCls = getPrefixCls('menu-item-title')
         applyTheme(styled)
 

@@ -103,6 +103,7 @@
 | `collapsed` | `vSlot` | `<MenuFoldOutlined />` | 展开/收起按钮配置
 | `notice` | `vSlot` | `''` | 消息配置
 | `noticeSetting` | [`NoticeProperties`](../notice/README.md) | `{}` | 消息组件属性配置
+| `showAction` | `boolean` | `true` | 是否显示 `Notice` 组件与 `Collapsed` 展开/收起按钮
 
 ### MiLayoutContent `<mi-layout-content>`
 

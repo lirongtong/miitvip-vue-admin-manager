@@ -73,10 +73,12 @@ const MiLayoutSiderLogo = defineComponent({
                 class={`${styled.container}${props.circle ? ` ${styled.circle}` : ''}${
                     collapsedState.value ? ` ${styled.collapsed}` : ''
                 }`}>
-                <div class={styled.action}>
-                    {renderCollapsed()}
-                    {renderNotice()}
-                </div>
+                {props.showAction ? (
+                    <div class={styled.action}>
+                        {renderCollapsed()}
+                        {renderNotice()}
+                    </div>
+                ) : null}
                 <div class={styled.inner}>{slot}</div>
             </div>
         )
