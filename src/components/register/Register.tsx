@@ -136,31 +136,35 @@ const MiRegister = defineComponent({
                     })
                 formRef.value
                     ?.validate()
-                    .then(() => {
+                    .then(async () => {
                         if (
                             passwordState &&
                             (!params.form.validate.captcha ||
                                 (params.form.validate.captcha && params.captcha))
                         ) {
+                            const handleRegiserSuccess = () => {
+                                $storage.set($g.caches.storages.email, params.form.validate.email)
+                                if (props.redirectTo) {
+                                    if ($tools.isUrl(props.redirectTo))
+                                        window.location.href = props.redirectTo
+                                    else router.push({ path: '/' })
+                                } else router.push({ path: '/' })
+                            }
                             if (typeof props.action === 'string') {
                                 api.register = props.action
                                 params.form.validate.url = api.login
-                                auth.register(params.form.validate).then((res: ResponseData) => {
-                                    if (res?.ret?.code === 200) {
-                                        $storage.set(
-                                            $g.caches.storages.email,
-                                            params.form.validate.email
-                                        )
-                                        if (props.redirectTo) {
-                                            if ($tools.isUrl(props.redirectTo))
-                                                window.location.href = props.redirectTo
-                                            else router.push({ path: '/' })
-                                        } else router.push({ path: '/' })
-                                    } else message.error(res?.ret?.message)
-                                    emit('afterRegister', res)
-                                })
+                                await auth
+                                    .register(params.form.validate)
+                                    .then((res: ResponseData) => {
+                                        if (res?.ret?.code === 200) handleRegiserSuccess()
+                                        else message.error(res?.ret?.message)
+                                        emit('afterRegister', res)
+                                    })
                             } else if (typeof props.action === 'function') {
-                                props.action(params.form.validate)
+                                const response = await props.action(params.form.validate)
+                                if (typeof response === 'boolean' && response)
+                                    handleRegiserSuccess()
+                                if (typeof response === 'string') message.error(response)
                             }
                         }
                     })
