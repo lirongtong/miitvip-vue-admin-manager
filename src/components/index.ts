@@ -71,3 +71,6 @@ export { default as Anchor } from './anchor'
 
 export type { SocialiteProperties } from './socialite/props'
 export { default as Socialite } from './socialite'
+
+export type { ForgetProperties } from './forget/props'
+export { default as Forget } from './forget'

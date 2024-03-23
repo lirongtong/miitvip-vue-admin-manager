@@ -12,6 +12,7 @@ export default {
     submit: `提交`,
     close: `关闭`,
     logout: `退出登录`,
+    sent: `发送成功`,
     delete: {
         normal: `删除`,
         batch: `批量删除`,
@@ -67,5 +68,9 @@ export default {
         title: ``,
         keywords: ``,
         description: ``
+    },
+    step: {
+        prev: `上一步`,
+        next: `下一步`
     }
 }

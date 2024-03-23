@@ -82,10 +82,12 @@ export const $g = reactive({
                 email: 'email-captcha-key'
             },
             password: {
-                time: 'password-reset-code-sent-time',
-                token: 'password-reset-verify-token',
-                uid: 'password-reset-uid',
-                input: 'password-reset-input'
+                reset: {
+                    time: 'password-reset-code-sent-time',
+                    token: 'password-reset-verify-token',
+                    uid: 'password-reset-uid',
+                    username: 'password-reset-username'
+                }
             }
         },
         cookies: {

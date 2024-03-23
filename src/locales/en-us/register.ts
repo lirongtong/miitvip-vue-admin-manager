@@ -18,7 +18,7 @@ export default {
         start: `- Only <span class="theme">start with a letter</span>, for example: makeit.`,
         length: `- Username length is <span class="theme">4-16</span> characters.`
     },
-    login: `Go to sign in`,
+    login: `Go to Sign in`,
     socialite: `Others`,
     unknown: `Unknown Error`,
     verify: `Please click the button to verify`

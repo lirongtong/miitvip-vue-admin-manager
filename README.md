@@ -81,7 +81,7 @@
 
 :white_check_mark: [下拉菜单](./src/components/dropdown/README.md) ( `Dropdown` ) :palm_tree:
 
-:white_check_mark: 忘记密码 ( `Forget` ) :hammer:
+:white_check_mark: [忘记密码](./src/components/forget/README.md) ( `Forget` ) :hammer:
 
 :white_check_mark: [链接地址](./src/components/link/README.md) ( `Link` ) :guitar:
 

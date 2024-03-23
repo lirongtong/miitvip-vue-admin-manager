@@ -54,6 +54,7 @@ const MiLogin = defineComponent({
             if (!params.captcha) return Promise.reject(t('login.verify'))
             else return Promise.resolve()
         }
+
         const params = reactive({
             loading: false,
             captcha: false,

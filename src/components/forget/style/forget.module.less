@@ -23,7 +23,7 @@
             overflow-x: hidden;
             .hide-scrollbar();
             align-items: flex-start;
-            background: var(--mi-register-mask);
+            background: var(--mi-forget-mask);
             backdrop-filter: blur(1rem);
         }
     }
@@ -34,7 +34,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: var(--mi-register-mask);
+        background: var(--mi-forget-mask);
         backdrop-filter: blur(1rem);
         .radius(16);
         z-index: @mi-zindex;
@@ -48,13 +48,16 @@
 		.properties(margin-bottom, 72);
         position: relative;
 
+        @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+            .properties(margin-bottom, 96);
+        }
+
         .title {
             .font-size(32, bold);
             .letter-spacing(4);
             .gradient-text();
             z-index: @mi-zindex + 100;
             .flex();
-            .no-select();
 
             sup {
                 .properties(margin-left);
@@ -70,7 +73,7 @@
 
             img {
                 .circle();
-                border: .0625rem solid var(--mi-register-logo-border);
+                border: .0625rem solid var(--mi-forget-logo-border);
                 .transition();
 
                 &:hover {
@@ -108,7 +111,7 @@
 
             .input {
                 outline: none;
-                border-color: var(--mi-register-form-input-border);
+                border-color: var(--mi-forget-form-input-border);
                 box-shadow: none;
                 .properties(height, 42);
                 .radius(42);
@@ -118,13 +121,30 @@
                 }
 
                 &:global(.ant-input-affix-wrapper-status-error) {
-                    border-color: var(--mi-register-form-error);
+                    border-color: var(--mi-forget-form-error);
+                }
+
+                .suffix {
+                    .gradient-hint(var(--mi-forget-form-resend-btn-start), var(--mi-forget-form-resend-btn-hint), var(--mi-forget-form-resend-btn-stop));
+                    .font-size(12);
+                    color: var(--mi-forget-form-resend-btn-text);
+                    .properties(padding-left, 16);
+					.properties(padding-right, 16);
+					.properties(padding-top, 4);
+					.properties(padding-bottom, 4);
+                    .radius(32);
+                    cursor: not-allowed;
+                    .no-select();
+                    
+                    &.resend {
+                        cursor: pointer;
+                    }
                 }
             }
 
             :global {
                 .ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled).ant-input-affix-wrapper .ant-input-prefix {
-                    color: var(--mi-register-form-error);
+                    color: var(--mi-forget-form-error);
                 }
             }
 
@@ -134,8 +154,39 @@
                         .font-size(12);
                         .properties(text-indent, 16);
                         .properties(padding-top, 2);
-                        color: var(--mi-register-form-error);
+                        color: var(--mi-forget-form-error);
                     }
+                }
+            }
+        }
+
+        .remember {
+            .properties(margin-bottom);
+            .properties(padding-left, 12);
+
+            :global {
+                .ant-form-item-control-input-content {
+                    .flex(center, space-between);
+                }
+
+                .ant-checkbox-wrapper {
+                    .ant-checkbox + span {
+                        color: var(--mi-forget-form-text);
+                    }
+                }
+            }
+
+            .forget {
+                color: var(--mi-forget-form-text);
+
+                :global(.anticon) {
+                    .properties(margin-right);
+                }
+
+                a,
+                a:hover,
+                a:focus {
+                    color: var(--mi-forget-form-text);
                 }
             }
         }
@@ -152,45 +203,43 @@
             :global {
                 .ant-form-item-control-input-content {
                     .flex(center, space-between);
+
+                    @media only screen and (max-width: @mi-sm) {
+                        .flex(center, center, column);
+                    }
                 }
             }
         }
 
-        .btns {
-            .properties(margin-bottom, 24);
-
-            &-primary {
-                width: 100%;
-                .radius(42);
-                .properties(height, 42);
-                .flex();
-                .gradient-hint(var(--mi-register-form-btn-active-start), var(--mi-register-form-btn-active-hint), var(--mi-register-form-btn-active-stop));
-                color: var(--mi-register-form-btn-active-text);
-                box-shadow: none;
-            }
-        }
+        .btns { .properties(margin-bottom, 24); }
 
         .btn {
             width: 100%;
             .radius(42);
             .properties(height, 42);
             .flex();
-            .gradient(var(--mi-register-form-btn-default-start), var(--mi-register-form-btn-default-stop));
+            .gradient(var(--mi-forget-form-btn-default-start), var(--mi-forget-form-btn-default-stop));
             box-shadow: none;
+            color: var(--mi-forget-form-btn-default-text);
             outline: none;
-            color: var(--mi-register-form-btn-default-text);
 
             a,
             a:focus,
             a:hover {
-                color: var(--mi-login-form-btn-default-text);
+                color: var(--mi-forget-form-btn-default-text);
             }
 
             &-primary {
-                .gradient-hint(var(--mi-register-form-btn-active-start), var(--mi-register-form-btn-active-hint), var(--mi-register-form-btn-active-stop));
-                color: var(--mi-register-form-btn-active-text);
+                .gradient-hint(var(--mi-forget-form-btn-active-start), var(--mi-forget-form-btn-active-hint), var(--mi-forget-form-btn-active-stop));
+                color: var(--mi-forget-form-btn-active-text);
                 .properties(margin-bottom);
             }
+        }
+
+        .links {
+            width: 100%;
+            position: relative;
+            .flex(center, space-between);
         }
     }
 
@@ -201,63 +250,30 @@
         .properties(margin-top, -74);
         
         > div {
-            color: var(--mi-register-text);
-        }
-    }
-}
-
-.tips {
-    .flex(flex-start, center, column);
-    color: var(--mi-register-text);
-
-    p {
-        margin: 0;
-        .properties(line-height, 24);
-    }
-
-    :global {
-        .red {
-            color: var(--mi-register-tip-important);
+            color: var(--mi-forget-form-text);
         }
 
-        .theme {
-            color: var(--mi-primary);
-        }
-
-        .info {
-            color: var(--mi-secondary);
-        }
-
-        .success {
-            color: var(--mi-tertiary);
-        }
-    }
-}
-
-.username {
-    &-popover {
-        .flex();
-
-        :global {
-            .ant-popover-content {
-                max-width: 96%;
-            }
+        @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+            .properties(margin-top, -98);
         }
     }
 }
 
 :export {
-    --register-text: var(--mi-on-surface);
-    --register-logo-border: var(--mi-primary);
-    --register-tip-important: var(--mi-error);
-    --register-form-input-border: var(--mi-primary);
-    --register-form-error: var(--mi-error);
-    --register-form-btn-default-start: var(--mi-surface);
-    --register-form-btn-default-stop: var(--mi-surface-variant);
-    --register-form-btn-default-text: var(--mi-on-surface);
-    --register-form-btn-active-start: var(--mi-primary);
-    --register-form-btn-active-hint: var(--mi-secondary);
-    --register-form-btn-active-stop: var(--mi-tertiary);
-    --register-form-btn-active-text: var(--mi-surface);
-    --register-mask: rgba(var(--mi-rgb-surface-variant), .5);
+    --forget-logo-border: var(--mi-primary);
+    --forget-form-input-border: var(--mi-primary);
+    --forget-form-text: var(--mi-on-surface);
+    --forget-form-error: var(--mi-error);
+    --forget-form-btn-default-text: var(--mi-on-surface);
+    --forget-form-btn-default-start: var(--mi-surface);
+    --forget-form-btn-default-stop: var(--mi-surface-variant);
+    --forget-form-btn-active-start: var(--mi-primary);
+    --forget-form-btn-active-hint: var(--mi-secondary);
+    --forget-form-btn-active-stop: var(--mi-tertiary);
+    --forget-form-btn-active-text: var(--mi-surface);
+    --forget-form-resend-btn-start: var(--mi-primary);
+    --forget-form-resend-btn-hint: var(--mi-secondary);
+    --forget-form-resend-btn-stop: var(--mi-tertiary);
+    --forget-form-resend-btn-text: var(--mi-surface);
+    --forget-mask: rgba(var(--mi-rgb-surface-variant), .5);
 }

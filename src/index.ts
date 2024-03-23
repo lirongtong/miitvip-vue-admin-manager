@@ -18,6 +18,7 @@ import { default as Captcha } from './components/captcha'
 import { default as Password } from './components/password'
 import { default as Login } from './components/login'
 import { default as Register } from './components/register'
+import { default as Forget } from './components/forget'
 import { default as Backtop } from './components/backtop'
 import { default as Anchor } from './components/anchor'
 import { default as Soocialite } from './components/socialite'
@@ -77,6 +78,7 @@ declare module '@vue/runtime-core' {
         MiPassword: typeof Password
         MiLogin: typeof Login
         MiRegister: typeof Register
+        MiForget: typeof Forget
         MiBacktop: typeof Backtop
         MiAnchor: typeof Anchor
         MiSoocialite: typeof Soocialite

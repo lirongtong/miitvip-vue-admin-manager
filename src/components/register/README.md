@@ -10,7 +10,21 @@
 <mi-register action="/v1/register" />
 ```
 
-### 自定义表单字段校验
+### 自定义表单
+
+```html
+<mi-register action="/v1/register">
+    <template #content>
+        <a-form>
+            <a-form-item>
+                <!-- ... -->
+            </a-form-item>
+        </a-form>
+    </template>
+</mi-register>
+```
+
+### 自定义表单校验
 
 ```html
 <template>
@@ -37,20 +51,6 @@
         }]
     })
 </script>
-```
-
-### 自定义整个表单
-
-```html
-<mi-register action="/v1/register">
-    <template #content>
-        <a-form>
-            <a-form-item>
-                <!-- ... -->
-            </a-form-item>
-        </a-form>
-    </template>
-</mi-register>
 ```
 
 ### 快捷注册方式

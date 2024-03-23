@@ -10,7 +10,21 @@
 <mi-login action="/v1/login" />
 ```
 
-### 自定义表单字段校验
+### 自定义表单
+
+```html
+<mi-login action="/v1/login">
+    <template #content>
+        <a-form>
+            <a-form-item>
+                <!-- ... -->
+            </a-form-item>
+        </a-form>
+    </template>
+</mi-login>
+```
+
+### 自定义表单校验
 
 ```html
 <template>
@@ -37,20 +51,6 @@
         }]
     })
 </script>
-```
-
-### 自定义整个表单
-
-```html
-<mi-login action="/v1/login">
-    <template #content>
-        <a-form>
-            <a-form-item>
-                <!-- ... -->
-            </a-form-item>
-        </a-form>
-    </template>
-</mi-login>
 ```
 
 ### 快捷登录方式
@@ -91,6 +91,9 @@
 | `--mi-login-form-input-border` | `--mi-primary`
 | `--mi-login-form-text` | `--mi-on-surface`
 | `--mi-login-form-error` | `--mi-error`
+| `--mi-login-form-btn-default-text` | `--mi-on-surface`
+| `--mi-login-form-btn-default-start` | `--mi-surface`
+| `--mi-login-form-btn-default-stop` | `--mi-surface-variant`
 | `--mi-login-form-btn-active-start` | `--mi-primary`
 | `--mi-login-form-btn-active-hint` | `--mi-secondary`
 | `--mi-login-form-btn-active-stop` | `--mi-tertiary`

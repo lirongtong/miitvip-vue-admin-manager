@@ -113,10 +113,13 @@ export interface CacheTokens {
         }>
         password: Partial<{
             [key: string]: any
-            time: string
-            token: string
-            uid: string
-            input: string
+            reset: Partial<{
+                [key: string]: any
+                time: string
+                token: string
+                uid: string
+                username: string
+            }>
         }>
     }>
     cookies: Partial<{

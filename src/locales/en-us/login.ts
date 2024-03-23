@@ -4,7 +4,7 @@ export default {
     'no-account': `No account? `,
     'has-account': `Already have account? `,
     unknown: `Unknown Error`,
-    username: `Please enter username / email address / mobile number`,
+    username: `Please enter username / email address / phone number`,
     password: `Please enter the password`,
     verify: `Please click the button to verify`,
     forget: `Forget password`,

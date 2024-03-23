@@ -22,7 +22,8 @@ const MiTheme = defineComponent({
         const setLocale = inject('setLocale') as any
 
         // meta
-        $tools.setTitle(t('global.meta.title'))
+        const title = t('global.meta.title')
+        if (!$tools.isEmpty(title)) $tools.setTitle(title)
         $tools.setKeywords($g?.keywords || t('global.meta.keywords'), true)
         $tools.setDescription($g.description || t('global.meta.description'), true)
 
