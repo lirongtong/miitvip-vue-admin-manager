@@ -83,7 +83,9 @@
 </template>
 
 <script setup lang="ts">
-const handleRegister = () => {
+import type { RegisterFormParams } from '@makeit/admin-pro'
+
+const handleRegister = (data?: RegisterFormParams) => {
     console.log('sign up')
     // do sometion
     // return `boolean` or `string - ( error message )`

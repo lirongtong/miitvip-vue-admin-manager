@@ -65,3 +65,13 @@ export interface RegisterVerifyProperties {
     username: Partial<VerifyConfig>
     email: Partial<VerifyConfig>
 }
+
+export interface RegisterFormParams {
+    url?: string
+    username?: string
+    email?: string
+    password?: string
+    confirm?: string
+    captcha?: boolean
+    cuid?: number | string
+}

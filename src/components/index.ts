@@ -57,10 +57,14 @@ export { default as Captcha } from './captcha'
 export type { PasswordProperties } from './password/props'
 export { default as Password } from './password'
 
-export type { LoginProperties } from './login/props'
+export type { LoginProperties, LoginFormParams } from './login/props'
 export { default as Login } from './login'
 
-export type { RegisterProperties, RegisterVerifyProperties } from './register/props'
+export type {
+    RegisterProperties,
+    RegisterVerifyProperties,
+    RegisterFormParams
+} from './register/props'
 export { default as Register } from './register'
 
 export type { BacktopProperties } from './backtop/props'
