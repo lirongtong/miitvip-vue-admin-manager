@@ -106,16 +106,23 @@ const MiLogin = defineComponent({
                     })
                 formRef.value
                     ?.validate()
-                    .then(() => {
+                    .then(async () => {
                         if (
                             passwordState &&
                             (!params.form.validate.captcha ||
                                 (params.form.validate.captcha && params.captcha))
                         ) {
+                            const handleLoginSuccess = () => {
+                                const path = route.query?.redirect as string
+                                if (path) {
+                                    if ($tools.isUrl(path)) window.location.href = path
+                                    else router.push({ path })
+                                } else router.push({ path: '/' })
+                            }
                             if (typeof props.action === 'string') {
                                 api.login = props.action
                                 params.form.validate.url = api.login
-                                auth.login(params.form.validate).then((res: ResponseData) => {
+                                await auth.login(params.form.validate).then((res: ResponseData) => {
                                     if (res?.ret?.code === 200) {
                                         const path = route.query?.redirect as string
                                         if (path) {
@@ -126,7 +133,12 @@ const MiLogin = defineComponent({
                                     emit('afterLogin', res)
                                 })
                             } else if (typeof props.action === 'function') {
-                                props.action(params.form.validate)
+                                const response = await props.action(params.form.validate)
+                                if (typeof response === 'boolean' && response) {
+                                    handleLoginSuccess()
+                                    emit('afterLogin')
+                                }
+                                if (typeof response === 'string') message.error(response)
                             }
                         }
                     })
