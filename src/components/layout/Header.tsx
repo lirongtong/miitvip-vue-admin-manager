@@ -67,7 +67,7 @@ const MiLayoutHeader = defineComponent({
             }
         ])
         const collapsed = computed(() => useLayout.collapsed)
-        const open = computed(() => useMenu.drawer)
+        const menuOpen = computed(() => useMenu.drawer)
         applyTheme(styled)
 
         const handleSearchListItemClick = (data: SearchData) => {
@@ -94,7 +94,7 @@ const MiLayoutHeader = defineComponent({
                             )
                         ) : (
                             <div class={styled.drawer}>
-                                <MiDrawerMenu open={open.value} />
+                                <MiDrawerMenu open={menuOpen.value} />
                             </div>
                         )}
                     </div>
