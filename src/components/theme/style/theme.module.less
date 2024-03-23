@@ -1,5 +1,25 @@
 @import './basic.module.less';
 @import './animation.module.less';
+@import 'nprogress/nprogress.css';
+
+:global {
+    #nprogress {
+        & .bar {
+            .gradient-hint();
+            z-index: @mi-zindex;
+            .radius(8);
+        }
+    
+        & .peg {
+            box-shadow: none;
+        }
+    
+        & .spinner-icon {
+            border-top-color: var(--mi-primary);
+            border-left-color: var(--mi-primary);
+        }
+    }
+}
 
 :export {
     --primary: #FFD464;
