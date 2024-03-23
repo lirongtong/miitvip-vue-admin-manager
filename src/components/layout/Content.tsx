@@ -42,7 +42,7 @@ const MiLayoutContent = defineComponent({
                                             {props.showAnchor ? (
                                                 <MiAnchor
                                                     listenerContainer={listenerContainer.value}
-                                                    {...props.backtopSetting}
+                                                    {...props.anchorSetting}
                                                 />
                                             ) : null}
                                         </div>
