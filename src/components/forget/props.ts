@@ -85,3 +85,43 @@ export const ForgetProps = () => ({
     resetPasswordAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
     resendDowntime: PropTypes.number.def(120)
 })
+
+/**
+ * +===================+
+ * |       表单        |
+ * +===================+
+ * @param username 用户名 / 邮箱 / 手机号
+ * @param captcha 开启验证码
+ * @param cuid 用于校验 captcha 组件的验证码
+ * @param code 邮件验证码
+ * @param uuid 用于校验页面合法性
+ */
+export interface ForgetFormParams {
+    username?: string
+    captcha?: boolean
+    cuid?: string
+    code?: number | string
+    uuid?: string | number
+}
+/**
+ * +========================+
+ * |       邮件验证码        |
+ * +========================+
+ * @param code 邮件验证码
+ * @param uuid 用于校验页面合法性
+ */
+export interface ForgetCodeParams {
+    code?: number | string
+    uuid?: string | number
+}
+/**
+ * +======================+
+ * |       重置密码        |
+ * +======================+
+ * @param password 新密码
+ * @param confirm 确认新密码
+ */
+export interface ForgetUpdateFormParams {
+    password?: string
+    confirm?: string
+}

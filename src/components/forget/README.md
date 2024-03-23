@@ -57,25 +57,30 @@
 
 ```html
 <template>
-    <mi-forget :send-code-action="() => handleSendCode()" :check-code-action="() => handleCheckCode()" :reset-password-action="() => handleResetPassword()" />
+    <mi-forget
+        :send-code-action="() => handleSendCode()"
+        :check-code-action="() => handleCheckCode()"
+        :reset-password-action="() => handleResetPassword()" />
 </template>
 
 <script setup lang="ts">
-const handleSendCode = () => {
+import type { ForgetFormParams, ForgetCodeParams, ForgetUpdateFormParams } from '@makeit/admin-pro'
+
+const handleSendCode = (data?: ForgetFormParams) => {
     console.log('send code')
     // do sometion
     // return `boolean` or `string - ( error message )`
     return true
 }
 
-const handleCheckCode = () => {
+const handleCheckCode = (data?: ForgetCodeParams) => {
     console.log('check code')
     // do sometion
     // return `boolean` or `string - ( error message )`
     return true
 }
 
-const handleResetPassword = () => {
+const handleResetPassword = (data?: ForgetUpdateFormParams) => {
     console.log('reset password')
     // do sometion
     // return `boolean` or `string - ( error message )`
