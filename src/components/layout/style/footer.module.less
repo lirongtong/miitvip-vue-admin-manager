@@ -6,6 +6,16 @@
     .transition();
     position: sticky;
     bottom: 0;
+
+    &.collapsed {
+        .content {
+            .properties(max-width, 810);
+
+            @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+                .properties(max-width, 550);
+            }
+        }
+    }
 }
 
 .content {
@@ -13,7 +23,7 @@
     text-align: center;
     .letter-spacing();
 
-    @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
+    @media only screen and (max-width: @mi-xl) {
         .properties(max-width, 550);
     }
 }

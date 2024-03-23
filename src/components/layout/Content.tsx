@@ -3,6 +3,7 @@ import { LayoutContentProps } from './props'
 import { getPrefixCls } from '../_utils/props'
 import { RouterViewSlot } from '../../utils/types'
 import { useRoute, RouterView } from 'vue-router'
+import { useLayoutStore } from '../../stores/layout'
 import MiBacktop from '../backtop/Backtop'
 import MiAnchor from '../anchor/Anchor'
 import applyTheme from '../_utils/theme'
@@ -14,16 +15,16 @@ const MiLayoutContent = defineComponent({
     props: LayoutContentProps(),
     setup(props) {
         const route = useRoute()
+        const store = useLayoutStore()
+        const collapsed = computed(() => store.collapsed)
         const animation = getPrefixCls(`anim-${props.animation}`)
         const container = ref(null)
-        const backtopContainer = computed(() => {
-            return container.value
-        })
+        const listenerContainer = computed(() => container.value)
 
         applyTheme(styled)
 
         return () => (
-            <main class={styled.container}>
+            <main class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
                 <div ref={container} class={styled.inner} key={route.name}>
                     <RouterView
                         v-slots={{
@@ -34,13 +35,13 @@ const MiLayoutContent = defineComponent({
                                             {createVNode(Component)}
                                             {props.showBacktop ? (
                                                 <MiBacktop
-                                                    listenerContainer={backtopContainer.value}
+                                                    listenerContainer={listenerContainer.value}
                                                     {...props.backtopSetting}
                                                 />
                                             ) : null}
                                             {props.showAnchor ? (
                                                 <MiAnchor
-                                                    listenerContainer={backtopContainer.value}
+                                                    listenerContainer={listenerContainer.value}
                                                     {...props.backtopSetting}
                                                 />
                                             ) : null}
