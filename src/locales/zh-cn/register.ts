@@ -20,5 +20,6 @@ export default {
     },
     login: `前往登录`,
     socialite: `快捷注册方式`,
-    unknown: `未知错误`
+    unknown: `未知错误`,
+    verify: `请点击按钮进行验证码校验`
 }

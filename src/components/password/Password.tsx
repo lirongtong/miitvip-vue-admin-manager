@@ -99,13 +99,13 @@ const MiPassword = defineComponent({
             if (props.skipCheck) {
                 if (props.isRequired) {
                     if ($tools.isEmpty(value)) {
-                        return Promise.reject(t('password.repeat'))
+                        return Promise.reject(t('password.confirm'))
                     } else return Promise.resolve()
                 }
                 return Promise.resolve()
             }
             if ($tools.isEmpty(value)) {
-                return Promise.reject(t('password.repeat'))
+                return Promise.reject(t('password.confirm'))
             } else {
                 if (params.form.validate.password !== value) {
                     return Promise.reject(t('password.different'))

@@ -258,7 +258,8 @@ const MiLogin = defineComponent({
                         layout="vertical"
                         class={styled.formLogin}
                         model={params.form.validate}
-                        rules={params.form.rules}>
+                        rules={params.form.rules}
+                        autcomplete="off">
                         {renderUserName()}
                         {
                             <MiPassword

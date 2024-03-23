@@ -20,5 +20,6 @@ export default {
     },
     login: `Go to sign in`,
     socialite: `Others`,
-    unknown: `Unknown Error`
+    unknown: `Unknown Error`,
+    verify: `Please click the button to verify`
 }

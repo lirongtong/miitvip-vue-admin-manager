@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 import { api } from '../utils/api'
 import { $request } from '../utils/request'
-import type { LoginParams, LoginResponseData, ResponseData, LoginAuth } from '../utils/types'
+import type {
+    LoginParams,
+    LoginResponseData,
+    ResponseData,
+    LoginAuth,
+    RegisterParams
+} from '../utils/types'
 import { $storage } from '../utils/storage'
 import { $g } from '../utils/global'
 import { $cookie } from '../utils/cookie'
@@ -49,6 +55,18 @@ export const useAuthStore = defineStore('auth', {
                             resolve(res)
                         }
                     })
+                    .catch((err: any) => reject(err))
+            })
+        },
+        async register(data: RegisterParams): Promise<any> {
+            const url = data?.url || api.register
+            const method = data.method ?? 'post'
+            const params = { ...data }
+            if (params.url) delete params.url
+            if (params.method) delete params.method
+            return new Promise((resolve, reject) => {
+                return $request[method.toLowerCase()](url, params)
+                    .then((res: ResponseData) => resolve(res))
                     .catch((err: any) => reject(err))
             })
         },

@@ -420,10 +420,34 @@ export interface LoginParams {
     username: string
     password: string
     remember?: boolean | number
-    captcha?: boolean
+    captcha: boolean
     url?: string
     method?: string
     cuid?: string
+}
+
+/**
+ * +=========================+
+ * |      注册参数结构        |
+ * +=========================+
+ * @param username 用户名
+ * @param email 邮箱地址
+ * @param password 密码
+ * @param confirm 确认密码
+ * @param captcha 是否开启验证码
+ * @param url 接口地址
+ * @param method 请求方式
+ * @param cuid 验证码校验 UID
+ */
+export interface RegisterParams {
+    username: string
+    email: string
+    password: string
+    confirm: string
+    captcha: boolean
+    url?: string
+    method?: string
+    cuid?: string | null
 }
 
 /**

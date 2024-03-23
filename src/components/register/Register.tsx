@@ -8,17 +8,22 @@ import {
     Form,
     Input,
     Popover,
-    Button
+    Button,
+    message
 } from 'ant-design-vue'
 import { UserOutlined, MailOutlined } from '@ant-design/icons-vue'
 import { $tools } from '../../utils/tools'
 import { $request } from '../../utils/request'
 import { $g } from '../../utils/global'
+import { api } from '../../utils/api'
+import { $storage } from '../../utils/storage'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { getPropSlot } from '../_utils/props'
 import { __LOGO__, __PASSPORT_DEFAULT_BACKGROUND__ } from '../../utils/images'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import type { ResponseData } from '../../utils/types'
+import { useAuthStore } from '../../stores/auth'
 import MiTheme from '../theme/Theme'
 import MiLink from '../link/Link'
 import MiLayoutFooter from '../layout/Footer'
@@ -37,6 +42,8 @@ const MiRegister = defineComponent({
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const { width } = useWindowResize()
+        const auth = useAuthStore()
+        const router = useRouter()
         const formRef = ref<FormInstance>()
         const passwordFormRef = ref<FormInstance>()
 
@@ -76,6 +83,7 @@ const MiRegister = defineComponent({
             captcha: null,
             form: {
                 validate: {
+                    url: api.register,
                     username: '',
                     email: '',
                     password: '',
@@ -109,7 +117,51 @@ const MiRegister = defineComponent({
         })
         applyTheme(styled)
 
-        const handleRegister = () => {}
+        const handleRegister = async () => {
+            if (params.loading) return
+            if (formRef.value) {
+                params.loading = true
+                const passwordState = await passwordFormRef.value
+                    .validate()
+                    .then(() => {
+                        return true
+                    })
+                    .catch(() => {
+                        return false
+                    })
+                formRef.value
+                    ?.validate()
+                    .then(() => {
+                        if (
+                            passwordState &&
+                            (!params.form.validate.captcha ||
+                                (params.form.validate.captcha && params.captcha))
+                        ) {
+                            if (typeof props.action === 'string') {
+                                api.register = props.action
+                                params.form.validate.url = api.login
+                                auth.register(params.form.validate).then((res: ResponseData) => {
+                                    if (res?.ret?.code === 200) {
+                                        $storage.set(
+                                            $g.caches.storages.email,
+                                            params.form.validate.email
+                                        )
+                                        if (props.redirectTo) {
+                                            if ($tools.isUrl(props.redirectTo))
+                                                window.location.href = props.redirectTo
+                                            else router.push({ path: '/' })
+                                        } else router.push({ path: '/' })
+                                    } else message.error(res?.ret?.message)
+                                    emit('afterRegister', res)
+                                })
+                            } else if (typeof props.action === 'function') {
+                                props.action(params.form.validate)
+                            }
+                        }
+                    })
+                    .finally(() => (params.loading = false))
+            }
+        }
 
         const handleVerify = async (key: 'username' | 'email') => {
             if ($tools.isEmpty(params.form.validate?.[key])) return
@@ -261,7 +313,7 @@ const MiRegister = defineComponent({
                     {width.value < $g.breakpoints.md ? (
                         <Button class={styled.btn}>
                             <MiLink path="/login">
-                                {t('register.no-account')}
+                                {t('register.has-account')}
                                 {t('register.login')}
                             </MiLink>
                         </Button>
@@ -294,7 +346,8 @@ const MiRegister = defineComponent({
                         layout="vertical"
                         class={styled.formLogin}
                         model={params.form.validate}
-                        rules={params.form.rules}>
+                        rules={params.form.rules}
+                        autcomplete="off">
                         {renderUsername()}
                         {renderEmail()}
                         {

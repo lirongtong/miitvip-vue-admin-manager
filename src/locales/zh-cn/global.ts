@@ -37,7 +37,8 @@ export default {
     error: {
         normal: `操作失败`,
         id: `ID 有误, 请刷新后再试`,
-        auth: `请求的资源需要认证 ( Unauthorized )`
+        auth: `请求的资源需要认证 ( Unauthorized )`,
+        unknown: `未知错误`
     },
     yes: `是`,
     no: `否`,
