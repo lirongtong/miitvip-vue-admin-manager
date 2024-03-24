@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined, VerticalAlignTopOutlined, GithubOutlined } from '@ant-design/icons-vue'
 import { useMapMenuStore } from '../../src/index'
 
 // update menus
@@ -178,7 +178,7 @@ useMenu.updateMenus([
             name: 'components-clock',
             path: '/components/clock',
             meta: {
-                title: '无聊钟表',
+                title: '精美钟表',
                 subTitle: 'Clock',
                 icon: ClockCircleOutlined
             }
@@ -237,6 +237,22 @@ useMenu.updateMenus([
                 title: '引用说明',
                 subTitle: 'Quote',
                 icon: ExclamationCircleOutlined
+            }
+        }, {
+            name: 'components-backtop',
+            path: '/components/backtop',
+            meta: {
+                title: '回到顶部',
+                subTitle: 'Backtop',
+                icon: VerticalAlignTopOutlined
+            }
+        }, {
+            name: 'components-socialite',
+            path: '/components/socialite',
+            meta: {
+                title: '授权登陆',
+                subTitle: 'Socialite',
+                icon: GithubOutlined
             }
         }]
     }

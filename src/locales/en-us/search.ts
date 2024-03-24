@@ -27,7 +27,8 @@ import {
     PicRightOutlined,
     SecurityScanOutlined,
     AppstoreAddOutlined,
-    TransactionOutlined
+    TransactionOutlined,
+    GithubOutlined
 } from '@ant-design/icons-vue'
 
 export default {
@@ -191,6 +192,12 @@ export default {
             summary: `Class teacher returns to court`,
             icon: ToTopOutlined,
             path: '/components/back2top'
+        },
+        {
+            title: `Authorized Login`,
+            summary: `Mixing in to seize the market`,
+            icon: GithubOutlined,
+            path: '/components/socialite'
         },
         {
             title: `Menu Management`,

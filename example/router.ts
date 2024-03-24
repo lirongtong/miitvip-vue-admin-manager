@@ -31,6 +31,8 @@ const ComponentsAnchor = () => import('./views/components/anchor.vue')
 const ComponentsCode = () => import('./views/components/code.vue')
 const ComponentsTitle = () => import('./views/components/title.vue')
 const ComponentsQuote = () => import('./views/components/quote.vue')
+const ComponentsBacktop = () => import('./views/components/backtop.vue')
+const ComponentsSocialite = () => import('./views/components/socialite.vue')
 
 const PassportLogin = () => import('./views/passport/login.vue')
 const PassportRegister = () => import('./views/passport/register.vue')
@@ -135,7 +137,7 @@ const menuRoutes: Array<RouteRecordRaw> = [
             }, {
                 path: '/components/clock',
                 name: 'components-clock',
-                meta: { title: '无聊钟表' },
+                meta: { title: '精美钟表' },
                 component: ComponentsClock
             }, {
                 path: '/components/modal',
@@ -182,6 +184,16 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'components-quote',
                 meta: { title: '引用说明' },
                 component: ComponentsQuote
+            }, {
+                path: '/components/backtop',
+                name: 'components-backtop',
+                meta: { title: '回到顶部' },
+                component: ComponentsBacktop
+            }, {
+                path: '/components/socialite',
+                name: 'components-socialite',
+                meta: { title: '授权登陆' },
+                component: ComponentsSocialite
             }]
         }]
     }

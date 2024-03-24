@@ -91,7 +91,7 @@
 
 :white_check_mark: [注册页面](./src/components/register/README.md) ( `Register` ) :european_castle:
 
-:white_check_mark: [社会化登录 / 注册](./src/components/socialite/README.md) ( `Socialite` ) :dizzy:
+:white_check_mark: [授权登录](./src/components/socialite/README.md) ( `Socialite` ) :dizzy:
 
 :white_check_mark: [菜单导航](./src/components/menu/README.md) ( `Menu` ) :rocket:
 
@@ -174,6 +174,7 @@ app.mount('#app')
 <script lang="ts" setup>
     import { useMapMenuStore } from '@makeit/admin-pro'
 
+    // 更新菜单
     const useMenu = useMapMenuStore()
     useMenu.updateMenus([
         {
@@ -196,32 +197,16 @@ app.mount('#app')
 
 ```vue
 <template>
-    <mi-login
-        :action="api.login"
-        :background="bg"
-        :captcha-init-action="api.captcha.init"
-        :captcha-verify-action="api.captcha.verify" />
+    <mi-login action="/v1/login" />
 </template>
-
-<script lang="ts" setup>
-import bg from '@images/login-bg.jpg'
-</script>
 ```
 
 ## 注册
 
 ```vue
 <template>
-    <mi-register
-        :action="api.register"
-        :background="bg"
-        :email-verify-action="api.validator.email"
-        :username-verify-action="api.validator.name" />
+    <mi-register action="/v1/register" />
 </template>
-
-<script lang="ts" setup>
-import bg from '@images/login-bg.jpg'
-</script>
 ```
 
 ## 更多

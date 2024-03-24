@@ -27,7 +27,8 @@ import {
     PicRightOutlined,
     SecurityScanOutlined,
     AppstoreAddOutlined,
-    TransactionOutlined
+    TransactionOutlined,
+    GithubOutlined
 } from '@ant-design/icons-vue'
 
 export default {
@@ -191,6 +192,12 @@ export default {
             summary: `班师回朝 · 久客思归`,
             icon: ToTopOutlined,
             path: '/components/back2top'
+        },
+        {
+            title: `授权登陆`,
+            summary: `越俎代庖 · 搀行夺市`,
+            icon: GithubOutlined,
+            path: '/components/socialite'
         },
         {
             title: `菜单管理`,
