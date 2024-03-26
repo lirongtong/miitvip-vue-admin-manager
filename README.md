@@ -178,11 +178,11 @@ app.mount('#app')
 </template>
 
 <script lang="ts" setup>
-    import { useMapMenuStore } from '@makeit/admin-pro'
+    import { useStoreMenu } from '@makeit/admin-pro'
 
     // 更新菜单
-    const useMenu = useMapMenuStore()
-    useMenu.updateMenus([
+    const menuStore = useStoreMenu()
+    menuStore.updateMenus([
         {
             name: 'dashboard',
             path: '/dashboard',

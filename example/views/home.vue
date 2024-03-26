@@ -6,11 +6,11 @@
 
 <script lang="ts" setup>
 import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined, VerticalAlignTopOutlined, GithubOutlined } from '@ant-design/icons-vue'
-import { useMapMenuStore } from '../../src/index'
+import { useStoreMenu } from '../../src/index'
 
 // update menus
-const useMenu = useMapMenuStore()
-useMenu.updateMenus([
+const menuStore = useStoreMenu()
+menuStore.updateMenus([
     {
         name: 'about',
         path: '/about',
