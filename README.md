@@ -4,11 +4,15 @@
 
 </div>
 
-<h1 align="center">
+<div align="center">
 
-[*Makeit Admin Pro 3.x*](https://admin.makeit.vip)
+<font size="32">
 
-</h1>
+**[*Makeit Admin Pro 3.x*](https://admin.makeit.vip)**
+
+</font>
+
+</div>
 
 <div align="center">
 
@@ -22,12 +26,6 @@
 <div>
 
 ( An out-of-box UI solution for enterprise applications built on Vue3.x )
-
-</div>
-
-<div>
-
-( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 改为 `@miitvip/admin-pro`, 已发布 `Beta` 版 )
 
 </div>
 
@@ -51,13 +49,17 @@
 
 ## 关于
 
+> **注：**
+> `3.x` 版本的 `npm` 包更名为 **[`@miitvip/admin-pro`](https://www.npmjs.com/package/@miitvip/admin-pro)**
+> `2.x` 版本的 `npm` 包在这里 **[`makeit-admin-pro`](https://www.npmjs.com/package/makeit-admin-pro)**)
+>
 > :triangular_flag_on_post: `Makeit Admin Pro` 是基于 `Vue 3.x + Vite 5.x + Ant Design Vue 4.x` 构建开发的一套适合中后台管理项目的 `UI` 框架。
 > >
 > :beginner: 框架内置了统一风格的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用。
 > >
 > :lollipop: 设计这套框架的初衷是为了免去中后台管理项目中基础又重复的页面构建，将页面内的一系列行为进行封装形成重型组件（一个组件 ≈ 一个页面），如基础布局 `Layout`，登录 `Login` / 注册 `Register` / 忘记密码 `Forget` 等页面模块，让开发人员能更加专注于业务内容的开发，无需花费过多的时间在基础构建上，希望可以通过 `Makeit Admin Pro` 系列组件提供快速高效的搭建高质量的中后台应用，现阶段还在不断完善，持续开发更新中 ...
 > >
-> 体验地址：[https://admin.makeit.vip/](https://admin.makeit.vip/)
+> 体验地址（`3.x`的体验网站正在构建 ...）：**[https://admin.makeit.vip](https://admin.makeit.vip)**
 
 ## 全局应用
 
@@ -170,7 +172,7 @@ components.forEach((component) => app.use(component))
 app.mount('#app')
 ```
 
-## 布局
+## 基础布局
 
 ```html
 <template>
@@ -199,7 +201,7 @@ app.mount('#app')
 </script>
 ```
 
-## 登录
+## 登录页面
 
 ```vue
 <template>
@@ -207,7 +209,7 @@ app.mount('#app')
 </template>
 ```
 
-## 注册
+## 注册主页
 
 ```vue
 <template>
@@ -215,6 +217,6 @@ app.mount('#app')
 </template>
 ```
 
-## 更多
+## 更多应用
 
-> 更多内容及使用请查看在线示例：[https://admin.makeit.vip](https://admin.makeit.vip)
+> 更多内容及使用请查看在线示例：**[https://admin.makeit.vip](https://admin.makeit.vip)**
