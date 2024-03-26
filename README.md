@@ -27,7 +27,7 @@
 
 <div>
 
-( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 改为 `@makeit/admin-pro`, 正在重构中，尚未发版 )
+( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 改为 `@makeit/admin-pro`, 已发布 `Beta` 版 )
 
 </div>
 
@@ -121,11 +121,11 @@
 
 :x: 权限控制 :sunglasses:
 
-:white_check_mark: 应用管理 :rose:
+:x: 应用管理 :rose:
 
-:white_check_mark: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
+:x: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
 
-:white_check_mark: 语言配置 :snowflake:
+:x: 语言配置 :snowflake:
 
 :x: 富文本编辑器 :ocean:
 
