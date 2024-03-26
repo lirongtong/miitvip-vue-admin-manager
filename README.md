@@ -50,8 +50,10 @@
 ## 关于
 
 > **注：**
+>
 > `3.x` 版本的 `npm` 包更名为 **[`@miitvip/admin-pro`](https://www.npmjs.com/package/@miitvip/admin-pro)**
-> `2.x` 版本的 `npm` 包在这里 **[`makeit-admin-pro`](https://www.npmjs.com/package/makeit-admin-pro)**)
+>
+> `2.x` 版本的 `npm` 包在这里 **[`makeit-admin-pro`](https://www.npmjs.com/package/makeit-admin-pro)**
 >
 > :triangular_flag_on_post: `Makeit Admin Pro` 是基于 `Vue 3.x + Vite 5.x + Ant Design Vue 4.x` 构建开发的一套适合中后台管理项目的 `UI` 框架。
 > >
