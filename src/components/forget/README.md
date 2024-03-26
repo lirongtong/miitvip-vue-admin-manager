@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ForgetFormParams, ForgetCodeParams, ForgetUpdateFormParams } from 'makeit-admin-pro'
+import type { ForgetFormParams, ForgetCodeParams, ForgetUpdateFormParams } from '@miitvip/admin-pro'
 
 const handleSendCode = (data?: ForgetFormParams) => {
     console.log('send code')

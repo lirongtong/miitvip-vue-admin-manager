@@ -16,7 +16,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': resolve('example'),
-            'makeit-admin-pro': resolve('src/index')
+            '@miitvip/admin-pro': resolve('src/index')
         }
     },
     css: {

@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
     import { ref } from 'vue'
-    import type { DropdownItem } from 'makeit-admin-pro'
+    import type { DropdownItem } from '@miitvip/admin-pro'
     import { message } from 'ant-design-vue'
     import { UserOutlined, SettingOutlined, FireFilled } from '@ant-design/icons-vue'
 

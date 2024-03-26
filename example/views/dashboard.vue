@@ -25,6 +25,6 @@ $ cd makeit-admin-pro
 
 # 安装依赖
 $ npm install
-$ npm i makeit-admin-pro
+$ npm i @miitvip/admin-pro
 `
 </script>

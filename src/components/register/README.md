@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RegisterFormParams } from 'makeit-admin-pro'
+import type { RegisterFormParams } from '@miitvip/admin-pro'
 
 const handleRegister = (data?: RegisterFormParams) => {
     console.log('sign up')

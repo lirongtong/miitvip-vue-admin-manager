@@ -25,10 +25,16 @@
 
 </div>
 
+<div>
+
+( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 改为 `@miitvip/admin-pro`, 已发布 `Beta` 版 )
+
+</div>
+
 </p>
 
-[![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
-[![npm downloads](http://img.shields.io/npm/dm/makeit-admin-pro.svg?style=flat-square)](http://www.npmtrends.com/makeit-admin-pro)
+[![npm package](https://img.shields.io/npm/v/@miitvip/admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/@miitvip/admin-pro)
+[![npm downloads](http://img.shields.io/npm/dm/@miitvip/admin-pro.svg?style=flat-square)](http://www.npmtrends.com/@miitvip/admin-pro)
 ![MIT](https://img.shields.io/badge/license-MIT-ff69b4.svg)
 ![nodejs](https://img.shields.io/badge/nodejs-18.18.2-red.svg)
 ![vue](https://img.shields.io/badge/vue-3.4.7-green.svg)
@@ -134,14 +140,14 @@
 ## 安装
 
 ```bash
-npm i makeit-admin-pro
+npm i @miitvip/admin-pro
 ```
 
 ## 全局引入
 
 ```ts
 import { createApp } from 'vue'
-import MakeitAdminPro from 'makeit-admin-pro'
+import MakeitAdminPro from '@miitvip/admin-pro'
 import App from './app.vue'
 
 const app = createApp(App)
@@ -155,7 +161,7 @@ app.mount('#app')
 import { createApp } from 'vue'
 import router from './router'
 import App from './app.vue'
-import { Layout, Notice } from 'makeit-admin-pro'
+import { Layout, Notice } from '@miitvip/admin-pro'
 
 const app = createApp(App)
 app.use(router)
@@ -172,7 +178,7 @@ app.mount('#app')
 </template>
 
 <script lang="ts" setup>
-    import { useStoreMenu } from 'makeit-admin-pro'
+    import { useStoreMenu } from '@miitvip/admin-pro'
 
     // 更新菜单
     const menuStore = useStoreMenu()

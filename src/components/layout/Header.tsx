@@ -55,7 +55,7 @@ const MiLayoutHeader = defineComponent({
             {
                 name: 'npmjs',
                 title: 'NpmJS',
-                path: 'https://www.npmjs.com/package/makeit-admin-pro',
+                path: 'https://www.npmjs.com/package/@miitvip/admin-pro',
                 target: '_blank',
                 icon: AppstoreAddOutlined,
                 tag: { icon: FireFilled, color: '#ff4d4f' }
