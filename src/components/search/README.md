@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
     import { ref } from 'vue'
-    import type { SearchData } from '@makeit/admin-pro'
+    import type { SearchData } from 'makeit-admin-pro'
     import { ExclamationCircleOutlined, DashboardOutlined } from '@ant-design/icons-vue'
 
     const data = ref<SearchData[]>([
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
     import { ref } from 'vue'
-    import type { SearchData } from '@makeit/admin-pro'
+    import type { SearchData } from 'makeit-admin-pro'
 
     const data = ref<SearchData[]>()
 
@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
     import { ref } from 'vue'
-    import type { SearchData } from '@makeit/admin-pro'
+    import type { SearchData } from 'makeit-admin-pro'
     import { ThunderboltOutlined, CrownOutlined } from '@ant-design/icons-vue'
 
     const data = ref<SearchData[]>([

@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import type { LoginFormParams } from '@makeit/admin-pro'
+import type { LoginFormParams } from 'makeit-admin-pro'
 
 const handleLogin = (data?: LoginFormParams) => {
     console.log('sign in')

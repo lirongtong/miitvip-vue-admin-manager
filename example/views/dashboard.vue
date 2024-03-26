@@ -25,8 +25,6 @@ $ cd makeit-admin-pro
 
 # 安装依赖
 $ npm install
-
-# 安装 @makeit/admin-pro
-$ npm i @makeit/admin-pro
+$ npm i makeit-admin-pro
 `
 </script>

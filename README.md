@@ -25,12 +25,6 @@
 
 </div>
 
-<div>
-
-( `3.x` 版本的 `npm` 包将由 `makeit-admin-pro` 改为 `@makeit/admin-pro`, 已发布 `Beta` 版 )
-
-</div>
-
 </p>
 
 [![npm package](https://img.shields.io/npm/v/makeit-admin-pro.svg?style=flat-square)](https://www.npmjs.com/package/makeit-admin-pro)
@@ -140,14 +134,14 @@
 ## 安装
 
 ```bash
-npm i @makeit/admin-pro
+npm i makeit-admin-pro
 ```
 
 ## 全局引入
 
 ```ts
 import { createApp } from 'vue'
-import MakeitAdminPro from '@makeit/admin-pro'
+import MakeitAdminPro from 'makeit-admin-pro'
 import App from './app.vue'
 
 const app = createApp(App)
@@ -161,7 +155,7 @@ app.mount('#app')
 import { createApp } from 'vue'
 import router from './router'
 import App from './app.vue'
-import { Layout, Notice } from '@makeit/admin-pro'
+import { Layout, Notice } from 'makeit-admin-pro'
 
 const app = createApp(App)
 app.use(router)
@@ -178,7 +172,7 @@ app.mount('#app')
 </template>
 
 <script lang="ts" setup>
-    import { useStoreMenu } from '@makeit/admin-pro'
+    import { useStoreMenu } from 'makeit-admin-pro'
 
     // 更新菜单
     const menuStore = useStoreMenu()
