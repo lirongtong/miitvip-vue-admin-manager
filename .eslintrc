@@ -23,8 +23,7 @@
             "processor": "markdown/markdown",
             "rules": {
                 "no-console": "off",
-                "import/no-unresolved": "off",
-                "no-inline-html": false
+                "import/no-unresolved": "off"
             }
         },
         {

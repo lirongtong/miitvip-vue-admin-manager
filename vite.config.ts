@@ -48,6 +48,7 @@ export default defineConfig({
     },
     server: {
         host: '0.0.0.0',
+        port: 5800,
         proxy: {
             '/v1': {
                 target: 'http://local-api.makeit.vip',
