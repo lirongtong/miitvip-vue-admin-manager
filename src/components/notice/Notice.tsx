@@ -1,11 +1,12 @@
 /* eslint-disable import/no-unresolved */
-import { defineComponent, type SlotsType, ref, isVNode, watch, createVNode } from 'vue'
+import { defineComponent, type SlotsType, ref, isVNode, watch, createVNode, computed } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
 import { getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeItemProperties, NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import { Navigation, FreeMode } from 'swiper/modules'
 import MiClock from '../clock'
 import MiNoticeTab from './Tab'
@@ -24,7 +25,10 @@ const MiNotice = defineComponent({
     emits: ['tabClick', 'tabChange', 'update:tabActive', 'itemClick'],
     setup(props, { slots, emit }) {
         const { t, tm } = useI18n()
-        const width = $tools.convert2rem($tools.distinguishSize(props.width))
+        const { width } = useWindowResize()
+        const size = computed(() => {
+            return $tools.convert2rem($tools.distinguishSize(props.width, width.value))
+        })
         const iconRef = ref<HTMLElement>()
 
         applyTheme(styled)
@@ -323,7 +327,7 @@ const MiNotice = defineComponent({
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                 <Popover
                     overlayClassName={styled.container}
-                    overlayStyle={{ width, maxWidth: '100%' }}
+                    overlayStyle={{ width: size.value, maxWidth: '100%' }}
                     trigger={props.trigger}
                     placement={props.placement}
                     color={props.background}
