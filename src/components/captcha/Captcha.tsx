@@ -32,6 +32,40 @@ const MiCaptcha = defineComponent({
     setup(props, { emit, expose }) {
         const { t, te } = useI18n()
         const { width } = useWindowResize()
+        const size = computed(() => {
+            return {
+                width: $tools.convert2rem($tools.distinguishSize(props.width, width.value)),
+                height: $tools.convert2rem($tools.distinguishSize(props.height, width.value))
+            }
+        })
+        const radius = computed(() => {
+            return $tools.convert2rem($tools.distinguishSize(props.radius, width.value))
+        })
+        const radarStyle = computed(() => {
+            return {
+                borderRadius: radius.value,
+                boxShadow: props.boxShadow
+                    ? props.color
+                        ? `0 0 .25rem ${props.color}`
+                        : null
+                    : 'none',
+                borderColor: props.color ?? null
+            }
+        })
+        const successStyle = computed(() => {
+            const background = props.color
+                ? $g.regExp.hex.test(props.color)
+                    ? $tools.colorHex2Rgba(props.color, 0.2)
+                    : $g.regExp.rgb.test(props.color)
+                      ? $tools.colorHex2Rgba($tools.colorRgb2Hex(props.color), 0.2)
+                      : props.color
+                : null
+            return {
+                borderRadius: radius.value,
+                background,
+                borderColor: props.color ?? null
+            }
+        })
         const captchaRef = ref(null)
         const captchaModalRef = ref(null)
         const params = reactive({
@@ -253,19 +287,8 @@ const MiCaptcha = defineComponent({
         }
 
         const renderRadar = () => {
-            const style = {
-                borderRadius: props.radius
-                    ? $tools.convert2rem($tools.distinguishSize(props.radius))
-                    : null,
-                boxShadow: props.boxShadow
-                    ? props.color
-                        ? `0 0 .25rem ${props.color}`
-                        : null
-                    : 'none',
-                borderColor: props.color ?? null
-            }
             return (
-                <div class={styled.radar} style={style}>
+                <div class={styled.radar} style={radarStyle.value}>
                     {renderRadarReady()}
                     {renderRadarScan()}
                     {renderRadarBeing()}
@@ -277,30 +300,14 @@ const MiCaptcha = defineComponent({
         }
 
         const renderSuccess = () => {
-            const background = props.color
-                ? $g.regExp.hex.test(props.color)
-                    ? $tools.colorHex2Rgba(props.color, 0.2)
-                    : $g.regExp.rgb.test(props.color)
-                      ? $tools.colorHex2Rgba($tools.colorRgb2Hex(props.color), 0.2)
-                      : props.color
-                : null
-            const style = {
-                borderRadius: props.radius
-                    ? $tools.convert2rem($tools.distinguishSize(props.radius))
-                    : null,
-                background,
-                borderColor: props.color ?? null
-            }
             return params.status.success ? (
                 <Transition name={params.anim} appear={true}>
-                    <div class={styled.success} style={style} />
+                    <div class={styled.success} style={successStyle.value} />
                 </Transition>
             ) : null
         }
 
         const renderContent = () => {
-            const width = $tools.convert2rem($tools.distinguishSize(props.width))
-            const height = $tools.convert2rem($tools.distinguishSize(props.height))
             const modal = params.modal.open ? (
                 <Teleport to="body" ref={captchaModalRef}>
                     <MiCaptchaModal
@@ -324,7 +331,7 @@ const MiCaptcha = defineComponent({
                     <div
                         class={`${styled.content}${params.failed ? ` ${styled.failed}` : ''}`}
                         onClick={handleCaptchaModal}
-                        style={{ width, height }}>
+                        style={size.value}>
                         {renderRadar()}
                         {renderSuccess()}
                     </div>

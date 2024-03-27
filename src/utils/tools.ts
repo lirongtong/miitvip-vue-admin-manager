@@ -778,11 +778,12 @@ class MiTools {
                     lg: $g?.breakpoints?.lg || 992
                 }
                 if (values.length > 0) {
-                    if (width < breakpoints.md) return value?.mobile || values[0]
-                    if (width >= breakpoints.lg) return value?.laptop || values[0]
-                    if (width >= breakpoints.md && width < breakpoints.lg) {
-                        return value?.tablet || values[0]
-                    }
+                    if (width < breakpoints.md)
+                        return typeof value?.mobile !== 'undefined' ? value?.mobile : values[0]
+                    if (width >= breakpoints.lg)
+                        return typeof value?.laptop !== 'undefined' ? value?.laptop : values[0]
+                    if (width >= breakpoints.md && width < breakpoints.lg)
+                        return typeof value?.tablet !== 'undefined' ? value?.tablet : values[0]
                 } else return null
             }
         }
