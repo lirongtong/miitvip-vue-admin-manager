@@ -1,6 +1,7 @@
 import {
     SlotsType,
     Transition,
+    computed,
     defineComponent,
     onBeforeUnmount,
     onMounted,
@@ -82,17 +83,21 @@ const MiBacktop = defineComponent({
             { immediate: true, deep: true }
         )
 
+        const style = computed(() => {
+            return {
+                width: $tools.convert2rem($tools.distinguishSize(props.width, width.value)),
+                height: $tools.convert2rem($tools.distinguishSize(props.height, width.value)),
+                borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius, width.value)),
+                ...$tools.wrapPositionOrSpacing(props.position),
+                zIndex: props.zIndex
+            }
+        })
+
         return () => (
             <Transition name={params.anim} appear={true}>
                 <div
                     class={styled.container}
-                    style={{
-                        width: $tools.convert2rem($tools.distinguishSize(props.width)),
-                        height: $tools.convert2rem($tools.distinguishSize(props.height)),
-                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius)),
-                        ...$tools.wrapPositionOrSpacing(props.position),
-                        zIndex: props.zIndex
-                    }}
+                    style={style.value}
                     key={params.key}
                     v-show={params.show}>
                     {width.value < $g.breakpoints.md || $tools.isMobile() ? (
