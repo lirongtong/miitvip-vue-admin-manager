@@ -31,7 +31,7 @@ const MiLayout = defineComponent({
         const { locale } = useI18n()
         const { width } = useWindowResize()
         const anim = getPrefixCls('anim-scale')
-        const langClass = getPrefixCls(`lang-${locale}`, $g.prefix)
+        const langClass = getPrefixCls(`lang-${locale.value}`, $g.prefix)
 
         applyTheme(styled)
 
