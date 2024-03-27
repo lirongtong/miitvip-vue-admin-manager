@@ -21,7 +21,11 @@
         {
             "files": ["*.md", "*.md/*.vue", "*.md/*.js", "*.md/*.ts", "*.md/*.base"],
             "processor": "markdown/markdown",
-            "rules": { "no-console": "off", "import/no-unresolved": "off" }
+            "rules": {
+                "no-console": "off",
+                "import/no-unresolved": "off",
+                "no-inline-html": false
+            }
         },
         {
             "files": ["*.ts", "*.tsx"],

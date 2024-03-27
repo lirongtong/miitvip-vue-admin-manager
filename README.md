@@ -2,13 +2,9 @@
 
 [![makeit.vip](https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png "makeit.vip")](https://admin.makeit.vip)
 
-<h1 align="center">
-
-<a>
+<h1>
 
 **[*Makeit Admin Pro 3.x*](https://admin.makeit.vip)**
-
-</a>
 
 </h1>
 
