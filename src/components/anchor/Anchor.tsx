@@ -47,7 +47,7 @@ const MiAnchor = defineComponent({
         applyTheme(styled)
 
         const init = async () => {
-            let container: HTMLElement | Document = document
+            let container: HTMLElement | Document = params.container || document
             if (props.collectContainer) {
                 container = document.querySelector(props.collectContainer) as HTMLElement
             }
