@@ -15,15 +15,15 @@
     overflow: hidden;
     .radius(8);
 
-    @media only screen and (max-width: @mi-xl) {
-        height: calc(100% - 5.5rem);
+    @media only screen and (max-width: @mi-xl) and (min-width: @mi-sm) {
+        .properties(padding-bottom, 104);
     }
 
     &.collapsed {
-        height: calc(100% - 3.5rem);
+        .properties(padding-bottom, 72);
         
         @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
-            height: calc(100% - 5.5rem);
+            .properties(padding-bottom, 104);
         }
     }
 }
