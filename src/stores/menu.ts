@@ -4,7 +4,7 @@ import type { MenuItem, DropdownItem } from '../utils/types'
 /**
  * Menu Store States.
  * @param menus 所有选单的 key 值
- * @param dropdowns 下拉菜单
+ * @param dropdowns 下拉菜单 ( Layout Header )
  * @param accordion 手风琴模式
  * @param openKeys 打开的子菜单 key 值数组
  * @param activeKeys 当前选中的菜单项 key 值数组
@@ -14,7 +14,7 @@ import type { MenuItem, DropdownItem } from '../utils/types'
 export const useMenuStore = defineStore('menus', {
     state: () => ({
         menus: [] as MenuItem[],
-        dropdowns: [] as DropdownItem[],
+        dropdowns: [] as Partial<DropdownItem>[],
         accordion: true,
         openKeys: [] as (string | number)[],
         activeKeys: [] as (string | number)[],
@@ -25,7 +25,7 @@ export const useMenuStore = defineStore('menus', {
         updateMenus(menus: MenuItem[]) {
             this.menus = menus
         },
-        updateDropdownMenus(menus: DropdownItem[]) {
+        updateDropdownMenus(menus: Partial<DropdownItem>[]) {
             this.dropdowns = menus
         }
     }

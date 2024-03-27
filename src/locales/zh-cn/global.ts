@@ -72,5 +72,6 @@ export default {
     step: {
         prev: `上一步`,
         next: `下一步`
-    }
+    },
+    donate: `您的支持，是我最大的动力`
 }

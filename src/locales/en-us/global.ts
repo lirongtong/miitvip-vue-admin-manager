@@ -72,5 +72,6 @@ export default {
     step: {
         prev: `Prev`,
         next: `Next`
-    }
+    },
+    donate: `Your support is my biggest motivation`
 }
