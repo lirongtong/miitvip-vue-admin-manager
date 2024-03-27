@@ -9,12 +9,7 @@ import { $g } from '../../utils/global'
 import { useRouter } from 'vue-router'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import type { SearchData, DropdownItem } from '../../utils/types'
-import {
-    GithubOutlined,
-    AppstoreAddOutlined,
-    FireFilled,
-    LogoutOutlined
-} from '@ant-design/icons-vue'
+import { GithubOutlined, AppstoreAddOutlined, FireFilled } from '@ant-design/icons-vue'
 import MiSearch from '../search/Search'
 import MiPalette from '../palette/Palette'
 import MiDropdown from '../dropdown/Dropdown'
@@ -36,7 +31,7 @@ const MiLayoutHeader = defineComponent({
     }>,
     props: LayoutHeaderProps(),
     setup(props, { slots }) {
-        const { t, tm } = useI18n()
+        const { tm } = useI18n()
         const { width } = useWindowResize()
         const router = useRouter()
         const useLayout = useLayoutStore()
@@ -59,11 +54,6 @@ const MiLayoutHeader = defineComponent({
                 target: '_blank',
                 icon: AppstoreAddOutlined,
                 tag: { icon: FireFilled, color: '#ff4d4f' }
-            },
-            {
-                name: 'logout',
-                title: t('global.logout'),
-                icon: LogoutOutlined
             }
         ])
         const collapsed = computed(() => useLayout.collapsed)
