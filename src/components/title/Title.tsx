@@ -15,7 +15,8 @@ const MiTitle = defineComponent({
 
         const style = {
             fontSize: $tools.convert2rem($tools.distinguishSize(props.size)),
-            color: props?.color ?? null
+            color: props?.color ?? null,
+            ...$tools.wrapPositionOrSpacing(props.margin, 'margin')
         }
         const extra = getPropSlot(slots, props, 'default')
         return () => (

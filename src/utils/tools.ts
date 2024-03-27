@@ -878,7 +878,8 @@ class MiTools {
             const items = getKeys()
             items.forEach((item: KeyValue) => {
                 const v = data[item.key]
-                position[item.value] = v ? $tools.convert2rem($tools.distinguishSize(v)) : null
+                position[item.value] =
+                    typeof v !== 'undefined' ? $tools.convert2rem($tools.distinguishSize(v)) : null
             })
         }
         return position

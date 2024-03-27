@@ -51,5 +51,6 @@
 | `title` | `string` | `''` | 标题
 | `center` | `boolean` | `false` | 是否居中
 | `size` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `24` | 大小
-| `color` | `string` | `''` | 颜色
+| `color` | `string` | `''` | 颜色值
+| `margin` | [`Position`](../../utils/README.md) | `{}` | 间距配置
 | `extra` | `vSlot` | `''` | 自定义内容

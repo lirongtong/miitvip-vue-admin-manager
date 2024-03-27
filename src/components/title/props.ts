@@ -1,4 +1,4 @@
-import { PropTypes, type DeviceSize } from '../../utils/types'
+import { PropTypes, type DeviceSize, Position } from '../../utils/types'
 import { object } from 'vue-types'
 
 /**
@@ -10,6 +10,7 @@ import { object } from 'vue-types'
  * @param size 大小
  * @param color 颜色
  * @param extra 其他<Slot />
+ * @param margin 间距
  */
 export interface TitleProperties {
     title: string
@@ -17,11 +18,13 @@ export interface TitleProperties {
     size: string | number | DeviceSize
     color: string
     extra: any
+    margin: Position
 }
 export const TitleProps = () => ({
     title: PropTypes.string.isRequired,
     center: PropTypes.bool.def(false),
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(24),
     color: PropTypes.string,
-    extra: PropTypes.any
+    extra: PropTypes.any,
+    margin: PropTypes.object.def({})
 })
