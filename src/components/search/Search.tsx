@@ -10,13 +10,15 @@ import {
     Component,
     onMounted,
     onUnmounted,
-    nextTick
+    nextTick,
+    computed
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
 import { $g } from '../../utils/global'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import type { SearchData } from '../../utils/types'
 import { $request } from '../../utils/request'
 import {
@@ -55,6 +57,30 @@ const MiSearch = defineComponent({
         const { t } = useI18n()
         const prefixCls = getPrefixCls('search')
         const prefixIdx = getPrefixCls('index')
+        const { width } = useWindowResize()
+        const size = computed(() => {
+            return {
+                width: $tools.distinguishSize(props.width, width.value),
+                height: $tools.distinguishSize(props.height, width.value)
+            }
+        })
+        const sizeStyle = computed(() => {
+            return {
+                width: $tools.convert2rem(size.value.width),
+                height: $tools.convert2rem(size.value.height),
+                borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius, width.value))
+            }
+        })
+        const listStyle = computed(() => {
+            return {
+                width: $tools.convert2rem($tools.distinguishSize(props.listWidth, width.value)),
+                height: $tools.convert2rem($tools.distinguishSize(props.listHeight, width.value)),
+                top: $tools.convert2rem($tools.distinguishSize(props.height ?? 34, width.value)),
+                borderRadius: $tools.convert2rem(
+                    $tools.distinguishSize(props.listRadius, width.value)
+                )
+            }
+        })
         const params = reactive({
             id: $tools.uid(),
             loading: false,
@@ -72,10 +98,6 @@ const MiSearch = defineComponent({
             page: {
                 total: 0,
                 active: 1
-            },
-            size: {
-                width: $tools.distinguishSize(props.width),
-                height: $tools.distinguishSize(props.height)
             }
         })
         applyTheme(styled)
@@ -416,12 +438,6 @@ const MiSearch = defineComponent({
         }
 
         const renderList = () => {
-            const style = {
-                width: $tools.convert2rem($tools.distinguishSize(props.listWidth)),
-                height: $tools.convert2rem($tools.distinguishSize(props.listHeight)),
-                top: $tools.convert2rem($tools.distinguishSize(props.height ?? 34)),
-                borderRadius: $tools.convert2rem($tools.distinguishSize(props.listRadius))
-            }
             const elem = (
                 <>
                     {params.list.length <= 0 && !params.loading && !params.error ? (
@@ -439,7 +455,7 @@ const MiSearch = defineComponent({
             return (
                 <Transition name={params.animation.list} appear={true}>
                     {params.show ? (
-                        <div class={styled.list} style={style}>
+                        <div class={styled.list} style={listStyle.value}>
                             {elem}
                         </div>
                     ) : null}
@@ -469,8 +485,8 @@ const MiSearch = defineComponent({
             <div
                 class={`${styled.container}${
                     params.focused || params.keyword ? ` ${styled.focused}` : ''
-                }${params.size.width ? ` ${styled.customWidth}` : ''}${
-                    params.size.height ? ` ${styled.customHeight}` : ''
+                }${size.value.width ? ` ${styled.customWidth}` : ''}${
+                    size.value.height ? ` ${styled.customHeight}` : ''
                 }`}
                 id={params.id}>
                 <input
@@ -484,10 +500,7 @@ const MiSearch = defineComponent({
                     onInput={$tools.debounce(handleInput, 200)}
                     onKeydown={handleKeydown}
                     onKeyup={handleKeyup}
-                    style={{
-                        width: $tools.convert2rem(params.size.width),
-                        height: $tools.convert2rem(params.size.height)
-                    }}
+                    style={sizeStyle.value}
                 />
                 {renderSuffix()}
                 {renderList()}
