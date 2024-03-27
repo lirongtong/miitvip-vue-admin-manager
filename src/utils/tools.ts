@@ -765,12 +765,12 @@ class MiTools {
      * @see DeviceSize
      * @see Breakpoints
      */
-    distinguishSize(value?: string | number | DeviceSize) {
+    distinguishSize(value?: string | number | DeviceSize, dynamicWidth?: number) {
         if (typeof value !== 'undefined') {
             if (typeof value === 'string' || typeof value === 'number') {
                 return value
             } else {
-                const width = $g?.winSize?.width || 0
+                const width = dynamicWidth ?? ($g?.winSize?.width || 0)
                 if (!width) return null
                 const values = Object.values(value)
                 const breakpoints = {
