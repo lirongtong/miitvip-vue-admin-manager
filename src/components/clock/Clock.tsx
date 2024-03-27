@@ -1,6 +1,7 @@
-import { defineComponent, reactive, onUnmounted } from 'vue'
+import { defineComponent, reactive, onUnmounted, computed } from 'vue'
 import { ClockProps } from './props'
 import { $tools } from '../../utils/tools'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import applyTheme from '../_utils/theme'
 import styled from './style/clock.module.less'
 
@@ -9,9 +10,17 @@ const MiClock = defineComponent({
     inheritAttrs: false,
     props: ClockProps(),
     setup(props) {
+        const { width } = useWindowResize()
+        const size = computed(() => {
+            return $tools.distinguishSize(props.size, width.value)
+        })
+        const style = computed(() => {
+            return {
+                width: $tools.convert2rem(size.value),
+                height: $tools.convert2rem(size.value)
+            }
+        })
         applyTheme(styled)
-        const width = $tools.distinguishSize(props.width)
-        const size = $tools.convert2rem(width < 200 ? 200 : width)
 
         const rotates = reactive({
             hour: '0deg',
@@ -21,7 +30,7 @@ const MiClock = defineComponent({
         let rid = 0
 
         const getPosition = (phase: number, offset = 10) => {
-            const radius = Math.ceil(width / 2) - offset
+            const radius = Math.ceil(size.value / 2) - offset
             const theta = phase * 2 * Math.PI
             return {
                 top: $tools.convert2rem(Math.round(-radius * Math.cos(theta) * 100) / 100),
@@ -52,7 +61,7 @@ const MiClock = defineComponent({
                                 class={styled.minsLine}
                                 style={{
                                     transform: `translate(-50%, -100%) translateY(-${$tools.convert2rem(
-                                        width / 2 - 10
+                                        size.value / 2 - 10
                                     )})`
                                 }}></div>
                         </div>
@@ -98,7 +107,7 @@ const MiClock = defineComponent({
         onUnmounted(() => $tools.caf(rid))
 
         return () => (
-            <div class={styled.container} style={{ width: size, height: size }}>
+            <div class={styled.container} style={style.value}>
                 <div class={styled.calibration}>
                     {renderCalibrationAnchor()}
                     {renderCalibrationHour()}
@@ -108,18 +117,18 @@ const MiClock = defineComponent({
                     <div class={styled.hand}></div>
                     <div
                         class={`${styled.hand} ${styled.handFat} ${styled.handHour}`}
-                        style={{ height: $tools.convert2rem(width / 6) }}></div>
+                        style={{ height: $tools.convert2rem(size.value / 6) }}></div>
                 </div>
                 <div class={styled.point} style={{ transform: rotates.minute }}>
                     <div class={styled.hand}></div>
                     <div
                         class={`${styled.hand} ${styled.handFat} ${styled.handMinute}`}
-                        style={{ height: $tools.convert2rem(width / 4) }}></div>
+                        style={{ height: $tools.convert2rem(size.value / 4) }}></div>
                 </div>
                 <div class={styled.point} style={{ transform: rotates.second }}>
                     <div
                         class={`${styled.hand} ${styled.handSecond}`}
-                        style={{ height: $tools.convert2rem(width / 2) }}></div>
+                        style={{ height: $tools.convert2rem(size.value / 2) }}></div>
                 </div>
                 <div class={`${styled.pointer} ${styled.pointerMid}`}></div>
                 <div class={`${styled.pointer} ${styled.pointerTop}`}></div>

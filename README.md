@@ -86,7 +86,7 @@
 
 :white_check_mark: **[锚点链接](./src/components/anchor/README.md)** ( `Anchor` ) :balloon:
 
-:white_check_mark: **[精美时钟](./src/components/clock/README.md) ( `Clock` )** :clock130:
+:white_check_mark: **[在线钟表](./src/components/clock/README.md) ( `Clock` )** :clock130:
 
 :white_check_mark: **[下拉菜单](./src/components/dropdown/README.md)** ( `Dropdown` ) :palm_tree:
 
