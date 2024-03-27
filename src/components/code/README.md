@@ -43,6 +43,7 @@ def getTime():
 
 | Token | 默认值
 | :---- | :----
+| `--mi-code-text` | `--mi-on-background`
 | `--mi-code-scrollbar` | `--mi-primary`
 | `--mi-code-background` | `--mi-background`
 | `--mi-code-border` | `--mi-background`

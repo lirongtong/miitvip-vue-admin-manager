@@ -8,7 +8,7 @@
             .properties(padding, 16);
             white-space: pre-line;
             background: var(--mi-code-background);
-            border: .0625rem solid var(--mi--code-border);
+            border: .0625rem solid var(--mi-code-border);
             .radius(8);
             font-family: @mi-font-code;
             position: relative;
@@ -36,6 +36,14 @@
             .properties(margin-right, 6);
             .properties(margin-left, 6);
         }
+
+        code[class*="language-"] {
+            color: var(--mi-code-text);
+        }
+    }
+
+    .content {
+        position: relative;
     }
 
     .title {
@@ -72,6 +80,7 @@
 }
 
 :export {
+    --code-text: var(--mi-on-background);
     --code-scrollbar: var(--mi-primary);
     --code-background: var(--mi-background);
     --code-border: var(--mi-background);
