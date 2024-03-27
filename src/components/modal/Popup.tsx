@@ -2,6 +2,7 @@ import { defineComponent, reactive, Transition, computed, ref } from 'vue'
 import { ModalProps } from './props'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { $tools } from '../../utils/tools'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import applyTheme from '../_utils/theme'
 import styled from './style/popup.module.less'
 
@@ -15,6 +16,13 @@ const MiModalPopup = defineComponent({
         const wrapRef = ref(null)
         const headerRef = ref(null)
         const footerRef = ref(null)
+        const { width } = useWindowResize()
+        const size = computed(() => {
+            return {
+                width: $tools.convert2rem($tools.distinguishSize(props.width, width.value)),
+                height: $tools.convert2rem($tools.distinguishSize(props.height, width.value))
+            }
+        })
         const params = reactive({
             key: getPrefixCls(`modal-${$tools.uid()}`),
             anim: getPrefixCls(`anim-${props.animation}`),
@@ -58,10 +66,6 @@ const MiModalPopup = defineComponent({
         }
 
         const renderModal = () => {
-            const size = {
-                width: $tools.convert2rem($tools.distinguishSize(props.width)),
-                height: $tools.convert2rem($tools.distinguishSize(props.height))
-            }
             const header = props.title ? (
                 <div ref={headerRef} class={styled.header} key={`${prefixCls}-header`}>
                     {getPropSlot(slots, props, 'title')}
@@ -81,7 +85,7 @@ const MiModalPopup = defineComponent({
                 </button>
             ) : null
             return (
-                <div class={styled.content} style={size}>
+                <div class={styled.content} style={size.value}>
                     {props.closable ? closer : null}
                     {header}
                     <div class={styled.body}>{getPropSlot(slots, props)}</div>
