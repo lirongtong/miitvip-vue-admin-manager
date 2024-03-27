@@ -1,8 +1,9 @@
-import { defineComponent, ref, reactive, createVNode } from 'vue'
+import { defineComponent, ref, reactive, createVNode, computed } from 'vue'
 import { PasswordProps } from './props'
 import { useI18n } from 'vue-i18n'
 import { getPrefixCls } from '../_utils/props'
 import { $tools } from '../../utils/tools'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import { Form, Input, Popover } from 'ant-design-vue'
 import {
     EyeInvisibleOutlined,
@@ -39,6 +40,14 @@ const MiPassword = defineComponent({
             }
         )
         const defaultTip = ref<string>(props.complexityTip ?? t('password.tip'))
+        const { width } = useWindowResize()
+        const style = computed(() => {
+            return {
+                width: $tools.convert2rem($tools.distinguishSize(props.width, width.value)),
+                height: $tools.convert2rem($tools.distinguishSize(props.height, width.value)),
+                borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius, width.value))
+            }
+        })
 
         const checkPassword = (_rule: any, value: string) => {
             const reset = () => {
@@ -214,11 +223,7 @@ const MiPassword = defineComponent({
                     placeholder={placeholder}
                     autocomplete="off"
                     id={key ?? getPrefixCls(`password-key-${$tools.uid()}`)}
-                    style={{
-                        width: $tools.convert2rem($tools.distinguishSize(props.width)),
-                        height: $tools.convert2rem($tools.distinguishSize(props.height)),
-                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius))
-                    }}
+                    style={style.value}
                     type={type}
                 />
             )
