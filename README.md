@@ -5,9 +5,9 @@
 </div>
 
 <h1 align="center">
-
-<a href="https://admin.makeit.vip" target="_blank">Makeit Admin Pro 3.x</a>
-
+    <a href="https://admin.makeit.vip" target="_blank">
+        Makeit Admin Pro 3.x
+    </a>
 </h1>
 
 <div align="center">
