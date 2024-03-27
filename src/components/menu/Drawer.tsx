@@ -5,6 +5,7 @@ import { $tools } from '../../utils/tools'
 import { useMenuStore } from '../../stores/menu'
 import { useLayoutStore } from '../../stores/layout'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import MiMenu from '../menu/Menu'
 import MiLayoutSiderLogo from '../layout/Logo'
 import applyTheme from '../_utils/theme'
@@ -20,6 +21,9 @@ const MiDrawerMenu = defineComponent({
         const useLayout = useLayoutStore()
         const open = computed(() => props.open)
         const menus = computed(() => useMenu.menus)
+        const { width } = useWindowResize()
+        const size = computed(() => $tools.distinguishSize(props.width, width.value))
+
         applyTheme(styled)
 
         const handleOpen = () => {
@@ -39,7 +43,7 @@ const MiDrawerMenu = defineComponent({
                     {open.value ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                 </div>
                 <Drawer
-                    width={$tools.distinguishSize(props.width)}
+                    width={size.value}
                     placement={props.placement}
                     open={open.value}
                     mask={props.mask}

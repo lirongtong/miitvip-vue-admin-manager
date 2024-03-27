@@ -28,6 +28,7 @@ const MiMenu = defineComponent({
         const openKeys = computed(() => useMenu.openKeys)
         const activeKeys = computed(() => useMenu.activeKeys)
         const collapsed = computed(() => useLayout.collapsed)
+        const indent = computed(() => $tools.distinguishSize(props.indent, width.value))
         applyTheme(styled)
 
         const relationship = reactive({
@@ -155,7 +156,7 @@ const MiMenu = defineComponent({
                 ref={menuRef}
                 mode="inline"
                 theme={$g.theme.type}
-                inlineIndent={$tools.distinguishSize(props.indent)}
+                inlineIndent={indent.value}
                 inlineCollapsed={collapsed.value}
                 openKeys={openKeys.value}
                 selectedKeys={activeKeys.value}

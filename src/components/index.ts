@@ -14,7 +14,12 @@ export type {
 } from './layout/props'
 export { default as Layout } from './layout'
 
-export type { MenuProperties, MenuItemProperties, MenuTitleProperties } from './menu/props'
+export type {
+    MenuProperties,
+    MenuItemProperties,
+    MenuTitleProperties,
+    DrawerMenuProperties
+} from './menu/props'
 export { default as Menu } from './menu'
 
 export type { BreadcrumbProperties } from './breadcrumb/props'
