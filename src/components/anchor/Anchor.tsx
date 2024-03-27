@@ -28,6 +28,7 @@ const MiAnchor = defineComponent({
         const anchorRef = ref(null)
         const stickyRef = ref(null)
         const params = reactive({
+            containerId: $tools.uid(),
             id: getPrefixCls(`anchor-${$tools.uid()}`),
             key: getPrefixCls(`anchor-sticky-${$tools.uid()}`),
             text: props.affixText || t('anchor.text'),
@@ -64,6 +65,7 @@ const MiAnchor = defineComponent({
             params.open = params.affix
             params.sticky = !params.affix
             $tools.on(params.container, 'scroll', handleContainerScroll)
+            $tools.on(window, 'click', (evt) => handleMaskClose(evt))
         }
 
         const parseAnchorData = (nodes: NodeListOf<HTMLElement>) => {
@@ -125,6 +127,19 @@ const MiAnchor = defineComponent({
                 // 400 - animation duration
                 if (anchorRef.value) anchorRef.value?.remove()
             }, 400)
+        }
+
+        const handleMaskClose = async (evt: any) => {
+            await nextTick()
+            if (params.open && !params.affix) {
+                const target = evt?.target
+                const elem = document.getElementById(params.containerId)
+                if (elem && target !== elem && !elem.contains(target)) {
+                    params.open = false
+                    params.sticky = true
+                    if (evt.preventDefault) evt.preventDefault()
+                }
+            }
         }
 
         const handleContainerScroll = () => {
@@ -198,11 +213,14 @@ const MiAnchor = defineComponent({
             }, props.delayInit)
         })
 
-        onBeforeUnmount(() => $tools.on(params.container, 'scroll', handleContainerScroll))
+        onBeforeUnmount(() => {
+            $tools.off(params.container, 'scroll', handleContainerScroll)
+            $tools.off(window, 'click', (evt) => handleMaskClose(evt))
+        })
 
         return () =>
             getPropSlot(slots, props) || params.list.length > 0 ? (
-                <div class={styled.container}>
+                <div class={styled.container} id={params.containerId}>
                     <Transition name={params.anim} appear={true}>
                         <div
                             ref={anchorRef}
