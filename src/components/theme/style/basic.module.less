@@ -70,6 +70,20 @@ input {
         -webkit-appearance: none !important;
     }
 }
+:global {
+    .mi-table {
+        .ant-table-content {
+            &::-webkit-scrollbar {
+                .properties(height, 4);
+            }
+        
+            &::-webkit-scrollbar-thumb {
+                .radius(2);
+                background: var(--mi-primary);
+            }
+        }
+    }
+}
 
 *, :after, :before, [class*=mi-] {
     box-sizing: border-box;
