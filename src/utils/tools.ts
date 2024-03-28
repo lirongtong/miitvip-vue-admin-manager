@@ -358,9 +358,6 @@ class MiTools {
             this.random() +
             this.random() +
             this.random() +
-            this.random() +
-            this.random() +
-            this.random() +
             this.random()
         ).toLocaleUpperCase()
         str = (prefix ?? $g.prefix) + str
