@@ -1,11 +1,46 @@
 <template>
     <mi-quote>
+        <p>
+            「
+            <span class="important">Makeit Admin Pro</span>
+            」致力于提供给程序员愉悦的开发体验。
+        </p>
         <ul>
             <li>
-                框架内置统一的页面布局 / 注册页面 / 登录页面 / 忘记密码 / 滑块验证码组件 / 搜索联想组件 / 动态菜单配置 / 权限管理配置等常用模块，开箱即用的高质量Vue组件。
+                <div>
+                    在开始之前，推荐先学习「
+                    <span class="important">
+                        <mi-link path="https://vuejs.org" target="_blank">Vue</mi-link>
+                    </span>
+                    」和「
+                    <span class="important">
+                        <mi-link path="https://babeljs.io/docs/learn" target="_blank">
+                            ES2015
+                        </mi-link>
+                    </span>
+                    」，并正确安装和配置了「
+                    <span class="important">
+                        <mi-link path="https://nodejs.org" target="_blank">NodeJS</mi-link>
+                    </span>
+                    」v18.18.2 或以上版本。
+                </div>
             </li>
             <li>
-                框架封装了Axios / Cookie / Storage等非常常用的基础功能，如cookie可通过如this.$cookie形式直接调用，同时部分也支持开发人员自行定制，非常易于扩展。
+                <div>
+                    官方指南假设你已了解关于「
+                    <span class="important">HTML / CSS / Javascript</span>
+                    」的中级知识，并且已经完全掌握了「
+                    <span class="important">Vue</span>
+                    」的正确开发方式。
+                </div>
+            </li>
+            <li>
+                <div>
+                    如果你刚开始学习前端或者「
+                    <span class="important">Vue</span>
+                    」，将
+                    <span class="important">UI 框架</span> 作为你的第一步可能不是最好的主意。
+                </div>
             </li>
         </ul>
     </mi-quote>

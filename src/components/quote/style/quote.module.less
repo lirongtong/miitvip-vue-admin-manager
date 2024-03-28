@@ -26,6 +26,42 @@
     a:active {
         color: var(--mi-quote-text);
     }
+
+    .content {
+        p {
+            .properties(margin-top);
+            .properties(margin-bottom);
+
+            @media only screen and (max-width: @mi-sm) {
+                .properties(margin-bottom, 12);
+            }
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        span {
+            display: inline-block;
+        }
+
+        :global {
+            .flex {
+                .flex(center, flex-start);
+                flex-wrap: wrap;
+
+                &.column {
+                    flex-direction: column;
+                }
+            }
+
+            .important {
+                font-weight: bold;
+                .properties(padding-left, 4);
+                .properties(padding-right, 4);
+            }
+        }
+    }
 }
 
 :export {
