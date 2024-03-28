@@ -45,11 +45,11 @@
 
 | Token | 默认值
 | :---- | :----
-| `--mi-layout-ider-logo-text` | `--mi-primary`
-| `--mi-layout-ider-logo-border` | `--mi-primary`
-| `--mi-layout-ider-logo-collapsed` | `--mi-on-background`
-| `--mi-layout-ider-logo-notice` | `--mi-on-background`
-| `--mi-layout-ider-logo-trigger` | `rgba(--mi-rgb-on-surface, .1)`
+| `--mi-layout-sider-logo-text` | `--mi-primary`
+| `--mi-layout-sider-logo-border` | `--mi-primary`
+| `--mi-layout-sider-logo-collapsed` | `--mi-on-background`
+| `--mi-layout-sider-logo-notice` | `--mi-on-background`
+| `--mi-layout-sider-logo-trigger` | `rgba(--mi-rgb-on-surface, .1)`
 
 ## API
 
