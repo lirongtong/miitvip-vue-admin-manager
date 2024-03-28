@@ -62,6 +62,20 @@
 > :lollipop: 设计这套框架的初衷是为了免去中后台管理项目中**基础又重复的页面构建**，将页面内的一系列行为进行封装形成重型组件（**一个组件 ≈ 一个页面**），如基础布局 `Layout`，登录 `Login` / 注册 `Register` / 忘记密码 `Forget` 等页面模块，让开发人员能更加专注于业务内容的开发，无需花费过多的时间在基础构建上，希望可以通过 `Makeit Admin Pro` 系列组件提供快速高效的搭建高质量的中后台应用，现阶段还在不断完善，持续开发更新中 ...
 >
 
+## 效果图
+
+#### 深色主题
+
+[![深色主题](./example/assets/demo-dark.png)](https://admin.makeit.vip)
+
+#### 浅色主题
+
+[![浅色主题](./example/assets/demo-light.png)](https://admin.makeit.vip)
+
+#### 更换主题
+
+[![快速上手](./example/assets/demo-dark-start.png)](https://admin.makeit.vip)
+
 ## 全局应用
 
 :white_check_mark: **主题配置** ( `css modules + css variables` )

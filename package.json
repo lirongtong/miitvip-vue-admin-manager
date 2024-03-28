@@ -1,7 +1,7 @@
 {
     "name": "@miitvip/admin-pro",
     "private": false,
-    "version": "3.1.0-beta.6",
+    "version": "3.1.0-beta.7",
     "type": "module",
     "author": {
         "url": "https://admin.makeit.vip",
@@ -47,7 +47,8 @@
         "dist",
         "lib",
         "es",
-        "typings.d.ts"
+        "typings.d.ts",
+        "example/assets"
     ],
     "main": "lib/index.js",
     "module": "es/index.js",
