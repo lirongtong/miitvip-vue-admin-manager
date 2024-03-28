@@ -44,4 +44,7 @@
             </li>
         </ul>
     </mi-quote>
+    <mi-theme-provider :tokens="{ quote: { text: '#f00' } }">
+        <mi-quote>局部主题配置生效</mi-quote>
+    </mi-theme-provider>
 </template>

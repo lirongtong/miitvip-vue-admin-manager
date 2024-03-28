@@ -29,12 +29,14 @@ class MiTools {
      * @param id
      * @param overwritten 强制覆盖
      * @param append head 末尾追加
+     * @param scopeKey 默认全局
      */
     createCssVariablesElement(
         tokens: string[],
         id?: string,
         overwritten?: boolean,
-        append?: boolean
+        append?: boolean,
+        scopeKey?: string
     ) {
         if (tokens.length > 0) {
             id = id ?? `${$g.prefix}common-css-variables`
@@ -44,7 +46,7 @@ class MiTools {
                 const style = document.createElement('style')
                 style.setAttribute('id', id)
                 style.setAttribute('data-css-hash', Math.random().toString(36).slice(-8))
-                style.textContent = `:root {${tokens.join('')}}`
+                style.textContent = `${scopeKey || `:root`} {${tokens.join('')}}`
                 const head = document.head || document.getElementsByTagName('head')[0]
                 const first = head.firstChild
                 if (append) head.appendChild(style)

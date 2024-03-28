@@ -8,6 +8,7 @@ const MiThemeProvider = defineComponent({
     inheritAttrs: false,
     props: ThemeProviderProps(),
     setup(props, { slots }) {
+        const key = ref<string>($tools.uid(false, `${$g.prefix}theme-provider-scope-`))
         const id = `${$g.prefix}component-custom-provider-css-variables-${$tools.uid(false, '')}`
         const tokens = ref<string[]>([])
         const getCustomTokens = (data: Record<string, any>, name?: string) => {
@@ -28,9 +29,11 @@ const MiThemeProvider = defineComponent({
                 : prefix
         )
 
-        onMounted(() => $tools.createCssVariablesElement(tokens.value, id, true, true))
+        onMounted(() =>
+            $tools.createCssVariablesElement(tokens.value, id, true, true, `#${key.value}`)
+        )
 
-        return () => slots?.default()
+        return () => <div id={key.value}>{slots?.default()}</div>
     }
 })
 
