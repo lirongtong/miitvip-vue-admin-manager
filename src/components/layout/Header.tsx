@@ -3,6 +3,7 @@ import { LayoutHeaderProps } from './props'
 import { getPropSlot } from '../_utils/props'
 import { useMenuStore } from '../../stores/menu'
 import { useLayoutStore } from '../../stores/layout'
+import { useSearchStore } from '../../stores/search'
 import { useI18n } from 'vue-i18n'
 import { $tools } from '../../utils/tools'
 import { $g } from '../../utils/global'
@@ -45,8 +46,9 @@ const MiLayoutHeader = defineComponent({
         const router = useRouter()
         const useLayout = useLayoutStore()
         const useMenu = useMenuStore()
+        const useSearch = useSearchStore()
         const searchKey = ref('title')
-        const searchData = ref(tm('search.data') as SearchData[])
+        const searchData = ref((useSearch.data || tm('search.data')) as SearchData[])
         const dropdownData = ref<Partial<DropdownItem>[]>(
             useMenu.dropdowns.length > 0
                 ? useMenu.dropdowns
