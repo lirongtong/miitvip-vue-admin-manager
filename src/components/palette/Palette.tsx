@@ -58,6 +58,7 @@ const MiPalette = defineComponent({
         }
 
         const handleColorReset = () => {
+            params.open = false
             $storage.set($g.caches.storages.theme.type, 'dark')
             $storage.set($g.caches.storages.theme.hex, params.default)
             params.checked = 'dark'
@@ -68,7 +69,6 @@ const MiPalette = defineComponent({
                 message.destroy()
                 message.success(params.tip)
             }
-            params.open = false
         }
 
         const handleColorSave = () => {
