@@ -99,9 +99,11 @@ const MiPalette = defineComponent({
                         theme="white"
                         pureColor={params.hex}
                         disableHistory={true}
+                        disableAlpha={true}
                         pickerType="chrome"
                         format="hex"
                         onPureColorChange={handleColorChange}
+                        zIndex={Date.now()}
                     />
                 </div>
             )

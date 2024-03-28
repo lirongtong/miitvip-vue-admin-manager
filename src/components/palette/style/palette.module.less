@@ -25,25 +25,40 @@
         width: 100%;
         position: relative;
 
-        :global(.vc-colorpicker) {
-            background-color: transparent;
-            box-shadow: none;
-        }
+        :global {
+            .vc-colorpicker {
+                background-color: transparent;
+                box-shadow: none;
+            }
 
-        :global(.vc-display) {
-            display: none;
-        }
+            .vc-saturation__chrome {
+                margin-bottom: 0;
+            }
 
-        :global(.vc-alpha-slider) {
-            margin-bottom: 0;
-        }
+            .chrome-controls .chrome-sliders {
+                .properties(margin-left, 6);
+                .properties(margin-top, 10);
+            }
 
-        :global(.chrome-sliders) {
-            .properties(margin-left, 6);
-        }
+            .vc-alpha-slider {
+                display: none;
+            }
 
-        :global(.vc-saturation__chrome) {
-            border-radius: 0;
+            .vc-display {
+                .vc-input-toggle,
+                .vc-alpha-input {
+                    display: none;
+                }
+
+                .vc-color-input {
+                    background: var(--mi-palette-background);
+                    border: .0625rem solid var(--mi-palette-border);
+                }
+
+                .vc-current-color {
+                    .properties(width, 60);
+                }
+            }
         }
     }
 
