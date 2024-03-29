@@ -64,17 +64,25 @@
 
 ## 效果图
 
-#### 深色主题
+### 深色主题
 
 [![深色主题](./example/assets/demo-dark.png)](https://admin.makeit.vip)
 
-#### 浅色主题
+### 浅色主题
 
 [![浅色主题](./example/assets/demo-light.png)](https://admin.makeit.vip)
 
-#### 更换主题
+### 更换主题
 
 [![快速上手](./example/assets/demo-dark-start.png)](https://admin.makeit.vip)
+
+### 收合菜单
+
+[![收合菜单](./example/assets/demo-dark-collapsed.png)](https://admin.makeit.vip)
+
+### 手机效果
+
+[![手机效果](./example/assets/demo-mobile.png)](https://admin.makeit.vip)
 
 ## 全局应用
 
@@ -154,7 +162,7 @@
 
 :sparkles: ······
 
-## 安装
+## 安装使用
 
 ```bash
 npm i @miitvip/admin-pro

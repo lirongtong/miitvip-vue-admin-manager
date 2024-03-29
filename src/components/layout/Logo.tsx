@@ -5,6 +5,7 @@ import { $g } from '../../utils/global'
 import { getPropSlot, getPrefixCls } from '../_utils/props'
 import { useI18n } from 'vue-i18n'
 import { useLayoutStore } from '../../stores/layout'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import { __LOGO__ } from '../../utils/images'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
 import MiNotice from '../notice'
@@ -24,17 +25,23 @@ const MiLayoutSiderLogo = defineComponent({
         const { t } = useI18n()
         const title = $g.site || t('global.site')
         const store = useLayoutStore()
+        const { width } = useWindowResize()
         const collapsedState = computed(() => store.collapsed)
         const anim = getPrefixCls('anim-fade')
         applyTheme(styled)
 
         const renderCollapsed = () => {
-            const collapsed = (
-                <div class={styled.trigger} onClick={() => store.updateCollapsed()}>
-                    {!collapsedState.value ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
-                </div>
-            )
-            return getPropSlot(slots, props, 'collapsed') ?? collapsed
+            if (width.value > $g.breakpoints.sm && width.value < $g.breakpoints.md) {
+                store.$patch({ collapsed: true })
+                return null
+            } else
+                return (
+                    getPropSlot(slots, props, 'collapsed') ?? (
+                        <div class={styled.trigger} onClick={() => store.updateCollapsed()}>
+                            {!collapsedState.value ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+                        </div>
+                    )
+                )
         }
 
         const renderNotice = () => {

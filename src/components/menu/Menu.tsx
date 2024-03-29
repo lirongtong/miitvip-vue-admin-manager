@@ -39,19 +39,21 @@ const MiMenu = defineComponent({
             children: {} as { [index: string]: any }
         })
 
-        const setOpenKeys = (openKeys: (string | number)[]) => {
-            let opens: (string | number)[] = []
-            if (openKeys && openKeys.length > 0) {
-                opens = [...openKeys]
-                if (useMenu.accordion) {
-                    const first = openKeys[0]
-                    const last = openKeys[openKeys.length - 1]
-                    if (relationship.menus?.[first] && !relationship.menus?.[first]?.[last]) {
-                        opens = [last]
+        const setOpenKeys = (keys: (string | number)[]) => {
+            if (!collapsed.value) {
+                let opens: (string | number)[] = []
+                if (keys && keys.length > 0) {
+                    opens = [...keys]
+                    if (useMenu.accordion) {
+                        const first = keys[0]
+                        const last = keys[keys.length - 1]
+                        if (relationship.menus?.[first] && !relationship.menus?.[first]?.[last]) {
+                            opens = [last]
+                        }
                     }
                 }
+                useMenu.$patch({ openKeys: opens })
             }
-            useMenu.$patch({ openKeys: opens })
         }
 
         const setRelationshipChain = (data: string[]) => {

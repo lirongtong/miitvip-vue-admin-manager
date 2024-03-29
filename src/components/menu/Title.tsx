@@ -117,7 +117,7 @@ const MiMenuItemTitle = defineComponent({
                 { [styled.active]: activeKeys.value.includes(key) },
                 { [styled.collapsed]: collapsed.value },
                 {
-                    [styled.opened]:
+                    [styled.fold]:
                         props?.activeKey &&
                         relationshipChain.value.includes(props?.activeKey) &&
                         !openKeys.value.includes(props.activeKey)
