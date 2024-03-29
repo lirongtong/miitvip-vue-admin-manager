@@ -17,7 +17,8 @@
         "build:esm": "rollup --config build/rollup.esm.mjs",
         "build:umd": "rollup --config build/rollup.umd.mjs",
         "build:example": "vue-tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "format": "eslint -c ./.eslintrc --fix --ext .jsx,.js,.vue,.ts,.tsx ./src"
     },
     "keywords": [
         "vue",
