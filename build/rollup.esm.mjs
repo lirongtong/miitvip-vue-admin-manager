@@ -88,7 +88,7 @@ const config = defineConfig([
                 preserveModulesRoot: './src'
             }
         ],
-        external: [...externalPackages, /@babel\/runtime/, /style-inject/],
+        external: [...externalPackages, /@babel\/runtime/, /@babel\/runtime-corejs3/, /style-inject/],
         plugins,
         onwarn(warning) {
             if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.exporter === 'vue') return
