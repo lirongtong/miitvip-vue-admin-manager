@@ -30,7 +30,7 @@ class MiRequest {
         this.register()
     }
 
-    private register(): void {
+    register(): void {
         const methods: Method[] = [
             'get',
             'post',
@@ -71,7 +71,7 @@ class MiRequest {
         })
     }
 
-    private async send(config: AxiosRequestConfig, settled?: boolean): Promise<any> {
+    async send(config: AxiosRequestConfig, settled?: boolean): Promise<any> {
         if (!config.timeout) config.timeout = 60000
         return await axios(config)
             .then((res: AxiosResponse) => {

@@ -27,6 +27,7 @@ import * as components from './components'
 export * from './components'
 export * from './stores'
 export * from './utils/types'
+export * from './hooks'
 
 let _init = false
 const install = (app: App) => {

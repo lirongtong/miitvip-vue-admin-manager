@@ -19,3 +19,5 @@ export function useWindowResize() {
 
     return { width, height }
 }
+
+export default useWindowResize
