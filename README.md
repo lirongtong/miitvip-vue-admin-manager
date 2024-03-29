@@ -232,7 +232,7 @@ app.mount('#app')
 </template>
 ```
 
-## 注册主页
+## 注册页面
 
 ```vue
 <template>
