@@ -1,3 +1,4 @@
+export { default as useApi } from './useApi'
 export { default as useGlobal } from './useGlobal'
 export { default as useTools } from './useTools'
 export { default as useRequest } from './useRequest'
