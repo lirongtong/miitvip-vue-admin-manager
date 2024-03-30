@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue'
 import { CodeProps } from './props'
 import { getPropSlot } from '../_utils/props'
+import MiCodeDemo from './Demo'
 import applyTheme from '../_utils/theme'
 import styled from './style/code.module.less'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -32,4 +33,7 @@ const MiCode = defineComponent({
     }
 })
 
-export default MiCode
+MiCode.Demo = MiCodeDemo
+export default MiCode as typeof MiCode & {
+    readonly Demo: typeof MiCodeDemo
+}

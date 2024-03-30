@@ -72,6 +72,7 @@ declare module '@vue/runtime-core' {
         MiDropdown: typeof Dropdown
         MiDropdownItem: typeof Dropdown.Item
         MiCode: typeof Code
+        MiCodeDemo: typeof Code.Demo
         MiTitle: typeof Title
         MiQuote: typeof Quote
         MiModal: typeof Modal

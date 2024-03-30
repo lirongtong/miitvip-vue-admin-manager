@@ -1,4 +1,6 @@
 import { PropTypes } from '../../utils/types'
+import type { DividerProps } from 'ant-design-vue'
+import { object } from 'vue-types'
 
 /**
  * +===================+
@@ -14,4 +16,38 @@ export interface CodeProperties {
 export const CodeProps = () => ({
     language: PropTypes.string.def('html'),
     content: PropTypes.any
+})
+
+/**
+ * +=======================+
+ * |       Code Demo       |
+ * +=======================+
+ * @param title 标题内容
+ * @param titleSetting 标题设置 ( Antdv Divider )
+ * @param summary 摘要
+ * @param result 效果<Slot />
+ * @param animation Code 展示动画
+ * @param language 代码语言
+ * @param code 示例代码
+ *
+ * @see DividerProps
+ */
+export interface CodeDemoProperties {
+    title: string
+    titleSetting: Partial<DividerProps>
+    summary: string
+    result: any
+    animation: string
+    language: string
+    code: string
+}
+
+export const CodeDemoProps = () => ({
+    title: PropTypes.string,
+    titleSetting: object<Partial<DividerProps>>().def({ orientation: 'left' }),
+    summary: PropTypes.string,
+    result: PropTypes.any,
+    animation: PropTypes.string.def('fade'),
+    language: PropTypes.string.def('html'),
+    code: PropTypes.string
 })
