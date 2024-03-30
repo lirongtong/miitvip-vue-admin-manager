@@ -11,7 +11,13 @@ Object.entries(dependencies).forEach(([_key, value]) => globalDependencies[value
 export const externalPackages = [
     ...dependencies,
     ...builtins,
-    /swiper/
+    /swiper/,
+    /prismjs/,
+    /vue3-colorpicker/,
+    /nprogress/,
+    /@babel\/runtime/,
+    /@babel\/runtime-corejs3/,
+    /style-inject/
 ]
 
 export const externalGlobals = Object.assign(globalDependencies, { 'style-inject': 'styleInject' })
