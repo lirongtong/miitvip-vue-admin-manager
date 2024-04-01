@@ -40,7 +40,7 @@ export { default as Palette } from './palette'
 export type { DropdownProperties, DropdownItemProperties } from './dropdown/props'
 export { default as Dropdown } from './dropdown'
 
-export type { CodeProperties } from './code/props'
+export type { CodeProperties, CodeDemoProperties } from './code/props'
 export { default as Code } from './code'
 
 export type { TitleProperties } from './title/props'

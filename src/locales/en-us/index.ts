@@ -8,6 +8,7 @@ import login from './login'
 import register from './register'
 import anchor from './anchor'
 import forget from './forget'
+import code from './code'
 
 export default {
     global,
@@ -19,5 +20,6 @@ export default {
     login,
     register,
     anchor,
-    forget
+    forget,
+    code
 }

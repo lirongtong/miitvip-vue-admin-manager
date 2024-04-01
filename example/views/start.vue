@@ -1,4 +1,5 @@
 <template>
+    <mi-code language="bash" :content="content" />
 </template>
 
 <script setup lang="ts">

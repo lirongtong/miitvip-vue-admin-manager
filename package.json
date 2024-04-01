@@ -58,6 +58,7 @@
     "sideEffects": false,
     "dependencies": {
         "@ant-design/icons-vue": "^7.0.1",
+        "@babel/runtime-corejs3": "^7.23.8",
         "@material/material-color-utilities": "^0.2.7",
         "ant-design-vue": "^4.1.2",
         "axios": "^1.6.2",
@@ -69,11 +70,11 @@
         "style-inject": "^0.3.0",
         "swiper": "^11.0.5",
         "vue": "^3.4.7",
+        "vue-clipboard3": "^2.0.0",
         "vue-i18n": "^9.8.0",
         "vue-router": "^4.2.5",
         "vue-types": "^5.1.1",
-        "vue3-colorpicker": "^2.3.0",
-        "@babel/runtime-corejs3": "^7.23.8"
+        "vue3-colorpicker": "^2.3.0"
     },
     "devDependencies": {
         "@babel/core": "^7.23.7",

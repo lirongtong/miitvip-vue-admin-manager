@@ -25,7 +25,7 @@ export const CodeProps = () => ({
  * @param title 标题内容
  * @param titleSetting 标题设置 ( Antdv Divider )
  * @param summary 摘要
- * @param result 效果<Slot />
+ * @param effect 效果<Slot />
  * @param animation Code 展示动画
  * @param language 代码语言
  * @param code 示例代码
@@ -36,7 +36,7 @@ export interface CodeDemoProperties {
     title: string
     titleSetting: Partial<DividerProps>
     summary: string
-    result: any
+    effect: any
     animation: string
     language: string
     code: string
@@ -46,7 +46,7 @@ export const CodeDemoProps = () => ({
     title: PropTypes.string,
     titleSetting: object<Partial<DividerProps>>().def({ orientation: 'left' }),
     summary: PropTypes.string,
-    result: PropTypes.any,
+    effect: PropTypes.any,
     animation: PropTypes.string.def('fade'),
     language: PropTypes.string.def('html'),
     code: PropTypes.string

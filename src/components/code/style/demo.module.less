@@ -24,6 +24,10 @@
                     .font-size(18);
                     cursor: pointer;
                 }
+
+                .anticon + .anticon {
+                    .properties(margin-left, 16);
+                }
             }
         }
 
@@ -31,6 +35,26 @@
             .properties(margin-top, 24);
             position: relative;
             .transition();
+        }
+
+        .info {
+            :global {
+                .ant-divider-inner-text {
+                    h1,
+                    h2,
+                    h3,
+                    h4, 
+                    h5,
+                    h6 {
+                        margin: 0;
+                        .font-size(16, bold);
+                    }
+                }
+            }
+        }
+
+        .margin-top {
+            .properties(margin-top, 24);
         }
     }
 }
