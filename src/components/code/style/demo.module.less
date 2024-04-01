@@ -19,7 +19,6 @@
 
         @media only screen and (max-width: @mi-sm) {
             .properties(padding);
-            .properties(padding-bottom, 24);
         }
 
         .result {
@@ -29,6 +28,10 @@
         
         .icons {
             .flex();
+
+            @media only screen and (max-width: @mi-sm) {
+                .properties(margin-bottom, 16);
+            }
 
             :global {
                 .anticon {
@@ -43,7 +46,6 @@
         }
 
         .code {
-            .properties(margin-top, 24);
             position: relative;
             .transition();
         }

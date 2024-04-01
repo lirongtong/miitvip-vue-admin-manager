@@ -52,12 +52,20 @@
             .properties(margin-bottom, 96);
         }
 
+        @media only screen and (max-width: @mi-sm) {
+            .properties(padding, 24);
+        }
+
         .title {
             .font-size(32, bold);
             .letter-spacing(4);
             .gradient-text();
             z-index: @mi-zindex + 100;
             .flex();
+
+            @media only screen and (max-width: @mi-xs) {
+                .font-size(28, bold);
+            }
 
             sup {
                 .properties(margin-left);

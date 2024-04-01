@@ -315,7 +315,8 @@ const MiLogin = defineComponent({
                                 backgroundImage: `url(${
                                     props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
                                 })`
-                            }}>
+                            }}
+                            key={$tools.uid()}>
                             <Row class={styled.content}>
                                 <Col class={styled.inner} xs={24} sm={18} md={12} lg={12}>
                                     {renderMask()}
