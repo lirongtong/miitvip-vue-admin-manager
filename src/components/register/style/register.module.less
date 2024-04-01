@@ -48,6 +48,10 @@
 		.properties(margin-bottom, 72);
         position: relative;
 
+        @media only screen and (min-width: @mi-lg) {
+            .properties(min-width, 420);
+        }
+
         .title {
             .font-size(32, bold);
             .letter-spacing(4);
