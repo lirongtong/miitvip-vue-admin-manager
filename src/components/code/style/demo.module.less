@@ -11,6 +11,16 @@
         .properties(padding, 24);
         position: relative;
 
+        @media only screen and (max-width: @mi-md) {
+            .properties(padding, 16);
+        }
+
+        @media only screen and (max-width: @mi-sm) {
+            .properties(padding);
+            .properties(padding-top, 16);
+            .properties(padding-bottom, 16);
+        }
+
         .result {
             .radius(8);
             overflow: hidden;
