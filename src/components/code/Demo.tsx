@@ -1,4 +1,4 @@
-import { Transition, defineComponent, ref } from 'vue'
+import { SlotsType, Transition, defineComponent, ref } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { CodeDemoProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -13,6 +13,9 @@ const MiCodeDemo = defineComponent({
     name: 'MiCodeDemo',
     inheritAttrs: false,
     props: CodeDemoProps(),
+    slots: Object as SlotsType<{
+        effect: any
+    }>,
     setup(props, { slots }) {
         const { t } = useI18n()
         const { toClipboard } = useClipboard()
@@ -30,7 +33,7 @@ const MiCodeDemo = defineComponent({
         return () => (
             <div class={styled.container}>
                 <div class={styled.inner}>
-                    <div class={styled.result}>{getPropSlot(slots, props, 'result')}</div>
+                    <div class={styled.result}>{getPropSlot(slots, props, 'effect')}</div>
                     <div class={styled.info}>
                         {props.title ? (
                             <Divider {...props.titleSetting}>
