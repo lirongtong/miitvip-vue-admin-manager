@@ -1,10 +1,5 @@
 <template>
     <mi-code language="bash" :content="content" />
-    <mi-code-demo title="基本用法" summary="最基础的用法效果" language="bash" :code="content">
-        <template #effect>
-            <mi-login action="" :footer="false" />
-        </template>
-    </mi-code-demo>
 </template>
 
 <script setup lang="ts">
