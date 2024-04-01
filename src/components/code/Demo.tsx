@@ -47,24 +47,26 @@ const MiCodeDemo = defineComponent({
                             </>
                         ) : null}
                     </div>
-                    <div
-                        class={[
-                            styled.icons,
-                            { [styled.marginTop]: !props.title && !props.summary }
-                        ]}>
-                        <Tooltip title={copied.value ? t('code.copied') : t('code.copy')}>
-                            <CopyOutlined onClick={handleCopy} />
-                        </Tooltip>
-                        <Tooltip title={t('code.show')}>
-                            <CodeOutlined onClick={() => (open.value = !open.value)} />
-                        </Tooltip>
-                    </div>
                     {props.code ? (
-                        <Transition name={anim} appear={true}>
-                            <div class={styled.code} v-show={open.value}>
-                                <MiCode language={props.language} content={props.code || ''} />
+                        <>
+                            <div
+                                class={[
+                                    styled.icons,
+                                    { [styled.marginTop]: !props.title && !props.summary }
+                                ]}>
+                                <Tooltip title={copied.value ? t('code.copied') : t('code.copy')}>
+                                    <CopyOutlined onClick={handleCopy} />
+                                </Tooltip>
+                                <Tooltip title={t('code.show')}>
+                                    <CodeOutlined onClick={() => (open.value = !open.value)} />
+                                </Tooltip>
                             </div>
-                        </Transition>
+                            <Transition name={anim} appear={true}>
+                                <div class={styled.code} v-show={open.value}>
+                                    <MiCode language={props.language} content={props.code || ''} />
+                                </div>
+                            </Transition>
+                        </>
                     ) : null}
                 </div>
             </div>
