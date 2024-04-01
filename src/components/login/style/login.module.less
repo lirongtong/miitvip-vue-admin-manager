@@ -48,6 +48,10 @@
 		.properties(margin-bottom, 72);
         position: relative;
 
+        @media only screen and (min-width: @mi-lg) {
+            .properties(min-width, 420);
+        }
+
         @media only screen and (max-width: @mi-lg) and (min-width: @mi-sm) {
             .properties(margin-bottom, 96);
         }
