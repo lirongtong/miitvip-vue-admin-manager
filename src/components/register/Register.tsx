@@ -244,6 +244,7 @@ const MiRegister = defineComponent({
             const tip = renderUsernameTip()
             const input = (
                 <Input
+                    id={$tools.uid()}
                     prefix={createVNode(UserOutlined)}
                     v-model:value={params.form.validate.username}
                     maxlength={32}
@@ -278,6 +279,7 @@ const MiRegister = defineComponent({
             return (
                 <Form.Item name="email" class={styled.item}>
                     <Input
+                        id={$tools.uid()}
                         type="email"
                         prefix={createVNode(MailOutlined)}
                         v-model:value={params.form.validate.email}

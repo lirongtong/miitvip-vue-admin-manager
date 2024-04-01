@@ -182,6 +182,7 @@ const MiLogin = defineComponent({
             return (
                 <Form.Item name="username" class={styled.item}>
                     <Input
+                        id={$tools.uid()}
                         prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
                         maxlength={64}
