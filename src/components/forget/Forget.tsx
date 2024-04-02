@@ -242,6 +242,7 @@ const MiForget = defineComponent({
 
         const handleCaptchaSuccess = (data?: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
+            params.form.validate.captcha = true
             params.captcha = true
             if (formRef.value) formRef.value.validateFields(['captcha'])
             emit('captchaSuccess', data)
