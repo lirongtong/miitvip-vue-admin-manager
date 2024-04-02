@@ -80,7 +80,7 @@ const MiForget = defineComponent({
                     captcha: false,
                     cuid: null,
                     code: null,
-                    uuid: $g?.caches?.storages?.password?.reset?.uid || null
+                    uuid: $storage.get($g?.caches?.storages?.password?.reset?.uid) || null
                 },
                 rules: {
                     username: [{ required: true, validator: validateUserName }],
