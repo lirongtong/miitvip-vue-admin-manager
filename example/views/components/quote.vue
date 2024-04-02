@@ -45,36 +45,6 @@
         </ul>
     </mi-quote>
 
-    <mi-quote>
-        <ul>
-            <li>
-                忘记密码组件属于「
-                <span class="important">重型组件</span>
-                」，即
-                <span class="important">一个组件 ≈ 一个页面</span>
-                。
-            </li>
-            <div class="flex">
-                <div class="btn">必传属性</div>
-            </div>
-            <ul>
-                <li>
-                    <span class="important">sendCodeAction - 发送验证码</span>
-                    接口地址或自定义逻辑处理方法。
-                </li>
-                <li>
-                    <span class="important">checkCodeAction - 校验验证码</span>
-                    接口地址或自定义逻辑处理方法。
-                </li>
-                <li>
-                    <span class="important">resetPasswordAction - 重置密码</span>
-                    接口地址或自定义逻辑处理方法。
-                </li>
-            </ul>
-            <li>你好</li>
-        </ul>
-    </mi-quote>
-
     <mi-theme-provider :tokens="{ quote: { text: '#f00' } }">
         <mi-quote>局部主题配置生效</mi-quote>
     </mi-theme-provider>
