@@ -18,8 +18,8 @@ class MiRequest {
         axios.interceptors.request.use(
             (config: any) => {
                 const token =
-                    $cookie.get($g.caches.cookies.token.access) ||
-                    $storage.get($g.caches.storages.token.access)
+                    $cookie.get($g?.caches?.cookies?.token?.access) ||
+                    $storage.get($g?.caches?.storages?.token?.access)
                 if (token) config.headers.Authorization = `Bearer ${token}`
                 return config
             },
