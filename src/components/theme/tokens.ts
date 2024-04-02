@@ -601,11 +601,19 @@ export interface PaletteBtnTokens {
  * +=======================+
  * @param text 文案
  * @param bacground 背景色
+ * @param btn 按钮配色
  */
 export interface QuoteTokens {
     [key: string]: any
     text: string
     bacground: Partial<GradientTokens>
+    btn: {
+        [key: string]: any
+        text: string
+        border: string
+        shadow: string
+        gradient: Partial<GradientTokens>
+    }
 }
 
 /**

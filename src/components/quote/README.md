@@ -28,6 +28,11 @@
 | `--mi-quote-background-start` | `--mi-primary`
 | `--mi-quote-background-hint` | `--mi-secondary`
 | `--mi-quote-background-stop` | `--mi-tertiary`
+| `--mi-quote-btn-gradient-start` | `--mi-surface`
+| `--mi-quote-btn-gradient-stop` | `--mi-surface-variant`
+| `--mi-quote-btn-text` | `--mi-on-surface-variant`
+| `--mi-quote-btn-border` | `transparent`
+| `--mi-quote-btn-shadow` | `--mi-shadow`
 
 ## API
 
