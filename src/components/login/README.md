@@ -128,6 +128,7 @@ const handleLogin = (data?: LoginFormParams) => {
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
 | `title` | `string` | `''` | 标题
+| `video` | `string` | `''` | 视频背景 ( 优先级高于 `background` )
 | `background` | `string` | `默认图` | 背景图
 | `rules` | `object` | `{}` | 表单自定义校验规则
 | `content` | `vSlot` | `''` | 自定义表单内容区域

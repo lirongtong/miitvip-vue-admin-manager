@@ -46,6 +46,7 @@ const MiLogin = defineComponent({
         const auth = useAuthStore()
         const route = useRoute()
         const router = useRouter()
+        const videoRef = ref<HTMLVideoElement>()
         const formRef = ref<FormInstance>()
         const passwordFormRef = ref<FormInstance>()
         const { width } = useWindowResize()
@@ -153,8 +154,25 @@ const MiLogin = defineComponent({
             emit('captchaSuccess', data)
         }
 
+        const renderVideo = () => {
+            return props.video ? (
+                <div ref={videoRef} class={styled.video}>
+                    <div class={styled.videoInner}>
+                        <video
+                            src={props.video}
+                            muted={true}
+                            playsinline={true}
+                            preload="auto"
+                            autoplay={true}
+                            loop={true}
+                        />
+                    </div>
+                </div>
+            ) : null
+        }
+
         const renderMask = () => {
-            return width.value < $g.breakpoints.md ? null : <div class={styled.mask} />
+            return width.value < $g.breakpoints.sm ? null : <div class={styled.mask} />
         }
 
         const renderTitle = () => {
@@ -312,12 +330,17 @@ const MiLogin = defineComponent({
                     <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                         <div
                             class={styled.container}
-                            style={{
-                                backgroundImage: `url(${
-                                    props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
-                                })`
-                            }}
+                            style={
+                                !props.video
+                                    ? {
+                                          backgroundImage: `url(${
+                                              props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
+                                          })`
+                                      }
+                                    : null
+                            }
                             key={$tools.uid()}>
+                            {renderVideo()}
                             <Row class={styled.content}>
                                 <Col class={styled.inner} xs={24} sm={18} md={12} lg={12}>
                                     {renderMask()}

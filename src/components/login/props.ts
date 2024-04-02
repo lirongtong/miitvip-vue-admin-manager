@@ -9,6 +9,7 @@ import { SocialiteProperties } from '../socialite/props'
  * |       Login        |
  * +====================+
  * @param title 标题
+ * @param video 背景视频
  * @param background 背景图
  * @param rules Form Rules 校验
  * @param content 内容配置<Slot />
@@ -25,6 +26,7 @@ import { SocialiteProperties } from '../socialite/props'
  */
 export interface LoginProperties {
     title: string
+    video: string
     background: string
     rules: object
     content: VNodeTypes
@@ -40,6 +42,7 @@ export interface LoginProperties {
 
 export const LoginProps = () => ({
     title: PropTypes.string,
+    video: PropTypes.string,
     background: PropTypes.string.def(undefined),
     rules: PropTypes.object.def({}),
     content: PropTypes.any,
