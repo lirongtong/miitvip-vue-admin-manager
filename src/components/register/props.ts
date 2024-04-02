@@ -10,6 +10,7 @@ import type { SocialiteProperties } from './../socialite/props'
  * |       Register        |
  * +=======================+
  * @param title 标题
+ * @param video 背景视频 ( 优先级高于 `background` )
  * @param background 背景图
  * @param rules Form Rules 校验
  * @param content 内容配置<Slot />
@@ -29,6 +30,7 @@ import type { SocialiteProperties } from './../socialite/props'
  */
 export interface RegisterProperties {
     title: string
+    video: string
     background: string
     rules: object
     content: VNodeTypes
@@ -46,6 +48,7 @@ export interface RegisterProperties {
 
 export const RegisterProps = () => ({
     title: PropTypes.string,
+    video: PropTypes.string,
     background: PropTypes.string.def(undefined),
     rules: PropTypes.object.def({}),
     content: PropTypes.any,

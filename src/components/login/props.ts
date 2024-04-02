@@ -9,7 +9,7 @@ import { SocialiteProperties } from '../socialite/props'
  * |       Login        |
  * +====================+
  * @param title 标题
- * @param video 背景视频
+ * @param video 背景视频 ( 优先级高于 `background` )
  * @param background 背景图
  * @param rules Form Rules 校验
  * @param content 内容配置<Slot />
