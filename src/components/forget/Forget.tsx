@@ -40,6 +40,7 @@ const MiForget = defineComponent({
         const { width } = useWindowResize()
         const router = useRouter()
         const formRef = ref<FormInstance>()
+        const videoRef = ref<HTMLVideoElement>()
         const passwordFormRef = ref<FormInstance>()
         const updateFormRef = ref<FormInstance>()
 
@@ -315,6 +316,23 @@ const MiForget = defineComponent({
             }
         }
 
+        const renderVideo = () => {
+            return props.video ? (
+                <div ref={videoRef} class={styled.video}>
+                    <div class={styled.videoInner}>
+                        <video
+                            src={props.video}
+                            muted={true}
+                            playsinline={true}
+                            preload="auto"
+                            autoplay={true}
+                            loop={true}
+                        />
+                    </div>
+                </div>
+            ) : null
+        }
+
         const renderMask = () => {
             return width.value < $g.breakpoints.md ? null : <div class={styled.mask} />
         }
@@ -498,11 +516,16 @@ const MiForget = defineComponent({
                 <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                     <div
                         class={styled.container}
-                        style={{
-                            backgroundImage: `url(${
-                                props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
-                            })`
-                        }}>
+                        style={
+                            !props.video
+                                ? {
+                                      backgroundImage: `url(${
+                                          props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
+                                      })`
+                                  }
+                                : null
+                        }>
+                        {renderVideo()}
                         <Row class={styled.content}>
                             <Col class={styled.inner} xs={24} sm={18} md={12} lg={12}>
                                 {renderMask()}
