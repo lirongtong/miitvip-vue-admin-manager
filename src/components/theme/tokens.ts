@@ -81,6 +81,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param forget 忘记密码
  * @param login 登录页面
  * @param register 注册页面
+ * @param socialite 社会化登录
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -99,6 +100,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see AnchorTokens
  * @see BacktopTokens
  * @see PassportTokens
+ * @see SocialiteTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -121,6 +123,7 @@ export interface ComponentTokens {
     forget: Partial<PassportTokens>
     login: Partial<PassportTokens>
     register: Partial<PassportTokens>
+    socialite: Partial<SocialiteTokens>
 }
 
 /**
@@ -761,10 +764,6 @@ export interface PasswordStrengthItemTokens {
  * +=======================+
  * |        锚点连接        |
  * +=======================+
- * @param border 边框
- * @param background 背景色
- * @param text 文本
- * @param link 连接文本
  */
 export interface AnchorTokens {
     [key: string]: any
@@ -781,8 +780,6 @@ export interface AnchorTokens {
  * +=======================+
  * |        回到顶部        |
  * +=======================+
- * @param icon 图标
- * @param background 背景色
  */
 export interface BacktopTokens {
     [key: string]: any
@@ -837,6 +834,31 @@ export interface PassportTokens {
                     text: string
                 }
             >
+        }>
+    }>
+}
+
+/**
+ * +=========================+
+ * |        社会化登录        |
+ * +=========================+
+ */
+export interface SocialiteTokens {
+    [key: string]: any
+    icon: string
+    title: Partial<{
+        [key: string]: any
+        text: string
+    }>
+    mobile: Partial<{
+        [key: string]: any
+        text: string
+        line: string
+        icon: string
+        title: Partial<{
+            [key: string]: any
+            text: string
+            background: Partial<GradientTokens>
         }>
     }>
 }
