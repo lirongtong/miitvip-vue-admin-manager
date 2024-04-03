@@ -29,7 +29,7 @@ const MiLayoutContent = defineComponent({
                     <RouterView
                         v-slots={{
                             default: ({ Component }: RouterViewSlot) => {
-                                return (
+                                return Component ? (
                                     <Transition name={animation} appear={true}>
                                         <div class={styled.box}>
                                             {createVNode(Component)}
@@ -47,7 +47,7 @@ const MiLayoutContent = defineComponent({
                                             ) : null}
                                         </div>
                                     </Transition>
-                                )
+                                ) : null
                             }
                         }}
                     />
