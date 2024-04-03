@@ -77,6 +77,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param title 标题设置
  * @param password 密码设置
  * @param anchor 锚点连接
+ * @param backtop 回到顶部
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -93,6 +94,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see TitleTokens
  * @see PasswordTokens
  * @see AnchorTokens
+ * @see BacktopTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -111,6 +113,7 @@ export interface ComponentTokens {
     title: Partial<TitleTokens>
     password: Partial<PasswordTokens>
     anchor: Partial<AnchorTokens>
+    backtop: Partial<BacktopTokens>
 }
 
 /**
@@ -765,4 +768,17 @@ export interface AnchorTokens {
         [key: string]: any
         text: Partial<ColorStateTokens>
     }>
+}
+
+/**
+ * +=======================+
+ * |        回到顶部        |
+ * +=======================+
+ * @param icon 图标
+ * @param background 背景色
+ */
+export interface BacktopTokens {
+    [key: string]: any
+    icon: string
+    background: Partial<GradientTokens>
 }
