@@ -76,6 +76,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param search 联想搜索
  * @param title 标题设置
  * @param password 密码设置
+ * @param anchor 锚点连接
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -91,6 +92,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see SearchTokens
  * @see TitleTokens
  * @see PasswordTokens
+ * @see AnchorTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -108,6 +110,7 @@ export interface ComponentTokens {
     search: Partial<SearchTokens>
     title: Partial<TitleTokens>
     password: Partial<PasswordTokens>
+    anchor: Partial<AnchorTokens>
 }
 
 /**
@@ -742,4 +745,24 @@ export interface PasswordStrengthItemTokens {
     success: string
     tips: string
     background: Partial<ColorStateTokens>
+}
+
+/**
+ * +=======================+
+ * |        锚点连接        |
+ * +=======================+
+ * @param border 边框
+ * @param background 背景色
+ * @param text 文本
+ * @param link 连接文本
+ */
+export interface AnchorTokens {
+    [key: string]: any
+    border: string
+    background: Partial<GradientTokens>
+    text: string
+    link: Partial<{
+        [key: string]: any
+        text: Partial<ColorStateTokens>
+    }>
 }
