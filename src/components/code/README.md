@@ -50,6 +50,10 @@ def getTime():
 | `--mi-code-dot-red` | `--mi-primary`
 | `--mi-code-dot-orange` | `--mi-secondary`
 | `--mi-code-dot-green` | `--mi-tertiary`
+| `--mi-code-copy-icon` | `--mi-surface`
+| `--mi-code-copy-background-start` | `--mi-primary`
+| `--mi-code-copy-background-hint` | `--mi-secondary`
+| `--mi-code-copy-background-stop` | `--mi-tertiary`
 
 ## API
 
@@ -61,3 +65,4 @@ def getTime():
 | :---- | :---- | :---- | :----
 | `language` | `string` | `html` | 语言
 | `content` | `string \| vSlot` | `''` | 内容
+| `canCopy` | `boolean` | `true` | 是否开启复制功能

@@ -479,6 +479,7 @@ export interface BreadcrumbTokens {
  * @param background 背景
  * @param border 边框
  * @param dot 点
+ * @param copy 复制按钮
  */
 export interface CodeTokens {
     [key: string]: any
@@ -490,6 +491,11 @@ export interface CodeTokens {
         red: string
         orange: string
         green: string
+    }>
+    copy: Partial<{
+        [key: string]: any
+        icon: string
+        background: Partial<GradientTokens>
     }>
 }
 
@@ -607,13 +613,13 @@ export interface QuoteTokens {
     [key: string]: any
     text: string
     bacground: Partial<GradientTokens>
-    btn: {
+    btn: Partial<{
         [key: string]: any
         text: string
         border: string
         shadow: string
         gradient: Partial<GradientTokens>
-    }
+    }>
 }
 
 /**

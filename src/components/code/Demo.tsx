@@ -26,7 +26,10 @@ const MiCodeDemo = defineComponent({
 
         const handleCopy = async () => {
             await toClipboard(props.code)
-                .then(() => (copied.value = true))
+                .then(() => {
+                    copied.value = true
+                    setTimeout(() => (copied.value = false), 3000)
+                })
                 .catch(() => (copied.value = false))
         }
 
@@ -54,10 +57,12 @@ const MiCodeDemo = defineComponent({
                                     styled.icons,
                                     { [styled.marginTop]: !props.title && !props.summary }
                                 ]}>
-                                <Tooltip title={copied.value ? t('code.copied') : t('code.copy')}>
+                                <Tooltip
+                                    title={copied.value ? t('code.copied') : t('code.copy')}
+                                    overlayStyle={{ zIndex: Date.now() }}>
                                     <CopyOutlined onClick={handleCopy} />
                                 </Tooltip>
-                                <Tooltip title={t('code.show')}>
+                                <Tooltip title={t('code.show')} style={{ zIndex: Date.now() }}>
                                     <CodeOutlined onClick={() => (open.value = !open.value)} />
                                 </Tooltip>
                             </div>

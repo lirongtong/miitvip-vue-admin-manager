@@ -8,14 +8,17 @@ import { object } from 'vue-types'
  * +===================+
  * @param language 语言类型
  * @param content 代码内容<Slot />
+ * @param canCopy 开启复制代码的按钮
  */
 export interface CodeProperties {
     language: string
     content: any
+    canCopy: boolean
 }
 export const CodeProps = () => ({
     language: PropTypes.string.def('html'),
-    content: PropTypes.any
+    content: PropTypes.any,
+    canCopy: PropTypes.bool.def(true)
 })
 
 /**

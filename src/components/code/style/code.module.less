@@ -3,6 +3,28 @@
 .container {
     position: relative;
 
+    .copy {
+        position: absolute;
+        .properties(right, 16);
+        .properties(top, 16);
+        .properties(width, 36);
+        .properties(height, 36);
+        .circle();
+        overflow: hidden;
+        .flex();
+        cursor: pointer;
+        .gradient-hint(var(--mi-code-copy-background-start), var(--mi-code-copy-background-hint), var(--mi-code-copy-background-stop));
+        .transition();
+        backdrop-filter: blur(1rem);
+
+        :global {
+            .anticon {
+                .font-size(16);
+                color: var(--mi-code-copy-icon);
+            }
+        }
+    }
+
     :global {
         pre[class*="language-"] {
             .properties(padding, 16);
@@ -87,4 +109,8 @@
     --code-dot-red: var(--mi-primary);
     --code-dot-orange: var(--mi-secondary);
     --code-dot-green: var(--mi-tertiary);
+    --code-copy-icon: var(--mi-surface);
+    --code-copy-background-start: var(--mi-primary);
+    --code-copy-background-hint: var(--mi-secondary);
+    --code-copy-background-stop: var(--mi-tertiary);
 }
