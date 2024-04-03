@@ -1,6 +1,6 @@
-import { defineComponent, Transition, createVNode, ref, computed } from 'vue'
+import { defineComponent, Transition, createVNode, ref, computed, type SlotsType } from 'vue'
 import { LayoutContentProps } from './props'
-import { getPrefixCls } from '../_utils/props'
+import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { RouterViewSlot } from '../../utils/types'
 import { useRoute, RouterView } from 'vue-router'
 import { useLayoutStore } from '../../stores/layout'
@@ -13,7 +13,11 @@ const MiLayoutContent = defineComponent({
     name: 'MiLayoutContent',
     inheritAttrs: false,
     props: LayoutContentProps(),
-    setup(props) {
+    slots: Object as SlotsType<{
+        default: any
+        content: any
+    }>,
+    setup(props, { slots }) {
         const route = useRoute()
         const store = useLayoutStore()
         const collapsed = computed(() => store.collapsed)
@@ -26,31 +30,33 @@ const MiLayoutContent = defineComponent({
         return () => (
             <main class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
                 <div ref={container} class={styled.inner} key={route.name}>
-                    <RouterView
-                        v-slots={{
-                            default: ({ Component }: RouterViewSlot) => {
-                                return Component ? (
-                                    <Transition name={animation} appear={true}>
-                                        <div class={styled.box}>
-                                            {createVNode(Component)}
-                                            {props.showBacktop ? (
-                                                <MiBacktop
-                                                    listenerContainer={listenerContainer.value}
-                                                    {...props.backtopSetting}
-                                                />
-                                            ) : null}
-                                            {props.showAnchor ? (
-                                                <MiAnchor
-                                                    listenerContainer={listenerContainer.value}
-                                                    {...props.anchorSetting}
-                                                />
-                                            ) : null}
-                                        </div>
-                                    </Transition>
-                                ) : null
-                            }
-                        }}
-                    />
+                    {getPropSlot(slots, props, 'content') ?? (
+                        <RouterView
+                            v-slots={{
+                                default: ({ Component }: RouterViewSlot) => {
+                                    return Component ? (
+                                        <Transition name={animation} appear={true}>
+                                            <div class={styled.box}>
+                                                {createVNode(Component)}
+                                                {props.showBacktop ? (
+                                                    <MiBacktop
+                                                        listenerContainer={listenerContainer.value}
+                                                        {...props.backtopSetting}
+                                                    />
+                                                ) : null}
+                                                {props.showAnchor ? (
+                                                    <MiAnchor
+                                                        listenerContainer={listenerContainer.value}
+                                                        {...props.anchorSetting}
+                                                    />
+                                                ) : null}
+                                            </div>
+                                        </Transition>
+                                    ) : null
+                                }
+                            }}
+                        />
+                    )}
                 </div>
             </main>
         )

@@ -9,6 +9,7 @@ import type { AnchorProperties } from '../anchor/props'
 /**
  * 布局属性
  * @param showBreadcrumbs 是否显示面包屑
+ * @param content 内容区域<Slot />
  * @param contentSetting 内容组件的配置参数
  * @param header 顶栏<Slot />
  * @param headerSetting 顶栏组件的配置参数
@@ -20,6 +21,7 @@ export interface LayoutProperties {
     showBreadcrumbs: boolean
     header: any
     sider: any
+    content: any
     footer: any
     headerSetting: Partial<LayoutHeaderProperties>
     siderSetting: Partial<LayoutSiderProperties>
@@ -29,6 +31,7 @@ export const LayoutProps = () => ({
     showBreadcrumbs: PropTypes.bool.def(true),
     header: PropTypes.any,
     sider: PropTypes.any,
+    content: PropTypes.any,
     footer: PropTypes.any,
     headerSetting: object<Partial<LayoutHeaderProperties>>(),
     siderSetting: object<Partial<LayoutSiderProperties>>(),
@@ -112,7 +115,7 @@ export const LayoutSiderLogoProps = () => ({
 /**
  * 布局内容属性
  * @param animation 切换动画
- * @param footer 页脚配置 <Slot />
+ * @param content 内容区域 <Slot />
  * @param showBacktop 是否显示返回顶部
  * @param backtopSetting 回到顶部配置
  * @param showAnchor 是否显示锚点
@@ -122,7 +125,7 @@ export const LayoutSiderLogoProps = () => ({
  */
 export interface LayoutContentProperties {
     animation?: string
-    footer?: any
+    content?: any
     showBacktop?: boolean
     backtopSetting?: Partial<BacktopProperties>
     showAnchor?: boolean
@@ -134,5 +137,5 @@ export const LayoutContentProps = () => ({
     backtopSetting: object<Partial<BacktopProperties>>(),
     showAnchor: PropTypes.bool.def(true),
     anchorSetting: object<Partial<AnchorProperties>>(),
-    footer: PropTypes.any
+    content: PropTypes.any
 })

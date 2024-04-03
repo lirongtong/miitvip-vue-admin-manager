@@ -22,6 +22,7 @@ const MiLayout = defineComponent({
         default: any
         header: any
         sider: any
+        content: any
         footer: any
     }>,
     props: LayoutProps(),
@@ -66,7 +67,10 @@ const MiLayout = defineComponent({
                                     {...props.headerSetting}
                                 />
                             )}
-                            <MiLayoutContent {...props.contentSetting} />
+                            <MiLayoutContent
+                                content={getPropSlot(slots, props, 'content')}
+                                {...props.contentSetting}
+                            />
                             {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
                         </div>
                     </section>
