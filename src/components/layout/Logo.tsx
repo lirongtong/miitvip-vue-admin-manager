@@ -70,7 +70,9 @@ const MiLayoutSiderLogo = defineComponent({
             <RouterLink to={{ path: '/' }} class={styled.site}>
                 {renderLogo}
                 <Transition name={anim} appear={true}>
-                    {title && !collapsedState.value ? <h3 innerHTML={title} /> : null}
+                    {title && !collapsedState.value ? (
+                        <div class={styled.siteTitle} innerHTML={title} />
+                    ) : null}
                 </Transition>
             </RouterLink>
         )
