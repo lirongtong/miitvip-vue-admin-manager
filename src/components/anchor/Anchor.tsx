@@ -227,7 +227,10 @@ const MiAnchor = defineComponent({
                             class={styled.anchor}
                             key={params.id}
                             onMouseleave={handleMouseleaveAnchor}
-                            style={{ ...$tools.wrapPositionOrSpacing(props.position) }}
+                            style={{
+                                ...$tools.wrapPositionOrSpacing(props.position),
+                                zIndex: Date.now()
+                            }}
                             v-show={params.open}>
                             <div class={styled.anchorTitle}>
                                 <div class={styled.anchorIcon}>
@@ -259,7 +262,10 @@ const MiAnchor = defineComponent({
                             class={styled.sticky}
                             key={params.key}
                             onMouseenter={handleMouseenterSticky}
-                            style={{ ...$tools.wrapPositionOrSpacing(props.position) }}
+                            style={{
+                                ...$tools.wrapPositionOrSpacing(props.position),
+                                zIndex: Date.now()
+                            }}
                             v-show={params.sticky}>
                             <CaretLeftOutlined />
                             <div class={styled.stickyText}>{...params.affixText}</div>
