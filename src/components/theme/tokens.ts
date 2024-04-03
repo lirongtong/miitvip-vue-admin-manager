@@ -80,6 +80,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param backtop 回到顶部
  * @param forget 忘记密码
  * @param login 登录页面
+ * @param register 注册页面
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -97,8 +98,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see PasswordTokens
  * @see AnchorTokens
  * @see BacktopTokens
- * @see ForgetTokens
- * @see LoginTokens
+ * @see PassportTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -118,8 +118,9 @@ export interface ComponentTokens {
     password: Partial<PasswordTokens>
     anchor: Partial<AnchorTokens>
     backtop: Partial<BacktopTokens>
-    forget: Partial<ForgetTokens>
-    login: Partial<LoginTokens>
+    forget: Partial<PassportTokens>
+    login: Partial<PassportTokens>
+    register: Partial<PassportTokens>
 }
 
 /**
@@ -790,16 +791,20 @@ export interface BacktopTokens {
 }
 
 /**
- * +=======================+
- * |        忘记密码        |
- * +=======================+
+ * +=====================================+
+ * |        登录 & 注册 & 忘记密码        |
+ * +=====================================+
  */
-export interface ForgetTokens {
+export interface PassportTokens {
     [key: string]: any
     mask: string
     logo: Partial<{
         [key: string]: any
         border: string
+    }>
+    tip: Partial<{
+        [key: string]: any
+        important: string
     }>
     form: Partial<{
         [key: string]: any
@@ -827,44 +832,6 @@ export interface ForgetTokens {
         resend: Partial<{
             [key: string]: any
             btn: Partial<
-                GradientTokens & {
-                    [key: string]: any
-                    text: string
-                }
-            >
-        }>
-    }>
-}
-
-/**
- * +=======================+
- * |        登录页面        |
- * +=======================+
- */
-export interface LoginTokens {
-    [key: string]: any
-    mask: string
-    logo: Partial<{
-        [key: string]: any
-        border: string
-    }>
-    form: Partial<{
-        [key: string]: any
-        text: string
-        error: string
-        input: Partial<{
-            [key: string]: any
-            border: string
-        }>
-        btn: Partial<{
-            [key: string]: any
-            default: Partial<
-                GradientTokens & {
-                    [key: string]: any
-                    text: string
-                }
-            >
-            active: Partial<
                 GradientTokens & {
                     [key: string]: any
                     text: string
