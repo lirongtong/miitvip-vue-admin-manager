@@ -79,6 +79,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @param anchor 锚点连接
  * @param backtop 回到顶部
  * @param forget 忘记密码
+ * @param login 登录页面
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -97,6 +98,7 @@ export interface ThemeTokens extends ThemeConfig {
  * @see AnchorTokens
  * @see BacktopTokens
  * @see ForgetTokens
+ * @see LoginTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -117,6 +119,7 @@ export interface ComponentTokens {
     anchor: Partial<AnchorTokens>
     backtop: Partial<BacktopTokens>
     forget: Partial<ForgetTokens>
+    login: Partial<LoginTokens>
 }
 
 /**
@@ -824,6 +827,44 @@ export interface ForgetTokens {
         resend: Partial<{
             [key: string]: any
             btn: Partial<
+                GradientTokens & {
+                    [key: string]: any
+                    text: string
+                }
+            >
+        }>
+    }>
+}
+
+/**
+ * +=======================+
+ * |        登录页面        |
+ * +=======================+
+ */
+export interface LoginTokens {
+    [key: string]: any
+    mask: string
+    logo: Partial<{
+        [key: string]: any
+        border: string
+    }>
+    form: Partial<{
+        [key: string]: any
+        text: string
+        error: string
+        input: Partial<{
+            [key: string]: any
+            border: string
+        }>
+        btn: Partial<{
+            [key: string]: any
+            default: Partial<
+                GradientTokens & {
+                    [key: string]: any
+                    text: string
+                }
+            >
+            active: Partial<
                 GradientTokens & {
                     [key: string]: any
                     text: string
