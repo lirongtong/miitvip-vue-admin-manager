@@ -5,6 +5,8 @@ import type { SearchProperties } from '../search/props'
 import type { NoticeProperties } from '../notice/props'
 import type { BacktopProperties } from '../backtop/props'
 import type { AnchorProperties } from '../anchor/props'
+import type { DropdownProperties } from '../dropdown/props'
+import { PaletteProperties } from '../palette/props'
 
 /**
  * 布局属性
@@ -40,33 +42,36 @@ export const LayoutProps = () => ({
 
 /**
  * 布局顶栏配置
- * @param notice 消息配置<Slot />
- * @param dropdown 下拉菜单配置<Slot />
+ * @param dropdown 下拉菜单内容<Slot />
+ * @param dropdownSetting 下拉菜单组件配置
  * @param breadcrumb 面包屑配置<Slot />
  * @param breadcrumbSetting 面包屑组件配置
  * @param search 搜索配置<Slot />
  * @param searchSetting 搜索组件属性配置
  * @param palette 调色板<Slot />
+ * @param paletteSetting 调色板组件配置
  * @param extra 额外的自定义配置<Slot />(置于右侧)
  */
 export interface LayoutHeaderProperties {
-    notice: any
     dropdown: any
     breadcrumb: any
-    breadcrumbSetting: Partial<BreadcrumbProperties>
     search: any
-    searchSetting: Partial<SearchProperties>
     palette: any
+    dropdownSetting: Partial<DropdownProperties>
+    breadcrumbSetting: Partial<BreadcrumbProperties>
+    searchSetting: Partial<SearchProperties>
+    paletteSetting: Partial<PaletteProperties>
     extra: any
 }
 export const LayoutHeaderProps = () => ({
-    notice: PropTypes.any,
     dropdown: PropTypes.any,
+    dropdownSetting: object<Partial<DropdownProperties>>(),
     breadcrumb: PropTypes.any,
     breadcrumbSetting: object<Partial<BreadcrumbProperties>>(),
     search: PropTypes.any,
     searchSetting: object<Partial<SearchProperties>>(),
     palette: PropTypes.any,
+    paletteSetting: object<Partial<PaletteProperties>>(),
     extra: PropTypes.any
 })
 

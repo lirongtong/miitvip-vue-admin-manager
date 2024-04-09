@@ -146,11 +146,13 @@ const MiLayoutHeader = defineComponent({
                               )
                             : null}
                         <div class={styled.palette}>
-                            {getPropSlot(slots, props, 'palette') ?? <MiPalette />}
+                            {getPropSlot(slots, props, 'palette') ?? (
+                                <MiPalette {...props.paletteSetting} />
+                            )}
                         </div>
                         <div class={styled.user}>
                             {getPropSlot(slots, props, 'dropdown') ?? (
-                                <MiDropdown items={dropdownData.value} />
+                                <MiDropdown items={dropdownData.value} {...props.dropdownSetting} />
                             )}
                         </div>
                     </div>
