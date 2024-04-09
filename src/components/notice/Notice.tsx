@@ -312,7 +312,9 @@ const MiNotice = defineComponent({
         const renderContent = () => {
             const content = renderTabs()
             return (
-                <div class={`${styled.content}${!content ? ` ${styled.empty}` : ''}`}>
+                <div
+                    class={`${styled.content}${!content ? ` ${styled.empty}` : ''}`}
+                    key={$tools.uid()}>
                     {content ?? renderEmpty()}
                 </div>
             )
@@ -327,12 +329,11 @@ const MiNotice = defineComponent({
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                 <Popover
                     overlayClassName={styled.container}
-                    overlayStyle={{ width: size.value, maxWidth: '100%' }}
+                    overlayStyle={{ width: size.value, maxWidth: '100%', zIndex: Date.now() }}
                     trigger={props.trigger}
                     placement={props.placement}
                     color={props.background}
-                    content={renderContent()}
-                    zIndex={Date.now()}>
+                    content={renderContent()}>
                     {renderIcon()}
                 </Popover>
             </ConfigProvider>

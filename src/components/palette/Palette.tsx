@@ -154,6 +154,7 @@ const MiPalette = defineComponent({
         return () => (
             <Popover
                 v-model:open={params.open}
+                overlayStyle={{ zIndex: Date.now() }}
                 overlayClassName={styled.container}
                 trigger={props.trigger}
                 placement={props.placement}

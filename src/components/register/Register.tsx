@@ -280,8 +280,8 @@ const MiRegister = defineComponent({
                         placement="top"
                         trigger={['focus']}
                         content={tip}
-                        zIndex={Date.now()}
-                        overlayClassName={styled.usernamePopover}>
+                        overlayClassName={styled.usernamePopover}
+                        overlayStyle={{ zIndex: Date.now() }}>
                         {input}
                     </Popover>
                 )

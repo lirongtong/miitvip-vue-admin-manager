@@ -61,9 +61,15 @@ export default defineConfig({
         }
     },
     plugins: [
-        vue(),
+        vue({
+            template: {
+                compilerOptions: {
+                    isCustomElement: (tag: string) => tag.startsWith('swiper-')
+                }
+            }
+        }),
         vueJsx({
-            isCustomElement: (tag) => tag.includes('-')
+            isCustomElement: (tag: string) => tag.startsWith('swiper-')
         }),
         EslintPlugin(),
         VueI18nPlugin({ include: resolve('./src/locales') })
