@@ -33,7 +33,7 @@ export interface NoticeProperties {
     showZero: boolean
     placement: string
     background: string
-    items: Partial<NoticeTabProperties>[] | Partial<NoticeTabProperties>[][]
+    items: Partial<NoticeItemProperties>[] | Partial<NoticeItemProperties>[][]
     tabs: string[] | Partial<NoticeTabProperties>[]
     tabActive: number | string
     tabGap: number | string | DeviceSize
@@ -52,8 +52,8 @@ export const NoticeProps = () => ({
     background: PropTypes.string,
     icon: PropTypes.any,
     items: PropTypes.oneOfType([
-        array<Partial<NoticeTabProperties>>(),
-        array<Partial<NoticeTabProperties>[]>()
+        array<Partial<NoticeItemProperties>>(),
+        array<Partial<NoticeItemProperties>[]>()
     ]),
     tabs: PropTypes.oneOfType([array<string>(), array<Partial<NoticeTabProperties>>()]).def([]),
     tabActive: PropTypes.string.def('0'),
