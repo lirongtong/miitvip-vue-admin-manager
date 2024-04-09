@@ -5,6 +5,7 @@ import { default as Theme } from './components/theme'
 import { default as Link } from './components/link'
 import { default as Layout } from './components/layout'
 import { default as Notice } from './components/notice'
+import { default as Breadcrumb } from './components/breadcrumb'
 import { default as Menu } from './components/menu'
 import { default as Clock } from './components/clock'
 import { default as Search } from './components/search'
@@ -63,6 +64,7 @@ declare module '@vue/runtime-core' {
         MiNoticeTab: typeof Notice.Tab
         MiNoticeItem: typeof Notice.Item
         MiClock: typeof Clock
+        MiBreadcrumb: typeof Breadcrumb
         MiMenu: typeof Menu
         MiMenuItem: typeof Menu.Item
         MiSubMenu: typeof Menu.SubMenu
