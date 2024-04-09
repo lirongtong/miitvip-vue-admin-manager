@@ -35,7 +35,7 @@ export interface NoticeProperties {
     background: string
     items: Partial<NoticeItemProperties>[] | Partial<NoticeItemProperties>[][]
     tabs: string[] | Partial<NoticeTabProperties>[]
-    tabActive: number | string
+    tabActive: string
     tabGap: number | string | DeviceSize
 }
 export const NoticeProps = () => ({
