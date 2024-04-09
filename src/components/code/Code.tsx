@@ -34,15 +34,6 @@ const MiCode = defineComponent({
             return (
                 <div class={styled.container}>
                     <pre v-prism>
-                        {props.canCopy && content ? (
-                            <Tooltip
-                                title={copied.value ? t('code.copied') : t('code.copy')}
-                                overlayStyle={{ zIndex: Date.now() }}>
-                                <div class={styled.copy} onClick={handleCopy}>
-                                    <CopyOutlined />
-                                </div>
-                            </Tooltip>
-                        ) : null}
                         <div class={styled.title}>
                             <span class={styled.titleDotRed} />
                             <span class={styled.titleDotOrange} />
@@ -52,6 +43,15 @@ const MiCode = defineComponent({
                             {content}
                         </code>
                     </pre>
+                    {props.canCopy && content ? (
+                        <Tooltip
+                            title={copied.value ? t('code.copied') : t('code.copy')}
+                            overlayStyle={{ zIndex: Date.now() }}>
+                            <div class={styled.copy} onClick={handleCopy}>
+                                <CopyOutlined />
+                            </div>
+                        </Tooltip>
+                    ) : null}
                 </div>
             )
         }
