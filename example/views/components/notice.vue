@@ -5,7 +5,7 @@
             :amount="1"
             :icon-setting="{ size: 20 }"
             v-model:tab-active="active"
-            :tabs="['系统', '私信']"
+            :tabs="['系统', '私信', '系统', '私信', '系统', '私信', '系统', '私信']"
             :items="[[{
                 key: 0,
                 title: '回复提醒',

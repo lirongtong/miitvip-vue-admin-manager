@@ -291,8 +291,8 @@ const MiNotice = defineComponent({
                         slidesPerView="auto"
                         direction="horizontal"
                         injectStyles={[
-                            `::slotted(swiper-slide) { width: auto; }
-                            ::slotted(swiper-slide:last-child) { margin-right: 0 !important; }`
+                            `::slotted(swiper-slide) { width: auto; }`,
+                            `::slotted(swiper-slide:last-child) { margin-right: 0 !important; }`
                         ]}
                         spaceBetween={$tools.distinguishSize(props.tabGap)}>
                         {tabs.map((tab: any) => {
