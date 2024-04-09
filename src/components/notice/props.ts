@@ -6,7 +6,7 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  * +=====================+
  * |       Notice        |
  * +=====================+
- * @param icon 图表<Slot />
+ * @param icon 图标<Slot />
  * @param iconSetting ICON 配置 ( slot icon 设定时无效 )
  * @param trigger 触发方式
  * @param width 弹窗宽度
@@ -24,7 +24,7 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  */
 export interface NoticeProperties {
     icon: any
-    iconSetting: SizeColor
+    iconSetting: Partial<SizeColor>
     width: string | number | DeviceSize
     trigger: string
     amount: string | number
@@ -33,8 +33,8 @@ export interface NoticeProperties {
     showZero: boolean
     placement: string
     background: string
-    items: NoticeTabProperties[] | NoticeTabProperties[][]
-    tabs: string[] | NoticeTabProperties[]
+    items: Partial<NoticeTabProperties>[] | Partial<NoticeTabProperties>[][]
+    tabs: string[] | Partial<NoticeTabProperties>[]
     tabActive: number | string
     tabGap: number | string | DeviceSize
 }
@@ -47,12 +47,15 @@ export const NoticeProps = () => ({
     maxAmount: PropTypes.number.def(99),
     dot: PropTypes.bool.def(true),
     showZero: PropTypes.bool.def(false),
-    iconSetting: object<SizeColor>(),
+    iconSetting: object<Partial<SizeColor>>(),
     placement: PropTypes.oneOf(tuple(...placement)).def('bottom'),
     background: PropTypes.string,
     icon: PropTypes.any,
-    items: PropTypes.array.def([]),
-    tabs: PropTypes.oneOfType([array<string>(), array<NoticeTabProperties>()]).def([]),
+    items: PropTypes.oneOfType([
+        array<Partial<NoticeTabProperties>>(),
+        array<Partial<NoticeTabProperties>[]>()
+    ]),
+    tabs: PropTypes.oneOfType([array<string>(), array<Partial<NoticeTabProperties>>()]).def([]),
     tabActive: PropTypes.string.def('0'),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16)
 })
