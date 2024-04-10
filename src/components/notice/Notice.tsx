@@ -1,18 +1,29 @@
 /* eslint-disable import/no-unresolved */
-import { defineComponent, type SlotsType, ref, isVNode, watch, createVNode, computed } from 'vue'
+import {
+    defineComponent,
+    type SlotsType,
+    ref,
+    isVNode,
+    watch,
+    createVNode,
+    computed,
+    Transition,
+    nextTick
+} from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
 import { $tools } from '../../utils/tools'
-import { getPropSlot, getSlotContent } from '../_utils/props'
+import { getPrefixCls, getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeItemProperties, NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
 import { useWindowResize } from '../../hooks/useWindowResize'
-import { Navigation, FreeMode } from 'swiper/modules'
 import MiClock from '../clock'
 import MiNoticeTab from './Tab'
 import MiNoticeItem from './Item'
 import applyTheme from '../_utils/theme'
 import styled from './style/notice.module.less'
+import 'swiper/css'
+import 'swiper/css/free-mode'
 
 const MiNotice = defineComponent({
     name: 'MiNotice',
@@ -26,10 +37,13 @@ const MiNotice = defineComponent({
     setup(props, { slots, emit }) {
         const { t, tm } = useI18n()
         const { width } = useWindowResize()
+        const iconRef = ref<HTMLElement>()
+        const elemId = $tools.uid()
         const size = computed(() => {
             return $tools.convert2rem($tools.distinguishSize(props.width, width.value))
         })
-        const iconRef = ref<HTMLElement>()
+        const itemAnim = getPrefixCls('anim-slide')
+        const swiperRef = ref()
 
         applyTheme(styled)
 
@@ -137,10 +151,12 @@ const MiNotice = defineComponent({
             return (
                 <Row
                     key={$tools.uid()}
-                    class={`${styled.tab}${key === props.tabActive ? ` ${styled.tabActive}` : ``}`}
+                    class={[styled.tab, { [styled.tabActive]: key === props.tabActive }]}
                     onClick={() => handleTabClick(key)}>
                     <Row class={styled.tabIcon}>{icon}</Row>
-                    <Row class={styled.tabName}>{name}</Row>
+                    <div class={styled.tabName} title={name}>
+                        {name}
+                    </div>
                 </Row>
             )
         }
@@ -221,12 +237,12 @@ const MiNotice = defineComponent({
                 })
             }
             return items.length > 0 ? (
-                <>
+                <Transition name={itemAnim} appear={true}>
                     <Flex vertical={true} class={styled.items}>
                         {...items}
                     </Flex>
                     {...extras}
-                </>
+                </Transition>
             ) : extras.length > 0 ? (
                 { ...extras }
             ) : null
@@ -283,25 +299,25 @@ const MiNotice = defineComponent({
                     tabs.push(renderTab(tab, key))
                 })
             }
+            const slides: any[] = []
+            tabs.forEach((tab: any) => {
+                slides.push(<swiper-slide>{tab}</swiper-slide>)
+            })
             return tabs.length > 0 ? (
                 <>
                     <swiper-container
-                        freeMode={true}
-                        modules={[FreeMode, Navigation]}
-                        slidesPerView="auto"
-                        direction="horizontal"
-                        injectStyles={[
-                            `::slotted(swiper-slide) { width: auto; }`,
-                            `::slotted(swiper-slide:last-child) { margin-right: 0 !important; }`
-                        ]}
-                        spaceBetween={$tools.distinguishSize(props.tabGap)}>
-                        {tabs.map((tab: any) => {
-                            return <swiper-slide>{tab}</swiper-slide>
-                        })}
+                        ref={swiperRef}
+                        free-mode={true}
+                        direction={'horizontal'}
+                        slides-per-view={'auto'}
+                        space-between={$tools.distinguishSize(props.tabGap)}>
+                        {...slides}
                     </swiper-container>
-                    <Flex vertical={true} class={styled.items}>
-                        {...renderTabSlot(allSlots)}
-                    </Flex>
+                    <Transition name={itemAnim} appear={true}>
+                        <Flex vertical={true} class={styled.items}>
+                            {...renderTabSlot(allSlots)}
+                        </Flex>
+                    </Transition>
                     {renderExtra(extras)}
                 </>
             ) : (
@@ -313,7 +329,8 @@ const MiNotice = defineComponent({
             const content = renderTabs()
             return (
                 <div
-                    class={`${styled.content}${!content ? ` ${styled.empty}` : ''}`}
+                    class={[styled.content, { [styled.empty]: !content }]}
+                    id={elemId}
                     key={$tools.uid()}>
                     {content ?? renderEmpty()}
                 </div>

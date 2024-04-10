@@ -11,9 +11,6 @@ import Tools, { $tools } from './tools'
 import Prism from '../directives/prism'
 import Limit from '../directives/limit'
 import { register } from 'swiper/element/bundle'
-import 'swiper/css'
-import 'swiper/css/free-mode'
-import 'swiper/css/navigation'
 
 const pinia = createPinia()
 const components = [pinia, i18n, Global, Api, Cookie, Storage, Request, Prism, Limit, Tools]

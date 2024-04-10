@@ -30,7 +30,11 @@
     overflow: hidden;
 
     :global {
-        .swiper-slide {
+        swiper-container {
+            width: 100%;
+        }
+
+        swiper-slide {
             width: auto;
         }
     }
@@ -101,7 +105,10 @@
     height: 100%;
     .radius(8);
     .flex(center, center, column);
-    .properties(padding);
+    .properties(padding-top);
+    .properties(padding-bottom);
+    .properties(padding-left, 24);
+    .properties(padding-right, 24);
     color: var(--mi-notice-tab-text-default);
     background: var(--mi-notice-tab-background-default);
     cursor: pointer;
@@ -117,6 +124,9 @@
     &-name {
         color: var(--mi-notice-tab-text-default);
         .font-size(14, bold);
+        .properties(max-width, 128);
+        .ellipsis();
+        display: block;
     }
 
     &:hover &-icon {
