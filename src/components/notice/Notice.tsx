@@ -4,7 +4,6 @@ import {
     type SlotsType,
     ref,
     isVNode,
-    watch,
     createVNode,
     computed,
     Transition,
@@ -17,6 +16,7 @@ import { getPrefixCls, getPropSlot, getSlotContent } from '../_utils/props'
 import { NoticeItemProperties, NoticeProps } from './props'
 import { useI18n } from 'vue-i18n'
 import { useWindowResize } from '../../hooks/useWindowResize'
+import { FreeMode } from 'swiper/modules'
 import MiClock from '../clock'
 import MiNoticeTab from './Tab'
 import MiNoticeItem from './Item'
@@ -33,7 +33,7 @@ const MiNotice = defineComponent({
         icon: any
     }>,
     props: NoticeProps(),
-    emits: ['tabClick', 'tabChange', 'update:tabActive', 'itemClick'],
+    emits: ['tabClick', 'tabChange', 'itemClick'],
     setup(props, { slots, emit }) {
         const { t, tm } = useI18n()
         const { width } = useWindowResize()
@@ -44,17 +44,52 @@ const MiNotice = defineComponent({
         })
         const itemAnim = getPrefixCls('anim-slide')
         const swiperRef = ref()
+        const active = ref(0)
+        const defaultActive = ref(props.tabDefaultActive)
 
         applyTheme(styled)
 
-        const handleTabClick = (key: string) => {
+        const handleTabClick = (key: string | number) => {
             emit('tabClick', key)
-            emit('update:tabActive', key)
+            nextTick().then(() => {
+                const container = document.querySelector('swiper-container')
+                if (container) {
+                    const swiper = container?.swiper
+                    const index = swiper?.clickedIndex ?? 0
+                    if (active.value !== index) {
+                        active.value = index
+                        emit('tabChange', key, active.value)
+                    }
+                    const slides = swiper?.slides || []
+                    slides.forEach((slide: HTMLElement) => {
+                        slide?.classList?.remove('active')
+                    })
+                    const current = slides?.[index] as HTMLElement
+                    if (current) current?.classList?.add('active')
+                }
+            })
         }
 
         const handleItemClick = (func?: any) => {
             if (func) func()
             else emit('itemClick')
+        }
+
+        const handleOpenChange = (status: boolean) => {
+            if (status) {
+                nextTick().then(() => {
+                    const container = document.querySelector('swiper-container')
+                    if (container) {
+                        const swiper = container?.swiper
+                        const slides = swiper?.slides || []
+                        slides.forEach((slide: HTMLElement) => {
+                            slide?.classList?.remove('active')
+                        })
+                        const current = slides?.[active.value] as HTMLElement
+                        if (current) current?.classList?.add('active')
+                    }
+                })
+            }
         }
 
         const getItemSlotContent = (itemSlot: any) => {
@@ -134,7 +169,7 @@ const MiNotice = defineComponent({
             )
         }
 
-        const renderTab = (tab: any, key: string) => {
+        const renderTab = (tab: any, idx: number, key?: string | number) => {
             const isStrTab = typeof tab === 'string'
             const defaultIcon = <MessageOutlined />
             const defaultName = t('notice.title')
@@ -151,10 +186,10 @@ const MiNotice = defineComponent({
             return (
                 <Row
                     key={$tools.uid()}
-                    class={[styled.tab, { [styled.tabActive]: key === props.tabActive }]}
-                    onClick={() => handleTabClick(key)}>
-                    <Row class={styled.tabIcon}>{icon}</Row>
-                    <div class={styled.tabName} title={name}>
+                    class={[styled.tab, getPrefixCls('notice-tab')]}
+                    onClick={() => handleTabClick(key ?? idx)}>
+                    <Row class={[styled.tabIcon, getPrefixCls('notice-tab-icon')]}>{icon}</Row>
+                    <div class={[styled.tabName, getPrefixCls('notice-tab-name')]} title={name}>
                         {name}
                     </div>
                 </Row>
@@ -183,9 +218,8 @@ const MiNotice = defineComponent({
             const isStrTab = typeof tab === 'string'
             if (isStrTab) {
                 for (let i = 0, l = (props.items || []).length; i < l; i++) {
-                    const key = i.toString()
                     const item = props.items[i]
-                    if (Array.isArray(item) && key === props.tabActive) {
+                    if (Array.isArray(item) && i === active.value) {
                         ;(item || []).forEach((data: Partial<NoticeItemProperties>) => {
                             items.push(renderTabItem(data))
                         })
@@ -268,8 +302,8 @@ const MiNotice = defineComponent({
             let tabSlots: any[] = []
             for (let i = 0, l = tabs.length; i < l; i++) {
                 const tab = tabs[i]
-                const key = isVNode(tab) ? tab?.props?.key ?? i.toString() : i.toString()
-                if (key === props.tabActive) {
+                const key = isVNode(tab) ? tab?.props?.key ?? i : i
+                if (key === active.value) {
                     tabSlots = renderTabItems(tab)
                     break
                 }
@@ -285,8 +319,12 @@ const MiNotice = defineComponent({
                 // 自定义配置 mi-notice-tab
                 allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        const key = singleSlot?.props?.key || idx.toString()
-                        tabs.push(renderTab(singleSlot, key))
+                        const key = singleSlot?.props?.key ?? idx
+                        if (key === props.tabDefaultActive) {
+                            defaultActive.value = key
+                            active.value = idx
+                        }
+                        tabs.push(renderTab(singleSlot, idx, key))
                     } else extras.push(singleSlot)
                 })
             }
@@ -294,9 +332,12 @@ const MiNotice = defineComponent({
                 // 参数配置 tabs ( 快速生成 )
                 allSlots = props.tabs
                 ;(props.tabs || []).forEach((tab: any, idx: number) => {
-                    let key = idx.toString()
-                    key = typeof tab === 'string' ? key : tab?.key ?? key
-                    tabs.push(renderTab(tab, key))
+                    const key = typeof tab === 'string' ? idx : tab?.key ?? idx
+                    if (key === props.tabDefaultActive) {
+                        defaultActive.value = key
+                        active.value = idx
+                    }
+                    tabs.push(renderTab(tab, idx, key))
                 })
             }
             const slides: any[] = []
@@ -307,10 +348,20 @@ const MiNotice = defineComponent({
                 <>
                     <swiper-container
                         ref={swiperRef}
+                        initial-slide={defaultActive.value}
                         free-mode={true}
+                        mousewheel={true}
+                        pagination={false}
+                        modules={[FreeMode]}
+                        observer={true}
+                        observer-parents={true}
                         direction={'horizontal'}
                         slides-per-view={'auto'}
-                        space-between={$tools.distinguishSize(props.tabGap)}>
+                        slide-to-clicked-slide={true}
+                        space-between={$tools.distinguishSize(props.tabGap)}
+                        centered-slides={true}
+                        centered-slides-bounds={true}
+                        key={$tools.uid()}>
                         {...slides}
                     </swiper-container>
                     <Transition name={itemAnim} appear={true}>
@@ -337,11 +388,6 @@ const MiNotice = defineComponent({
             )
         }
 
-        watch(
-            () => props.tabActive,
-            (nVal: string) => emit('tabChange', nVal)
-        )
-
         return () => (
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
                 <Popover
@@ -350,7 +396,8 @@ const MiNotice = defineComponent({
                     trigger={props.trigger}
                     placement={props.placement}
                     color={props.background}
-                    content={renderContent()}>
+                    content={renderContent()}
+                    onOpenChange={handleOpenChange}>
                     {renderIcon()}
                 </Popover>
             </ConfigProvider>

@@ -4,8 +4,7 @@
             :dot="false"
             :amount="1"
             :icon-setting="{ size: 20 }"
-            v-model:tab-active="active"
-            :tabs="['系统消息', '私信', '个人', '团队']"
+            :tabs="['系统消息', '私信', '个人', '团队', '系统消息', '私信', '个人', '团队']"
             :items="[[{
                 key: 0,
                 title: '回复提醒',

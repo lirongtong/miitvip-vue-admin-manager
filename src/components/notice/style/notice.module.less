@@ -36,6 +36,20 @@
 
         swiper-slide {
             width: auto;
+
+            &.active {
+                .mi-notice-tab {
+                    .gradient-hint(var(--mi-notice-tab-background-start), var(--mi-notice-tab-background-hint), var(--mi-notice-tab-background-stop));
+
+                    .anticon {
+                        color: var(--mi-notice-tab-icon-active);
+                    }
+
+                    &-name {
+                        color: var(--mi-notice-tab-text-active);
+                    }
+                }
+            }
         }
     }
 }

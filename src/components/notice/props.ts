@@ -16,7 +16,7 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  * @param showZero 当数值为 0 时，是否展示 Badge ( 默认: false )
  * @param placement 弹窗打开位置
  * @param background 弹窗背景色
- * @param tabActive 选中 Tab ( 默认第1个 )
+ * @param tabDefaultActive 选中 Tab ( 默认第1个 )
  * @param tabGap Tab 间距
  * @param tabChange Tab 切换事件
  * @param tabClick Tab 点击事件
@@ -35,7 +35,7 @@ export interface NoticeProperties {
     background: string
     items: Partial<NoticeItemProperties>[] | Partial<NoticeItemProperties>[][]
     tabs: string[] | Partial<NoticeTabProperties>[]
-    tabActive: string
+    tabDefaultActive: string | number
     tabGap: number | string | DeviceSize
 }
 export const NoticeProps = () => ({
@@ -56,7 +56,7 @@ export const NoticeProps = () => ({
         array<Partial<NoticeItemProperties>[]>()
     ]),
     tabs: PropTypes.oneOfType([array<string>(), array<Partial<NoticeTabProperties>>()]).def([]),
-    tabActive: PropTypes.string.def('0'),
+    tabDefaultActive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(0),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16)
 })
 
