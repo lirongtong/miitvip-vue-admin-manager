@@ -188,8 +188,9 @@
 | `showZero` | `boolean` | `false` | 当数值为 `0` 时，是否展示 `Badge`
 | `placement` | `string` | `bottom` | 弹窗打开位置 `['top', 'left', 'right', 'bottom', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight', 'leftTop', 'leftBottom', 'rightTop', 'rightBottom']`
 | `background` | `string` | `''` | 弹窗背景色
-| `tabActive` | `string` | `0` | 选中 Tab ( 默认第`1`个 )
+| `tabDefaultActive` | `string \| number` | `0` | 选中 Tab ( 默认第`1`个 )
 | `tabGap` | `number \| string \|` [`DeviceSize`](../../utils/README.md) | `16` | Tab 间距
+| `tabCenter` | `boolean` | `true` | Tab 居中适配
 
 #### `MiNotice` 事件 ( `Events` )
 

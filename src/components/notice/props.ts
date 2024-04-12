@@ -18,6 +18,7 @@ import { DeviceSize, PropTypes, SizeColor } from '../../utils/types'
  * @param background 弹窗背景色
  * @param tabDefaultActive 选中 Tab ( 默认第1个 )
  * @param tabGap Tab 间距
+ * @param tabCenter Tab 居中显示
  * @param tabChange Tab 切换事件
  * @param tabClick Tab 点击事件
  * @param itemClick Item Click 事件
@@ -37,6 +38,7 @@ export interface NoticeProperties {
     tabs: string[] | Partial<NoticeTabProperties>[]
     tabDefaultActive: string | number
     tabGap: number | string | DeviceSize
+    tabCenter: boolean
 }
 export const NoticeProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
@@ -57,7 +59,8 @@ export const NoticeProps = () => ({
     ]),
     tabs: PropTypes.oneOfType([array<string>(), array<Partial<NoticeTabProperties>>()]).def([]),
     tabDefaultActive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(0),
-    tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16)
+    tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
+    tabCenter: PropTypes.bool.def(true)
 })
 
 /**

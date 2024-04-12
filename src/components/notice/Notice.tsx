@@ -42,7 +42,7 @@ const MiNotice = defineComponent({
         const size = computed(() => {
             return $tools.convert2rem($tools.distinguishSize(props.width, width.value))
         })
-        const itemAnim = getPrefixCls('anim-slide')
+        const itemsAnim = getPrefixCls('anim-slide')
         const swiperRef = ref()
         const active = ref(0)
         const defaultActive = ref(props.tabDefaultActive)
@@ -78,15 +78,17 @@ const MiNotice = defineComponent({
         const handleOpenChange = (status: boolean) => {
             if (status) {
                 nextTick().then(() => {
-                    const container = document.querySelector('swiper-container')
-                    if (container) {
-                        const swiper = container?.swiper
-                        const slides = swiper?.slides || []
-                        slides.forEach((slide: HTMLElement) => {
-                            slide?.classList?.remove('active')
-                        })
-                        const current = slides?.[active.value] as HTMLElement
-                        if (current) current?.classList?.add('active')
+                    const swiperEl = document.querySelector('swiper-container')
+                    if (swiperEl) {
+                        setTimeout(() => {
+                            const swiper = swiperEl?.swiper
+                            const slides = swiper?.slides || []
+                            slides.forEach((slide: HTMLElement) => {
+                                slide?.classList?.remove('active')
+                            })
+                            const current = slides?.[active.value] as HTMLElement
+                            if (current) current?.classList?.add('active')
+                        }, 10)
                     }
                 })
             }
@@ -241,8 +243,9 @@ const MiNotice = defineComponent({
                     items.push(renderTabItem(getItemSlotContent(tabItemSlots)))
                 } else extra.push(tabItemSlots)
             } else {
-                for (let i = 0, l = (tab?.items || []).length; i < l; i++) {
-                    const item = tab.items[i]
+                const curItems = tab?.items || props.items?.[active.value] || []
+                for (let i = 0, l = curItems.length; i < l; i++) {
+                    const item = curItems[i]
                     items.push(renderTabItem(item))
                 }
             }
@@ -271,7 +274,7 @@ const MiNotice = defineComponent({
                 })
             }
             return items.length > 0 ? (
-                <Transition name={itemAnim} appear={true}>
+                <Transition name={itemsAnim} appear={true}>
                     <Flex vertical={true} class={styled.items}>
                         {...items}
                     </Flex>
@@ -359,12 +362,12 @@ const MiNotice = defineComponent({
                         slides-per-view={'auto'}
                         slide-to-clicked-slide={true}
                         space-between={$tools.distinguishSize(props.tabGap)}
-                        centered-slides={true}
-                        centered-slides-bounds={true}
+                        centered-slides={props.tabCenter}
+                        centered-slides-bounds={props.tabCenter}
                         key={$tools.uid()}>
                         {...slides}
                     </swiper-container>
-                    <Transition name={itemAnim} appear={true}>
+                    <Transition name={itemsAnim} appear={true}>
                         <Flex vertical={true} class={styled.items}>
                             {...renderTabSlot(allSlots)}
                         </Flex>
