@@ -10,7 +10,7 @@ import Request, { $request } from './request'
 import Tools, { $tools } from './tools'
 import Prism from '../directives/prism'
 import Limit from '../directives/limit'
-import { register } from 'swiper/element/bundle'
+import { register, SwiperContainer, SwiperSlide } from 'swiper/element/bundle'
 
 const pinia = createPinia()
 const components = [pinia, i18n, Global, Api, Cookie, Storage, Request, Prism, Limit, Tools]
@@ -23,6 +23,12 @@ declare module '@vue/runtime-core' {
         $cookie: typeof $cookie
         $storage: typeof $storage
         $request: typeof $request
+    }
+    export interface GlobalComponents {
+        SwiperContainer: SwiperContainer
+        SwiperSlide: SwiperSlide
+        'swiper-container': SwiperContainer
+        'swiper-slide': SwiperSlide
     }
 }
 
