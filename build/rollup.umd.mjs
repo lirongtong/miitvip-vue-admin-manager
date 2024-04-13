@@ -24,7 +24,7 @@ const babelOptions = {
     extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
     plugins: [
         ['@babel/plugin-transform-runtime', { corejs: 3 }],
-        '@vue/babel-plugin-jsx',
+        ['@vue/babel-plugin-jsx', { isCustomElement: (tag) => tag.startsWith('swiper-') }],
         '@babel/plugin-transform-object-assign'
     ],
     exclude: /[\\/]node_modules[\\/]/,
