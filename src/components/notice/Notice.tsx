@@ -89,7 +89,7 @@ const MiNotice = defineComponent({
                             })
                             const current = slides?.[active.value] as HTMLElement
                             if (current) current?.classList?.add('active')
-                        }, 10)
+                        }, 20)
                     }
                 })
             }
@@ -197,7 +197,7 @@ const MiNotice = defineComponent({
                   : tab?.icon ?? defaultIcon
             return (
                 <Row
-                    key={$tools.uid()}
+                    id={$tools.uid()}
                     class={[styled.tab, getPrefixCls('notice-tab')]}
                     onClick={() => handleTabClick(key ?? idx)}>
                     <Row class={[styled.tabIcon, getPrefixCls('notice-tab-icon')]}>{icon}</Row>
@@ -211,7 +211,7 @@ const MiNotice = defineComponent({
         const renderTabItem = (item: Partial<NoticeItemProperties>) => {
             return (
                 <MiNoticeItem
-                    key={$tools.uid()}
+                    id={$tools.uid()}
                     title={item?.title}
                     summary={item?.summary}
                     date={item?.date}
@@ -395,8 +395,7 @@ const MiNotice = defineComponent({
                 <div
                     ref={containerEl}
                     class={[styled.content, { [styled.empty]: !content }]}
-                    id={containerId}
-                    key={$tools.uid()}>
+                    id={containerId}>
                     {content ?? renderEmpty()}
                 </div>
             )
