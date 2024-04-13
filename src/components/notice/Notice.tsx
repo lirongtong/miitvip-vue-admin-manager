@@ -374,7 +374,7 @@ const MiNotice = defineComponent({
                         space-between={$tools.distinguishSize(props.tabGap)}
                         centered-slides={props.tabCenter}
                         centered-slides-bounds={props.tabCenter}
-                        key={$tools.uid()}>
+                        id={$tools.uid()}>
                         {...slides}
                     </swiper-container>
                     <Transition name={itemsAnim} appear={true}>
