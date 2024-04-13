@@ -47,6 +47,7 @@ const MiNotice = defineComponent({
         const swiperRef = ref()
         const active = ref(0)
         const defaultActive = ref(props.tabDefaultActive)
+        const init = ref<boolean>(false)
 
         applyTheme(styled)
 
@@ -76,22 +77,16 @@ const MiNotice = defineComponent({
             else emit('itemClick')
         }
 
-        const handleOpenChange = (status: boolean) => {
-            if (status) {
-                nextTick().then(() => {
-                    const swiperEl = document.querySelector('swiper-container')
-                    if (swiperEl) {
-                        setTimeout(() => {
-                            const swiper = swiperEl?.swiper
-                            const slides = swiper?.slides || []
-                            slides.forEach((slide: HTMLElement) => {
-                                slide?.classList?.remove('active')
-                            })
-                            const current = slides?.[active.value] as HTMLElement
-                            if (current) current?.classList?.add('active')
-                        }, 20)
-                    }
+        const handleOpenChange = async (status: boolean) => {
+            if (status && !init.value) {
+                await nextTick()
+                const slides = document.querySelectorAll('swiper-slide') || []
+                slides.forEach((slide: HTMLElement) => {
+                    slide?.classList?.remove('active')
                 })
+                const current = slides?.[active.value] as HTMLElement
+                if (current) current?.classList?.add('active')
+                init.value = true
             }
         }
 
