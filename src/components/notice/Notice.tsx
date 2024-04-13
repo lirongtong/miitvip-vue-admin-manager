@@ -149,17 +149,26 @@ const MiNotice = defineComponent({
                     <div class={styled.emptyTitle} innerHTML={messages?.wonderful} />
                     <div class={styled.emptyItems}>
                         <div class={styled.emptyItem}>
-                            <Checkbox checked={true} disabled={true} name="mi-bug">
+                            <Checkbox
+                                checked={true}
+                                disabled={true}
+                                name={`mi-bug-${$tools.uid()}`}>
                                 {messages?.empty?.bugs}
                             </Checkbox>
                         </div>
                         <div class={styled.emptyItem}>
-                            <Checkbox checked={true} disabled={true} name="cmi-meeting">
+                            <Checkbox
+                                checked={true}
+                                disabled={true}
+                                name={`mi-meeting-${$tools.uid()}`}>
                                 {messages?.empty?.metting}
                             </Checkbox>
                         </div>
                         <div class={styled.emptyItem}>
-                            <Checkbox checked={true} disabled={true} name="mi-business">
+                            <Checkbox
+                                checked={true}
+                                disabled={true}
+                                name={`mi-business-${$tools.uid()}`}>
                                 {messages?.empty?.business}
                             </Checkbox>
                         </div>
