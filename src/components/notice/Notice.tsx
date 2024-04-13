@@ -38,7 +38,8 @@ const MiNotice = defineComponent({
         const { t, tm } = useI18n()
         const { width } = useWindowResize()
         const iconRef = ref<HTMLElement>()
-        const elemId = $tools.uid()
+        const containerId = $tools.uid()
+        const containerEl = ref()
         const size = computed(() => {
             return $tools.convert2rem($tools.distinguishSize(props.width, width.value))
         })
@@ -148,17 +149,17 @@ const MiNotice = defineComponent({
                     <div class={styled.emptyTitle} innerHTML={messages?.wonderful} />
                     <div class={styled.emptyItems}>
                         <div class={styled.emptyItem}>
-                            <Checkbox checked={true} disabled={true}>
+                            <Checkbox checked={true} disabled={true} name="mi-bug">
                                 {messages?.empty?.bugs}
                             </Checkbox>
                         </div>
                         <div class={styled.emptyItem}>
-                            <Checkbox checked={true} disabled={true}>
+                            <Checkbox checked={true} disabled={true} name="cmi-meeting">
                                 {messages?.empty?.metting}
                             </Checkbox>
                         </div>
                         <div class={styled.emptyItem}>
-                            <Checkbox checked={true} disabled={true}>
+                            <Checkbox checked={true} disabled={true} name="mi-business">
                                 {messages?.empty?.business}
                             </Checkbox>
                         </div>
@@ -383,8 +384,9 @@ const MiNotice = defineComponent({
             const content = renderTabs()
             return (
                 <div
+                    ref={containerEl}
                     class={[styled.content, { [styled.empty]: !content }]}
-                    id={elemId}
+                    id={containerId}
                     key={$tools.uid()}>
                     {content ?? renderEmpty()}
                 </div>
