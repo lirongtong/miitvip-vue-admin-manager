@@ -82,7 +82,7 @@ export const NoticeTabProps = () => ({
     name: PropTypes.string.isRequired,
     tab: PropTypes.any,
     icon: PropTypes.any,
-    items: PropTypes.array.def([])
+    items: array<Partial<NoticeItemProperties>>().def([])
 })
 
 /**
@@ -97,6 +97,8 @@ export const NoticeTabProps = () => ({
  * @param date 日期<Slot />
  * @param avatar 头像<Slot />
  * @param content 详情<Slot />
+ * @param interceptTitle 标题截取长度
+ * @param interceptSummary 摘要截取长度
  */
 export interface NoticeItemProperties {
     [key: string]: any
@@ -108,6 +110,8 @@ export interface NoticeItemProperties {
     date: any
     avatar: any
     content: any
+    interceptTitle: number
+    interceptSummary: number
 }
 export const NoticeItemProps = () => ({
     title: PropTypes.any,
@@ -117,5 +121,7 @@ export const NoticeItemProps = () => ({
     tagIcon: PropTypes.any,
     date: PropTypes.any,
     avatar: PropTypes.any,
-    content: PropTypes.any
+    content: PropTypes.any,
+    interceptTitle: PropTypes.number.def(12),
+    interceptSummary: PropTypes.number.def(24)
 })

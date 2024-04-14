@@ -54,9 +54,8 @@ const MiNotice = defineComponent({
         const handleTabClick = (key: string | number) => {
             emit('tabClick', key)
             nextTick().then(() => {
-                const container = document.querySelector('swiper-container')
-                if (container) {
-                    const swiper = container?.swiper
+                if (swiperRef.value) {
+                    const swiper = swiperRef.value?.swiper
                     const index = swiper?.clickedIndex ?? 0
                     if (active.value !== index) {
                         active.value = index
@@ -80,13 +79,15 @@ const MiNotice = defineComponent({
         const handleOpenChange = async (status: boolean) => {
             if (status && !init.value) {
                 await nextTick()
-                const slides = document.querySelectorAll('swiper-slide') || []
-                slides.forEach((slide: HTMLElement) => {
-                    slide?.classList?.remove('active')
-                })
-                const current = slides?.[active.value] as HTMLElement
-                if (current) current?.classList?.add('active')
-                init.value = true
+                if (swiperRef.value) {
+                    const slides = swiperRef.value.querySelectorAll('swiper-slide') || []
+                    slides.forEach((slide: HTMLElement) => {
+                        slide?.classList?.remove('active')
+                    })
+                    const current = slides?.[active.value] as HTMLElement
+                    if (current) current?.classList?.add('active')
+                    init.value = true
+                }
             }
         }
 
@@ -216,6 +217,8 @@ const MiNotice = defineComponent({
                     onClick={() => handleItemClick(item?.onClick)}
                     content={item?.content}
                     avatar={item?.avatar}
+                    interceptTitle={item?.interceptTitle}
+                    interceptSummary={item?.interceptSummary}
                 />
             )
         }

@@ -73,12 +73,12 @@ const MiNoticeItem = defineComponent({
             )
         }
 
-        const renderDynamic = (name: string, truncateLen = 0) => {
+        const renderDynamic = (name: string, intercept = 0) => {
             const dynamic = getPropSlot(slots, props, name)
             return dynamic ? (
                 <div class={styled[name]}>
-                    {truncateLen && typeof dynamic === 'string'
-                        ? $tools.beautySub(dynamic, truncateLen)
+                    {intercept && typeof dynamic === 'string'
+                        ? $tools.beautySub(dynamic, intercept)
                         : dynamic}
                 </div>
             ) : null
@@ -96,13 +96,12 @@ const MiNoticeItem = defineComponent({
                             {renderAvatar()}
                             <div class={styled.info}>
                                 <div class={styled.infoTitle}>
-                                    <Row>
-                                        {renderDynamic('title', 12)}
-                                        {renderTag()}
-                                    </Row>
-                                    <Row>{renderDynamic('date') ?? renderDate()}</Row>
+                                    {renderDynamic('title', props.interceptTitle)}
+                                    {renderTag()}
                                 </div>
-                                {renderDynamic('summary', 24) || renderDynamic('content', 24)}
+                                {renderDynamic('date') ?? renderDate()}
+                                {renderDynamic('summary', props.interceptSummary) ||
+                                    renderDynamic('content', props.interceptSummary)}
                             </div>
                         </div>
                     </div>
@@ -118,13 +117,13 @@ const MiNoticeItem = defineComponent({
                                     </Row>
                                     <Flex>
                                         {renderAvatar()}
-                                        <Flex vertical={true} class={styled.detailTitle}>
-                                            <Row>
-                                                {renderDynamic('title', 12)}
+                                        <div class={styled.info}>
+                                            <div class={[styled.infoTitle, styled.detailTitle]}>
+                                                {renderDynamic('title')}
                                                 {renderTag()}
-                                            </Row>
+                                            </div>
                                             {renderDynamic('date') ?? renderDate()}
-                                        </Flex>
+                                        </div>
                                     </Flex>
                                     <Row class={styled.detailInfo} innerHTML={props?.content}></Row>
                                 </Flex>

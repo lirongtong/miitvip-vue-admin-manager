@@ -45,6 +45,11 @@
         .flex(flex-start, space-between);
         width: 100%;
         .properties(margin-bottom, 4);
+        flex-wrap: nowrap;
+
+        :global(.ant-tag) {
+            margin-right: 0;
+        }
     }
 }
 
@@ -58,12 +63,14 @@
 .date {
     .font-size(12);
     color: var(--mi-notice-item-date);
+    .properties(min-width, 92);
+    .properties(margin-bottom, 4);
 }
 
 .summary {
     color: var(--mi-notice-item-summary);
     .font-size(12);
-    .lines(1);
+    .lines(2);
 }
 
 .tag {
@@ -95,7 +102,9 @@
     }
 
     &-title {
-        .properties(margin-left);
+        .title {
+            .lines(10);
+        }
     }
 
     &-back {
@@ -114,6 +123,16 @@
         word-break: break-all;
         color: var(--mi-notice-item-content-text);
         .scrollbar();
+    }
+
+    &-tag {
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        :global(.ant-tag) {
+            margin-right: 0;
+        }
     }
 }
 

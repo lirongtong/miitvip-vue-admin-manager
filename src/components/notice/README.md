@@ -225,3 +225,5 @@
 | `date` | `vSlot` | `''` | 日期
 | `avatar` | `vSlot` | `''` | 头像
 | `content` | `vSlot` | `''` | 详情
+| `interceptTitle` | `number` | `12` | 标题内容截取长度 ( 美化显示 )
+| `interceptSummary` | `number` | `24` | 摘要内容截取长度 ( 美化显示 )
