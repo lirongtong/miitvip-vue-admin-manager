@@ -67,20 +67,20 @@ export const NoticeProps = () => ({
  * +=========================+
  * |       Notice Tab        |
  * +=========================+
- * @param key 唯一值 ( 对应 notice 的 tabActive )
- * @param name 显示名称
+ * @param name 唯一值 ( 对应 notice 的 tabActive )
+ * @param tab 显示名称
  * @param icon 图标
  * @param items 消息列表
  */
 export interface NoticeTabProperties {
-    key: string
-    name: any
+    name: string
+    tab: any
     icon: any
     items: Partial<NoticeItemProperties>[]
 }
 export const NoticeTabProps = () => ({
-    key: PropTypes.string.isRequired,
-    name: PropTypes.any,
+    name: PropTypes.string.isRequired,
+    tab: PropTypes.any,
     icon: PropTypes.any,
     items: PropTypes.array.def([])
 })
@@ -89,7 +89,6 @@ export const NoticeTabProps = () => ({
  * +==========================+
  * |       Notice Item        |
  * +==========================+
- * @param key 标识符
  * @param title 标题<Slot />
  * @param summary 摘要<Slot />
  * @param tag 标签<Slot />
@@ -101,7 +100,6 @@ export const NoticeTabProps = () => ({
  */
 export interface NoticeItemProperties {
     [key: string]: any
-    key: string | number
     title: any
     summary: any
     tag: any
@@ -112,7 +110,6 @@ export interface NoticeItemProperties {
     content: any
 }
 export const NoticeItemProps = () => ({
-    key: PropTypes.string,
     title: PropTypes.any,
     summary: PropTypes.any,
     tag: PropTypes.any,

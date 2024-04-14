@@ -184,7 +184,7 @@ const MiNotice = defineComponent({
                 ? tab
                 : isVNode(tab)
                   ? getSlotContent(tab, 'name') ?? defaultName
-                  : tab?.name ?? defaultName
+                  : tab?.tab ?? defaultName
             const icon = isStrTab
                 ? defaultIcon
                 : isVNode(tab)
@@ -206,7 +206,7 @@ const MiNotice = defineComponent({
         const renderTabItem = (item: Partial<NoticeItemProperties>) => {
             return (
                 <MiNoticeItem
-                    id={$tools.uid()}
+                    key={$tools.uid()}
                     title={item?.title}
                     summary={item?.summary}
                     date={item?.date}
@@ -310,7 +310,7 @@ const MiNotice = defineComponent({
             let tabSlots: any[] = []
             for (let i = 0, l = tabs.length; i < l; i++) {
                 const tab = tabs[i]
-                const key = isVNode(tab) ? tab?.props?.key ?? i : i
+                const key = isVNode(tab) ? tab?.props?.tab ?? i : i
                 if (key === active.value) {
                     tabSlots = renderTabItems(tab)
                     break
@@ -327,7 +327,7 @@ const MiNotice = defineComponent({
                 // 自定义配置 mi-notice-tab
                 allSlots.map((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
-                        const key = singleSlot?.props?.key ?? idx
+                        const key = singleSlot?.props?.name ?? idx
                         if (key === props.tabDefaultActive) {
                             defaultActive.value = key
                             active.value = idx
@@ -340,7 +340,7 @@ const MiNotice = defineComponent({
                 // 参数配置 tabs ( 快速生成 )
                 allSlots = props.tabs
                 ;(props.tabs || []).forEach((tab: any, idx: number) => {
-                    const key = typeof tab === 'string' ? idx : tab?.key ?? idx
+                    const key = typeof tab === 'string' ? idx : tab?.tab ?? idx
                     if (key === props.tabDefaultActive) {
                         defaultActive.value = key
                         active.value = idx
@@ -390,7 +390,8 @@ const MiNotice = defineComponent({
                 <div
                     ref={containerEl}
                     class={[styled.content, { [styled.empty]: !content }]}
-                    id={containerId}>
+                    id={containerId}
+                    key={containerId}>
                     {content ?? renderEmpty()}
                 </div>
             )
@@ -405,7 +406,8 @@ const MiNotice = defineComponent({
                     placement={props.placement}
                     color={props.background}
                     content={renderContent()}
-                    onOpenChange={handleOpenChange}>
+                    onOpenChange={handleOpenChange}
+                    key={$tools.uid()}>
                     {renderIcon()}
                 </Popover>
             </ConfigProvider>

@@ -206,8 +206,8 @@
 
 | 参数 | 类型 | 是否必填 | 默认值 | 说明
 | :---- | :---- | :---- | :---- | :----
-| `key` | `string` | `true` | `''` | 唯一值 ( 对应 `notice` 的 `tab-active` )
-| `name` | `vSlot` | |  `''` | `Tab` 显示名称
+| `name` | `string` | `true` | `''` | 唯一值 ( 对应 `notice` 的 `tab-active` )
+| `tab` | `vSlot` | |  `''` | `Tab` 显示名称
 | `icon` | `vSlot` | |  `''` | 图标
 | `items` | `NoticeItem` | |  `[]` | 消息列表
 
@@ -217,7 +217,6 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `key` | `string` | `''` | `item` 唯一值
 | `title` | `vSlot` | `''` | 标题
 | `summary` | `vSlot` | `''` | 摘要 ( 未设定时, 根据 `content` 裁剪 )
 | `tag` | `vSlot` | `''` | 标签
