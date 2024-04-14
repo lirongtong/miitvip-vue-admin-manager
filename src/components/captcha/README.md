@@ -154,6 +154,7 @@ const handleVerifyAction = () => {
 | `image` | `string` | `undefined` | 弹窗底图
 | `logo` | `string` | `undefined` | 初始框内右侧的图标
 | `link` | `string` | `undefined` | 图标对应的链接地址
+| `offset` | `number` | `2` | 本地校验偏差值 - 单位 px ( 可设定 2 - 5 )
 | `mask` | `boolean` | `true` | 是否显示遮罩
 | `maskClosable` | `boolean` | `true` | 遮罩是否可以点击关闭弹窗
 | `boxShadow` | `boolean` | `true` | 是否显示阴影

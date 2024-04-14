@@ -28,6 +28,7 @@ import type { AxiosRequestConfig } from 'axios'
  * @param checkMethod 初始化验证码前的验证接口请求方式
  * @param checkAction 初始化验证码前的验证操作动作
  * @param actionConfig 请求配置( axios config )
+ * @param offset 本地校验偏差值 ( 2 - 10px )
  */
 export interface CaptchaProperties {
     width: string | number | DeviceSize
@@ -51,6 +52,7 @@ export interface CaptchaProperties {
     checkMethod: string
     checkAction: string | Function
     actionConfig: AxiosRequestConfig
+    offset: number
 }
 export const CaptchaProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(320),
@@ -73,7 +75,8 @@ export const CaptchaProps = () => ({
     checkParams: PropTypes.object.def({}),
     checkMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
     checkAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    actionConfig: object<AxiosRequestConfig>().def({})
+    actionConfig: object<AxiosRequestConfig>().def({}),
+    offset: PropTypes.number.def(2)
 })
 
 /**
@@ -91,6 +94,7 @@ export const CaptchaProps = () => ({
  * @param verifyMethod 校验验证码接口请求方式
  * @param verifyAction 校验验证码操作动作
  * @param actionConfig 请求配置( axios config )
+ * @param offset 本地校验偏差值 ( 2 - 10px )
  */
 export interface CaptchaModalProperties {
     open: boolean
@@ -104,6 +108,7 @@ export interface CaptchaModalProperties {
     verifyMethod: string
     verifyAction: string | Function
     actionConfig: AxiosRequestConfig
+    offset: number
 }
 export const CaptchaModalProps = () => ({
     open: PropTypes.bool.def(false),
@@ -116,7 +121,8 @@ export const CaptchaModalProps = () => ({
     verifyParams: PropTypes.object.def({}),
     verifyMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
     verifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    actionConfig: object<AxiosRequestConfig>().def({})
+    actionConfig: object<AxiosRequestConfig>().def({}),
+    offset: PropTypes.number.def(2)
 })
 
 export interface CaptchaModalBlockPosition {

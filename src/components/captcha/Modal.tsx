@@ -352,7 +352,10 @@ const MiCaptchaModal = defineComponent({
                 params.check.correct = false
                 if (msg) params.check.tip = msg
             }
-            if (params.coordinate.x - 2 <= coordinateX && params.coordinate.x + 2 >= coordinateX) {
+            if (
+                params.coordinate.x - props.offset <= coordinateX &&
+                params.coordinate.x + props.offset >= coordinateX
+            ) {
                 const succcess = (data: any = {}) => {
                     setTimeout(() => handleClose('success', data), 400)
                 }

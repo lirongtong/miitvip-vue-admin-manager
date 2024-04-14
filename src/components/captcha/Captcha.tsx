@@ -308,6 +308,13 @@ const MiCaptcha = defineComponent({
         }
 
         const renderContent = () => {
+            const offset = props.offset
+                ? props.offset > 5
+                    ? 5
+                    : props.offset < 2
+                      ? 2
+                      : props.offset
+                : 2
             const modal = params.modal.open ? (
                 <Teleport to="body" ref={captchaModalRef}>
                     <MiCaptchaModal
@@ -323,6 +330,7 @@ const MiCaptcha = defineComponent({
                         actionConfig={params.actionConfig}
                         onClose={handleCaptchaModalClose}
                         image={props.image}
+                        offset={offset}
                     />
                 </Teleport>
             ) : null
