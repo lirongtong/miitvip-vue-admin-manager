@@ -101,6 +101,8 @@ const MiNotice = defineComponent({
                 tagIcon: itemSlot?.children?.icon,
                 avatar: getSlotContent(itemSlot, 'avatar'),
                 content: getSlotContent(itemSlot, 'content'),
+                interceptTitle: itemSlot?.props.interceptTitle,
+                interceptSummary: itemSlot?.props?.interceptSummary,
                 onClick: itemSlot?.props?.onClick
             }
         }
