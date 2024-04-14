@@ -557,7 +557,9 @@ const MiCaptchaModal = defineComponent({
         const renderPanelCopyright = () => {
             return (
                 <div class={styled.panelCopyright}>
-                    <div class={styled.panelCopyrightText}>
+                    <div
+                        class={styled.panelCopyrightText}
+                        style={{ borderColor: props.color ?? null }}>
                         <Tooltip
                             title={te('captcha.provide') ? t('captcha.provide') : ''}
                             color={props.color}
@@ -575,7 +577,10 @@ const MiCaptchaModal = defineComponent({
 
         const renderContent = () => {
             return (
-                <div ref={contentRef} class={styled.content}>
+                <div
+                    ref={contentRef}
+                    class={styled.content}
+                    style={{ borderColor: props?.color ?? null }}>
                     <div class={styled.contentInner}>
                         <div class={styled.embed}>
                             {renderContentLoading()}

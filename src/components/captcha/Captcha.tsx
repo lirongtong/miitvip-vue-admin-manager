@@ -278,7 +278,7 @@ const MiCaptcha = defineComponent({
 
         const renderRadarLogo = () => {
             return (
-                <div class={styled.radarLogo}>
+                <div class={styled.radarLogo} style={{ borderColor: props.color ?? null }}>
                     <MiLink path={props.link} target="_blank">
                         <img src={props.logo ?? __LOGO__} alt={$g.powered} />
                     </MiLink>
