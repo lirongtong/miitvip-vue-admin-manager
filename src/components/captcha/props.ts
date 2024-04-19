@@ -28,7 +28,7 @@ import type { AxiosRequestConfig } from 'axios'
  * @param checkMethod 验证码弹窗前的验证接口请求方式
  * @param checkAction 验证码弹窗前的验证动作
  * @param actionConfig 请求配置( axios config )
- * @param offset 本地校验偏差值 ( 2 - 10px )
+ * @param offset 本地校验偏差值 ( 2 - 5px )
  */
 export interface CaptchaProperties {
     width: string | number | DeviceSize
