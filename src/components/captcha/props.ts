@@ -24,9 +24,9 @@ import type { AxiosRequestConfig } from 'axios'
  * @param verifyParams 校验验证码参数
  * @param verifyMethod 校验验证码接口请求方式
  * @param verifyAction 校验验证码操作动作
- * @param checkParams 初始化验证码前的验证参数
- * @param checkMethod 初始化验证码前的验证接口请求方式
- * @param checkAction 初始化验证码前的验证操作动作
+ * @param checkParams 验证码弹窗前的接口参数
+ * @param checkMethod 验证码弹窗前的验证接口请求方式
+ * @param checkAction 验证码弹窗前的验证动作
  * @param actionConfig 请求配置( axios config )
  * @param offset 本地校验偏差值 ( 2 - 10px )
  */
