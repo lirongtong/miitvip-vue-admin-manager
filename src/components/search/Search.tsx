@@ -378,6 +378,7 @@ const MiSearch = defineComponent({
 
         const renderSearchResult = () => {
             const reg = new RegExp(params.keyword, 'ig')
+            params.list = []
             ;(params.data || []).forEach((data: SearchData, idx: number) => {
                 if (data[props.searchKey] && reg.test(data[props.searchKey])) {
                     const temp = { ...data }
@@ -485,9 +486,7 @@ const MiSearch = defineComponent({
             <div
                 class={`${styled.container}${
                     params.focused || params.keyword ? ` ${styled.focused}` : ''
-                }${size.value.width ? ` ${styled.customWidth}` : ''}${
-                    size.value.height ? ` ${styled.customHeight}` : ''
-                }`}
+                }${size.value.width ? ` ${styled.customWidth}` : ''}`}
                 id={params.id}>
                 <input
                     class={styled.input}
