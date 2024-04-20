@@ -31,7 +31,7 @@ export { default as Notice } from './notice'
 export type { ClockProperties } from './clock/props'
 export { default as Clock } from './clock'
 
-export type { SearchProperties } from './search/props'
+export type { SearchProperties, SearchKeyProperties } from './search/props'
 export { default as Search } from './search'
 
 export type { PaletteProperties } from './palette/props'

@@ -11,7 +11,8 @@ import {
     onMounted,
     onUnmounted,
     nextTick,
-    computed
+    computed,
+    type VNodeTypes
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
@@ -37,9 +38,9 @@ const MiSearch = defineComponent({
     inheritAttrs: false,
     props: SearchProps(),
     slots: Object as SlotsType<{
-        default: any
-        suffix: any
-        itemTemplate: any
+        default: VNodeTypes
+        suffix: VNodeTypes
+        itemTemplate: VNodeTypes
     }>,
     emits: [
         'focus',
@@ -261,8 +262,7 @@ const MiSearch = defineComponent({
             const name = nodeProps?.name
             const type = nodeProps?.type
             const key = $tools.uid()
-            const info = nodeProps?.content || item?.[name] || item?.title
-            const content = name !== props.searchKey ? $tools.htmlEncode(info) : info
+            const content = nodeProps?.content || item?.[name] || item?.title
             return <MiSearchKey name={name} tag={tag} type={type} key={key} content={content} />
         }
 

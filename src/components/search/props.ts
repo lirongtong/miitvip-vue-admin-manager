@@ -1,3 +1,4 @@
+import { VNodeTypes } from 'vue'
 import { object, array } from 'vue-types'
 import { PropTypes, DeviceSize, SearchData } from '../../utils/types'
 import { animations, tuple, methods } from '../_utils/props'
@@ -32,7 +33,7 @@ export interface SearchProperties {
     radius: number | string | DeviceSize
     value: string | number
     placeholder: string
-    suffix: any
+    suffix: VNodeTypes
     searchAction: string | Function
     searchParams: object
     searchMethod: string
@@ -43,7 +44,7 @@ export interface SearchProperties {
     listRadius: number | string | DeviceSize
     listAnimation: string
     listNoDataText: string
-    itemTemplate: any
+    itemTemplate: VNodeTypes
     pagination: boolean
     pageSize: number | string | DeviceSize
     data: Array<Partial<SearchData>>
@@ -88,7 +89,7 @@ export interface SearchKeyProperties {
     name: string
     tag: keyof HTMLElementTagNameMap
     type: 'text' | 'image' | 'link'
-    content: any
+    content: VNodeTypes
 }
 export const SearchKeyProps = () => ({
     name: PropTypes.string.isRequired,
