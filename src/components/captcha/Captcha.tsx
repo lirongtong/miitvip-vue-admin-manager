@@ -105,7 +105,7 @@ const MiCaptcha = defineComponent({
             const afterInit = (tip = t('captcha.click'), failed = false) => {
                 params.failed = failed
                 params.init = true
-                params.tip = tip ?? t('captcha.click')
+                params.tip = tip || t('captcha.click')
             }
             if (props.initAction) {
                 if (typeof props.initAction === 'function') {
@@ -164,7 +164,11 @@ const MiCaptcha = defineComponent({
             params.status.success = false
             params.status.being = false
             params.modal.open = false
-            params.tip = props.initAction ? t('captcha.init') : t('captcha.click')
+            params.tip = props.initAction
+                ? params.init
+                    ? t('captcha.click')
+                    : t('captcha.init')
+                : t('captcha.click')
         }
 
         const handleCaptchaSuccess = (data?: any) => {
