@@ -258,11 +258,12 @@ const MiSearch = defineComponent({
         const renderSearchKey = (node: VNode, item: any) => {
             const nodeProps = node?.props as any
             const tag = nodeProps?.tag
-            const title = nodeProps?.title
+            const name = nodeProps?.name
             const type = nodeProps?.type
             const key = $tools.uid()
-            const content = title !== props.searchKey ? $tools.htmlEncode(item?.title) : item?.title
-            return <MiSearchKey name={title} tag={tag} type={type} key={key} content={content} />
+            const info = nodeProps?.content || item?.[name] || item?.title
+            const content = name !== props.searchKey ? $tools.htmlEncode(info) : info
+            return <MiSearchKey name={name} tag={tag} type={type} key={key} content={content} />
         }
 
         const renderDefaultResultList = (item: any) => {
