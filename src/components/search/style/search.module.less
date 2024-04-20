@@ -315,6 +315,34 @@
     }
 }
 
+.error {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    .flex(center, center, column);
+
+    &-inner {
+        text-align: center;
+        color: var(--mi-search-error);
+        .properties(padding, 16);
+        overflow-y: auto;
+        overflow-x: hidden;
+        .scrollbar();
+    }
+
+    :global(.anticon) {
+        .font-size(32);
+        .properties(margin-bottom, 16);
+    }
+
+    p {
+        margin: 0;
+        text-align: center;
+    }
+}
+
 @keyframes mi-anim-move {
     0% { transform: translate(0.0625rem, 0.0625rem) }
     33.33% { transform: translate(3.1875rem, 0.0625rem) }
@@ -324,6 +352,7 @@
 
 :export {
     --search-key: var(--mi-primary);
+    --search-error: var(--mi-error);
     --search-loading: var(--mi-primary);
     --search-input-text: var(--mi-primary);
     --search-input-background-color: transparent;

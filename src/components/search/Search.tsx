@@ -108,7 +108,9 @@ const MiSearch = defineComponent({
             const search = async () => {
                 if (props.searchAction) {
                     if (typeof props.searchAction === 'function') {
-                        await props.searchAction()
+                        const res = await props.searchAction(params.keyword)
+                        params.data = Array.isArray(res) ? res : []
+                        renderSearchResult()
                         params.loading = false
                     } else {
                         $request[(props.searchMethod || 'post').toLowerCase()](
@@ -116,7 +118,6 @@ const MiSearch = defineComponent({
                             props.searchParams
                         )
                             .then((res: any) => {
-                                params.loading = false
                                 if (res?.ret?.code === 200) {
                                     params.data = res?.data || []
                                     renderSearchResult()
@@ -125,30 +126,22 @@ const MiSearch = defineComponent({
                                         <>
                                             <FrownOutlined />
                                             <p innerHTML={t('search.failed.message')} />
-                                            <p
-                                                innerHTML={t('search.failed.code') + res?.ret?.code}
-                                            />
-                                            <p
-                                                innerHTML={
-                                                    t('search.failed.reason') + res?.ret?.message
-                                                }
-                                            />
+                                            <p>{t('search.failed.code') + res?.ret?.code}</p>
+                                            <p>{t('search.failed.reason') + res?.ret?.message}</p>
                                         </>
                                     )
                                 }
                             })
                             .catch((err: any) => {
-                                if (params.loading) {
-                                    params.loading = false
-                                    params.error = (
-                                        <>
-                                            <FrownOutlined />
-                                            <p innerHTML={t('search.failed.error')} />
-                                            <p innerHTML={err.message} />
-                                        </>
-                                    )
-                                }
+                                params.error = (
+                                    <>
+                                        <FrownOutlined />
+                                        <p innerHTML={t('search.failed.error')} />
+                                        {err?.message ? <p innerHTML={err.message} /> : null}
+                                    </>
+                                )
                             })
+                            .finally(() => (params.loading = false))
                     }
                 } else {
                     params.loading = false
@@ -181,7 +174,7 @@ const MiSearch = defineComponent({
                 handleSearch()
             } else {
                 params.loading = false
-                params.list = params.data || []
+                params.list = props.searchAction ? [] : params.data || []
             }
             emit('update:value', keyword)
             emit('input', keyword, evt)
@@ -448,7 +441,11 @@ const MiSearch = defineComponent({
                             <p innerHTML={props.listNoDataText || t('global.no-data')} />
                         </div>
                     ) : null}
-                    {params.error ? <div class={styled.error} innerHTML={params.error} /> : null}
+                    {params.error ? (
+                        <div class={styled.error}>
+                            <div class={styled.errorInner}>{params.error}</div>
+                        </div>
+                    ) : null}
                     {renderLoading()}
                     {renderResultList()}
                     {renderPagination()}
