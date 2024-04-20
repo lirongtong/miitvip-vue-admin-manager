@@ -15,7 +15,7 @@ import { animations, tuple, methods } from '../_utils/props'
  * @param suffix 后缀<Slot />
  * @param searchAction 搜索接口或自定义搜索动作
  * @param searchParams 搜索参数
- * @param searchMethod 读取搜索接口方法 ( 默认: post )
+ * @param searchMethod 读取搜索接口方法 ( 默认: get )
  * @param searchDelay 搜索延迟
  * @param listWidth 列表宽度
  * @param listHeight 列表高度
@@ -58,7 +58,7 @@ export const SearchProps = () => ({
     suffix: PropTypes.any,
     searchAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     searchParams: PropTypes.object.def({}),
-    searchMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
+    searchMethod: PropTypes.oneOf(tuple(...methods)).def('get'),
     searchKey: PropTypes.string.isRequired,
     searchDelay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     listWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]),
