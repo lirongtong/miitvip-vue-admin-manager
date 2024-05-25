@@ -889,7 +889,11 @@ class MiTools {
             items.forEach((item: KeyValue) => {
                 const v = data[item.key]
                 position[item.value] =
-                    typeof v !== 'undefined' ? $tools.convert2rem($tools.distinguishSize(v)) : null
+                    typeof v !== 'undefined'
+                        ? v !== 'unset'
+                            ? $tools.convert2rem($tools.distinguishSize(v))
+                            : v
+                        : null
             })
         }
         return position
