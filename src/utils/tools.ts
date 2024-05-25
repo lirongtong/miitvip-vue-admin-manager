@@ -457,7 +457,7 @@ class MiTools {
     }
 
     /**
-     * 单位转换
+     * 单位转换 px -> rem
      * @param value
      * @param base
      */
@@ -466,6 +466,16 @@ class MiTools {
         return this.isNumber(val)
             ? Math.round((val / (base || $g.baseSize || 16)) * 1000) / 1000
             : 0
+    }
+
+    /**
+     * 单位转换 rem -> px
+     * @param value
+     * @param base
+     */
+    rem2px(value: number | string, base?: number): number {
+        const val = parseInt((value || '').toString().replace('rem', ''))
+        return this.isNumber(val) ? Math.round(val * (base || $g.baseSize || 16) * 1000) / 1000 : 0
     }
 
     /**
@@ -986,7 +996,8 @@ class MiTools {
  *  - {@link $tools.scrollToPos} 指定 `DOM` 从指定位置滚动至另外一个指定位置
  *  - {@link $tools.back2top} 回到顶部
  *  - {@link $tools.back2pos} 回到指定 `DOM` 位置
- *  - {@link $tools.px2rem} 转 rem ( 不带单位的数字 )
+ *  - {@link $tools.px2rem} px 转 rem
+ *  - {@link $tools.rem2px} rem 转 px
  *  - {@link $tools.hex2rgbValues} Hex 转 rgb 数值
  *  - {@link $tools.hex2rgb} Hex 转 rgb
  *  - {@link $tools.hex2rgba} Hex 转 rgba
