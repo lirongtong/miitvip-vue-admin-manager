@@ -147,12 +147,13 @@ const handleVerifyAction = () => {
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `320` | 初始框的宽度
-| `height` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `''` | 初始框的高度
-| `radius` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `48` | 初始框的圆角弧度
+| `width` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `320` | 触发按钮的宽度
+| `height` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `''` | 触发按钮的高度
+| `radius` | `string \| number \|` [`DeviceSize`](../../utils/README.md) | `48` | 触发按钮的圆角弧度
+| `visible` | `boolean` | `true` | 是否显示初始触发按钮
 | `color` | `string` | `undefined` | 主题色
 | `image` | `string` | `undefined` | 弹窗底图
-| `logo` | `string` | `undefined` | 初始框内右侧的图标
+| `logo` | `string` | `undefined` | 触发按钮内右侧的图标
 | `link` | `string` | `undefined` | 图标对应的链接地址
 | `offset` | `number` | `2` | 本地校验偏差值 - 单位 px ( 可设定 2 - 5 )
 | `mask` | `boolean` | `true` | 是否显示遮罩

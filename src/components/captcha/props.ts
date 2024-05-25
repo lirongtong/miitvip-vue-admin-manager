@@ -29,6 +29,7 @@ import type { AxiosRequestConfig } from 'axios'
  * @param checkAction 验证码弹窗前的验证动作
  * @param actionConfig 请求配置( axios config )
  * @param offset 本地校验偏差值 ( 2 - 5px )
+ * @param visible 是否显示触发按钮
  */
 export interface CaptchaProperties {
     width: string | number | DeviceSize
@@ -53,6 +54,7 @@ export interface CaptchaProperties {
     checkAction: string | Function
     actionConfig: AxiosRequestConfig
     offset: number
+    visible: boolean
 }
 export const CaptchaProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(320),
@@ -76,7 +78,8 @@ export const CaptchaProps = () => ({
     checkMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
     checkAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     actionConfig: object<AxiosRequestConfig>().def({}),
-    offset: PropTypes.number.def(2)
+    offset: PropTypes.number.def(2),
+    visible: PropTypes.bool.def(true)
 })
 
 /**
@@ -95,6 +98,7 @@ export const CaptchaProps = () => ({
  * @param verifyAction 校验验证码操作动作
  * @param actionConfig 请求配置( axios config )
  * @param offset 本地校验偏差值 ( 2 - 10px )
+ * @param captchaVisible 是否显示触发按钮
  */
 export interface CaptchaModalProperties {
     open: boolean
@@ -109,6 +113,7 @@ export interface CaptchaModalProperties {
     verifyAction: string | Function
     actionConfig: AxiosRequestConfig
     offset: number
+    captchaVisible: boolean
 }
 export const CaptchaModalProps = () => ({
     open: PropTypes.bool.def(false),
@@ -122,7 +127,8 @@ export const CaptchaModalProps = () => ({
     verifyMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
     verifyAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     actionConfig: object<AxiosRequestConfig>().def({}),
-    offset: PropTypes.number.def(2)
+    offset: PropTypes.number.def(2),
+    captchaVisible: PropTypes.bool.def(true)
 })
 
 export interface CaptchaModalBlockPosition {

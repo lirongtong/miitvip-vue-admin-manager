@@ -29,7 +29,7 @@ const MiCaptcha = defineComponent({
     inheritAttrs: false,
     props: CaptchaProps(),
     emits: ['init', 'checked', 'success'],
-    setup(props, { emit, expose }) {
+    setup(props, { emit, expose, attrs }) {
         const { t, te } = useI18n()
         const { width } = useWindowResize()
         const size = computed(() => {
@@ -67,6 +67,7 @@ const MiCaptcha = defineComponent({
             }
         })
         const captchaRef = ref(null)
+        const captchaContentRef = ref(null)
         const captchaModalRef = ref(null)
         const params = reactive({
             anim: getPrefixCls('anim-slit'),
@@ -143,15 +144,17 @@ const MiCaptcha = defineComponent({
         }
 
         const getCaptchaModalPosition = (): Position => {
-            const elem = captchaRef.value as HTMLElement
+            if (!props.visible) return { left: '50%', top: '50%' } as Position
+            const elem = captchaContentRef.value as HTMLElement
             let position = { left: 0, top: 0 } as Position
             if (elem) {
                 if (width.value < $g.breakpoints.md) {
                     position = { left: '50%', top: '50%' }
                 } else {
-                    const rect = elem.getBoundingClientRect()
-                    const top = Math.round(rect.top * 1000) / 1000 + params.offset.top
-                    const left = Math.round(rect.left * 1000) / 1000 + params.offset.left
+                    const realTop = $tools.getElementActualOffsetTopOrLeft(elem)
+                    const realLeft = $tools.getElementActualOffsetTopOrLeft(elem, 'left')
+                    const top = Math.round(realTop * 1000) / 1000 + params.offset.top
+                    const left = Math.round(realLeft * 1000) / 1000 + params.offset.left
                     position = { left, top }
                 }
             }
@@ -335,13 +338,17 @@ const MiCaptcha = defineComponent({
                         onClose={handleCaptchaModalClose}
                         image={props.image}
                         offset={offset}
+                        captchaVisible={props.visible}
                     />
                 </Teleport>
             ) : null
             return (
                 <>
                     <div
-                        class={`${styled.content}${params.failed ? ` ${styled.failed}` : ''}`}
+                        ref={captchaContentRef}
+                        class={`${styled.content}${params.failed ? ` ${styled.failed}` : ''}${
+                            props.visible ? '' : ` ${styled.hide}`
+                        }`}
                         onClick={handleCaptchaModal}
                         style={size.value}>
                         {renderRadar()}
@@ -369,10 +376,13 @@ const MiCaptcha = defineComponent({
             if (reinit) initCaptcha()
         }
 
-        expose({ reset: (reinit = true) => resetCaptcha(reinit) })
+        expose({
+            resetCaptcha: (reinit = true) => resetCaptcha(reinit),
+            openCaptcha: () => handleCaptchaModal()
+        })
 
         return () => (
-            <div ref={captchaRef} class={styled.container} key={$tools.uid()}>
+            <div ref={captchaRef} class={styled.container} key={$tools.uid()} {...attrs}>
                 {renderContent()}
             </div>
         )

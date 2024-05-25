@@ -444,7 +444,7 @@ const MiCaptchaModal = defineComponent({
                     ? `transparent ${props.color} transparent transparent`
                     : null
             }
-            return width.value >= $g.breakpoints.md ? (
+            return width.value >= $g.breakpoints.md && props.captchaVisible ? (
                 <div class={styled.arrow}>
                     <div class={styled.arrowOut} style={border}></div>
                     <div class={styled.arrowIn} style={border}></div>
@@ -620,7 +620,7 @@ const MiCaptchaModal = defineComponent({
                 <Transition name={params.anim} appear={true}>
                     <div
                         ref={modalRef}
-                        class={`${styled.container} ${getPrefixCls(`modal-${locale}`)}${
+                        class={`${styled.container} ${getPrefixCls(`modal-${locale.value}`)}${
                             !params.check.correct && params.check.show ? ` ${styled.error}` : ''
                         }${width.value < $g.breakpoints.md ? ` ${styled.mobile}` : ''}`}
                         style={{
