@@ -16,6 +16,7 @@
         .gradient-hint(var(--mi-code-copy-background-start), var(--mi-code-copy-background-hint), var(--mi-code-copy-background-stop));
         .transition();
         backdrop-filter: blur(1rem);
+        opacity: 0.1;
 
         :global {
             .anticon {
@@ -23,6 +24,10 @@
                 color: var(--mi-code-copy-icon);
             }
         }
+    }
+
+    &:hover .copy {
+        opacity: 1;
     }
 
     :global {
