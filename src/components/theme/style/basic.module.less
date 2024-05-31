@@ -25,10 +25,16 @@ body {
     font-family: @mi-font-basic;
     position: relative;
 
-    ::-moz-selection,
     ::selection {
         color: var(--mi-on-primary);
-        background: var(--mi-primary);
+        background-color: var(--mi-primary);
+        background-image: linear-gradient(127deg, var(--mi-primary) 0, var(--mi-secondary) 52%, var(--mi-tertiary) 100%);
+    }
+
+    ::-moz-selection {
+        color: var(--mi-on-primary);
+        background-color: var(--mi-primary);
+        background-image: linear-gradient(127deg, var(--mi-primary) 0, var(--mi-secondary) 52%, var(--mi-tertiary) 100%);
     }
 }
 
