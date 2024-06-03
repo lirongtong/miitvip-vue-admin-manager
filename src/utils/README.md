@@ -26,7 +26,7 @@
 | :---- | :---- | :----
 | `name` | `string` | 用于 `key` 值生成
 | `title` | `string` | 菜单项的标题
-| `titleSize` | `string \| number \| DeviceSize` | 菜单项的标题的大小
+| `fontSize` | `string \| number \| DeviceSize` | 菜单项的标题的大小
 | `path` | `string` | 链接地址
 | `query` | `object` | 链接参数
 | `target` | `string` | 链接的弹窗类型

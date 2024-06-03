@@ -334,7 +334,7 @@ export interface SearchData {
  * +=====================+
  * @param name key 值
  * @param title 菜单项的标题
- * @param titleSize 标题大小
+ * @param fontSize 标题大小
  * @param path 链接地址
  * @param query 链接参数
  * @param target 弹窗类型
@@ -347,7 +347,7 @@ export interface DropdownItem {
     [key: string]: any
     name: string
     title: string
-    titleSize: string | number | DeviceSize
+    fontSize: string | number | DeviceSize
     path: string
     query: object
     target: string
