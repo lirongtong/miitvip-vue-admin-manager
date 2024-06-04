@@ -42,7 +42,7 @@ const MiBreadcrumb = defineComponent({
                             breadcrumbs.push({
                                 title,
                                 icon,
-                                path: match.path ?? '/'
+                                path: '/'
                             })
                         } else {
                             /** other */
