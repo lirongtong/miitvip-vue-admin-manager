@@ -22,7 +22,7 @@ import { default as Register } from './components/register'
 import { default as Forget } from './components/forget'
 import { default as Backtop } from './components/backtop'
 import { default as Anchor } from './components/anchor'
-import { default as Soocialite } from './components/socialite'
+import { default as Socialite } from './components/socialite'
 
 import * as components from './components'
 export * from './components'
@@ -83,7 +83,7 @@ declare module '@vue/runtime-core' {
         MiForget: typeof Forget
         MiBacktop: typeof Backtop
         MiAnchor: typeof Anchor
-        MiSoocialite: typeof Soocialite
+        MiSocialite: typeof Socialite
     }
 }
 
