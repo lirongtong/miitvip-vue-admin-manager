@@ -43,6 +43,7 @@ const MiBacktop = defineComponent({
                 : document.documentElement.scrollTop || document.body.scrollTop
             if (offset >= props.offset) params.show = true
             else params.show = false
+            if (offset === 0) params.show = false
         }
 
         const handleBacktop = (duration?: number, callback?: Function) => {
