@@ -50,7 +50,9 @@
 >
 > `2.x` 版本的 `npm` 包在这里 **[`makeit-admin-pro`](https://www.npmjs.com/package/makeit-admin-pro)**
 >
-> 体验地址 「 **[https://admin.makeit.vip](https://admin.makeit.vip)** 」 现为 `2.x` 版本的使用说明与示例站点
+> `3.x` 版本体验地址 「 **[https://admin.makeit.vip](https://admin.makeit.vip)** 」
+>
+> `2.x` 版本体验地址 「 **[https://2x.makeit.vip](https://2x.makeit.vip)** 」
 >
 
 ## 关于
