@@ -151,10 +151,9 @@ const MiCaptcha = defineComponent({
                 if (width.value < $g.breakpoints.md) {
                     position = { left: '50%', top: '50%' }
                 } else {
-                    const realTop = $tools.getElementActualOffsetTopOrLeft(elem)
-                    const realLeft = $tools.getElementActualOffsetTopOrLeft(elem, 'left')
-                    const top = Math.round(realTop * 1000) / 1000 + params.offset.top
-                    const left = Math.round(realLeft * 1000) / 1000 + params.offset.left
+                    const rect = elem.getBoundingClientRect()
+                    const top = Math.round(rect.top * 1000) / 1000 + params.offset.top
+                    const left = Math.round(rect.left * 1000) / 1000 + params.offset.left
                     position = { left, top }
                 }
             }
