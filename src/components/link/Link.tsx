@@ -14,6 +14,16 @@ const MiLink = defineComponent({
     setup(props, { slots, attrs }) {
         applyTheme(styled)
 
+        const getUrl = () => {
+            if (props.query && Object.keys(props.query)) {
+                const query = Object.keys(props.query).map((key) => {
+                    return `${key}=${props.query[key]}`
+                })
+                return `${props.path}?${query.join('&')}`
+            }
+            return props.path
+        }
+
         const renderPath = () => {
             const link = ref<any>()
             if (props.type === 'email') {
@@ -31,7 +41,7 @@ const MiLink = defineComponent({
                 if (props.path) {
                     if ($tools.isUrl(props.path)) {
                         link.value = (
-                            <a href={props.path} target={props.target}>
+                            <a href={getUrl()} target={props.target}>
                                 {slots?.default()}
                             </a>
                         )
