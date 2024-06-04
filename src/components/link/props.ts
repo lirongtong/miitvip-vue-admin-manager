@@ -21,6 +21,6 @@ export const LinkProps = () => ({
     type: PropTypes.string,
     path: PropTypes.string,
     query: PropTypes.object.def({}),
-    target: PropTypes.string.def('_self'),
+    target: PropTypes.string,
     vertical: PropTypes.bool.def(false)
 })

@@ -41,13 +41,15 @@ const MiLink = defineComponent({
                 if (props.path) {
                     if ($tools.isUrl(props.path)) {
                         link.value = (
-                            <a href={getUrl()} target={props.target}>
+                            <a href={getUrl()} target={props.target || '_blank'}>
                                 {slots?.default()}
                             </a>
                         )
                     } else {
                         link.value = (
-                            <RouterLink to={{ path: props.path, query: props.query }}>
+                            <RouterLink
+                                to={{ path: props.path, query: props.query }}
+                                target={props.target || '_self'}>
                                 {slots?.default()}
                             </RouterLink>
                         )
