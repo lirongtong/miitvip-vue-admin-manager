@@ -89,6 +89,7 @@ const MiBacktop = defineComponent({
                 height: $tools.convert2rem($tools.distinguishSize(props.height, width.value)),
                 borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius, width.value)),
                 ...$tools.wrapPositionOrSpacing(props.position),
+                background: props.background ?? null,
                 zIndex: props.zIndex
             }
         })

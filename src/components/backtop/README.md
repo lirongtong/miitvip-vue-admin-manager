@@ -59,6 +59,7 @@
 | `tip` | `string` | `回到顶部` | 提示语 ( 移动端无效 )
 | `zIndex` | `number` | `Date.now()` | 容器层级
 | `position` | [`Position`](../../utils/README.md) | `{ bottom: 40, right: 40 }` | 容器定位
+| `background` | `string` | `''` | 背景色
 | `icon` | `vSlot` | `<RocketOutlined />` | 图标
 | `listenerContainer` | `Window \| HTMLElement` | `document.body` | `scroll` 事件的监听容器
 

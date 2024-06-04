@@ -15,6 +15,7 @@ import { object } from 'vue-types'
  * @param zIndex 层级
  * @param tip 提示语
  * @param position 定位
+ * @param background 背景色
  * @param icon 图标
  * @param listenerContainer scroll 监听容器
  */
@@ -27,6 +28,7 @@ export interface BacktopProperties {
     zIndex: number
     tip: string
     position: Position
+    background: string
     icon: VNodeTypes
     listenerContainer: HTMLElement
 }
@@ -40,6 +42,7 @@ export const BacktopProps = () => ({
     zIndex: PropTypes.number.def(Date.now()),
     tip: PropTypes.string,
     position: object<Position>().def({ bottom: 40, right: 40 }),
+    background: PropTypes.string,
     icon: PropTypes.any,
     listenerContainer: PropTypes.oneOfType([HTMLElement])
 })
