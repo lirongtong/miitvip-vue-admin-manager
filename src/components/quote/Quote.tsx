@@ -11,7 +11,9 @@ const MiQuote = defineComponent({
     setup(props, { slots }) {
         applyTheme(styled)
         return () => (
-            <div class={styled.container} style={{ background: props?.background ?? null }}>
+            <div
+                class={styled.container}
+                style={{ background: props?.background ?? null, color: props?.color ?? null }}>
                 <div class={styled.content}>{getPropSlot(slots, props, 'default')}</div>
             </div>
         )
