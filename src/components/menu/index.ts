@@ -1,14 +1,4 @@
-import { App, type Plugin } from 'vue'
-import Mixins from '../../utils/mixins'
+import { installs } from '../../utils/install'
 import Menu from './Menu'
 
-Menu.install = (app: App) => {
-    Mixins(app)
-    app.component(Menu.name, Menu)
-    app.component(Menu.SubMenu.name, Menu.SubMenu)
-    app.component(Menu.Item.name, Menu.Item)
-    app.component(Menu.Item.Title.name, Menu.Item.Title)
-    return app
-}
-
-export default Menu as typeof Menu & Plugin
+export default installs(Menu, [Menu.SubMenu, Menu.Item, Menu.Item.Title])
