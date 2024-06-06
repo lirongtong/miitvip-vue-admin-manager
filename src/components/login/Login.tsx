@@ -338,8 +338,7 @@ const MiLogin = defineComponent({
                                           })`
                                       }
                                     : null
-                            }
-                            key={$tools.uid()}>
+                            }>
                             {renderVideo()}
                             <Row class={styled.content}>
                                 <Col class={styled.inner} xs={24} sm={18} md={12} lg={12}>

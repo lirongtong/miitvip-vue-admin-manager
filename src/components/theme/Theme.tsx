@@ -7,6 +7,7 @@ import { $tools } from '../../utils/tools'
 import { $storage } from '../../utils/storage'
 import { useRoute, useRouter } from 'vue-router'
 import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import MiThemeProvider from './Provider'
 import styled from './style/theme.module.less'
 
