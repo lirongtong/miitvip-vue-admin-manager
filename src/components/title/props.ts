@@ -9,7 +9,6 @@ import { object } from 'vue-types'
  * @param center 居中
  * @param size 大小
  * @param color 颜色
- * @param extra 其他<Slot />
  * @param margin 间距
  */
 export interface TitleProperties {
@@ -17,7 +16,6 @@ export interface TitleProperties {
     center: boolean
     size: string | number | DeviceSize
     color: string
-    extra: any
     margin: Position
 }
 export const TitleProps = () => ({
@@ -25,6 +23,5 @@ export const TitleProps = () => ({
     center: PropTypes.bool.def(false),
     size: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(24),
     color: PropTypes.string,
-    extra: PropTypes.any,
     margin: PropTypes.object.def({})
 })
