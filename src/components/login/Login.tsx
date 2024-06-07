@@ -123,16 +123,24 @@ const MiLogin = defineComponent({
                             if (typeof props.action === 'string') {
                                 api.login = props.action
                                 params.form.validate.url = api.login
-                                await auth.login(params.form.validate).then((res: ResponseData) => {
-                                    if (res?.ret?.code === 200) {
-                                        const path = route.query?.redirect as string
-                                        if (path) {
-                                            if ($tools.isUrl(path)) window.location.href = path
-                                            else router.push({ path })
+                                await auth
+                                    .login(params.form.validate)
+                                    .then((res: ResponseData) => {
+                                        if (res?.ret?.code === 200) {
+                                            const path = route.query?.redirect as string
+                                            if (path) {
+                                                if ($tools.isUrl(path)) window.location.href = path
+                                                else router.push({ path })
+                                            }
+                                        } else {
+                                            message.error({
+                                                content: res?.ret?.message,
+                                                duration: 6
+                                            })
                                         }
-                                    } else message.error(res?.ret?.message)
-                                    emit('afterLogin', res)
-                                })
+                                        emit('afterLogin', res)
+                                    })
+                                    .finally(() => (params.loading = false))
                             } else if (typeof props.action === 'function') {
                                 const response = await props.action(params.form.validate)
                                 if (typeof response === 'boolean' && response) {

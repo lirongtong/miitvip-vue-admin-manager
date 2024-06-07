@@ -52,8 +52,8 @@ export const useAuthStore = defineStore('auth', {
                             this.autoLogin = autoLogin
                             $cookie.set($g.caches?.cookies?.autoLogin, autoLogin, 7)
                             this.user((res?.data || {}) as LoginResponseData)
-                            resolve(res)
                         }
+                        resolve(res)
                     })
                     .catch((err: any) => reject(err))
             })
