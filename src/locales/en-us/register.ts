@@ -21,5 +21,7 @@ export default {
     login: `Go to Sign in`,
     socialite: `Others`,
     unknown: `Unknown Error`,
-    verify: `Please click the button to verify`
+    verify: `Please click the button to verify`,
+    success: `Success`,
+    successText: `Your registration verification code has been sent to {email} and is valid for 10 minutes. If you have not received the verification code email, it may have been classified as spam. Please check in "Spam" or "Advertisement".`
 }

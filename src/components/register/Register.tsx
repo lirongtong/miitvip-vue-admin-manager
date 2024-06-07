@@ -16,12 +16,10 @@ import { $tools } from '../../utils/tools'
 import { $request } from '../../utils/request'
 import { $g } from '../../utils/global'
 import { api } from '../../utils/api'
-import { $storage } from '../../utils/storage'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { getPropSlot } from '../_utils/props'
 import { __LOGO__, __PASSPORT_DEFAULT_BACKGROUND__ } from '../../utils/images'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import type { ResponseData } from '../../utils/types'
 import { useAuthStore } from '../../stores/auth'
 import MiTheme from '../theme/Theme'
@@ -31,6 +29,7 @@ import MiPalette from '../palette/Palette'
 import MiPassword from '../password/Password'
 import MiCaptcha from '../captcha/Captcha'
 import MiSocialite from '../socialite/Socialite'
+import MiModal from '../modal/Modal'
 import applyTheme from '../_utils/theme'
 import styled from './style/register.module.less'
 
@@ -48,7 +47,6 @@ const MiRegister = defineComponent({
         const { t } = useI18n()
         const { width } = useWindowResize()
         const auth = useAuthStore()
-        const router = useRouter()
         const videoRef = ref<HTMLVideoElement>()
         const formRef = ref<FormInstance>()
         const passwordFormRef = ref<FormInstance>()
@@ -144,23 +142,29 @@ const MiRegister = defineComponent({
                                 (params.form.validate.captcha && params.captcha))
                         ) {
                             const handleRegiserSuccess = () => {
-                                $storage.set($g.caches.storages.email, params.form.validate.email)
-                                if (props.redirectTo) {
-                                    if ($tools.isUrl(props.redirectTo))
-                                        window.location.href = props.redirectTo
-                                    else router.push({ path: '/' })
-                                } else router.push({ path: '/' })
+                                MiModal.success({
+                                    title: t('register.success'),
+                                    content: t('register.successText', {
+                                        email: params.form.validate.email
+                                    })
+                                })
                             }
                             if (typeof props.action === 'string') {
                                 api.register = props.action
-                                params.form.validate.url = api.login
+                                params.form.validate.url = api.register
                                 await auth
                                     .register(params.form.validate)
                                     .then((res: ResponseData) => {
                                         if (res?.ret?.code === 200) handleRegiserSuccess()
-                                        else message.error(res?.ret?.message)
+                                        else {
+                                            message.error({
+                                                content: res?.ret?.message,
+                                                duration: 6
+                                            })
+                                        }
                                         emit('afterRegister', res)
                                     })
+                                    .finally(() => (params.loading = false))
                             } else if (typeof props.action === 'function') {
                                 const response = await props.action(params.form.validate)
                                 if (typeof response === 'boolean' && response)
@@ -382,7 +386,7 @@ const MiRegister = defineComponent({
                         {
                             <MiPassword
                                 ref={passwordFormRef}
-                                value={params.form.validate.password}
+                                v-model:value={params.form.validate.password}
                                 confirm={true}
                                 onPressEnter={handleRegister}
                             />

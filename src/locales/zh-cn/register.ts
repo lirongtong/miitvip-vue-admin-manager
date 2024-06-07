@@ -21,5 +21,7 @@ export default {
     login: `前往登录`,
     socialite: `快捷登录方式`,
     unknown: `未知错误`,
-    verify: `请点击按钮进行验证码校验`
+    verify: `请点击按钮进行验证码校验`,
+    success: `注册成功`,
+    successText: `您的注册验证码已经发送至 {email}，有效时间为 10 分钟。倘若您尚未收到验证码邮件，有可能被归类为垃圾邮件，请至「 垃圾邮件 」或「 广告邮件 」中查看。`
 }
