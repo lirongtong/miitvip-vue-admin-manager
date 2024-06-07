@@ -372,7 +372,7 @@ const MiCaptchaModal = defineComponent({
                                 if (res?.ret?.code === 200) {
                                     params.check.correct = true
                                     succcess(res?.data)
-                                }
+                                } else error()
                             })
                             .catch((err: any) => error(err?.message))
                     } else if (typeof props.verifyAction === 'function') {
