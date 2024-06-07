@@ -296,7 +296,7 @@ const MiLogin = defineComponent({
                         {
                             <MiPassword
                                 ref={passwordFormRef}
-                                value={params.form.validate.password}
+                                v-model:value={params.form.validate.password}
                                 skipCheck={true}
                                 isRequired={true}
                                 onPressEnter={handleLogin}

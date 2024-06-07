@@ -26,7 +26,8 @@ const MiPassword = defineComponent({
         'update:value',
         'update:modelValue',
         'update:confirmValue',
-        'input'
+        'input',
+        'pressEnter'
     ],
     setup(props, { emit, expose }) {
         const { t, locale } = useI18n()
@@ -170,6 +171,10 @@ const MiPassword = defineComponent({
             }
         }
 
+        const handlePressEnter = () => {
+            emit('pressEnter')
+        }
+
         const handleConfirmInput = (evt: any) => {
             const value = evt?.target?.value
             params.form.validate.confirm = value
@@ -225,6 +230,7 @@ const MiPassword = defineComponent({
                     id={key ?? getPrefixCls(`password-key-${$tools.uid()}`)}
                     style={style.value}
                     type={type}
+                    onPressEnter={handlePressEnter}
                 />
             )
         }

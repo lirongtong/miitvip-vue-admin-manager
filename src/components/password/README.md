@@ -97,3 +97,4 @@
 | :---- | :---- | :----
 | `change` | *None* | 密码输入框值变化的事件回调
 | `confirmChange` | *None* | 确认输入框的变化事件回调
+| `pressEnter` | *None* | 输入框 `Enter` 键按下的事件回调
