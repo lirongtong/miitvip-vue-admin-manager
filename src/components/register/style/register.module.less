@@ -241,6 +241,17 @@
     }
 }
 
+.register {
+    &-success {
+        &-modal {
+            a,
+            a:hover {
+                color: var(--mi-primary);
+            }
+        }
+    }
+}
+
 .tips {
     .flex(flex-start, center, column);
     color: var(--mi-register-text);
@@ -272,12 +283,7 @@
 .username {
     &-popover {
         .flex();
-
-        :global {
-            .ant-popover-content {
-                max-width: 96%;
-            }
-        }
+        max-width: 96%;
     }
 }
 

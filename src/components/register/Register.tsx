@@ -1,4 +1,5 @@
 import { defineComponent, ref, reactive, createVNode, computed, type SlotsType } from 'vue'
+import { useRouter } from 'vue-router'
 import { RegisterProps } from './props'
 import {
     ConfigProvider,
@@ -44,6 +45,7 @@ const MiRegister = defineComponent({
         usernameTip: any
     }>,
     setup(props, { slots, emit }) {
+        const router = useRouter()
         const { t } = useI18n()
         const { width } = useWindowResize()
         const auth = useAuthStore()
@@ -83,6 +85,7 @@ const MiRegister = defineComponent({
         }
 
         const params = reactive({
+            success: false,
             loading: false,
             captcha: null,
             form: {
@@ -141,24 +144,16 @@ const MiRegister = defineComponent({
                             (!params.form.validate.captcha ||
                                 (params.form.validate.captcha && params.captcha))
                         ) {
-                            const handleRegiserSuccess = () => {
-                                MiModal.success({
-                                    title: t('register.success'),
-                                    content: t('register.successText', {
-                                        email: params.form.validate.email
-                                    })
-                                })
-                            }
                             if (typeof props.action === 'string') {
                                 api.register = props.action
                                 params.form.validate.url = api.register
                                 await auth
                                     .register(params.form.validate)
                                     .then((res: ResponseData) => {
-                                        if (res?.ret?.code === 200) handleRegiserSuccess()
-                                        else {
+                                        if (res?.ret?.code === 200) params.success = true
+                                        else if (res?.ret?.message) {
                                             message.error({
-                                                content: res?.ret?.message,
+                                                content: res.ret.message,
                                                 duration: 6
                                             })
                                         }
@@ -167,8 +162,7 @@ const MiRegister = defineComponent({
                                     .finally(() => (params.loading = false))
                             } else if (typeof props.action === 'function') {
                                 const response = await props.action(params.form.validate)
-                                if (typeof response === 'boolean' && response)
-                                    handleRegiserSuccess()
+                                if (typeof response === 'boolean' && response) params.success = true
                                 if (typeof response === 'string') message.error(response)
                             }
                         }
@@ -205,6 +199,20 @@ const MiRegister = defineComponent({
             params.captcha = true
             if (formRef.value) formRef.value.validateFields(['captcha'])
             emit('captchaSuccess', data)
+        }
+
+        const handleSuccessModalOk = () => {
+            if (typeof window !== 'undefined') {
+                const elem = document.createElement('a')
+                elem.href = `mailto:${params.form.validate.email}`
+                elem.click()
+                elem.remove()
+            }
+        }
+
+        const handleSuccessModalCancel = () => {
+            params.success = false
+            router.push({ path: '/login' })
         }
 
         const renderVideo = () => {
@@ -371,6 +379,24 @@ const MiRegister = defineComponent({
             )
         }
 
+        const renderSuccessModal = () => {
+            return (
+                <MiModal
+                    v-model:open={params.success}
+                    title={t('register.success')}
+                    okText={t('register.validate')}
+                    cancelText={t('register.login')}
+                    onOk={handleSuccessModalOk}
+                    onCancel={handleSuccessModalCancel}>
+                    <div
+                        class={styled.registerSuccessModal}
+                        innerHTML={t('register.successText', {
+                            email: params.form.validate.email
+                        })}></div>
+                </MiModal>
+            )
+        }
+
         const renderForm = () => {
             return (
                 <div class={styled.form}>
@@ -395,6 +421,7 @@ const MiRegister = defineComponent({
                         {renderButton()}
                         {renderSocialiteRegister()}
                     </Form>
+                    {renderSuccessModal()}
                 </div>
             )
         }

@@ -19,9 +19,10 @@ export default {
         length: `- Username length is <span class="theme">4-16</span> characters.`
     },
     login: `Go to Sign in`,
+    validate: `Go to Verification`,
     socialite: `Others`,
     unknown: `Unknown Error`,
     verify: `Please click the button to verify`,
     success: `Success`,
-    successText: `Your registration verification code has been sent to {email} and is valid for 10 minutes. If you have not received the verification code email, it may have been classified as spam. Please check in "Spam" or "Advertisement".`
+    successText: `Your email activation verification link has been sent to <a href="mailto:{email}">{email}</a> and will be valid for 10 minutes. If you have not received the activation email, it may have been classified as spam. Please check in "Spam" or "Advertisement Email".`
 }

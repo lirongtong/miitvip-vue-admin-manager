@@ -19,9 +19,10 @@ export default {
         length: `- 用户名长度为 <span class="theme">4-16</span> 个字符。`
     },
     login: `前往登录`,
+    validate: `前往验证`,
     socialite: `快捷登录方式`,
     unknown: `未知错误`,
     verify: `请点击按钮进行验证码校验`,
     success: `注册成功`,
-    successText: `您的注册验证码已经发送至 {email}，有效时间为 10 分钟。倘若您尚未收到验证码邮件，有可能被归类为垃圾邮件，请至「 垃圾邮件 」或「 广告邮件 」中查看。`
+    successText: `您的邮箱激活验证链接已经发送至 <a href="mailto:{email}">{email}</a>，有效时间为 10 分钟。倘若您尚未收到激活邮件，有可能被归类为垃圾邮件，请至「 垃圾邮件 」或「 广告邮件 」中查看。`
 }
