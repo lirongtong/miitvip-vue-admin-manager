@@ -132,9 +132,9 @@ const MiLogin = defineComponent({
                                                 if ($tools.isUrl(path)) window.location.href = path
                                                 else router.push({ path })
                                             }
-                                        } else {
+                                        } else if (res?.ret?.message) {
                                             message.error({
-                                                content: res?.ret?.message,
+                                                content: res.ret.message,
                                                 duration: 6
                                             })
                                         }
