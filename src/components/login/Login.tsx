@@ -25,7 +25,7 @@ import {
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '../../utils/api'
 import { $tools } from '../../utils/tools'
-import { $g } from '../../utils/global'
+import { $g, __MI_SOCIALITE_DOMAIN__ } from '../../utils/global'
 import { getPropSlot } from '../_utils/props'
 import { useAuthStore } from '../../stores/auth'
 import { useWindowResize } from '../../hooks/useWindowResize'
@@ -329,7 +329,11 @@ const MiLogin = defineComponent({
         onMounted(() => {
             const { socialite, token } = route.params as any
             if (socialite && token) {
-                const url = $tools.replaceUrlParams(api?.oauth?.authorize, { socialite })
+                const url = $tools.replaceUrlParams(
+                    (socialiteSetting.value?.domain ?? __MI_SOCIALITE_DOMAIN__) +
+                        `/{socialite}/login`,
+                    { socialite }
+                )
                 auth.authorize({ url, token })
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
