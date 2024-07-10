@@ -10,19 +10,17 @@
 
 .content {
     width: 100%;
+    height: 100%;
     .transition();
     .hide-scrollbar();
-    .properties(padding-left, @mi-margin);
+    .properties(padding, @mi-margin);
     overflow: hidden;
     position: relative;
 }
 
 .inner {
-    width: calc(100% - 1rem);
-    height: calc(100vh - 2rem);
-    .properties(margin-top, @mi-margin);
-    .properties(margin-bottom, @mi-margin);
-    .properties(margin-right, @mi-margin);
+    width: 100%;
+    height: calc(100svh - 2rem);
     .radius(16);
     .hide-scrollbar();
     background: var(--mi-layout-background);
