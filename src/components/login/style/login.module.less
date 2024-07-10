@@ -279,6 +279,64 @@
     }
 }
 
+.loading {
+    position: fixed;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    .hide-scrollbar();
+    left: 0;
+    top: 0;
+    .flex(center, center, column);
+
+    &-box {
+        .properties(height, 72);
+        .flex();
+    }
+}
+
+.lines {
+    display: block;
+    position: relative;
+    width: 0.375rem;
+    height: 0.625rem;
+    animation: rectangle infinite 1s ease-in-out -0.2s;
+    background-color: var(--mi-primary);
+
+    &:before,
+    &:after {
+        position: absolute;
+        width: 0.375rem;
+        height: 0.625rem;
+        content: '';
+        background-color: var(--mi-primary);
+    }
+
+    &:before {
+        left: -0.875rem;
+        animation: rectangle infinite 1s ease-in-out -0.4s;
+    }
+
+    &:after {
+        right: -0.875rem;
+        animation: rectangle infinite 1s ease-in-out;
+    }
+}
+
+@keyframes rectangle {
+    0%,
+    80%,
+    100% {
+        height: 1.25rem;
+        box-shadow: 0 0 var(--mi-primary);
+    }
+  
+    40% {
+        height: 30px;
+        box-shadow: 0 -1.25rme var(--mi-primary);
+    }
+}
+
 :export {
     --login-logo-border: var(--mi-primary);
     --login-form-input-border: var(--mi-primary);

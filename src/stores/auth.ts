@@ -14,7 +14,7 @@ import { $cookie } from '../utils/cookie'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: JSON.parse($storage.get($g.caches?.storages?.user) ?? `{}`) as Record<string, any>,
+        user: ($storage.get($g.caches?.storages?.user) ?? {}) as Record<string, any>,
         token: {
             access: ($cookie.get($g.caches?.cookies?.token?.access) ?? null) as string | null,
             refresh: ($cookie.get($g.caches?.cookies?.token?.refresh) ?? null) as string | null
@@ -26,13 +26,13 @@ export const useAuthStore = defineStore('auth', {
             const user = data?.user || {}
             this.user = user
             $storage.set($g.caches?.storages?.user, JSON.stringify(user))
-            const access = data?.tokens?.access ?? null
+            const access = data?.tokens?.access_token ?? null
             const autoLogin = this.autoLogin
             if (access) {
                 this.token.access = access
                 $cookie.set($g.caches?.cookies?.token?.access, access, autoLogin ? 7 : null)
             }
-            const refresh = data?.tokens?.refresh
+            const refresh = data?.tokens?.refresh_token
             if (refresh) {
                 this.token.refresh = refresh
                 $cookie.set($g.caches?.cookies?.token?.refresh, refresh, autoLogin ? 7 : null)

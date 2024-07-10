@@ -475,8 +475,8 @@ export interface LoginAuth {
 export interface LoginResponseData {
     user: any
     tokens: Partial<{
-        access: string
-        refresh: string
+        access_token: string
+        refresh_token: string
     }>
 }
 

@@ -1,4 +1,12 @@
-import { defineComponent, type SlotsType, ref, reactive, createVNode, computed } from 'vue'
+import {
+    defineComponent,
+    type SlotsType,
+    ref,
+    reactive,
+    createVNode,
+    computed,
+    onMounted
+} from 'vue'
 import type { ResponseData } from '../../utils/types'
 import { LoginProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -50,7 +58,6 @@ const MiLogin = defineComponent({
         const formRef = ref<FormInstance>()
         const passwordFormRef = ref<FormInstance>()
         const { width } = useWindowResize()
-
         const validateCaptcha = () => {
             if (!params.captcha) return Promise.reject(t('login.verify'))
             else return Promise.resolve()
@@ -319,45 +326,63 @@ const MiLogin = defineComponent({
             )
         }
 
-        return () => {
-            const socialite = route.params.socialite
-            const token = route.params.token as string
+        onMounted(() => {
+            const { socialite, token } = route.params as any
             if (socialite && token) {
-                const socialite = route.params.socialite
-                const token = route.params.token as string
-                const url = $tools.replaceUrlParams(api.oauth.authorize, { socialite })
+                const url = $tools.replaceUrlParams(api?.oauth?.authorize, { socialite })
                 auth.authorize({ url, token })
                     .then((res: ResponseData) => {
-                        if (res?.ret?.code === 200) router.push({ path: '/' })
-                        else router.push({ path: '/login' })
+                        if (res?.ret?.code === 200) {
+                            router.push({ path: '/' })
+                        } else {
+                            router.push({ path: '/login' })
+                            message.error({ content: res?.ret?.message || t(`login.auth-failed`) })
+                        }
                     })
-                    .catch((err: any) => message.error(err?.message || t('login.unknown')))
+                    .catch((err: any) => {
+                        router.push({ path: '/login' })
+                        message.error(err?.message || t('login.unknown'))
+                    })
             }
-            return socialite && token ? null : (
+        })
+
+        return () => {
+            const { socialite, token } = route.params as any
+            return (
                 <MiTheme>
                     <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
-                        <div
-                            class={styled.container}
-                            style={
-                                !props.video
-                                    ? {
-                                          backgroundImage: `url(${
-                                              props.background ?? __PASSPORT_DEFAULT_BACKGROUND__
-                                          })`
-                                      }
-                                    : null
-                            }>
-                            {renderVideo()}
-                            <Row class={styled.content}>
-                                <Col class={styled.inner} xs={24} sm={18} md={18} lg={12}>
-                                    {renderMask()}
-                                    {renderTitle()}
-                                    {renderPalette()}
-                                    {getPropSlot(slots, props, 'content') ?? renderForm()}
-                                </Col>
-                            </Row>
-                            {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
-                        </div>
+                        {socialite && token ? (
+                            <div class={styled.loading}>
+                                <div class={styled.loadingBox}>
+                                    <div class={styled.lines}></div>
+                                </div>
+                                <div innerHTML={t(`login.auth`)}></div>
+                            </div>
+                        ) : (
+                            <div
+                                class={styled.container}
+                                style={
+                                    !props.video
+                                        ? {
+                                              backgroundImage: `url(${
+                                                  props.background ??
+                                                  __PASSPORT_DEFAULT_BACKGROUND__
+                                              })`
+                                          }
+                                        : null
+                                }>
+                                {renderVideo()}
+                                <Row class={styled.content}>
+                                    <Col class={styled.inner} xs={24} sm={18} md={18} lg={12}>
+                                        {renderMask()}
+                                        {renderTitle()}
+                                        {renderPalette()}
+                                        {getPropSlot(slots, props, 'content') ?? renderForm()}
+                                    </Col>
+                                </Row>
+                                {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
+                            </div>
+                        )}
                     </ConfigProvider>
                 </MiTheme>
             )
