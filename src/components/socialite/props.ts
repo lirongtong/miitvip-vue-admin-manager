@@ -23,3 +23,17 @@ export const SocialiteProps = () => ({
     showMore: PropTypes.bool.def(true),
     items: object<Partial<DropdownItem>[]>()
 })
+
+/**
+ * +========================+
+ * |       Socialite        |
+ * +========================+
+ * @param link 授权地址
+ */
+export interface SocialiteCallbakProperties {
+    link?: string
+}
+
+export const SocialiteCallbakProps = () => ({
+    link: PropTypes.string
+})

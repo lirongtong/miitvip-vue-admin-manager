@@ -10,5 +10,7 @@ export default {
     forget: `Forget password`,
     remember: `Remember me`,
     register: `Register`,
-    socialite: `Others`
+    socialite: `Others`,
+    auth: `Authorizing login, please wait...`,
+    'auth-failed': `Authorization failed, please contact the administrator!`
 }

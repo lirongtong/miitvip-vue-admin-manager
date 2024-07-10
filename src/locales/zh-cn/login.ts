@@ -10,5 +10,7 @@ export default {
     forget: `忘记密码`,
     remember: `保持登录`,
     register: `注册`,
-    socialite: `快捷登录方式`
+    socialite: `快捷登录方式`,
+    auth: `授权登录中，请稍后 ...`,
+    'auth-failed': `授权失败，请联系管理员！`
 }

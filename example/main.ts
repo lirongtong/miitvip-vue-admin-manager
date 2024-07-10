@@ -18,7 +18,8 @@ import {
     Link,
     Menu,
     Notice,
-    Search
+    Search,
+    Socialite
 } from '../src/index'
 
 const app = createApp(App)
@@ -41,7 +42,8 @@ const components = [
     Link,
     Menu,
     Notice,
-    Search
+    Search,
+    Socialite
 ]
 components.forEach((component) => app.use(component))
 

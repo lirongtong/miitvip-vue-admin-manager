@@ -11,6 +11,7 @@ import { SocialiteProps } from './props'
 import type { DropdownItem } from '../../utils/types'
 import MiDropdown from '../dropdown/Dropdown'
 import MiLink from '../link/Link'
+import MiSocialiteCallback from './Callback'
 import applyTheme from '../_utils/theme'
 import styled from './style/socialite.module.less'
 
@@ -100,4 +101,8 @@ const MiSocialite = defineComponent({
     }
 })
 
-export default MiSocialite
+MiSocialite.Callback = MiSocialiteCallback
+
+export default MiSocialite as typeof MiSocialite & {
+    readonly Callback: typeof MiSocialiteCallback
+}

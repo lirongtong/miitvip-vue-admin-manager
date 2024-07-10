@@ -38,6 +38,8 @@ const PassportLogin = () => import('./views/passport/login.vue')
 const PassportRegister = () => import('./views/passport/register.vue')
 const PassportForget = () => import('./views/passport/forget.vue')
 
+const SocialiteLogin = () => import('./views/socialite/login.vue')
+
 const menuRoutes: Array<RouteRecordRaw> = [
     {
         path: '/',
@@ -205,6 +207,12 @@ const passportRoutes: Array<RouteRecordRaw> = [
         name: 'single-login',
         meta: { title: '登录' },
         component: PassportLogin
+    },
+    {
+        path: '/login/:socialite/:token',
+        name: 'socialite-login',
+        meta: { title: '社会化账号授权登录' },
+        component: SocialiteLogin
     },
     {
         path: '/register',
