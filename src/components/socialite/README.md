@@ -43,3 +43,11 @@
 | `showMore` | `boolean` | `true` | 更多下拉选单的显示方式 ( 移动端会自动切换 )
 | `domain` | `string` | `''` | 社会化登录/注册跳转链接
 | `items` | [`DropdownItem`](../dropdown/README.md) | `[]` | 下拉选项
+
+### MiSocialite `<mi-socialite-callback>`
+
+#### `MiSocialiteCallback` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `link` | `string` | `''` | 授权地址 ( 发放令牌接口地址 )
