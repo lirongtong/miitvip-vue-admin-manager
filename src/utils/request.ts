@@ -1,4 +1,4 @@
-import type { App } from 'vue'
+import { type App, ref } from 'vue'
 import { $g } from './global'
 import { $cookie } from './cookie'
 import { $storage } from './storage'
@@ -8,7 +8,7 @@ import type { RequestConfig } from './types'
 axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
-
+const baseURL = ref<string>('/')
 class MiRequest {
     instance: MiRequest
 
@@ -62,6 +62,7 @@ class MiRequest {
                     delete args.data
                     args.params = data
                 }
+                config.baseURL = baseURL.value
                 const configuration = {
                     ...args,
                     ...config
@@ -101,6 +102,10 @@ class MiRequest {
 
     async all<T>(values: Array<T | Promise<T>>): Promise<T[]> {
         return Promise.all(values)
+    }
+
+    setBaseUrl(url?: string) {
+        if (url) baseURL.value = url
     }
 }
 

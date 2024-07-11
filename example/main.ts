@@ -1,50 +1,9 @@
 import { createApp } from 'vue'
 import router from './router'
 import App from './app.vue'
-import {
-    Layout,
-    Code,
-    Title,
-    Quote,
-    Modal,
-    Captcha,
-    Dropdown,
-    Password,
-    Login,
-    Register,
-    Backtop,
-    Anchor,
-    Forget,
-    Link,
-    Menu,
-    Notice,
-    Search,
-    Socialite
-} from '../src/index'
+import MakeitAdminPro from '../src/index'
 
 const app = createApp(App)
 app.use(router)
-
-const components = [
-    Layout,
-    Code,
-    Title,
-    Quote,
-    Modal,
-    Captcha,
-    Dropdown,
-    Password,
-    Login,
-    Register,
-    Backtop,
-    Anchor,
-    Forget,
-    Link,
-    Menu,
-    Notice,
-    Search,
-    Socialite
-]
-components.forEach((component) => app.use(component))
-
+app.use(MakeitAdminPro)
 app.mount('#app')
