@@ -44,8 +44,8 @@ export const useAuthStore = defineStore('auth', {
             const params = { ...data }
             if (params.url) delete params.url
             if (params.method) delete params.method
-            return new Promise((resolve, reject) => {
-                return $request[method.toLowerCase()](url, params)
+            return new Promise(async (resolve, reject) => {
+                return await $request[method.toLowerCase()](url, params)
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
                             const autoLogin = data?.remember ?? false
@@ -64,15 +64,15 @@ export const useAuthStore = defineStore('auth', {
             const params = { ...data }
             if (params.url) delete params.url
             if (params.method) delete params.method
-            return new Promise((resolve, reject) => {
-                return $request[method.toLowerCase()](url, params)
+            return new Promise(async (resolve, reject) => {
+                return await $request[method.toLowerCase()](url, params)
                     .then((res: ResponseData) => resolve(res))
                     .catch((err: any) => reject(err))
             })
         },
         authorize(data: LoginAuth): Promise<any> {
-            return new Promise((resolve, reject) => {
-                $request
+            return new Promise(async (resolve, reject) => {
+                return await $request
                     .post(data.url, { token: data.token })
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {

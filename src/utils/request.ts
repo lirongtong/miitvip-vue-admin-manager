@@ -8,7 +8,7 @@ import type { RequestConfig } from './types'
 axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
-const baseURL = ref<string>('/')
+const requestBaseURL = ref<string>('/')
 class MiRequest {
     instance: MiRequest
 
@@ -62,7 +62,8 @@ class MiRequest {
                     delete args.data
                     args.params = data
                 }
-                config.baseURL = baseURL.value
+                if (!config) config = {}
+                config.baseURL = requestBaseURL.value
                 const configuration = {
                     ...args,
                     ...config
@@ -105,7 +106,7 @@ class MiRequest {
     }
 
     setBaseUrl(url?: string) {
-        if (url) baseURL.value = url
+        requestBaseURL.value = url ?? '/'
     }
 }
 
