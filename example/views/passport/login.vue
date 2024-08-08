@@ -4,6 +4,5 @@
         :captcha-setting="{
             initAction: '/v1/captcha/init',
             verifyAction: '/v1/captcha/verify'
-        }"
-        :socialite-setting="{ domain: 'http://local-account.makeit.vip/v1/oauth' }" />
+        }" />
 </template>

@@ -73,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
         authorize(data: LoginAuth): Promise<any> {
             return new Promise(async (resolve, reject) => {
                 return await $request
-                    .post(data.url, { token: data.token })
+                    .post(data?.url, { token: data?.token })
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
                             this.autoLogin = true

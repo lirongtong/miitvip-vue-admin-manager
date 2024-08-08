@@ -329,9 +329,14 @@ const MiLogin = defineComponent({
         onMounted(() => {
             const { socialite, token } = route.params as any
             if (socialite && token) {
+                const loginUrl = `{socialite}/login`
+                const loginDomain = socialiteSetting.value?.domain
                 const url = $tools.replaceUrlParams(
-                    (socialiteSetting.value?.domain ?? __MI_SOCIALITE_DOMAIN__) +
-                        `/{socialite}/login`,
+                    loginDomain
+                        ? loginDomain.charAt(loginDomain.length - 1) === '/'
+                            ? loginDomain + loginUrl
+                            : `${loginDomain}/${loginUrl}`
+                        : `${__MI_SOCIALITE_DOMAIN__}/${loginUrl}`,
                     { socialite }
                 )
                 auth.authorize({ url, token })
