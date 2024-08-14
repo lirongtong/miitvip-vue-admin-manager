@@ -120,13 +120,6 @@ const MiLogin = defineComponent({
                             (!params.form.validate.captcha ||
                                 (params.form.validate.captcha && params.captcha))
                         ) {
-                            const handleLoginSuccess = () => {
-                                const path = route.query?.redirect as string
-                                if (path) {
-                                    if ($tools.isUrl(path)) window.location.href = path
-                                    else router.push({ path })
-                                } else router.push({ path: '/' })
-                            }
                             if (typeof props.action === 'string') {
                                 api.login = props.action
                                 params.form.validate.url = api.login
@@ -134,26 +127,18 @@ const MiLogin = defineComponent({
                                     .login(params.form.validate)
                                     .then((res: ResponseData) => {
                                         if (res?.ret?.code === 200) {
-                                            const path = route.query?.redirect as string
-                                            if (path) {
-                                                if ($tools.isUrl(path)) window.location.href = path
-                                                else router.push({ path })
-                                            }
+                                            emit('afterLogin', res)
                                         } else if (res?.ret?.message) {
                                             message.error({
                                                 content: res.ret.message,
                                                 duration: 6
                                             })
                                         }
-                                        emit('afterLogin', res)
                                     })
                                     .finally(() => (params.loading = false))
                             } else if (typeof props.action === 'function') {
                                 const response = await props.action(params.form.validate)
-                                if (typeof response === 'boolean' && response) {
-                                    handleLoginSuccess()
-                                    emit('afterLogin')
-                                }
+                                if (typeof response === 'boolean' && response) emit('afterLogin')
                                 if (typeof response === 'string') message.error(response)
                             }
                         }
