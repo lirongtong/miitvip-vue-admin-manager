@@ -130,7 +130,7 @@ const MiLogin = defineComponent({
                                             emit('afterLogin', res)
                                         } else if (res?.ret?.message) {
                                             message.error({
-                                                content: res.ret.message,
+                                                content: res?.ret?.message,
                                                 duration: 6
                                             })
                                         }
