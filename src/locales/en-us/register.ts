@@ -24,5 +24,6 @@ export default {
     unknown: `Unknown Error`,
     verify: `Please click the button to verify`,
     success: `Success`,
-    successText: `Your email activation verification link has been sent to <a href="mailto:{email}">{email}</a> and will be valid for 10 minutes. If you have not received the activation email, it may have been classified as spam. Please check in "Spam" or "Advertisement Email".`
+    emailExpired: ` 10 minutes`,
+    successText: `Your email activation verification link has been sent to <a href="mailto:{email}">{email}</a> and will be valid for{expired}. If you have not received the activation email, it may have been classified as spam. Please check in "Spam" or "Advertisement Email".`
 }

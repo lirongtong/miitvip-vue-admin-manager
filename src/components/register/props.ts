@@ -24,6 +24,7 @@ import type { SocialiteProperties } from './../socialite/props'
  * @param loginLink 登录链接地址
  * @param verify 用户名 & 邮箱校验配置
  * @param usernameTip 用户名提示
+ * @param showSendEmailSuccessModal 是否显示发送邮件成功弹窗
  *
  * @see CaptchaProperties
  * @see PasswordProperties
@@ -44,6 +45,8 @@ export interface RegisterProperties {
     loginLink: string
     verify: Partial<RegisterVerifyProperties>
     usernameTip: VNodeTypes
+    showSendEmailSuccessModal: boolean
+    emailExpired: string
 }
 
 export const RegisterProps = () => ({
@@ -61,7 +64,9 @@ export const RegisterProps = () => ({
     passwordSetting: object<Partial<PasswordProperties>>().def({}),
     loginLink: PropTypes.string.def('/login'),
     verify: object<Partial<RegisterVerifyProperties>>().def({}),
-    usernameTip: PropTypes.any
+    usernameTip: PropTypes.any,
+    showSendEmailSuccessModal: PropTypes.bool.def(true),
+    emailExpired: PropTypes.string.def('')
 })
 
 export interface RegisterVerifyProperties {

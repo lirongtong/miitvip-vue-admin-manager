@@ -150,8 +150,10 @@ const MiRegister = defineComponent({
                                 await auth
                                     .register(params.form.validate)
                                     .then((res: ResponseData) => {
-                                        if (res?.ret?.code === 200) params.success = true
-                                        else if (res?.ret?.message) {
+                                        if (res?.ret?.code === 200) {
+                                            if (props.showSendEmailSuccessModal)
+                                                params.success = true
+                                        } else if (res?.ret?.message) {
                                             message.error({
                                                 content: res.ret.message,
                                                 duration: 6
@@ -391,7 +393,8 @@ const MiRegister = defineComponent({
                     <div
                         class={styled.registerSuccessModal}
                         innerHTML={t('register.successText', {
-                            email: params.form.validate.email
+                            email: params.form.validate.email,
+                            expired: props.emailExpired || t('register.emailExpired')
                         })}></div>
                 </MiModal>
             )
