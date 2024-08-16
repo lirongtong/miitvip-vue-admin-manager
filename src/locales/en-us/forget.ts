@@ -10,5 +10,8 @@ export default {
     success: 'Password, reset successfully',
     illegal: 'The operation is not allowed',
     login: `Back to Sign in`,
-    register: `Go to Sign up`
+    register: `Go to Sign up`,
+    ok: `I see`,
+    emailExpired: ` 10 minutes`,
+    successText: `Verification code for resetting your password has been sent to <a href="mailto:{email}">{email}</a> and will be valid for{expired}. If you have not received the verification code email, it may have been classified as spam. Please check in "Spam" or "Advertisement Email".`
 }

@@ -23,6 +23,7 @@ import { useRouter } from 'vue-router'
 import { UserOutlined, PropertySafetyOutlined } from '@ant-design/icons-vue'
 import MiTheme from '../theme/Theme'
 import MiLink from '../link/Link'
+import MiModal from '../modal/Modal'
 import MiCaptcha from '../captcha/Captcha'
 import MiPassword from '../password/Password'
 import MiPalette from '../palette/Palette'
@@ -100,7 +101,8 @@ const MiForget = defineComponent({
             downtime: {
                 remain: 0,
                 handler: null
-            }
+            },
+            sendSuccess: false
         })
         applyTheme(styled)
 
@@ -155,12 +157,7 @@ const MiForget = defineComponent({
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
                             handleSendCodeSuccess(res?.data?.time)
-                            if (res?.data?.email) {
-                                message.success({
-                                    content: t('forget.sent', { email: res.data.email }),
-                                    duration: 6
-                                })
-                            }
+                            if (props.showSendEmailSuccessModal) params.sendSuccess = true
                             handleDowntime()
                         } else message.error(res?.ret?.message)
                     })
@@ -169,8 +166,8 @@ const MiForget = defineComponent({
                 const response = await props.sendCodeAction(params.form.validate)
                 if (typeof response === 'boolean' && response) {
                     handleSendCodeSuccess()
-                    message.success(t('global.sent'))
                     handleDowntime()
+                    if (props.showSendEmailSuccessModal) params.sendSuccess = true
                 }
                 if (typeof response === 'string') message.error(response)
             }
@@ -481,6 +478,25 @@ const MiForget = defineComponent({
             )
         }
 
+        const renderSuccessModal = () => {
+            return (
+                <MiModal
+                    v-model:open={params.sendSuccess}
+                    title={t('forget.sent')}
+                    okText={t('forget.ok')}
+                    onOk={handleSuccessModalOk}>
+                    <div
+                        class={styled.registerSuccessModal}
+                        innerHTML={t('forget.successText', {
+                            email: params.form.validate.username,
+                            expired: props.emailExpired || t('forget.emailExpired')
+                        })}></div>
+                </MiModal>
+            )
+        }
+
+        const handleSuccessModalOk = () => {}
+
         const renderForm = () => {
             return (
                 <div class={styled.form}>
@@ -515,6 +531,7 @@ const MiForget = defineComponent({
                             {renderLinks()}
                         </Form>
                     )}
+                    {renderSuccessModal()}
                 </div>
             )
         }

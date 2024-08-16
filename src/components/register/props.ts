@@ -25,7 +25,7 @@ import type { SocialiteProperties } from './../socialite/props'
  * @param verify 用户名 & 邮箱校验配置
  * @param usernameTip 用户名提示
  * @param showSendEmailSuccessModal 是否显示发送邮件成功弹窗
- * @param emailExpired 邮箱验证码过期时间
+ * @param emailExpired 邮箱激活链接过期时间
  *
  * @see CaptchaProperties
  * @see PasswordProperties

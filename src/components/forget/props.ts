@@ -33,6 +33,8 @@ import { tuple, methods } from '../_utils/props'
  * @param resetPasswordMethod 重置密码的请求方式
  * @param resetPasswordAction 重置密码的接口地址或逻辑处理方法 ( 必填 )
  * @param resendDowntime 重新发送验证码倒计时时长
+ * @param showSendEmailSuccessModal 是否显示发送邮件成功弹窗
+ * @param emailExpired 邮箱验证码过期时间
  *
  * @see CaptchaProperties
  */
@@ -62,6 +64,8 @@ export interface ForgetProperties {
     resetPasswordMethod: string
     resetPasswordAction: string | Function
     resendDowntime: number
+    showSendEmailSuccessModal: boolean
+    emailExpired: string
 }
 
 export const ForgetProps = () => ({
@@ -89,7 +93,9 @@ export const ForgetProps = () => ({
     resetPasswordParams: PropTypes.object.def({}),
     resetPasswordMethod: PropTypes.oneOf(tuple(...methods)).def('put'),
     resetPasswordAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-    resendDowntime: PropTypes.number.def(120)
+    resendDowntime: PropTypes.number.def(120),
+    showSendEmailSuccessModal: PropTypes.bool.def(true),
+    emailExpired: PropTypes.string
 })
 
 /**
