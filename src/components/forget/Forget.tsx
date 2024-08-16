@@ -43,6 +43,7 @@ const MiForget = defineComponent({
         const videoRef = ref<HTMLVideoElement>()
         const passwordFormRef = ref<FormInstance>()
         const updateFormRef = ref<FormInstance>()
+        const alreadyCheckUsername = ref<boolean>(false)
 
         const validateUserName = (_rule: any, value: string) => {
             if (!$tools.isEmpty(value)) {
@@ -124,8 +125,11 @@ const MiForget = defineComponent({
                 formRef.value
                     ?.validate()
                     .then(async () => {
-                        if (params.sent) await handleVerifyCode()
-                        else await handleSendCode()
+                        if (!alreadyCheckUsername.value) await handleVerifyUserName()
+                        if (!params.tips.username) {
+                            if (params.sent) await handleVerifyCode()
+                            else await handleSendCode()
+                        } else params.loading = false
                     })
                     .finally(() => (params.loading = false))
             }
@@ -184,29 +188,33 @@ const MiForget = defineComponent({
         }
 
         const handleVerifyUserName = async () => {
-            if ($tools.isEmpty(params.form.validate.username)) return
+            if ($tools.isEmpty(params.form.validate.username) || alreadyCheckUsername.value) return
             if (props.checkUsernameAction) {
                 if (typeof props.checkUsernameAction === 'string') {
                     await $request[(props.checkUsernameMethod || 'post').toLowerCase()](
-                        props.checkUsernameAction,
-                        { username: params.form.validate.username }
+                        `${props.checkUsernameAction}/${params.form.validate.username}`
                     )
                         .then((res: ResponseData) => {
                             if (res?.ret?.code !== 200) params.tips.username = res?.ret?.message
                             else params.tips.username = null
                         })
-                        .catch(
-                            (err: any) =>
-                                (params.tips.username = err?.message || t('global.error.unknown'))
-                        )
+                        .catch((err: any) => {
+                            params.tips.username = err?.message || t('global.error.unknown')
+                            params.loading = false
+                        })
+                        .finally(() => (alreadyCheckUsername.value = true))
                     formRef.value?.validateFields(['username'])
                 } else if (typeof props.checkUsernameAction === 'function') {
                     const response = await props.checkUsernameAction(params.form.validate.username)
                     if (typeof response === 'boolean' && response) params.tips.username = null
                     if (typeof response === 'string') params.tips.username = response
+                    alreadyCheckUsername.value = true
                     formRef.value?.validateFields(['username'])
                 }
-            } else params.tips.username = null
+            } else {
+                alreadyCheckUsername.value = true
+                params.tips.username = null
+            }
         }
 
         const handleVerifyCode = async () => {
@@ -369,8 +377,9 @@ const MiForget = defineComponent({
                         autcomplete="off"
                         onPressEnter={handleNext}
                         onBlur={handleVerifyUserName}
+                        onChange={() => (alreadyCheckUsername.value = false)}
                         class={styled.input}
-                        placeholder={t('forget.username')}
+                        placeholder={props.placeholder ?? t('forget.username')}
                     />
                 </Form.Item>
             )

@@ -12,6 +12,7 @@ import { tuple, methods } from '../_utils/props'
  * @param video 背景视频 ( 优先级高于 `background` )
  * @param background 背景图
  * @param rules Form Rules 校验
+ * @param placeholder 输入框提示文字
  * @param content 内容配置<Slot />
  * @param footer 页脚配置<Slot />
  * @param captcha 是否开启验证码
@@ -40,6 +41,7 @@ export interface ForgetProperties {
     video: string
     background: string
     rules: object
+    placeholder: string
     content: VNodeTypes
     footer: VNodeTypes
     captcha: boolean
@@ -67,6 +69,7 @@ export const ForgetProps = () => ({
     video: PropTypes.string,
     background: PropTypes.string.def(undefined),
     rules: PropTypes.object.def({}),
+    placeholder: PropTypes.string,
     content: PropTypes.any,
     footer: PropTypes.any,
     captcha: PropTypes.bool.def(true),
@@ -78,7 +81,7 @@ export const ForgetProps = () => ({
     sendCodeMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
     sendCodeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
     checkUsernameParams: PropTypes.object.def({}),
-    checkUsernameMethod: PropTypes.oneOf(tuple(...methods)).def('post'),
+    checkUsernameMethod: PropTypes.oneOf(tuple(...methods)).def('get'),
     checkUsernameAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     checkCodeParams: PropTypes.object.def({}),
     checkCodeMethod: PropTypes.oneOf(tuple(...methods)).def('post'),

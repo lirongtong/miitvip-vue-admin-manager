@@ -1,5 +1,5 @@
 <template>
-    <mi-forget :send-code-action="() => handleSendCode()" :check-code-action="() => handleCheckCode()" :reset-password-action="() => handleResetPassword()" />
+    <mi-forget check-username-action="/v1/validators/account" :send-code-action="() => handleSendCode()" :check-code-action="() => handleCheckCode()" :reset-password-action="() => handleResetPassword()" placeholder="请输入邮箱地址" />
 </template>
 
 <script setup lang="ts">
