@@ -8,7 +8,6 @@
         send-code-action="/v1/password/captcha"
         check-code-action="/v1/password/captcha/verify"
         reset-password-action="/v1/password/reset"
-        placeholder="请输入邮箱地址"
         @after-send-code="handleAfterSendCode" />
 </template>
 

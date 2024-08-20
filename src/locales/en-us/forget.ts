@@ -1,7 +1,7 @@
 export default {
-    username: `Please enter username / email address / phone number`,
+    username: `Please input email address`,
     sent: `The verification code has been sent to {email}`,
-    code: `Please enter the verification code`,
+    code: `Please input the verification code`,
     resend: {
         normal: `Resend`,
         downtime: `Resend after {sec}s`

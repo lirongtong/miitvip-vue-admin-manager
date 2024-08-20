@@ -1,5 +1,5 @@
 export default {
-    username: `请输入用户名 / 邮箱地址 / 手机号码`,
+    username: `请输入邮箱地址`,
     sent: `验证码已发送至密保邮箱 {email}`,
     code: `请输入验证码`,
     resend: {

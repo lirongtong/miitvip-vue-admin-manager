@@ -395,13 +395,13 @@ const MiForget = defineComponent({
                     <Input
                         prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
-                        maxlength={64}
+                        maxlength={128}
                         autcomplete="off"
                         onPressEnter={handleNext}
                         onBlur={handleVerifyUserName}
                         onChange={() => (alreadyCheckUsername.value = false)}
                         class={styled.input}
-                        placeholder={props.placeholder ?? t('forget.username')}
+                        placeholder={props.placeholder || t('forget.username')}
                     />
                 </Form.Item>
             )
