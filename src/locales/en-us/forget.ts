@@ -12,6 +12,7 @@ export default {
     login: `Back to Sign in`,
     register: `Go to Sign up`,
     ok: `I see`,
+    expired: `The page has expired, please refresh and try again`,
     emailExpired: ` 10 minutes`,
     successText: `Verification code for resetting your password has been sent to <a href="mailto:{email}">{email}</a> and will be valid for{expired}. If you have not received the verification code email, it may have been classified as spam. Please check in "Spam" or "Advertisement Email".`
 }

@@ -67,6 +67,35 @@
                         .properties(margin-top, 24);
                     }
                 }
+
+                &-error,
+                &-success,
+                &-confirm,
+                &-warning,
+                &-warn,
+                &-info {
+                    &-body {
+                        align-items: flex-start;
+
+                        .anticon {
+                            .properties(margin-top, 2);
+                        }
+                    }
+
+                    &-content {
+                        max-width: calc(100% - 2.125rem);
+                    }
+
+                    &-btns {
+                        .ant-btn-primary {
+                            .gradient-hint(var(--mi-primary), var(--mi-secondary), var(--mi-tertiary));
+                            color: var(--mi-surface);
+                            box-shadow: none;
+                            border-color: transparent;
+                            outline: none;
+                        }
+                    }
+                }
             }
         }
     }

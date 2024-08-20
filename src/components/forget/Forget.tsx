@@ -1,4 +1,4 @@
-import { defineComponent, createVNode, reactive, ref, onMounted, Transition } from 'vue'
+import { defineComponent, createVNode, reactive, ref, onMounted, Transition, h } from 'vue'
 import { ForgetProps } from './props'
 import { __PASSPORT_DEFAULT_BACKGROUND__, __LOGO__ } from '../../utils/images'
 import {
@@ -35,7 +35,14 @@ const MiForget = defineComponent({
     name: 'MiForget',
     inheritAttrs: false,
     props: ForgetProps(),
-    emits: ['captchaInit', 'captchaChecked', 'captchaSuccess'],
+    emits: [
+        'captchaInit',
+        'captchaChecked',
+        'captchaSuccess',
+        'afterSendCode',
+        'afterCheckCode',
+        'afterResetSuccess'
+    ],
     setup(props, { slots, emit }) {
         const { t } = useI18n()
         const { width } = useWindowResize()
@@ -70,7 +77,7 @@ const MiForget = defineComponent({
         const params = reactive({
             loading: false,
             captcha: false,
-            sent: $storage.get($g?.caches?.storages?.password?.reset?.time) || null,
+            sent: null,
             tips: {
                 btn: t('global.step.next'),
                 username: null,
@@ -101,8 +108,7 @@ const MiForget = defineComponent({
             downtime: {
                 remain: 0,
                 handler: null
-            },
-            sendSuccess: false
+            }
         })
         applyTheme(styled)
 
@@ -139,35 +145,47 @@ const MiForget = defineComponent({
 
         const handleSendCode = async () => {
             if (params.downtime.remain > 0) return
-            const handleSendCodeSuccess = (time?: number) => {
-                params.sent = time || Math.floor(Date.now() / 1000)
+            const handleSendCodeSuccess = (data?: any) => {
                 $storage.set($g?.caches?.storages?.password?.reset?.time, params.sent)
                 $storage.set(
                     $g?.caches?.storages?.password?.reset?.username,
                     params.form.validate.username
                 )
+                if (data?.uuid) {
+                    params.form.validate.uuid = data?.uuid
+                    $storage.set($g?.caches?.storages?.password?.reset?.uid, data.uuid)
+                }
+                if (props.showSendEmailSuccessModal) {
+                    MiModal.success({
+                        width: 490,
+                        content: h('div', {
+                            innerHTML: t('forget.successText', {
+                                email: params.form.validate.username,
+                                expired: props.emailExpired || t('forget.emailExpired')
+                            })
+                        })
+                    })
+                }
             }
             if (typeof props.sendCodeAction === 'string') {
                 await $request[(props.sendCodeMethod || 'post').toLowerCase()](
                     props.sendCodeAction,
-                    {
-                        ...params.form.validate
-                    }
+                    { ...params.form.validate }
                 )
                     .then((res: ResponseData) => {
-                        if (res?.ret?.code === 200) {
-                            handleSendCodeSuccess(res?.data?.time)
-                            if (props.showSendEmailSuccessModal) params.sendSuccess = true
-                            handleDowntime()
-                        } else message.error(res?.ret?.message)
+                        params.sent = res?.data?.time || Math.floor(Date.now() / 1000)
+                        handleDowntime()
+                        if (res?.ret?.code === 200) handleSendCodeSuccess(res?.data)
+                        else if (res?.ret?.message) message.error(res.ret.message)
+                        emit('afterSendCode', res)
                     })
                     .catch((err: any) => message.error(err?.message || t('global.error.unknown')))
             } else if (typeof props.sendCodeAction === 'function') {
                 const response = await props.sendCodeAction(params.form.validate)
                 if (typeof response === 'boolean' && response) {
-                    handleSendCodeSuccess()
+                    params.sent = Math.floor(Date.now() / 1000)
                     handleDowntime()
-                    if (props.showSendEmailSuccessModal) params.sendSuccess = true
+                    handleSendCodeSuccess()
                 }
                 if (typeof response === 'string') message.error(response)
             }
@@ -217,14 +235,14 @@ const MiForget = defineComponent({
         const handleVerifyCode = async () => {
             const data = {
                 code: params.form.validate.code,
-                uuid: params.form.validate.uuid
+                uuid:
+                    params.form.validate.uuid ||
+                    $storage.get($g.caches.storages?.password?.reset?.uid)
             }
             if (typeof props.checkCodeAction === 'string') {
                 await $request[(props.checkCodeMethod || 'post').toLowerCase()](
                     props.checkCodeAction,
-                    {
-                        ...data
-                    }
+                    { ...data }
                 )
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
@@ -234,8 +252,16 @@ const MiForget = defineComponent({
                                     res.data.token
                                 )
                             }
+                            if (res?.data?.uuid) {
+                                params.form.validate.uuid = res?.data?.uuid
+                                $storage.set(
+                                    $g?.caches?.storages?.password?.reset?.uid,
+                                    res?.data.uuid
+                                )
+                            }
                             params.update.show = true
-                        } else message.error(res?.ret?.message)
+                        } else if (res?.ret?.message) message.error(res.ret.message)
+                        emit('afterCheckCode', res)
                     })
                     .catch((err: any) => message.error(err?.message || t('global.error.unknown')))
             } else if (typeof props.checkCodeAction === 'function') {
@@ -269,53 +295,52 @@ const MiForget = defineComponent({
                     ?.validate()
                     .then(async () => {
                         if (passwordState) {
-                            const token =
-                                $storage.get($g?.caches?.storages?.password?.reset?.token) || null
-                            if (token) {
-                                const data = {
-                                    token,
-                                    username:
-                                        $storage.get(
-                                            $g?.caches?.storages?.password?.reset?.username
-                                        ) || null,
-                                    ...params.update.form.validate,
-                                    ...props.resetPasswordParams
-                                }
-                                const handleUpdatePasswordSuccess = () => {
-                                    message.success({
-                                        content: t('foget.success'),
-                                        duration: 3
+                            const data = {
+                                uuid:
+                                    params.form.validate.uuid ||
+                                    $storage.get($g.caches.storages?.password?.reset?.uid),
+                                username:
+                                    $storage.get($g?.caches?.storages?.password?.reset?.username) ||
+                                    null,
+                                ...params.update.form.validate,
+                                ...props.resetPasswordParams
+                            }
+                            const handleUpdatePasswordSuccess = () => {
+                                message.success({
+                                    content: t('foget.success'),
+                                    duration: 3
+                                })
+                            }
+                            if (typeof props.resetPasswordAction === 'string') {
+                                await $request[(props.resetPasswordMethod || 'put').toLowerCase()](
+                                    props.resetPasswordAction,
+                                    { ...data }
+                                )
+                                    .then((res: ResponseData) => {
+                                        if (res?.ret?.code === 200) {
+                                            handleUpdatePasswordSuccess()
+                                            $storage.del(
+                                                Object.values({
+                                                    ...$g?.caches?.storages?.password?.reset
+                                                })
+                                            )
+                                            setTimeout(() => {
+                                                if ($tools.isUrl(props.redirectTo)) {
+                                                    window.location.href = props.redirectTo
+                                                } else router.push({ path: props.redirectTo })
+                                            }, 3000)
+                                        } else if (res?.ret?.message) message.error(res.ret.message)
+                                        emit('afterResetSuccess', res)
                                     })
-                                }
-                                if (typeof props.resetPasswordAction === 'string') {
-                                    await $request[
-                                        (props.resetPasswordMethod || 'put').toLowerCase()
-                                    ](props.resetPasswordAction, { ...data })
-                                        .then((res: ResponseData) => {
-                                            if (res?.ret?.code === 200) {
-                                                handleUpdatePasswordSuccess()
-                                                $storage.del(
-                                                    Object.values({
-                                                        ...$g?.caches?.storages?.password?.reset
-                                                    })
-                                                )
-                                                setTimeout(() => {
-                                                    if ($tools.isUrl(props.redirectTo)) {
-                                                        window.location.href = props.redirectTo
-                                                    } else router.push({ path: props.redirectTo })
-                                                }, 3000)
-                                            } else message.error(res?.ret?.message)
-                                        })
-                                        .catch((err: any) =>
-                                            message.error(err?.message || t('global.error.unknown'))
-                                        )
-                                } else if (typeof props.resetPasswordAction === 'function') {
-                                    const response = await props.resetPasswordAction(data)
-                                    if (typeof response === 'boolean' && response)
-                                        handleUpdatePasswordSuccess()
-                                    if (typeof response === 'string') message.error(response)
-                                }
-                            } else message.error(t('forget.illegal'))
+                                    .catch((err: any) =>
+                                        message.error(err?.message || t('global.error.unknown'))
+                                    )
+                            } else if (typeof props.resetPasswordAction === 'function') {
+                                const response = await props.resetPasswordAction(data)
+                                if (typeof response === 'boolean' && response)
+                                    handleUpdatePasswordSuccess()
+                                if (typeof response === 'string') message.error(response)
+                            }
                         }
                     })
                     .finally(() => (params.loading = false))
@@ -478,25 +503,6 @@ const MiForget = defineComponent({
             )
         }
 
-        const renderSuccessModal = () => {
-            return (
-                <MiModal
-                    v-model:open={params.sendSuccess}
-                    title={t('forget.sent')}
-                    okText={t('forget.ok')}
-                    onOk={handleSuccessModalOk}>
-                    <div
-                        class={styled.registerSuccessModal}
-                        innerHTML={t('forget.successText', {
-                            email: params.form.validate.username,
-                            expired: props.emailExpired || t('forget.emailExpired')
-                        })}></div>
-                </MiModal>
-            )
-        }
-
-        const handleSuccessModalOk = () => {}
-
         const renderForm = () => {
             return (
                 <div class={styled.form}>
@@ -510,7 +516,8 @@ const MiForget = defineComponent({
                             autcomplete="off">
                             <MiPassword
                                 ref={passwordFormRef}
-                                value={params.update.form.validate.password}
+                                v-model:value={params.update.form.validate.password}
+                                v-model:confirmValue={params.update.form.validate.confirm}
                                 confirm={true}
                                 onPressEnter={handleUpdatePassword}
                             />
@@ -531,12 +538,22 @@ const MiForget = defineComponent({
                             {renderLinks()}
                         </Form>
                     )}
-                    {renderSuccessModal()}
                 </div>
             )
         }
 
-        onMounted(() => handleDowntime())
+        onMounted(() => {
+            const now = Date.now()
+            const last = $storage.get($g.caches.storages?.password?.reset?.time) || null
+            if (last && now - last * 1000 < props.resendDowntime * 1000) params.sent = last
+            else
+                $storage.del(
+                    Object.values({
+                        ...$g?.caches?.storages?.password?.reset
+                    })
+                )
+            handleDowntime()
+        })
 
         return () => (
             <MiTheme>

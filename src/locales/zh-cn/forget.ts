@@ -12,6 +12,7 @@ export default {
     login: `返回登录`,
     register: `前往注册`,
     ok: `我知道了`,
-    emailExpired: ` 30 分钟`,
+    expired: `页面已失效，请刷新后再试`,
+    emailExpired: ` 10 分钟`,
     successText: `重置密码的验证码已经发送至 <a href="mailto:{email}">{email}</a>，有效时间为{expired}。倘若您尚未收到验证码邮件，有可能被归类为垃圾邮件，请至「 垃圾邮件 」或「 广告邮件 」中查看。`
 }
