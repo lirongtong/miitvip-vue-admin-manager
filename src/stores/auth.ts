@@ -24,8 +24,8 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         user(data: LoginResponseData) {
             const user = data?.user || {}
-            this.user = user
-            $storage.set($g.caches?.storages?.user, JSON.stringify(user))
+            this.user = Object.keys(user).length > 0 ? user : {}
+            $storage.set($g.caches?.storages?.user, JSON.stringify(this.user))
             const access = data?.tokens?.access_token ?? null
             const autoLogin = this.autoLogin
             if (access) {
@@ -84,6 +84,14 @@ export const useAuthStore = defineStore('auth', {
                     })
                     .catch((err: any) => reject(err))
             })
+        },
+        logout() {
+            $cookie.del([
+                $g.caches?.cookies?.token?.access,
+                $g.caches?.cookies?.token?.refresh,
+                $g.caches?.cookies?.autoLogin
+            ])
+            $storage.del([$g.caches?.storages?.user])
         }
     }
 })

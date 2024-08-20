@@ -38,12 +38,18 @@ const MiDropdownItem = defineComponent({
 
         return () => (
             <div class={styled.container}>
-                <div style={{ fontSize: iconSize }}>
-                    {icon ? (isVNode(icon) ? icon : h(icon)) : null}
+                <div class={styled.item}>
+                    <div style={{ fontSize: iconSize }}>
+                        {icon ? (isVNode(icon) ? icon : h(icon)) : null}
+                    </div>
+                    {props.item?.title ? (
+                        <div
+                            class={styled.title}
+                            style={{ fontSize }}
+                            innerHTML={props.item.title}
+                        />
+                    ) : null}
                 </div>
-                {props.item?.title ? (
-                    <div class={styled.title} style={{ fontSize }} innerHTML={props.item.title} />
-                ) : null}
                 {tag}
             </div>
         )

@@ -87,9 +87,29 @@
 }
 
 .coffee {
-    > img {
-        .properties(width, 372);
-        max-width: 100%;
-        .properties(margin-top, 16);
+    .qrcode {
+        .flex();
+
+        @media only screen and (max-width: @mi-lg) {
+            flex-direction: column;
+        }
+
+        img {
+            .properties(width, 372);
+            .properties(height, 505);
+            max-width: 100%;
+            .properties(margin-top, 16);
+            object-fit: fill;
+            .radius();
+            overflow: hidden;
+
+            &:last-child {
+                .properties(margin-left, 16);
+
+                @media only screen and (max-width: @mi-lg) {
+                    margin-left: 0;
+                }
+            }
+        }
     }
 }

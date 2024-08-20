@@ -1,13 +1,18 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
-    .flex(center, flex-start);
+    .flex(center, space-between);
     color: var(--mi-dropdown-item-text);
     .properties(padding-top, 2);
     .properties(padding-bottom, 2);
 
+    .item {
+        .flex();
+    }
+
     .title {
         .properties(margin-left);
+        white-space: nowrap;
     }
 
     .tag {

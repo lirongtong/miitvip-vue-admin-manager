@@ -3,6 +3,7 @@ import { LayoutHeaderProps } from './props'
 import { getPropSlot } from '../_utils/props'
 import { useMenuStore } from '../../stores/menu'
 import { useLayoutStore } from '../../stores/layout'
+import { useAuthStore } from '../../stores/auth'
 import { useSearchStore } from '../../stores/search'
 import { useI18n } from 'vue-i18n'
 import { $tools } from '../../utils/tools'
@@ -15,9 +16,10 @@ import {
     AppstoreAddOutlined,
     FireFilled,
     CoffeeOutlined,
-    LikeFilled
+    LikeFilled,
+    LogoutOutlined
 } from '@ant-design/icons-vue'
-import { __DONATE_ALIPAY__ } from '../../utils/images'
+import { __DONATE_ALIPAY__, __DONATE_WECHAT__ } from '../../utils/images'
 import MiModal from '../modal/Modal'
 import MiTitle from '../title/Title'
 import MiSearch from '../search/Search'
@@ -45,6 +47,7 @@ const MiLayoutHeader = defineComponent({
         const { width } = useWindowResize()
         const router = useRouter()
         const useLayout = useLayoutStore()
+        const useAuth = useAuthStore()
         const useMenu = useMenuStore()
         const useSearch = useSearchStore()
         const searchKey = ref('title')
@@ -71,13 +74,21 @@ const MiLayoutHeader = defineComponent({
                       },
                       {
                           name: 'coffee',
-                          title: '来一杯咖啡',
+                          title: '赞助 ( Donate )',
                           icon: CoffeeOutlined,
                           tag: { icon: LikeFilled, color: '#31eb0c' },
                           callback: () => (modalOpen.value = !modalOpen.value)
                       }
                   ]
         )
+        if (useMenu.dropdowns.length <= 0 && useAuth.token.access) {
+            dropdownData.value.push({
+                name: 'logout',
+                title: '退出登录',
+                icon: LogoutOutlined,
+                callback: () => handleLogout()
+            })
+        }
         const collapsed = computed(() => useLayout.collapsed)
         const menuOpen = computed(() => useMenu.drawer)
         const modalOpen = ref<boolean>(false)
@@ -97,6 +108,12 @@ const MiLayoutHeader = defineComponent({
             }
         }
 
+        const handleLogout = () => {
+            useAuth.logout()
+            if (useMenu.dropdowns.length <= 0) dropdownData.value.pop()
+            router.push({ path: '/login' })
+        }
+
         const renderCoffeeModal = () => {
             return (
                 <MiModal
@@ -105,7 +122,7 @@ const MiLayoutHeader = defineComponent({
                     footer={false}
                     animation="newspaper"
                     footerBtnPosition="center"
-                    width={420}>
+                    width={840}>
                     <div class={styled.coffee}>
                         <MiTitle
                             title={t('global.donate')}
@@ -113,7 +130,10 @@ const MiLayoutHeader = defineComponent({
                             margin={{ top: 0 }}
                             size={{ mobile: 20 }}
                         />
-                        <img src={__DONATE_ALIPAY__} alt="makeit.vip alipay QRCode" />
+                        <div class={styled.qrcode}>
+                            <img src={__DONATE_ALIPAY__} alt="makeit.vip alipay QRCode" />
+                            <img src={__DONATE_WECHAT__} alt="makeit.vip wechat QRCode" />
+                        </div>
                     </div>
                 </MiModal>
             )
