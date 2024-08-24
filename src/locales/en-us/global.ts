@@ -29,6 +29,7 @@ export default {
     code: `Code`,
     action: `Operations`,
     key: `Key`,
+    system: `System`,
     builtin: `Built-in`,
     customize: `Customize`,
     tips: `Kind Tips`,
@@ -73,5 +74,6 @@ export default {
         prev: `Prev`,
         next: `Next`
     },
-    donate: `Your support is my biggest motivation`
+    donate: `Your support is my biggest motivation`,
+    colon: `:`
 }

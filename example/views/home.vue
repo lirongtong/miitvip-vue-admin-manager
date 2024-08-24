@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined, VerticalAlignTopOutlined, GithubOutlined, WarningOutlined, AlignCenterOutlined, ToTopOutlined, PicRightOutlined, SecurityScanOutlined, TransactionOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined, VerticalAlignTopOutlined, GithubOutlined, WarningOutlined, AlignCenterOutlined, ToTopOutlined, PicRightOutlined, SecurityScanOutlined, TransactionOutlined, AppleOutlined, CoffeeOutlined } from '@ant-design/icons-vue'
 import { useStoreMenu, useStoreSearch } from '../../src/index'
 
 // update menus
@@ -256,6 +256,27 @@ menuStore.updateMenus([
                 icon: GithubOutlined
             }
         }]
+    },
+    {
+        name: 'advanced',
+        path: '/advanced',
+        meta: {
+            title: '高级应用',
+            subTitle: 'Advanced',
+            icon: AppleOutlined,
+            tag: { content: '授权', color: '#e6300b' }
+        },
+        children: [
+            {
+                name: 'advanced-language',
+                path: '/advanced/language',
+                meta: {
+                    title: '语系管理',
+                    subTitle: 'Language',
+                    icon: CoffeeOutlined
+                }
+            }
+        ]
     }
 ])
 searchStore.updateData([

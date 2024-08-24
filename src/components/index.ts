@@ -88,3 +88,10 @@ export type {
     ForgetUpdateFormParams
 } from './forget/props'
 export { default as Forget } from './forget'
+
+export type {
+    TranslateProperties,
+    LanguageItemProperties,
+    LanguageProperties
+} from './apps/language/props'
+export { default as AppsLanguage } from './apps/language'

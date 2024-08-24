@@ -1,0 +1,374 @@
+@import '../../../theme/style/variables.module.less';
+
+.container {
+    width: 100%;
+    height: 100%;
+
+    :global {
+        .ant-btn,
+        .ant-btn-primary {
+            box-shadow: none;
+        }
+    }
+}
+
+.empty {
+    .properties(padding-top, 48);
+    .properties(padding-bottom, 48);
+}
+
+.categories {
+    .flex();
+    .properties(padding-top, 32);
+    .properties(padding-bottom, 32);
+    position: relative;
+
+    @media only screen and (max-width: @mi-sm) {
+        flex-direction: column;
+        width: 100%;
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 16);
+    }
+
+    &-item {
+        .flex(center, center, column);
+        .properties(padding-top, 16);
+        .properties(padding-bottom, 16);
+        .properties(padding-left);
+        .properties(padding-right);
+        font-weight: bold;
+        .radius(8);
+        .transition();
+        text-align: center;
+        .properties(width, 120);
+        .properties(height, 120);
+        cursor: pointer;
+        .properties(font-size, 16);
+        border: 0.125rem solid transparent;
+        position: relative;
+
+        @media only screen and (max-width: @mi-sm) {
+            width: 100%;
+            height: auto;
+            .flex(center, flex-start);
+            .properties(font-size, 14);
+            .properties(padding-top);
+            .properties(padding-bottom);
+            .properties(padding-left, 16);
+            .properties(padding-right, 16);
+        }
+
+        :global {
+            .anticon {
+                .properties(font-size, 20);
+                .properties(margin-bottom);
+                .properties(padding, 16);
+                .circle();
+                background-color: transparent;
+
+                @media only screen and (max-width: @mi-sm) {
+                    .properties(padding);
+                    margin-bottom: 0;
+                    .properties(font-size, 18);
+                    .properties(margin-right);
+                }
+            }
+        }
+
+        &-check {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translateY(-50%) translateX(50%);
+            .properties(width, 32);
+            .properties(height, 32);
+            .circle();
+            .flex();
+
+            @media only screen and (max-width: @mi-sm) {
+                transform: translate(-1rem, 50%);
+                .properties(width, 24);
+                .properties(height, 24);
+            }
+
+            :global {
+                .anticon {
+                    padding: 0;
+                    margin: 0;
+                    .properties(font-size, 16);
+                    .transition();
+
+                    @media only screen and (max-width: @mi-sm) {
+                        .properties(font-size, 14);
+                    }
+                }
+            }
+        }
+    }
+
+    &-item + &-item {
+        .properties(margin-left, 32);
+
+        @media only screen and (max-width: @mi-sm) {
+            .properties(margin-left, 0);
+            .properties(margin-top, 16);
+        }
+    }
+
+    &-customize {
+        color: var(--mi-language-tabs-text-customize);
+        border-color: var(--mi-language-tabs-border-customize);
+
+        :global {
+            .anticon {
+                color: var(--mi-language-tabs-icon-text-customize);
+                background: var(--mi-language-tabs-icon-background-customize);
+            }
+        }
+
+        &-check {
+            background-color: var(--mi-language-tabs-icon-background-customize);
+
+            :global {
+                .anticon {
+                    color: var(--mi-language-tabs-icon-text-customize);
+                }
+            }
+        }
+
+        &-active {
+            box-shadow: 0 0 0.625rem var(--mi-language-tabs-border-customize);
+
+            @media only screen and (max-width: @mi-sm) {
+                box-shadow: inset 0 0 0.625rem var(--mi-language-tabs-border-customize);
+            }
+        }
+    }
+
+    &-builtin {
+        color: var(--mi-language-tabs-text-builtin);
+        border-color: var(--mi-language-tabs-border-builtin);
+
+        :global {
+            .anticon {
+                color: var(--mi-language-tabs-icon-text-builtin);
+                background: var(--mi-language-tabs-icon-background-builtin);
+            }
+        }
+
+        &-check {
+            background-color: var(--mi-language-tabs-icon-background-builtin);
+
+            :global {
+                .anticon {
+                    color: var(--mi-language-tabs-icon-text-builtin);
+                }
+            }
+        }
+
+        &-active {
+            box-shadow: 0 0 0.625rem var(--mi-language-tabs-border-builtin);
+
+            @media only screen and (max-width: @mi-sm) {
+                box-shadow: inset 0 0 0.625rem var(--mi-language-tabs-border-builtin);
+            }
+        }
+    }
+
+    &-management {
+        color: var(--mi-language-tabs-text-management);
+        border-color: var(--mi-language-tabs-border-management);
+
+        :global {
+            .anticon {
+                color: var(--mi-language-tabs-icon-text-management);
+                background: var(--mi-language-tabs-icon-background-management);
+            }
+        }
+
+        &-check {
+            background-color: var(--mi-language-tabs-icon-background-management);
+
+            :global {
+                .anticon {
+                    color: var(--mi-language-tabs-icon-text-management);
+                }
+            }
+        }
+
+        &-active {
+            box-shadow: 0 0 0.625rem var(--mi-language-tabs-border-management);
+
+            @media only screen and (max-width: @mi-sm) {
+                box-shadow: inset 0 0 0.625rem var(--mi-language-tabs-border-management);
+            }
+        }
+    }
+}
+
+.search {
+    position: relative;
+    .properties(margin-bottom, 16);
+
+    &-item {
+        .flex(center, flex-start);
+        width: 100%;
+
+        @media only screen and (max-width: @mi-sm) {
+            flex-direction: column;
+            .properties(padding, 12);
+            .gradient(var(--mi-outline), var(--mi-surface-variant));
+            .radius(8);
+        }
+
+        &-input {
+            .flex();
+
+            @media only screen and (max-width: @mi-xl) {
+                width: 100%;
+            }
+
+            @media only screen and (max-width: @mi-sm) {
+                width: 100%;
+                .properties(margin-bottom);
+            }
+
+            > span {
+                .properties(width, 64);
+                .properties(min-width, 64);
+                .properties(max-width, 64);
+                .ellipsis();
+            }
+
+            > input {
+                .transition();
+
+                @media only screen and (min-width: @mi-xl) {
+                    .properties(min-width, 320);
+                }
+            }
+        }
+
+        &-btns {
+            .properties(margin-left);
+            .flex();
+
+            :global {
+                .ant-btn + .ant-btn {
+                    .properties(margin-left);
+                }
+            }
+        }
+    }
+
+    &-right {
+        .flex(center, flex-end);
+
+        button + button {
+            .properties(margin-left);
+        }
+    }
+}
+
+.form {
+    &-tip {
+        .properties(margin-right, 4);
+        color: var(--mi-error);
+        cursor: pointer;
+    }
+}
+
+.list {
+    .grid(2, 24);
+
+    @media only screen and (max-width: @mi-sm) {
+        .grid(1, 24);
+    }
+
+    &-item {
+        .properties(padding-left, 16);
+        .properties(padding-right, 16);
+        .properties(padding-top);
+        .properties(padding-bottom);
+        .radius();
+        .flex();
+        position: relative;
+        background: var(--mi-language-background);
+        color: var(--mi-language-text);
+
+        &-name {
+            text-align: justify;
+            font-weight: bold;
+        }
+
+        &-close {
+            position: absolute;
+            .properties(width, 24);
+            .properties(height, 24);
+            .flex();
+            cursor: pointer;
+            .properties(right, -12);
+            .properties(top, -12);
+            overflow: hidden;
+            .circle();
+            background: var(--mi-language-background);
+
+            :global {
+                .anticon {
+                    .properties(font-size, 18);
+                    color: var(--mi-language-text);
+                }
+            }
+        }
+
+        &-edit {
+            .properties(margin-left, 12);
+            .properties(margin-right, 4);
+            .flex();
+            cursor: pointer;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &-active {
+            .gradient-hint(var(--mi-language-default-background-start), var(--mi-language-default-background-hint), var(--mi-language-default-background-end));
+            color: var(--mi-language-default-text);
+        }
+
+        &-active &-close {
+            .gradient-hint(var(--mi-language-default-background-start), var(--mi-language-default-background-hint), var(--mi-language-default-background-end));
+
+            :global {
+                .anticon {
+                    color: var(--mi-language-default-text);
+                }
+            }
+        }
+    }
+}
+
+:export {
+    --language-tabs-text-customize: var(--mi-primary);
+    --language-tabs-border-customize: var(--mi-primary);
+    --language-tabs-icon-background-customize: var(--mi-primary);
+    --language-tabs-icon-text-customize: var(--mi-on-primary);
+
+    --language-tabs-text-builtin: var(--mi-error);
+    --language-tabs-border-builtin: var(--mi-error);
+    --language-tabs-icon-background-builtin: var(--mi-error);
+    --language-tabs-icon-text-builtin: var(--mi-on-error);
+
+    --language-tabs-text-management: var(--mi-tertiary);
+    --language-tabs-border-management: var(--mi-tertiary);
+    --language-tabs-icon-background-management: var(--mi-tertiary);
+    --language-tabs-icon-text-management: var(--mi-on-tertiary);
+
+    --language-text: var(--mi-surface);
+    --language-background: var(--mi-on-surface);
+    --language-default-text: var(--mi-surface);
+    --language-default-background-start: var(--mi-primary);
+    --language-default-background-hint: var(--mi-secondary);
+    --language-default-background-end: var(--mi-tertiary);
+}

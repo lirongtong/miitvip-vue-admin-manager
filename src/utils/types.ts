@@ -397,6 +397,7 @@ export interface KeyValue {
 export interface ResponseData {
     ret: ResponseRet
     data: any
+    total?: number
 }
 /**
  * @param code 结果码

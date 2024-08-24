@@ -29,6 +29,7 @@ export default {
     code: `编码`,
     action: `管理操作`,
     key: `关键词`,
+    system: `系统`,
     builtin: `内置`,
     customize: `自定义`,
     tips: `温馨提示`,
@@ -73,5 +74,6 @@ export default {
         prev: `上一步`,
         next: `下一步`
     },
-    donate: `您的支持，是我最大的动力`
+    donate: `您的支持，是我最大的动力`,
+    colon: `：`
 }

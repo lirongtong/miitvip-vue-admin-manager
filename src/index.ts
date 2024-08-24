@@ -23,6 +23,7 @@ import { default as Forget } from './components/forget'
 import { default as Backtop } from './components/backtop'
 import { default as Anchor } from './components/anchor'
 import { default as Socialite } from './components/socialite'
+import { default as AppsLanguage } from './components/apps/language'
 
 import * as components from './components'
 export * from './components'
@@ -84,6 +85,7 @@ declare module '@vue/runtime-core' {
         MiBacktop: typeof Backtop
         MiAnchor: typeof Anchor
         MiSocialite: typeof Socialite
+        MiAppsLanguage: typeof AppsLanguage
     }
 }
 

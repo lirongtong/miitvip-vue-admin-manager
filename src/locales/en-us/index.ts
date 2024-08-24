@@ -9,6 +9,7 @@ import register from './register'
 import anchor from './anchor'
 import forget from './forget'
 import code from './code'
+import language from './language'
 
 export default {
     global,
@@ -21,5 +22,6 @@ export default {
     register,
     anchor,
     forget,
-    code
+    code,
+    language
 }

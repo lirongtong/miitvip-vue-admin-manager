@@ -34,6 +34,9 @@ const ComponentsQuote = () => import('./views/components/quote.vue')
 const ComponentsBacktop = () => import('./views/components/backtop.vue')
 const ComponentsSocialite = () => import('./views/components/socialite.vue')
 
+const Advanced = () => import('./views/advanced/index.vue')
+const AdvancedLanguage = () => import('./views/advanced/language.vue')
+
 const PassportLogin = () => import('./views/passport/login.vue')
 const PassportRegister = () => import('./views/passport/register.vue')
 const PassportForget = () => import('./views/passport/forget.vue')
@@ -195,6 +198,20 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 meta: { title: '授权登陆' },
                 component: ComponentsSocialite
             }]
+        }, {
+            path: '/advanced',
+            name: 'advanced',
+            meta: { title: '定制组件' },
+            component: Advanced,
+            redirect: '/advanced/language',
+            children: [
+                {
+                    path: '/advanced/language',
+                    name: 'advanced-language',
+                    meta: { title: '语系管理', auth: true },
+                    component: AdvancedLanguage
+                }
+            ]
         }]
     }
 ]
