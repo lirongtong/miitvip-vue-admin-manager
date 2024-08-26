@@ -24,7 +24,9 @@ const i18nIns = createI18n({
 }) as I18n & VueI18n & Record<string, any>
 
 const setLocale = async (locale?: string, message?: {}) => {
-    if (locale === undefined) locale = $storage.get(LOCALE_KEY) || DEFAULT_LANG
+    if (!locale)
+        locale =
+            typeof window !== 'undefined' ? $storage.get(LOCALE_KEY) || DEFAULT_LANG : DEFAULT_LANG
     if (locales[locale]) {
         i18nIns.global.mergeLocaleMessage(locale, message || {})
     } else if (Object.keys(message || {}).length > 0) {

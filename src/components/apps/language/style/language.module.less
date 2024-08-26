@@ -349,6 +349,26 @@
     }
 }
 
+.select {
+    &-add {
+        > span {
+            .properties(margin-right);
+        }
+    }
+}
+
+.action {
+    &-btns {
+        .flex();
+
+        :global {
+            .ant-btn + .ant-btn {
+                .properties(margin-left);
+            }
+        }
+    }
+}
+
 :export {
     --language-tabs-text-customize: var(--mi-primary);
     --language-tabs-border-customize: var(--mi-primary);

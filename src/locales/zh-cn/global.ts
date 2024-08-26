@@ -75,5 +75,10 @@ export default {
         next: `下一步`
     },
     donate: `您的支持，是我最大的动力`,
-    colon: `：`
+    colon: `：`,
+    disable: `禁用`,
+    enable: `启用`,
+    available: `上架`,
+    removed: `下架`,
+    select: `请选择`
 }

@@ -51,7 +51,7 @@ export default defineConfig({
         port: 5800,
         proxy: {
             '/v1': {
-                target: 'http://local-account.makeit.vip',
+                target: 'http://local-api.makeit.vip',
                 changeOrigin: true
             },
             '/api/trans': {

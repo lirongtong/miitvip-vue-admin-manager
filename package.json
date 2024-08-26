@@ -95,6 +95,7 @@
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.5",
         "@types/babel__core": "^7.20.5",
+        "@types/md5": "^2.3.5",
         "@types/node": "^20.10.5",
         "@types/nprogress": "^0.2.3",
         "@types/prismjs": "^1.26.3",

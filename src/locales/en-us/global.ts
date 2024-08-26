@@ -75,5 +75,10 @@ export default {
         next: `Next`
     },
     donate: `Your support is my biggest motivation`,
-    colon: `:`
+    colon: `:`,
+    disable: `Disable`,
+    enable: `Enable`,
+    available: `Available`,
+    removed: `Removed`,
+    select: `Please select`
 }

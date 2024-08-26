@@ -963,10 +963,10 @@ class MiTools {
      * @returns
      */
     getLanguage() {
-        let lang = 'en-us'
+        let lang = 'zh-cn'
         if (typeof window !== 'undefined') {
             lang = (
-                navigator ? navigator.language ?? (navigator as any).browerLanguage : 'en-us'
+                navigator ? navigator.language ?? (navigator as any).browerLanguage : 'zh-cn'
             ).toLowerCase()
         }
         return lang
