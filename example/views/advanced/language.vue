@@ -17,3 +17,14 @@
         delete-content-action="/v1/languages"
         check-content-exist-action="/v1/languages/check" />
 </template>
+
+<script setup lang="ts">
+const handleDeleteContent = (data: any) => {
+    console.log(data)
+    return true
+}
+
+const handleAfterBatchDelete = () => {
+    console.log('after')
+}
+</script>

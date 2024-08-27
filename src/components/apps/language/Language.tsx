@@ -45,7 +45,13 @@ import styled from './style/language.module.less'
 
 /**
  * @events 回调事件
- * @event afterCreate 创建某个语系内的内容配置成功后的回调
+ * @event afterGetCategory 获取语系分类 - 成功后的回调
+ * @event afterCreateCategory 创建语系分类 - 成功后的回调
+ * @event afterUpdateCategory 更新语系分类 - 成功后的回调
+ * @event afterAutomaticTranslate 自动翻译 - 成功后的回调
+ * @event afterCreate 创建单个语系的内容配置 - 成功后的回调
+ * @event afterGetContent 获取单个语系的内容配置 - 成功后的回调
+ * @event afterBatchDelete 批量删除语系内容 - 成功后的回调
  */
 const MiAppsLanguage = defineComponent({
     name: 'MiAppsLanguage',
@@ -57,7 +63,8 @@ const MiAppsLanguage = defineComponent({
         'afterGetCategory',
         'afterCreateCategory',
         'afterUpdateCategory',
-        'afterAutomaticTranslate'
+        'afterAutomaticTranslate',
+        'afterBatchDelete'
     ],
     setup(props, { emit }) {
         const setLocale = inject('setLocale') as any
@@ -149,10 +156,12 @@ const MiAppsLanguage = defineComponent({
         }
 
         const params = reactive({
+            ids: [],
             loading: {
                 languages: false,
                 categories: false,
-                createOrUpdate: false
+                createOrUpdate: false,
+                delete: false
             },
             total: {
                 builtin: 0,
@@ -475,9 +484,24 @@ const MiAppsLanguage = defineComponent({
             else getCategories()
         }
 
-        const handleCustomizePageChange = () => {}
+        // Table 分页操作
+        const handleCustomizePageChange = (page: number, size: number) => {
+            params.table.customize.pagination = { page, size }
+            params.ids = []
+            setLanguages(params.search.key, params.category.key)
+        }
 
-        // 新增语系配置内容 - Modal State
+        // 批量操作 IDs
+        const handleBatchItemChange = (rows: any[]) => {
+            const ids: any[] = []
+            for (let i = 0, l = rows.length; i < l; i++) {
+                const id = rows[i]?.id || rows[i]?.key
+                if (id) ids.push(id)
+            }
+            params.ids = ids
+        }
+
+        // 新增语系配置 - Modal State
         const handleCreateCategoryModalState = () => {
             // 未打开语系列表, 直接弹出新增 Modal, 关闭时无需打开语系列表
             if (!params.modal.category.management) params.modal.category.createDirect = true
@@ -530,6 +554,8 @@ const MiAppsLanguage = defineComponent({
                 // 自定义请求方式的处理
                 const handleCustomAfterSuccess = (response: any) => {
                     if (typeof response === 'boolean' && response) {
+                        if (params.form.category.edit) emit('afterUpdateCategory')
+                        else emit('afterCreateCategory')
                         params.form.category.edit = false
                         handleCancelCategoryModalState()
                         categoryFormRef.value?.resetFields()
@@ -660,10 +686,56 @@ const MiAppsLanguage = defineComponent({
                                     })
                                     .catch((err: any) => message.error(err?.message || err))
                                     .finally(() => (params.loading.createOrUpdate = false))
+                            } else if (typeof props.createContentAction === 'function') {
+                                const response = await props.createContentAction(createParams)
+                                if (typeof response === 'string') message.error(response)
+                                if (typeof response === 'boolean' && response) emit('afterCreate')
+                                params.loading.createOrUpdate = false
                             }
                         }
                     }
                 })
+            }
+        }
+
+        // 批量删除单个语系内的配置内容
+        const handleBatchDeleteContent = async () => {
+            if (params.ids.length <= 0) {
+                message.destroy()
+                message.error(t('global.delete.select'))
+                return
+            }
+            if (params.loading.delete) return
+            params.loading.delete = true
+            if (props.deleteContentAction) {
+                if (typeof props.deleteContentAction === 'string') {
+                    $request[props.deleteContentMethod](props.deleteContentAction, {
+                        id: params.ids.join(','),
+                        ...props.deleteContentParams
+                    })
+                        .then((res: ResponseData | any) => {
+                            if (res?.ret?.code === 200) {
+                                message.success(t('global.success'))
+                                setLanguages(params.search.key, params.category.key)
+                            } else if (res?.ret?.message) message.error(res?.ret?.message)
+                            emit('afterBatchDelete', res)
+                        })
+                        .catch((err: any) =>
+                            message.error(err?.message || err || t('global.error.unknown'))
+                        )
+                        .finally(() => (params.loading.delete = false))
+                } else if (typeof props.deleteContentAction === 'function') {
+                    const response = await props.deleteContentAction(params.ids)
+                    if (typeof response === 'string') message.error(response)
+                    if (typeof response === 'boolean' && response) {
+                        if (typeof props.getContentAction === 'string') {
+                            params.ids = []
+                            setLanguages(params.search.key, params.category.key)
+                        }
+                        emit('afterBatchDelete')
+                    }
+                    params.loading.delete = false
+                }
             }
         }
 
@@ -948,6 +1020,9 @@ const MiAppsLanguage = defineComponent({
                             <ConfigProvider theme={{ token: { colorPrimary: '#dc4446' } }}>
                                 <Popconfirm
                                     overlayStyle={{ zIndex: Date.now() }}
+                                    okText={t('global.ok')}
+                                    cancelText={t('global.cancel')}
+                                    onConfirm={() => handleBatchDeleteContent()}
                                     v-slots={{
                                         title: () => {
                                             return (
@@ -1053,8 +1128,8 @@ const MiAppsLanguage = defineComponent({
                     rowKey={(record: any) => record?.id}
                     rowSelection={{
                         columnWidth: 60,
-                        onChange: (keys: any[], rows: any[]) => {
-                            console.log(keys, rows)
+                        onChange: (_keys: any[], rows: any[]) => {
+                            handleBatchItemChange(rows)
                         }
                     }}
                     pagination={{
