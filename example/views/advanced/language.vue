@@ -14,6 +14,7 @@
         }"
         get-content-action="/v1/languages"
         create-content-action="/v1/languages"
+        @after-create-content="handleAfter"
         update-content-action="/v1/languages/{id}"
         delete-content-action="/v1/languages"
         check-content-exist-action="/v1/languages/check" />
@@ -22,6 +23,10 @@
 <script setup lang="ts">
 const handleCustom = (data: any) => {
     console.log(data)
-    return [{ key: 1, language: '你好', cid: 1, status: 1 }]
+    return true
+}
+
+const handleAfter = (res: any) => {
+    console.log(res)
 }
 </script>

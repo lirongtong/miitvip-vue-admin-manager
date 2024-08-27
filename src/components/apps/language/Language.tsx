@@ -396,7 +396,7 @@ const MiAppsLanguage = defineComponent({
             const condition = Object.assign(
                 { keyword },
                 { ...params.table.customize.pagination },
-                { lang },
+                { lang: lang ?? 'zh-cn' },
                 props.getContentParams
             )
             const afterSuccess = (res: ResponseData | any) => {
@@ -411,7 +411,6 @@ const MiAppsLanguage = defineComponent({
                 'getContentAction',
                 {},
                 (res: ResponseData | any) => afterSuccess(res),
-                (res: any) => afterSuccess(res),
                 () => (params.loading.languages = false)
             )
         }
@@ -469,7 +468,6 @@ const MiAppsLanguage = defineComponent({
                 'getCategoryAction',
                 {},
                 (res: ResponseData | any) => afterSuccess(res),
-                (res: any) => afterSuccess(res),
                 () => (params.loading.categories = false)
             )
         }
@@ -544,7 +542,10 @@ const MiAppsLanguage = defineComponent({
                     message.destroy()
                     message.success(t('global.success'))
                     if (params.form.category.edit) emit('afterUpdateCategory', res)
-                    else emit('afterCreateCategory', res)
+                    else {
+                        if (params.translate.form.translate) handleAutomaticTranslate(res)
+                        emit('afterCreateCategory', res)
+                    }
                     params.form.category.edit = false
                     handleCancelCategoryModalState()
                     categoryFormRef.value?.resetFields()
@@ -564,7 +565,6 @@ const MiAppsLanguage = defineComponent({
                             'updateCategoryAction',
                             { id: params.form.category.id },
                             (res: ResponseData | any) => afterSuccess(res),
-                            (res: any) => afterSuccess(res),
                             () => (params.loading.createOrUpdate = false)
                         )
                     } else {
@@ -579,11 +579,7 @@ const MiAppsLanguage = defineComponent({
                             Object.assign(createParams, { ...params.translate.form }),
                             'createCategoryAction',
                             {},
-                            (res: ResponseData | any) => {
-                                if (params.translate.form.translate) handleAutomaticTranslate(res)
-                                afterSuccess(res)
-                            },
-                            (res: any) => afterSuccess(res),
+                            (res: ResponseData | any) => afterSuccess(res),
                             () => (params.loading.createOrUpdate = false)
                         )
                     }
@@ -637,7 +633,7 @@ const MiAppsLanguage = defineComponent({
                 if (params.loading.createOrUpdate) return
                 params.loading.createOrUpdate = true
                 contentFormRef.value?.validate().then(async () => {
-                    const afterSuccess = () => {
+                    const afterSuccess = (res?: ResponseData | any) => {
                         message.destroy()
                         message.success(t('global.success'))
                         const newContent = {}
@@ -646,12 +642,13 @@ const MiAppsLanguage = defineComponent({
                         handleUpdateLocaleData(newContent)
                         handleCancelCreateContentModalState()
                         contentFormRef.value?.resetFields()
-                        setLanguages('', params.category.key)
+                        setLanguages(params.search.key, params.category.key)
                         if (params.form.content.edit) {
                             params.form.content.edit = false
                             params.form.content.key = ''
                             params.form.content.id = 0
-                        }
+                            emit('afterUpdateContent', res)
+                        } else emit('afterCreateContent', res)
                     }
                     if (params.form.content.edit) {
                         // 编辑
@@ -671,18 +668,7 @@ const MiAppsLanguage = defineComponent({
                             updateParams,
                             'updateContentAction',
                             { id: params.form.content.id },
-                            (res: ResponseData | any) => {
-                                if (res?.ret?.code === 200) afterSuccess()
-                                else if (res?.ret?.messages) {
-                                    message.destroy()
-                                    message.error(res?.ret?.message)
-                                }
-                                emit('afterUpdateContent', res)
-                            },
-                            () => {
-                                afterSuccess()
-                                emit('afterUpdateContent')
-                            },
+                            (res: ResponseData | any) => afterSuccess(res),
                             () => (params.loading.createOrUpdate = false)
                         )
                     } else {
@@ -698,18 +684,7 @@ const MiAppsLanguage = defineComponent({
                             createParams,
                             'createContentAction',
                             {},
-                            (res: ResponseData | any) => {
-                                if (res?.ret?.code === 200) {
-                                    message.destroy()
-                                    message.success(t('global.success'))
-                                    afterSuccess()
-                                } else if (res?.ret?.message) message.error(res?.ret?.message)
-                                emit('afterCreateContent', res)
-                            },
-                            () => {
-                                if (typeof props.getContentAction === 'string') afterSuccess()
-                                emit('afterCreateContent')
-                            },
+                            (res?: ResponseData | any) => afterSuccess(res),
                             () => (params.loading.createOrUpdate = false)
                         )
                     }
@@ -724,8 +699,7 @@ const MiAppsLanguage = defineComponent({
          * @param params 参数
          * @param name 执行方法名称
          * @param replaceParams 待替换的 url 参数
-         * @param stringCallback string action 回调
-         * @param functionCallback function action 回调
+         * @param callback action 回调
          * @param defaultCallback 默认回调
          */
         const handleAction = async (
@@ -734,8 +708,7 @@ const MiAppsLanguage = defineComponent({
             params: any = {},
             name: string,
             replaceParams: {},
-            stringCallback?: Function,
-            functionCallback?: Function,
+            callback?: Function,
             commonCallback?: Function
         ) => {
             if (action) {
@@ -746,7 +719,7 @@ const MiAppsLanguage = defineComponent({
                             if (res?.ret?.code !== 200 && res?.ret?.message) {
                                 message.destroy()
                                 message.error(res?.ret?.message)
-                            } else stringCallback?.(res)
+                            } else callback?.(res)
                         })
                         .catch((err: any) => message.error(err?.message || err))
                         .finally(() => commonCallback?.())
@@ -756,7 +729,7 @@ const MiAppsLanguage = defineComponent({
                         message.destroy()
                         message.error(response)
                     }
-                    functionCallback?.(response)
+                    callback?.(response)
                     commonCallback?.()
                 }
             } else {
