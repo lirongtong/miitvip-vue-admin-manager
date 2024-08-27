@@ -230,11 +230,14 @@ const MiAppsLanguage = defineComponent({
                                         </Button>
                                         <Popconfirm
                                             title={t('global.delete.confirm')}
-                                            style={{ zIndex: Date.now() }}
+                                            overlayStyle={{
+                                                zIndex: Date.now(),
+                                                minWidth: $tools.convert2rem(210)
+                                            }}
                                             okText={t('global.ok')}
                                             cancelText={t('global.cancel')}
                                             okButtonProps={{
-                                                onClick: () => {}
+                                                onClick: () => handleDeleteContent(record?.id)
                                             }}
                                             key={record?.key}>
                                             <Button
@@ -742,7 +745,13 @@ const MiAppsLanguage = defineComponent({
             }
         }
 
-        // 批量删除单个语系内的配置内容
+        // 单个删除 - 单个语系内的配置内容
+        const handleDeleteContent = async (id: number) => {
+            params.ids = [id]
+            handleBatchDeleteContent()
+        }
+
+        // 批量删除 - 单个语系内的配置内容
         const handleBatchDeleteContent = async () => {
             if (params.ids.length <= 0) {
                 message.destroy()
@@ -751,36 +760,23 @@ const MiAppsLanguage = defineComponent({
             }
             if (params.loading.delete) return
             params.loading.delete = true
-            if (props.deleteContentAction) {
-                if (typeof props.deleteContentAction === 'string') {
-                    $request[props.deleteContentMethod](props.deleteContentAction, {
-                        id: params.ids.join(','),
-                        ...props.deleteContentParams
-                    })
-                        .then((res: ResponseData | any) => {
-                            if (res?.ret?.code === 200) {
-                                message.success(t('global.success'))
-                                setLanguages(params.search.key, params.category.key)
-                            } else if (res?.ret?.message) message.error(res?.ret?.message)
-                            emit('afterBatchDeleteContent', res)
-                        })
-                        .catch((err: any) =>
-                            message.error(err?.message || err || t('global.error.unknown'))
-                        )
-                        .finally(() => (params.loading.delete = false))
-                } else if (typeof props.deleteContentAction === 'function') {
-                    const response = await props.deleteContentAction(params.ids)
-                    if (typeof response === 'string') message.error(response)
-                    if (typeof response === 'boolean' && response) {
-                        if (typeof props.getContentAction === 'string') {
-                            params.ids = []
-                            setLanguages(params.search.key, params.category.key)
-                        }
-                        emit('afterBatchDeleteContent')
-                    }
-                    params.loading.delete = false
-                }
-            }
+            handleAction(
+                props.deleteContentAction,
+                props.deleteContentMethod,
+                {
+                    id: params.ids.join(','),
+                    ...props.deleteContentParams
+                },
+                'deleteContentAction',
+                {},
+                (res?: ResponseData | any) => {
+                    message.destroy()
+                    message.success(t('global.success'))
+                    setLanguages(params.search.key, params.category.key)
+                    emit('afterBatchDeleteContent', res)
+                },
+                () => (params.loading.delete = false)
+            )
         }
 
         // 更新 i18n 数据
@@ -1021,6 +1017,8 @@ const MiAppsLanguage = defineComponent({
                             <ConfigProvider theme={{ token: { colorPrimary: '#d89614' } }}>
                                 <Popconfirm
                                     overlayStyle={{ zIndex: Date.now() }}
+                                    okText={t('global.ok')}
+                                    cancelText={t('global.cancel')}
                                     v-slots={{
                                         title: () => {
                                             return (
