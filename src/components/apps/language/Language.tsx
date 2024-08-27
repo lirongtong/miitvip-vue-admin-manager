@@ -44,14 +44,15 @@ import applyTheme from '../../_utils/theme'
 import styled from './style/language.module.less'
 /**
  * @events 回调事件
+ * @event afterGetContent 获取单个语系的内容配置 - 成功后的回调
+ * @event afterCreateContent 创建单个语系的内容配置 - 成功后的回调
+ * @event afterUpdateContent 更新单个语系的内容配置 - 成功后的回调
+ * @event afterBatchDeleteContent 批量删除语系内容 - 成功后的回调
  * @event afterGetCategory 获取语系分类 - 成功后的回调
  * @event afterCreateCategory 创建语系分类 - 成功后的回调
  * @event afterUpdateCategory 更新语系分类 - 成功后的回调
+ * @event afterDeleteCategory 删除语系分类 - 成功后的回调
  * @event afterAutomaticTranslate 自动翻译 - 成功后的回调
- * @event afterCreateContent 创建单个语系的内容配置 - 成功后的回调
- * @event afterUpdateContent 更新单个语系的内容配置 - 成功后的回调
- * @event afterGetContent 获取单个语系的内容配置 - 成功后的回调
- * @event afterBatchDeleteContent 批量删除语系内容 - 成功后的回调
  */
 const MiAppsLanguage = defineComponent({
     name: 'MiAppsLanguage',
@@ -65,6 +66,7 @@ const MiAppsLanguage = defineComponent({
         'afterGetCategory',
         'afterCreateCategory',
         'afterUpdateCategory',
+        'afterDeleteCategory',
         'afterAutomaticTranslate'
     ],
     setup(props, { emit }) {
@@ -124,9 +126,10 @@ const MiAppsLanguage = defineComponent({
                 return Promise.reject(t('language.error.reg'))
             }
             if (props.checkContentExistAction) {
-                const contentParams = Object.assign(
+                const actionParams = Object.assign(
                     {
                         id: params.form.content.id,
+                        cid: params.category.current,
                         key: params.form.content.validate.key,
                         edit: params.form.content.edit ? 1 : 0
                     },
@@ -135,7 +138,7 @@ const MiAppsLanguage = defineComponent({
                 if (typeof props.checkContentExistAction === 'string') {
                     return await $request[props.checkContentExistMethod](
                         props.checkContentExistAction,
-                        contentParams
+                        actionParams
                     )
                         .then((res: ResponseData | any) => {
                             if (res?.ret?.code === 200) {
@@ -149,7 +152,7 @@ const MiAppsLanguage = defineComponent({
                             return Promise.reject(err?.message || err)
                         })
                 } else if (typeof props.checkContentExistAction === 'function') {
-                    const response = await props.checkContentExistAction(contentParams)
+                    const response = await props.checkContentExistAction(actionParams)
                     if (typeof response === 'string') return Promise.reject(response)
                     return Promise.resolve()
                 }
@@ -168,6 +171,14 @@ const MiAppsLanguage = defineComponent({
                 builtin: 0,
                 customize: 0
             },
+            /**
+             * @param data 语系列表
+             * @param ids 语系 id 列表 [{ key: value }]
+             * @param types 语系类型列表
+             * @param current 当前选中的语系 ID
+             * @param key 语系关键词 ( eg. zh-cn )
+             * @param active 分类 Tab 选中类型
+             */
             category: {
                 data: [] as LanguageItemProperties[],
                 ids: {} as any,
@@ -386,10 +397,9 @@ const MiAppsLanguage = defineComponent({
         applyTheme(styled)
 
         // 初始化
-        const initLanguages = () => {
+        const init = async () => {
             getBuiltinLanguages(messages.value?.[locale.value])
-            setLanguages()
-            setCategory()
+            await setCategory()
         }
 
         // 获取自定义语言内容列表
@@ -450,10 +460,10 @@ const MiAppsLanguage = defineComponent({
         }
 
         // 获取语系分类
-        const getCategories = async () => {
+        const getCategories = async (updateLanguage: boolean = false) => {
             if (params.loading.categories) return
             params.loading.categories = true
-            const afterSuccess = (res?: ResponseData | any) => {
+            const afterSuccess = async (res?: ResponseData | any) => {
                 params.category.data = res instanceof Array ? res : res?.data || []
                 for (let i = 0, l = res?.data?.length; i < l; i++) {
                     const category = res?.data[i]
@@ -461,9 +471,18 @@ const MiAppsLanguage = defineComponent({
                     params.category.ids[category?.key] = category?.id
                     if (category?.is_default) params.category.current = category?.id
                 }
-                emit('afterGetCategory')
+                // 无默认语系
+                if (!params.category.current && params.category.data?.length > 0) {
+                    const cur = params.category.data?.[0]
+                    params.category.current = parseInt(cur?.id?.toString())
+                    params.category.key = cur?.key
+                }
+                if (updateLanguage && params.category.data?.length > 0) {
+                    setLanguages(params.search.key, params.category.key)
+                }
+                emit('afterGetCategory', res)
             }
-            handleAction(
+            await handleAction(
                 props.getCategoryAction,
                 props.getCategoryMethod,
                 props.getCategoryParams,
@@ -474,9 +493,9 @@ const MiAppsLanguage = defineComponent({
         }
 
         // 设置语系分类
-        const setCategory = () => {
+        const setCategory = async (updateLanguage: boolean = true) => {
             if (props.category && props.category.length > 0) params.category.data = props.category
-            else getCategories()
+            else await getCategories(updateLanguage)
         }
 
         // Table 分页操作
@@ -584,6 +603,31 @@ const MiAppsLanguage = defineComponent({
             }
         }
 
+        // 删除 - 语系
+        const handleDeleteCategory = (data?: any) => {
+            if (!data?.id) {
+                message.destroy()
+                message.error(t('global.error.id'))
+                return
+            }
+            if (params.loading.delete) return
+            params.loading.delete = true
+            const actionParams = Object.assign({ id: data.id }, props.deleteCategoryParams)
+            handleAction(
+                props.deleteCategoryAction,
+                props.deleteCategoryMethod,
+                actionParams,
+                'deleteCategoryAction',
+                async (res?: ResponseData | any) => {
+                    message.destroy()
+                    message.success(t('global.success'))
+                    await setCategory()
+                    emit('afterDeleteCategory', res)
+                },
+                () => (params.loading.delete = false)
+            )
+        }
+
         // 新增单个语系内的配置内容 - Modal State
         const handleCreateContentModalState = () => {
             params.form.content.edit = false
@@ -624,7 +668,7 @@ const MiAppsLanguage = defineComponent({
             if (contentFormRef.value) contentFormRef.value?.clearValidate()
         }
 
-        // 新增单个语系内的配置内容 - action
+        // 新增/更新 - 语言内容 - action
         const handleCreateOrUpdateContent = () => {
             if (contentFormRef.value) {
                 if (params.loading.createOrUpdate) return
@@ -703,11 +747,11 @@ const MiAppsLanguage = defineComponent({
             if (action) {
                 if (typeof action === 'string') {
                     await $request[method](action, params)
-                        .then((res: ResponseData | any) => {
+                        .then(async (res: ResponseData | any) => {
                             if (res?.ret?.code !== 200 && res?.ret?.message) {
                                 message.destroy()
                                 message.error(res?.ret?.message)
-                            } else callback?.(res)
+                            } else await callback?.(res)
                         })
                         .catch((err: any) => message.error(err?.message || err))
                         .finally(() => commonCallback?.())
@@ -717,7 +761,7 @@ const MiAppsLanguage = defineComponent({
                         message.destroy()
                         message.error(response)
                     }
-                    callback?.(response)
+                    await callback?.(response)
                     commonCallback?.()
                 }
             } else {
@@ -877,7 +921,7 @@ const MiAppsLanguage = defineComponent({
             }
         }
 
-        initLanguages()
+        init()
 
         const renderEmpty = () => {
             return (
@@ -1203,7 +1247,7 @@ const MiAppsLanguage = defineComponent({
                                 title={t('global.delete.confirm')}
                                 overlayStyle={{ zIndex: Date.now() }}
                                 okText={t('global.ok')}
-                                onConfirm={() => {}}
+                                onConfirm={() => handleDeleteCategory(cur)}
                                 cancelText={t('global.cancel')}>
                                 <span class={styled.listItemClose}>
                                     <CloseCircleFilled />

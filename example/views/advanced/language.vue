@@ -14,7 +14,7 @@
         }"
         get-content-action="/v1/languages"
         create-content-action="/v1/languages"
-        @after-create-content="handleAfter"
+        batch-create-content-action="/v1/languages/batch-create"
         update-content-action="/v1/languages"
         delete-content-action="/v1/languages"
         check-content-exist-action="/v1/languages/check" />
@@ -26,7 +26,7 @@ const handleCustom = (data: any) => {
     return true
 }
 
-const handleAfter = (res: any) => {
+const handleAfter = (res?: any) => {
     console.log(res)
 }
 </script>
