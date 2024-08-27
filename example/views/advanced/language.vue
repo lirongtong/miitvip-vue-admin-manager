@@ -15,7 +15,7 @@
         get-content-action="/v1/languages"
         create-content-action="/v1/languages"
         @after-create-content="handleAfter"
-        update-content-action="/v1/languages/{id}"
+        update-content-action="/v1/languages"
         delete-content-action="/v1/languages"
         check-content-exist-action="/v1/languages/check" />
 </template>
