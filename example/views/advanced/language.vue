@@ -22,6 +22,6 @@
 <script setup lang="ts">
 const handleCustom = (data: any) => {
     console.log(data)
-    return true
+    return [{ key: 1, language: '你好', cid: 1, status: 1 }]
 }
 </script>

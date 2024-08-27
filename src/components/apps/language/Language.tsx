@@ -391,32 +391,29 @@ const MiAppsLanguage = defineComponent({
 
         // 获取自定义语言内容列表
         const getLanguages = async (keyword?: string, lang?: string) => {
-            if (typeof props.getContentAction) {
-                if (params.loading.languages) return
-                params.loading.languages = true
-                const condition = Object.assign(
-                    { keyword },
-                    { ...params.table.customize.pagination },
-                    { lang },
-                    props.getContentParams
-                )
-                if (typeof props.getContentAction === 'string') {
-                    await $request[props.getContentMethod](props.getContentAction, condition)
-                        .then((res: ResponseData | any) => {
-                            if (res?.ret?.code === 200) {
-                                languages.customize = res?.data || []
-                                params.total.customize = res?.total || 0
-                            } else if (res?.ret?.message) message.error(res?.ret?.message)
-                            emit('afterGetContent', res)
-                        })
-                        .catch((err: any) => message.error(err?.message || err))
-                        .finally(() => (params.loading.languages = false))
-                } else if (typeof props.getContentAction === 'function') {
-                    const response = await props.getContentAction(condition)
-                    if (typeof response === 'string') message.error(response)
-                    params.loading.languages = false
-                } else params.loading.languages = false
+            if (params.loading.languages) return
+            params.loading.languages = true
+            const condition = Object.assign(
+                { keyword },
+                { ...params.table.customize.pagination },
+                { lang },
+                props.getContentParams
+            )
+            const afterSuccess = (res: ResponseData | any) => {
+                languages.customize = res instanceof Array ? res : res?.data || []
+                params.total.customize = res?.total || 0
+                emit('afterGetContent', res)
             }
+            await handleAction(
+                props.getContentAction,
+                props.getContentMethod,
+                condition,
+                'getContentAction',
+                {},
+                (res: ResponseData | any) => afterSuccess(res),
+                (res: any) => afterSuccess(res),
+                () => (params.loading.languages = false)
+            )
         }
 
         // 设置自定义语言内容
@@ -744,7 +741,7 @@ const MiAppsLanguage = defineComponent({
             if (action) {
                 if (typeof action === 'string') {
                     action = $tools.replaceUrlParams(action, replaceParams)
-                    $request[method](action, params)
+                    await $request[method](action, params)
                         .then((res: ResponseData | any) => {
                             if (res?.ret?.code !== 200 && res?.ret?.message) {
                                 message.destroy()
