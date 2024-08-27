@@ -42,29 +42,30 @@ import MiModal from '../../modal/Modal'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
 import styled from './style/language.module.less'
-
 /**
  * @events 回调事件
  * @event afterGetCategory 获取语系分类 - 成功后的回调
  * @event afterCreateCategory 创建语系分类 - 成功后的回调
  * @event afterUpdateCategory 更新语系分类 - 成功后的回调
  * @event afterAutomaticTranslate 自动翻译 - 成功后的回调
- * @event afterCreate 创建单个语系的内容配置 - 成功后的回调
+ * @event afterCreateContent 创建单个语系的内容配置 - 成功后的回调
+ * @event afterUpdateContent 更新单个语系的内容配置 - 成功后的回调
  * @event afterGetContent 获取单个语系的内容配置 - 成功后的回调
- * @event afterBatchDelete 批量删除语系内容 - 成功后的回调
+ * @event afterBatchDeleteContent 批量删除语系内容 - 成功后的回调
  */
 const MiAppsLanguage = defineComponent({
     name: 'MiAppsLanguage',
     inheritAttrs: false,
     props: LanguageProps(),
     emits: [
-        'afterCreate',
         'afterGetContent',
+        'afterCreateContent',
+        'afterUpdateContent',
+        'afterBatchDeleteContent',
         'afterGetCategory',
         'afterCreateCategory',
         'afterUpdateCategory',
-        'afterAutomaticTranslate',
-        'afterBatchDelete'
+        'afterAutomaticTranslate'
     ],
     setup(props, { emit }) {
         const setLocale = inject('setLocale') as any
@@ -218,10 +219,13 @@ const MiAppsLanguage = defineComponent({
                             key: 'action',
                             align: 'center',
                             width: 180,
-                            customRender: (record: any) => {
+                            customRender: ({ record }) => {
                                 return (
                                     <div class={styled.actionBtns}>
-                                        <Button type="primary" icon={<FormOutlined />} class="edit">
+                                        <Button
+                                            type="primary"
+                                            icon={<FormOutlined />}
+                                            onClick={() => handleUpdateContentModalState(record)}>
                                             {t('global.edit')}
                                         </Button>
                                         <Popconfirm
@@ -232,7 +236,7 @@ const MiAppsLanguage = defineComponent({
                                             okButtonProps={{
                                                 onClick: () => {}
                                             }}
-                                            key={record.record.key}>
+                                            key={record?.key}>
                                             <Button
                                                 type="primary"
                                                 danger={true}
@@ -292,6 +296,7 @@ const MiAppsLanguage = defineComponent({
                 },
                 content: {
                     id: 0,
+                    key: '',
                     edit: false,
                     /**
                      * @param key 单个语系内的内容配置关键词
@@ -448,34 +453,28 @@ const MiAppsLanguage = defineComponent({
 
         // 获取语系分类
         const getCategories = async () => {
-            if (typeof props.getCategoryAction) {
-                if (params.loading.categories) return
-                params.loading.categories = true
-                if (typeof props.getCategoryAction === 'string') {
-                    await $request[props.getCategoryMethod](
-                        props.getCategoryAction,
-                        props.getCategoryParams
-                    )
-                        .then((res: ResponseData | any) => {
-                            if (res?.ret?.code === 200) {
-                                params.category.data = res?.data
-                                for (let i = 0, l = res?.data?.length; i < l; i++) {
-                                    const category = res?.data[i]
-                                    params.category.types[category?.key] = category?.language
-                                    params.category.ids[category?.key] = category?.id
-                                    if (category?.is_default) params.category.current = category?.id
-                                }
-                            } else if (res?.ret?.message) message.error(res?.ret?.message)
-                            emit('afterGetCategory', res)
-                        })
-                        .catch((err: any) => message.error(err?.message || err))
-                        .finally(() => (params.loading.categories = false))
-                } else if (typeof props.getCategoryAction === 'function') {
-                    const response = await props.getCategoryAction()
-                    params.loading.categories = false
-                    if (typeof response === 'string') message.error(response)
-                } else params.loading.categories = false
+            if (params.loading.categories) return
+            params.loading.categories = true
+            const afterSuccess = (res?: ResponseData | any) => {
+                params.category.data = res instanceof Array ? res : res?.data || []
+                for (let i = 0, l = res?.data?.length; i < l; i++) {
+                    const category = res?.data[i]
+                    params.category.types[category?.key] = category?.language
+                    params.category.ids[category?.key] = category?.id
+                    if (category?.is_default) params.category.current = category?.id
+                }
+                emit('afterGetCategory')
             }
+            handleAction(
+                props.getCategoryAction,
+                props.getCategoryMethod,
+                props.getCategoryParams,
+                'getCategoryAction',
+                {},
+                (res: ResponseData | any) => afterSuccess(res),
+                (res: any) => afterSuccess(res),
+                () => (params.loading.categories = false)
+            )
         }
 
         // 设置语系分类
@@ -544,88 +543,52 @@ const MiAppsLanguage = defineComponent({
             if (categoryFormRef.value) {
                 if (params.loading.createOrUpdate) return
                 params.loading.createOrUpdate = true
-                // 默认成功处理
-                const handleDefaultAfterSucess = () => {
+                const afterSuccess = (res?: ResponseData | any) => {
+                    message.destroy()
                     message.success(t('global.success'))
+                    if (params.form.category.edit) emit('afterUpdateCategory', res)
+                    else emit('afterCreateCategory', res)
+                    params.form.category.edit = false
                     handleCancelCategoryModalState()
-                    getCategories()
                     categoryFormRef.value?.resetFields()
-                }
-                // 自定义请求方式的处理
-                const handleCustomAfterSuccess = (response: any) => {
-                    if (typeof response === 'boolean' && response) {
-                        if (params.form.category.edit) emit('afterUpdateCategory')
-                        else emit('afterCreateCategory')
-                        params.form.category.edit = false
-                        handleCancelCategoryModalState()
-                        categoryFormRef.value?.resetFields()
-                    } else if (typeof response === 'string') message.error(response)
-                    params.loading.createOrUpdate = false
+                    getCategories()
                 }
                 categoryFormRef.value?.validate().then(async () => {
                     if (params.form.category.edit) {
                         // 编辑
-                        if (props.updateCategoryAction) {
-                            const updateParams = Object.assign(
-                                { ...params.form.category.validate },
-                                { ...props.updateCategoryParams }
-                            )
-                            if (typeof props.updateCategoryAction === 'string') {
-                                $request[props.updateCategoryMethod](
-                                    $tools.replaceUrlParams(props.updateCategoryAction, {
-                                        id: params.form.category.id
-                                    }),
-                                    updateParams
-                                )
-                                    .then((res: ResponseData | any) => {
-                                        params.form.category.edit = false
-                                        if (res?.ret?.code === 200) {
-                                            handleDefaultAfterSucess()
-                                        } else if (res?.ret?.message) {
-                                            params.form.category.edit = true
-                                            message.error(res?.ret?.message)
-                                        }
-                                        emit('afterUpdateCategory', res)
-                                    })
-                                    .catch((err: any) => message.error(err?.message || err))
-                                    .finally(() => (params.loading.createOrUpdate = false))
-                            } else if (typeof props.updateCategoryAction === 'function') {
-                                const response = await props.updateCategoryAction(
-                                    Object.assign(updateParams, { ...params.translate.form })
-                                )
-                                handleCustomAfterSuccess(response)
-                            }
-                        }
+                        const updateParams = Object.assign(
+                            { ...params.form.category.validate },
+                            { ...props.updateCategoryParams }
+                        )
+                        handleAction(
+                            props.updateCategoryAction,
+                            props.updateCategoryMethod,
+                            Object.assign(updateParams, { ...params.translate.form }),
+                            'updateCategoryAction',
+                            { id: params.form.category.id },
+                            (res: ResponseData | any) => afterSuccess(res),
+                            (res: any) => afterSuccess(res),
+                            () => (params.loading.createOrUpdate = false)
+                        )
                     } else {
                         // 新增
-                        if (props.createCategoryAction) {
-                            const createParams = Object.assign(
-                                { ...params.form.category.validate },
-                                { ...props.createCategoryParams }
-                            )
-                            if (typeof props.createCategoryAction === 'string') {
-                                $request[props.createCategoryMethod](
-                                    props.createCategoryAction,
-                                    createParams
-                                )
-                                    .then((res: ResponseData | any) => {
-                                        if (res?.ret?.code === 200) {
-                                            handleDefaultAfterSucess()
-                                        } else if (res?.ret?.message)
-                                            message.error(res?.ret?.message)
-                                        if (params.translate.form.translate)
-                                            handleAutomaticTranslate(res)
-                                        emit('afterCreateCategory', res)
-                                    })
-                                    .catch((err: any) => message.error(err?.message || err))
-                                    .finally(() => (params.loading.createOrUpdate = false))
-                            } else if (typeof props.createCategoryAction === 'function') {
-                                const response = await props.createCategoryAction(
-                                    Object.assign(createParams, { ...params.translate.form })
-                                )
-                                handleCustomAfterSuccess(response)
-                            }
-                        }
+                        const createParams = Object.assign(
+                            { ...params.form.category.validate },
+                            { ...props.createCategoryParams }
+                        )
+                        handleAction(
+                            props.createCategoryAction,
+                            props.createCategoryMethod,
+                            Object.assign(createParams, { ...params.translate.form }),
+                            'createCategoryAction',
+                            {},
+                            (res: ResponseData | any) => {
+                                if (params.translate.form.translate) handleAutomaticTranslate(res)
+                                afterSuccess(res)
+                            },
+                            (res: any) => afterSuccess(res),
+                            () => (params.loading.createOrUpdate = false)
+                        )
                     }
                 })
             }
@@ -637,6 +600,31 @@ const MiAppsLanguage = defineComponent({
             params.form.content.id = 0
             params.form.content.validate = { key: '', language: '', sync: 0, status: 1, langs: [] }
             params.modal.content = true
+        }
+
+        // 更新单个语系内的配置内容 - Modal State
+        const handleUpdateContentModalState = (data?: any) => {
+            params.form.content.edit = true
+            params.modal.content = true
+            if (data?.id) {
+                params.form.content.id = data.id
+                if (typeof data?.is_del !== 'undefined') delete data.is_del
+                if (typeof data?.created_at !== 'undefined') delete data.created_at
+                if (typeof data?.updated_at !== 'undefined') delete data.updated_at
+                params.form.content.validate = { ...data }
+                params.form.content.validate.sync = 0
+                params.form.content.key = data?.key
+            } else {
+                params.form.content.id = 0
+                params.form.content.validate = {
+                    key: '',
+                    language: '',
+                    sync: 0,
+                    status: 1,
+                    langs: []
+                }
+                params.form.content.key = ''
+            }
         }
 
         // 单个语系内的配置内容 - 关闭 Modal
@@ -652,49 +640,135 @@ const MiAppsLanguage = defineComponent({
                 if (params.loading.createOrUpdate) return
                 params.loading.createOrUpdate = true
                 contentFormRef.value?.validate().then(async () => {
-                    const afterCreateSuccess = () => {
+                    const afterSuccess = () => {
+                        message.destroy()
                         message.success(t('global.success'))
-                        handleCancelCreateContentModalState()
-                        contentFormRef.value?.resetFields()
                         const newContent = {}
                         newContent[params.form.content.validate.key] =
                             params.form.content.validate.language
                         handleUpdateLocaleData(newContent)
+                        handleCancelCreateContentModalState()
+                        contentFormRef.value?.resetFields()
                         setLanguages('', params.category.key)
+                        if (params.form.content.edit) {
+                            params.form.content.edit = false
+                            params.form.content.key = ''
+                            params.form.content.id = 0
+                        }
                     }
                     if (params.form.content.edit) {
                         // 编辑
+                        if (!params.form.content.id) {
+                            message.destroy()
+                            message.error(t('global.error.id'))
+                            return
+                        }
+                        const updateParams = Object.assign(
+                            { lang: params.category.key },
+                            { ...params.form.content.validate },
+                            { ...props.updateContentParams }
+                        )
+                        handleAction(
+                            props.updateContentAction,
+                            props.updateContentMethod,
+                            updateParams,
+                            'updateContentAction',
+                            { id: params.form.content.id },
+                            (res: ResponseData | any) => {
+                                if (res?.ret?.code === 200) afterSuccess()
+                                else if (res?.ret?.messages) {
+                                    message.destroy()
+                                    message.error(res?.ret?.message)
+                                }
+                                emit('afterUpdateContent', res)
+                            },
+                            () => {
+                                afterSuccess()
+                                emit('afterUpdateContent')
+                            },
+                            () => (params.loading.createOrUpdate = false)
+                        )
                     } else {
                         // 新增
-                        if (props.createContentAction) {
-                            const createParams = Object.assign(
-                                { lang: params.category.key },
-                                { ...params.form.content.validate },
-                                { ...props.createContentParams }
-                            )
-                            if (typeof props.createContentAction === 'string') {
-                                $request[props.createContentMethod](
-                                    props.createContentAction,
-                                    createParams
-                                )
-                                    .then((res: ResponseData | any) => {
-                                        if (res?.ret?.code === 200) {
-                                            afterCreateSuccess()
-                                        } else if (res?.ret?.message)
-                                            message.error(res?.ret?.message)
-                                        emit('afterCreate', res)
-                                    })
-                                    .catch((err: any) => message.error(err?.message || err))
-                                    .finally(() => (params.loading.createOrUpdate = false))
-                            } else if (typeof props.createContentAction === 'function') {
-                                const response = await props.createContentAction(createParams)
-                                if (typeof response === 'string') message.error(response)
-                                if (typeof response === 'boolean' && response) emit('afterCreate')
-                                params.loading.createOrUpdate = false
-                            }
-                        }
+                        const createParams = Object.assign(
+                            { lang: params.category.key },
+                            { ...params.form.content.validate },
+                            { ...props.createContentParams }
+                        )
+                        handleAction(
+                            props.createContentAction,
+                            props.createContentMethod,
+                            createParams,
+                            'createContentAction',
+                            {},
+                            (res: ResponseData | any) => {
+                                if (res?.ret?.code === 200) {
+                                    message.destroy()
+                                    message.success(t('global.success'))
+                                    afterSuccess()
+                                } else if (res?.ret?.message) message.error(res?.ret?.message)
+                                emit('afterCreateContent', res)
+                            },
+                            () => {
+                                if (typeof props.getContentAction === 'string') afterSuccess()
+                                emit('afterCreateContent')
+                            },
+                            () => (params.loading.createOrUpdate = false)
+                        )
                     }
                 })
+            }
+        }
+
+        /**
+         * 执行动作
+         * @param action 待执行动作
+         * @param method 请求方式 ( string 动作时有效 )
+         * @param params 参数
+         * @param name 执行方法名称
+         * @param replaceParams 待替换的 url 参数
+         * @param stringCallback string action 回调
+         * @param functionCallback function action 回调
+         * @param defaultCallback 默认回调
+         */
+        const handleAction = async (
+            action: string | Function | undefined,
+            method: string,
+            params: any = {},
+            name: string,
+            replaceParams: {},
+            stringCallback?: Function,
+            functionCallback?: Function,
+            commonCallback?: Function
+        ) => {
+            if (action) {
+                if (typeof action === 'string') {
+                    action = $tools.replaceUrlParams(action, replaceParams)
+                    $request[method](action, params)
+                        .then((res: ResponseData | any) => {
+                            if (res?.ret?.code !== 200 && res?.ret?.message) {
+                                message.destroy()
+                                message.error(res?.ret?.message)
+                            } else stringCallback?.(res)
+                        })
+                        .catch((err: any) => message.error(err?.message || err))
+                        .finally(() => commonCallback?.())
+                } else if (typeof action === 'function') {
+                    const response = await action(params)
+                    if (typeof response === 'string') {
+                        message.destroy()
+                        message.error(response)
+                    }
+                    functionCallback?.(response)
+                    commonCallback?.()
+                }
+            } else {
+                message.destroy()
+                message.warn({
+                    content: t('language.error.config', { name }),
+                    duration: 6
+                })
+                if (commonCallback) commonCallback()
             }
         }
 
@@ -718,7 +792,7 @@ const MiAppsLanguage = defineComponent({
                                 message.success(t('global.success'))
                                 setLanguages(params.search.key, params.category.key)
                             } else if (res?.ret?.message) message.error(res?.ret?.message)
-                            emit('afterBatchDelete', res)
+                            emit('afterBatchDeleteContent', res)
                         })
                         .catch((err: any) =>
                             message.error(err?.message || err || t('global.error.unknown'))
@@ -732,7 +806,7 @@ const MiAppsLanguage = defineComponent({
                             params.ids = []
                             setLanguages(params.search.key, params.category.key)
                         }
-                        emit('afterBatchDelete')
+                        emit('afterBatchDeleteContent')
                     }
                     params.loading.delete = false
                 }
@@ -1236,7 +1310,8 @@ const MiAppsLanguage = defineComponent({
                     maskStyle={{ backdropFilter: `blur(0.5rem)` }}
                     onCancel={handleCancelCategoryModalState}
                     onOk={handleCreateOrUpdateCategory}
-                    destroyOnClose={true}>
+                    destroyOnClose={true}
+                    loading={params.loading.createOrUpdate}>
                     <Form
                         ref={categoryFormRef}
                         labelCol={{ style: { width: $tools.convert2rem(146) } }}
@@ -1246,6 +1321,7 @@ const MiAppsLanguage = defineComponent({
                             <RadioGroup
                                 options={params.form.category.options}
                                 v-model:value={params.form.category.validate.is_default}
+                                disabled={params.loading.createOrUpdate}
                             />
                         </FormItem>
                         <FormItem
@@ -1283,6 +1359,8 @@ const MiAppsLanguage = defineComponent({
                                 maxlength={64}
                                 autocomplete="off"
                                 placeholder={t('language.placeholder.language.key')}
+                                onPressEnter={handleCreateOrUpdateCategory}
+                                disabled={params.loading.createOrUpdate}
                             />
                         </FormItem>
                         <FormItem label={t('language.display')} name="language">
@@ -1292,6 +1370,8 @@ const MiAppsLanguage = defineComponent({
                                 maxlength={64}
                                 autocomplete="off"
                                 placeholder={t('language.placeholder.language.display')}
+                                onPressEnter={handleCreateOrUpdateCategory}
+                                disabled={params.loading.createOrUpdate}
                             />
                         </FormItem>
                         <FormItem
@@ -1325,6 +1405,7 @@ const MiAppsLanguage = defineComponent({
                             <RadioGroup
                                 options={params.form.category.options}
                                 v-model:value={params.translate.form.translate}
+                                disabled={params.loading.createOrUpdate}
                             />
                         </FormItem>
                         <FormItem
@@ -1359,7 +1440,8 @@ const MiAppsLanguage = defineComponent({
                                 v-model:value={params.translate.form.target}
                                 placeholder={t('language.placeholder.language.active')}
                                 style={{ width: '100%' }}
-                                dropdownStyle={{ zIndex: Date.now() }}>
+                                dropdownStyle={{ zIndex: Date.now() }}
+                                disabled={params.loading.createOrUpdate}>
                                 {renderTargetLanguageOptions()}
                             </Select>
                         </FormItem>
@@ -1452,40 +1534,43 @@ const MiAppsLanguage = defineComponent({
                                 v-model:value={params.form.content.validate.status}
                             />
                         </FormItem>
-                        <FormItem
-                            name="sync"
-                            v-slots={{
-                                label: () => {
-                                    return (
-                                        <>
-                                            <span style={{ marginRight: $tools.convert2rem(4) }}>
-                                                {t('language.content.sync.label')}
-                                            </span>
-                                            <Tooltip
-                                                overlayStyle={{ zIndex: Date.now() }}
-                                                v-slots={{
-                                                    title: () => {
-                                                        return (
-                                                            <div
-                                                                innerHTML={t(
-                                                                    'language.content.sync.tip'
-                                                                )}></div>
-                                                        )
-                                                    }
-                                                }}>
-                                                <span class={styled.formTip}>
-                                                    <ExclamationCircleOutlined />
+                        {params.form.content.edit ? null : (
+                            <FormItem
+                                name="sync"
+                                v-slots={{
+                                    label: () => {
+                                        return (
+                                            <>
+                                                <span
+                                                    style={{ marginRight: $tools.convert2rem(4) }}>
+                                                    {t('language.content.sync.label')}
                                                 </span>
-                                            </Tooltip>
-                                        </>
-                                    )
-                                }
-                            }}>
-                            <RadioGroup
-                                options={params.form.content.options.sync}
-                                v-model:value={params.form.content.validate.sync}
-                            />
-                        </FormItem>
+                                                <Tooltip
+                                                    overlayStyle={{ zIndex: Date.now() }}
+                                                    v-slots={{
+                                                        title: () => {
+                                                            return (
+                                                                <div
+                                                                    innerHTML={t(
+                                                                        'language.content.sync.tip'
+                                                                    )}></div>
+                                                            )
+                                                        }
+                                                    }}>
+                                                    <span class={styled.formTip}>
+                                                        <ExclamationCircleOutlined />
+                                                    </span>
+                                                </Tooltip>
+                                            </>
+                                        )
+                                    }
+                                }}>
+                                <RadioGroup
+                                    options={params.form.content.options.sync}
+                                    v-model:value={params.form.content.validate.sync}
+                                />
+                            </FormItem>
+                        )}
                         {params.form.content.validate.sync === 2 ? (
                             <FormItem label={t('language.content.sync.select')} name="langs">
                                 {params.category.data.length > 0 ? (

@@ -30,7 +30,7 @@ import type { ModalFuncProps } from 'ant-design-vue'
  * @param closeIcon 关闭按钮<Slot />
  * @param animation 弹窗动画
  * @param placement 弹窗弹出位置
- * @param afterClose 关闭成功后的事件处理
+ * @param loading 按钮 Loading 状态
  */
 export interface ModalProperties {
     title: VNodeTypes
@@ -56,7 +56,7 @@ export interface ModalProperties {
     closeIcon: VNodeTypes
     animation: string
     placement: 'left' | 'top' | 'right' | 'bottom' | 'center'
-    afterClose: Function
+    loading: boolean
 }
 export const ModalProps = () => ({
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(520),
@@ -86,7 +86,7 @@ export const ModalProps = () => ({
     zIndex: PropTypes.number.def(Date.now()),
     animation: PropTypes.oneOf(tuple(...animations)).def('scale'),
     placement: PropTypes.oneOf(tuple('left', 'top', 'right', 'bottom', 'center')).def('center'),
-    afterClose: PropTypes.func
+    loading: PropTypes.bool.def(false)
 })
 
 /**

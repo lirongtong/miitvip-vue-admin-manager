@@ -45,7 +45,8 @@ export default {
             exist: '关键词已存在，请重新输入',
             again: '关键词有误，请重新输入',
             empty: `请输入语系关键词`
-        }
+        },
+        config: `无法执行相关动作，请先配置「 {name} 」参数`
     },
     content: {
         create: `新增语言配置`,

@@ -2,7 +2,8 @@
     <mi-apps-language
         get-category-action="/v1/languages/categories"
         create-category-action="/v1/languages/categories"
-        update-category-action="/v1/languages/categories/{id}"
+        update-category-action="/v1/languages/categories"
+        delete-category-action="/v1/languages/categories"
         check-category-exist-action="/v1/languages/categories/check"
         :translate="{
             baidu: {
@@ -13,18 +14,14 @@
         }"
         get-content-action="/v1/languages"
         create-content-action="/v1/languages"
-        update-content-action="/v1/languages"
+        update-content-action="/v1/languages/{id}"
         delete-content-action="/v1/languages"
         check-content-exist-action="/v1/languages/check" />
 </template>
 
 <script setup lang="ts">
-const handleDeleteContent = (data: any) => {
+const handleCustom = (data: any) => {
     console.log(data)
     return true
-}
-
-const handleAfterBatchDelete = () => {
-    console.log('after')
 }
 </script>

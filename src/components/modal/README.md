@@ -150,7 +150,7 @@
 | `closeIcon` | `vSlot` | `<CloseOutlined />` | 关闭按钮图标
 | `animation` | `string` | `scale` | 动画效果「 查看 `./components/_utils/props - animations` 」
 | `placement` | `string` | `scale` | 弹窗弹出位置「 查看 `./components/_utils/props - placement` 」
-| `afterClose` | `function` | `''` | 弹窗关闭后的事件回调
+| `loading` | `boolean` | `false` | 按钮 `Loading` 状态
 
 #### `MiModal` 事件 ( `Events` )
 

@@ -56,11 +56,19 @@ const MiModal = defineComponent({
             return (
                 <div class={styled.btns}>
                     {props.closable ? (
-                        <Button ghost={true} class={styled.btnsCancel} onClick={handleCancel}>
+                        <Button
+                            ghost={true}
+                            class={styled.btnsCancel}
+                            onClick={handleCancel}
+                            loading={props.loading}>
                             {getPropSlot(slots, props, 'cancelText') ?? t('global.cancel')}
                         </Button>
                     ) : null}
-                    <Button class={styled.btnsOk} type="primary" onClick={handleOk}>
+                    <Button
+                        class={styled.btnsOk}
+                        type="primary"
+                        onClick={handleOk}
+                        loading={props.loading}>
                         {getPropSlot(slots, props, 'okText') ?? t('global.ok')}
                     </Button>
                 </div>
