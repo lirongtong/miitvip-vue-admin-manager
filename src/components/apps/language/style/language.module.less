@@ -44,7 +44,7 @@
         .properties(height, 120);
         cursor: pointer;
         .properties(font-size, 16);
-        border: 0.125rem solid transparent;
+        border: 0.25rem solid transparent;
         position: relative;
 
         @media only screen and (max-width: @mi-sm) {
@@ -414,6 +414,20 @@
     }
 }
 
+.btn {
+    &-info {
+        background: var(--mi-tertiary);
+        color: var(--mi-on-tertiary);
+        border-color: var(--mi-tertiary);
+
+        &:not(:disabled):focus,
+        &:not(:disabled):hover {
+            border-color: transparent;
+            color: var(--mi-on-tertiary);
+        }
+    }
+}
+
 :global {
     .ant-form {
         .ant-form-item {
@@ -438,10 +452,10 @@
     --language-tabs-icon-background-customize: var(--mi-primary);
     --language-tabs-icon-text-customize: var(--mi-on-primary);
 
-    --language-tabs-text-builtin: var(--mi-error);
-    --language-tabs-border-builtin: var(--mi-error);
-    --language-tabs-icon-background-builtin: var(--mi-error);
-    --language-tabs-icon-text-builtin: var(--mi-on-error);
+    --language-tabs-text-builtin: var(--mi-error-container);
+    --language-tabs-border-builtin: var(--mi-error-container);
+    --language-tabs-icon-background-builtin: var(--mi-error-container);
+    --language-tabs-icon-text-builtin: var(--mi-on-error-container);
 
     --language-tabs-text-management: var(--mi-tertiary);
     --language-tabs-border-management: var(--mi-tertiary);

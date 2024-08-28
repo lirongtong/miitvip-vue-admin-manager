@@ -35,7 +35,9 @@ import {
     DeleteOutlined,
     EditOutlined,
     CloseCircleFilled,
-    ExclamationCircleOutlined
+    ExclamationCircleOutlined,
+    StopOutlined,
+    CheckCircleOutlined
 } from '@ant-design/icons-vue'
 import md5 from 'md5'
 import MiModal from '../../modal/Modal'
@@ -233,7 +235,7 @@ const MiAppsLanguage = defineComponent({
                             title: t('global.action'),
                             key: 'action',
                             align: 'center',
-                            width: 180,
+                            width: 270,
                             customRender: ({ record }) => {
                                 return (
                                     <div class={styled.actionBtns}>
@@ -262,6 +264,20 @@ const MiAppsLanguage = defineComponent({
                                                 {t('global.delete.normal')}
                                             </Button>
                                         </Popconfirm>
+                                        <Button
+                                            class={styled.btnInfo}
+                                            type="default"
+                                            icon={
+                                                record?.status === 1 ? (
+                                                    <StopOutlined />
+                                                ) : (
+                                                    <CheckCircleOutlined />
+                                                )
+                                            }>
+                                            {record?.status === 1
+                                                ? t('global.disable')
+                                                : t('global.enable')}
+                                        </Button>
                                     </div>
                                 )
                             }
@@ -1142,78 +1158,68 @@ const MiAppsLanguage = defineComponent({
                             styled.searchRight,
                             { [styled.searchRightCollapsed]: collapsed.value }
                         ]}>
-                        <ConfigProvider theme={{ token: { colorPrimary: '#d89614' } }}>
-                            <Popconfirm
-                                overlayStyle={{ zIndex: Date.now() }}
-                                okText={t('global.ok')}
-                                cancelText={t('global.cancel')}
-                                onConfirm={setDefaultCategory}
-                                v-slots={{
-                                    title: () => {
-                                        return (
-                                            <div style={{ maxWidth: $tools.convert2rem(285) }}>
-                                                <div innerHTML={t('language.default.tip')}></div>
-                                                <div
-                                                    style={{
-                                                        marginTop: $tools.convert2rem(8)
-                                                    }}>
-                                                    <span>
-                                                        {t('language.current')}
-                                                        {t('global.colon')}
-                                                    </span>
-                                                    {params.category.types?.[
-                                                        params.category.key
-                                                    ] ? (
-                                                        <a
-                                                            innerHTML={
-                                                                params.category.types?.[
-                                                                    params.category.key
-                                                                ]
-                                                            }></a>
-                                                    ) : (
-                                                        <a
-                                                            innerHTML={t(
-                                                                'language.default.none'
-                                                            )}></a>
-                                                    )}
-                                                </div>
+                        <Popconfirm
+                            overlayStyle={{ zIndex: Date.now() }}
+                            okText={t('global.ok')}
+                            cancelText={t('global.cancel')}
+                            onConfirm={setDefaultCategory}
+                            v-slots={{
+                                title: () => {
+                                    return (
+                                        <div style={{ maxWidth: $tools.convert2rem(285) }}>
+                                            <div innerHTML={t('language.default.tip')}></div>
+                                            <div
+                                                style={{
+                                                    marginTop: $tools.convert2rem(8)
+                                                }}>
+                                                <span>
+                                                    {t('language.current')}
+                                                    {t('global.colon')}
+                                                </span>
+                                                {params.category.types?.[params.category.key] ? (
+                                                    <a
+                                                        innerHTML={
+                                                            params.category.types?.[
+                                                                params.category.key
+                                                            ]
+                                                        }></a>
+                                                ) : (
+                                                    <a innerHTML={t('language.default.none')}></a>
+                                                )}
                                             </div>
-                                        )
-                                    }
-                                }}>
-                                <Button type="primary" icon={<CheckOutlined />}>
-                                    {t('language.default.set')}
-                                </Button>
-                            </Popconfirm>
-                        </ConfigProvider>
-                        <ConfigProvider theme={{ token: { colorPrimary: '#dc4446' } }}>
-                            <Popconfirm
-                                overlayStyle={{ zIndex: Date.now() }}
-                                okText={t('global.ok')}
-                                cancelText={t('global.cancel')}
-                                onConfirm={() => handleBatchDeleteContent()}
-                                v-slots={{
-                                    title: () => {
-                                        return (
-                                            <div style={{ minWidth: $tools.convert2rem(180) }}>
-                                                <div innerHTML={t('global.delete.confirm')}></div>
-                                            </div>
-                                        )
-                                    }
-                                }}>
-                                <Button type="primary" icon={<DeleteOutlined />} danger>
-                                    {t('global.delete.batch')}
-                                </Button>
-                            </Popconfirm>
-                        </ConfigProvider>
-                        <ConfigProvider theme={{ token: { colorPrimary: '#07928f' } }}>
-                            <Button
-                                type="primary"
-                                icon={<EditOutlined />}
-                                onClick={handleCreateContentModalState}>
-                                {t('language.add')}
+                                        </div>
+                                    )
+                                }
+                            }}>
+                            <Button type="primary" icon={<CheckOutlined />}>
+                                {t('language.default.set')}
                             </Button>
-                        </ConfigProvider>
+                        </Popconfirm>
+                        <Popconfirm
+                            overlayStyle={{ zIndex: Date.now() }}
+                            okText={t('global.ok')}
+                            cancelText={t('global.cancel')}
+                            onConfirm={() => handleBatchDeleteContent()}
+                            v-slots={{
+                                title: () => {
+                                    return (
+                                        <div style={{ minWidth: $tools.convert2rem(180) }}>
+                                            <div innerHTML={t('global.delete.confirm')}></div>
+                                        </div>
+                                    )
+                                }
+                            }}>
+                            <Button type="primary" icon={<DeleteOutlined />} danger>
+                                {t('global.delete.batch')}
+                            </Button>
+                        </Popconfirm>
+                        <Button
+                            type="default"
+                            class={styled.btnInfo}
+                            icon={<EditOutlined />}
+                            onClick={handleCreateContentModalState}>
+                            {t('language.add')}
+                        </Button>
                     </div>
                 ) : null
             return (
@@ -1342,10 +1348,7 @@ const MiAppsLanguage = defineComponent({
                     pagination={{
                         showLessItems: true,
                         showQuickJumper: true,
-                        responsive: true,
-                        total: params.total.builtin,
-                        current: params.table.builtin.pagination.page,
-                        pageSize: params.table.builtin.pagination.size
+                        responsive: true
                     }}
                     v-slots={{
                         headerCell: (record: any) => {
