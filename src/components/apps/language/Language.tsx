@@ -912,6 +912,24 @@ const MiAppsLanguage = defineComponent({
             }
         }
 
+        // 搜索
+        const handleSearchContent = () => {
+            if (params.search.key) setLanguages(params.search.key, params.category.key)
+        }
+
+        // 清除内容至空后自动触发搜索
+        const handleSearchInput = () => {
+            if (!params.search.key) setLanguages(params.search.key, params.category.key)
+        }
+
+        // 重置搜索
+        const handleResetContent = () => {
+            if (params.search.key) {
+                params.search.key = ''
+                setLanguages(params.search.key, params.category.key)
+            }
+        }
+
         init()
 
         const renderEmpty = () => {
@@ -1003,7 +1021,12 @@ const MiAppsLanguage = defineComponent({
                         <div class={styled.searchItem}>
                             <div class={styled.searchItemInput}>
                                 <span innerHTML={`${t('global.key')}${t('global.colon')}`}></span>
-                                <Input placeholder={t('language.placeholder.search')} />
+                                <Input
+                                    v-model:value={params.search.key}
+                                    placeholder={t('language.placeholder.search')}
+                                    onPressEnter={handleSearchContent}
+                                    onInput={handleSearchInput}
+                                />
                             </div>
                             <div class={styled.searchItemBtns}>
                                 <Button
@@ -1012,7 +1035,8 @@ const MiAppsLanguage = defineComponent({
                                         icon: () => {
                                             return <SearchOutlined />
                                         }
-                                    }}>
+                                    }}
+                                    onClick={handleSearchContent}>
                                     {t('global.seek')}
                                 </Button>
                                 <Button
@@ -1021,7 +1045,8 @@ const MiAppsLanguage = defineComponent({
                                         icon: () => {
                                             return <ReloadOutlined />
                                         }
-                                    }}>
+                                    }}
+                                    onClick={handleResetContent}>
                                     {t('global.reset')}
                                 </Button>
                             </div>
