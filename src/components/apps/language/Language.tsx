@@ -162,6 +162,7 @@ const MiAppsLanguage = defineComponent({
         const params = reactive({
             ids: [],
             loading: {
+                default: false,
                 languages: false,
                 categories: false,
                 createOrUpdate: false,
@@ -470,7 +471,10 @@ const MiAppsLanguage = defineComponent({
                     const category = res?.data[i]
                     params.category.types[category?.key] = category?.language
                     params.category.ids[category?.key] = category?.id
-                    if (category?.is_default) params.category.current = category?.id
+                    if (category?.is_default) {
+                        params.category.current = category?.id
+                        params.category.key = category?.key
+                    }
                 }
                 // 无默认语系
                 if (!params.category.current && params.category.data?.length > 0) {
@@ -497,6 +501,34 @@ const MiAppsLanguage = defineComponent({
         const setCategory = async (updateLanguage: boolean = true) => {
             if (props.category && props.category.length > 0) params.category.data = props.category
             else await getCategories(updateLanguage)
+        }
+
+        // 设置默认语系
+        const setDefaultCategory = () => {
+            if (params.category.data && params.category.data.length < 0) {
+                message.destroy()
+                message.error({ content: t('language.error.none'), duration: 5 })
+                return
+            }
+            if (params.category.current === params.category.ids[params.category.key]) {
+                message.destroy()
+                message.success({ content: t('language.error.repeated'), duration: 5 })
+                return
+            }
+            if (params.loading.default) return
+            params.loading.default = true
+            handleAction(
+                props.setDefaultCategoryAction,
+                props.setDefaultCategoryMethod,
+                { id: params.category.ids[params.category.key], ...props.setDefaultCategoryParams },
+                'setDefaultCategoryAction',
+                () => {
+                    message.destroy()
+                    message.success(t('global.success'))
+                    setCategory(false)
+                },
+                () => (params.loading.default = false)
+            )
         }
 
         // Table 分页操作
@@ -1063,6 +1095,7 @@ const MiAppsLanguage = defineComponent({
                                     overlayStyle={{ zIndex: Date.now() }}
                                     okText={t('global.ok')}
                                     cancelText={t('global.cancel')}
+                                    onConfirm={setDefaultCategory}
                                     v-slots={{
                                         title: () => {
                                             return (
@@ -1080,13 +1113,12 @@ const MiAppsLanguage = defineComponent({
                                                         {params.category.types?.[
                                                             params.category.key
                                                         ] ? (
-                                                            <Button type="primary">
-                                                                {
+                                                            <a
+                                                                innerHTML={
                                                                     params.category.types?.[
                                                                         params.category.key
                                                                     ]
-                                                                }
-                                                            </Button>
+                                                                }></a>
                                                         ) : (
                                                             <a
                                                                 innerHTML={t(

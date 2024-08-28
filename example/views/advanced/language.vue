@@ -4,6 +4,7 @@
         create-category-action="/v1/languages/categories"
         update-category-action="/v1/languages/categories"
         delete-category-action="/v1/languages/categories"
+        set-default-category-action="/v1/languages/categories/default"
         check-category-exist-action="/v1/languages/categories/check"
         :translate="{
             baidu: {
