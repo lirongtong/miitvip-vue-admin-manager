@@ -207,8 +207,21 @@
 }
 
 .search {
+    .flex(flex-start, space-between);
     position: relative;
     .properties(margin-bottom, 16);
+    .properties(margin-top, 16);
+
+    @media only screen and (max-width: @mi-sm) {
+        background: transparent;
+        padding: 0;
+        margin-top: 0;
+    }
+
+    @media only screen and (max-width: 1080px) {
+        justify-content: flex-start;
+        flex-direction: column;
+    }
 
     &-item {
         .flex(center, flex-start);
@@ -224,12 +237,11 @@
         &-input {
             .flex();
 
-            @media only screen and (max-width: @mi-xl) {
+            @media only screen and (max-width: 1080px) {
                 width: 100%;
             }
 
             @media only screen and (max-width: @mi-sm) {
-                width: 100%;
                 .properties(margin-bottom);
             }
 
@@ -257,11 +269,48 @@
         }
     }
 
+    &-left {
+        position: relative;
+
+        @media only screen and (max-width: 1080px) {
+            width: 100%;
+        }
+    }
+
     &-right {
         .flex(center, flex-end);
 
         button + button {
             .properties(margin-left);
+        }
+
+        @media only screen and (max-width: 1080px) {
+            width: 100%;
+            align-items: flex-start;
+            justify-content: flex-start;
+            .properties(margin-top, 16);
+
+            button {
+                width: 100%;
+            }
+        }
+
+        @media only screen and (max-width: @mi-md) {
+            flex-direction: column;
+            align-items: flex-end;
+
+            button + button {
+                margin-left: 0;
+                .properties(margin-top);
+            }
+        }
+    }
+
+    &-collapsed {
+        @media only screen and (max-width: 1024px) {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
         }
     }
 }
@@ -362,6 +411,24 @@
                 .properties(margin-left);
             }
         }
+    }
+}
+
+:global {
+    .ant-form {
+        .ant-form-item {
+            @media only screen and (max-width: @mi-sm) {
+                .properties(margin-bottom, 16);
+
+                .ant-form-item-label {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .ant-tag {
+        margin-inline-end: 0;
     }
 }
 

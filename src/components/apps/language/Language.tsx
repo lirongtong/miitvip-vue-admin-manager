@@ -1,16 +1,16 @@
-import { defineComponent, reactive, ref, inject } from 'vue'
+import { defineComponent, reactive, ref, inject, computed } from 'vue'
 import { LanguageItemProperties, LanguageProps } from './props'
 import { useI18n } from 'vue-i18n'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
 import { $request } from '../../../utils/request'
 import { type ResponseData } from '../../../utils/types'
+import { useLayoutStore } from '../../../stores/layout'
 import {
     ConfigProvider,
     message,
     Empty,
     Row,
-    Col,
     Input,
     Button,
     Popconfirm,
@@ -78,6 +78,8 @@ const MiAppsLanguage = defineComponent({
         })
         const categoryFormRef = ref<FormInstance>()
         const contentFormRef = ref<FormInstance>()
+        const layoutStore = useLayoutStore()
+        const collapsed = computed(() => layoutStore.collapsed)
 
         // 检验- 语系 key 值
         const checkCategoryKeyValidate = async (_rule: any, value: string) => {
@@ -120,6 +122,7 @@ const MiAppsLanguage = defineComponent({
             } else return Promise.resolve()
         }
 
+        // 校验 - 语言 key 值
         const checkContentKeyValidate = async (_rule: any, value: string) => {
             if (!value) return Promise.reject(t('language.placeholder.config.key'))
             if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-\.\_]/gi.test(value)) {
@@ -208,7 +211,7 @@ const MiAppsLanguage = defineComponent({
                             key: 'status',
                             dataIndex: 'status',
                             align: 'center',
-                            width: 100,
+                            width: 120,
                             customRender: ({ record }) => {
                                 return (
                                     <Tag
@@ -271,11 +274,29 @@ const MiAppsLanguage = defineComponent({
                     }
                 },
                 builtin: {
-                    columns: [] as any[],
+                    columns: [
+                        {
+                            title: t('global.key'),
+                            key: 'key',
+                            dataIndex: 'key',
+                            align: 'left',
+                            width: 320
+                        },
+                        {
+                            key: 'language',
+                            dataIndex: 'language',
+                            align: 'left'
+                        }
+                    ] as any[],
                     pagination: {
                         page: 1,
                         size: 10
-                    }
+                    },
+                    current: $g.locale,
+                    options: [
+                        { key: 'zh-cn', language: t('language.zh-cn') },
+                        { key: 'en-us', language: t('language.en-us') }
+                    ]
                 }
             },
             search: { lang: 'zh-cn', key: '' },
@@ -401,6 +422,15 @@ const MiAppsLanguage = defineComponent({
         const init = async () => {
             getBuiltinLanguages(messages.value?.[locale.value])
             await setCategory()
+        }
+
+        // Tab 切换
+        const handleChangeTab = (tab: string) => {
+            params.category.active = tab
+            params.search.key = ''
+            if (tab === 'customize') setCategory()
+            else if (tab === 'built-in')
+                getBuiltinLanguages(messages.value?.[params.table.builtin.current])
         }
 
         // 获取自定义语言内容列表
@@ -665,6 +695,13 @@ const MiAppsLanguage = defineComponent({
         const handleChangeCategory = async (lang: string) => {
             languages.customize = [] as LanguageItemProperties[]
             await setLanguages(params.search.key, lang)
+        }
+
+        // 语系变化事件 - 内置语系
+        const handleChangeBuiltinCategory = (lang: string) => {
+            languages.builtin = []
+            params.table.builtin.current = lang
+            if (params.search.key) handleSearchContent()
         }
 
         // 新增单个语系内的配置内容 - Modal State
@@ -946,7 +983,21 @@ const MiAppsLanguage = defineComponent({
 
         // 搜索
         const handleSearchContent = () => {
-            if (params.search.key) setLanguages(params.search.key, params.category.key)
+            if (params.search.key) {
+                if (params.category.active === 'customize') {
+                    setLanguages(params.search.key, params.category.key)
+                } else {
+                    languages.builtin = []
+                    getBuiltinLanguages(messages.value?.[params.table.builtin.current] || {})
+                    const reg = new RegExp(params.search.key, 'ig')
+                    const res: LanguageItemProperties[] = []
+                    for (const i in languages.builtin) {
+                        const cur = languages.builtin[i]
+                        if (reg.test(cur.key) || reg.test(cur.language)) res.push(cur)
+                    }
+                    languages.builtin = res
+                }
+            }
         }
 
         // 清除内容至空后自动触发搜索
@@ -985,7 +1036,7 @@ const MiAppsLanguage = defineComponent({
                                     params.category.active === 'customize'
                             }
                         ]}
-                        onClick={() => (params.category.active = 'customize')}>
+                        onClick={() => handleChangeTab('customize')}>
                         <PlusOutlined />
                         {t('global.customize')}
                         {params.category.active === 'customize' ? (
@@ -1007,7 +1058,7 @@ const MiAppsLanguage = defineComponent({
                                     params.category.active === 'built-in'
                             }
                         ]}
-                        onClick={() => (params.category.active = 'built-in')}>
+                        onClick={() => handleChangeTab('built-in')}>
                         <FormOutlined />
                         {t('global.system') + t('global.builtin')}
                         {params.category.active === 'built-in' ? (
@@ -1048,129 +1099,125 @@ const MiAppsLanguage = defineComponent({
         // 操作区域 ( 搜索等 )
         const renderAction = () => {
             const searchBtn = (
-                <Col xs={24} md={params.category.active === 'customize' ? 14 : 24}>
-                    <div class={styled.searchLeft}>
-                        <div class={styled.searchItem}>
-                            <div class={styled.searchItemInput}>
-                                <span innerHTML={`${t('global.key')}${t('global.colon')}`}></span>
-                                <Input
-                                    v-model:value={params.search.key}
-                                    placeholder={t('language.placeholder.search')}
-                                    onPressEnter={handleSearchContent}
-                                    onInput={handleSearchInput}
-                                />
-                            </div>
-                            <div class={styled.searchItemBtns}>
-                                <Button
-                                    type="primary"
-                                    v-slots={{
-                                        icon: () => {
-                                            return <SearchOutlined />
-                                        }
-                                    }}
-                                    onClick={handleSearchContent}>
-                                    {t('global.seek')}
-                                </Button>
-                                <Button
-                                    type="primary"
-                                    v-slots={{
-                                        icon: () => {
-                                            return <ReloadOutlined />
-                                        }
-                                    }}
-                                    onClick={handleResetContent}>
-                                    {t('global.reset')}
-                                </Button>
-                            </div>
+                <div class={styled.searchLeft}>
+                    <div class={styled.searchItem}>
+                        <div class={styled.searchItemInput}>
+                            <span innerHTML={`${t('global.key')}${t('global.colon')}`}></span>
+                            <Input
+                                v-model:value={params.search.key}
+                                placeholder={t('language.placeholder.search')}
+                                onPressEnter={handleSearchContent}
+                                onInput={handleSearchInput}
+                            />
+                        </div>
+                        <div class={styled.searchItemBtns}>
+                            <Button
+                                type="primary"
+                                v-slots={{
+                                    icon: () => {
+                                        return <SearchOutlined />
+                                    }
+                                }}
+                                onClick={handleSearchContent}>
+                                {t('global.seek')}
+                            </Button>
+                            <Button
+                                type="primary"
+                                v-slots={{
+                                    icon: () => {
+                                        return <ReloadOutlined />
+                                    }
+                                }}
+                                onClick={handleResetContent}>
+                                {t('global.reset')}
+                            </Button>
                         </div>
                     </div>
-                </Col>
+                </div>
             )
             const actionBtn =
                 params.category.active === 'customize' ? (
-                    <Col xs={24} md={10}>
-                        <div class={styled.searchRight}>
-                            <ConfigProvider theme={{ token: { colorPrimary: '#d89614' } }}>
-                                <Popconfirm
-                                    overlayStyle={{ zIndex: Date.now() }}
-                                    okText={t('global.ok')}
-                                    cancelText={t('global.cancel')}
-                                    onConfirm={setDefaultCategory}
-                                    v-slots={{
-                                        title: () => {
-                                            return (
-                                                <div style={{ maxWidth: $tools.convert2rem(285) }}>
-                                                    <div
-                                                        innerHTML={t('language.default.tip')}></div>
-                                                    <div
-                                                        style={{
-                                                            marginTop: $tools.convert2rem(8)
-                                                        }}>
-                                                        <span>
-                                                            {t('language.current')}
-                                                            {t('global.colon')}
-                                                        </span>
-                                                        {params.category.types?.[
-                                                            params.category.key
-                                                        ] ? (
-                                                            <a
-                                                                innerHTML={
-                                                                    params.category.types?.[
-                                                                        params.category.key
-                                                                    ]
-                                                                }></a>
-                                                        ) : (
-                                                            <a
-                                                                innerHTML={t(
-                                                                    'language.default.none'
-                                                                )}></a>
-                                                        )}
-                                                    </div>
+                    <div
+                        class={[
+                            styled.searchRight,
+                            { [styled.searchRightCollapsed]: collapsed.value }
+                        ]}>
+                        <ConfigProvider theme={{ token: { colorPrimary: '#d89614' } }}>
+                            <Popconfirm
+                                overlayStyle={{ zIndex: Date.now() }}
+                                okText={t('global.ok')}
+                                cancelText={t('global.cancel')}
+                                onConfirm={setDefaultCategory}
+                                v-slots={{
+                                    title: () => {
+                                        return (
+                                            <div style={{ maxWidth: $tools.convert2rem(285) }}>
+                                                <div innerHTML={t('language.default.tip')}></div>
+                                                <div
+                                                    style={{
+                                                        marginTop: $tools.convert2rem(8)
+                                                    }}>
+                                                    <span>
+                                                        {t('language.current')}
+                                                        {t('global.colon')}
+                                                    </span>
+                                                    {params.category.types?.[
+                                                        params.category.key
+                                                    ] ? (
+                                                        <a
+                                                            innerHTML={
+                                                                params.category.types?.[
+                                                                    params.category.key
+                                                                ]
+                                                            }></a>
+                                                    ) : (
+                                                        <a
+                                                            innerHTML={t(
+                                                                'language.default.none'
+                                                            )}></a>
+                                                    )}
                                                 </div>
-                                            )
-                                        }
-                                    }}>
-                                    <Button type="primary" icon={<CheckOutlined />}>
-                                        {t('language.default.set')}
-                                    </Button>
-                                </Popconfirm>
-                            </ConfigProvider>
-                            <ConfigProvider theme={{ token: { colorPrimary: '#dc4446' } }}>
-                                <Popconfirm
-                                    overlayStyle={{ zIndex: Date.now() }}
-                                    okText={t('global.ok')}
-                                    cancelText={t('global.cancel')}
-                                    onConfirm={() => handleBatchDeleteContent()}
-                                    v-slots={{
-                                        title: () => {
-                                            return (
-                                                <div style={{ minWidth: $tools.convert2rem(180) }}>
-                                                    <div
-                                                        innerHTML={t(
-                                                            'global.delete.confirm'
-                                                        )}></div>
-                                                </div>
-                                            )
-                                        }
-                                    }}>
-                                    <Button type="primary" icon={<DeleteOutlined />} danger>
-                                        {t('global.delete.batch')}
-                                    </Button>
-                                </Popconfirm>
-                            </ConfigProvider>
-                            <ConfigProvider theme={{ token: { colorPrimary: '#07928f' } }}>
-                                <Button
-                                    type="primary"
-                                    icon={<EditOutlined />}
-                                    onClick={handleCreateContentModalState}>
-                                    {t('language.add')}
+                                            </div>
+                                        )
+                                    }
+                                }}>
+                                <Button type="primary" icon={<CheckOutlined />}>
+                                    {t('language.default.set')}
                                 </Button>
-                            </ConfigProvider>
-                        </div>
-                    </Col>
+                            </Popconfirm>
+                        </ConfigProvider>
+                        <ConfigProvider theme={{ token: { colorPrimary: '#dc4446' } }}>
+                            <Popconfirm
+                                overlayStyle={{ zIndex: Date.now() }}
+                                okText={t('global.ok')}
+                                cancelText={t('global.cancel')}
+                                onConfirm={() => handleBatchDeleteContent()}
+                                v-slots={{
+                                    title: () => {
+                                        return (
+                                            <div style={{ minWidth: $tools.convert2rem(180) }}>
+                                                <div innerHTML={t('global.delete.confirm')}></div>
+                                            </div>
+                                        )
+                                    }
+                                }}>
+                                <Button type="primary" icon={<DeleteOutlined />} danger>
+                                    {t('global.delete.batch')}
+                                </Button>
+                            </Popconfirm>
+                        </ConfigProvider>
+                        <ConfigProvider theme={{ token: { colorPrimary: '#07928f' } }}>
+                            <Button
+                                type="primary"
+                                icon={<EditOutlined />}
+                                onClick={handleCreateContentModalState}>
+                                {t('language.add')}
+                            </Button>
+                        </ConfigProvider>
+                    </div>
                 ) : null
             return (
-                <Row class={styled.search}>
+                <Row class={[styled.search, { [styled.searchCollapsed]: collapsed.value }]}>
                     {searchBtn}
                     {actionBtn}
                 </Row>
@@ -1184,7 +1231,7 @@ const MiAppsLanguage = defineComponent({
                     v-model:value={params.category.key}
                     onChange={handleChangeCategory}
                     placeholder={t('language.placeholder.select')}
-                    style={{ minWidth: $tools.convert2rem(220) }}
+                    style={{ minWidth: $tools.convert2rem(200) }}
                     dropdownStyle={{ zIndex: Date.now() }}>
                     {renderCategorySelectionOptions()}
                 </Select>
@@ -1195,6 +1242,23 @@ const MiAppsLanguage = defineComponent({
                         {t('global.create')}
                     </Button>
                 </div>
+            )
+        }
+
+        // Table - 内置语系下拉选项
+        const renderBuiltinCategorySelection = () => {
+            const options = [] as any[]
+            for (let i = 0, l = params.table.builtin.options.length; i < l; i++) {
+                const cur = params.table.builtin.options[i] as LanguageItemProperties
+                options.push(<SelectOption value={cur?.key}>{cur?.language}</SelectOption>)
+            }
+            return (
+                <Select
+                    v-model:value={params.table.builtin.current}
+                    onChange={handleChangeBuiltinCategory}
+                    style={{ minWidth: $tools.convert2rem(140) }}>
+                    {options}
+                </Select>
             )
         }
 
@@ -1269,9 +1333,28 @@ const MiAppsLanguage = defineComponent({
                             }
                         }
                     }}
-                    scroll={{ x: 768 }}></Table>
+                    scroll={{ x: 992 }}></Table>
             ) : params.category.active === 'built-in' ? (
-                <Table></Table>
+                <Table
+                    columns={params.table.builtin.columns}
+                    dataSource={languages.builtin}
+                    bordered={true}
+                    pagination={{
+                        showLessItems: true,
+                        showQuickJumper: true,
+                        responsive: true,
+                        total: params.total.builtin,
+                        current: params.table.builtin.pagination.page,
+                        pageSize: params.table.builtin.pagination.size
+                    }}
+                    v-slots={{
+                        headerCell: (record: any) => {
+                            if (record.column.key === 'language') {
+                                return renderBuiltinCategorySelection()
+                            }
+                        }
+                    }}
+                    scroll={{ x: 992 }}></Table>
             ) : null
         }
 
