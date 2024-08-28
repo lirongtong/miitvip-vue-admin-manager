@@ -465,6 +465,7 @@ const MiAppsLanguage = defineComponent({
             params.loading.categories = true
             const afterSuccess = async (res?: ResponseData | any) => {
                 params.category.data = res instanceof Array ? res : res?.data || []
+                params.category.current = 0
                 for (let i = 0, l = res?.data?.length; i < l; i++) {
                     const category = res?.data[i]
                     params.category.types[category?.key] = category?.language
@@ -628,6 +629,12 @@ const MiAppsLanguage = defineComponent({
             )
         }
 
+        // 语系变化事件
+        const handleChangeCategory = async (lang: string) => {
+            languages.customize = [] as LanguageItemProperties[]
+            await setLanguages(params.search.key, lang)
+        }
+
         // 新增单个语系内的配置内容 - Modal State
         const handleCreateContentModalState = () => {
             params.form.content.edit = false
@@ -696,7 +703,7 @@ const MiAppsLanguage = defineComponent({
                         { ...params.form.content.validate }
                     )
                     if (params.form.content.edit) {
-                        // 编辑
+                        // 更新
                         if (!params.form.content.id) {
                             message.destroy()
                             message.error(t('global.error.id'))
@@ -884,32 +891,16 @@ const MiAppsLanguage = defineComponent({
                                     }
                                 }
                                 // 批量添加
-                                if (props.batchCreateContentAction) {
-                                    if (typeof props.batchCreateContentAction === 'string') {
-                                        $request[props.batchCreateContentMethod](
-                                            props.batchCreateContentAction,
-                                            {
-                                                data: items,
-                                                ...props.batchCreateContentParams
-                                            }
-                                        )
-                                            .then((res: ResponseData | any) => {
-                                                if (res?.ret?.message)
-                                                    message.error(res?.ret?.message)
-                                                emit('afterAutomaticTranslate', res)
-                                            })
-                                            .catch((err: any) =>
-                                                message.error(
-                                                    err.message || t('global.error.unknown')
-                                                )
-                                            )
-                                    } else if (
-                                        typeof props.batchCreateContentAction === 'function'
-                                    ) {
-                                        const response = await props.batchCreateContentAction(items)
-                                        if (typeof response === 'string') message.error(response)
-                                    }
-                                }
+                                handleAction(
+                                    props.batchCreateContentAction,
+                                    props.batchCreateContentMethod,
+                                    {
+                                        data: items,
+                                        ...props.batchCreateContentParams
+                                    },
+                                    'batchCreateContentAction',
+                                    () => emit('afterAutomaticTranslate', res)
+                                )
                             } else message.error(res?.error_msg || t('global.error.unknown'))
                         })
                 }
@@ -1134,6 +1125,7 @@ const MiAppsLanguage = defineComponent({
             return params.category.data.length > 0 ? (
                 <Select
                     v-model:value={params.category.key}
+                    onChange={handleChangeCategory}
                     placeholder={t('language.placeholder.select')}
                     style={{ minWidth: $tools.convert2rem(220) }}
                     dropdownStyle={{ zIndex: Date.now() }}>
