@@ -443,6 +443,10 @@
         :global {
             .ant-form-item {
                 .properties(margin-bottom, 16);
+
+                .ant-form-item-label {
+                    padding-bottom: 0;
+                }
             }
         }
     }
@@ -452,6 +456,21 @@
 
         button + button {
             .properties(margin-left);
+        }
+    }
+
+    &-delete {
+        .properties(width, 320);
+    }
+
+    &-title {
+        .flex(center, flex-start);
+
+        :global {
+            .anticon {
+                .properties(margin-right);
+                color: var(--mi-language-danger);
+            }
         }
     }
 }
@@ -496,4 +515,6 @@
     --language-default-background-start: var(--mi-primary);
     --language-default-background-hint: var(--mi-secondary);
     --language-default-background-end: var(--mi-tertiary);
+
+    --language-danger: #dc4446;
 }

@@ -39,7 +39,8 @@ import {
     ExclamationCircleOutlined,
     StopOutlined,
     CheckCircleOutlined,
-    IssuesCloseOutlined
+    IssuesCloseOutlined,
+    WarningFilled
 } from '@ant-design/icons-vue'
 import md5 from 'md5'
 import MiModal from '../../modal/Modal'
@@ -405,6 +406,17 @@ const MiAppsLanguage = defineComponent({
                             { required: true, message: t('global.select') + t('global.state') }
                         ]
                     }
+                },
+                delete: {
+                    validate: { sync: 0 },
+                    rules: {
+                        sync: [
+                            {
+                                required: true,
+                                message: t('global.select') + t('language.delete.sync')
+                            }
+                        ]
+                    }
                 }
             },
             translate: {
@@ -441,6 +453,14 @@ const MiAppsLanguage = defineComponent({
                     target: props?.translate?.defaultLanguage || 'zh'
                 }
             },
+            /**
+             * @param category.management 语系管理 modal 状态
+             * @param category.create 新增语系 modal 状态
+             * @param category.createDirect 新增语系 modal 状态 ( 未开启语系管理 modal 时 )
+             * @param content 新增语言项 modal 状态
+             * @param status 批量启用/禁用状态 popover 弹出状态
+             * @param delete 批量删除 popover 弹出状态
+             */
             modal: {
                 category: {
                     management: false,
@@ -448,7 +468,8 @@ const MiAppsLanguage = defineComponent({
                     createDirect: false
                 },
                 content: false,
-                status: false
+                status: false,
+                delete: false
             }
         })
         applyTheme(styled)
@@ -939,6 +960,7 @@ const MiAppsLanguage = defineComponent({
                 props.deleteContentMethod,
                 {
                     id: params.ids.join(','),
+                    sync: params.form.delete.validate.sync,
                     ...props.deleteContentParams
                 },
                 'deleteContentAction',
@@ -946,6 +968,7 @@ const MiAppsLanguage = defineComponent({
                     message.destroy()
                     message.success(t('global.success'))
                     params.ids = []
+                    params.modal.delete = false
                     await setLanguages(params.search.key, params.category.key)
                     emit('afterBatchDeleteContent', res)
                 },
@@ -1265,8 +1288,11 @@ const MiAppsLanguage = defineComponent({
                                 content: () => {
                                     return (
                                         <div class={styled.popover}>
-                                            <Form class={styled.popoverForm}>
-                                                <FormItem label={t('global.state')}>
+                                            <Form
+                                                model={params.form.status.validate}
+                                                rules={params.form.status.rules}
+                                                class={styled.popoverForm}>
+                                                <FormItem label={t('global.state')} name="status">
                                                     <RadioGroup
                                                         options={params.form.content.options.status}
                                                         v-model:value={
@@ -1300,16 +1326,53 @@ const MiAppsLanguage = defineComponent({
                                 {t('language.status.name')}
                             </Button>
                         </Popover>
-                        <Popconfirm
+                        <Popover
+                            v-model:open={params.modal.delete}
                             overlayStyle={{ zIndex: Date.now() }}
-                            okText={t('global.ok')}
-                            cancelText={t('global.cancel')}
-                            onConfirm={() => handleBatchDeleteContent()}
+                            trigger="click"
+                            placement="topLeft"
                             v-slots={{
                                 title: () => {
                                     return (
-                                        <div style={{ minWidth: $tools.convert2rem(180) }}>
-                                            <div innerHTML={t('global.delete.confirm')}></div>
+                                        <div class={styled.popoverTitle}>
+                                            <WarningFilled />
+                                            <span class={styled.popoverTitleText}>
+                                                {t('language.delete.confirm')}
+                                            </span>
+                                        </div>
+                                    )
+                                },
+                                content: () => {
+                                    return (
+                                        <div class={[styled.popover, styled.popoverDelete]}>
+                                            <Form
+                                                model={params.form.delete.validate}
+                                                rules={params.form.delete.rules}
+                                                class={styled.popoverForm}
+                                                labelCol={{ span: 24 }}>
+                                                <FormItem
+                                                    label={t('language.delete.sync')}
+                                                    name="sync">
+                                                    <RadioGroup
+                                                        options={params.form.category.options}
+                                                        v-model:value={
+                                                            params.form.delete.validate.sync
+                                                        }></RadioGroup>
+                                                </FormItem>
+                                            </Form>
+                                            <div class={styled.popoverBtns}>
+                                                <Button
+                                                    size="small"
+                                                    onClick={() => (params.modal.delete = false)}>
+                                                    {t('global.cancel')}
+                                                </Button>
+                                                <Button
+                                                    type="primary"
+                                                    size="small"
+                                                    onClick={() => handleBatchDeleteContent()}>
+                                                    {t('global.ok')}
+                                                </Button>
+                                            </div>
                                         </div>
                                     )
                                 }
@@ -1317,7 +1380,7 @@ const MiAppsLanguage = defineComponent({
                             <Button type="primary" icon={<DeleteOutlined />} danger>
                                 {t('global.delete.batch')}
                             </Button>
-                        </Popconfirm>
+                        </Popover>
                     </div>
                 ) : null
             return (

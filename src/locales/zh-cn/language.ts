@@ -67,6 +67,10 @@ export default {
         name: `状态管控`,
         title: `批量启用/禁用语言项状态`
     },
+    delete: {
+        sync: `同步删除其他语系相同 key 值的语言项`,
+        confirm: `确定删除当前所选的语言项？`
+    },
     list: {
         zh: '简体中文',
         en: '英语',
