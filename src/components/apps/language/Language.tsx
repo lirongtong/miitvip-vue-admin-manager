@@ -14,6 +14,7 @@ import {
     Input,
     Button,
     Popconfirm,
+    Popover,
     Table,
     Select,
     SelectOption,
@@ -37,7 +38,8 @@ import {
     CloseCircleFilled,
     ExclamationCircleOutlined,
     StopOutlined,
-    CheckCircleOutlined
+    CheckCircleOutlined,
+    IssuesCloseOutlined
 } from '@ant-design/icons-vue'
 import md5 from 'md5'
 import MiModal from '../../modal/Modal'
@@ -46,9 +48,10 @@ import applyTheme from '../../_utils/theme'
 import styled from './style/language.module.less'
 /**
  * @events 回调事件
- * @event afterGetContent 获取单个语系的内容配置 - 成功后的回调
- * @event afterCreateContent 创建单个语系的内容配置 - 成功后的回调
- * @event afterUpdateContent 更新单个语系的内容配置 - 成功后的回调
+ * @event afterGetContent 获取单个语系的语言项 - 成功后的回调
+ * @event afterCreateContent 创建语言项 - 成功后的回调
+ * @event afterUpdateContent 更新语言项 - 成功后的回调
+ * @event afterUpdateContentStatus 更新语言项状态 - 成功后的回调
  * @event afterBatchDeleteContent 批量删除语系内容 - 成功后的回调
  * @event afterGetCategory 获取语系分类 - 成功后的回调
  * @event afterCreateCategory 创建语系分类 - 成功后的回调
@@ -64,6 +67,7 @@ const MiAppsLanguage = defineComponent({
         'afterGetContent',
         'afterCreateContent',
         'afterUpdateContent',
+        'afterUpdateContentStatus',
         'afterBatchDeleteContent',
         'afterGetCategory',
         'afterCreateCategory',
@@ -265,13 +269,19 @@ const MiAppsLanguage = defineComponent({
                                             </Button>
                                         </Popconfirm>
                                         <Button
-                                            class={styled.btnInfo}
+                                            class={styled.btnWarn}
                                             type="default"
                                             icon={
                                                 record?.status === 1 ? (
                                                     <StopOutlined />
                                                 ) : (
                                                     <CheckCircleOutlined />
+                                                )
+                                            }
+                                            onClick={() =>
+                                                handleUpdateContentStatus(
+                                                    record?.id,
+                                                    record?.status === 1 ? 0 : 1
                                                 )
                                             }>
                                             {record?.status === 1
@@ -387,6 +397,14 @@ const MiAppsLanguage = defineComponent({
                             { label: t('global.disable'), value: 0 }
                         ]
                     }
+                },
+                status: {
+                    validate: { status: 0 },
+                    rules: {
+                        status: [
+                            { required: true, message: t('global.select') + t('global.state') }
+                        ]
+                    }
                 }
             },
             translate: {
@@ -429,7 +447,8 @@ const MiAppsLanguage = defineComponent({
                     create: false,
                     createDirect: false
                 },
-                content: false
+                content: false,
+                status: false
             }
         })
         applyTheme(styled)
@@ -753,14 +772,14 @@ const MiAppsLanguage = defineComponent({
             }
         }
 
-        // 单个语系内的配置内容 - 关闭 Modal
+        // 单个语系内的语言项 - 关闭 Modal
         const handleCancelCreateContentModalState = () => {
             handleCreateContentModalState()
             params.modal.content = false
             if (contentFormRef.value) contentFormRef.value?.clearValidate()
         }
 
-        // 新增/更新 - 语言内容 - action
+        // 新增/更新 - 语言项 - action
         const handleCreateOrUpdateContent = () => {
             if (contentFormRef.value) {
                 if (params.loading.createOrUpdate) return
@@ -817,6 +836,40 @@ const MiAppsLanguage = defineComponent({
                     }
                 })
             }
+        }
+
+        // 更新状态 - 语言项
+        const handleUpdateContentStatus = (id: number | number[], status: number) => {
+            const ids = []
+            if (typeof id === 'number') ids.push(id)
+            else if (typeof id === 'object') ids.push(...id)
+            if (ids.length <= 0) {
+                message.destroy()
+                message.error(t('global.error.id'))
+                return
+            }
+            if (![0, 1].includes(status)) {
+                message.destroy()
+                message.error(t('global.error.status'))
+                return
+            }
+            if (params.loading.createOrUpdate) return
+            params.loading.createOrUpdate = true
+            handleAction(
+                props.updateContentStatusAction,
+                props.updateContentStatusMethod,
+                { id: ids.join(','), status },
+                'updateContentStatusAction',
+                async (res?: ResponseData | any) => {
+                    await setLanguages()
+                    params.modal.status = false
+                    params.ids = []
+                    message.destroy()
+                    message.success(t('global.success'))
+                    emit('afterUpdateContentStatus', res)
+                },
+                () => (params.loading.createOrUpdate = false)
+            )
         }
 
         /**
@@ -889,10 +942,11 @@ const MiAppsLanguage = defineComponent({
                     ...props.deleteContentParams
                 },
                 'deleteContentAction',
-                (res?: ResponseData | any) => {
+                async (res?: ResponseData | any) => {
                     message.destroy()
                     message.success(t('global.success'))
-                    setLanguages(params.search.key, params.category.key)
+                    params.ids = []
+                    await setLanguages(params.search.key, params.category.key)
                     emit('afterBatchDeleteContent', res)
                 },
                 () => (params.loading.delete = false)
@@ -1195,6 +1249,57 @@ const MiAppsLanguage = defineComponent({
                                 {t('language.default.set')}
                             </Button>
                         </Popconfirm>
+                        <Button
+                            type="default"
+                            class={styled.btnInfo}
+                            icon={<EditOutlined />}
+                            onClick={handleCreateContentModalState}>
+                            {t('language.add')}
+                        </Button>
+                        <Popover
+                            v-model:open={params.modal.status}
+                            overlayStyle={{ zIndex: Date.now() }}
+                            trigger="click"
+                            title={t('language.status.title')}
+                            v-slots={{
+                                content: () => {
+                                    return (
+                                        <div class={styled.popover}>
+                                            <Form class={styled.popoverForm}>
+                                                <FormItem label={t('global.state')}>
+                                                    <RadioGroup
+                                                        options={params.form.content.options.status}
+                                                        v-model:value={
+                                                            params.form.status.validate.status
+                                                        }></RadioGroup>
+                                                </FormItem>
+                                            </Form>
+                                            <div class={styled.popoverBtns}>
+                                                <Button
+                                                    size="small"
+                                                    onClick={() => (params.modal.status = false)}>
+                                                    {t('global.cancel')}
+                                                </Button>
+                                                <Button
+                                                    type="primary"
+                                                    size="small"
+                                                    onClick={() =>
+                                                        handleUpdateContentStatus(
+                                                            params.ids,
+                                                            params.form.status.validate.status
+                                                        )
+                                                    }>
+                                                    {t('global.ok')}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            }}>
+                            <Button class={styled.btnWarn} icon={<IssuesCloseOutlined />}>
+                                {t('language.status.name')}
+                            </Button>
+                        </Popover>
                         <Popconfirm
                             overlayStyle={{ zIndex: Date.now() }}
                             okText={t('global.ok')}
@@ -1213,13 +1318,6 @@ const MiAppsLanguage = defineComponent({
                                 {t('global.delete.batch')}
                             </Button>
                         </Popconfirm>
-                        <Button
-                            type="default"
-                            class={styled.btnInfo}
-                            icon={<EditOutlined />}
-                            onClick={handleCreateContentModalState}>
-                            {t('language.add')}
-                        </Button>
                     </div>
                 ) : null
             return (
@@ -1317,6 +1415,7 @@ const MiAppsLanguage = defineComponent({
                     rowKey={(record: any) => record?.id}
                     rowSelection={{
                         columnWidth: 60,
+                        selectedRowKeys: params.ids,
                         onChange: (_keys: any[], rows: any[]) => {
                             handleBatchItemChange(rows)
                         }

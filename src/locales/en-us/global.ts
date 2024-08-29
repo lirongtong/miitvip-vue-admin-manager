@@ -40,7 +40,8 @@ export default {
         normal: `Error`,
         id: `The ID is wrong, please refresh and try again`,
         auth: `The resource requires authentication ( Unauthorized )`,
-        unknown: `Unknown Error`
+        unknown: `Unknown Error`,
+        status: `The status value does not meet the requirements, please reset it`
     },
     yes: `Yes`,
     no: `No`,

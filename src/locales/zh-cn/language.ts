@@ -63,6 +63,10 @@ export default {
             none: `不同步`
         }
     },
+    status: {
+        name: `状态管控`,
+        title: `批量启用/禁用语言项状态`
+    },
     list: {
         zh: '简体中文',
         en: '英语',

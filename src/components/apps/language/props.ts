@@ -88,6 +88,9 @@ export interface LanguageItemProperties {
  * @param updateContentAction 更新语言项接口地址或自定义方法
  * @param updateContentMethod 更新语言项接口的请求方式 ( string 时有效 )
  * @param updateContentParams 更新语言项接口参数
+ * @param updateContentStatusAction 更新语言项状态接口地址或自定义方法
+ * @param updateContentStatusMethod 更新语言项状态接口的请求方式 ( string 时有效 )
+ * @param updateContentStatusParams 更新语言项状态接口参数
  * @param deleteContentAction 删除语言项接口地址或自定义方法
  * @param deleteContentMethod 删除语言项接口的请求方式 ( string 时有效 )
  * @param deleteContentParams 删除语言项接口参数
@@ -133,6 +136,9 @@ export interface LanguageProperties {
     updateContentAction: string | Function
     updateContentMethod: string
     updateContentParams: Record<any, any>
+    updateContentStatusAction: string | Function
+    updateContentStatusMethod: string
+    updateContentStatusParams: Record<any, any>
     deleteContentAction: string | Function
     deleteContentMethod: string
     deleteContentParams: Record<any, any>
@@ -179,6 +185,9 @@ export const LanguageProps = () => ({
     updateContentAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     updateContentMethod: PropTypes.string.def('put'),
     updateContentParams: PropTypes.object.def({}),
+    updateContentStatusAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    updateContentStatusMethod: PropTypes.string.def('put'),
+    updateContentStatusParams: PropTypes.object.def({}),
     deleteContentAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     deleteContentMethod: PropTypes.string.def('delete'),
     deleteContentParams: PropTypes.object.def({}),

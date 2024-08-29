@@ -15,6 +15,7 @@
         }"
         get-content-action="/v1/languages"
         create-content-action="/v1/languages"
+        update-content-status-action="/v1/languages/status"
         batch-create-content-action="/v1/languages/batch-create"
         update-content-action="/v1/languages"
         delete-content-action="/v1/languages"

@@ -278,11 +278,9 @@
     }
 
     &-right {
-        .flex(center, flex-end);
-
-        button + button {
-            .properties(margin-left);
-        }
+        .grid(2);
+        width: auto;
+        text-align: right;
 
         @media only screen and (max-width: 1080px) {
             width: 100%;
@@ -426,6 +424,36 @@
             color: var(--mi-on-tertiary);
         }
     }
+
+    &-warn {
+        background: var(--mi-error);
+        color: var(--mi-on-error);
+        border-color: var(--mi-error);
+
+        &:not(:disabled):focus,
+        &:not(:disabled):hover {
+            border-color: transparent;
+            color: var(--mi-on-error);
+        }
+    }
+}
+
+.popover {
+    &-form {
+        :global {
+            .ant-form-item {
+                .properties(margin-bottom, 16);
+            }
+        }
+    }
+
+    &-btns {
+        .flex();
+
+        button + button {
+            .properties(margin-left);
+        }
+    }
 }
 
 :global {
@@ -452,10 +480,10 @@
     --language-tabs-icon-background-customize: var(--mi-primary);
     --language-tabs-icon-text-customize: var(--mi-on-primary);
 
-    --language-tabs-text-builtin: var(--mi-error-container);
-    --language-tabs-border-builtin: var(--mi-error-container);
-    --language-tabs-icon-background-builtin: var(--mi-error-container);
-    --language-tabs-icon-text-builtin: var(--mi-on-error-container);
+    --language-tabs-text-builtin: var(--mi-secondary);
+    --language-tabs-border-builtin: var(--mi-secondary);
+    --language-tabs-icon-background-builtin: var(--mi-secondary);
+    --language-tabs-icon-text-builtin: var(--mi-on-secondary);
 
     --language-tabs-text-management: var(--mi-tertiary);
     --language-tabs-border-management: var(--mi-tertiary);
