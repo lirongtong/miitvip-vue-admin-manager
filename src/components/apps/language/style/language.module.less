@@ -210,7 +210,6 @@
     .flex(flex-start, space-between);
     position: relative;
     .properties(margin-bottom, 16);
-    .properties(margin-top, 16);
 
     @media only screen and (max-width: @mi-sm) {
         background: transparent;
@@ -218,7 +217,7 @@
         margin-top: 0;
     }
 
-    @media only screen and (max-width: 1080px) {
+    @media only screen and (max-width: @mi-lg) {
         justify-content: flex-start;
         flex-direction: column;
     }
@@ -237,7 +236,7 @@
         &-input {
             .flex();
 
-            @media only screen and (max-width: 1080px) {
+            @media only screen and (max-width: @mi-lg) {
                 width: 100%;
             }
 
@@ -272,8 +271,16 @@
     &-left {
         position: relative;
 
-        @media only screen and (max-width: 1080px) {
+        @media only screen and (max-width: @mi-lg) {
             width: 100%;
+        }
+
+        &-collapsed {
+            width: auto;
+
+            @media only screen and (max-width: 816px) {
+                width: 100%;
+            }
         }
     }
 
@@ -281,31 +288,31 @@
         .grid(2);
         width: auto;
         text-align: right;
+        .transition();
 
-        @media only screen and (max-width: 1080px) {
+        @media only screen and (max-width: @mi-lg) {
             width: 100%;
-            align-items: flex-start;
-            justify-content: flex-start;
-            .properties(margin-top, 16);
-
-            button {
-                width: 100%;
-            }
+            .properties(margin-top);
+            .properties(grid-gap);
         }
 
-        @media only screen and (max-width: @mi-md) {
-            flex-direction: column;
-            align-items: flex-end;
+        &-collapsed {
+            width: auto;
+            margin-top: 0;
 
-            button + button {
-                margin-left: 0;
+            @media only screen and (max-width: 816px) {
+                width: 100%;
                 .properties(margin-top);
+                .properties(grid-gap);
             }
         }
     }
 
     &-collapsed {
-        @media only screen and (max-width: 1024px) {
+        flex-direction: row;
+        justify-content: space-between;
+
+        @media only screen and (max-width: 816px) {
             flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;

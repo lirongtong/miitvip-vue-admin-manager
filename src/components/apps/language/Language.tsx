@@ -104,7 +104,7 @@ const MiAppsLanguage = defineComponent({
                     { ...props.checkCategoryExistParams }
                 )
                 if (typeof props.checkCategoryExistAction === 'string') {
-                    return await $request[props.checkCategoryExistMethod](
+                    return await $request?.[props.checkCategoryExistMethod](
                         $tools.replaceUrlParams(props.checkCategoryExistAction, {
                             id: params.form.category.id
                         }),
@@ -146,7 +146,7 @@ const MiAppsLanguage = defineComponent({
                     { ...props.checkContentExistParams }
                 )
                 if (typeof props.checkContentExistAction === 'string') {
-                    return await $request[props.checkContentExistMethod](
+                    return await $request?.[props.checkContentExistMethod](
                         props.checkContentExistAction,
                         actionParams
                     )
@@ -912,7 +912,7 @@ const MiAppsLanguage = defineComponent({
         ) => {
             if (action) {
                 if (typeof action === 'string') {
-                    await $request[method](action, params)
+                    await $request?.[method](action, params)
                         .then(async (res: ResponseData | any) => {
                             if (res?.ret?.code !== 200 && res?.ret?.message) {
                                 message.destroy()
@@ -1192,7 +1192,7 @@ const MiAppsLanguage = defineComponent({
         // 操作区域 ( 搜索等 )
         const renderAction = () => {
             const searchBtn = (
-                <div class={styled.searchLeft}>
+                <div class={[styled.searchLeft, { [styled.searchLeftCollapsed]: collapsed.value }]}>
                     <div class={styled.searchItem}>
                         <div class={styled.searchItemInput}>
                             <span innerHTML={`${t('global.key')}${t('global.colon')}`}></span>

@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', {
         autoLogin: $cookie.get($g.caches?.cookies?.autoLogin) ?? false
     }),
     actions: {
-        user(data: LoginResponseData) {
+        setData(data: LoginResponseData) {
             const user = data?.user || {}
             this.user = Object.keys(user).length > 0 ? user : {}
             $storage.set($g.caches?.storages?.user, JSON.stringify(this.user))
@@ -46,12 +46,12 @@ export const useAuthStore = defineStore('auth', {
             if (params.method) delete params.method
             return new Promise(async (resolve, reject) => {
                 return await $request[method.toLowerCase()](url, params)
-                    .then((res: ResponseData) => {
+                    .then((res: ResponseData | any) => {
                         if (res?.ret?.code === 200) {
                             const autoLogin = data?.remember ?? false
                             this.autoLogin = autoLogin
                             $cookie.set($g.caches?.cookies?.autoLogin, autoLogin, 7)
-                            this.user((res?.data || {}) as LoginResponseData)
+                            this.setData((res?.data || {}) as LoginResponseData)
                         }
                         resolve(res)
                     })
@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('auth', {
             if (params.method) delete params.method
             return new Promise(async (resolve, reject) => {
                 return await $request[method.toLowerCase()](url, params)
-                    .then((res: ResponseData) => resolve(res))
+                    .then((res: ResponseData | any) => resolve(res))
                     .catch((err: any) => reject(err))
             })
         },
@@ -74,18 +74,53 @@ export const useAuthStore = defineStore('auth', {
             return new Promise(async (resolve, reject) => {
                 return await $request
                     .post(data?.url, { token: data?.token })
-                    .then((res: ResponseData) => {
+                    .then((res: ResponseData | any) => {
                         if (res?.ret?.code === 200) {
                             this.autoLogin = true
                             $cookie.set($g.caches?.cookies?.autoLogin, true, 7)
-                            this.user(res?.data)
+                            this.setData(res?.data)
                         }
                         resolve(res)
                     })
                     .catch((err: any) => reject(err))
             })
         },
+        refresh(url: string, token: string): Promise<any> {
+            return new Promise(async (resolve, reject) => {
+                return await $request
+                    ?.post(url, { refresh_token: token })
+                    .then((res: ResponseData | any) => {
+                        if (res?.ret?.code === 200) {
+                            const autoLogin = this.autoLogin
+                            const access = res?.data?.access_token ?? null
+                            if (access) {
+                                this.token.access = access
+                                $cookie.set(
+                                    $g.caches?.cookies?.token?.access,
+                                    access,
+                                    autoLogin ? 7 : null
+                                )
+                            }
+                            const refresh = res?.data?.refresh_token
+                            if (refresh) {
+                                this.token.refresh = refresh
+                                $cookie.set(
+                                    $g.caches?.cookies?.token?.refresh,
+                                    refresh,
+                                    autoLogin ? 7 : null
+                                )
+                            }
+                        }
+                        resolve(res)
+                    })
+                    .catch((err?: any) => reject(err))
+            })
+        },
         logout() {
+            this.user = {}
+            this.token.access = null
+            this.token.refresh = null
+            this.autoLogin = false
             $cookie.del([
                 $g.caches?.cookies?.token?.access,
                 $g.caches?.cookies?.token?.refresh,

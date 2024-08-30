@@ -9,12 +9,13 @@ axios.defaults.baseURL = '/'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;'
 const requestBaseURL = ref<string>('/')
+
 class MiRequest {
     instance: MiRequest
 
     constructor() {
         this.instance = this
-        // 拦截器
+        // 请求拦截器
         axios.interceptors.request.use(
             (config: any) => {
                 const token =
