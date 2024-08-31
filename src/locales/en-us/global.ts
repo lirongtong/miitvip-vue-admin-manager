@@ -81,5 +81,6 @@ export default {
     enable: `Enable`,
     available: `Available`,
     removed: `Removed`,
-    select: `Please select`
+    select: `Please select`,
+    name: `Name`
 }

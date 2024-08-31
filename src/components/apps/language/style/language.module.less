@@ -40,8 +40,8 @@
         .radius(8);
         .transition();
         text-align: center;
-        .properties(width, 120);
-        .properties(height, 120);
+        .properties(width, 140);
+        .properties(height, 140);
         cursor: pointer;
         .properties(font-size, 16);
         border: 0.25rem solid transparent;
@@ -171,6 +171,36 @@
 
             @media only screen and (max-width: @mi-sm) {
                 box-shadow: inset 0 0 0.625rem var(--mi-language-tabs-border-builtin);
+            }
+        }
+    }
+
+    &-module {
+        color: var(--mi-language-tabs-text-module);
+        border-color: var(--mi-language-tabs-border-module);
+
+        :global {
+            .anticon {
+                color: var(--mi-language-tabs-icon-text-module);
+                background: var(--mi-language-tabs-icon-background-module);
+            }
+        }
+
+        &-check {
+            background-color: var(--mi-language-tabs-icon-background-module);
+
+            :global {
+                .anticon {
+                    color: var(--mi-language-tabs-icon-text-module);
+                }
+            }
+        }
+
+        &-active {
+            box-shadow: 0 0 0.625rem var(--mi-language-tabs-border-module);
+
+            @media only screen and (max-width: @mi-sm) {
+                box-shadow: inset 0 0 0.625rem var(--mi-language-tabs-border-module);
             }
         }
     }
@@ -325,6 +355,10 @@
         .properties(margin-right, 4);
         color: var(--mi-error);
         cursor: pointer;
+    }
+
+    &-module {
+        .properties(margin-top, 24);
     }
 }
 
@@ -482,6 +516,28 @@
     }
 }
 
+.modules {
+    &-tab {
+        .properties(margin-top, -16);
+
+        :global {
+            .ant-tabs-nav {
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &-title {
+        .flex(center, flex-start);
+
+        > span {
+            .properties(margin-right);
+        }
+    }
+}
+
 :global {
     .ant-form {
         .ant-form-item {
@@ -506,15 +562,20 @@
     --language-tabs-icon-background-customize: var(--mi-primary);
     --language-tabs-icon-text-customize: var(--mi-on-primary);
 
-    --language-tabs-text-builtin: var(--mi-secondary);
-    --language-tabs-border-builtin: var(--mi-secondary);
-    --language-tabs-icon-background-builtin: var(--mi-secondary);
-    --language-tabs-icon-text-builtin: var(--mi-on-secondary);
+    --language-tabs-text-builtin: var(--mi-tertiary);
+    --language-tabs-border-builtin: var(--mi-tertiary);
+    --language-tabs-icon-background-builtin: var(--mi-tertiary);
+    --language-tabs-icon-text-builtin: var(--mi-on-tertiary);
 
-    --language-tabs-text-management: var(--mi-tertiary);
-    --language-tabs-border-management: var(--mi-tertiary);
-    --language-tabs-icon-background-management: var(--mi-tertiary);
-    --language-tabs-icon-text-management: var(--mi-on-tertiary);
+    --language-tabs-text-module: var(--mi-error);
+    --language-tabs-border-module: var(--mi-error);
+    --language-tabs-icon-background-module: var(--mi-error);
+    --language-tabs-icon-text-module: var(--mi-on-error);
+
+    --language-tabs-text-management: var(--mi-inverse-surface);
+    --language-tabs-border-management: var(--mi-inverse-surface);
+    --language-tabs-icon-background-management: var(--mi-inverse-surface);
+    --language-tabs-icon-text-management: var(--mi-inverse-on-surface);
 
     --language-text: var(--mi-surface);
     --language-background: var(--mi-on-surface);

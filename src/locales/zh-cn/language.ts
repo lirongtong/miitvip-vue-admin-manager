@@ -2,17 +2,39 @@ export default {
     'zh-cn': `简体中文`,
     'en-us': `英文`,
     management: `语系管理`,
+    system: `内置语言项`,
+    custom: `自定义语言项`,
+    customize: {
+        management: `语言项管理`
+    },
+    module: `模块管理`,
+    modules: {
+        name: `模块名称`,
+        belong: `所属模块`,
+        builtin: `内置模块`,
+        customize: `自定义模块`,
+        create: `新增模块`,
+        update: `更新模块`
+    },
     placeholder: {
         search: `请输入待搜索关键词`,
         select: `请选择语系`,
         config: {
-            key: '请输入语言配置的关键词',
-            value: '请输入语言配置关键词对应的语言内容'
+            key: '请输入语言项的关键词',
+            value: '请输入语言项关键词对应的语言内容'
+        },
+        type: {
+            key: '请输入语系的关键词',
+            value: '请输入语系关键词对应的语言显示名称'
         },
         language: {
             active: `请选择语系`,
             key: `语言编码，如简体中文的关键词为: zh-cn`,
             display: `语系显示名称，如：简体中文`
+        },
+        module: {
+            key: `请输入模块关键词`,
+            name: `请输入模块名称`
         }
     },
     create: `新增语系`,

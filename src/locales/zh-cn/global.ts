@@ -81,5 +81,6 @@ export default {
     enable: `启用`,
     available: `上架`,
     removed: `下架`,
-    select: `请选择`
+    select: `请选择`,
+    name: `名称`
 }

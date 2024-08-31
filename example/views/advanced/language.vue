@@ -19,7 +19,12 @@
         batch-create-content-action="/v1/languages/batch-create"
         update-content-action="/v1/languages"
         delete-content-action="/v1/languages"
-        check-content-exist-action="/v1/languages/check" />
+        check-content-exist-action="/v1/languages/check"
+        get-module-action="/v1/languages/modules"
+        check-module-exist-action="/v1/languages/modules/check"
+        create-module-action="/v1/languages/modules"
+        delete-module-action="/v1/languages/modules"
+        update-module-action="/v1/languages/modules" />
 </template>
 
 <script setup lang="ts">

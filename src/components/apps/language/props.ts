@@ -56,6 +56,20 @@ export interface LanguageItemProperties {
 
 /**
  * +=========================+
+ * |       语言模块属性       |
+ * +=========================+
+ * @param id 序号
+ * @param key 唯一值
+ * @param name 序号
+ */
+export interface LanguageModuleProperties {
+    id: string | number
+    key: string
+    name: string
+}
+
+/**
+ * +=========================+
  * |       语言配置属性       |
  * +=========================+
  * @param translate 翻译配置
@@ -104,6 +118,21 @@ export interface LanguageItemProperties {
  * @param checkContentExistMethod 检测语言项是否存在接口的请求方式 ( string 时有效 )
  * @param checkContentExistParams 检测语言项是否存在接口参数
  * @param paginationLocale 分页组件语言包
+ * @param showBuiltinLanguages 是否显示内置语言项
+ * @param getModuleAction 获取模块列表接口地址或自定义方法
+ * @param getModuleMethod 获取模块列表接口的请求方式 ( string 时有效 )
+ * @param getModuleParams 获取模块列表接口参数
+ * @param createModuleAction 新增模块接口地址或自定义方法
+ * @param createModuleMethod 新增模块接口的请求方式 ( string 时有效 )
+ * @param createModuleParams 新增模块接口参数
+ * @param updateModuleAction 更新模块接口地址或自定义方法
+ * @param updateModuleMethod 更新模块接口的请求方式 ( string 时有效 )
+ * @param updateModuleParams 更新模块接口参数
+ * @param deleteModuleAction 删除模块接口地址或自定义方法
+ * @param deleteModuleMethod 删除模块接口的请求方式 ( string 时有效 )
+ * @param checkModuleExistAction 检测模块是否存在接口地址或自定义方法
+ * @param checkModuleExistMethod 检测模块是否存在接口的请求方式 ( string 时有效 )
+ * @param checkModuleExistParams 检测模块是否存在接口参数
  */
 export interface LanguageProperties {
     translate: Partial<TranslateProperties>
@@ -152,6 +181,22 @@ export interface LanguageProperties {
     checkContentExistMethod: string
     checkContentExistParams: Record<any, any>
     paginationLocale: any
+    showBuiltinLanguages: boolean
+    getModuleAction: string | Function
+    getModuleMethod: string
+    getModuleParams: Record<any, any>
+    createModuleAction: string | Function
+    createModuleMethod: string
+    createModuleParams: Record<any, any>
+    updateModuleAction: string | Function
+    updateModuleMethod: string
+    updateModuleParams: Record<any, any>
+    deleteModuleAction: string | Function
+    deleteModuleMethod: string
+    deleteModuleParams: Record<any, any>
+    checkModuleExistAction: string | Function
+    checkModuleExistMethod: string
+    checkModuleExistParams: Record<any, any>
 }
 
 export const LanguageProps = () => ({
@@ -200,5 +245,21 @@ export const LanguageProps = () => ({
     checkContentExistAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     checkContentExistMethod: PropTypes.string.def('get'),
     checkContentExistParams: PropTypes.object.def({}),
-    paginationLocale: PropTypes.any
+    paginationLocale: PropTypes.any,
+    showBuiltinLanguages: PropTypes.bool.def(true),
+    getModuleAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    getModuleMethod: PropTypes.string.def('get'),
+    getModuleParams: PropTypes.object.def({}),
+    createModuleAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    createModuleMethod: PropTypes.string.def('post'),
+    createModuleParams: PropTypes.object.def({}),
+    updateModuleAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    updateModuleMethod: PropTypes.string.def('put'),
+    updateModuleParams: PropTypes.object.def({}),
+    deleteModuleAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    deleteModuleMethod: PropTypes.string.def('delete'),
+    deleteModuleParams: PropTypes.object.def({}),
+    checkModuleExistAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    checkModuleExistMethod: PropTypes.string.def('get'),
+    checkModuleExistParams: PropTypes.object.def({})
 })
