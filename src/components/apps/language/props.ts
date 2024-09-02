@@ -39,7 +39,9 @@ export interface TranslateProperties {
  * |       语言项属性       |
  * +=======================+
  * @param id 语言项 id
- * @param cid 语言项 cid
+ * @param cid 语系 id
+ * @param mid 模块 id
+ * @param module 模块显示名称
  * @param key 语言项 key
  * @param language 语言
  * @param is_default 是否默认
@@ -48,6 +50,8 @@ export interface TranslateProperties {
 export interface LanguageItemProperties {
     id: string | number
     cid: string | number
+    mid: string | number
+    module?: string
     key: string
     language: string
     is_default: number

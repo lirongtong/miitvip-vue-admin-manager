@@ -4,11 +4,10 @@ export default {
     management: `语系管理`,
     system: `内置语言项`,
     custom: `自定义语言项`,
-    customize: {
-        management: `语言项管理`
-    },
+    customize: `语言项管理`,
     module: `模块管理`,
     modules: {
+        all: `所有模块`,
         name: `模块名称`,
         belong: `所属模块`,
         builtin: `内置模块`,
@@ -75,11 +74,13 @@ export default {
         update: `更新语言配置`,
         key: `关键词`,
         content: `语言内容`,
+        module: `所属模块`,
         status: `内容状态`,
+        none: `不属于任何模块`,
         sync: {
             label: `同步 Key 值`,
             select: `选择同步语系`,
-            tip: `单选属性值说明：<br /><a>0: 不同步; 1: 全部; 2: 指定;</a><br /><a>同步后的内容默认为禁用状态。</a><br />将当前新增的语言配置内容，不翻译，同步新增到其他所有语系或指定的语系内。`,
+            tip: `单选属性值说明：<br /><a>0: 不同步; 1: 全部; 2: 指定;</a><br /><a>同步语言项默认为禁用状态。</a><br />将当前新增的语言项，不翻译，同步新增到其他所有语系或指定的语系内。`,
             all: `全部`,
             specify: `指定`,
             none: `不同步`

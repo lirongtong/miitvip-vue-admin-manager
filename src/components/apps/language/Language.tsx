@@ -102,7 +102,11 @@ const MiAppsLanguage = defineComponent({
             customize: [] as LanguageItemProperties[],
             modules: {
                 customize: [] as LanguageModuleProperties[],
-                builtin: [] as LanguageModuleProperties[]
+                builtin: [] as LanguageModuleProperties[],
+                types: {
+                    builtin: {} as Record<string, string>,
+                    customize: {} as Record<number, string>
+                }
             }
         })
         const categoryFormRef = ref<FormInstance>()
@@ -163,6 +167,7 @@ const MiAppsLanguage = defineComponent({
                     {
                         id: params.form.content.id,
                         cid: params.category.current,
+                        mid: params.form.content.validate.mid,
                         key: params.form.content.validate.key,
                         edit: params.form.content.edit ? 1 : 0
                     },
@@ -390,6 +395,7 @@ const MiAppsLanguage = defineComponent({
                 },
                 module: {
                     active: 'customize',
+                    current: -1,
                     columns: {
                         customize: [
                             {
@@ -511,11 +517,12 @@ const MiAppsLanguage = defineComponent({
                     /**
                      * @param key 单个语系内的内容配置关键词
                      * @param language 单个语系内的内容配置关键词对应的语言内容
+                     * @param mid 所属模块ID
                      * @param status 内容状态 ( 0: 下架; 1: 上架 )
                      * @param sync 是否同步 Key 值 ( 0: 不同步; 1: 全部; 2: 指定 )
                      * @param langs 同步 Key 值时，指定要同步的语系 key
                      */
-                    validate: { key: '', language: '', sync: 0, status: 1, langs: [] },
+                    validate: { key: '', language: '', mid: 0, sync: 0, status: 1, langs: [] },
                     rules: {
                         key: [
                             {
@@ -652,17 +659,17 @@ const MiAppsLanguage = defineComponent({
         // 初始化
         const init = async () => {
             getBuiltinLanguages(messages.value?.[locale.value])
-            await setCategory()
             if (props.getModuleAction) {
                 params.table.customize.columns.splice(1, 0, {
                     title: t('language.modules.belong'),
                     key: 'mid',
-                    dataIndex: 'mid',
+                    dataIndex: 'module',
                     align: 'left',
                     width: 240
                 })
                 await getModules()
             }
+            await setCategory()
         }
 
         // Tab 切换
@@ -684,8 +691,15 @@ const MiAppsLanguage = defineComponent({
                 { lang: lang ?? 'zh-cn' },
                 props.getContentParams
             )
+            if (params.table.module.current !== -1) condition.mid = params.table.module.current
             const afterSuccess = (res: ResponseData | any) => {
-                languages.customize = res instanceof Array ? res : res?.data || []
+                const data = res instanceof Array ? res : res?.data || []
+                if (Object.keys(languages.modules.types.customize).length > 0) {
+                    for (let i = 0, l = data.length; i < l; i++) {
+                        data[i].module = languages.modules.types.customize?.[data[i]?.mid] || '-'
+                    }
+                }
+                languages.customize = data
                 params.total.customize = res?.total || 0
                 emit('afterGetContent', res)
             }
@@ -703,7 +717,18 @@ const MiAppsLanguage = defineComponent({
         const setLanguages = async (keyword?: string, lang?: string) => {
             languages.customize = []
             if (props.data && props.data.length > 0) {
-                params.table.customize.data = props.data
+                const data = props.data || []
+                for (let i = 0, l = data.length; i < l; i++) {
+                    if (
+                        !data?.[i]?.module &&
+                        Object.keys(languages.modules.types.customize).length > 0
+                    ) {
+                        data[i].module = languages.modules.types.customize?.[data[i]?.mid] || '-'
+                    }
+                }
+                languages.customize = data
+                params.table.customize.data = data
+                params.total.customize = data.length
             } else {
                 await getLanguages(keyword, lang)
                 params.table.customize.data = languages.customize
@@ -754,7 +779,7 @@ const MiAppsLanguage = defineComponent({
                     params.category.key = cur?.key
                 }
                 if (updateLanguage && params.category.data?.length > 0) {
-                    setLanguages(params.search.key, params.category.key)
+                    await setLanguages(params.search.key, params.category.key)
                 }
                 emit('afterGetCategory', res)
             }
@@ -811,15 +836,22 @@ const MiAppsLanguage = defineComponent({
                 props.getModuleMethod,
                 props.getModuleParams,
                 'getModuleAction',
-                (res?: ResponseData | any) => {
+                async (res?: ResponseData | any) => {
                     if (res?.ret?.code === 200) {
                         languages.modules.customize = []
                         languages.modules.builtin = []
+                        languages.modules.types.builtin = {}
+                        languages.modules.types.customize = {}
                         const data = res?.data || []
                         for (let i = 0; i < data.length; i++) {
                             const cur = data?.[i]
-                            if (cur?.is_builtin) languages.modules.builtin.push(cur)
-                            else languages.modules.customize.push(cur)
+                            if (cur?.is_builtin) {
+                                languages.modules.builtin.push(cur)
+                                languages.modules.types.builtin[cur?.key] = cur?.name
+                            } else {
+                                languages.modules.customize.push(cur)
+                                languages.modules.types.customize[cur?.id] = cur?.name
+                            }
                         }
                     } else if (res instanceof Array) languages.modules.customize = res
                     emit('afterGetModule', res)
@@ -901,35 +933,38 @@ const MiAppsLanguage = defineComponent({
                     categoryFormRef.value?.resetFields()
                     getCategories()
                 }
-                categoryFormRef.value?.validate().then(async () => {
-                    const actionParams = Object.assign(
-                        { ...params.form.category.validate },
-                        { ...params.translate.form }
-                    )
-                    if (params.form.category.edit) {
-                        // 更新
-                        handleAction(
-                            props.updateCategoryAction,
-                            props.updateCategoryMethod,
-                            Object.assign({ id: params.form.category.id }, actionParams, {
-                                ...props.updateCategoryParams
-                            }),
-                            'updateCategoryAction',
-                            (res: ResponseData | any) => afterSuccess(res),
-                            () => (params.loading.createOrUpdate = false)
+                categoryFormRef.value
+                    ?.validate()
+                    .then(async () => {
+                        const actionParams = Object.assign(
+                            { ...params.form.category.validate },
+                            { ...params.translate.form }
                         )
-                    } else {
-                        // 新增
-                        handleAction(
-                            props.createCategoryAction,
-                            props.createCategoryMethod,
-                            Object.assign(actionParams, { ...props.createCategoryParams }),
-                            'createCategoryAction',
-                            (res: ResponseData | any) => afterSuccess(res),
-                            () => (params.loading.createOrUpdate = false)
-                        )
-                    }
-                })
+                        if (params.form.category.edit) {
+                            // 更新
+                            handleAction(
+                                props.updateCategoryAction,
+                                props.updateCategoryMethod,
+                                Object.assign({ id: params.form.category.id }, actionParams, {
+                                    ...props.updateCategoryParams
+                                }),
+                                'updateCategoryAction',
+                                (res: ResponseData | any) => afterSuccess(res),
+                                () => (params.loading.createOrUpdate = false)
+                            )
+                        } else {
+                            // 新增
+                            handleAction(
+                                props.createCategoryAction,
+                                props.createCategoryMethod,
+                                Object.assign(actionParams, { ...props.createCategoryParams }),
+                                'createCategoryAction',
+                                (res: ResponseData | any) => afterSuccess(res),
+                                () => (params.loading.createOrUpdate = false)
+                            )
+                        }
+                    })
+                    .catch(() => (params.loading.createOrUpdate = false))
             }
         }
 
@@ -971,11 +1006,23 @@ const MiAppsLanguage = defineComponent({
             if (params.search.key) handleSearchContent()
         }
 
+        // 重置语言项的表单项
+        const handleResetContentFormValidate = () => {
+            params.form.content.id = 0
+            params.form.content.validate = {
+                key: '',
+                language: '',
+                mid: null,
+                sync: 0,
+                status: 1,
+                langs: []
+            }
+        }
+
         // 新增语言项 - Modal State
         const handleCreateContentModalState = () => {
             params.form.content.edit = false
-            params.form.content.id = 0
-            params.form.content.validate = { key: '', language: '', sync: 0, status: 1, langs: [] }
+            handleResetContentFormValidate()
             params.modal.content = true
         }
 
@@ -990,16 +1037,10 @@ const MiAppsLanguage = defineComponent({
                 if (typeof data?.updated_at !== 'undefined') delete data.updated_at
                 params.form.content.validate = { ...data }
                 params.form.content.validate.sync = 0
+                params.form.content.validate.mid = data?.mid || null
                 params.form.content.key = data?.key
             } else {
-                params.form.content.id = 0
-                params.form.content.validate = {
-                    key: '',
-                    language: '',
-                    sync: 0,
-                    status: 1,
-                    langs: []
-                }
+                handleResetContentFormValidate()
                 params.form.content.key = ''
             }
         }
@@ -1016,57 +1057,60 @@ const MiAppsLanguage = defineComponent({
             if (contentFormRef.value) {
                 if (params.loading.createOrUpdate) return
                 params.loading.createOrUpdate = true
-                contentFormRef.value?.validate().then(async () => {
-                    const afterSuccess = (res?: ResponseData | any) => {
-                        message.destroy()
-                        message.success(t('global.success'))
-                        const newContent = {}
-                        newContent[params.form.content.validate.key] =
-                            params.form.content.validate.language
-                        handleUpdateLocaleData(newContent)
-                        handleCancelCreateContentModalState()
-                        contentFormRef.value?.resetFields()
-                        setLanguages(params.search.key, params.category.key)
-                        if (params.form.content.edit) {
-                            params.form.content.edit = false
-                            params.form.content.key = ''
-                            params.form.content.id = 0
-                            emit('afterUpdateContent', res)
-                        } else emit('afterCreateContent', res)
-                    }
-                    const actionParams = Object.assign(
-                        { lang: params.category.key },
-                        { ...params.form.content.validate }
-                    )
-                    if (params.form.content.edit) {
-                        // 更新
-                        if (!params.form.content.id) {
+                contentFormRef.value
+                    ?.validate()
+                    .then(async () => {
+                        const afterSuccess = (res?: ResponseData | any) => {
                             message.destroy()
-                            message.error(t('global.error.id'))
-                            return
+                            message.success(t('global.success'))
+                            const newContent = {}
+                            newContent[params.form.content.validate.key] =
+                                params.form.content.validate.language
+                            handleUpdateLocaleData(newContent)
+                            handleCancelCreateContentModalState()
+                            contentFormRef.value?.resetFields()
+                            setLanguages(params.search.key, params.category.key)
+                            if (params.form.content.edit) {
+                                params.form.content.edit = false
+                                params.form.content.key = ''
+                                params.form.content.id = 0
+                                emit('afterUpdateContent', res)
+                            } else emit('afterCreateContent', res)
                         }
-                        handleAction(
-                            props.updateContentAction,
-                            props.updateContentMethod,
-                            Object.assign({ id: params.form.content.id }, actionParams, {
-                                ...props.updateContentParams
-                            }),
-                            'updateContentAction',
-                            (res: ResponseData | any) => afterSuccess(res),
-                            () => (params.loading.createOrUpdate = false)
+                        const actionParams = Object.assign(
+                            { lang: params.category.key },
+                            { ...params.form.content.validate }
                         )
-                    } else {
-                        // 新增
-                        handleAction(
-                            props.createContentAction,
-                            props.createContentMethod,
-                            Object.assign(actionParams, { ...props.createContentParams }),
-                            'createContentAction',
-                            (res?: ResponseData | any) => afterSuccess(res),
-                            () => (params.loading.createOrUpdate = false)
-                        )
-                    }
-                })
+                        if (params.form.content.edit) {
+                            // 更新
+                            if (!params.form.content.id) {
+                                message.destroy()
+                                message.error(t('global.error.id'))
+                                return
+                            }
+                            handleAction(
+                                props.updateContentAction,
+                                props.updateContentMethod,
+                                Object.assign({ id: params.form.content.id }, actionParams, {
+                                    ...props.updateContentParams
+                                }),
+                                'updateContentAction',
+                                (res: ResponseData | any) => afterSuccess(res),
+                                () => (params.loading.createOrUpdate = false)
+                            )
+                        } else {
+                            // 新增
+                            handleAction(
+                                props.createContentAction,
+                                props.createContentMethod,
+                                Object.assign(actionParams, { ...props.createContentParams }),
+                                'createContentAction',
+                                (res?: ResponseData | any) => afterSuccess(res),
+                                () => (params.loading.createOrUpdate = false)
+                            )
+                        }
+                    })
+                    .catch(() => (params.loading.createOrUpdate = false))
             }
         }
 
@@ -1161,51 +1205,59 @@ const MiAppsLanguage = defineComponent({
             if (moduleFormRef.value) {
                 if (params.loading.createOrUpdate) return
                 params.loading.createOrUpdate = true
-                moduleFormRef.value?.validate().then(async () => {
-                    if (params.form.module.edit) {
-                        // 更新
-                        await handleAction(
-                            props.updateModuleAction,
-                            props.updateModuleMethod,
-                            Object.assign(
-                                { id: params.form.module.id },
-                                { ...params.form.module.validate },
-                                { ...props.updateModuleParams }
-                            ),
-                            'updateModuleAction',
-                            (res?: ResponseData | any) => {
-                                message.destroy()
-                                message.success(t('global.success'))
-                                params.modal.modules.create = false
-                                getModules()
-                                emit('afterUpdateModule', res)
-                            },
-                            () => (params.loading.createOrUpdate = false)
-                        )
-                    } else {
-                        // 新增
-                        await handleAction(
-                            props.createModuleAction,
-                            props.createModuleMethod,
-                            Object.assign(
-                                { ...params.form.module.validate },
-                                { ...props.createModuleParams }
-                            ),
-                            'createModuleAction',
-                            (res?: ResponseData | any) => {
-                                message.destroy()
-                                message.success(t('global.success'))
-                                params.modal.modules.create = false
-                                getModules()
-                                emit('afterCreateModule', res)
-                            },
-                            () => (params.loading.createOrUpdate = false)
-                        )
-                    }
-                })
+                moduleFormRef.value
+                    ?.validate()
+                    .then(async () => {
+                        const afterSuccess = async () => {
+                            message.destroy()
+                            message.success(t('global.success'))
+                            params.modal.modules.create = false
+                            moduleFormRef.value?.resetFields()
+                            params.form.module.validate.key = ''
+                            params.form.module.validate.name = ''
+                            await getModules()
+                            setLanguages()
+                        }
+                        if (params.form.module.edit) {
+                            // 更新
+                            await handleAction(
+                                props.updateModuleAction,
+                                props.updateModuleMethod,
+                                Object.assign(
+                                    { id: params.form.module.id },
+                                    { ...params.form.module.validate },
+                                    { ...props.updateModuleParams }
+                                ),
+                                'updateModuleAction',
+                                (res?: ResponseData | any) => {
+                                    afterSuccess()
+                                    emit('afterUpdateModule', res)
+                                },
+                                () => (params.loading.createOrUpdate = false)
+                            )
+                        } else {
+                            // 新增
+                            await handleAction(
+                                props.createModuleAction,
+                                props.createModuleMethod,
+                                Object.assign(
+                                    { ...params.form.module.validate },
+                                    { ...props.createModuleParams }
+                                ),
+                                'createModuleAction',
+                                (res?: ResponseData | any) => {
+                                    afterSuccess()
+                                    emit('afterCreateModule', res)
+                                },
+                                () => (params.loading.createOrUpdate = false)
+                            )
+                        }
+                    })
+                    .catch(() => (params.loading.createOrUpdate = false))
             }
         }
 
+        // 删除 - 模块
         const handleDeleteModule = (id: string | number) => {
             if (!id) {
                 message.destroy()
@@ -1408,6 +1460,7 @@ const MiAppsLanguage = defineComponent({
 
         init()
 
+        // 空状态
         const renderEmpty = () => {
             return (
                 <div class={styled.empty}>
@@ -1433,7 +1486,7 @@ const MiAppsLanguage = defineComponent({
                         <PlusOutlined />
                         {props.showBuiltinLanguages
                             ? t('language.custom')
-                            : t('language.customize.management')}
+                            : t('language.customize')}
                         {params.category.active === 'customize' ? (
                             <div
                                 class={[
@@ -1832,9 +1885,12 @@ const MiAppsLanguage = defineComponent({
                             if (record?.column?.key === 'language') {
                                 return renderCategorySelection()
                             }
+                            if (record?.column?.key === 'mid') {
+                                return renderModuleSelection()
+                            }
                         }
                     }}
-                    scroll={{ x: 992 }}></Table>
+                    scroll={{ x: 1024 }}></Table>
             ) : params.category.active === 'built-in' ? (
                 <Table
                     columns={params.table.builtin.columns}
@@ -1852,7 +1908,7 @@ const MiAppsLanguage = defineComponent({
                             }
                         }
                     }}
-                    scroll={{ x: 992 }}></Table>
+                    scroll={{ x: 1024 }}></Table>
             ) : null
         }
 
@@ -2008,6 +2064,33 @@ const MiAppsLanguage = defineComponent({
             ) : (
                 <div></div>
             )
+        }
+
+        // 模块选择器 - Table
+        const renderModuleSelection = () => {
+            return (
+                <Select
+                    v-model:value={params.table.module.current}
+                    onChange={() => setLanguages(params.search.key)}
+                    style={{ minWidth: $tools.convert2rem(160) }}>
+                    <SelectOption value={-1}>{t('language.modules.all')}</SelectOption>
+                    {...renderModuleOptions()}
+                </Select>
+            )
+        }
+
+        // 模块选项
+        const renderModuleOptions = () => {
+            const options = []
+            for (let i = 0, l = languages.modules.customize; i < l.length; i++) {
+                const cur = languages.modules.customize?.[i]
+                options.push(
+                    <SelectOption key={cur?.id} value={cur?.id}>
+                        {cur?.name}
+                    </SelectOption>
+                )
+            }
+            return [...options]
         }
 
         // 新增/更新 - 语系 - Form Modal
@@ -2180,7 +2263,7 @@ const MiAppsLanguage = defineComponent({
                     destroyOnClose={true}>
                     <Form
                         ref={contentFormRef}
-                        labelCol={{ style: { width: $tools.convert2rem(124) } }}
+                        labelCol={{ style: { width: $tools.convert2rem(128) } }}
                         model={params.form.content.validate}
                         rules={params.form.content.rules}>
                         <FormItem label={t('language.current')}>
@@ -2246,6 +2329,16 @@ const MiAppsLanguage = defineComponent({
                                 v-model:value={params.form.content.validate.status}
                             />
                         </FormItem>
+                        {languages.modules.customize.length > 0 ? (
+                            <FormItem label={t('language.content.module')} name="mid">
+                                <Select
+                                    v-model:value={params.form.content.validate.mid}
+                                    placeholder={t('global.select') + t('language.content.module')}
+                                    dropdownStyle={{ zIndex: Date.now() }}>
+                                    {...renderModuleOptions()}
+                                </Select>
+                            </FormItem>
+                        ) : null}
                         {params.form.content.edit ? null : (
                             <FormItem
                                 name="sync"
