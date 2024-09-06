@@ -2,9 +2,9 @@ export default {
     'zh-cn': `简体中文`,
     'en-us': `英文`,
     management: `语系管理`,
-    system: `内置语言项`,
-    custom: `自定义语言项`,
-    customize: `语言项管理`,
+    system: `系统语言`,
+    custom: `定制语言`,
+    customize: `语言管理`,
     module: `模块管理`,
     modules: {
         all: `所有模块`,
@@ -14,6 +14,12 @@ export default {
         customize: `自定义模块`,
         create: `新增模块`,
         update: `更新模块`
+    },
+    tips: {
+        customize: `自定义配置语系的语言项内容`,
+        builtin: `系统内置语言项内容，不支持新增/修改/删除等操作。`,
+        module: `按模块划分语言项，能有效降低关键词的耦合度及长度精简。`,
+        management: `内置中/英文双语系，支持百度翻译二十几种语系转换并同步关键词。`
     },
     placeholder: {
         search: `请输入待搜索关键词`,
@@ -39,10 +45,10 @@ export default {
     create: `新增语系`,
     update: `更新语系`,
     current: `当前语系`,
-    add: `新增配置`,
+    add: `新增语言项`,
     default: {
         none: `暂无设定语系`,
-        set: `设为默认`,
+        set: `设定默认语系`,
         name: `默认语系`,
         tip: `默认语系将作为新增语系的数据基础，新语系可选择是否生成一套与默认语系当前语言配置相同 Key 值的配置属性，同时可选自动翻译功能，调用百度翻译 API 所支持的语言内容进行自动翻译。`,
         setting: `设为默认语系`
@@ -87,7 +93,7 @@ export default {
         }
     },
     status: {
-        name: `状态管控`,
+        name: `批量启用/禁用`,
         title: `批量启用/禁用语言项状态`
     },
     delete: {

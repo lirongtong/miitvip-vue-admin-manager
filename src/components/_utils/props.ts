@@ -4,6 +4,8 @@ import { $tools } from '../../utils/tools'
 
 export const tuple = <T extends string[]>(...args: T) => args
 
+export type Override<P, S> = Omit<P, keyof S> & S
+
 export const methods = [
     'get',
     'post',

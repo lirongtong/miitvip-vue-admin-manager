@@ -43,10 +43,12 @@ import {
     CheckCircleOutlined,
     IssuesCloseOutlined,
     WarningFilled,
-    AppstoreAddOutlined
+    AppstoreAddOutlined,
+    MoreOutlined
 } from '@ant-design/icons-vue'
 import md5 from 'md5'
 import MiModal from '../../modal/Modal'
+import MiDropdown from '../../dropdown/Dropdown'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
 import styled from './style/language.module.less'
@@ -89,7 +91,7 @@ const MiAppsLanguage = defineComponent({
     ],
     setup(props, { emit }) {
         const setLocale = inject('setLocale') as any
-        const { messages, locale, t } = useI18n()
+        const { messages, locale, t, te } = useI18n()
         /**
          * 语言包
          * @param builtin 内置语言项
@@ -112,6 +114,7 @@ const MiAppsLanguage = defineComponent({
         const categoryFormRef = ref<FormInstance>()
         const contentFormRef = ref<FormInstance>()
         const moduleFormRef = ref<FormInstance>()
+        const searchInputRef = ref()
         const layoutStore = useLayoutStore()
         const collapsed = computed(() => layoutStore.collapsed)
 
@@ -274,7 +277,11 @@ const MiAppsLanguage = defineComponent({
                             key: 'key',
                             dataIndex: 'key',
                             align: 'left',
-                            width: 320
+                            width: 240,
+                            customFilterDropdown: true,
+                            onFilterDropdownOpenChange: (visible: boolean) => {
+                                if (visible) setTimeout(() => searchInputRef.value?.focus(), 100)
+                            }
                         },
                         {
                             key: 'language',
@@ -479,7 +486,7 @@ const MiAppsLanguage = defineComponent({
                     }
                 }
             },
-            search: { lang: 'zh-cn', key: '' },
+            search: { lang: 'zh-cn', key: '', been: false },
             form: {
                 category: {
                     id: 0,
@@ -665,7 +672,7 @@ const MiAppsLanguage = defineComponent({
                     key: 'mid',
                     dataIndex: 'module',
                     align: 'left',
-                    width: 240
+                    width: 200
                 })
                 await getModules()
             }
@@ -676,9 +683,16 @@ const MiAppsLanguage = defineComponent({
         const handleChangeTab = (tab: string) => {
             params.category.active = tab
             params.search.key = ''
-            if (tab === 'customize') setCategory()
-            else if (tab === 'built-in')
+            if (tab === 'built-in')
                 getBuiltinLanguages(messages.value?.[params.table.builtin.current])
+        }
+
+        const handleCustomizeClick = () => {
+            if (params.category.active !== 'customize') {
+                params.category.active = 'customize'
+                params.search.key = ''
+                setCategory()
+            }
         }
 
         // 获取自定义语言内容列表
@@ -1429,6 +1443,7 @@ const MiAppsLanguage = defineComponent({
         // 搜索
         const handleSearchContent = () => {
             if (params.search.key) {
+                params.search.been = true
                 if (params.category.active === 'customize') {
                     setLanguages(params.search.key, params.category.key)
                 } else {
@@ -1447,11 +1462,15 @@ const MiAppsLanguage = defineComponent({
 
         // 清除内容至空后自动触发搜索
         const handleSearchInput = () => {
-            if (!params.search.key) setLanguages(params.search.key, params.category.key)
+            if (!params.search.key) {
+                params.search.been = false
+                setLanguages(params.search.key, params.category.key)
+            }
         }
 
         // 重置搜索
         const handleResetContent = () => {
+            params.search.been = false
             if (params.search.key) {
                 params.search.key = ''
                 setLanguages(params.search.key, params.category.key)
@@ -1474,19 +1493,35 @@ const MiAppsLanguage = defineComponent({
             return (
                 <Row class={styled.categories}>
                     <div
-                        class={[
-                            styled.categoriesItem,
-                            styled.categoriesCustomize,
-                            {
-                                [styled.categoriesCustomizeActive]:
-                                    params.category.active === 'customize'
-                            }
-                        ]}
-                        onClick={() => handleChangeTab('customize')}>
+                        class={[styled.categoriesItem, styled.categoriesCustomize]}
+                        onClick={() => handleCustomizeClick()}>
+                        <div class={styled.categoriesItemMask}></div>
                         <PlusOutlined />
-                        {props.showBuiltinLanguages
-                            ? t('language.custom')
-                            : t('language.customize')}
+                        <div class={styled.categoriesItemInfo}>
+                            <div
+                                class={styled.categoriesItemTitle}
+                                innerHTML={
+                                    props.showBuiltinLanguages
+                                        ? t('language.custom')
+                                        : t('language.customize')
+                                }></div>
+                            {te('language.tips.customize') ? (
+                                <div
+                                    class={[
+                                        styled.categoriesItemTip,
+                                        styled.categoriesCustomizeTip
+                                    ]}
+                                    innerHTML={t('language.tips.customize')}></div>
+                            ) : null}
+                        </div>
+                        <div class={styled.categoriesItemMore}>
+                            <MiDropdown
+                                v-slots={{
+                                    title: () => {
+                                        return <MoreOutlined />
+                                    }
+                                }}></MiDropdown>
+                        </div>
                         {params.category.active === 'customize' ? (
                             <div
                                 class={[
@@ -1499,17 +1534,22 @@ const MiAppsLanguage = defineComponent({
                     </div>
                     {props.showBuiltinLanguages ? (
                         <div
-                            class={[
-                                styled.categoriesItem,
-                                styled.categoriesBuiltin,
-                                {
-                                    [styled.categoriesBuiltinActive]:
-                                        params.category.active === 'built-in'
-                                }
-                            ]}
+                            class={[styled.categoriesItem, styled.categoriesBuiltin]}
                             onClick={() => handleChangeTab('built-in')}>
                             <FormOutlined />
-                            {t('language.system')}
+                            <div class={styled.categoriesItemInfo}>
+                                <div
+                                    class={styled.categoriesItemTitle}
+                                    innerHTML={t('language.system')}></div>
+                                {te('language.tips.builtin') ? (
+                                    <div
+                                        class={[
+                                            styled.categoriesItemTip,
+                                            styled.categoriesBuiltinTip
+                                        ]}
+                                        innerHTML={t('language.tips.builtin')}></div>
+                                ) : null}
+                            </div>
                             {params.category.active === 'built-in' ? (
                                 <div
                                     class={[
@@ -1523,19 +1563,24 @@ const MiAppsLanguage = defineComponent({
                     ) : null}
                     {props.getModuleAction ? (
                         <div
-                            class={[
-                                styled.categoriesItem,
-                                styled.categoriesModule,
-                                {
-                                    [styled.categoriesModuleActive]:
-                                        params.category.active === 'module'
-                                }
-                            ]}
+                            class={[styled.categoriesItem, styled.categoriesModule]}
                             onClick={() =>
                                 (params.modal.modules.management = !params.modal.modules.management)
                             }>
                             <AppstoreAddOutlined />
-                            {t('language.module')}
+                            <div class={styled.categoriesItemInfo}>
+                                <div
+                                    class={styled.categoriesItemTitle}
+                                    innerHTML={t('language.module')}></div>
+                                {te('language.tips.module') ? (
+                                    <div
+                                        class={[
+                                            styled.categoriesItemTip,
+                                            styled.categoriesModuleTip
+                                        ]}
+                                        innerHTML={t('language.tips.module')}></div>
+                                ) : null}
+                            </div>
                             {params.category.active === 'module' ? (
                                 <div
                                     class={[
@@ -1548,19 +1593,24 @@ const MiAppsLanguage = defineComponent({
                         </div>
                     ) : null}
                     <div
-                        class={[
-                            styled.categoriesItem,
-                            styled.categoriesManagement,
-                            {
-                                [styled.categoriesManagementActive]:
-                                    params.category.active === 'management'
-                            }
-                        ]}
+                        class={[styled.categoriesItem, styled.categoriesManagement]}
                         onClick={() =>
                             (params.modal.category.management = !params.modal.category.management)
                         }>
                         <GlobalOutlined />
-                        {t('language.management')}
+                        <div class={styled.categoriesItemInfo}>
+                            <div
+                                class={styled.categoriesItemTitle}
+                                innerHTML={t('language.management')}></div>
+                            {te('language.tips.management') ? (
+                                <div
+                                    class={[
+                                        styled.categoriesItemTip,
+                                        styled.categoriesManagementTip
+                                    ]}
+                                    innerHTML={t('language.tips.management')}></div>
+                            ) : null}
+                        </div>
                         {params.category.active === 'management' ? (
                             <div
                                 class={[
@@ -1577,50 +1627,9 @@ const MiAppsLanguage = defineComponent({
 
         // 操作区域 ( 搜索等 )
         const renderAction = () => {
-            const searchBtn = (
-                <div class={[styled.searchLeft, { [styled.searchLeftCollapsed]: collapsed.value }]}>
-                    <div class={styled.searchItem}>
-                        <div class={styled.searchItemInput}>
-                            <span innerHTML={`${t('global.key')}${t('global.colon')}`}></span>
-                            <Input
-                                v-model:value={params.search.key}
-                                placeholder={t('language.placeholder.search')}
-                                onPressEnter={handleSearchContent}
-                                onInput={handleSearchInput}
-                            />
-                        </div>
-                        <div class={styled.searchItemBtns}>
-                            <Button
-                                type="primary"
-                                v-slots={{
-                                    icon: () => {
-                                        return <SearchOutlined />
-                                    }
-                                }}
-                                onClick={handleSearchContent}>
-                                {t('global.seek')}
-                            </Button>
-                            <Button
-                                type="primary"
-                                v-slots={{
-                                    icon: () => {
-                                        return <ReloadOutlined />
-                                    }
-                                }}
-                                onClick={handleResetContent}>
-                                {t('global.reset')}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )
             const actionBtn =
                 params.category.active === 'customize' ? (
-                    <div
-                        class={[
-                            styled.searchRight,
-                            { [styled.searchRightCollapsed]: collapsed.value }
-                        ]}>
+                    <>
                         <Popconfirm
                             overlayStyle={{ zIndex: Date.now() }}
                             okText={t('global.ok')}
@@ -1654,12 +1663,13 @@ const MiAppsLanguage = defineComponent({
                                     )
                                 }
                             }}>
-                            <Button type="primary" icon={<CheckOutlined />}>
+                            <Button type="primary" size="large" icon={<CheckOutlined />}>
                                 {t('language.default.set')}
                             </Button>
                         </Popconfirm>
                         <Button
                             type="default"
+                            size="large"
                             class={styled.btnInfo}
                             icon={<EditOutlined />}
                             onClick={handleCreateContentModalState}>
@@ -1708,7 +1718,10 @@ const MiAppsLanguage = defineComponent({
                                     )
                                 }
                             }}>
-                            <Button class={styled.btnWarn} icon={<IssuesCloseOutlined />}>
+                            <Button
+                                class={styled.btnWarn}
+                                size="large"
+                                icon={<IssuesCloseOutlined />}>
                                 {t('language.status.name')}
                             </Button>
                         </Popover>
@@ -1716,7 +1729,6 @@ const MiAppsLanguage = defineComponent({
                             v-model:open={params.modal.delete}
                             overlayStyle={{ zIndex: Date.now() }}
                             trigger="click"
-                            placement="topLeft"
                             v-slots={{
                                 title: () => {
                                     return (
@@ -1763,15 +1775,14 @@ const MiAppsLanguage = defineComponent({
                                     )
                                 }
                             }}>
-                            <Button type="primary" icon={<DeleteOutlined />} danger>
+                            <Button type="primary" size="large" icon={<DeleteOutlined />} danger>
                                 {t('global.delete.batch')}
                             </Button>
                         </Popover>
-                    </div>
+                    </>
                 ) : null
             return (
                 <Row class={[styled.search, { [styled.searchCollapsed]: collapsed.value }]}>
-                    {searchBtn}
                     {actionBtn}
                 </Row>
             )
@@ -1855,6 +1866,43 @@ const MiAppsLanguage = defineComponent({
             return options
         }
 
+        // 表格过滤 - 搜索
+        const renderFilterDropdown = () => {
+            return (
+                <div class={styled.searchFilter}>
+                    <Input
+                        ref={searchInputRef}
+                        v-model:value={params.search.key}
+                        placeholder={t('language.placeholder.search')}
+                        onPressEnter={handleSearchContent}
+                        onInput={handleSearchInput}
+                    />
+                    <div class={styled.searchFilterBtns}>
+                        <Button
+                            type="primary"
+                            v-slots={{
+                                icon: () => {
+                                    return <SearchOutlined />
+                                }
+                            }}
+                            onClick={handleSearchContent}>
+                            {t('global.seek')}
+                        </Button>
+                        <Button
+                            type="primary"
+                            v-slots={{
+                                icon: () => {
+                                    return <ReloadOutlined />
+                                }
+                            }}
+                            onClick={handleResetContent}>
+                            {t('global.reset')}
+                        </Button>
+                    </div>
+                </div>
+            )
+        }
+
         // 表格
         const renderTable = () => {
             return params.category.active === 'customize' ? (
@@ -1882,13 +1930,19 @@ const MiAppsLanguage = defineComponent({
                     loading={params.loading.languages}
                     v-slots={{
                         headerCell: (record: any) => {
-                            if (record?.column?.key === 'language') {
-                                return renderCategorySelection()
-                            }
-                            if (record?.column?.key === 'mid') {
-                                return renderModuleSelection()
-                            }
-                        }
+                            if (record?.column?.key === 'language') return renderCategorySelection()
+                            if (record?.column?.key === 'mid') return renderModuleSelection()
+                        },
+                        customFilterDropdown: () => renderFilterDropdown(),
+                        customFilterIcon: () => (
+                            <SearchOutlined
+                                style={{
+                                    color: params.search.been ? 'var(--mi-primary)' : undefined,
+                                    fontSize: $tools.convert2rem(16),
+                                    fontWeight: 700
+                                }}
+                            />
+                        )
                     }}
                     scroll={{ x: 1024 }}></Table>
             ) : params.category.active === 'built-in' ? (
