@@ -1321,7 +1321,14 @@ const MiAppsLanguage = defineComponent({
                                 message.error(res?.ret?.message)
                             } else await callback?.(res)
                         })
-                        .catch((err: any) => message.error(err?.message || err))
+                        .catch((err: any) => {
+                            message.destroy()
+                            message.error({
+                                content:
+                                    err?.message || err?.statusText || t('global.error.unknown'),
+                                duration: 10
+                            })
+                        })
                         .finally(() => commonCallback?.())
                 } else if (typeof action === 'function') {
                     const response = await action(params)
