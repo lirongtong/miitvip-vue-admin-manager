@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
 import { $request } from '../../../utils/request'
-import { type ResponseData } from '../../../utils/types'
+import { DropdownItem, type ResponseData } from '../../../utils/types'
 import { useLayoutStore } from '../../../stores/layout'
 import {
     ConfigProvider,
@@ -117,6 +117,28 @@ const MiAppsLanguage = defineComponent({
         const searchInputRef = ref()
         const layoutStore = useLayoutStore()
         const collapsed = computed(() => layoutStore.collapsed)
+        const customizeMenus = ref<Partial<DropdownItem>[]>([
+            {
+                name: 'set-default',
+                title: t('language.default.set'),
+                icon: CheckOutlined
+            },
+            {
+                name: 'create-language-item',
+                title: t('language.add'),
+                icon: EditOutlined
+            },
+            {
+                name: 'batch-delete-language-item',
+                title: t('global.delete.batch'),
+                icon: IssuesCloseOutlined
+            },
+            {
+                name: 'batch-update-language-item-status',
+                title: t('language.status.name'),
+                icon: DeleteOutlined
+            }
+        ])
 
         // 检验- 语系 key 值
         const checkCategoryKeyValidate = async (_rule: any, value: string) => {
@@ -1527,7 +1549,8 @@ const MiAppsLanguage = defineComponent({
                                     title: () => {
                                         return <MoreOutlined />
                                     }
-                                }}></MiDropdown>
+                                }}
+                                items={customizeMenus.value}></MiDropdown>
                         </div>
                         {params.category.active === 'customize' ? (
                             <div
@@ -2518,7 +2541,7 @@ const MiAppsLanguage = defineComponent({
                     locale={props.paginationLocale ?? zhCN}
                     renderEmpty={() => renderEmpty()}>
                     {renderTabs()}
-                    {renderAction()}
+                    {/* {renderAction()} */}
                     {renderTable()}
                     {renderCategoriesModal()}
                     {renderModulesModal()}
