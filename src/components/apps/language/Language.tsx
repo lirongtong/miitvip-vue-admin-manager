@@ -1,11 +1,10 @@
-import { defineComponent, reactive, ref, inject, computed } from 'vue'
+import { defineComponent, reactive, ref, inject } from 'vue'
 import { type LanguageItemProperties, LanguageProps, type LanguageModuleProperties } from './props'
 import { useI18n } from 'vue-i18n'
 import { $g } from '../../../utils/global'
 import { $tools } from '../../../utils/tools'
 import { $request } from '../../../utils/request'
-import { DropdownItem, type ResponseData } from '../../../utils/types'
-import { useLayoutStore } from '../../../stores/layout'
+import { type ResponseData } from '../../../utils/types'
 import {
     ConfigProvider,
     message,
@@ -43,12 +42,10 @@ import {
     CheckCircleOutlined,
     IssuesCloseOutlined,
     WarningFilled,
-    AppstoreAddOutlined,
-    MoreOutlined
+    AppstoreAddOutlined
 } from '@ant-design/icons-vue'
 import md5 from 'md5'
 import MiModal from '../../modal/Modal'
-import MiDropdown from '../../dropdown/Dropdown'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
 import styled from './style/language.module.less'
@@ -115,30 +112,6 @@ const MiAppsLanguage = defineComponent({
         const contentFormRef = ref<FormInstance>()
         const moduleFormRef = ref<FormInstance>()
         const searchInputRef = ref()
-        const layoutStore = useLayoutStore()
-        const collapsed = computed(() => layoutStore.collapsed)
-        const customizeMenus = ref<Partial<DropdownItem>[]>([
-            {
-                name: 'set-default',
-                title: t('language.default.set'),
-                icon: CheckOutlined
-            },
-            {
-                name: 'create-language-item',
-                title: t('language.add'),
-                icon: EditOutlined
-            },
-            {
-                name: 'batch-delete-language-item',
-                title: t('global.delete.batch'),
-                icon: IssuesCloseOutlined
-            },
-            {
-                name: 'batch-update-language-item-status',
-                title: t('language.status.name'),
-                icon: DeleteOutlined
-            }
-        ])
 
         // 检验- 语系 key 值
         const checkCategoryKeyValidate = async (_rule: any, value: string) => {
@@ -1543,15 +1516,6 @@ const MiAppsLanguage = defineComponent({
                                     innerHTML={t('language.tips.customize')}></div>
                             ) : null}
                         </div>
-                        <div class={styled.categoriesItemMore}>
-                            <MiDropdown
-                                v-slots={{
-                                    title: () => {
-                                        return <MoreOutlined />
-                                    }
-                                }}
-                                items={customizeMenus.value}></MiDropdown>
-                        </div>
                         {params.category.active === 'customize' ? (
                             <div
                                 class={[
@@ -1811,11 +1775,7 @@ const MiAppsLanguage = defineComponent({
                         </Popover>
                     </>
                 ) : null
-            return (
-                <Row class={[styled.search, { [styled.searchCollapsed]: collapsed.value }]}>
-                    {actionBtn}
-                </Row>
-            )
+            return actionBtn ? <Row class={[styled.search]}>{actionBtn}</Row> : null
         }
 
         // Table - 语系下拉选择列表
@@ -2541,7 +2501,7 @@ const MiAppsLanguage = defineComponent({
                     locale={props.paginationLocale ?? zhCN}
                     renderEmpty={() => renderEmpty()}>
                     {renderTabs()}
-                    {/* {renderAction()} */}
+                    {renderAction()}
                     {renderTable()}
                     {renderCategoriesModal()}
                     {renderModulesModal()}

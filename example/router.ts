@@ -201,7 +201,7 @@ const menuRoutes: Array<RouteRecordRaw> = [
         }, {
             path: '/advanced',
             name: 'advanced',
-            meta: { title: '定制组件' },
+            meta: { title: '高级应用' },
             component: Advanced,
             redirect: '/advanced/language',
             children: [
