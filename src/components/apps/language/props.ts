@@ -19,7 +19,6 @@ export interface BaiduTranslateProperties {
  * +=====================+
  * |       翻译属性       |
  * +=====================+
- * @param type 翻译类型 ( 默认百度 )
  * @param baidu 百度翻译配置
  * @param languages 自定义翻译语言列表
  * @param defaultLanguage 自定义翻译语言列表默认选中值
@@ -27,7 +26,6 @@ export interface BaiduTranslateProperties {
  */
 export interface TranslateProperties {
     [key: string]: any
-    type: string
     baidu: Partial<BaiduTranslateProperties>
     languages: Record<string, string>
     defaultLanguage: string
@@ -77,6 +75,7 @@ export interface LanguageModuleProperties {
  * |       语言配置属性       |
  * +=========================+
  * @param translate 翻译配置
+ * @param translateType 翻译类型 ( 默认: baidu )
  * @param data 语言项数据
  * @param category 语言分类数据
  * @param getCategoryAction 获取语言分类接口地址或自定义方法
@@ -140,6 +139,7 @@ export interface LanguageModuleProperties {
  */
 export interface LanguageProperties {
     translate: Partial<TranslateProperties>
+    translateType: string
     data: Partial<LanguageItemProperties>[]
     category: Partial<LanguageItemProperties>[]
     getCategoryAction: string | Function
@@ -204,7 +204,8 @@ export interface LanguageProperties {
 }
 
 export const LanguageProps = () => ({
-    translate: object<Partial<TranslateProperties>>().def({ type: 'baidu' }),
+    translate: object<Partial<TranslateProperties>>().def({}),
+    translateType: PropTypes.string.def('baidu'),
     data: array<LanguageItemProperties>().def([]),
     category: array<LanguageItemProperties>().def([]),
     getCategoryAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,

@@ -1356,7 +1356,7 @@ const MiAppsLanguage = defineComponent({
         // 自动翻译
         const handleAutomaticTranslate = async (res?: ResponseData | any) => {
             // 翻译类型
-            const type = props.translate?.type
+            const type = props.translateType
             /**
              * TODO: 默认调用百度翻译.
              * TODO: 默认翻译同时限定接口响应数据结构, 否则默认自动翻译无法使用.
@@ -1404,8 +1404,9 @@ const MiAppsLanguage = defineComponent({
                                     for (let x = 0, y = list.length; x < y; x++) {
                                         items.push({
                                             cid: id,
-                                            key: list[x].key,
-                                            language: list[x].language
+                                            key: list[x]?.key,
+                                            mid: list[x]?.mid,
+                                            language: list[x]?.language
                                         })
                                     }
                                 } else {
@@ -1416,6 +1417,7 @@ const MiAppsLanguage = defineComponent({
                                         items.push({
                                             cid: id,
                                             key: origin?.key,
+                                            mid: origin?.mid,
                                             language: item?.dst
                                         })
                                     }
