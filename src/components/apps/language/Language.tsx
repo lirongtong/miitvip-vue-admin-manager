@@ -698,7 +698,6 @@ const MiAppsLanguage = defineComponent({
 
         // 初始化
         const init = async () => {
-            getBuiltinLanguages(messages.value?.[locale.value])
             if (props.getModuleAction) {
                 params.table.customize.columns.splice(1, 0, {
                     title: t('language.modules.belong'),
@@ -709,6 +708,7 @@ const MiAppsLanguage = defineComponent({
                 })
                 await getModules()
             }
+            getBuiltinLanguages(messages.value?.[locale.value])
             await setCategory()
         }
 
@@ -743,7 +743,18 @@ const MiAppsLanguage = defineComponent({
                 const data = res instanceof Array ? res : res?.data || []
                 if (Object.keys(languages.modules.types.customize).length > 0) {
                     for (let i = 0, l = data.length; i < l; i++) {
-                        data[i].module = languages.modules.types.customize?.[data[i]?.mid] || '-'
+                        const name = languages.modules.types.customize?.[data[i]?.mid]
+                        const module = name ? (
+                            <div class={styled.modulesName}>
+                                <span innerHTML={name}></span>
+                                <Tag color="cyan" bordered={false}>
+                                    {languages.modules.names.customize?.[data?.[i]?.mid]}
+                                </Tag>
+                            </div>
+                        ) : (
+                            '-'
+                        )
+                        data[i].module = module
                     }
                 }
                 languages.customize = data
@@ -786,14 +797,14 @@ const MiAppsLanguage = defineComponent({
         const getBuiltinLanguages = (data: any, idx?: string) => {
             if (Object.keys(data).length > 0) {
                 for (const i in data) {
-                    const type = typeof data[i]
+                    const type = typeof data?.[i]
                     const key = (!$tools.isEmpty(idx) ? `${idx}.` : '') + i
                     if (['object', 'array'].includes(type)) {
                         getBuiltinLanguages(data[i], key)
                     } else {
                         const item = {
                             key,
-                            language: data[i],
+                            language: data?.[i],
                             type: 'system'
                         } as LanguageItemProperties
                         if (data?.id) item.id = data.id
