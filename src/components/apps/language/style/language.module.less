@@ -477,6 +477,21 @@
     }
 }
 
+.copied {
+    .flex();
+
+    :global {
+        .anticon {
+            .properties(margin-right, 4);
+            color: var(--mi-primary);
+        }
+    }
+
+    span {
+        color: var(--mi-primary);
+    }
+}
+
 :global {
     .ant-form {
         .ant-form-item {

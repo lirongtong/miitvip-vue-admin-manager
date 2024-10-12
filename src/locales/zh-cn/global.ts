@@ -82,5 +82,7 @@ export default {
     available: `上架`,
     removed: `下架`,
     select: `请选择`,
-    name: `名称`
+    name: `名称`,
+    copy: `复制`,
+    copied: `复制成功`
 }

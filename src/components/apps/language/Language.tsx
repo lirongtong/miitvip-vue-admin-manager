@@ -42,9 +42,11 @@ import {
     CheckCircleOutlined,
     IssuesCloseOutlined,
     WarningFilled,
-    AppstoreAddOutlined
+    AppstoreAddOutlined,
+    CopyOutlined
 } from '@ant-design/icons-vue'
 import md5 from 'md5'
+import useClipboard from 'vue-clipboard3'
 import MiModal from '../../modal/Modal'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
@@ -89,12 +91,16 @@ const MiAppsLanguage = defineComponent({
     setup(props, { emit }) {
         const setLocale = inject('setLocale') as any
         const { messages, locale, t, te } = useI18n()
+        const { toClipboard } = useClipboard()
         /**
          * 语言包
          * @param builtin 内置语言项
          * @param customize 自定义语言项
          * @param modules.customize 自定义语言项模块
          * @param modules.builtin 系统内置语言项模块
+         * @param modules.names.builtin 系统内置语言项模块名称与ID对应关系
+         * @param modules.names.customize 系统内置语言项模块名称与ID对应关系
+         * @param copyTip 复制提示状态
          */
         const languages = reactive({
             builtin: [] as LanguageItemProperties[],
@@ -105,8 +111,13 @@ const MiAppsLanguage = defineComponent({
                 types: {
                     builtin: {} as Record<string, string>,
                     customize: {} as Record<number, string>
+                },
+                names: {
+                    builtin: {} as Record<number, string>,
+                    customize: {} as Record<number, string>
                 }
-            }
+            },
+            copyTip: {} as any
         })
         const categoryFormRef = ref<FormInstance>()
         const contentFormRef = ref<FormInstance>()
@@ -272,7 +283,7 @@ const MiAppsLanguage = defineComponent({
                             key: 'key',
                             dataIndex: 'key',
                             align: 'left',
-                            width: 240,
+                            width: 320,
                             customFilterDropdown: true,
                             onFilterDropdownOpenChange: (visible: boolean) => {
                                 if (visible) setTimeout(() => searchInputRef.value?.focus(), 100)
@@ -310,7 +321,7 @@ const MiAppsLanguage = defineComponent({
                             title: t('global.action'),
                             key: 'action',
                             align: 'center',
-                            width: 270,
+                            width: 390,
                             customRender: ({ record }) => {
                                 return (
                                     <div class={styled.actionBtns}>
@@ -320,25 +331,33 @@ const MiAppsLanguage = defineComponent({
                                             onClick={() => handleUpdateContentModalState(record)}>
                                             {t('global.edit')}
                                         </Button>
-                                        <Popconfirm
-                                            title={t('global.delete.confirm')}
-                                            overlayStyle={{
-                                                zIndex: Date.now(),
-                                                minWidth: $tools.convert2rem(210)
-                                            }}
-                                            okText={t('global.ok')}
-                                            cancelText={t('global.cancel')}
-                                            okButtonProps={{
-                                                onClick: () => handleDeleteContent(record?.id)
-                                            }}
-                                            key={record?.key}>
+                                        <Tooltip
+                                            v-model:open={languages.copyTip[record?.id]}
+                                            trigger="click"
+                                            overlayStyle={{ zIndex: Date.now() }}
+                                            v-slots={{
+                                                title: () => {
+                                                    return (
+                                                        <div class={styled.copied}>
+                                                            <CheckCircleOutlined />
+                                                            <span
+                                                                innerHTML={t(
+                                                                    'global.copied'
+                                                                )}></span>
+                                                        </div>
+                                                    )
+                                                }
+                                            }}>
                                             <Button
-                                                type="primary"
-                                                danger={true}
-                                                icon={<DeleteOutlined />}>
-                                                {t('global.delete.normal')}
+                                                type="default"
+                                                class={styled.btnInfo}
+                                                icon={<CopyOutlined />}
+                                                onClick={() =>
+                                                    handleCopyLanguageKey('customize', record)
+                                                }>
+                                                {t('global.copy')}
                                             </Button>
-                                        </Popconfirm>
+                                        </Tooltip>
                                         <Button
                                             class={styled.btnWarn}
                                             type="default"
@@ -359,6 +378,25 @@ const MiAppsLanguage = defineComponent({
                                                 ? t('global.disable')
                                                 : t('global.enable')}
                                         </Button>
+                                        <Popconfirm
+                                            title={t('global.delete.confirm')}
+                                            overlayStyle={{
+                                                zIndex: Date.now(),
+                                                minWidth: $tools.convert2rem(210)
+                                            }}
+                                            okText={t('global.ok')}
+                                            cancelText={t('global.cancel')}
+                                            okButtonProps={{
+                                                onClick: () => handleDeleteContent(record?.id)
+                                            }}
+                                            key={record?.key}>
+                                            <Button
+                                                type="primary"
+                                                danger={true}
+                                                icon={<DeleteOutlined />}>
+                                                {t('global.delete.normal')}
+                                            </Button>
+                                        </Popconfirm>
                                     </div>
                                 )
                             }
@@ -857,9 +895,11 @@ const MiAppsLanguage = defineComponent({
                             if (cur?.is_builtin) {
                                 languages.modules.builtin.push(cur)
                                 languages.modules.types.builtin[cur?.key] = cur?.name
+                                languages.modules.names.builtin[cur?.id] = cur?.key
                             } else {
                                 languages.modules.customize.push(cur)
                                 languages.modules.types.customize[cur?.id] = cur?.name
+                                languages.modules.names.customize[cur?.id] = cur?.key
                             }
                         }
                     } else if (res instanceof Array) languages.modules.customize = res
@@ -1059,6 +1099,18 @@ const MiAppsLanguage = defineComponent({
             handleCreateContentModalState()
             params.modal.content = false
             if (contentFormRef.value) contentFormRef.value?.clearValidate()
+        }
+
+        // 语言项 - 复制 key 值
+        const handleCopyLanguageKey = async (type: string, data?: any) => {
+            const module = languages.modules.names?.[type]?.[data?.mid]
+            const key = module ? module + '.' + data?.key : data?.key
+            await toClipboard(key)
+                .then(() => {
+                    languages.copyTip[data?.id] = true
+                    setTimeout(() => (languages.copyTip[data?.id] = false), 3000)
+                })
+                .catch(() => (languages.copyTip[data?.id] = false))
         }
 
         // 新增/更新 - 语言项 - action
@@ -1936,7 +1988,7 @@ const MiAppsLanguage = defineComponent({
                             />
                         )
                     }}
-                    scroll={{ x: 1024 }}></Table>
+                    scroll={{ x: 1200 }}></Table>
             ) : params.category.active === 'built-in' ? (
                 <Table
                     columns={params.table.builtin.columns}

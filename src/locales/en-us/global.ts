@@ -82,5 +82,7 @@ export default {
     available: `Available`,
     removed: `Removed`,
     select: `Please select`,
-    name: `Name`
+    name: `Name`,
+    copy: `Copy`,
+    copied: `Copied`
 }
