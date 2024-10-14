@@ -955,9 +955,9 @@ const MiAppsLanguage = defineComponent({
             // 直接打开新增内容 Modal 状态, 重置回 false
             params.modal.category.createDirect = false
             params.form.category.id = 0
-            params.form.category.edit = false
             params.form.category.validate = { key: '', language: '', is_default: 0 }
             if (categoryFormRef.value) categoryFormRef.value?.clearValidate()
+            setTimeout(() => (params.form.category.edit = false), 400)
         }
 
         // 编辑语系 - Modal State
@@ -2278,77 +2278,83 @@ const MiAppsLanguage = defineComponent({
                                 disabled={params.loading.createOrUpdate}
                             />
                         </FormItem>
-                        <FormItem
-                            v-slots={{
-                                label: () => {
-                                    return (
-                                        <>
-                                            <span style={{ marginRight: $tools.convert2rem(4) }}>
-                                                {t('language.translate.auto')}
-                                            </span>
-                                            <Tooltip
-                                                overlayStyle={{ zIndex: Date.now() }}
-                                                v-slots={{
-                                                    title: () => {
-                                                        return (
-                                                            <div
-                                                                innerHTML={t(
-                                                                    'language.translate.tip'
-                                                                )}></div>
-                                                        )
-                                                    }
-                                                }}>
-                                                <span class={styled.formTip}>
-                                                    <ExclamationCircleOutlined />
+                        {params.form.category.edit ? null : (
+                            <FormItem
+                                v-slots={{
+                                    label: () => {
+                                        return (
+                                            <>
+                                                <span
+                                                    style={{ marginRight: $tools.convert2rem(4) }}>
+                                                    {t('language.translate.auto')}
                                                 </span>
-                                            </Tooltip>
-                                        </>
-                                    )
-                                }
-                            }}>
-                            <RadioGroup
-                                options={params.form.category.options}
-                                v-model:value={params.translate.form.translate}
-                                disabled={params.loading.createOrUpdate}
-                            />
-                        </FormItem>
-                        <FormItem
-                            v-slots={{
-                                label: () => {
-                                    return (
-                                        <>
-                                            <span style={{ marginRight: $tools.convert2rem(4) }}>
-                                                {t('language.translate.target')}
-                                            </span>
-                                            <Tooltip
-                                                overlayStyle={{ zIndex: Date.now() }}
-                                                v-slots={{
-                                                    title: () => {
-                                                        return (
-                                                            <div
-                                                                innerHTML={t(
-                                                                    'language.translate.explain'
-                                                                )}></div>
-                                                        )
-                                                    }
-                                                }}>
-                                                <span class={styled.formTip}>
-                                                    <ExclamationCircleOutlined />
+                                                <Tooltip
+                                                    overlayStyle={{ zIndex: Date.now() }}
+                                                    v-slots={{
+                                                        title: () => {
+                                                            return (
+                                                                <div
+                                                                    innerHTML={t(
+                                                                        'language.translate.tip'
+                                                                    )}></div>
+                                                            )
+                                                        }
+                                                    }}>
+                                                    <span class={styled.formTip}>
+                                                        <ExclamationCircleOutlined />
+                                                    </span>
+                                                </Tooltip>
+                                            </>
+                                        )
+                                    }
+                                }}>
+                                <RadioGroup
+                                    options={params.form.category.options}
+                                    v-model:value={params.translate.form.translate}
+                                    disabled={params.loading.createOrUpdate}
+                                />
+                            </FormItem>
+                        )}
+                        {!params.form.category.edit && params.translate.form.translate ? (
+                            <FormItem
+                                v-slots={{
+                                    label: () => {
+                                        return (
+                                            <>
+                                                <span
+                                                    style={{ marginRight: $tools.convert2rem(4) }}>
+                                                    {t('language.translate.target')}
                                                 </span>
-                                            </Tooltip>
-                                        </>
-                                    )
-                                }
-                            }}>
-                            <Select
-                                v-model:value={params.translate.form.target}
-                                placeholder={t('language.placeholder.language.active')}
-                                style={{ width: '100%' }}
-                                dropdownStyle={{ zIndex: Date.now() }}
-                                disabled={params.loading.createOrUpdate}>
-                                {renderTargetLanguageOptions()}
-                            </Select>
-                        </FormItem>
+                                                <Tooltip
+                                                    overlayStyle={{ zIndex: Date.now() }}
+                                                    v-slots={{
+                                                        title: () => {
+                                                            return (
+                                                                <div
+                                                                    innerHTML={t(
+                                                                        'language.translate.explain'
+                                                                    )}></div>
+                                                            )
+                                                        }
+                                                    }}>
+                                                    <span class={styled.formTip}>
+                                                        <ExclamationCircleOutlined />
+                                                    </span>
+                                                </Tooltip>
+                                            </>
+                                        )
+                                    }
+                                }}>
+                                <Select
+                                    v-model:value={params.translate.form.target}
+                                    placeholder={t('language.placeholder.language.active')}
+                                    style={{ width: '100%' }}
+                                    dropdownStyle={{ zIndex: Date.now() }}
+                                    disabled={params.loading.createOrUpdate}>
+                                    {renderTargetLanguageOptions()}
+                                </Select>
+                            </FormItem>
+                        ) : null}
                     </Form>
                 </MiModal>
             )
