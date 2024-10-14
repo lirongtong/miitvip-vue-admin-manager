@@ -421,6 +421,45 @@ const MiAppsLanguage = defineComponent({
                             key: 'language',
                             dataIndex: 'language',
                             align: 'left'
+                        },
+                        {
+                            title: t('global.action'),
+                            key: 'action',
+                            align: 'center',
+                            width: 160,
+                            customRender: ({ record }) => {
+                                return (
+                                    <div class={styled.actionBtns}>
+                                        <Tooltip
+                                            v-model:open={languages.copyTip[record?.id]}
+                                            trigger="click"
+                                            overlayStyle={{ zIndex: Date.now() }}
+                                            v-slots={{
+                                                title: () => {
+                                                    return (
+                                                        <div class={styled.copied}>
+                                                            <CheckCircleOutlined />
+                                                            <span
+                                                                innerHTML={t(
+                                                                    'global.copied'
+                                                                )}></span>
+                                                        </div>
+                                                    )
+                                                }
+                                            }}>
+                                            <Button
+                                                type="default"
+                                                class={styled.btnInfo}
+                                                icon={<CopyOutlined />}
+                                                onClick={() =>
+                                                    handleCopyLanguageKey('builtin', record)
+                                                }>
+                                                {t('global.copy')}
+                                            </Button>
+                                        </Tooltip>
+                                    </div>
+                                )
+                            }
                         }
                     ] as any[],
                     pagination: {
@@ -706,9 +745,17 @@ const MiAppsLanguage = defineComponent({
                     align: 'left',
                     width: 200
                 })
+                params.table.builtin.columns.splice(1, 0, {
+                    title: t('language.modules.belong'),
+                    key: 'mid',
+                    dataIndex: 'module',
+                    align: 'left',
+                    width: 200
+                })
                 await getModules()
             }
             getBuiltinLanguages(messages.value?.[locale.value])
+            setBuiltinLanguagesModule()
             await setCategory()
         }
 
@@ -811,6 +858,34 @@ const MiAppsLanguage = defineComponent({
                         languages.builtin.push(item)
                     }
                 }
+            }
+        }
+
+        const getBuiltinLanguagesByModule = () => {
+            const moduleLanguages = []
+            for (let i = 0, l = languages.builtin?.length; i < l; i++) {
+                const cur = languages.builtin?.[i]
+                if (cur?.mid === params.table.module.current) {
+                    moduleLanguages.push(cur)
+                }
+            }
+        }
+
+        // 系统内置语言项模块
+        const setBuiltinLanguagesModule = () => {
+            for (let i = 0, l = languages.builtin?.length; i < l; i++) {
+                const item = languages.builtin?.[i]
+                const keys = (item?.key || '').split('.')
+                const m = keys?.[0]
+                const mid =
+                    (Object.keys(languages.modules.names.builtin) || []).filter(
+                        (key: any) => languages.modules.names.builtin?.[key] === m
+                    )?.[0] || 0
+                const module = languages.modules.types.builtin?.[m]
+                item.id = $tools.uid()
+                item.module = module
+                item.mid = mid
+                item.key = item?.key.replace(`${m}.`, '')
             }
         }
 
@@ -2015,6 +2090,9 @@ const MiAppsLanguage = defineComponent({
                             if (record.column.key === 'language') {
                                 return renderBuiltinCategorySelection()
                             }
+                            if (record?.column?.key === 'mid') {
+                                return renderModuleSelection('builtin')
+                            }
                         }
                     }}
                     scroll={{ x: 1024 }}></Table>
@@ -2176,23 +2254,27 @@ const MiAppsLanguage = defineComponent({
         }
 
         // 模块选择器 - Table
-        const renderModuleSelection = () => {
+        const renderModuleSelection = (type = 'customize') => {
             return (
                 <Select
                     v-model:value={params.table.module.current}
-                    onChange={() => setLanguages(params.search.key)}
+                    onChange={
+                        type === 'customize'
+                            ? () => setLanguages(params.search.key)
+                            : () => getBuiltinLanguagesByModule()
+                    }
                     style={{ minWidth: $tools.convert2rem(160) }}>
                     <SelectOption value={-1}>{t('language.modules.all')}</SelectOption>
-                    {...renderModuleOptions()}
+                    {...renderModuleOptions(type)}
                 </Select>
             )
         }
 
         // 模块选项
-        const renderModuleOptions = () => {
+        const renderModuleOptions = (type = 'customize') => {
             const options = []
-            for (let i = 0, l = languages.modules.customize; i < l.length; i++) {
-                const cur = languages.modules.customize?.[i]
+            for (let i = 0, l = languages.modules?.[type]; i < l.length; i++) {
+                const cur = languages.modules?.[type]?.[i]
                 options.push(
                     <SelectOption key={cur?.id} value={cur?.id}>
                         {cur?.name}
