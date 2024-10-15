@@ -766,9 +766,7 @@ const MiAppsLanguage = defineComponent({
             params.category.active = tab
             params.search.key = ''
             if (tab === 'built-in') {
-                languages.builtin = []
                 params.table.module.builtinCurrent = -1
-                await getBuiltinLanguages(messages.value?.[params.table.builtin.current])
                 languages.builtinSelection = [...languages.builtin]
             }
         }
@@ -1150,10 +1148,11 @@ const MiAppsLanguage = defineComponent({
         }
 
         // 语系变化 - 内置语系
-        const handleChangeBuiltinCategory = (lang: string) => {
+        const handleChangeBuiltinCategory = async (lang: string) => {
             languages.builtin = []
             params.table.builtin.current = lang
-            if (params.search.key) handleSearchContent()
+            await getBuiltinLanguages(messages.value?.[lang])
+            languages.builtinSelection = [...languages.builtin]
         }
 
         // 重置语言项的表单项
