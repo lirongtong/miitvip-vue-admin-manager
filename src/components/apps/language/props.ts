@@ -37,6 +37,7 @@ export interface TranslateProperties {
  * |       语言项属性       |
  * +=======================+
  * @param id 语言项 id
+ * @param uid 语言项 uid
  * @param cid 语系 id
  * @param mid 模块 id
  * @param module 模块显示名称
@@ -46,6 +47,8 @@ export interface TranslateProperties {
  * @param type 语言类型
  */
 export interface LanguageItemProperties {
+    [key: string]: any
+    uid: string | number
     id: string | number
     cid: string | number
     mid: string | number

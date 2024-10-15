@@ -518,6 +518,15 @@
     .ant-tag {
         margin-inline-end: 0;
     }
+
+    .ant-spin-nested-loading >div>.ant-spin {
+        max-height: unset;
+        .properties(min-height, 200);
+        overflow: hidden;
+        .radius();
+        background: rgba(var(--mi-primary), 0.2);
+        backdrop-filter: blur(1rem);
+    }
 }
 
 :export {

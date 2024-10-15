@@ -105,6 +105,7 @@ const MiAppsLanguage = defineComponent({
         const languages = reactive({
             builtin: [] as LanguageItemProperties[],
             customize: [] as LanguageItemProperties[],
+            builtinSelection: [] as LanguageItemProperties[],
             modules: {
                 customize: [] as LanguageModuleProperties[],
                 builtin: [] as LanguageModuleProperties[],
@@ -431,7 +432,7 @@ const MiAppsLanguage = defineComponent({
                                 return (
                                     <div class={styled.actionBtns}>
                                         <Tooltip
-                                            v-model:open={languages.copyTip[record?.id]}
+                                            v-model:open={languages.copyTip[record?.uid]}
                                             trigger="click"
                                             overlayStyle={{ zIndex: Date.now() }}
                                             v-slots={{
@@ -475,6 +476,7 @@ const MiAppsLanguage = defineComponent({
                 module: {
                     active: 'customize',
                     current: -1,
+                    builtinCurrent: -1,
                     columns: {
                         customize: [
                             {
@@ -754,17 +756,21 @@ const MiAppsLanguage = defineComponent({
                 })
                 await getModules()
             }
-            getBuiltinLanguages(messages.value?.[locale.value])
-            setBuiltinLanguagesModule()
+            await getBuiltinLanguages(messages.value?.[locale.value])
+            languages.builtinSelection = [...languages.builtin]
             await setCategory()
         }
 
         // Tab 切换
-        const handleChangeTab = (tab: string) => {
+        const handleChangeTab = async (tab: string) => {
             params.category.active = tab
             params.search.key = ''
-            if (tab === 'built-in')
-                getBuiltinLanguages(messages.value?.[params.table.builtin.current])
+            if (tab === 'built-in') {
+                languages.builtin = []
+                params.table.module.builtinCurrent = -1
+                await getBuiltinLanguages(messages.value?.[params.table.builtin.current])
+                languages.builtinSelection = [...languages.builtin]
+            }
         }
 
         const handleCustomizeClick = () => {
@@ -841,51 +847,60 @@ const MiAppsLanguage = defineComponent({
         }
 
         // 获取系统内置语言内容
-        const getBuiltinLanguages = (data: any, idx?: string) => {
+        const getBuiltinLanguages = async (data: any, idx?: string) => {
             if (Object.keys(data).length > 0) {
                 for (const i in data) {
                     const type = typeof data?.[i]
                     const key = (!$tools.isEmpty(idx) ? `${idx}.` : '') + i
                     if (['object', 'array'].includes(type)) {
-                        getBuiltinLanguages(data[i], key)
+                        getBuiltinLanguages(data?.[i], key)
                     } else {
+                        const keys = (key || '').split('.')
+                        const m = keys?.[0]
+                        const k = key.replace(`${m}.`, '')
+                        const mid =
+                            (Object.keys(languages.modules.names.builtin) || []).filter(
+                                (n: any) => languages.modules.names.builtin?.[n] === m
+                            )?.[0] || 0
+                        const name = languages.modules.types.builtin?.[m]
+                        const module = name ? (
+                            <div class={styled.modulesName}>
+                                <span innerHTML={name}></span>
+                                <Tag color="cyan" bordered={false}>
+                                    {languages.modules.names.builtin?.[mid]}
+                                </Tag>
+                            </div>
+                        ) : (
+                            '-'
+                        )
                         const item = {
-                            key,
+                            uid: $tools.uid(),
+                            key: k,
+                            mid,
+                            module,
                             language: data?.[i],
                             type: 'system'
                         } as LanguageItemProperties
-                        if (data?.id) item.id = data.id
                         languages.builtin.push(item)
                     }
                 }
             }
         }
 
+        // 内置语言项按模块区分搜索
         const getBuiltinLanguagesByModule = () => {
-            const moduleLanguages = []
-            for (let i = 0, l = languages.builtin?.length; i < l; i++) {
-                const cur = languages.builtin?.[i]
-                if (cur?.mid === params.table.module.current) {
-                    moduleLanguages.push(cur)
+            params.table.builtin.pagination.page = 1
+            if (params.table.module.builtinCurrent === -1) {
+                languages.builtinSelection = [...languages.builtin]
+            } else {
+                const moduleLanguages = []
+                for (let i = 0, l = languages.builtin?.length; i < l; i++) {
+                    const cur = languages.builtin?.[i]
+                    if (parseInt(cur?.mid.toString()) === params.table.module.builtinCurrent) {
+                        moduleLanguages.push(cur)
+                    }
                 }
-            }
-        }
-
-        // 系统内置语言项模块
-        const setBuiltinLanguagesModule = () => {
-            for (let i = 0, l = languages.builtin?.length; i < l; i++) {
-                const item = languages.builtin?.[i]
-                const keys = (item?.key || '').split('.')
-                const m = keys?.[0]
-                const mid =
-                    (Object.keys(languages.modules.names.builtin) || []).filter(
-                        (key: any) => languages.modules.names.builtin?.[key] === m
-                    )?.[0] || 0
-                const module = languages.modules.types.builtin?.[m]
-                item.id = $tools.uid()
-                item.module = module
-                item.mid = mid
-                item.key = item?.key.replace(`${m}.`, '')
+                languages.builtinSelection = [...moduleLanguages]
             }
         }
 
@@ -1191,12 +1206,13 @@ const MiAppsLanguage = defineComponent({
         const handleCopyLanguageKey = async (type: string, data?: any) => {
             const module = languages.modules.names?.[type]?.[data?.mid]
             const key = module ? module + '.' + data?.key : data?.key
+            const id = type === 'builtin' ? data?.uid : data?.id
             await toClipboard(key)
                 .then(() => {
-                    languages.copyTip[data?.id] = true
-                    setTimeout(() => (languages.copyTip[data?.id] = false), 3000)
+                    languages.copyTip[id] = true
+                    setTimeout(() => (languages.copyTip[id] = false), 3000)
                 })
-                .catch(() => (languages.copyTip[data?.id] = false))
+                .catch(() => (languages.copyTip[id] = false))
         }
 
         // 新增/更新 - 语言项 - action
@@ -2078,12 +2094,14 @@ const MiAppsLanguage = defineComponent({
             ) : params.category.active === 'built-in' ? (
                 <Table
                     columns={params.table.builtin.columns}
-                    dataSource={languages.builtin}
+                    dataSource={languages.builtinSelection}
                     bordered={true}
                     pagination={{
                         showLessItems: true,
                         showQuickJumper: true,
-                        responsive: true
+                        responsive: true,
+                        onChange: (page: number) => (params.table.builtin.pagination.page = page),
+                        current: params.table.builtin.pagination.page
                     }}
                     v-slots={{
                         headerCell: (record: any) => {
@@ -2255,14 +2273,18 @@ const MiAppsLanguage = defineComponent({
 
         // 模块选择器 - Table
         const renderModuleSelection = (type = 'customize') => {
-            return (
+            return type === 'customize' ? (
                 <Select
                     v-model:value={params.table.module.current}
-                    onChange={
-                        type === 'customize'
-                            ? () => setLanguages(params.search.key)
-                            : () => getBuiltinLanguagesByModule()
-                    }
+                    onChange={() => setLanguages(params.search.key)}
+                    style={{ minWidth: $tools.convert2rem(160) }}>
+                    <SelectOption value={-1}>{t('language.modules.all')}</SelectOption>
+                    {...renderModuleOptions(type)}
+                </Select>
+            ) : (
+                <Select
+                    v-model:value={params.table.module.builtinCurrent}
+                    onChange={() => getBuiltinLanguagesByModule()}
                     style={{ minWidth: $tools.convert2rem(160) }}>
                     <SelectOption value={-1}>{t('language.modules.all')}</SelectOption>
                     {...renderModuleOptions(type)}
