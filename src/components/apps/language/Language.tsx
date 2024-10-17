@@ -1339,6 +1339,7 @@ const MiAppsLanguage = defineComponent({
                     message.success(t('global.success'))
                     params.ids = []
                     params.modal.delete = false
+                    params.form.delete.validate.sync = 0
                     await setLanguages(params.search.key, params.category.key)
                     emit('afterBatchDeleteContent', res)
                 },
