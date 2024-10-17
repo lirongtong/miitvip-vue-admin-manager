@@ -6,13 +6,6 @@
         delete-category-action="/v1/languages/categories"
         set-default-category-action="/v1/languages/categories/default"
         check-category-exist-action="/v1/languages/categories/check"
-        :translate="{
-            baidu: {
-                url: 'api/trans/vip/translate',
-                appid: '20221021001405223',
-                key: 'vh_Thbu18gZqhIr0sUt1'
-            }
-        }"
         get-content-action="/v1/languages"
         create-content-action="/v1/languages"
         update-content-status-action="/v1/languages/status"
@@ -26,14 +19,3 @@
         delete-module-action="/v1/languages/modules"
         update-module-action="/v1/languages/modules" />
 </template>
-
-<script setup lang="ts">
-const handleCustom = (data: any) => {
-    console.log(data)
-    return true
-}
-
-const handleAfter = (res?: any) => {
-    console.log(res)
-}
-</script>
