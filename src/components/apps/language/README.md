@@ -188,13 +188,13 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `id` | `string \| number` | `` | 语言项 id
+| `id` | `string \| number` | `''` | 语言项 id
 | `uid` | `string \| number` | `''` | 语言项 uid
 | `cid` | `string \| number` | `''` | 语系 id
 | `mid` | `string \| number` | `''` | 模块 id
 | `module` | `string` | `''` | 模块显示名称
 | `key` | `string` | `''` | 语言项 key
-| `language` | `string` | `''` | 语言项内容
+| `language` | `string` | `''` | 语言项内容 ( 针对语系有效 )
 | `is_default` | `number` | `''` | 是否默认
 | `type` | `string` | `''` | 语言类型
 
