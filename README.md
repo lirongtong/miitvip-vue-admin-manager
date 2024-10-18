@@ -104,45 +104,45 @@
 
 ## 基础组件
 
-:white_check_mark: **[基础布局](./src/components/layout/README.md)** ( `Layout` ) :sparkling_heart:
+:white_check_mark: **[基础布局](https://admin.makeit.vip/component/layout)** ( [`Layout`](./src/components/layout/README.md) ) :sparkling_heart:
 
-:white_check_mark: **[滑块验证码](./src/components/captcha/README.md)** ( `Captcha` ) :collision:
+:white_check_mark: **[滑块验证码](./src/components/captcha/README.md)** ( [`Captcha`](./src/components/captcha/README.md) ) :collision:
 
-:white_check_mark: **[锚点链接](./src/components/anchor/README.md)** ( `Anchor` ) :balloon:
+:white_check_mark: **[锚点链接](./src/components/anchor/README.md)** ( [`Anchor`](./src/components/anchor/README.md) ) :balloon:
 
-:white_check_mark: **[在线钟表](./src/components/clock/README.md) ( `Clock` )** :clock130:
+:white_check_mark: **[在线钟表](https://admin.makeit.vip/component/clock)** ( [`Clock`](./src/components/clock/README.md) ) :clock130:
 
-:white_check_mark: **[下拉菜单](./src/components/dropdown/README.md)** ( `Dropdown` ) :palm_tree:
+:white_check_mark: **[下拉菜单](https://admin.makeit.vip/component/dropdown)** ( [`Dropdown`](./src/components/dropdown/README.md) ) :palm_tree:
 
-:white_check_mark: **[忘记密码](./src/components/forget/README.md) ( `Forget` )** :hammer:
+:white_check_mark: **[忘记密码](https://admin.makeit.vip/page/forget)** ( [`Forget`](./src/components/forget/README.md) ) :hammer:
 
-:white_check_mark: **[链接地址](./src/components/link/README.md) ( `Link` )** :guitar:
+:white_check_mark: **[链接地址](https://admin.makeit.vip/component/link)** ( [`Link`](./src/components/link/README.md) ) :guitar:
 
-:white_check_mark: **[调色面板](./src/components/palette/README.md)** ( `Palette` ) :books:
+:white_check_mark: **[调色面板](https://admin.makeit.vip/component/palette)** ( [`Palette`](./src/components/palette/README.md) ) :books:
 
-:white_check_mark: **[登录页面](./src/components/login/README.md) ( `Login` )** :cherries:
+:white_check_mark: **[登录页面](https://admin.makeit.vip/page/login)** ( [`Login`](./src/components/login/README.md) ) :cherries:
 
-:white_check_mark: **[注册页面](./src/components/register/README.md)** ( `Register` ) :european_castle:
+:white_check_mark: **[注册页面](https://admin.makeit.vip/page/register)** ( [`Register`](./src/components/register/README.md) ) :european_castle:
 
-:white_check_mark: **[授权登录](./src/components/socialite/README.md)** ( `Socialite` ) :dizzy:
+:white_check_mark: **[授权登录](https://admin.makeit.vip/component/socialite)** ( [`Socialite`](./src/components/socialite/README.md) ) :dizzy:
 
-:white_check_mark: **[菜单导航](./src/components/menu/README.md) ( `Menu` )** :rocket:
+:white_check_mark: **[菜单导航](https://admin.makeit.vip/component/menu)** ( [`Menu`](./src/components/menu/README.md) ) :rocket:
 
-:white_check_mark: **[弹窗动效](./src/components/modal/README.md)** ( `Modal` ) :traffic_light:
+:white_check_mark: **[弹窗动效](https://admin.makeit.vip/component/modal)** ( [`Modal`](./src/components/modal/README.md) ) :traffic_light:
 
-:white_check_mark: **[消息中心](./src/components/notice/README.md)** ( `Notice` ) :round_pushpin:
+:white_check_mark: **[消息中心](https://admin.makeit.vip/component/notice)** ( [`Notice`](./src/components/notice/README.md) ) :round_pushpin:
 
-:white_check_mark: **[密码设置](./src/components/password/README.md)** ( `Password` ) :u7981:
+:white_check_mark: **[密码设置](https://admin.makeit.vip/component/password)** ( [`Password`](./src/components/password/README.md) ) :u7981:
 
-:white_check_mark: **[搜索组件](./src/components/search/README.md)** ( `Search` ) :bookmark_tabs:
+:white_check_mark: **[搜索组件](https://admin.makeit.vip/component/search)** ( [`Search`](./src/components/search/README.md) ) :bookmark_tabs:
 
-:white_check_mark: **[代码高亮](./src/components/code/README.md) ( `Code` )** :flight_arrival:
+:white_check_mark: **[代码高亮](https://admin.makeit.vip/component/code)** ( [`Code`](./src/components/code/README.md) ) :flight_arrival:
 
-:white_check_mark: **[标题设置](./src/components/title/README.md)** ( `Title` ) :palm_tree:
+:white_check_mark: **[标题设置](https://admin.makeit.vip/component/title)** ( [`Title`](./src/components/title/README.md) ) :palm_tree:
 
-:white_check_mark: **[引用说明](./src/components/quote/README.md)** ( `Quotes` ) :hash:
+:white_check_mark: **[引用说明](https://admin.makeit.vip/component/quote)** ( [`Quotes`](./src/components/quote/README.md) ) :hash:
 
-:white_check_mark: **[回到顶部](./src/components/backtop/README.md)** ( `Backtop` ) :top:
+:white_check_mark: **[回到顶部](https://admin.makeit.vip/component/backtop)** ( [`Backtop`](./src/components/backtop/README.md) ) :top:
 
 ## 高级应用
 
@@ -152,7 +152,7 @@
 
 :x: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
 
-:x: 语言配置 :snowflake:
+:white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/backtop/README.md) ) :snowflake:
 
 :x: 富文本编辑器 :ocean:
 

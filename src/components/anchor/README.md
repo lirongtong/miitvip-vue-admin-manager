@@ -70,7 +70,7 @@
 | `affixText` | `string` | `目录` | 悬浮状态显示的文案
 | `duration` | `number` | `1000` | 滚动动画时长
 
-#### `MiBacktop` 事件 ( `Events` )
+#### `MiAnchor` 事件 ( `Events` )
 
 | 方法 | 返回值 | 说明
 | :---- | :---- | :----

@@ -2,8 +2,8 @@ export default {
     'zh-cn': `简体中文`,
     'en-us': `英文`,
     management: `语系管理`,
-    system: `系统语言`,
-    custom: `定制语言`,
+    system: `系统语言项`,
+    custom: `定制语言项`,
     customize: `语言管理`,
     module: `模块管理`,
     modules: {

@@ -65,7 +65,7 @@ export interface LanguageItemProperties {
  * +=========================+
  * @param id 序号
  * @param key 唯一值
- * @param name 序号
+ * @param name 名称
  */
 export interface LanguageModuleProperties {
     id: string | number
