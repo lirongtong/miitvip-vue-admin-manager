@@ -152,7 +152,7 @@
 
 :x: 菜单配置 ( 动态路由 ) :triangular_flag_on_post:
 
-:white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/backtop/README.md) ) :snowflake:
+:white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/apps/language/README.md) ) :snowflake:
 
 :x: 富文本编辑器 :ocean:
 
