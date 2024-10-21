@@ -1,3 +1,6 @@
+import { array } from 'vue-types'
+import { PropTypes } from '../../../utils/types'
+
 /**
  * +===========================+
  * |       菜单项树形结构       |
@@ -10,7 +13,7 @@
  * @param page 路由组件名称
  * @param title 菜单项显示名称
  * @param value 菜单项唯一标识 ( 中文 )
- * @param cid 菜单项关联分类ID
+ * @param cid 菜单项所属应用ID
  * @param icon 图标名称
  * @param weight 权重
  * @param lang 语言标识
@@ -40,4 +43,19 @@ export interface MenuTree {
     children?: Partial<MenuTreeItem>[]
 }
 
-export const MenuTreeProps = () => ({})
+export const MenuTreeProps = () => ({
+    paginationLocale: PropTypes.any,
+    data: array<Partial<MenuTreeItem>[]>().def([]),
+    getMenusAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    getMenusMethod: PropTypes.string.def('get'),
+    getMenusParams: PropTypes.object.def({}),
+    createMenusAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    createMenusMethod: PropTypes.string.def('post'),
+    createMenusParams: PropTypes.object.def({}),
+    updateMenusAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    updateMenusMethod: PropTypes.string.def('put'),
+    updateMenusParams: PropTypes.object.def({}),
+    deleteMenusAction: PropTypes.oneOf([PropTypes.string, PropTypes.func]),
+    deleteMenusMethod: PropTypes.string.def('delete'),
+    deleteMenusParams: PropTypes.object.def({})
+})

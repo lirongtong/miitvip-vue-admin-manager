@@ -10,6 +10,7 @@ import anchor from './anchor'
 import forget from './forget'
 import code from './code'
 import language from './language'
+import menu from './menu'
 
 export default {
     global,
@@ -23,5 +24,6 @@ export default {
     anchor,
     forget,
     code,
-    language
+    language,
+    menu
 }
