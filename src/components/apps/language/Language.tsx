@@ -176,7 +176,7 @@ const MiAppsLanguage = defineComponent({
                 const actionParams = Object.assign(
                     {
                         id: params.form.content.id,
-                        cid: params.category.current,
+                        cid: params.form.content.validate?.cid || params.category.current,
                         mid: params.form.content.validate.mid,
                         key: params.form.content.validate.key,
                         edit: params.form.content.edit ? 1 : 0
@@ -603,7 +603,14 @@ const MiAppsLanguage = defineComponent({
                      * @param sync 是否同步 Key 值 ( 0: 不同步; 1: 全部; 2: 指定 )
                      * @param langs 同步 Key 值时，指定要同步的语系 key
                      */
-                    validate: { key: '', language: '', mid: 0, sync: 0, status: 1, langs: [] },
+                    validate: {
+                        key: '',
+                        language: '',
+                        mid: 0,
+                        sync: 0,
+                        status: 1,
+                        langs: []
+                    } as any,
                     rules: {
                         key: [
                             {
@@ -1463,6 +1470,7 @@ const MiAppsLanguage = defineComponent({
         ) => {
             if (action) {
                 if (typeof action === 'string') {
+                    if (params?.module) delete params.module
                     await $request?.[method](action, params)
                         .then(async (res: ResponseData | any) => {
                             if (res?.ret?.code !== 200 && res?.ret?.message) {
