@@ -36,6 +36,7 @@ const ComponentsSocialite = () => import('./views/components/socialite.vue')
 
 const Advanced = () => import('./views/advanced/index.vue')
 const AdvancedLanguage = () => import('./views/advanced/language.vue')
+const AdvancedMenu = () => import('./views/advanced/menu.vue')
 
 const PassportLogin = () => import('./views/passport/login.vue')
 const PassportRegister = () => import('./views/passport/register.vue')
@@ -210,6 +211,12 @@ const menuRoutes: Array<RouteRecordRaw> = [
                     name: 'advanced-language',
                     meta: { title: '语系管理', auth: true },
                     component: AdvancedLanguage
+                },
+                {
+                    path: '/advanced/menu',
+                    name: 'advanced-menu',
+                    meta: { title: '菜单管理', auth: true },
+                    component: AdvancedMenu
                 }
             ]
         }]

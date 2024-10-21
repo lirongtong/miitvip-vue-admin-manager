@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined, VerticalAlignTopOutlined, GithubOutlined, WarningOutlined, AlignCenterOutlined, ToTopOutlined, PicRightOutlined, SecurityScanOutlined, TransactionOutlined, AppleOutlined, CoffeeOutlined } from '@ant-design/icons-vue'
+import { DashboardOutlined, ThunderboltOutlined, CrownOutlined, SisternodeOutlined, GlobalOutlined, SendOutlined, SaveOutlined, ToolOutlined, SnippetsOutlined, LoginOutlined, ScheduleOutlined, QuestionCircleOutlined, AppstoreAddOutlined, FireFilled, LayoutOutlined, BellOutlined, SwitcherOutlined, ScanOutlined, LikeFilled, SearchOutlined, ClockCircleOutlined, SafetyCertificateOutlined, BorderlessTableOutlined, OrderedListOutlined, MenuOutlined, CodeOutlined, InfoCircleOutlined, ExclamationCircleOutlined, HighlightOutlined, VerticalAlignTopOutlined, GithubOutlined, WarningOutlined, AlignCenterOutlined, ToTopOutlined, PicRightOutlined, SecurityScanOutlined, TransactionOutlined, AppleOutlined, CoffeeOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
 import { useStoreMenu, useStoreSearch } from '../../src/index'
 
 // update menus
@@ -274,6 +274,15 @@ menuStore.updateMenus([
                     title: '语系管理',
                     subTitle: 'Language',
                     icon: CoffeeOutlined
+                }
+            },
+            {
+                name: 'advanced-menu',
+                path: '/advanced/menu',
+                meta: {
+                    title: '菜单管理',
+                    subTitle: 'Menu',
+                    icon: MenuUnfoldOutlined
                 }
             }
         ]

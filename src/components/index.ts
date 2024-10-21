@@ -92,6 +92,11 @@ export { default as Forget } from './forget'
 export type {
     TranslateProperties,
     LanguageItemProperties,
-    LanguageProperties
+    LanguageProperties,
+    LanguageModuleProperties,
+    BaiduTranslateProperties
 } from './apps/language/props'
 export { default as AppsLanguage } from './apps/language'
+
+export type { MenuTreeItem, MenuTree } from './apps/menu/props'
+export { default as AppsMenu } from './apps/menu'
