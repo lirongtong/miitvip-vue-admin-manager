@@ -1306,7 +1306,7 @@ const MiAppsLanguage = defineComponent({
                 { id: ids.join(','), status },
                 'updateContentStatusAction',
                 async (res?: ResponseData | any) => {
-                    await setLanguages()
+                    await setLanguages(params.search.key, params.category.key)
                     params.modal.status = false
                     params.ids = []
                     message.destroy()
