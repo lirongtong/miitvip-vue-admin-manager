@@ -1,5 +1,6 @@
 <template>
-    <mi-apps-language
+    <div style="margin-top: 24px">
+        <mi-apps-language
         get-category-action="/v1/languages/categories"
         create-category-action="/v1/languages/categories"
         update-category-action="/v1/languages/categories"
@@ -18,4 +19,5 @@
         create-module-action="/v1/languages/modules"
         delete-module-action="/v1/languages/modules"
         update-module-action="/v1/languages/modules" />
+    </div>
 </template>

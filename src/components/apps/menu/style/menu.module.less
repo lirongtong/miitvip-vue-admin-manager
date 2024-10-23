@@ -4,3 +4,31 @@
     width: 100%;
     height: 100%;
 }
+
+.drawer {
+    z-index: 2014102315;
+
+    :global {
+        .ant-drawer-mask {
+            backdrop-filter: blur(16px);
+        }
+
+        .ant-drawer-content-wrapper {
+            border-left: 0.0625rem solid var(--mi-primary);
+        }
+    }
+}
+
+.action {
+    width: 100%;
+    position: relative;
+    .properties(margin-bottom, 16);
+
+    &-btns {
+        .flex(center, flex-end);
+
+        button + button {
+            .properties(margin-left);
+        }
+    }
+}
