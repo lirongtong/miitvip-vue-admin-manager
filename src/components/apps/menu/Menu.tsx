@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
     ConfigProvider,
@@ -16,13 +16,19 @@ import {
     Drawer,
     RadioGroup,
     InputNumber,
-    Switch
+    Switch,
+    Tabs,
+    TabPane,
+    type FormInstance
 } from 'ant-design-vue'
-import { MenuTreeProps } from './props'
+import { directional, tips, edit, data, brands, generic } from './icons'
+import { MenuTreeProps, type MenuTreeItem } from './props'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
+import { useWindowResize } from '../../../hooks/useWindowResize'
 import { type ResponseData } from '../../../utils/types'
 import * as AntdvIcons from '@ant-design/icons-vue'
+import MiModal from '../../modal/Modal'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
 import styled from './style/menu.module.less'
@@ -34,9 +40,14 @@ const MiAppsMenu = defineComponent({
     emits: ['afterGetMenus'],
     setup(props, { emit }) {
         const { t } = useI18n()
+        const { width } = useWindowResize()
+        const menuFormRef = ref<FormInstance>()
         const params = reactive({
             ids: [],
-            loading: false,
+            loading: {
+                list: false,
+                action: false
+            },
             total: 0,
             table: {
                 columns: [
@@ -132,7 +143,10 @@ const MiAppsMenu = defineComponent({
                 }
             },
             open: false,
-            detail: 0,
+            detail: {
+                id: 0,
+                show: false
+            },
             types: [
                 { label: t('menu.top'), value: 1 },
                 { label: t('menu.sub'), value: 2 },
@@ -151,34 +165,78 @@ const MiAppsMenu = defineComponent({
                 status: false,
                 id: 0,
                 pid: null
-            }
+            },
+            icons: {
+                active: `directional`,
+                open: false
+            },
+            menus: [] as MenuTreeItem[]
         })
         applyTheme(styled)
 
+        // 获取菜单数据
         const getMenus = async () => {
             if (props.data && props.data?.length > 0) {
-                params.table.data = props.data
+                params.menus = getMenusTreeData(props.data)
+                params.table.data = params.menus
                 params.total = props.data?.length
             } else {
-                if (params.loading) return
-                params.loading = true
+                if (params.loading.list) return
+                params.loading.list = true
+                const condition = Object.assign(
+                    { ...params.table.pagination },
+                    { ...props.getMenusParams }
+                )
                 await handleAction(
                     props.getMenusAction,
                     props.getMenusMethod,
-                    props.getMenusParams,
+                    { ...condition },
                     'getMenusAction',
-                    (res: ResponseData | any) => emit('afterGetMenus', res),
-                    () => (params.loading = false)
+                    (res: ResponseData | any) => {
+                        params.menus = getMenusTreeData(res?.data)
+                        params.table.data = params.menus
+                        emit('afterGetMenus', res)
+                    },
+                    () => (params.loading.list = false)
                 )
             }
         }
 
+        // 封装树形菜单
+        const getMenusTreeData = (data: any): MenuTreeItem[] => {
+            const top = [] as MenuTreeItem[]
+            for (let i = 0, l = data.length; i < l; i++) {
+                const cur = data[i]
+                const temp = {
+                    ...cur,
+                    key: cur.id,
+                    title: cur.name,
+                    value: cur.id
+                } as MenuTreeItem
+                if (cur.children) temp.children = getMenusTreeData(cur.children)
+                top.push(temp)
+            }
+            return top
+        }
+
         const handleDeleteMenus = () => {}
 
+        // 批量操作 IDs
+        const handleBatchItemChange = (rows: any[]) => {
+            const ids: any[] = []
+            for (let i = 0, l = rows.length; i < l; i++) {
+                const id = rows[i]?.id || rows[i]?.key
+                if (id) ids.push(id)
+            }
+            params.ids = ids
+        }
+
+        // 设置表单默认值
         const handleSetFormData = (data?: any) => {
             if (data?.record && Object.keys(data?.record)?.length > 0) {
                 params.edit.status = true
-                params.detail = 0
+                params.detail.id = 0
+                params.detail.show = false
                 params.edit.id = data?.record?.id
                 params.edit.pid = data?.record?.pid
                 params.form.validate = JSON.parse(JSON.stringify(data?.record || {}))
@@ -186,20 +244,25 @@ const MiAppsMenu = defineComponent({
                 params.form.validate.weight = parseInt(data?.record?.weight || 0)
             } else handleResetFormData()
         }
+
+        // 重置表单数据
         const handleResetFormData = () => {
             params.edit.status = false
             params.edit.id = 0
             params.edit.pid = null
-            params.detail = 0
+            params.detail.id = 0
+            params.detail.show = false
             params.form.validate.type = 1
         }
 
+        // 打开/关闭抽屉式表单
         const handleOpenDrawer = (data?: any) => {
             params.open = !params.open
             if (params.open) handleSetFormData(data)
             else handleResetFormData()
         }
 
+        // 菜单类型切换
         const handleChangeType = () => {
             if (params.form.validate.type === 1) params.form.validate.pid = null
             else
@@ -207,12 +270,52 @@ const MiAppsMenu = defineComponent({
                     params.edit.pid && params.edit.pid !== 0 ? params.edit.pid : null
         }
 
+        // Table 分页变化
         const handlePageChange = (page: number, size: number) => {
             console.log(page, size)
         }
 
-        const handleCreateOrUpdate = () => {}
+        // 新增 / 更新操作
+        const handleCreateOrUpdate = () => {
+            if (menuFormRef?.value) {
+                if (params.loading.action) return
+                params.loading.action = true
+                const afterSuccess = () => {
+                    handleOpenDrawer()
+                    menuFormRef.value?.resetFields()
+                    params.form.validate.pid = null
+                    params.form.validate.type = 1
+                    params.form.validate.auth_policy = 2
+                    getMenus()
+                }
+                menuFormRef.value
+                    ?.validate()
+                    .then(() => {
+                        if (params.edit.status) {
+                            // 更新
+                        } else {
+                            // 新增
+                            handleAction(
+                                props.createMenusAction,
+                                props.createMenusMethod,
+                                Object.assign(
+                                    { ...params.form.validate },
+                                    { ...props.createMenusParams }
+                                ),
+                                'createMenusAction',
+                                () => afterSuccess(),
+                                () => (params.loading.action = false)
+                            )
+                        }
+                    })
+                    .catch(() => (params.loading.action = false))
+            } else {
+                message.destroy()
+                message.error(t('global.error.form'))
+            }
+        }
 
+        // 统一操作方式
         const handleAction = async (
             action: string | Function | undefined,
             method: string,
@@ -259,6 +362,16 @@ const MiAppsMenu = defineComponent({
             }
         }
 
+        // 打开图标选择弹窗
+        const handleOpenIconsModal = () => {
+            if (!params.detail.show) params.icons.open = !params.icons.open
+        }
+
+        const handleSetIcon = (name: string) => {
+            params.form.validate.icon = name
+            handleOpenIconsModal()
+        }
+
         getMenus()
 
         // 空状态
@@ -301,12 +414,20 @@ const MiAppsMenu = defineComponent({
             )
         }
 
-        // Table
+        // 表格
         const renderTable = () => {
             return (
                 <Table
                     columns={params.table.columns}
                     dataSource={params.table.data}
+                    rowKey={(record: any) => record?.id}
+                    rowSelection={{
+                        columnWidth: 60,
+                        selectedRowKeys: params.ids,
+                        onChange: (_keys: any[], rows: any[]) => {
+                            handleBatchItemChange(rows)
+                        }
+                    }}
                     pagination={{
                         showLessItems: true,
                         showQuickJumper: true,
@@ -317,12 +438,84 @@ const MiAppsMenu = defineComponent({
                         pageSize: params.table.pagination.size
                     }}
                     bordered={true}
-                    loading={params.loading}
+                    loading={params.loading.list}
                     scroll={{ x: 1200 }}></Table>
             )
         }
 
-        const renderIconsTrigger = () => {}
+        // 图标选择触发点
+        const renderIconsTrigger = () => {
+            return (
+                <a onClick={handleOpenIconsModal}>
+                    <AntdvIcons.AimOutlined />
+                </a>
+            )
+        }
+
+        // 图标弹窗
+        const renderIconsModal = () => {
+            const wrapIcons = (data: string[]) => {
+                const res: any[] = []
+                data.forEach((icon: string) => {
+                    const IconTag = AntdvIcons[icon]
+                    res.push(
+                        <div
+                            class={`${styled.tabItem} ${
+                                params.form.validate.icon === icon ? styled.tabItemActive : ''
+                            }`}
+                            onClick={() => handleSetIcon(icon)}>
+                            <IconTag />
+                        </div>
+                    )
+                })
+                return res
+            }
+
+            const icons = {
+                directional: wrapIcons(directional),
+                tips: wrapIcons(tips),
+                edit: wrapIcons(edit),
+                data: wrapIcons(data),
+                brands: wrapIcons(brands),
+                generic: wrapIcons(generic)
+            }
+
+            return (
+                <MiModal
+                    open={params.icons.open}
+                    title={false}
+                    footer={false}
+                    onCancel={handleOpenIconsModal}
+                    zIndex={Date.now()}
+                    animation="slide"
+                    maskStyle={{ backdropFilter: `blur(0.5rem)` }}
+                    width={width.value < 768 ? '100%' : 748}>
+                    <Tabs
+                        v-model:activeKey={params.icons.active}
+                        class={styled.tab}
+                        centered={width.value >= 768}>
+                        <TabPane key="directional" tab={t('menu.icons.directional')}>
+                            {...icons.directional}
+                        </TabPane>
+                        <TabPane key="tips" tab={t('menu.icons.tips')}>
+                            {...icons.tips}
+                        </TabPane>
+                        <TabPane key="edit" tab={t('menu.icons.edit')}>
+                            {...icons.edit}
+                        </TabPane>
+                        <TabPane key="data" tab={t('menu.icons.data')}>
+                            {...icons.data}
+                        </TabPane>
+                        <TabPane key="brands" tab={t('menu.icons.brands')}>
+                            {...icons.brands}
+                        </TabPane>
+                        <TabPane key="generic" tab={t('menu.icons.generic')}>
+                            {...icons.generic}
+                        </TabPane>
+                    </Tabs>
+                </MiModal>
+            )
+        }
 
         // 抽屉弹窗
         const renderDrawer = () => {
@@ -334,21 +527,21 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.auth_mark}
                                 autocomplete="off"
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.auth')}
                             />
                         </FormItem>
                         <FormItem label={t('menu.policy')} name="auth_policy">
                             <RadioGroup
                                 options={params.policies}
-                                disabled={params.detail}
+                                disabled={params.detail.show}
                                 v-model:value={params.form.validate.auth_policy}></RadioGroup>
                         </FormItem>
                         <FormItem label={t('global.state')} name="auth_state">
                             <RadioGroup
                                 options={params.states}
-                                disabled={params.detail}
+                                disabled={params.detail.show}
                                 v-model:value={params.form.validate.auth_state}></RadioGroup>
                         </FormItem>
                     </>
@@ -360,6 +553,9 @@ const MiAppsMenu = defineComponent({
                         v-model:value={params.form.validate.pid}
                         placeholder={t('menu.placeholder.up')}
                         allowClear={true}
+                        disabled={params.detail.show}
+                        treeData={params.menus}
+                        dropdownClassName={styled.drawerSelect}
                         treeDefaultExpandAll={true}></TreeSelect>
                 </FormItem>
             ) : null
@@ -372,8 +568,8 @@ const MiAppsMenu = defineComponent({
                                 v-model:value={params.form.validate.sub_name}
                                 autocomplete="off"
                                 maxlength={60}
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.subname')}
                             />
                         </FormItem>
@@ -381,8 +577,8 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.path}
                                 autocomplete="off"
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.path')}
                             />
                         </FormItem>
@@ -390,8 +586,8 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.page}
                                 autocomplete="off"
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.page')}
                             />
                         </FormItem>
@@ -399,8 +595,8 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.icon}
                                 autocomplete="off"
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={true}
+                                readonly={true}
                                 v-slots={{ suffix: () => renderIconsTrigger() }}
                                 placeholder={t('menu.placeholder.icon')}
                             />
@@ -409,7 +605,7 @@ const MiAppsMenu = defineComponent({
                             <Switch
                                 v-model:checked={params.form.validate.is_router}
                                 checked-children={t('global.yes')}
-                                disabled={params.detail}
+                                disabled={params.detail.show}
                                 un-checked-children={t('global.no')}
                             />
                         </FormItem>
@@ -417,7 +613,7 @@ const MiAppsMenu = defineComponent({
                             <Switch
                                 v-model:checked={params.form.validate.is_blank}
                                 checked-children={t('global.external')}
-                                disabled={params.detail}
+                                disabled={params.detail.show}
                                 un-checked-children={t('global.internal')}
                             />
                         </FormItem>
@@ -425,15 +621,15 @@ const MiAppsMenu = defineComponent({
                             <InputNumber
                                 v-model:value={params.form.validate.weight}
                                 min={1}
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                             />
                         </FormItem>
                         <FormItem label={t('menu.hide-router')} name="is_hide">
                             <Switch
                                 v-model:checked={params.form.validate.is_hide}
                                 checked-children={t('global.yes')}
-                                disabled={params.detail}
+                                disabled={params.detail.show}
                                 un-checked-children={t('global.no')}
                             />
                         </FormItem>
@@ -441,14 +637,15 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.redirect}
                                 autocomplete="off"
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.redirect')}
                             />
                         </FormItem>
                     </>
                 )
-            const actionBtn = params.detail ? (
+            // 操作按钮
+            const actionBtn = params.detail.show ? (
                 <>
                     <Button
                         onClick={handleOpenDrawer}
@@ -464,20 +661,31 @@ const MiAppsMenu = defineComponent({
                         style={{ marginRight: $tools.convert2rem(8) }}>
                         {t('global.cancel')}
                     </Button>
-                    <Button type="primary" loading={params.loading} onClick={handleCreateOrUpdate}>
-                        {params.edit.status ? t('globalupdate') : t('global.save')}
+                    <Button
+                        type="primary"
+                        loading={params.loading.action}
+                        onClick={handleCreateOrUpdate}>
+                        {params.edit.status ? t('global.update') : t('global.save')}
                     </Button>
                 </>
             )
+            // 标题
+            const title = params.edit.status
+                ? t('menu.update')
+                : params.detail.show
+                  ? t('global.details')
+                  : t('menu.add')
 
             return (
                 <Drawer
                     open={params.open}
                     rootClassName={styled.drawer}
                     width={580}
+                    title={title}
                     v-slots={{ extra: () => actionBtn }}
                     onClose={handleOpenDrawer}>
                     <Form
+                        ref={menuFormRef}
                         model={params.form.validate}
                         rules={params.form.rules}
                         labelCol={{ style: { width: $tools.convert2rem(120) } }}>
@@ -485,7 +693,7 @@ const MiAppsMenu = defineComponent({
                             <RadioGroup
                                 options={params.types}
                                 onChange={() => handleChangeType()}
-                                disabled={params.detail}
+                                disabled={params.detail.show}
                                 v-model:value={params.form.validate.type}></RadioGroup>
                         </FormItem>
                         <FormItem
@@ -499,9 +707,9 @@ const MiAppsMenu = defineComponent({
                                 v-model:value={params.form.validate.name}
                                 autocomplete="off"
                                 maxlength={60}
-                                disabled={params.detail}
-                                readonly={params.detail}
-                                placeholder={t('menu.placeholder.btn')}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
+                                placeholder={t('menu.placeholder.name')}
                             />
                         </FormItem>
                         {subMenu}
@@ -510,8 +718,8 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.lang}
                                 autocomplete="off"
-                                disabled={params.detail}
-                                readonly={params.detail}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.lang')}
                             />
                         </FormItem>
@@ -529,6 +737,7 @@ const MiAppsMenu = defineComponent({
                     {renderAction()}
                     {renderTable()}
                     {renderDrawer()}
+                    {renderIconsModal()}
                 </ConfigProvider>
             </div>
         )

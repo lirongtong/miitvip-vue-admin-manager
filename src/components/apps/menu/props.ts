@@ -55,7 +55,7 @@ export const MenuTreeProps = () => ({
     updateMenusAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     updateMenusMethod: PropTypes.string.def('put'),
     updateMenusParams: PropTypes.object.def({}),
-    deleteMenusAction: PropTypes.oneOf([PropTypes.string, PropTypes.func]),
+    deleteMenusAction: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     deleteMenusMethod: PropTypes.string.def('delete'),
     deleteMenusParams: PropTypes.object.def({})
 })

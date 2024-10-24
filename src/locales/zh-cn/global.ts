@@ -41,7 +41,8 @@ export default {
         id: `ID 有误, 请刷新后再试`,
         auth: `请求的资源需要认证 ( Unauthorized )`,
         unknown: `未知错误`,
-        status: `状态值不符合要求，请重新设置`
+        status: `状态值不符合要求，请重新设置`,
+        form: `找不到 Form 表单，校验失败，退出执行流程`
     },
     yes: `是`,
     no: `否`,

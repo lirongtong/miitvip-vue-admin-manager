@@ -41,7 +41,8 @@ export default {
         id: `The ID is wrong, please refresh and try again`,
         auth: `The resource requires authentication ( Unauthorized )`,
         unknown: `Unknown Error`,
-        status: `The status value does not meet the requirements, please reset it`
+        status: `The status value does not meet the requirements, please reset it`,
+        form: `The Form form cannot be found, verification fails, and the execution process is exited`
     },
     yes: `Yes`,
     no: `No`,

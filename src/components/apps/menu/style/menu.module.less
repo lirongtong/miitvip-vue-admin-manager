@@ -7,6 +7,7 @@
 
 .drawer {
     z-index: 2014102315;
+    max-width: 100%;
 
     :global {
         .ant-drawer-mask {
@@ -15,7 +16,19 @@
 
         .ant-drawer-content-wrapper {
             border-left: 0.0625rem solid var(--mi-primary);
+            max-width: 100%;
+
+            @media only screen and (max-width: @mi-sm) {
+                border-left: none;
+            }
         }
+    }
+
+    &-select {
+        z-index: 2014102315;
+        border: 0.0625rem solid var(--mi-primary);
+        .radius(6);
+        .properties(margin-top);
     }
 }
 
@@ -29,6 +42,47 @@
 
         button + button {
             .properties(margin-left);
+        }
+    }
+}
+
+.tab {
+    width: 100%;
+    position: relative;
+    .properties(margin-top, 24);
+
+    :global {
+        .ant-tabs-tabpane {
+            .grid(10, 16);
+            .properties(max-height, 360);
+            overflow-x: hidden;
+            overflow-y: auto;
+            .scrollbar();
+        }
+    }
+    
+    &-item {
+        .flex();
+        .properties(width, 48);
+        .properties(height, 48);
+        cursor: pointer;
+        .radius(8);
+
+        :global {
+            .anticon {
+                .properties(font-size, 24);
+            }
+        }
+
+        &-active,
+        &:hover {
+            background-color: var(--mi-primary);
+
+            :global {
+                .anticon {
+                    color: var(--mi-on-primary);
+                }
+            }
         }
     }
 }
