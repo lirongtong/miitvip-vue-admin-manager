@@ -38,7 +38,7 @@ const MiAppsMenu = defineComponent({
     name: 'MiAppsMenu',
     inheritAttrs: false,
     props: MenuTreeProps(),
-    emits: ['afterGetMenus'],
+    emits: ['afterGetMenus', 'afterCreateMenus', 'afterUpdateMenus', 'afterDeleteMenus'],
     setup(props, { emit }) {
         const { t } = useI18n()
         const { width } = useWindowResize()
@@ -47,7 +47,8 @@ const MiAppsMenu = defineComponent({
             ids: [],
             loading: {
                 list: false,
-                action: false
+                action: false,
+                delete: false
             },
             total: 0,
             table: {
@@ -130,6 +131,18 @@ const MiAppsMenu = defineComponent({
                                         onClick={() => handleOpenDrawer(record)}>
                                         {t('global.edit')}
                                     </Button>
+                                    <Button
+                                        type="default"
+                                        class={styled.btnInfo}
+                                        icon={<AntdvIcons.MessageOutlined />}>
+                                        {t('menu.detail')}
+                                    </Button>
+                                    <Button
+                                        class={styled.btnWarn}
+                                        type="default"
+                                        icon={<AntdvIcons.NodeExpandOutlined />}>
+                                        {t('menu.add-sub')}
+                                    </Button>
                                     <Popconfirm
                                         title={t('global.delete.confirm')}
                                         overlayStyle={{
@@ -149,18 +162,6 @@ const MiAppsMenu = defineComponent({
                                             {t('global.delete.normal')}
                                         </Button>
                                     </Popconfirm>
-                                    <Button
-                                        type="default"
-                                        class={styled.btnInfo}
-                                        icon={<AntdvIcons.MessageOutlined />}>
-                                        {t('menu.detail')}
-                                    </Button>
-                                    <Button
-                                        class={styled.btnWarn}
-                                        type="default"
-                                        icon={<AntdvIcons.NodeExpandOutlined />}>
-                                        {t('menu.add-sub')}
-                                    </Button>
                                 </div>
                             )
                         }
@@ -281,7 +282,31 @@ const MiAppsMenu = defineComponent({
         }
 
         // 批量删除
-        const handleBatchDeleteMenus = () => {}
+        const handleBatchDeleteMenus = () => {
+            if (params.ids.length <= 0) {
+                message.destroy()
+                message.error(t('global.delete.select'))
+                return
+            }
+            if (params.loading.delete) return
+            params.loading.delete = true
+            handleAction(
+                props.deleteMenusAction,
+                props.deleteMenusMethod,
+                {
+                    id: params.ids.join(','),
+                    ...props.deleteMenusParams
+                },
+                'deleteMenusAction',
+                async (res?: ResponseData | any) => {
+                    message.destroy()
+                    message.success(t('global.success'))
+                    params.ids = []
+                    emit('afterDeleteMenus', res)
+                },
+                () => (params.loading.delete = false)
+            )
+        }
 
         // 批量操作 IDs
         const handleBatchItemChange = (rows: any[]) => {
@@ -370,7 +395,10 @@ const MiAppsMenu = defineComponent({
                                     { ...props.updateMenusParams }
                                 ),
                                 'updateMenusAction',
-                                () => afterSuccess(),
+                                () => {
+                                    afterSuccess()
+                                    emit('afterUpdateMenus')
+                                },
                                 () => (params.loading.action = false)
                             )
                         } else {
@@ -383,7 +411,10 @@ const MiAppsMenu = defineComponent({
                                     { ...props.createMenusParams }
                                 ),
                                 'createMenusAction',
-                                () => afterSuccess(),
+                                () => {
+                                    afterSuccess()
+                                    emit('afterCreateMenus')
+                                },
                                 () => (params.loading.action = false)
                             )
                         }
