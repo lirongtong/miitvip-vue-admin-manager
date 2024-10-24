@@ -10,6 +10,7 @@ export default {
     top: `一级菜单`,
     sub: `子菜单`,
     up: `上级菜单`,
+    detail: `详情`,
     subname: `菜单子标题`,
     unknown: `未知类型`,
     auth: `授权标识`,

@@ -92,11 +92,15 @@ input {
 
     .ant-table-wrapper {
         .ant-table-row-expand-icon {
-            .circle();
+            border-color: var(--mi-primary);
+            color: var(--mi-on-primary);
+            background-color: var(--mi-primary);
+            .radius();
 
             &:focus,
             &:hover {
-                color: var(--mi-primary);
+                color: var(--mi-on-primary);
+                border-color: var(--mi-primary);
             }
         }
     }

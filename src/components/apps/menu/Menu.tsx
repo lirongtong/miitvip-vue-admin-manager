@@ -19,7 +19,8 @@ import {
     Switch,
     Tabs,
     TabPane,
-    type FormInstance
+    type FormInstance,
+    Tooltip
 } from 'ant-design-vue'
 import { directional, tips, edit, data, brands, generic } from './icons'
 import { MenuTreeProps, type MenuTreeItem } from './props'
@@ -87,16 +88,26 @@ const MiAppsMenu = defineComponent({
                     {
                         title: t('menu.page'),
                         key: 'page',
-                        dataIndex: 'page',
-                        width: 200,
-                        ellipsis: true
+                        ellipsis: true,
+                        customRender: ({ record }) => {
+                            return (
+                                <Tooltip trigger="click" placement="topLeft" title={record?.page}>
+                                    <span innerHTML={record?.page}></span>
+                                </Tooltip>
+                            )
+                        }
                     },
                     {
                         title: t('menu.path'),
                         key: 'path',
-                        dataIndex: 'path',
-                        width: 200,
-                        ellipsis: true
+                        ellipsis: true,
+                        customRender: ({ record }) => {
+                            return (
+                                <Tooltip trigger="click" placement="topLeft" title={record?.path}>
+                                    <span innerHTML={record?.path}></span>
+                                </Tooltip>
+                            )
+                        }
                     },
                     {
                         title: t('menu.weight'),
@@ -108,7 +119,51 @@ const MiAppsMenu = defineComponent({
                     {
                         title: t('global.action'),
                         key: 'action',
-                        align: 'center'
+                        align: 'center',
+                        width: 440,
+                        customRender: ({ record }) => {
+                            return (
+                                <div class={styled.actionItems}>
+                                    <Button
+                                        type="primary"
+                                        icon={<AntdvIcons.FormOutlined />}
+                                        onClick={() => handleOpenDrawer(record)}>
+                                        {t('global.edit')}
+                                    </Button>
+                                    <Popconfirm
+                                        title={t('global.delete.confirm')}
+                                        overlayStyle={{
+                                            zIndex: Date.now(),
+                                            minWidth: $tools.convert2rem(210)
+                                        }}
+                                        okText={t('global.ok')}
+                                        cancelText={t('global.cancel')}
+                                        okButtonProps={{
+                                            onClick: () => handleDeleteMenus(record?.id)
+                                        }}
+                                        key={record?.key}>
+                                        <Button
+                                            type="primary"
+                                            danger={true}
+                                            icon={<AntdvIcons.DeleteOutlined />}>
+                                            {t('global.delete.normal')}
+                                        </Button>
+                                    </Popconfirm>
+                                    <Button
+                                        type="default"
+                                        class={styled.btnInfo}
+                                        icon={<AntdvIcons.MessageOutlined />}>
+                                        {t('menu.detail')}
+                                    </Button>
+                                    <Button
+                                        class={styled.btnWarn}
+                                        type="default"
+                                        icon={<AntdvIcons.NodeExpandOutlined />}>
+                                        {t('menu.add-sub')}
+                                    </Button>
+                                </div>
+                            )
+                        }
                     }
                 ],
                 data: [],
@@ -219,7 +274,14 @@ const MiAppsMenu = defineComponent({
             return top
         }
 
-        const handleDeleteMenus = () => {}
+        // 单条删除
+        const handleDeleteMenus = async (id: number) => {
+            params.ids = [id]
+            handleBatchDeleteMenus()
+        }
+
+        // 批量删除
+        const handleBatchDeleteMenus = () => {}
 
         // 批量操作 IDs
         const handleBatchItemChange = (rows: any[]) => {
@@ -233,15 +295,15 @@ const MiAppsMenu = defineComponent({
 
         // 设置表单默认值
         const handleSetFormData = (data?: any) => {
-            if (data?.record && Object.keys(data?.record)?.length > 0) {
+            if (data && Object.keys(data)?.length > 0) {
                 params.edit.status = true
                 params.detail.id = 0
                 params.detail.show = false
-                params.edit.id = data?.record?.id
-                params.edit.pid = data?.record?.pid
-                params.form.validate = JSON.parse(JSON.stringify(data?.record || {}))
-                params.form.validate.is_router = data?.record?.is_router > 0
-                params.form.validate.weight = parseInt(data?.record?.weight || 0)
+                params.edit.id = data?.id
+                params.edit.pid = data?.pid
+                params.form.validate = JSON.parse(JSON.stringify(data || {}))
+                params.form.validate.is_router = data?.is_router > 0
+                params.form.validate.weight = parseInt(data?.weight || 0)
             } else handleResetFormData()
         }
 
@@ -287,12 +349,30 @@ const MiAppsMenu = defineComponent({
                     params.form.validate.type = 1
                     params.form.validate.auth_policy = 2
                     getMenus()
+                    message.destroy()
+                    message.success(t('global.success'))
                 }
                 menuFormRef.value
                     ?.validate()
                     .then(() => {
                         if (params.edit.status) {
                             // 更新
+                            if (!params.edit.id) {
+                                message.destroy()
+                                message.error(t('global.error.id'))
+                                return
+                            }
+                            handleAction(
+                                props.updateMenusAction,
+                                props.updateMenusMethod,
+                                Object.assign(
+                                    { id: params.edit.id, ...params.form.validate },
+                                    { ...props.updateMenusParams }
+                                ),
+                                'updateMenusAction',
+                                () => afterSuccess(),
+                                () => (params.loading.action = false)
+                            )
                         } else {
                             // 新增
                             handleAction(
@@ -393,7 +473,7 @@ const MiAppsMenu = defineComponent({
                             style={{ zIndex: Date.now() }}
                             okText={t('global.ok')}
                             cancelText={t('global.cancel')}
-                            onConfirm={() => handleDeleteMenus()}>
+                            onConfirm={() => handleBatchDeleteMenus()}>
                             <Button
                                 type="primary"
                                 size="large"

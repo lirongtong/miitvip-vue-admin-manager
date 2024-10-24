@@ -44,6 +44,38 @@
             .properties(margin-left);
         }
     }
+
+    &-items {
+        button + button {
+            .properties(margin-left);
+        }
+    }
+}
+
+.btn {
+    &-info {
+        background: var(--mi-tertiary);
+        color: var(--mi-on-tertiary);
+        border-color: var(--mi-tertiary);
+
+        &:not(:disabled):focus,
+        &:not(:disabled):hover {
+            border-color: transparent;
+            color: var(--mi-on-tertiary);
+        }
+    }
+
+    &-warn {
+        background: var(--mi-error);
+        color: var(--mi-on-error);
+        border-color: var(--mi-error);
+
+        &:not(:disabled):focus,
+        &:not(:disabled):hover {
+            border-color: transparent;
+            color: var(--mi-on-error);
+        }
+    }
 }
 
 .tab {
