@@ -139,12 +139,15 @@ const MiAppsMenu = defineComponent({
                                         icon={<AntdvIcons.MessageOutlined />}>
                                         {t('menu.detail')}
                                     </Button>
-                                    <Button
-                                        class={styled.btnWarn}
-                                        type="default"
-                                        icon={<AntdvIcons.NodeExpandOutlined />}>
-                                        {t('menu.add-sub')}
-                                    </Button>
+                                    {record?.type === 3 ? null : (
+                                        <Button
+                                            class={styled.btnWarn}
+                                            type="default"
+                                            onClick={() => handleAddSubMenu(record)}
+                                            icon={<AntdvIcons.NodeExpandOutlined />}>
+                                            {t('menu.add-sub')}
+                                        </Button>
+                                    )}
                                     <Popconfirm
                                         title={t('global.delete.confirm')}
                                         overlayStyle={{
@@ -371,6 +374,13 @@ const MiAppsMenu = defineComponent({
             params.detail.show = false
         }
 
+        // 添加子菜单
+        const handleAddSubMenu = (data?: any) => {
+            handleOpenDrawer()
+            params.form.validate.pid = data?.id
+            params.form.validate.type = 2
+        }
+
         // 菜单类型切换
         const handleChangeType = () => {
             if (params.form.validate.type === 1) params.form.validate.pid = null
@@ -500,6 +510,7 @@ const MiAppsMenu = defineComponent({
             if (!params.detail.show) params.icons.open = !params.icons.open
         }
 
+        // 选择 ICON
         const handleSetIcon = (name: string) => {
             params.form.validate.icon = name
             handleOpenIconsModal()
@@ -689,7 +700,7 @@ const MiAppsMenu = defineComponent({
                         allowClear={true}
                         disabled={params.detail.show}
                         treeData={params.menus}
-                        dropdownClassName={styled.drawerSelect}
+                        popupClassName={styled.drawerSelect}
                         treeDefaultExpandAll={true}></TreeSelect>
                 </FormItem>
             ) : null
