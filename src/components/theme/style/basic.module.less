@@ -136,6 +136,10 @@ input {
         }
     }
 
+    .ant-input[disabled] {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
     .ant-btn {
         &-primary {
             background: var(--mi-primary);
@@ -188,6 +192,10 @@ input {
     .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
         border-color: var(--mi-primary);
         background-color: var(--mi-primary);
+    }
+
+    .ant-radio-wrapper .ant-radio-disabled .ant-radio-inner::after {
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     .ant-tabs .ant-tabs-tab:hover,

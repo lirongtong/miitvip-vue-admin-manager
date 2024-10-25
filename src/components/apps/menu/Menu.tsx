@@ -135,6 +135,7 @@ const MiAppsMenu = defineComponent({
                                     <Button
                                         type="default"
                                         class={styled.btnInfo}
+                                        onClick={() => handleDetail(record)}
                                         icon={<AntdvIcons.MessageOutlined />}>
                                         {t('menu.detail')}
                                     </Button>
@@ -348,6 +349,26 @@ const MiAppsMenu = defineComponent({
             params.open = !params.open
             if (params.open) handleSetFormData(data)
             else handleResetFormData()
+        }
+
+        // 查看详情
+        const handleDetail = (data?: any) => {
+            params.detail.show = !params.detail.show
+            if (data?.id && params.detail.show) {
+                params.detail.id = data.id
+                params.open = !params.open
+                params.edit.pid = data?.pid
+                params.form.validate = JSON.parse(JSON.stringify(data))
+                params.form.validate.is_router = data?.is_router > 0
+                params.form.validate.weight = parseInt(data?.weight || 0)
+            } else params.detail.id = null
+        }
+
+        // 进入编辑
+        const handleEditable = () => {
+            params.edit.status = true
+            params.edit.id = params.detail.id
+            params.detail.show = false
         }
 
         // 菜单类型切换
@@ -765,7 +786,9 @@ const MiAppsMenu = defineComponent({
                         style={{ marginRight: $tools.convert2rem(8) }}>
                         {t('global.close')}
                     </Button>
-                    <Button type="primary">{t('global.editable')}</Button>
+                    <Button type="primary" onClick={handleEditable}>
+                        {t('global.editable')}
+                    </Button>
                 </>
             ) : (
                 <>
