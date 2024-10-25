@@ -307,6 +307,7 @@ const MiAppsMenu = defineComponent({
                     message.destroy()
                     message.success(t('global.success'))
                     params.ids = []
+                    getMenus()
                     emit('afterDeleteMenus', res)
                 },
                 () => (params.loading.delete = false)
@@ -325,7 +326,7 @@ const MiAppsMenu = defineComponent({
 
         // 设置表单默认值
         const handleSetFormData = (data?: any) => {
-            if (data && Object.keys(data)?.length > 0) {
+            if (data && Object.keys(data)?.length > 0 && data?.id) {
                 params.edit.status = true
                 params.detail.id = 0
                 params.detail.show = false
@@ -345,6 +346,10 @@ const MiAppsMenu = defineComponent({
             params.detail.id = 0
             params.detail.show = false
             params.form.validate.type = 1
+            params.form.validate.pid = 0
+            params.form.validate.auth_mark = ''
+            params.form.validate.auth_policy = 2
+            params.form.validate.auth_state = 1
         }
 
         // 打开/关闭抽屉式表单
@@ -534,7 +539,7 @@ const MiAppsMenu = defineComponent({
                     <Col span={24} class={styled.actionBtns}>
                         <Popconfirm
                             title={t('global.delete.confirm')}
-                            style={{ zIndex: Date.now() }}
+                            overlayStyle={{ zIndex: Date.now() }}
                             okText={t('global.ok')}
                             cancelText={t('global.cancel')}
                             onConfirm={() => handleBatchDeleteMenus()}>
@@ -716,6 +721,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.subname')}
+                                onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                         <FormItem label={t('menu.path')} name="path">
@@ -725,6 +731,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.path')}
+                                onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                         <FormItem label={t('menu.page')} name="page">
@@ -734,6 +741,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.page')}
+                                onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                         <FormItem label={t('menu.icon')} name="icon">
@@ -785,6 +793,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.redirect')}
+                                onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                     </>
@@ -857,6 +866,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.name')}
+                                onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                         {subMenu}
@@ -868,6 +878,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.lang')}
+                                onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                         {btnMenu}
