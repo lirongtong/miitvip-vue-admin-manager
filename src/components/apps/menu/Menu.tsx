@@ -256,6 +256,7 @@ const MiAppsMenu = defineComponent({
                     (res: ResponseData | any) => {
                         params.menus = getMenusTreeData(res?.data)
                         params.table.data = params.menus
+                        handleCreateGlobalRouter()
                         emit('afterGetMenus', res)
                     },
                     () => (params.loading.list = false)
@@ -279,6 +280,14 @@ const MiAppsMenu = defineComponent({
             }
             return top
         }
+
+        // 根据菜单数据封装形成路由
+        const handleCreateGlobalRouter = () => {
+            handleUpdateGlobalMenus()
+        }
+
+        // 更新全局菜单
+        const handleUpdateGlobalMenus = () => {}
 
         // 单条删除
         const handleDeleteMenus = async (id: number) => {
