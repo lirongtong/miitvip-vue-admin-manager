@@ -774,6 +774,8 @@ const MiAppsLanguage = defineComponent({
         const handleChangeTab = async (tab: string) => {
             params.category.active = tab
             params.search.key = ''
+            params.table.customize.pagination.page = 1
+            params.table.builtin.pagination.page = 1
             if (tab === 'built-in') {
                 params.table.module.builtinCurrent = -1
                 languages.builtinSelection = [...languages.builtin]
@@ -1153,6 +1155,7 @@ const MiAppsLanguage = defineComponent({
         // 语系变化 - 自定义
         const handleChangeCategory = async (lang: string) => {
             languages.customize = [] as LanguageItemProperties[]
+            params.table.customize.pagination.page = 1
             await setLanguages(params.search.key, lang)
         }
 
