@@ -127,6 +127,7 @@ const MiAppsMenu = defineComponent({
                                 <div class={styled.actionItems}>
                                     <Button
                                         type="primary"
+                                        class={styled.btnPrimary}
                                         icon={<AntdvIcons.FormOutlined />}
                                         onClick={() => handleOpenDrawer(record)}>
                                         {t('global.edit')}
@@ -516,6 +517,7 @@ const MiAppsMenu = defineComponent({
                         <Button
                             type="primary"
                             size="large"
+                            class={styled.btnPrimary}
                             icon={<AntdvIcons.EditOutlined />}
                             onClick={handleOpenDrawer}>
                             {t('menu.add')}

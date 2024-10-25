@@ -125,6 +125,92 @@ input {
             }
         }
     }
+
+    .ant-input,
+    .ant-input-focused,
+    .ant-input-number,
+    .ant-input-number-focused {
+        &:focus,
+        &:hover {
+            border-color: var(--mi-primary);
+        }
+    }
+
+    .ant-btn {
+        &-primary {
+            background: var(--mi-primary);
+            color: var(--mi-on-primary);
+            border-color: var(--mi-primary);
+    
+            &:not(:disabled):focus,
+            &:not(:disabled):hover {
+                border-color: transparent;
+                color: var(--mi-on-primary);
+                background: var(--mi-primary);
+            }
+        }
+
+        &-default:not(:disabled):hover {
+            border-color: var(--mi-primary);
+            color: var(--mi-primary);
+        }
+    }
+
+    .ant-btn-primary.ant-btn-dangerous {
+        background: #dc4446;
+        box-shadow: none;
+        border-color: #dc4446;
+        color: #fff;
+
+        &:not(:disabled):focus,
+        &:not(:disabled):hover {
+            background: #dc4446;
+            border-color: #dc4446;
+            color: #fff;
+        }
+    }
+
+    .ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) {
+        &:focus,
+        &:hover {
+            .ant-select-selector {
+                border-color: var(--mi-primary);
+                box-shadow: none;
+            }
+        }
+    }
+
+    .ant-select-focused.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+        border-color: var(--mi-primary);
+        box-shadow: none;
+    }
+
+    .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+        border-color: var(--mi-primary);
+        background-color: var(--mi-primary);
+    }
+
+    .ant-tabs .ant-tabs-tab:hover,
+    .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: var(--mi-primary);
+    }
+
+    .ant-tabs .ant-tabs-ink-bar {
+        background: var(--mi-primary);
+    }
+
+    .ant-switch.ant-switch-checked,
+    .ant-switch.ant-switch-checked:hover:not(.ant-switch-disabled) {
+        background: var(--mi-primary);
+    }
+
+    .ant-switch .ant-switch-inner .ant-switch-inner-checked {
+        color: var(--mi-on-primary);
+    }
+
+    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+        border-color: var(--mi-primary);
+    }
 }
 
 *, :after, :before, [class*=mi-] {

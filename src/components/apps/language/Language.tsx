@@ -328,6 +328,7 @@ const MiAppsLanguage = defineComponent({
                                     <div class={styled.actionBtns}>
                                         <Button
                                             type="primary"
+                                            class={styled.btnPrimary}
                                             icon={<FormOutlined />}
                                             onClick={() => handleUpdateContentModalState(record)}>
                                             {t('global.edit')}
@@ -503,6 +504,7 @@ const MiAppsLanguage = defineComponent({
                                         <div class={styled.actionBtns}>
                                             <Button
                                                 type="primary"
+                                                class={styled.btnPrimary}
                                                 icon={<FormOutlined />}
                                                 onClick={() =>
                                                     handleUpdateModuleModalState(record)
@@ -1821,7 +1823,11 @@ const MiAppsLanguage = defineComponent({
                                     )
                                 }
                             }}>
-                            <Button type="primary" size="large" icon={<CheckOutlined />}>
+                            <Button
+                                type="primary"
+                                class={styled.btnPrimary}
+                                size="large"
+                                icon={<CheckOutlined />}>
                                 {t('language.default.set')}
                             </Button>
                         </Popconfirm>
@@ -1863,6 +1869,7 @@ const MiAppsLanguage = defineComponent({
                                                 <Button
                                                     type="primary"
                                                     size="small"
+                                                    class={styled.btnPrimary}
                                                     onClick={() =>
                                                         handleUpdateContentStatus(
                                                             params.ids,
@@ -1925,6 +1932,7 @@ const MiAppsLanguage = defineComponent({
                                                 <Button
                                                     type="primary"
                                                     size="small"
+                                                    class={styled.btnPrimary}
                                                     onClick={() => handleBatchDeleteContent()}>
                                                     {t('global.ok')}
                                                 </Button>
@@ -1956,7 +1964,10 @@ const MiAppsLanguage = defineComponent({
             ) : (
                 <div class={styled.selectAdd}>
                     <span innerHTML={t('language.default.none')}></span>
-                    <Button type="primary" onClick={handleCreateCategoryModalState}>
+                    <Button
+                        type="primary"
+                        class={styled.btnPrimary}
+                        onClick={handleCreateCategoryModalState}>
                         {t('global.create')}
                     </Button>
                 </div>
@@ -2039,11 +2050,13 @@ const MiAppsLanguage = defineComponent({
                                     return <SearchOutlined />
                                 }
                             }}
+                            class={styled.btnPrimary}
                             onClick={handleSearchContent}>
                             {t('global.seek')}
                         </Button>
                         <Button
                             type="primary"
+                            class={styled.btnPrimary}
                             v-slots={{
                                 icon: () => {
                                     return <ReloadOutlined />
@@ -2186,7 +2199,10 @@ const MiAppsLanguage = defineComponent({
                             marginTop: $tools.convert2rem(2)
                         }}
                     />
-                    <Button type="primary" onClick={handleCreateCategoryModalState}>
+                    <Button
+                        type="primary"
+                        class={styled.btnPrimary}
+                        onClick={handleCreateCategoryModalState}>
                         {t('language.create')}
                     </Button>
                 </>
@@ -2218,6 +2234,7 @@ const MiAppsLanguage = defineComponent({
                         <span innerHTML={title}></span>
                         <Button
                             type="primary"
+                            class={styled.btnPrimary}
                             onClick={() =>
                                 (params.modal.modules.create = !params.modal.modules.create)
                             }>
@@ -2499,7 +2516,10 @@ const MiAppsLanguage = defineComponent({
                             ) : (
                                 <div class={styled.selectAdd}>
                                     <span innerHTML={t('language.default.none')}></span>
-                                    <Button type="primary" onClick={handleCreateCategoryModalState}>
+                                    <Button
+                                        type="primary"
+                                        class={styled.btnPrimary}
+                                        onClick={handleCreateCategoryModalState}>
                                         {t('global.create')}
                                     </Button>
                                 </div>
@@ -2619,6 +2639,7 @@ const MiAppsLanguage = defineComponent({
                                         <span innerHTML={t('language.default.none')}></span>
                                         <Button
                                             type="primary"
+                                            class={styled.btnPrimary}
                                             onClick={handleCreateCategoryModalState}>
                                             {t('global.create')}
                                         </Button>

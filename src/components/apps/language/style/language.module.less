@@ -392,6 +392,19 @@
 }
 
 .btn {
+    &-primary {
+        background: var(--mi-primary);
+        color: var(--mi-on-primary);
+        border-color: var(--mi-primary);
+
+        &:not(:disabled):focus,
+        &:not(:disabled):hover {
+            border-color: transparent;
+            color: var(--mi-on-primary);
+            background: var(--mi-primary);
+        }
+    }
+    
     &-info {
         background: var(--mi-tertiary);
         color: var(--mi-on-tertiary);
@@ -401,6 +414,7 @@
         &:not(:disabled):hover {
             border-color: transparent;
             color: var(--mi-on-tertiary);
+            background: var(--mi-tertiary);
         }
     }
 
@@ -413,6 +427,7 @@
         &:not(:disabled):hover {
             border-color: transparent;
             color: var(--mi-on-error);
+            background: var(--mi-error);
         }
     }
 }
@@ -488,12 +503,12 @@
     :global {
         .anticon {
             .properties(margin-right, 4);
-            color: var(--mi-primary);
+            color: var(--mi-background);
         }
     }
 
     span {
-        color: var(--mi-primary);
+        color: var(--mi-background);
     }
 }
 
