@@ -971,6 +971,21 @@ class MiTools {
         }
         return lang
     }
+
+    /**
+     * 判断字符串开头字符及返回处理
+     * @param str 字符串
+     * @param prefix 开头字符
+     * @param combine 是否联合返回
+     * @returns
+     */
+    startWith(str: string, prefix: string, combine = true) {
+        if (str) {
+            const status = str.charAt(0) === prefix
+            return combine ? (status ? str : `${prefix}${str}`) : status
+        }
+        return false
+    }
 }
 
 /**
@@ -1026,6 +1041,7 @@ class MiTools {
  *  - {@link $tools.colorHex2Rgba} 颜色转换 hex -> rgba
  *  - {@link $tools.colorRgb2Hex} 颜色转换 rgb -> hex
  *  - {@link $tools.getLanguage} 获取浏览器语系
+ *  - {@link $tools.startWith} 判断字符串开头字符及返回处理
  */
 export const $tools: MiTools = new MiTools()
 

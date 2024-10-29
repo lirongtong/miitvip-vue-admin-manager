@@ -23,6 +23,7 @@ export default {
     'hide-router': '隐藏路由',
     'add-sub': `添加子菜单`,
     redirect: `默认跳转地址`,
+    login: `是否需要登录`,
     policies: {
         invisible: '不可见',
         visible: '仅可见',
@@ -46,7 +47,10 @@ export default {
         redirect: '请输入默认跳转地址',
         icon: '请选择菜单图标',
         up: '请选择上级菜单',
-        lang: '多语言菜单 key 值',
+        lang: 'KEY 值以字母开头，至少 2 位',
         auth: '请输入唯一的授权标识, 如: personal:data'
+    },
+    error: {
+        lang: `菜单多语言 key 值格式不正确，请重新输入`
     }
 }

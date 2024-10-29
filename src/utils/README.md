@@ -85,3 +85,98 @@
 | `right` | `string \| number \| DeviceSize` | 右边距
 | `bottom` | `string \| number \| DeviceSize` | 下边距
 | `left` | `string \| number \| DeviceSize` | 左边距
+
+### Interface `KeyValue`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `key` | `string \| number` | KEY
+| `value` | `any` | VALUE
+
+### Interface `LoginParams`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `username` | `string` | 用户名
+| `password` | `string` | 密码
+| `remember` | `boolean \| number` | 是否自动登录
+| `captcha` | `boolean` | 是否开启验证码
+| `url` | `string` | 接口地址
+| `method` | `string` | 请求方式
+| `cuid` | `string` | 验证码校验 UID
+
+### Interface `RegisterParams`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `username` | `string` | 用户名
+| `email` | `string` | 邮箱地址
+| `password` | `string` | 密码
+| `confirm` | `string` | 确认密码
+| `captcha` | `boolean` | 是否开启验证码
+| `url` | `string` | 接口地址
+| `method` | `string` | 请求方式
+| `cuid` | `string` | 验证码校验 UID
+
+### Interface `LoginAuth`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `url` | `string` | 接口地址
+| `token` | `string` | 授权码
+
+### Interface `LoginResponseData`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `user` | `string` | 用户数据
+| `tokens` | `object` | 授权
+
+### Interface `VerifyConfig`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `action` | `string \| Function` | 动作
+| `params` | `object` | 参数
+| `method` | `string` | 方式
+
+### Interface `AnchorLinkItem`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `id` | `string` | 唯一值
+| `title` | `string` | 标题
+
+### Interface `AnchorListItem`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `id` | `string` | 唯一值
+| `title` | `string` | 标题
+| `offset` | `number` | 偏移量
+
+### Interface `MenuTreeItem`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `id` | `string \| number` | 菜单项唯一标识
+| `pid` | `string \| number` | 父级菜单项唯一标识
+| `type` | `number \| number` | 菜单项类型 ( 一级菜单 / 子菜单 / 按钮菜单 )
+| `name` | `string` | 菜单项记录名称 ( 英文 )
+| `path` | `string` | 路由地址
+| `page` | `string` | 路由组件名称
+| `title` | `string \| number` | 菜单项显示名称
+| `value` | `string \| number` | 菜单项唯一标识 ( 中文 )
+| `cid` | `string \| number` | 菜单项所属应用ID
+| `icon` | `string \| number` | 图标名称
+| `weight` | `number` | 权重
+| `lang` | `string` | 语言标识
+| `children` | `Partial<MenuTreeItem>[]` | 子菜单项
+
+### Interface `MenuTree`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `title` | `string \| number` | 菜单显示名称
+| `value` | `string \| number` | 菜单值
+| `children` | `Partial<MenuTreeItem>[]` | 子菜单项

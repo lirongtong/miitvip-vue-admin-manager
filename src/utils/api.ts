@@ -42,22 +42,21 @@ export const api = {
         check: '/password/captcha/checkout'
     },
     languages: {
-        data: '/languages',
-        batchCreate: '/languages/batch',
-        update: '/languages/{id}',
-        check: '/languages/checkout',
+        normal: `/languages`,
+        batch: `/languages/batch-create`,
+        status: `/languages/status`,
+        check: `/languages/check`,
         category: {
-            data: '/languages/categories',
-            update: '/languages/categories/{id}',
-            check: '/languages/categories/checkout',
-            default: '/languages/categories/default/{id}'
+            normal: `/languages/categories`,
+            check: `/languages/categories/check`,
+            default: `/languages/categories/default`
+        },
+        module: {
+            normal: `/languages/modules`,
+            check: `/languages/modules/check`
         }
     },
-    menus: {
-        data: '/menus',
-        update: '/menus/{id}',
-        delete: '/menus/{id}'
-    },
+    menus: `/menus`,
     apps: {
         data: '/apps',
         create: '/apps',

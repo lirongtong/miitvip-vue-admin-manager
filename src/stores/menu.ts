@@ -10,6 +10,7 @@ import type { MenuItem, DropdownItem } from '../utils/types'
  * @param activeKeys 当前选中的菜单项 key 值数组
  * @param relationshipChain 选中菜单的关系链
  * @param drawer 抽屉式菜单的状态
+ * @param loading 数据加载中
  */
 export const useMenuStore = defineStore('menus', {
     state: () => ({
@@ -19,7 +20,8 @@ export const useMenuStore = defineStore('menus', {
         openKeys: [] as (string | number)[],
         activeKeys: [] as (string | number)[],
         relationshipChain: [] as string[],
-        drawer: false
+        drawer: false,
+        loading: false
     }),
     actions: {
         updateMenus(menus: MenuItem[]) {

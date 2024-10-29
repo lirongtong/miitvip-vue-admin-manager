@@ -23,11 +23,11 @@ import {
     Tooltip
 } from 'ant-design-vue'
 import { directional, tips, edit, data, brands, generic } from './icons'
-import { MenuTreeProps, type MenuTreeItem } from './props'
+import { MenuTreeProps } from './props'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { useWindowResize } from '../../../hooks/useWindowResize'
-import { type ResponseData } from '../../../utils/types'
+import type { ResponseData, MenuTreeItem } from '../../../utils/types'
 import * as AntdvIcons from '@ant-design/icons-vue'
 import MiModal from '../../modal/Modal'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
@@ -43,6 +43,16 @@ const MiAppsMenu = defineComponent({
         const { t } = useI18n()
         const { width } = useWindowResize()
         const menuFormRef = ref<FormInstance>()
+
+        // 多语言 key 值格式校验
+        const checkLangKeyValidate = (_rule: any, value: string) => {
+            if (!value) return Promise.resolve()
+            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-\.\_]/gi.test(value)) {
+                return Promise.reject(t('menu.error.lang'))
+            }
+            return Promise.resolve()
+        }
+
         const params = reactive({
             ids: [],
             loading: {
@@ -193,14 +203,17 @@ const MiAppsMenu = defineComponent({
                     auth_mark: '',
                     auth_policy: 2,
                     auth_state: 1,
+                    auth_login: 1,
                     is_router: true,
                     is_blank: false,
                     is_hide: false
                 },
                 rules: {
                     name: [{ required: true, message: t('menu.placeholder.name') }],
+                    path: [{ required: true, message: t('menu.placeholder.path') }],
                     page: [{ required: true, message: t('menu.placeholder.page') }],
-                    pid: [{ required: true, message: t('menu.placeholder.up') }]
+                    pid: [{ required: true, message: t('menu.placeholder.up') }],
+                    lang: [{ required: false, validator: checkLangKeyValidate }]
                 }
             },
             open: false,
@@ -221,6 +234,10 @@ const MiAppsMenu = defineComponent({
             states: [
                 { label: t('global.invalid'), value: 0 },
                 { label: t('global.valid'), value: 1 }
+            ],
+            yesOrNo: [
+                { label: t('global.no'), value: 0 },
+                { label: t('global.yes'), value: 1 }
             ],
             edit: {
                 status: false,
@@ -256,7 +273,6 @@ const MiAppsMenu = defineComponent({
                     (res: ResponseData | any) => {
                         params.menus = getMenusTreeData(res?.data)
                         params.table.data = params.menus
-                        handleCreateGlobalRouter()
                         emit('afterGetMenus', res)
                     },
                     () => (params.loading.list = false)
@@ -280,14 +296,6 @@ const MiAppsMenu = defineComponent({
             }
             return top
         }
-
-        // 根据菜单数据封装形成路由
-        const handleCreateGlobalRouter = () => {
-            handleUpdateGlobalMenus()
-        }
-
-        // 更新全局菜单
-        const handleUpdateGlobalMenus = () => {}
 
         // 单条删除
         const handleDeleteMenus = async (id: number) => {
@@ -359,6 +367,7 @@ const MiAppsMenu = defineComponent({
             params.form.validate.auth_mark = ''
             params.form.validate.auth_policy = 2
             params.form.validate.auth_state = 1
+            if (menuFormRef.value) menuFormRef.value.resetFields()
         }
 
         // 打开/关闭抽屉式表单
@@ -889,6 +898,12 @@ const MiAppsMenu = defineComponent({
                                 placeholder={t('menu.placeholder.lang')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
+                        </FormItem>
+                        <FormItem label={t('menu.login')} name="auth_login">
+                            <RadioGroup
+                                options={params.yesOrNo}
+                                disabled={params.detail.show}
+                                v-model:value={params.form.validate.auth_login}></RadioGroup>
                         </FormItem>
                         {btnMenu}
                     </Form>

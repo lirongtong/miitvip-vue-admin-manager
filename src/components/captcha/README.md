@@ -39,7 +39,7 @@ const handleInitAction = () => {
 </template>
 
 <script setup lang="ts">
-import background from '@/assets/images/captcha-background.png'
+import background from '@/assets/images/background.png'
 </script>
 ```
 

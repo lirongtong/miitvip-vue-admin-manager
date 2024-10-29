@@ -23,6 +23,7 @@ export default {
     'hide-router': 'Hide router',
     'add-sub': `Add submenu`,
     redirect: `Default redirect address`,
+    login: `Log in to access`,
     policies: {
         invisible: 'Invisible',
         visible: 'Visible only',
@@ -48,5 +49,8 @@ export default {
         up: 'Please select the parent menu',
         lang: 'Multi-language menu key value',
         auth: 'Please enter a unique authorization identifier, such as: personal:data'
+    },
+    error: {
+        lang: `The menu multilingual key value format is incorrect, please re-enter`
     }
 }

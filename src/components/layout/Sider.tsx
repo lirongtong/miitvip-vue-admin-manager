@@ -3,6 +3,7 @@ import { LayoutSiderProps } from './props'
 import { getPropSlot } from '../_utils/props'
 import { useLayoutStore } from '../../stores/layout'
 import { useMenuStore } from '../../stores/menu'
+import { Skeleton } from 'ant-design-vue'
 import MiMenu from '../menu/Menu'
 import MiLayoutSiderLogo from './Logo'
 import applyTheme from '../_utils/theme'
@@ -21,6 +22,7 @@ const MiLayoutSider = defineComponent({
         const useMenu = useMenuStore()
         const collapsed = computed(() => useLayout.collapsed)
         const menus = computed(() => useMenu.menus)
+        const loading = computed(() => useMenu.loading)
         applyTheme(styled)
 
         const renderLogo = () => {
@@ -28,7 +30,13 @@ const MiLayoutSider = defineComponent({
         }
 
         const renderMenu = () => {
-            return getPropSlot(slots, props, 'menu') ?? <MiMenu items={menus.value} />
+            return (
+                getPropSlot(slots, props, 'menu') ?? (
+                    <Skeleton active={true} loading={loading.value}>
+                        <MiMenu items={menus.value} />
+                    </Skeleton>
+                )
+            )
         }
 
         return () => (

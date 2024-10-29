@@ -1,9 +1,15 @@
 <template>
     <div style="margin-top: 24px">
         <mi-apps-menu
-            get-menus-action="/v1/menus"
-            create-menus-action="/v1/menus"
-            update-menus-action="/v1/menus"
-            delete-menus-action="/v1/menus" />
+            :get-menus-action="api.menus"
+            :create-menus-action="api.menus"
+            :update-menus-action="api.menus"
+            :delete-menus-action="api.menus" />
     </div>
 </template>
+
+<script setup lang="ts">
+import { useApi } from '../../../src/index'
+
+const api = useApi()
+</script>
