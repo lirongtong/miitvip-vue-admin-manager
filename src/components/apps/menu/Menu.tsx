@@ -23,11 +23,11 @@ import {
     Tooltip
 } from 'ant-design-vue'
 import { directional, tips, edit, data, brands, generic } from './icons'
-import { MenuTreeProps } from './props'
+import { MenuTreeProps, type MenuTreeItem } from './props'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { useWindowResize } from '../../../hooks/useWindowResize'
-import type { ResponseData, MenuTreeItem } from '../../../utils/types'
+import type { ResponseData } from '../../../utils/types'
 import * as AntdvIcons from '@ant-design/icons-vue'
 import MiModal from '../../modal/Modal'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
