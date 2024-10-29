@@ -27,7 +27,8 @@ export const __MI_SOCIALITE_DOMAIN__ = '/v1/oauth'
  * @param protocols URL 校验协议数组
  * @param regExp 常用正则
  * @param caches 缓存 key 值
- * @param menus 菜单
+ * @param breakpoints 断点配置
+ * @param winSize 窗口尺寸
  */
 export const $g = reactive({
     title: 'Makeit Admin Pro',
