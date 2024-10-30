@@ -25,6 +25,7 @@ import { default as Anchor } from './components/anchor'
 import { default as Socialite } from './components/socialite'
 import { default as AppsLanguage } from './components/apps/language'
 import { default as AppsRouter } from './components/apps/router'
+import { default as AppsNavigation } from './components/apps/navigation'
 
 import * as components from './components'
 export * from './components'
@@ -87,7 +88,8 @@ declare module '@vue/runtime-core' {
         MiAnchor: typeof Anchor
         MiSocialite: typeof Socialite
         MiAppsLanguage: typeof AppsLanguage
-        AppsRouter: typeof AppsRouter
+        MiAppsRouter: typeof AppsRouter
+        MiAppsNavigation: typeof AppsNavigation
     }
 }
 

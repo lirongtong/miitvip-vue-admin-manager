@@ -1,3 +1,5 @@
 <template>
-    <div>Navigation</div>
+    <div style="margin-top: 1.5rem">
+        <mi-apps-navigation />
+    </div>
 </template>

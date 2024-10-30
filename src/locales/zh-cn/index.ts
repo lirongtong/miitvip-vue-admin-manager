@@ -10,7 +10,7 @@ import anchor from './anchor'
 import forget from './forget'
 import code from './code'
 import language from './language'
-import menu from './menu'
+import navigation from './navigation'
 import router from './router'
 
 export default {
@@ -26,6 +26,6 @@ export default {
     forget,
     code,
     language,
-    menu,
+    navigation,
     router
 }
