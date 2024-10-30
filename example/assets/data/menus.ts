@@ -266,11 +266,20 @@ export const menusData = [
                 }
             },
             {
-                name: 'advanced-menu',
-                path: '/advanced/menu',
+                name: 'advanced-router',
+                path: '/advanced/router',
                 meta: {
-                    title: '菜单管理',
-                    subTitle: 'Menu',
+                    title: '路由管理',
+                    subTitle: 'Router',
+                    icon: AntdvIcons?.AimOutlined
+                }
+            },
+            {
+                name: 'advanced-navigation',
+                path: '/advanced/navigation',
+                meta: {
+                    title: '导航管理',
+                    subTitle: 'Navigation',
                     icon: AntdvIcons?.MenuUnfoldOutlined
                 }
             }

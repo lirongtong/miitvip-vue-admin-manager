@@ -142,9 +142,7 @@ const MiAppsLanguage = defineComponent({
                 )
                 if (typeof props.checkCategoryExistAction === 'string') {
                     return await $request?.[props.checkCategoryExistMethod](
-                        $tools.replaceUrlParams(props.checkCategoryExistAction, {
-                            id: params.form.category.id
-                        }),
+                        props.checkCategoryExistAction,
                         categoryParams
                     )
                         .then((res: ResponseData | any) => {

@@ -11,6 +11,7 @@ import forget from './forget'
 import code from './code'
 import language from './language'
 import menu from './menu'
+import router from './router'
 
 export default {
     global,
@@ -25,5 +26,6 @@ export default {
     forget,
     code,
     language,
-    menu
+    menu,
+    router
 }

@@ -98,5 +98,5 @@ export type {
 } from './apps/language/props'
 export { default as AppsLanguage } from './apps/language'
 
-export type { MenuTreeItem, MenuTree, MenuTreeProperties } from './apps/menu/props'
-export { default as AppsMenu } from './apps/menu'
+export type { RouterTreeItem, RouterTree, RouterTreeProperties } from './apps/router/props'
+export { default as AppsRouter } from './apps/router'

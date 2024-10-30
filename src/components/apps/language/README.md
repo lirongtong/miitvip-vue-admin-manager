@@ -124,7 +124,7 @@
 | `translateType` | `string` | `baidu` | 自动翻译类型 ( 默认: baidu )
 | `data` | [`LanguageItemProperties[]`](./README.md#languageitemproperties-属性--properties-) | `[]` | 语言项数据 (首选, 次选 `getContentAction`)
 | `category` | [`LanguageItemProperties[]`](./README.md#languageitemproperties-属性--properties-) | `[]` | 语言分类数据 (首选, 次选 `getCategoryAction`)
-| `getCategoryAction` | `string \| function` | `''` | 获取语言分类接口地址或自定义方法 ( 必填 )
+| `getCategoryAction` | `string \| function` | `''` | 获取语言分类接口地址或自定义方法
 | `getCategoryMethod` | `string` | `get` | 获取语言分类接口的请求方式 ( `getCategoryAction` string 时有效 )
 | `getCategoryParams` | `object` | `{}` | 获取语言分类接口参数
 | `createCategoryAction` | `string \| function` | `''` | 创建语言分类接口地址或自定义方法
@@ -167,7 +167,7 @@
 | `checkContentExistMethod` | `string` | `get` | 检测语言项是否存在接口的请求方式 ( `checkContentExistAction` string 时有效 )
 | `checkContentExistParams` | `object` | `{}` | 检测语言项是否存在接口参数
 | `showBuiltinLanguages` | `boolean` | `true` | 是否显示内置语言项
-| `paginationLocale` | `object` | `{}` | 是否显示内置语言项
+| `paginationLocale` | `object` | `{}` | Antdv Table 分页组件的 i18n 配置
 | `getModuleAction` | `string \| function` | `''` | 获取模块列表接口地址或自定义方法
 | `getModuleMethod` | `string` | `get` | 获取模块列表接口的请求方式 ( `getModuleAction` string 时有效 )
 | `getModuleParams` | `object` | `{}` | 获取模块列表接口参数

@@ -92,15 +92,15 @@ input {
 
     .ant-table-wrapper {
         .ant-table-row-expand-icon {
-            border-color: var(--mi-primary);
-            color: var(--mi-on-primary);
-            background-color: var(--mi-primary);
+            border-color: var(--mi-secondary);
+            color: var(--mi-on-secondary);
+            background-color: var(--mi-secondary);
             .radius();
 
             &:focus,
             &:hover {
-                color: var(--mi-on-primary);
-                border-color: var(--mi-primary);
+                color: var(--mi-on-secondary);
+                border-color: var(--mi-secondary);
             }
         }
     }
@@ -228,6 +228,22 @@ input {
 
     .ant-pagination .ant-pagination-options-quick-jumper input:hover {
         border-color: var(--mi-primary);
+    }
+
+    .ant-checkbox-checked:after,
+    .ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner,
+    .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled):after {
+        border-color: var(--mi-primary);
+    }
+
+    .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: var(--mi-primary);
+        border-color: var(--mi-primary);
+    }
+
+    .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled) .ant-checkbox-inner,
+    .ant-checkbox-indeterminate .ant-checkbox-inner:after {
+        background-color: var(--mi-primary);
     }
 }
 
