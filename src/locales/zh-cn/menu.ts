@@ -55,7 +55,8 @@ export default {
     },
     tips: {
         title: `非必填，首选多语言配置标题，次选手动配置标题，默认都为空则与 '名称' 属性内容一致`,
-        weight: `值越大，越靠前`
+        weight: `值越大，越靠前`,
+        badge: `首选文案，次选图标`
     },
     placeholder: {
         name: '请输入唯一的菜单名称，如：mi-dashboard',

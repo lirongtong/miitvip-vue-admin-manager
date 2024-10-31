@@ -702,7 +702,7 @@ const MiAppsMenu = defineComponent({
                                             format="hex"
                                             zIndex={Date.now()}
                                             onPureColorChange={(hex: string) => {
-                                                params.form.badge.modal.color = false
+                                                params.form.badge.modal.bgColor = false
                                                 params.form.badge.validate.bgColor = hex
                                             }}
                                         />
@@ -892,6 +892,19 @@ const MiAppsMenu = defineComponent({
                             />
                         </Tooltip>
                     </div>
+                ),
+                badge: (
+                    <div>
+                        <span innerHTML={t('menu.badge.label')}></span>
+                        <Tooltip title={t('menu.tips.badge')} trigger="hover" zIndex={Date.now()}>
+                            <AntdvIcons.QuestionCircleOutlined
+                                style={{
+                                    marginRight: $tools.convert2rem(4),
+                                    marginLeft: $tools.convert2rem(4)
+                                }}
+                            />
+                        </Tooltip>
+                    </div>
                 )
             }
             const btnMenu =
@@ -977,7 +990,7 @@ const MiAppsMenu = defineComponent({
                                 onClick={handleOpenIconsModal}
                             />
                         </FormItem>
-                        <FormItem label={t('menu.badge.label')} name="icon">
+                        <FormItem label={labels.badge} name="icon">
                             <Popover
                                 title={false}
                                 trigger="click"
