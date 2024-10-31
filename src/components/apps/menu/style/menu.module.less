@@ -58,6 +58,23 @@
     }
 }
 
+.input {
+    &-readonly {
+        &,
+        input {
+            cursor: pointer;
+        }
+    }
+}
+
+.badge {
+    &-form {
+        .properties(margin-top, 16);
+        .properties(padding-left);
+        .properties(padding-right);
+    }
+}
+
 .btn {
     &-primary {
         background: var(--mi-primary);

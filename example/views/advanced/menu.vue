@@ -5,7 +5,7 @@
             create-menus-action="/v1/menus"
             update-menus-action="/v1/menus"
             delete-menus-action="/v1/menus"
-            check-name-exist-action="/v1/menus/name/check"
+            check-name-exist-action="/v1/menus/check/name"
         />
     </div>
 </template>

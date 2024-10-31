@@ -146,13 +146,13 @@
 
 ## 高级应用
 
+:white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/apps/language/README.md) ) :snowflake:
+
+:white_check_mark: **[菜单管理 ( 动态路由 )](https://admin.makeit.vip/advanced/router)** ( [`AppsMenu`](./src/components/apps/menu/README.md) ) :triangular_flag_on_post:
+
 :x: 权限控制 :sunglasses:
 
 :x: 应用管理 :rose:
-
-:white_check_mark: **[路由管理 ( 动态生成 )](https://admin.makeit.vip/advanced/router)** ( [`AppsRouter`](./src/components/apps/router/README.md) ) :triangular_flag_on_post:
-
-:white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/apps/language/README.md) ) :snowflake:
 
 :x: 富文本编辑器 :ocean:
 

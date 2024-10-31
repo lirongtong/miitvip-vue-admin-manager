@@ -22,7 +22,7 @@
             title: '快速上手',
             subTitle: 'Getting Started',
             icon: createVNode(ThunderboltOutlined),
-            tag: { color: '#f50', content: 'Hot' }
+            tag: { bgColor: '#f50', content: 'Hot' }
         }
     }, {
         name: 'theme',

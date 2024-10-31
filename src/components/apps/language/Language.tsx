@@ -1660,7 +1660,10 @@ const MiAppsLanguage = defineComponent({
         // 管理 tabs
         const renderTabs = () => {
             return (
-                <Row class={styled.categories}>
+                <Row
+                    class={`${styled.categories}${
+                        !props.showBuiltinLanguages ? ` ${styled.categoriesNoBuiltin}` : ''
+                    }`}>
                     <div
                         class={[styled.categoriesItem, styled.categoriesCustomize]}
                         onClick={() => handleCustomizeClick()}>
@@ -2293,7 +2296,24 @@ const MiAppsLanguage = defineComponent({
                     </TabPane>
                 </Tabs>
             ) : (
-                <div></div>
+                <Table
+                    loading={params.loading.module}
+                    bordered={true}
+                    columns={params.table.module.columns.customize}
+                    dataSource={languages.modules.customize}
+                    pagination={{
+                        showLessItems: true,
+                        showQuickJumper: true,
+                        onChange: (page: number, size: number) => {
+                            params.table.module.pagination.customize.page = page
+                            params.table.module.pagination.customize.size = size
+                        },
+                        responsive: true,
+                        total: params.total.customize,
+                        current: params.table.module.pagination.customize.page,
+                        pageSize: params.table.module.pagination.customize.size
+                    }}
+                    scroll={{ x: 580 }}></Table>
             )
         }
 

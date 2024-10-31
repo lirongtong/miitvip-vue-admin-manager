@@ -74,13 +74,14 @@ const MiMenuItemTitle = defineComponent({
                     tag.value = (
                         <Tag
                             class={[styled.tag, `${prefixCls}-tag`]}
-                            color={tagInfo?.color}
+                            color={tagInfo?.bgColor}
                             innerHTML={tagInfo.content}
                             v-show={!collapsed.value}
                             style={{
                                 borderRadius: $tools.convert2rem(
                                     $tools.distinguishSize(tagInfo?.radius)
-                                )
+                                ),
+                                color: tagInfo?.color || null
                             }}
                         />
                     )

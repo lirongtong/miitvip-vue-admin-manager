@@ -17,7 +17,7 @@ export const menusData = [
             title: '控制中心',
             subTitle: 'Control Center',
             icon: AntdvIcons?.DashboardOutlined,
-            tag: {color: '#f50', content: 'Hot'}
+            tag: {bgColor: '#f50', content: 'Hot'}
         }
     },
     {
@@ -253,7 +253,7 @@ export const menusData = [
             title: '高级应用',
             subTitle: 'Advanced',
             icon: AntdvIcons?.AppleOutlined,
-            tag: { content: '授权', color: '#e6300b' }
+            tag: { content: '授权', bgColor: '#e6300b' }
         },
         children: [
             {

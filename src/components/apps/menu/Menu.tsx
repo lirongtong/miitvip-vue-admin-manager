@@ -21,7 +21,8 @@ import {
     TabPane,
     type FormInstance,
     Tooltip,
-    RadioButton
+    RadioButton,
+    Popover
 } from 'ant-design-vue'
 import { wireframe, solid } from './icons'
 import { MenuTreeProps, type MenuTreeItem } from './props'
@@ -29,12 +30,14 @@ import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { useWindowResize } from '../../../hooks/useWindowResize'
 import type { ResponseData } from '../../../utils/types'
+import { ColorPicker } from 'vue3-colorpicker'
 import * as AntdvIcons from '@ant-design/icons-vue'
 import MiModal from '../../modal/Modal'
 import MiDropdown from '../../dropdown/Dropdown'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
 import styled from './style/menu.module.less'
+import 'vue3-colorpicker/style.css'
 
 const MiAppsMenu = defineComponent({
     name: 'MiAppsMenu',
@@ -45,7 +48,40 @@ const MiAppsMenu = defineComponent({
         const { t } = useI18n()
         const { width } = useWindowResize()
         const menuFormRef = ref<FormInstance>()
-
+        const checkNameValidate = async (_rule: any, value: string) => {
+            if (!value) return Promise.reject(t('menu.placeholder.name'))
+            if (props.checkNameExistAction) {
+                const condition = Object.assign(
+                    {
+                        id: params.edit.id || 0,
+                        edit: params.edit.status ? 1 : 0,
+                        name: params.form.validate.name
+                    },
+                    { ...props.checkNameExistParams }
+                )
+                if (typeof props.checkNameExistAction === 'string') {
+                    return await $request?.[props.checkNameExistMethod](
+                        props.checkNameExistAction,
+                        condition
+                    )
+                        .then((res: ResponseData | any) => {
+                            if (res?.ret?.code === 200) {
+                                return Promise.resolve()
+                            } else if (res?.ret?.message) {
+                                return Promise.reject(res?.ret?.message)
+                            }
+                            return Promise.resolve()
+                        })
+                        .catch((err: any) => {
+                            return Promise.reject(err?.message || err)
+                        })
+                } else if (typeof props.checkNameExistAction === 'function') {
+                    const response = await props.checkNameExistAction(condition)
+                    if (typeof response === 'string') return Promise.reject(response)
+                    return Promise.resolve()
+                }
+            } else return Promise.resolve()
+        }
         const params = reactive({
             ids: [],
             loading: {
@@ -93,7 +129,7 @@ const MiAppsMenu = defineComponent({
                             const IconTag = AntdvIcons?.[record.record.icon]
                             return <IconTag style={`font-size: 1.25rem`} />
                         },
-                        width: 100
+                        width: 80
                     },
                     {
                         title: t('menu.page'),
@@ -198,17 +234,28 @@ const MiAppsMenu = defineComponent({
                     auth_mark: '',
                     auth_policy: 2,
                     auth_state: 1,
-                    auth_login: 1,
-                    is_router: true,
+                    auth_login: 0,
                     is_blank: false,
                     is_hide: false
                 },
                 rules: {
-                    name: [{ required: true, message: t('menu.placeholder.name') }],
-                    title: [{ required: true, message: t('menu.placeholder.title') }],
+                    name: [{ required: true, validator: checkNameValidate, trigger: 'blur' }],
                     path: [{ required: true, message: t('menu.placeholder.path') }],
                     page: [{ required: true, message: t('menu.placeholder.page') }],
                     pid: [{ required: true, message: t('menu.placeholder.up') }]
+                },
+                badge: {
+                    validate: {
+                        content: '',
+                        color: '',
+                        bgColor: '',
+                        radius: 4,
+                        icon: null
+                    },
+                    modal: {
+                        color: false,
+                        bgColor: false
+                    }
                 }
             },
             open: false,
@@ -367,13 +414,13 @@ const MiAppsMenu = defineComponent({
                 params.edit.id = data?.id
                 params.edit.pid = data?.pid
                 params.form.validate = JSON.parse(JSON.stringify(data || {}))
-                params.form.validate.is_router = data?.is_router > 0
                 params.form.validate.weight = parseInt(data?.weight || 0)
             } else handleResetFormData()
         }
 
         // 重置表单数据
         const handleResetFormData = () => {
+            if (menuFormRef.value) menuFormRef.value?.resetFields()
             params.edit.status = false
             params.edit.id = 0
             params.edit.pid = null
@@ -384,7 +431,6 @@ const MiAppsMenu = defineComponent({
             params.form.validate.auth_mark = ''
             params.form.validate.auth_policy = 2
             params.form.validate.auth_state = 1
-            if (menuFormRef.value) menuFormRef.value.resetFields()
         }
 
         // 打开/关闭抽屉式表单
@@ -402,7 +448,6 @@ const MiAppsMenu = defineComponent({
                 params.open = !params.open
                 params.edit.pid = data?.pid
                 params.form.validate = JSON.parse(JSON.stringify(data))
-                params.form.validate.is_router = data?.is_router > 0
                 params.form.validate.weight = parseInt(data?.weight || 0)
             } else params.detail.id = null
         }
@@ -628,14 +673,106 @@ const MiAppsMenu = defineComponent({
             )
         }
 
-        // 图标选择触发点
-        const renderIconsTrigger = () => {
+        // 徽章配置弹窗
+        const renderBadgeConfig = () => {
             return (
-                <a onClick={handleOpenIconsModal}>
-                    <AntdvIcons.AimOutlined />
-                </a>
+                <div class={styled.badgeForm}>
+                    <Form labelCol={{ style: { width: $tools.convert2rem(90) } }}>
+                        <FormItem label={t('menu.badge.content')}>
+                            <Input
+                                v-model:value={params.form.badge.validate.content}
+                                autocomplete="off"
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.badge.bg')}>
+                            <Popover
+                                v-model:open={params.form.badge.modal.bgColor}
+                                title={false}
+                                trigger="click"
+                                v-slots={{
+                                    content: () => (
+                                        <ColorPicker
+                                            class={styled.customizeColor}
+                                            isWidget={true}
+                                            theme="white"
+                                            pureColor={params.form.badge.validate.bgColor}
+                                            disableHistory={true}
+                                            disableAlpha={true}
+                                            pickerType="chrome"
+                                            format="hex"
+                                            zIndex={Date.now()}
+                                            onPureColorChange={(hex: string) => {
+                                                params.form.badge.modal.color = false
+                                                params.form.badge.validate.bgColor = hex
+                                            }}
+                                        />
+                                    )
+                                }}
+                                zIndex={Date.now()}>
+                                <Input
+                                    v-model:value={params.form.badge.validate.bgColor}
+                                    class={styled.inputReadonly}
+                                    autocomplete="off"
+                                    readOnly={true}
+                                />
+                            </Popover>
+                        </FormItem>
+                        <FormItem label={t('menu.badge.color')}>
+                            <Popover
+                                v-model:open={params.form.badge.modal.color}
+                                title={false}
+                                trigger="click"
+                                v-slots={{
+                                    content: () => (
+                                        <ColorPicker
+                                            class={styled.customizeColor}
+                                            isWidget={true}
+                                            theme="white"
+                                            pureColor={params.form.badge.validate.color}
+                                            disableHistory={true}
+                                            disableAlpha={true}
+                                            pickerType="chrome"
+                                            format="hex"
+                                            zIndex={Date.now()}
+                                            onPureColorChange={(hex: string) => {
+                                                params.form.badge.modal.color = false
+                                                params.form.badge.validate.color = hex
+                                            }}
+                                        />
+                                    )
+                                }}
+                                zIndex={Date.now()}>
+                                <Input
+                                    v-model:value={params.form.badge.validate.color}
+                                    class={styled.inputReadonly}
+                                    autocomplete="off"
+                                    readOnly={true}
+                                />
+                            </Popover>
+                        </FormItem>
+                        <FormItem label={t('menu.icon')}>
+                            <Input
+                                v-model:value={params.form.badge.validate.icon}
+                                autocomplete="off"
+                                class={styled.inputReadonly}
+                                readonly={true}
+                                v-slots={{ suffix: () => <AntdvIcons.AimOutlined /> }}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.badge.radius')}>
+                            <InputNumber
+                                v-model:value={params.form.badge.validate.radius}
+                                autocomplete="off"
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.badge.preview')}>{renderBadgePreview()}</FormItem>
+                    </Form>
+                </div>
             )
         }
+
+        // 徽章预览
+        const renderBadgePreview = () => {}
 
         // 图标弹窗
         const renderIconsModal = () => {
@@ -729,7 +866,34 @@ const MiAppsMenu = defineComponent({
 
         // 抽屉弹窗
         const renderDrawer = () => {
-            // 按钮 / 权限
+            const labels = {
+                title: (
+                    <div>
+                        <span innerHTML={t('menu.title')}></span>
+                        <Tooltip title={t('menu.tips.title')} trigger="hover" zIndex={Date.now()}>
+                            <AntdvIcons.QuestionCircleOutlined
+                                style={{
+                                    marginRight: $tools.convert2rem(4),
+                                    marginLeft: $tools.convert2rem(4)
+                                }}
+                            />
+                        </Tooltip>
+                    </div>
+                ),
+                weight: (
+                    <div>
+                        <span innerHTML={t('menu.weight')}></span>
+                        <Tooltip title={t('menu.tips.weight')} trigger="hover" zIndex={Date.now()}>
+                            <AntdvIcons.QuestionCircleOutlined
+                                style={{
+                                    marginRight: $tools.convert2rem(4),
+                                    marginLeft: $tools.convert2rem(4)
+                                }}
+                            />
+                        </Tooltip>
+                    </div>
+                )
+            }
             const btnMenu =
                 params.form.validate.type === 3 ? (
                     <>
@@ -756,7 +920,6 @@ const MiAppsMenu = defineComponent({
                         </FormItem>
                     </>
                 ) : null
-            // 子菜单
             const subMenu = [2, 3].includes(params.form.validate.type) ? (
                 <FormItem label={t('menu.up')} name="pid">
                     <TreeSelect
@@ -769,8 +932,7 @@ const MiAppsMenu = defineComponent({
                         treeDefaultExpandAll={true}></TreeSelect>
                 </FormItem>
             ) : null
-            // 一级菜单
-            const firstMenu =
+            const normalMenu =
                 params.form.validate.type === 3 ? null : (
                     <>
                         <FormItem label={t('menu.subtitle')} name="sub_title">
@@ -808,11 +970,21 @@ const MiAppsMenu = defineComponent({
                             <Input
                                 v-model:value={params.form.validate.icon}
                                 autocomplete="off"
-                                disabled={true}
                                 readonly={true}
-                                v-slots={{ suffix: () => renderIconsTrigger() }}
+                                class={styled.inputReadonly}
+                                v-slots={{ suffix: () => <AntdvIcons.AimOutlined /> }}
                                 placeholder={t('menu.placeholder.icon')}
+                                onClick={handleOpenIconsModal}
                             />
+                        </FormItem>
+                        <FormItem label={t('menu.badge.label')} name="icon">
+                            <Popover
+                                title={false}
+                                trigger="click"
+                                v-slots={{ content: () => renderBadgeConfig() }}
+                                zIndex={Date.now()}>
+                                <Button type="primary">{t('menu.badge.setting')}</Button>
+                            </Popover>
                         </FormItem>
                         <FormItem label={t('menu.open')} name="is_blank">
                             <Switch
@@ -822,7 +994,7 @@ const MiAppsMenu = defineComponent({
                                 un-checked-children={t('global.internal')}
                             />
                         </FormItem>
-                        <FormItem label={t('menu.weight')} name="weight">
+                        <FormItem label={labels.weight} name="weight">
                             <InputNumber
                                 v-model:value={params.form.validate.weight}
                                 min={1}
@@ -850,7 +1022,6 @@ const MiAppsMenu = defineComponent({
                         </FormItem>
                     </>
                 )
-            // 操作按钮
             const actionBtn = params.detail.show ? (
                 <>
                     <Button
@@ -877,13 +1048,11 @@ const MiAppsMenu = defineComponent({
                     </Button>
                 </>
             )
-            // 标题
             const title = params.edit.status
                 ? t('menu.update')
                 : params.detail.show
                   ? t('global.details')
                   : t('menu.add')
-
             return (
                 <Drawer
                     open={params.open}
@@ -904,6 +1073,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 v-model:value={params.form.validate.type}></RadioGroup>
                         </FormItem>
+                        {subMenu}
                         <FormItem
                             label={
                                 params.form.validate.type === 3
@@ -921,7 +1091,7 @@ const MiAppsMenu = defineComponent({
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        <FormItem label={t('menu.title')} name="title">
+                        <FormItem label={labels.title} name="title">
                             <Input
                                 v-model:value={params.form.validate.title}
                                 autocomplete="off"
@@ -932,8 +1102,6 @@ const MiAppsMenu = defineComponent({
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        {subMenu}
-                        {firstMenu}
                         <FormItem label={t('menu.lang')} name="lang">
                             <Input
                                 v-model:value={params.form.validate.lang}
@@ -944,6 +1112,7 @@ const MiAppsMenu = defineComponent({
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
+                        {normalMenu}
                         <FormItem label={t('menu.login')} name="auth_login">
                             <RadioGroup
                                 options={params.yesOrNo}

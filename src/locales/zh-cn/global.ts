@@ -85,5 +85,6 @@ export default {
     select: `请选择`,
     name: `名称`,
     copy: `复制`,
-    copied: `复制成功`
+    copied: `复制成功`,
+    setting: `设置`
 }

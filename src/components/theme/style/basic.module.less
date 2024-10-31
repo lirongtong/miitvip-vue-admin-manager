@@ -185,13 +185,21 @@ input {
         box-shadow: none;
     }
 
-    .ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
-        border-color: var(--mi-primary);
-        background-color: var(--mi-primary);
-    }
+    .ant-radio-wrapper {
+        .ant-radio-checked .ant-radio-inner {
+            border-color: var(--mi-primary);
+            background-color: var(--mi-primary);
+        }
 
-    .ant-radio-wrapper .ant-radio-disabled .ant-radio-inner::after {
-        background-color: rgba(255, 255, 255, 0.5);
+        .ant-radio-disabled .ant-radio-inner::after {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:hover {
+            .ant-radio-inner {
+                border-color: var(--mi-primary);
+            }
+        }
     }
 
     .ant-tabs .ant-tabs-tab:hover,
@@ -244,6 +252,36 @@ input {
     .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled) .ant-checkbox-inner,
     .ant-checkbox-indeterminate .ant-checkbox-inner:after {
         background-color: var(--mi-primary);
+    }
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        &,
+        &:hover,
+        &:first-child {
+            color: var(--mi-primary);
+            border-color: var(--mi-primary);
+        }
+    }
+
+    .ant-radio-button-wrapper:hover {
+        color: var(--mi-primary);
+    }
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        &:hover:before,
+        &:before {
+            background-color: var(--mi-primary);
+        }
+    }
+
+    .ant-popover {
+        .ant-popover-inner {
+            border: 0.0625rem solid var(--mi-primary);
+        }
+
+        .ant-popover-arrow:before {
+            background: var(--mi-primary);
+        }
     }
 }
 

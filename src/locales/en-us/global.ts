@@ -85,5 +85,6 @@ export default {
     select: `Please select`,
     name: `Name`,
     copy: `Copy`,
-    copied: `Copied`
+    copied: `Copied`,
+    setting: `Setting`
 }
