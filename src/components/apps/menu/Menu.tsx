@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from 'vue'
+import { createVNode, defineComponent, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
     ConfigProvider,
@@ -17,69 +17,34 @@ import {
     RadioGroup,
     InputNumber,
     Switch,
+    Tabs,
+    TabPane,
     type FormInstance,
-    Tooltip
+    Tooltip,
+    RadioButton
 } from 'ant-design-vue'
-import {
-    FormOutlined,
-    MessageOutlined,
-    NodeExpandOutlined,
-    DeleteOutlined,
-    EditOutlined
-} from '@ant-design/icons-vue'
-import { RouterTreeProps, type RouterTreeItem } from './props'
+import { wireframe, solid } from './icons'
+import { MenuTreeProps, type MenuTreeItem } from './props'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
+import { useWindowResize } from '../../../hooks/useWindowResize'
 import type { ResponseData } from '../../../utils/types'
-
+import * as AntdvIcons from '@ant-design/icons-vue'
+import MiModal from '../../modal/Modal'
+import MiDropdown from '../../dropdown/Dropdown'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import applyTheme from '../../_utils/theme'
-import styled from './style/router.module.less'
+import styled from './style/menu.module.less'
 
-const MiAppsRouter = defineComponent({
-    name: 'MiAppsRouter',
+const MiAppsMenu = defineComponent({
+    name: 'MiAppsMenu',
     inheritAttrs: false,
-    props: RouterTreeProps(),
-    emits: ['afterGetRouter', 'afterCreateRouter', 'afterUpdateRouter', 'afterDeleteRouter'],
+    props: MenuTreeProps(),
+    emits: ['afterGetMenus', 'afterCreateMenus', 'afterUpdateMenus', 'afterDeleteMenus'],
     setup(props, { emit }) {
         const { t } = useI18n()
-        const routerFormRef = ref<FormInstance>()
-
-        // 路由名称校验
-        const checkNameValidate = async (_rule: any, value: string) => {
-            if (!value) return Promise.reject(t('router.placeholder.name'))
-            if (props.checkRouterNameExistAction) {
-                const condition = Object.assign(
-                    {
-                        id: params.edit.id || 0,
-                        edit: params.edit.status ? 1 : 0,
-                        name: params.form.validate.name
-                    },
-                    { ...props.checkRouterNameExistParams }
-                )
-                if (typeof props.checkRouterNameExistAction === 'string') {
-                    return await $request?.[props.checkRouterNameExistMethod](
-                        props.checkRouterNameExistAction,
-                        condition
-                    )
-                        .then((res: ResponseData | any) => {
-                            if (res?.ret?.code === 200) {
-                                return Promise.resolve()
-                            } else if (res?.ret?.message) {
-                                return Promise.reject(res?.ret?.message)
-                            }
-                            return Promise.resolve()
-                        })
-                        .catch((err: any) => {
-                            return Promise.reject(err?.message || err)
-                        })
-                } else if (typeof props.checkRouterNameExistAction === 'function') {
-                    const response = await props.checkRouterNameExistAction(condition)
-                    if (typeof response === 'string') return Promise.reject(response)
-                    return Promise.resolve()
-                }
-            } else return Promise.resolve()
-        }
+        const { width } = useWindowResize()
+        const menuFormRef = ref<FormInstance>()
 
         const params = reactive({
             ids: [],
@@ -92,35 +57,46 @@ const MiAppsRouter = defineComponent({
             table: {
                 columns: [
                     {
-                        title: t('router.title'),
+                        title: t('menu.title'),
                         key: 'title',
                         dataIndex: 'title',
-                        width: 160,
-                        ellipsis: true
+                        width: 200
                     },
                     {
-                        title: t('router.name'),
+                        title: t('menu.name'),
                         key: 'name',
                         dataIndex: 'name',
-                        width: 180,
-                        ellipsis: true
+                        width: 160
                     },
                     {
-                        title: t('router.type'),
+                        title: t('menu.type'),
                         key: 'type',
                         dataIndex: 'type',
                         align: 'center',
                         customRender: (record: any) => {
                             return record?.record?.type === 1
-                                ? t('router.top')
+                                ? t('menu.top')
                                 : record?.record?.type === 2
-                                  ? t('router.sub')
-                                  : t('router.unknown')
+                                  ? t('menu.sub.name')
+                                  : record?.record?.type === 3
+                                    ? t('menu.btn.permission')
+                                    : t('menu.unknow')
                         },
                         width: 120
                     },
                     {
-                        title: t('router.page'),
+                        title: t('menu.icon'),
+                        key: 'icon',
+                        dataIndex: 'icon',
+                        align: 'center',
+                        customRender: (record: any) => {
+                            const IconTag = AntdvIcons?.[record.record.icon]
+                            return <IconTag style={`font-size: 1.25rem`} />
+                        },
+                        width: 100
+                    },
+                    {
+                        title: t('menu.page'),
                         key: 'page',
                         ellipsis: true,
                         customRender: ({ record }) => {
@@ -132,7 +108,7 @@ const MiAppsRouter = defineComponent({
                         }
                     },
                     {
-                        title: t('router.path'),
+                        title: t('menu.path'),
                         key: 'path',
                         ellipsis: true,
                         customRender: ({ record }) => {
@@ -144,43 +120,27 @@ const MiAppsRouter = defineComponent({
                         }
                     },
                     {
-                        title: t('router.weight'),
+                        title: t('menu.weight'),
                         key: 'weight',
                         dataIndex: 'weight',
                         align: 'center',
-                        width: 90
+                        width: 120
                     },
                     {
                         title: t('global.action'),
                         key: 'action',
                         align: 'center',
-                        width: 440,
+                        width: 320,
                         customRender: ({ record }) => {
                             return (
                                 <div class={styled.actionItems}>
                                     <Button
                                         type="primary"
                                         class={styled.btnPrimary}
-                                        icon={<FormOutlined />}
+                                        icon={<AntdvIcons.FormOutlined />}
                                         onClick={() => handleOpenDrawer(record)}>
                                         {t('global.edit')}
                                     </Button>
-                                    <Button
-                                        type="default"
-                                        class={styled.btnInfo}
-                                        onClick={() => handleDetail(record)}
-                                        icon={<MessageOutlined />}>
-                                        {t('router.detail')}
-                                    </Button>
-                                    {record?.type === 3 ? null : (
-                                        <Button
-                                            class={styled.btnWarn}
-                                            type="default"
-                                            onClick={() => handleAddSubRouter(record)}
-                                            icon={<NodeExpandOutlined />}>
-                                            {t('router.add-sub')}
-                                        </Button>
-                                    )}
                                     <Popconfirm
                                         title={t('global.delete.confirm')}
                                         overlayStyle={{
@@ -190,16 +150,27 @@ const MiAppsRouter = defineComponent({
                                         okText={t('global.ok')}
                                         cancelText={t('global.cancel')}
                                         okButtonProps={{
-                                            onClick: () => handleDeleteRouter(record?.id)
+                                            onClick: () => handleDeleteMenus(record?.id)
                                         }}
                                         key={record?.key}>
                                         <Button
                                             type="primary"
                                             danger={true}
-                                            icon={<DeleteOutlined />}>
+                                            icon={<AntdvIcons.DeleteOutlined />}>
                                             {t('global.delete.normal')}
                                         </Button>
                                     </Popconfirm>
+                                    <MiDropdown
+                                        title={createVNode(
+                                            <Button
+                                                class={styled.btnWarn}
+                                                type="default"
+                                                icon={<AntdvIcons.MoreOutlined />}>
+                                                {t('global.more')}
+                                            </Button>
+                                        )}
+                                        items={getDropdownItems(record)}
+                                    />
                                 </div>
                             )
                         }
@@ -215,21 +186,29 @@ const MiAppsRouter = defineComponent({
                 validate: {
                     name: '',
                     title: '',
+                    sub_title: '',
                     pid: null,
                     type: 1,
                     path: '',
                     page: '',
                     redirect: '',
+                    icon: '',
                     weight: 1,
-                    auth: 0,
-                    is_blank: false
+                    lang: '',
+                    auth_mark: '',
+                    auth_policy: 2,
+                    auth_state: 1,
+                    auth_login: 1,
+                    is_router: true,
+                    is_blank: false,
+                    is_hide: false
                 },
                 rules: {
-                    type: [{ required: true, message: t('router.placeholder.type') }],
-                    name: [{ required: true, validator: checkNameValidate, trigger: 'blur' }],
-                    path: [{ required: true, message: t('router.placeholder.path') }],
-                    page: [{ required: true, message: t('router.placeholder.page') }],
-                    pid: [{ required: true, message: t('router.placeholder.up') }]
+                    name: [{ required: true, message: t('menu.placeholder.name') }],
+                    title: [{ required: true, message: t('menu.placeholder.title') }],
+                    path: [{ required: true, message: t('menu.placeholder.path') }],
+                    page: [{ required: true, message: t('menu.placeholder.page') }],
+                    pid: [{ required: true, message: t('menu.placeholder.up') }]
                 }
             },
             open: false,
@@ -238,8 +217,18 @@ const MiAppsRouter = defineComponent({
                 show: false
             },
             types: [
-                { label: t('router.top'), value: 1 },
-                { label: t('router.sub'), value: 2 }
+                { label: t('menu.top'), value: 1 },
+                { label: t('menu.sub.name'), value: 2 },
+                { label: t('menu.btn.permission'), value: 3 }
+            ],
+            policies: [
+                { label: t('menu.policies.invisible'), value: 0 },
+                { label: t('menu.policies.visible'), value: 1 },
+                { label: t('menu.policies.accessible'), value: 2 }
+            ],
+            states: [
+                { label: t('global.invalid'), value: 0 },
+                { label: t('global.valid'), value: 1 }
             ],
             yesOrNo: [
                 { label: t('global.no'), value: 0 },
@@ -251,44 +240,45 @@ const MiAppsRouter = defineComponent({
                 pid: null
             },
             icons: {
+                type: `wireframe`,
                 active: `directional`,
                 open: false
             },
-            routes: [] as RouterTreeItem[]
+            menus: [] as MenuTreeItem[]
         })
         applyTheme(styled)
 
-        // 获取路由
-        const getRouter = async () => {
+        // 获取菜单数据
+        const getMenus = async () => {
             if (props.data && props.data?.length > 0) {
-                params.routes = getRouterTreeData(props.data)
-                params.table.data = params.routes
+                params.menus = getMenusTreeData(props.data)
+                params.table.data = params.menus
                 params.total = props.data?.length
             } else {
                 if (params.loading.list) return
                 params.loading.list = true
                 const condition = Object.assign(
                     { ...params.table.pagination },
-                    { ...props.getRouterParams }
+                    { ...props.getMenusParams }
                 )
                 await handleAction(
-                    props.getRouterAction,
-                    props.getRouterMethod,
+                    props.getMenusAction,
+                    props.getMenusMethod,
                     { ...condition },
-                    'getRouterAction',
+                    'getMenusAction',
                     (res: ResponseData | any) => {
-                        params.routes = getRouterTreeData(res?.data)
-                        params.table.data = params.routes
-                        emit('afterGetRouter', res)
+                        params.menus = getMenusTreeData(res?.data)
+                        params.table.data = params.menus
+                        emit('afterGetMenus', res)
                     },
                     () => (params.loading.list = false)
                 )
             }
         }
 
-        // 封装树形结构数据
-        const getRouterTreeData = (data: any): RouterTreeItem[] => {
-            const top = [] as RouterTreeItem[]
+        // 封装树形菜单
+        const getMenusTreeData = (data: any): MenuTreeItem[] => {
+            const top = [] as MenuTreeItem[]
             for (let i = 0, l = data.length; i < l; i++) {
                 const cur = data[i]
                 const temp = {
@@ -296,21 +286,42 @@ const MiAppsRouter = defineComponent({
                     key: cur?.id,
                     title: cur?.title || cur?.name,
                     value: cur?.id
-                } as RouterTreeItem
-                if (cur.children) temp.children = getRouterTreeData(cur.children)
+                } as MenuTreeItem
+                if (cur?.children) temp.children = getMenusTreeData(cur.children)
                 top.push(temp)
             }
             return top
         }
 
+        // 下拉选单
+        const getDropdownItems = (data?: any) => {
+            const items = [
+                {
+                    name: 'detail',
+                    title: t('menu.detail'),
+                    icon: AntdvIcons.MessageOutlined,
+                    callback: () => handleDetail(data)
+                }
+            ]
+            if (data?.type !== 3) {
+                items.push({
+                    name: 'add-submenu',
+                    title: t('menu.sub.add'),
+                    icon: AntdvIcons.NodeExpandOutlined,
+                    callback: () => handleAddSubMenu(data)
+                })
+            }
+            return items
+        }
+
         // 单条删除
-        const handleDeleteRouter = async (id: number) => {
+        const handleDeleteMenus = async (id: number) => {
             params.ids = [id]
-            handleBatchDeleteRouter()
+            handleBatchDeleteMenus()
         }
 
         // 批量删除
-        const handleBatchDeleteRouter = () => {
+        const handleBatchDeleteMenus = () => {
             if (params.ids.length <= 0) {
                 message.destroy()
                 message.error(t('global.delete.select'))
@@ -319,19 +330,19 @@ const MiAppsRouter = defineComponent({
             if (params.loading.delete) return
             params.loading.delete = true
             handleAction(
-                props.deleteRouterAction,
-                props.deleteRouterMethod,
+                props.deleteMenusAction,
+                props.deleteMenusMethod,
                 {
                     id: params.ids.join(','),
-                    ...props.deleteRouterParams
+                    ...props.deleteMenusParams
                 },
-                'deleteRouterAction',
+                'deleteMenusAction',
                 async (res?: ResponseData | any) => {
                     message.destroy()
                     message.success(t('global.success'))
                     params.ids = []
-                    getRouter()
-                    emit('afterDeleteRouter', res)
+                    getMenus()
+                    emit('afterDeleteMenus', res)
                 },
                 () => (params.loading.delete = false)
             )
@@ -356,13 +367,13 @@ const MiAppsRouter = defineComponent({
                 params.edit.id = data?.id
                 params.edit.pid = data?.pid
                 params.form.validate = JSON.parse(JSON.stringify(data || {}))
+                params.form.validate.is_router = data?.is_router > 0
                 params.form.validate.weight = parseInt(data?.weight || 0)
             } else handleResetFormData()
         }
 
         // 重置表单数据
         const handleResetFormData = () => {
-            if (routerFormRef.value) routerFormRef.value?.resetFields()
             params.edit.status = false
             params.edit.id = 0
             params.edit.pid = null
@@ -370,6 +381,10 @@ const MiAppsRouter = defineComponent({
             params.detail.show = false
             params.form.validate.type = 1
             params.form.validate.pid = 0
+            params.form.validate.auth_mark = ''
+            params.form.validate.auth_policy = 2
+            params.form.validate.auth_state = 1
+            if (menuFormRef.value) menuFormRef.value.resetFields()
         }
 
         // 打开/关闭抽屉式表单
@@ -387,6 +402,7 @@ const MiAppsRouter = defineComponent({
                 params.open = !params.open
                 params.edit.pid = data?.pid
                 params.form.validate = JSON.parse(JSON.stringify(data))
+                params.form.validate.is_router = data?.is_router > 0
                 params.form.validate.weight = parseInt(data?.weight || 0)
             } else params.detail.id = null
         }
@@ -398,14 +414,14 @@ const MiAppsRouter = defineComponent({
             params.detail.show = false
         }
 
-        // 添加子路由
-        const handleAddSubRouter = (data?: any) => {
+        // 添加子菜单
+        const handleAddSubMenu = (data?: any) => {
             handleOpenDrawer()
             params.form.validate.pid = data?.id
             params.form.validate.type = 2
         }
 
-        // 路由类型切换
+        // 菜单类型切换
         const handleChangeType = () => {
             if (params.form.validate.type === 1) params.form.validate.pid = null
             else
@@ -415,57 +431,61 @@ const MiAppsRouter = defineComponent({
 
         // Table 分页变化
         const handlePageChange = (page: number, size: number) => {
-            params.table.pagination.page = page
-            params.table.pagination.size = size
-            if (!(props.data && props.data?.length > 0)) getRouter()
+            console.log(page, size)
         }
 
         // 新增 / 更新操作
         const handleCreateOrUpdate = () => {
-            if (routerFormRef?.value) {
+            if (menuFormRef?.value) {
                 if (params.loading.action) return
                 params.loading.action = true
                 const afterSuccess = () => {
                     handleOpenDrawer()
-                    getRouter()
+                    menuFormRef.value?.resetFields()
+                    params.form.validate.pid = null
+                    params.form.validate.type = 1
+                    params.form.validate.auth_policy = 2
+                    getMenus()
                     message.destroy()
                     message.success(t('global.success'))
                 }
-                routerFormRef.value
+                menuFormRef.value
                     ?.validate()
                     .then(() => {
                         if (params.edit.status) {
+                            // 更新
                             if (!params.edit.id) {
                                 message.destroy()
                                 message.error(t('global.error.id'))
                                 return
                             }
                             handleAction(
-                                props.updateRouterAction,
-                                props.updateRouterMethod,
+                                props.updateMenusAction,
+                                props.updateMenusMethod,
                                 Object.assign(
                                     { id: params.edit.id, ...params.form.validate },
-                                    { ...props.updateRouterParams }
+                                    { ...props.updateMenusParams }
                                 ),
-                                'updateRouterAction',
+                                'updateMenusAction',
                                 () => {
                                     afterSuccess()
-                                    emit('afterUpdateRouter')
+                                    emit('afterUpdateMenus')
                                 },
                                 () => (params.loading.action = false)
                             )
                         } else {
+                            // 新增
                             handleAction(
-                                props.createRouterAction,
-                                props.createRouterMethod,
+                                props.createMenusAction,
+                                props.createMenusMethod,
                                 Object.assign(
                                     { ...params.form.validate },
-                                    { ...props.createRouterParams }
+                                    { ...props.createMenusParams }
                                 ),
-                                'createRouterAction',
+                                'createMenusAction',
                                 () => {
                                     afterSuccess()
-                                    emit('afterCreateRouter')
+                                    emit('afterCreateMenus')
                                 },
                                 () => (params.loading.action = false)
                             )
@@ -525,7 +545,18 @@ const MiAppsRouter = defineComponent({
             }
         }
 
-        getRouter()
+        // 打开图标选择弹窗
+        const handleOpenIconsModal = () => {
+            if (!params.detail.show) params.icons.open = !params.icons.open
+        }
+
+        // 选择 ICON
+        const handleSetIcon = (name: string) => {
+            params.form.validate.icon = name
+            handleOpenIconsModal()
+        }
+
+        getMenus()
 
         // 空状态
         const renderEmpty = () => {
@@ -546,12 +577,12 @@ const MiAppsRouter = defineComponent({
                             overlayStyle={{ zIndex: Date.now() }}
                             okText={t('global.ok')}
                             cancelText={t('global.cancel')}
-                            onConfirm={() => handleBatchDeleteRouter()}>
+                            onConfirm={() => handleBatchDeleteMenus()}>
                             <Button
                                 type="primary"
                                 size="large"
                                 danger={true}
-                                icon={<DeleteOutlined />}>
+                                icon={<AntdvIcons.DeleteOutlined />}>
                                 {t('global.delete.batch')}
                             </Button>
                         </Popconfirm>
@@ -559,9 +590,9 @@ const MiAppsRouter = defineComponent({
                             type="primary"
                             size="large"
                             class={styled.btnPrimary}
-                            icon={<EditOutlined />}
+                            icon={<AntdvIcons.EditOutlined />}
                             onClick={handleOpenDrawer}>
-                            {t('router.add')}
+                            {t('menu.add')}
                         </Button>
                     </Col>
                 </Row>
@@ -593,50 +624,197 @@ const MiAppsRouter = defineComponent({
                     }}
                     bordered={true}
                     loading={params.loading.list}
-                    scroll={{ x: 1200 }}
-                    defaultExpandAllRows={true}
-                />
+                    scroll={{ x: 1200 }}></Table>
+            )
+        }
+
+        // 图标选择触发点
+        const renderIconsTrigger = () => {
+            return (
+                <a onClick={handleOpenIconsModal}>
+                    <AntdvIcons.AimOutlined />
+                </a>
+            )
+        }
+
+        // 图标弹窗
+        const renderIconsModal = () => {
+            const wrapIcons = (data: string[]) => {
+                const res: any[] = []
+                data.forEach((icon: string) => {
+                    const IconTag = AntdvIcons[icon]
+                    res.push(
+                        <div
+                            class={`${styled.tabItem} ${
+                                params.form.validate.icon === icon ? styled.tabItemActive : ''
+                            }`}
+                            onClick={() => handleSetIcon(icon)}>
+                            <IconTag />
+                        </div>
+                    )
+                })
+                return <div class={styled.tabIcons}>{...res}</div>
+            }
+
+            const wireframeIcons = {
+                directional: wrapIcons(wireframe?.directional),
+                tips: wrapIcons(wireframe?.tips),
+                edit: wrapIcons(wireframe?.edit),
+                data: wrapIcons(wireframe?.data),
+                brands: wrapIcons(wireframe?.brands),
+                generic: wrapIcons(wireframe?.generic)
+            }
+
+            const solidIcons = {
+                brands: wrapIcons(solid?.brands),
+                data: wrapIcons(solid?.data),
+                directional: wrapIcons(solid?.directional),
+                edit: wrapIcons(solid?.edit),
+                generic: wrapIcons(solid?.generic),
+                tips: wrapIcons(solid?.tips)
+            }
+
+            return (
+                <MiModal
+                    open={params.icons.open}
+                    title={false}
+                    footer={false}
+                    onCancel={handleOpenIconsModal}
+                    zIndex={Date.now()}
+                    animation="slide"
+                    maskStyle={{ backdropFilter: `blur(0.5rem)` }}
+                    width={width.value < 768 ? '100%' : 748}>
+                    <RadioGroup v-model:value={params.icons.type} class={styled.tabRadio}>
+                        <RadioButton value="wireframe">{t('menu.icons.wireframe')}</RadioButton>
+                        <RadioButton value="solid">{t('menu.icons.solid')}</RadioButton>
+                    </RadioGroup>
+                    <Tabs
+                        v-model:activeKey={params.icons.active}
+                        class={styled.tab}
+                        centered={width.value >= 768}>
+                        <TabPane key="directional" tab={t('menu.icons.directional')}>
+                            {params.icons.type === 'wireframe'
+                                ? wireframeIcons.directional
+                                : solidIcons.directional}
+                        </TabPane>
+                        <TabPane key="tips" tab={t('menu.icons.tips')}>
+                            {params.icons.type === 'wireframe'
+                                ? wireframeIcons.tips
+                                : solidIcons.tips}
+                        </TabPane>
+                        <TabPane key="edit" tab={t('menu.icons.edit')}>
+                            {params.icons.type === 'wireframe'
+                                ? wireframeIcons.edit
+                                : solidIcons.edit}
+                        </TabPane>
+                        <TabPane key="data" tab={t('menu.icons.data')}>
+                            {params.icons.type === 'wireframe'
+                                ? wireframeIcons.data
+                                : solidIcons.data}
+                        </TabPane>
+                        <TabPane key="brands" tab={t('menu.icons.brands')}>
+                            {params.icons.type === 'wireframe'
+                                ? wireframeIcons.brands
+                                : solidIcons.brands}
+                        </TabPane>
+                        <TabPane key="generic" tab={t('menu.icons.generic')}>
+                            {params.icons.type === 'wireframe'
+                                ? wireframeIcons.generic
+                                : solidIcons.generic}
+                        </TabPane>
+                    </Tabs>
+                </MiModal>
             )
         }
 
         // 抽屉弹窗
         const renderDrawer = () => {
-            const subRoute = [2, 3].includes(params.form.validate.type) ? (
-                <FormItem label={t('router.up')} name="pid">
+            // 按钮 / 权限
+            const btnMenu =
+                params.form.validate.type === 3 ? (
+                    <>
+                        <FormItem label={t('menu.auth')} name="auth_mark">
+                            <Input
+                                v-model:value={params.form.validate.auth_mark}
+                                autocomplete="off"
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
+                                placeholder={t('menu.placeholder.auth')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.policy')} name="auth_policy">
+                            <RadioGroup
+                                options={params.policies}
+                                disabled={params.detail.show}
+                                v-model:value={params.form.validate.auth_policy}></RadioGroup>
+                        </FormItem>
+                        <FormItem label={t('global.state')} name="auth_state">
+                            <RadioGroup
+                                options={params.states}
+                                disabled={params.detail.show}
+                                v-model:value={params.form.validate.auth_state}></RadioGroup>
+                        </FormItem>
+                    </>
+                ) : null
+            // 子菜单
+            const subMenu = [2, 3].includes(params.form.validate.type) ? (
+                <FormItem label={t('menu.up')} name="pid">
                     <TreeSelect
                         v-model:value={params.form.validate.pid}
-                        placeholder={t('router.placeholder.up')}
+                        placeholder={t('menu.placeholder.up')}
                         allowClear={true}
                         disabled={params.detail.show}
-                        treeData={params.routes}
+                        treeData={params.menus}
                         popupClassName={styled.drawerSelect}
                         treeDefaultExpandAll={true}></TreeSelect>
                 </FormItem>
             ) : null
-            const topRoute =
+            // 一级菜单
+            const firstMenu =
                 params.form.validate.type === 3 ? null : (
                     <>
-                        <FormItem label={t('router.path')} name="path">
+                        <FormItem label={t('menu.subtitle')} name="sub_title">
+                            <Input
+                                v-model:value={params.form.validate.sub_title}
+                                autocomplete="off"
+                                maxlength={60}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
+                                placeholder={t('menu.placeholder.subtitle')}
+                                onPressEnter={handleCreateOrUpdate}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.path')} name="path">
                             <Input
                                 v-model:value={params.form.validate.path}
                                 autocomplete="off"
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
-                                placeholder={t('router.placeholder.path')}
+                                placeholder={t('menu.placeholder.path')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        <FormItem label={t('router.page')} name="page">
+                        <FormItem label={t('menu.page')} name="page">
                             <Input
                                 v-model:value={params.form.validate.page}
                                 autocomplete="off"
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
-                                placeholder={t('router.placeholder.page')}
+                                placeholder={t('menu.placeholder.page')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        <FormItem label={t('router.open')} name="is_blank">
+                        <FormItem label={t('menu.icon')} name="icon">
+                            <Input
+                                v-model:value={params.form.validate.icon}
+                                autocomplete="off"
+                                disabled={true}
+                                readonly={true}
+                                v-slots={{ suffix: () => renderIconsTrigger() }}
+                                placeholder={t('menu.placeholder.icon')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.open')} name="is_blank">
                             <Switch
                                 v-model:checked={params.form.validate.is_blank}
                                 checked-children={t('global.external')}
@@ -644,7 +822,7 @@ const MiAppsRouter = defineComponent({
                                 un-checked-children={t('global.internal')}
                             />
                         </FormItem>
-                        <FormItem label={t('router.weight')} name="weight">
+                        <FormItem label={t('menu.weight')} name="weight">
                             <InputNumber
                                 v-model:value={params.form.validate.weight}
                                 min={1}
@@ -652,27 +830,35 @@ const MiAppsRouter = defineComponent({
                                 readonly={params.detail.show}
                             />
                         </FormItem>
-                        <FormItem label={t('router.redirect')} name="redirect">
+                        <FormItem label={t('menu.router.hide')} name="is_hide">
+                            <Switch
+                                v-model:checked={params.form.validate.is_hide}
+                                checked-children={t('global.yes')}
+                                disabled={params.detail.show}
+                                un-checked-children={t('global.no')}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.redirect')} name="redirect">
                             <Input
                                 v-model:value={params.form.validate.redirect}
                                 autocomplete="off"
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
-                                placeholder={t('router.placeholder.redirect')}
+                                placeholder={t('menu.placeholder.redirect')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
                     </>
                 )
+            // 操作按钮
             const actionBtn = params.detail.show ? (
                 <>
                     <Button
                         onClick={handleOpenDrawer}
-                        loading={params.loading.action}
                         style={{ marginRight: $tools.convert2rem(8) }}>
                         {t('global.close')}
                     </Button>
-                    <Button type="primary" loading={params.loading.action} onClick={handleEditable}>
+                    <Button type="primary" onClick={handleEditable}>
                         {t('global.editable')}
                     </Button>
                 </>
@@ -680,7 +866,6 @@ const MiAppsRouter = defineComponent({
                 <>
                     <Button
                         onClick={handleOpenDrawer}
-                        loading={params.loading.action}
                         style={{ marginRight: $tools.convert2rem(8) }}>
                         {t('global.cancel')}
                     </Button>
@@ -692,11 +877,13 @@ const MiAppsRouter = defineComponent({
                     </Button>
                 </>
             )
+            // 标题
             const title = params.edit.status
-                ? t('router.update')
+                ? t('menu.update')
                 : params.detail.show
                   ? t('global.details')
-                  : t('router.add')
+                  : t('menu.add')
+
             return (
                 <Drawer
                     open={params.open}
@@ -706,47 +893,64 @@ const MiAppsRouter = defineComponent({
                     v-slots={{ extra: () => actionBtn }}
                     onClose={handleOpenDrawer}>
                     <Form
-                        ref={routerFormRef}
+                        ref={menuFormRef}
                         model={params.form.validate}
                         rules={params.form.rules}
                         labelCol={{ style: { width: $tools.convert2rem(120) } }}>
-                        <FormItem label={t('router.type')} name="type">
+                        <FormItem label={t('menu.type')} name="type">
                             <RadioGroup
                                 options={params.types}
                                 onChange={() => handleChangeType()}
                                 disabled={params.detail.show}
                                 v-model:value={params.form.validate.type}></RadioGroup>
                         </FormItem>
-                        <FormItem label={t('router.name')} name="name">
+                        <FormItem
+                            label={
+                                params.form.validate.type === 3
+                                    ? t('menu.btn.name')
+                                    : t('menu.name')
+                            }
+                            name="name">
                             <Input
                                 v-model:value={params.form.validate.name}
                                 autocomplete="off"
                                 maxlength={60}
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
-                                placeholder={t('router.placeholder.name')}
+                                placeholder={t('menu.placeholder.name')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        <FormItem label={t('router.title')} name="title">
+                        <FormItem label={t('menu.title')} name="title">
                             <Input
                                 v-model:value={params.form.validate.title}
                                 autocomplete="off"
                                 maxlength={60}
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
-                                placeholder={t('router.placeholder.title')}
+                                placeholder={t('menu.placeholder.title')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        {subRoute}
-                        {topRoute}
-                        <FormItem label={t('router.login')} name="auth">
+                        {subMenu}
+                        {firstMenu}
+                        <FormItem label={t('menu.lang')} name="lang">
+                            <Input
+                                v-model:value={params.form.validate.lang}
+                                autocomplete="off"
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
+                                placeholder={t('menu.placeholder.lang')}
+                                onPressEnter={handleCreateOrUpdate}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.login')} name="auth_login">
                             <RadioGroup
                                 options={params.yesOrNo}
                                 disabled={params.detail.show}
-                                v-model:value={params.form.validate.auth}></RadioGroup>
+                                v-model:value={params.form.validate.auth_login}></RadioGroup>
                         </FormItem>
+                        {btnMenu}
                     </Form>
                 </Drawer>
             )
@@ -760,10 +964,11 @@ const MiAppsRouter = defineComponent({
                     {renderAction()}
                     {renderTable()}
                     {renderDrawer()}
+                    {renderIconsModal()}
                 </ConfigProvider>
             </div>
         )
     }
 })
 
-export default MiAppsRouter
+export default MiAppsMenu

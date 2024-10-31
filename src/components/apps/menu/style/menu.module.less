@@ -40,14 +40,20 @@
     &-btns {
         .flex(center, flex-end);
 
+        @media only screen and (max-width: @mi-sm) {
+            .flex(flex-start, flex-start);
+        }
+
         button + button {
             .properties(margin-left);
         }
     }
 
     &-items {
-        button + button {
-            .properties(margin-left);
+        .flex();
+        
+        > button {
+            .properties(margin-right);
         }
     }
 }
@@ -94,16 +100,26 @@
 .tab {
     width: 100%;
     position: relative;
-    .properties(margin-top, 24);
+    .properties(margin-top, 16);
 
-    :global {
-        .ant-tabs-tabpane {
-            .grid(10, 16);
-            .properties(max-height, 440);
-            overflow-x: hidden;
-            overflow-y: auto;
-            .scrollbar();
+    &-radio {
+        .flex(center, flex-start);
+        
+        &-btn {
+            .flex();
         }
+        
+        &-text {
+            .properties(margin-left, 4);
+        }
+    }
+
+    &-icons {
+        .grid(10, 16);
+        .properties(max-height, 440);
+        overflow-x: hidden;
+        overflow-y: auto;
+        .scrollbar();
     }
     
     &-item {

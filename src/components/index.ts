@@ -98,8 +98,5 @@ export type {
 } from './apps/language/props'
 export { default as AppsLanguage } from './apps/language'
 
-export type { RouterTreeItem, RouterTree, RouterTreeProperties } from './apps/router/props'
-export { default as AppsRouter } from './apps/router'
-
-export type { NavTree, NavTreeItem, NavTreeProperties } from './apps/navigation/props'
-export { default as AppsNavigation } from './apps/navigation'
+export type { MenuTree, MenuTreeItem, MenuTreeProperties } from './apps/menu/props'
+export { default as AppsMenu } from './apps/menu'
