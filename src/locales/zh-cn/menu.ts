@@ -51,7 +51,8 @@ export default {
         radius: `圆角弧度`,
         setting: `点击配置`,
         preview: `效果预览`,
-        none: `暂无效果`
+        none: `暂无效果`,
+        size: `字体大小`
     },
     tips: {
         title: `非必填，首选多语言配置标题，次选手动配置标题，默认都为空则与 '名称' 属性内容一致`,
@@ -68,8 +69,10 @@ export default {
         lang: '请输入显示标题的多语言 Key 值',
         search: '请输入待搜索的菜单名称',
         btn: '请输入按钮/权限名称，如：新增',
-        icon: '请选择菜单图标',
+        icon: '请选择图标',
         up: '请选择上级菜单',
-        auth: '请输入唯一的授权标识, 如: personal:data'
+        auth: '请输入唯一的授权标识, 如: personal:data',
+        content: `请输入文案内容`,
+        color: `点击选择颜色`
     }
 }

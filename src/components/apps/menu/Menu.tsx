@@ -1,4 +1,4 @@
-import { createVNode, defineComponent, reactive, ref } from 'vue'
+import { computed, createVNode, defineComponent, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
     ConfigProvider,
@@ -26,6 +26,7 @@ import {
 } from 'ant-design-vue'
 import { wireframe, solid } from './icons'
 import { MenuTreeProps, type MenuTreeItem } from './props'
+import { $g } from '../../../utils/global'
 import { $request } from '../../../utils/request'
 import { $tools } from '../../../utils/tools'
 import { useWindowResize } from '../../../hooks/useWindowResize'
@@ -47,7 +48,9 @@ const MiAppsMenu = defineComponent({
     setup(props, { emit }) {
         const { t } = useI18n()
         const { width } = useWindowResize()
+        const theme = computed(() => $g.theme.type)
         const menuFormRef = ref<FormInstance>()
+        const badgeFormRef = ref<FormInstance>()
         const checkNameValidate = async (_rule: any, value: string) => {
             if (!value) return Promise.reject(t('menu.placeholder.name'))
             if (props.checkNameExistAction) {
@@ -250,9 +253,11 @@ const MiAppsMenu = defineComponent({
                         color: '',
                         bgColor: '',
                         radius: 4,
+                        size: 12,
                         icon: null
                     },
                     modal: {
+                        open: false,
                         color: false,
                         bgColor: false
                     }
@@ -677,11 +682,14 @@ const MiAppsMenu = defineComponent({
         const renderBadgeConfig = () => {
             return (
                 <div class={styled.badgeForm}>
-                    <Form labelCol={{ style: { width: $tools.convert2rem(90) } }}>
+                    <Form
+                        ref={badgeFormRef}
+                        labelCol={{ style: { width: $tools.convert2rem(90) } }}>
                         <FormItem label={t('menu.badge.content')}>
                             <Input
                                 v-model:value={params.form.badge.validate.content}
                                 autocomplete="off"
+                                placeholder={t('menu.placeholder.content')}
                             />
                         </FormItem>
                         <FormItem label={t('menu.badge.bg')}>
@@ -694,7 +702,7 @@ const MiAppsMenu = defineComponent({
                                         <ColorPicker
                                             class={styled.customizeColor}
                                             isWidget={true}
-                                            theme="white"
+                                            theme={theme.value === 'light' ? `white` : `black`}
                                             pureColor={params.form.badge.validate.bgColor}
                                             disableHistory={true}
                                             disableAlpha={true}
@@ -714,8 +722,15 @@ const MiAppsMenu = defineComponent({
                                     class={styled.inputReadonly}
                                     autocomplete="off"
                                     readOnly={true}
+                                    placeholder={t('menu.placeholder.color')}
                                 />
                             </Popover>
+                        </FormItem>
+                        <FormItem label={t('menu.badge.size')}>
+                            <InputNumber
+                                v-model:value={params.form.badge.validate.size}
+                                autocomplete="off"
+                            />
                         </FormItem>
                         <FormItem label={t('menu.badge.color')}>
                             <Popover
@@ -727,7 +742,7 @@ const MiAppsMenu = defineComponent({
                                         <ColorPicker
                                             class={styled.customizeColor}
                                             isWidget={true}
-                                            theme="white"
+                                            theme={theme.value === 'light' ? `white` : `black`}
                                             pureColor={params.form.badge.validate.color}
                                             disableHistory={true}
                                             disableAlpha={true}
@@ -747,6 +762,7 @@ const MiAppsMenu = defineComponent({
                                     class={styled.inputReadonly}
                                     autocomplete="off"
                                     readOnly={true}
+                                    placeholder={t('menu.placeholder.color')}
                                 />
                             </Popover>
                         </FormItem>
@@ -756,7 +772,9 @@ const MiAppsMenu = defineComponent({
                                 autocomplete="off"
                                 class={styled.inputReadonly}
                                 readonly={true}
+                                placeholder={t('menu.placeholder.icon')}
                                 v-slots={{ suffix: () => <AntdvIcons.AimOutlined /> }}
+                                onClick={handleOpenIconsModal}
                             />
                         </FormItem>
                         <FormItem label={t('menu.badge.radius')}>
@@ -991,13 +1009,20 @@ const MiAppsMenu = defineComponent({
                             />
                         </FormItem>
                         <FormItem label={labels.badge} name="icon">
-                            <Popover
-                                title={false}
-                                trigger="click"
-                                v-slots={{ content: () => renderBadgeConfig() }}
-                                zIndex={Date.now()}>
-                                <Button type="primary">{t('menu.badge.setting')}</Button>
-                            </Popover>
+                            {params.detail.show ? (
+                                <Button type="primary" disabled={true}>
+                                    {t('menu.badge.setting')}
+                                </Button>
+                            ) : (
+                                <Popover
+                                    v-model:open={params.form.badge.modal.open}
+                                    title={false}
+                                    trigger="click"
+                                    v-slots={{ content: () => renderBadgeConfig() }}
+                                    zIndex={Date.now()}>
+                                    <Button type="primary">{t('menu.badge.setting')}</Button>
+                                </Popover>
+                            )}
                         </FormItem>
                         <FormItem label={t('menu.open')} name="is_blank">
                             <Switch
