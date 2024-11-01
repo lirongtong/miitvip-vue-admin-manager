@@ -148,7 +148,7 @@
 
 :white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/apps/language/README.md) ) :snowflake:
 
-:white_check_mark: **[菜单管理 ( 动态路由 )](https://admin.makeit.vip/advanced/router)** ( [`AppsMenu`](./src/components/apps/menu/README.md) ) :triangular_flag_on_post:
+:white_check_mark: **[菜单管理 ( 动态路由 )](https://admin.makeit.vip/advanced/menu)** ( [`AppsMenu`](./src/components/apps/menu/README.md) ) :triangular_flag_on_post:
 
 :x: 权限控制 :sunglasses:
 
