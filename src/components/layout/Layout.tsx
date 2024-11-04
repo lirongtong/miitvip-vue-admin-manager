@@ -28,11 +28,13 @@ const MiLayout = defineComponent({
     props: LayoutProps(),
     setup(props, { slots }) {
         const store = useLayoutStore()
+        const theme = computed(() => $g.theme?.type)
         const collapsed = computed(() => store.collapsed)
         const { locale } = useI18n()
         const { width } = useWindowResize()
         const anim = getPrefixCls('anim-scale')
         const langClass = getPrefixCls(`lang-${locale.value}`, $g.prefix)
+        const themeClass = getPrefixCls(`theme-${theme.value}`, $g.prefix)
 
         applyTheme(styled)
 
@@ -80,7 +82,9 @@ const MiLayout = defineComponent({
 
         return () => (
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
-                <section class={`${styled.container} ${langClass}`}>{renderLayout()}</section>
+                <section class={`${styled.container} ${langClass} ${themeClass}`}>
+                    {renderLayout()}
+                </section>
             </ConfigProvider>
         )
     }

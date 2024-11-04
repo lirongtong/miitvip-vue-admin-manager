@@ -111,6 +111,7 @@
 | `--mi-language-default-background-end` | `--mi-tertiary`
 | `--mi-language-danger` | `#dc4446`
 | `--mi-language-search-background` | `rgba(--mi-rgb-on-primary, 0.5)`
+| `--mi-language-copied-text` | `#e9e1d9`
 
 ## API
 
