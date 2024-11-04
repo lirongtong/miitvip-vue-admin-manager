@@ -17,6 +17,7 @@ import {
     RadioGroup,
     InputNumber,
     Switch,
+    Tag,
     Tabs,
     TabPane,
     type FormInstance,
@@ -163,7 +164,7 @@ const MiAppsMenu = defineComponent({
                         key: 'weight',
                         dataIndex: 'weight',
                         align: 'center',
-                        width: 120
+                        width: 90
                     },
                     {
                         title: t('global.action'),
@@ -294,7 +295,12 @@ const MiAppsMenu = defineComponent({
             icons: {
                 type: `wireframe`,
                 active: `directional`,
-                open: false
+                open: false,
+                badge: {
+                    open: false,
+                    type: `wireframe`,
+                    active: `directional`
+                }
             },
             menus: [] as MenuTreeItem[]
         })
@@ -513,7 +519,11 @@ const MiAppsMenu = defineComponent({
                                 props.updateMenusAction,
                                 props.updateMenusMethod,
                                 Object.assign(
-                                    { id: params.edit.id, ...params.form.validate },
+                                    {
+                                        id: params.edit.id,
+                                        ...params.form.validate,
+                                        badge: { ...params.form.badge.validate }
+                                    },
                                     { ...props.updateMenusParams }
                                 ),
                                 'updateMenusAction',
@@ -530,6 +540,7 @@ const MiAppsMenu = defineComponent({
                                 props.createMenusMethod,
                                 Object.assign(
                                     { ...params.form.validate },
+                                    { badge: { ...params.form.badge.validate } },
                                     { ...props.createMenusParams }
                                 ),
                                 'createMenusAction',
@@ -600,10 +611,23 @@ const MiAppsMenu = defineComponent({
             if (!params.detail.show) params.icons.open = !params.icons.open
         }
 
+        // 打开图标选择 - 徽章
+        const handleOpenBadgeModal = () => {
+            params.icons.badge.open = !params.icons.badge.open
+            params.form.badge.modal.open = true
+        }
+
         // 选择 ICON
-        const handleSetIcon = (name: string) => {
+        const handleSetMenuIcon = (name: string) => {
             params.form.validate.icon = name
             handleOpenIconsModal()
+        }
+
+        // 选择 ICON
+        const handleSetBadgeIcon = (name: string) => {
+            params.form.badge.validate.icon = name
+            params.form.badge.modal.open = true
+            handleOpenBadgeModal()
         }
 
         getMenus()
@@ -730,6 +754,8 @@ const MiAppsMenu = defineComponent({
                             <InputNumber
                                 v-model:value={params.form.badge.validate.size}
                                 autocomplete="off"
+                                min={12}
+                                max={18}
                             />
                         </FormItem>
                         <FormItem label={t('menu.badge.color')}>
@@ -774,7 +800,7 @@ const MiAppsMenu = defineComponent({
                                 readonly={true}
                                 placeholder={t('menu.placeholder.icon')}
                                 v-slots={{ suffix: () => <AntdvIcons.AimOutlined /> }}
-                                onClick={handleOpenIconsModal}
+                                onClick={handleOpenBadgeModal}
                             />
                         </FormItem>
                         <FormItem label={t('menu.badge.radius')}>
@@ -789,11 +815,50 @@ const MiAppsMenu = defineComponent({
             )
         }
 
-        // 徽章预览
-        const renderBadgePreview = () => {}
+        // 徽章效果预览
+        const renderBadgePreview = () => {
+            const tag: any = ref(null)
+            if (params.form.badge.validate.content) {
+                tag.value = (
+                    <Tag
+                        class={[styled.tag]}
+                        color={params.form.badge.validate?.bgColor}
+                        innerHTML={params.form.badge.validate.content}
+                        style={{
+                            borderRadius: $tools.convert2rem(
+                                $tools.distinguishSize(params.form.badge.validate?.radius)
+                            ),
+                            fontSize: $tools.convert2rem(
+                                $tools.distinguishSize(params.form.badge.validate?.size)
+                            ),
+                            color: params.form.badge.validate?.color || null
+                        }}
+                    />
+                )
+            } else if (params.form.badge.validate.icon) {
+                const MiMenuItemTitleTagIcon: any = AntdvIcons?.[params.form.badge.validate.icon]
+                tag.value = (
+                    <MiMenuItemTitleTagIcon
+                        class={[styled.tag]}
+                        style={{
+                            color: params.form.badge.validate?.color,
+                            fontSize: $tools.convert2rem(
+                                $tools.distinguishSize(params.form.badge.validate?.size)
+                            ),
+                            borderRadius: $tools.convert2rem(
+                                $tools.distinguishSize(params.form.badge.validate?.radius)
+                            )
+                        }}
+                    />
+                )
+            } else {
+                tag.value = <span class={styled.tagText} innerHTML={t('menu.badge.none')}></span>
+            }
+            return tag.value
+        }
 
         // 图标弹窗
-        const renderIconsModal = () => {
+        const renderMenuIconsModal = () => {
             const wrapIcons = (data: string[]) => {
                 const res: any[] = []
                 data.forEach((icon: string) => {
@@ -803,7 +868,7 @@ const MiAppsMenu = defineComponent({
                             class={`${styled.tabItem} ${
                                 params.form.validate.icon === icon ? styled.tabItemActive : ''
                             }`}
-                            onClick={() => handleSetIcon(icon)}>
+                            onClick={() => handleSetMenuIcon(icon)}>
                             <IconTag />
                         </div>
                     )
@@ -874,6 +939,96 @@ const MiAppsMenu = defineComponent({
                         </TabPane>
                         <TabPane key="generic" tab={t('menu.icons.generic')}>
                             {params.icons.type === 'wireframe'
+                                ? wireframeIcons.generic
+                                : solidIcons.generic}
+                        </TabPane>
+                    </Tabs>
+                </MiModal>
+            )
+        }
+
+        // 图标弹窗
+        const renderBadgeIconsModal = () => {
+            const wrapIcons = (data: string[]) => {
+                const res: any[] = []
+                data.forEach((icon: string) => {
+                    const IconTag = AntdvIcons[icon]
+                    res.push(
+                        <div
+                            class={`${styled.tabItem} ${
+                                params.form.validate.icon === icon ? styled.tabItemActive : ''
+                            }`}
+                            onClick={() => handleSetBadgeIcon(icon)}>
+                            <IconTag />
+                        </div>
+                    )
+                })
+                return <div class={styled.tabIcons}>{...res}</div>
+            }
+
+            const wireframeIcons = {
+                directional: wrapIcons(wireframe?.directional),
+                tips: wrapIcons(wireframe?.tips),
+                edit: wrapIcons(wireframe?.edit),
+                data: wrapIcons(wireframe?.data),
+                brands: wrapIcons(wireframe?.brands),
+                generic: wrapIcons(wireframe?.generic)
+            }
+
+            const solidIcons = {
+                brands: wrapIcons(solid?.brands),
+                data: wrapIcons(solid?.data),
+                directional: wrapIcons(solid?.directional),
+                edit: wrapIcons(solid?.edit),
+                generic: wrapIcons(solid?.generic),
+                tips: wrapIcons(solid?.tips)
+            }
+
+            return (
+                <MiModal
+                    open={params.icons.badge.open}
+                    title={false}
+                    footer={false}
+                    onCancel={handleOpenBadgeModal}
+                    zIndex={Date.now()}
+                    animation="slide"
+                    maskStyle={{ backdropFilter: `blur(0.5rem)` }}
+                    width={width.value < 768 ? '100%' : 748}>
+                    <RadioGroup v-model:value={params.icons.badge.type} class={styled.tabRadio}>
+                        <RadioButton value="wireframe">{t('menu.icons.wireframe')}</RadioButton>
+                        <RadioButton value="solid">{t('menu.icons.solid')}</RadioButton>
+                    </RadioGroup>
+                    <Tabs
+                        v-model:activeKey={params.icons.badge.active}
+                        class={styled.tab}
+                        centered={width.value >= 768}>
+                        <TabPane key="directional" tab={t('menu.icons.directional')}>
+                            {params.icons.badge.type === 'wireframe'
+                                ? wireframeIcons.directional
+                                : solidIcons.directional}
+                        </TabPane>
+                        <TabPane key="tips" tab={t('menu.icons.tips')}>
+                            {params.icons.badge.type === 'wireframe'
+                                ? wireframeIcons.tips
+                                : solidIcons.tips}
+                        </TabPane>
+                        <TabPane key="edit" tab={t('menu.icons.edit')}>
+                            {params.icons.badge.type === 'wireframe'
+                                ? wireframeIcons.edit
+                                : solidIcons.edit}
+                        </TabPane>
+                        <TabPane key="data" tab={t('menu.icons.data')}>
+                            {params.icons.badge.type === 'wireframe'
+                                ? wireframeIcons.data
+                                : solidIcons.data}
+                        </TabPane>
+                        <TabPane key="brands" tab={t('menu.icons.brands')}>
+                            {params.icons.badge.type === 'wireframe'
+                                ? wireframeIcons.brands
+                                : solidIcons.brands}
+                        </TabPane>
+                        <TabPane key="generic" tab={t('menu.icons.generic')}>
+                            {params.icons.badge.type === 'wireframe'
                                 ? wireframeIcons.generic
                                 : solidIcons.generic}
                         </TabPane>
@@ -966,6 +1121,17 @@ const MiAppsMenu = defineComponent({
             const normalMenu =
                 params.form.validate.type === 3 ? null : (
                     <>
+                        <FormItem label={labels.title} name="title">
+                            <Input
+                                v-model:value={params.form.validate.title}
+                                autocomplete="off"
+                                maxlength={60}
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
+                                placeholder={t('menu.placeholder.title')}
+                                onPressEnter={handleCreateOrUpdate}
+                            />
+                        </FormItem>
                         <FormItem label={t('menu.subtitle')} name="sub_title">
                             <Input
                                 v-model:value={params.form.validate.sub_title}
@@ -974,6 +1140,16 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 readonly={params.detail.show}
                                 placeholder={t('menu.placeholder.subtitle')}
+                                onPressEnter={handleCreateOrUpdate}
+                            />
+                        </FormItem>
+                        <FormItem label={t('menu.lang')} name="lang">
+                            <Input
+                                v-model:value={params.form.validate.lang}
+                                autocomplete="off"
+                                disabled={params.detail.show}
+                                readonly={params.detail.show}
+                                placeholder={t('menu.placeholder.lang')}
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
@@ -1129,27 +1305,6 @@ const MiAppsMenu = defineComponent({
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                        <FormItem label={labels.title} name="title">
-                            <Input
-                                v-model:value={params.form.validate.title}
-                                autocomplete="off"
-                                maxlength={60}
-                                disabled={params.detail.show}
-                                readonly={params.detail.show}
-                                placeholder={t('menu.placeholder.title')}
-                                onPressEnter={handleCreateOrUpdate}
-                            />
-                        </FormItem>
-                        <FormItem label={t('menu.lang')} name="lang">
-                            <Input
-                                v-model:value={params.form.validate.lang}
-                                autocomplete="off"
-                                disabled={params.detail.show}
-                                readonly={params.detail.show}
-                                placeholder={t('menu.placeholder.lang')}
-                                onPressEnter={handleCreateOrUpdate}
-                            />
-                        </FormItem>
                         {normalMenu}
                         <FormItem label={t('menu.login')} name="auth_login">
                             <RadioGroup
@@ -1171,7 +1326,8 @@ const MiAppsMenu = defineComponent({
                     {renderAction()}
                     {renderTable()}
                     {renderDrawer()}
-                    {renderIconsModal()}
+                    {renderMenuIconsModal()}
+                    {renderBadgeIconsModal()}
                 </ConfigProvider>
             </div>
         )
