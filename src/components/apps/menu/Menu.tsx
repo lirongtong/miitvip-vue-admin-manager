@@ -419,6 +419,7 @@ const MiAppsMenu = defineComponent({
         // 设置表单默认值
         const handleSetFormData = (data?: any) => {
             if (data && Object.keys(data)?.length > 0 && data?.id) {
+                params.form.badge.validate = { ...(data?.badge || {}) }
                 params.edit.status = true
                 params.detail.id = 0
                 params.detail.show = false
