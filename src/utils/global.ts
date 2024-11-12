@@ -22,6 +22,7 @@ export const __MI_SOCIALITE_DOMAIN__ = '/v1/oauth'
  * @param separator 加密字符串的分隔符
  * @param apiVersion API 版本
  * @param emptyFormatter 空串格式化的字符串
+ * @param showHistoryRoutes 显示历史路由
  * @param theme 主题配置属性
  * @param copyright 版权所有
  * @param protocols URL 校验协议数组
@@ -44,6 +45,7 @@ export const $g = reactive({
     separator: '/!#!$/',
     apiVersion: 'v1',
     emptyFormatter: '-',
+    showHistoryRoutes: true,
     theme: {
         type: 'dark',
         primary: '#FFD464',

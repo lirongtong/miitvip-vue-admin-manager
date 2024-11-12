@@ -86,5 +86,13 @@ export default {
     name: `Name`,
     copy: `Copy`,
     copied: `Copied`,
-    setting: `Setting`
+    setting: `Setting`,
+    page: {
+        prefix: `No.`,
+        prev: `previous page`,
+        next: `next page`,
+        unit: ``,
+        strip: ``,
+        total: `Total:`
+    }
 }

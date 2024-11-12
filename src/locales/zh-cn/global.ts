@@ -86,5 +86,13 @@ export default {
     name: `名称`,
     copy: `复制`,
     copied: `复制成功`,
-    setting: `设置`
+    setting: `设置`,
+    page: {
+        prefix: `第`,
+        prev: `上一页`,
+        next: `下一页`,
+        unit: `页`,
+        strip: `条`,
+        total: `共`
+    }
 }

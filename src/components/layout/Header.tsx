@@ -27,6 +27,7 @@ import MiPalette from '../palette/Palette'
 import MiDropdown from '../dropdown/Dropdown'
 import MiBreadcrumb from '../breadcrumb/Breadcrumb'
 import MiDrawerMenu from '../menu/Drawer'
+import MiHistoricalRouting from '../historical/Historical'
 import applyTheme from '../_utils/theme'
 import styled from './style/header.module.less'
 
@@ -178,6 +179,7 @@ const MiLayoutHeader = defineComponent({
                     </div>
                     {renderCoffeeModal()}
                 </div>
+                {$g?.showHistoryRoutes ? <MiHistoricalRouting /> : null}
             </header>
         )
     }
