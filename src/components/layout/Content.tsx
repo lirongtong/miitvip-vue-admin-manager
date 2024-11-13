@@ -31,7 +31,7 @@ const MiLayoutContent = defineComponent({
         return () => (
             <main
                 class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}${
-                    $g?.showHistoryRoutes ? ` ${styled.hasHistoricalRoutes}` : ``
+                    $g?.showHistoricalRouting ? ` ${styled.hasHistoricalRoutes}` : ``
                 }`}>
                 <div ref={container} class={styled.inner} key={route.name}>
                     {getPropSlot(slots, props, 'content') ?? (

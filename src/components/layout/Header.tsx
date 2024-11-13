@@ -143,7 +143,7 @@ const MiLayoutHeader = defineComponent({
         return () => (
             <header
                 class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}${
-                    $g?.showHistoryRoutes ? ` ${styled.hasHistoricalRoutes}` : ``
+                    $g?.showHistoricalRouting ? ` ${styled.hasHistoricalRoutes}` : ``
                 }`}>
                 <div class={styled.inner}>
                     <div class={styled.left}>
@@ -182,7 +182,7 @@ const MiLayoutHeader = defineComponent({
                     </div>
                     {renderCoffeeModal()}
                 </div>
-                {$g?.showHistoryRoutes ? <MiHistoricalRouting /> : null}
+                {$g?.showHistoricalRouting ? <MiHistoricalRouting /> : null}
             </header>
         )
     }
