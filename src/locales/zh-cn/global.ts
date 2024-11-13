@@ -11,6 +11,12 @@ export default {
     update: `更新`,
     submit: `提交`,
     close: `关闭`,
+    closes: {
+        all: '关闭全部',
+        left: '关闭左侧',
+        right: '关闭右侧',
+        other: '关闭其它'
+    },
     logout: `退出登录`,
     sent: `发送成功`,
     delete: {

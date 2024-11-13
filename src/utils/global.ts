@@ -91,7 +91,8 @@ export const $g = reactive({
                     uid: 'password-reset-uid',
                     username: 'password-reset-username'
                 }
-            }
+            },
+            routes: `historical-routing`
         },
         cookies: {
             autoLogin: 'auto-login',

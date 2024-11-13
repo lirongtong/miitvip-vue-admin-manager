@@ -2,7 +2,7 @@
 
 .container {
     .transition();
-    .flex();
+    .flex(flex-start);
     .properties(height, @mi-header-height);
     position: absolute;
     top: 0;
@@ -11,9 +11,17 @@
     z-index: @mi-zindex + 1000;
 }
 
+.has {
+    &-historical {
+        &-routes {
+            .properties(height, @mi-header-height + @mi-historical-height);
+        }
+    }
+}
+
 .inner {
     width: 100%;
-    height: 100%;
+    .properties(height, @mi-header-height);
     position: relative;
     .flex();
 }

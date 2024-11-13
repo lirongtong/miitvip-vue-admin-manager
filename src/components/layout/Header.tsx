@@ -141,7 +141,10 @@ const MiLayoutHeader = defineComponent({
         }
 
         return () => (
-            <header class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
+            <header
+                class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}${
+                    $g?.showHistoryRoutes ? ` ${styled.hasHistoricalRoutes}` : ``
+                }`}>
                 <div class={styled.inner}>
                     <div class={styled.left}>
                         {width.value > $g.breakpoints.sm ? (

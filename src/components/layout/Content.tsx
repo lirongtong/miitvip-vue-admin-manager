@@ -4,6 +4,7 @@ import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { RouterViewSlot } from '../../utils/types'
 import { useRoute, RouterView } from 'vue-router'
 import { useLayoutStore } from '../../stores/layout'
+import { $g } from '../../utils/global'
 import MiBacktop from '../backtop/Backtop'
 import MiAnchor from '../anchor/Anchor'
 import applyTheme from '../_utils/theme'
@@ -28,7 +29,10 @@ const MiLayoutContent = defineComponent({
         applyTheme(styled)
 
         return () => (
-            <main class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}`}>
+            <main
+                class={`${styled.container}${collapsed.value ? ` ${styled.collapsed}` : ''}${
+                    $g?.showHistoryRoutes ? ` ${styled.hasHistoricalRoutes}` : ``
+                }`}>
                 <div ref={container} class={styled.inner} key={route.name}>
                     {getPropSlot(slots, props, 'content') ?? (
                         <RouterView

@@ -11,6 +11,12 @@ export default {
     update: `Update`,
     submit: `Submit`,
     close: `Close`,
+    closes: {
+        all: 'Close all',
+        left: 'Close left',
+        right: 'Close right',
+        other: 'Close other'
+    },
     logout: `Logout`,
     sent: `Sent successfully`,
     delete: {

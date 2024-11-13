@@ -56,7 +56,7 @@
 
 ### Tokens
 
-#### Dropdown Item Tokens
+#### Dropdown Tokens
 
 | Token | 默认值
 | :---- | :----

@@ -144,6 +144,8 @@
 
 :white_check_mark: **[回到顶部](https://admin.makeit.vip/component/backtop)** ( [`Backtop`](./src/components/backtop/README.md) ) :top:
 
+:white_check_mark: **[历史路由](https://admin.makeit.vip/component/historical)** ( [`History`](./src/components/historical/README.md) ) :guitar:
+
 ## 高级应用
 
 :white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/apps/language/README.md) ) :snowflake:
