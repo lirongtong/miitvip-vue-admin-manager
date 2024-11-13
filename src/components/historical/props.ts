@@ -1,14 +1,14 @@
 import { PropTypes } from '../../utils/types'
 
 /**
- * +================================+
- * |       HistoricalRouting        |
- * +================================+
+ * +======================+
+ * |       Routing        |
+ * +======================+
  * @param name 名称
  * @param title 标题
  * @param path 路由
  */
-export interface HistoricalRouting {
+export interface Routing {
     name: string
     title: string
     path: string

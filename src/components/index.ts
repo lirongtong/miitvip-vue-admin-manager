@@ -81,6 +81,9 @@ export { default as Anchor } from './anchor'
 export type { SocialiteProperties } from './socialite/props'
 export { default as Socialite } from './socialite'
 
+export type { Routing, HistoricalRoutingProperties } from './historical/props'
+export { default as HistoricalRouting } from './historical'
+
 export type {
     ForgetProperties,
     ForgetFormParams,

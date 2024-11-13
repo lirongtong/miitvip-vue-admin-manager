@@ -13,7 +13,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { HistoricalRoutingProps } from './props'
 import { useHistoricalStore } from '../../stores/historical'
 import { useLayoutStore } from '../../stores/layout'
-import { type HistoricalRouting } from './props'
+import { type Routing } from './props'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import { Tooltip } from 'ant-design-vue'
@@ -71,7 +71,7 @@ const MiHistoricalRouting = defineComponent({
                     name: params.current,
                     title: route.meta?.title || params.current,
                     path: route.path
-                } as HistoricalRouting
+                } as Routing
                 params.active = temp?.[params.current]
                 historicalStore.setRoutes(temp)
             } else params.active = routes.value?.[params.current]
@@ -94,7 +94,7 @@ const MiHistoricalRouting = defineComponent({
             })
         }
 
-        const handleRedirect = (item: HistoricalRouting) => {
+        const handleRedirect = (item: Routing) => {
             nextTick().then(() => {
                 const elem = document.getElementById(`${$g.prefix}item-${item?.name}`)
                 if (elem) {
@@ -116,12 +116,12 @@ const MiHistoricalRouting = defineComponent({
             })
         }
 
-        const handleRemove = (item: HistoricalRouting, evt?: MouseEvent) => {
+        const handleRemove = (item: Routing, evt?: MouseEvent) => {
             const temp = {}
             const keys = Object.keys({ ...routes.value })
             const len = keys.length
-            let prev: HistoricalRouting | null = null
-            let next: HistoricalRouting | null = null
+            let prev: Routing | null = null
+            let next: Routing | null = null
             for (let i = 0; i < len; i++) {
                 if (keys[i] !== item.name) {
                     temp[keys[i]] = routes.value?.[keys[i]]
@@ -154,7 +154,7 @@ const MiHistoricalRouting = defineComponent({
             }
             for (const name in routes.value) {
                 if (Object.prototype.hasOwnProperty.call(routes.value, name)) {
-                    const item = routes.value[name] as HistoricalRouting
+                    const item = routes.value[name] as Routing
                     if (name === params.current) {
                         flag.left = true
                         flag.right = true
@@ -222,7 +222,7 @@ const MiHistoricalRouting = defineComponent({
             const items = []
             for (const name in routes.value || {}) {
                 if (Object.prototype.hasOwnProperty.call(routes.value, name)) {
-                    const item = routes.value?.[name] as HistoricalRouting
+                    const item = routes.value?.[name] as Routing
                     const classes = [
                         styled.item,
                         params.current === item.name ? styled.itemActive : ''
