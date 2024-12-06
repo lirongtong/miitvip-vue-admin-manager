@@ -24,6 +24,7 @@ import { default as Backtop } from './components/backtop'
 import { default as Anchor } from './components/anchor'
 import { default as Socialite } from './components/socialite'
 import { default as HistoricalRouting } from './components/historical'
+import { default as ItemsText } from './components/items/text'
 import { default as AppsLanguage } from './components/apps/language'
 import { default as AppsMenu } from './components/apps/menu'
 
@@ -88,6 +89,7 @@ declare module '@vue/runtime-core' {
         MiAnchor: typeof Anchor
         MiSocialite: typeof Socialite
         MiHistoricalRouting: typeof HistoricalRouting
+        MiItemsText: typeof ItemsText
         MiAppsLanguage: typeof AppsLanguage
         MiAppsMenu: typeof AppsMenu
     }

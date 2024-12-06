@@ -42,6 +42,10 @@ const PassportLogin = () => import('./views/passport/login.vue')
 const PassportRegister = () => import('./views/passport/register.vue')
 const PassportForget = () => import('./views/passport/forget.vue')
 
+const Items = () => import('./views/items/index.vue')
+const ItemsText = () => import('./views/items/text.vue')
+const ItemsImage = () => import('./views/items/image.vue')
+
 const menuRoutes: Array<RouteRecordRaw> = [
     {
         path: '/',
@@ -116,6 +120,23 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'pages-forget',
                 meta: { title: '忘记密码' },
                 component: PagesForget
+            }]
+        }, {
+            path: '/items',
+            name: 'items',
+            meta: { title: '定制排版' },
+            component: Items,
+            redirect: '/items/text',
+            children: [{
+                path: '/items/text',
+                name: 'items-text',
+                meta: { title: '文案排版' },
+                component: ItemsText
+            }, {
+                path: '/items/image',
+                name: 'items-image',
+                meta: { title: '图文排版' },
+                component: ItemsImage
             }]
         }, {
             path: '/components',

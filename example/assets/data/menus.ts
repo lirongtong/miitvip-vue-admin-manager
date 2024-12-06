@@ -115,6 +115,32 @@ export const menusData = [
         }]
     },
     {
+        name: 'items',
+        path: '/items',
+        meta: {
+            title: '定制排版',
+            subTitle: 'Items',
+            icon: AntdvIcons?.OrderedListOutlined
+        },
+        children: [{
+            name: 'items-text',
+            path: '/items/text',
+            meta: {
+                title: '文案排版',
+                subTitle: 'Text Item',
+                icon: AntdvIcons?.UnorderedListOutlined
+            }
+        }, {
+            name: 'items-image',
+            path: '/items/image',
+            meta: {
+                title: '图文排版',
+                subTitle: 'Image Item',
+                icon: AntdvIcons?.FileImageOutlined
+            }
+        }]
+    },
+    {
         name: 'components',
         path: '/components',
         meta: {

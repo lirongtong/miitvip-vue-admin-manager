@@ -103,3 +103,15 @@ export { default as AppsLanguage } from './apps/language'
 
 export type { MenuTree, MenuTreeItem, MenuTreeProperties } from './apps/menu/props'
 export { default as AppsMenu } from './apps/menu'
+
+export type {
+    TextItem,
+    TextItemTitle,
+    TextItemBackground,
+    TextItemBorder,
+    TextItemContent,
+    TextItemMarker,
+    ItemsTextProperties,
+    ItemsTextMarkerProperties
+} from './items/text/props'
+export { default as ItemsText } from './items/text'

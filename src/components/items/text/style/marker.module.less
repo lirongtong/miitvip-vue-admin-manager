@@ -1,0 +1,24 @@
+@import '../../../theme/style/variables.module.less';
+
+.container {
+    .flex();
+}
+
+.marker {
+    background-color: var(--mi-on-background);
+
+    &-text {
+        color: var(--mi-on-background);
+    }
+}
+
+.circle {
+    .properties(width, 4);
+    .properties(height, 4);
+    .circle();
+}
+
+.square {
+    .properties(width, 4);
+    .properties(height, 4);
+}

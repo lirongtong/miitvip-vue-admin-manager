@@ -986,6 +986,37 @@ class MiTools {
         }
         return false
     }
+
+    /**
+     * 阿拉伯数字转罗马数字
+     * @param num 数字
+     * @returns
+     */
+    convert2RomanNumber(num: number) {
+        const reg = {
+            M: 1000,
+            CM: 900,
+            D: 500,
+            CD: 400,
+            C: 100,
+            XC: 90,
+            L: 50,
+            XL: 40,
+            X: 10,
+            IX: 9,
+            V: 5,
+            IV: 4,
+            I: 1
+        }
+        let str = ''
+        for (const i in reg) {
+            while (num >= reg?.[i]) {
+                str += i
+                num -= reg?.[i]
+            }
+        }
+        return str
+    }
 }
 
 /**
@@ -1042,6 +1073,7 @@ class MiTools {
  *  - {@link $tools.colorRgb2Hex} 颜色转换 rgb -> hex
  *  - {@link $tools.getLanguage} 获取浏览器语系
  *  - {@link $tools.startWith} 判断字符串开头字符及返回处理
+ *  - {@link $tools.convert2RomanNumber} 阿拉伯数字转罗马数字
  */
 export const $tools: MiTools = new MiTools()
 

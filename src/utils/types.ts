@@ -249,8 +249,8 @@ export interface DeviceSize {
  * @see SizeColor
  */
 export interface SizeColor {
-    size: number | string | DeviceSize
-    color: string
+    size?: number | string | DeviceSize
+    color?: string
 }
 
 /**

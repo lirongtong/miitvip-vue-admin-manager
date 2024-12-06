@@ -1,0 +1,41 @@
+@import '../../../theme/style/variables.module.less';
+
+.container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.inner {
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.items {
+    .transition();
+}
+
+.item {
+    &-object {
+        position: relative;
+    }
+
+    &-title {
+        .flex(flex-start, flex-start);
+        color: var(--mi-on-background);
+
+        &-center {
+            .flex(center, flex-start);
+        }
+    }
+
+    &-info {
+        .flex(flex-start, flex-start);
+
+        &-center {
+            .flex(center, flex-start);
+        }
+    }
+}

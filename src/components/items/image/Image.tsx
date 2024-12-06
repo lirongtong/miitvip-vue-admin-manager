@@ -1,11 +1,11 @@
 import { defineComponent } from 'vue'
 
-const MiItemsDetail = defineComponent({
-    name: 'MiItemsDetail',
+const MiItemsImage = defineComponent({
+    name: 'MiItemsImage',
     inheritAttrs: false,
     setup() {
         return () => <div></div>
     }
 })
 
-export default MiItemsDetail
+export default MiItemsImage
