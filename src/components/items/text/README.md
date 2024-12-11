@@ -107,7 +107,70 @@ const params = reactive({
 | `gap` | `number \| string \| DeviceSize` | `0` | 每个项目之间的间距
 | `border` | `TextItemBorder` | `{}` | 边框配置
 | `radius` | `number \| string \| DeviceSize` | `0` | 圆角
-| `background` | `TextItemBackground` | `{}` | 背景配置
-| `title` | `TextItemTitle` | `{}` | 标题配置
-| `intro` | `TextItemContent` | `{}` | 内容配置
+| `background` | [`TextItemBackground`](./README.md#textitembackground-属性--interface-) | `{}` | 背景配置
+| `title` | [`TextItemTitle`](./README.md#textitemtitle-属性--interface-) | `{}` | 标题配置
+| `intro` | [`TextItemContent`](./README.md#textitemcontent-属性--interface-) | `{}` | 内容配置
 | `item` | `VNodeTypes` | `''` | 项目自定义内容
+
+#### `MiItemsTextMarker` 属性 ( `Properties` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `marker` | [`TextItemMarker`](./README.md#textitemmarker-属性--interface-) | `{}` | 项目标记配置
+| `number` | `number` | `''` | 项目标记数字 ( type = number/upper-number/letter/upper-letter 时有效 )
+
+#### `TextItem` 属性 ( `Interface` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `title` | `string` | `''` | 项目标题
+| `intro` | `string` | `''` | 项目介绍
+| `gap` | `number \| string \| DeviceSize` | `''` | 项目间距
+| `items` | `string[]` | `[]` | 项目内容
+
+#### `TextItemMarker` 属性 ( `Interface` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `type` | `square \| circle \| letter \| upper-letter \| number \| upper-number \| roman-number` | `''` | 项目标记类型
+| `prefix` | `string` | `''` | 项目标记前缀
+| `suffix` | `string` | `''` | 项目标记后缀
+| `color` | `string` | `''` | 项目标记颜色 ( square / circle 有效 )
+| `size` | `number \| string \| DeviceSize` | `''` | 项目标记大小 ( square / circle 有效 )
+| `gap` | `number \| string \| DeviceSize` | `''` | 项目标记与内容的间距
+| `center` | `boolean` | `false` | 项目标记是否居中
+| `margin` | `number \| string \| Position` | `''` | 项目标记外边距
+
+#### `TextItemBackground` 属性 ( `Interface` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `color` | `string` | `''` | 背景颜色
+| `image` | `string` | `''` | 背景图片
+| `aspectRatio` | `string` | `''` | 背景图片宽高比
+
+#### `TextItemBorder` 属性 ( `Interface` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `color` | `string` | `''` | 边框颜色
+| `width` | `number \| string \| DeviceSize` | `''` | 边框大小
+
+#### `TextItemContent` 属性 ( `Interface` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `color` | `string` | `''` | 内容颜色
+| `size` | `number \| string \| DeviceSize` | `''` | 字体大小
+| `bold` | `boolean` | `false` | 是否加粗
+| `margin` | `number \| string \| Position` | `''` | 外边距
+
+#### `TextItemTitle` 属性 ( `Interface` )
+
+| 参数 | 类型 | 默认值 | 说明
+| :---- | :---- | :---- | :----
+| `color` | `string` | `''` | 内容颜色
+| `size` | `number \| string \| DeviceSize` | `''` | 字体大小
+| `bold` | `boolean` | `false` | 是否加粗
+| `margin` | `number \| string \| Position` | `''` | 外边距
+| `marker` | [`TextItemMarker`](./README.md#textitemmarker-属性--interface-) | `{}` | 项目标记配置

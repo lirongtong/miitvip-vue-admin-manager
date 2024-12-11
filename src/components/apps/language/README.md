@@ -121,10 +121,10 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `translate` | [`TranslateProperties`](./README.md#translateproperties-属性--properties-) | `{}` | 自动翻译配置
+| `translate` | [`TranslateProperties`](./README.md#translateproperties-属性--interface-) | `{}` | 自动翻译配置
 | `translateType` | `string` | `baidu` | 自动翻译类型 ( 默认: baidu )
-| `data` | [`LanguageItemProperties[]`](./README.md#languageitemproperties-属性--properties-) | `[]` | 语言项数据 (首选, 次选 `getContentAction`)
-| `category` | [`LanguageItemProperties[]`](./README.md#languageitemproperties-属性--properties-) | `[]` | 语言分类数据 (首选, 次选 `getCategoryAction`)
+| `data` | [`LanguageItemProperties[]`](./README.md#languageitemproperties-属性--interface-) | `[]` | 语言项数据 (首选, 次选 `getContentAction`)
+| `category` | [`LanguageItemProperties[]`](./README.md#languageitemproperties-属性--interface-) | `[]` | 语言分类数据 (首选, 次选 `getCategoryAction`)
 | `getCategoryAction` | `string \| function` | `''` | 获取语言分类接口地址或自定义方法
 | `getCategoryMethod` | `string` | `get` | 获取语言分类接口的请求方式 ( `getCategoryAction` string 时有效 )
 | `getCategoryParams` | `object` | `{}` | 获取语言分类接口参数
@@ -185,7 +185,7 @@
 | `checkModuleExistMethod` | `string` | `get` | 检测模块是否存在接口的请求方式 ( `deleteModuleAction` string 时有效 )
 | `checkModuleExistParams` | `object` | `{}` | 检测模块是否存在接口参数
 
-#### `LanguageItemProperties` 属性 ( `Properties` )
+#### `LanguageItemProperties` 属性 ( `Interface` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
@@ -199,16 +199,16 @@
 | `is_default` | `number` | `''` | 是否默认
 | `type` | `string` | `''` | 语言类型
 
-#### `TranslateProperties` 属性 ( `Properties` )
+#### `TranslateProperties` 属性 ( `Interface` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `baidu` | [`BaiduTranslateProperties`](./README.md#baidutranslateproperties-属性--properties-) | `{}` | 百度翻译配置
+| `baidu` | [`BaiduTranslateProperties`](./README.md#baidutranslateproperties-属性--interface-) | `{}` | 百度翻译配置
 | `languages` | `Record<string, string>` | `{}` | 自定义翻译语言列表
 | `defaultLanguage` | `string` | `''` | 自定义翻译语言列表默认选中值
 | `translate` | `function` | *`None`* | 自定义翻译功能
 
-#### `BaiduTranslateProperties` 属性 ( `Properties` )
+#### `BaiduTranslateProperties` 属性 ( `Interface` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
@@ -216,7 +216,7 @@
 | `key` | `string \| number` | `''` | 翻译接口 key 值
 | `appid` | `string \| number` | `''` | 翻译接口 appid
 
-#### `LanguageModuleProperties` 属性 ( `Properties` )
+#### `LanguageModuleProperties` 属性 ( `Interface` )
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----

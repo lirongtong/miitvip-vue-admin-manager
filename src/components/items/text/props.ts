@@ -80,11 +80,10 @@ export interface TextItemBorder {
  * +==============================+
  * |       TextItemContent        |
  * +==============================+
- * @param color 标题颜色
- * @param size 标题大小
- * @param bold 标题是否加粗
- * @param margin 标题外边距
- * @param marker 标题标记配置
+ * @param color 内容颜色
+ * @param size 字体大小
+ * @param bold 是否加粗
+ * @param margin 外边距
  */
 export interface TextItemContent extends SizeColor {
     [key: string]: any
