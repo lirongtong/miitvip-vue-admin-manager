@@ -44,6 +44,7 @@ const MiItemsText = defineComponent({
 
         const innerStyle = computed(() => {
             return {
+                color: props?.color || null,
                 fontSize: $tools.convert2rem($tools.distinguishSize(props?.size)),
                 borderColor: props?.border?.color || null,
                 borderWidth: $tools.convert2rem($tools.distinguishSize(props?.border?.width || 0)),
@@ -69,7 +70,11 @@ const MiItemsText = defineComponent({
                             fontWeight: props?.bold ? 'bold' : null
                         }}>
                         {props.marker ? (
-                            <MiItemsTextMarker marker={props.marker} number={index} />
+                            <MiItemsTextMarker
+                                marker={props.marker}
+                                number={index}
+                                color={props?.color}
+                            />
                         ) : null}
                         <div class={styled.itemText} innerHTML={content}></div>
                     </div>
@@ -118,7 +123,11 @@ const MiItemsText = defineComponent({
                             ...handleContentStyle(props?.title)
                         }}>
                         {props?.title?.marker ? (
-                            <MiItemsTextMarker marker={props?.title?.marker} number={index} />
+                            <MiItemsTextMarker
+                                marker={props?.title?.marker}
+                                number={index}
+                                color={props?.color}
+                            />
                         ) : null}
                         <span innerHTML={title}></span>
                     </div>

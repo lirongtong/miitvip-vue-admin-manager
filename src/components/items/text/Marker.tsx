@@ -30,7 +30,7 @@ const MiItemsTextMarker = defineComponent({
         const markerTextStyle = computed(() => {
             return {
                 ...margin.value,
-                color: props?.marker?.color || null
+                color: props?.marker?.color || props?.color || null
             }
         })
 
@@ -51,7 +51,7 @@ const MiItemsTextMarker = defineComponent({
                     marker = (
                         <span
                             class={styled.markerText}
-                            style={markerTextStyle.value}
+                            style={{ ...markerTextStyle.value }}
                             innerHTML={props.number + 1}></span>
                     )
                     break
@@ -59,7 +59,7 @@ const MiItemsTextMarker = defineComponent({
                     marker = (
                         <span
                             class={styled.markerText}
-                            style={markerTextStyle.value}
+                            style={{ ...markerTextStyle.value }}
                             innerHTML={upperNumber.value}></span>
                     )
                     break
@@ -68,7 +68,7 @@ const MiItemsTextMarker = defineComponent({
                     marker = (
                         <span
                             class={styled.markerText}
-                            style={markerTextStyle.value}
+                            style={{ ...markerTextStyle.value }}
                             innerHTML={letter}></span>
                     )
                     break
@@ -76,7 +76,7 @@ const MiItemsTextMarker = defineComponent({
                     marker = (
                         <span
                             class={styled.markerText}
-                            style={markerTextStyle.value}
+                            style={{ ...markerTextStyle.value }}
                             innerHTML={String.fromCharCode(props.number + 65)}></span>
                     )
                     break
@@ -98,7 +98,7 @@ const MiItemsTextMarker = defineComponent({
                     marker = (
                         <span
                             class={styled.markerText}
-                            style={markerTextStyle.value}
+                            style={{ ...markerTextStyle.value }}
                             innerHTML={$tools.convert2RomanNumber(props.number + 1)}></span>
                     )
                     break

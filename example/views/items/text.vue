@@ -2,6 +2,7 @@
     <mi-items-text
         :center="true"
         :padding="16"
+        color="#000"
         :items="[
             {
                 gap: 8,

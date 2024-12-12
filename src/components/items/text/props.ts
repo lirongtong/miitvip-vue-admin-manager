@@ -112,6 +112,7 @@ export interface TextItemTitle extends TextItemContent {
  * @param items 列表
  * @param marker 标记配置
  * @param size 文案字体大小
+ * @param color 文案颜色
  * @param bold 文案是否加粗
  * @param center 是否居中
  * @param padding 组件容器内边距
@@ -124,10 +125,9 @@ export interface TextItemTitle extends TextItemContent {
  * @param intro 内容配置
  * @param item 项目自定义内容<Slot />
  */
-export interface ItemsTextProperties {
+export interface ItemsTextProperties extends SizeColor {
     items?: string[] | TextItem[]
     marker?: TextItemMarker
-    size?: number | string | DeviceSize
     bold?: boolean
     center?: boolean
     padding?: number | string | Position
@@ -145,6 +145,7 @@ export const ItemsTextProps = () => ({
     items: PropTypes.oneOfType([array<string>(), array<TextItem>()]).def([]),
     marker: object<TextItemMarker>(),
     size: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
+    color: PropTypes.string,
     bold: PropTypes.bool.def(false),
     center: PropTypes.bool.def(false),
     padding: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<Position>()]).def(0),
@@ -164,13 +165,16 @@ export const ItemsTextProps = () => ({
  * +==============================+
  * @param marker 项目标记配置
  * @param number 项目标记数字 ( type = number/upper-number/letter/upper-letter 时有效 )
+ * @param color 文案颜色 ( 继承自 ItemsText 属性 )
  */
 export interface ItemsTextMarkerProperties {
     marker?: TextItemMarker
     number?: number
+    color?: string
 }
 
 export const ItemsTextMarkerProps = () => ({
     marker: object<TextItemMarker>(),
-    number: PropTypes.number
+    number: PropTypes.number,
+    color: PropTypes.string
 })
