@@ -1,8 +1,8 @@
-import { defineComponent, computed, renderSlot } from 'vue'
+import { defineComponent, computed, renderSlot, Fragment } from 'vue'
 import { ItemsTextProps, type TextItem, type TextItemContent } from './props'
 import { $tools } from '../../../utils/tools'
 import { getPropSlot } from '../../_utils/props'
-import type { Position, DeviceSize } from '../../../utils/types'
+import type { Position } from '../../../utils/types'
 import MiItemsTextMarker from './Marker'
 import applyTheme from '../../_utils/theme'
 import styled from './style/text.module.less'
@@ -48,14 +48,14 @@ const MiItemsText = defineComponent({
 
         const renderItemString = (
             index: number,
-            item: string,
+            content: string,
             exclude = true,
-            gap?: string | number | DeviceSize
+            item?: TextItem
         ) => {
-            const spacing = $tools.convert2rem($tools.distinguishSize(gap || props?.gap))
+            const spacing = $tools.convert2rem($tools.distinguishSize(item?.gap || props?.gap))
             const indent = $tools.convert2rem($tools.distinguishSize(props?.indent))
             return (
-                <>
+                <Fragment>
                     <div
                         class={[styled.itemInfo, { [styled.itemInfoCenter]: props.marker?.center }]}
                         style={{
@@ -66,12 +66,12 @@ const MiItemsText = defineComponent({
                         {props.marker ? (
                             <MiItemsTextMarker marker={props.marker} number={index} />
                         ) : null}
-                        <div class={styled.itemText} innerHTML={item}></div>
+                        <div class={styled.itemText} innerHTML={content}></div>
                     </div>
                     <div style={{ marginLeft: indent }}>
-                        {renderSlot(slots, 'item', { item, index })}
+                        {renderSlot(slots, 'item', { text: content, index, item })}
                     </div>
-                </>
+                </Fragment>
             )
         }
 
@@ -82,7 +82,7 @@ const MiItemsText = defineComponent({
             if (item?.items && item?.items?.length > 0) {
                 for (let i = 0; i < item?.items?.length; i++) {
                     const subitem = item?.items?.[i]
-                    items.push(renderItemString(i, subitem, false, item?.gap))
+                    items.push(renderItemString(i, subitem, false, item))
                 }
             }
             return (

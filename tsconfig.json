@@ -19,6 +19,8 @@
 		"declarationDir": "es",
 		"allowJs": true,
         "jsx": "preserve",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
