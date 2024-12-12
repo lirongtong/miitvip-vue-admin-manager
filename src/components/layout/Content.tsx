@@ -51,7 +51,16 @@ const MiLayoutContent = defineComponent({
                                                 {props.showAnchor ? (
                                                     <MiAnchor
                                                         listenerContainer={listenerContainer.value}
-                                                        {...props.anchorSetting}
+                                                        {...Object.assign(
+                                                            {},
+                                                            {
+                                                                scrollOffset:
+                                                                    $g?.showHistoricalRouting
+                                                                        ? 128
+                                                                        : 80
+                                                            },
+                                                            props.anchorSetting
+                                                        )}
                                                     />
                                                 ) : null}
                                             </div>

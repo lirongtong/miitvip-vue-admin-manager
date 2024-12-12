@@ -1,4 +1,4 @@
-import { computed, defineComponent, type SlotsType, Transition } from 'vue'
+import { computed, defineComponent, Fragment, type SlotsType, Transition } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { LayoutProps } from './props'
 import { $g } from '../../utils/global'
@@ -50,7 +50,7 @@ const MiLayout = defineComponent({
             return slots?.default ? (
                 slots.default()
             ) : (
-                <>
+                <Fragment>
                     <Transition name={anim} appear={true}>
                         {width.value > $g.breakpoints.sm
                             ? getPropSlot(slots, props, 'sider') ?? (
@@ -76,7 +76,7 @@ const MiLayout = defineComponent({
                             {getPropSlot(slots, props, 'footer') ?? <MiLayoutFooter />}
                         </div>
                     </section>
-                </>
+                </Fragment>
             )
         }
 
