@@ -113,6 +113,7 @@ export interface TextItemTitle extends TextItemContent {
  * @param marker 标记配置
  * @param size 文案字体大小
  * @param bold 文案是否加粗
+ * @param center 是否居中
  * @param padding 组件容器内边距
  * @param indent 项目缩进
  * @param gap 每个项目之间的间距
@@ -128,6 +129,7 @@ export interface ItemsTextProperties {
     marker?: TextItemMarker
     size?: number | string | DeviceSize
     bold?: boolean
+    center?: boolean
     padding?: number | string | Position
     indent?: number | string | DeviceSize
     gap?: number | string | DeviceSize
@@ -144,6 +146,7 @@ export const ItemsTextProps = () => ({
     marker: object<TextItemMarker>(),
     size: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
     bold: PropTypes.bool.def(false),
+    center: PropTypes.bool.def(false),
     padding: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<Position>()]).def(0),
     indent: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(0),
     gap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(0),

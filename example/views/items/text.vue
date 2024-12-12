@@ -1,5 +1,7 @@
 <template>
     <mi-items-text
+        :center="true"
+        :padding="16"
         :items="[
             {
                 gap: 8,

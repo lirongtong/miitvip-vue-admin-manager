@@ -14,10 +14,10 @@ const MiItemsText = defineComponent({
     setup(props, { slots }) {
         applyTheme(styled)
 
-        const handleSpacing = (margin: string | number | Position) => {
+        const handleSpacing = (margin: string | number | Position, prefix = 'margin') => {
             return typeof margin === 'string' || typeof margin === 'number'
-                ? { margin: $tools.convert2rem($tools.distinguishSize(margin)) }
-                : { ...$tools.wrapPositionOrSpacing(margin || {}, 'margin') }
+                ? { [prefix]: $tools.convert2rem($tools.distinguishSize(margin)) }
+                : { ...$tools.wrapPositionOrSpacing(margin || {}, prefix) }
         }
 
         const handleContentStyle = (content: TextItemContent) => {
@@ -30,7 +30,7 @@ const MiItemsText = defineComponent({
 
         const containerStyle = computed(() => {
             return {
-                ...handleSpacing(props?.padding),
+                ...handleSpacing(props?.padding, 'padding'),
                 borderRadius: $tools.convert2rem($tools.distinguishSize(props?.radius)),
                 backgroundColor: props?.background?.color || null,
                 backgroundImage: props?.background?.image
@@ -38,7 +38,12 @@ const MiItemsText = defineComponent({
                     : null,
                 aspectRatio: props?.background?.aspectRatio
                     ? props?.background?.aspectRatio / 1
-                    : null,
+                    : null
+            }
+        })
+
+        const innerStyle = computed(() => {
+            return {
                 fontSize: $tools.convert2rem($tools.distinguishSize(props?.size)),
                 borderColor: props?.border?.color || null,
                 borderWidth: $tools.convert2rem($tools.distinguishSize(props?.border?.width || 0)),
@@ -145,8 +150,10 @@ const MiItemsText = defineComponent({
         }
 
         return () => (
-            <div class={styled.container}>
-                <div class={styled.inner} style={{ ...containerStyle.value }}>
+            <div
+                class={[styled.container, { [styled.containerCenter]: props?.center }]}
+                style={{ ...containerStyle.value }}>
+                <div class={styled.inner} style={{ ...innerStyle.value }}>
                     {props?.items?.length > 0 ? (
                         <div class={styled.items}>{...renderItems()}</div>
                     ) : null}

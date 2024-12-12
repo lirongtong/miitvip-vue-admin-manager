@@ -102,6 +102,7 @@ const params = reactive({
 | `marker` | `TextItemMarker` | `{}` | 标记配置
 | `size` | `number \| string \| DeviceSize` | `16` | 文案字体大小
 | `bold` | `boolean` | `false` | 文案是否加粗
+| `center` | `boolean` | `false` | 内容项是否居中显示
 | `padding` | `number \| string \| Position` | `0` | 组件容器内边距
 | `indent` | `number \| string \| DeviceSize` | `0` | 项目缩进
 | `gap` | `number \| string \| DeviceSize` | `0` | 每个项目之间的间距
