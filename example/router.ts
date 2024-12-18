@@ -135,7 +135,7 @@ const menuRoutes: Array<RouteRecordRaw> = [
             }, {
                 path: '/items/image',
                 name: 'items-image',
-                meta: { title: '图文排版' },
+                meta: { title: '图片排版' },
                 component: ItemsImage
             }]
         }, {

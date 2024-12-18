@@ -115,3 +115,9 @@ export type {
     ItemsTextMarkerProperties
 } from './items/text/props'
 export { default as ItemsText } from './items/text'
+
+export type { ItemsImageProperties, ImageItem, ImageItemHover } from './items/image/props'
+export { default as ItemsImage } from './items/image'
+
+export type { ImageProperties } from './image/props'
+export { default as Image } from './image'

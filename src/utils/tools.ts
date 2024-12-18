@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import { $g } from './global'
-import type { DeviceSize, Position, KeyValue } from './types'
+import type { DeviceSize, Position, KeyValue, Gap } from './types'
 import {
     argbFromHex,
     themeFromSourceColor,
@@ -790,13 +790,38 @@ class MiTools {
                     if (width < breakpoints.md)
                         return typeof value?.mobile !== 'undefined' ? value?.mobile : values[0]
                     if (width >= breakpoints.lg)
-                        return typeof value?.laptop !== 'undefined' ? value?.laptop : values[0]
+                        return typeof value?.laptop !== 'undefined'
+                            ? value?.laptop
+                            : typeof value?.tablet !== 'undefined'
+                              ? value?.tablet
+                              : values[0]
                     if (width >= breakpoints.md && width < breakpoints.lg)
                         return typeof value?.tablet !== 'undefined' ? value?.tablet : values[0]
                 } else return null
             }
         }
         return null
+    }
+
+    /**
+     * 根据配置值获取转换后的间距值
+     * @param gap
+     *
+     * @see distinguishSize
+     */
+    getGap(gap?: string | number | DeviceSize | Gap) {
+        if (typeof gap !== 'undefined') {
+            if (typeof gap === 'string' || typeof gap === 'number') {
+                return gap
+            } else if (typeof gap === 'object') {
+                if ((gap as Gap)?.column || (gap as Gap)?.row) {
+                    return {
+                        column: this.distinguishSize((gap as Gap)?.column),
+                        row: this.distinguishSize((gap as Gap)?.row)
+                    }
+                } else return this.distinguishSize(gap as DeviceSize)
+            }
+        } else return null
     }
 
     /**

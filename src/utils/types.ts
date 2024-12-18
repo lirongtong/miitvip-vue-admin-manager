@@ -240,17 +240,50 @@ export interface DeviceSize {
 }
 
 /**
+ * +=================+
+ * |      间距       |
+ * +=================+
+ * @param row 行间距
+ * @param column 列间距
+ *
+ * @see DeviceSize
+ */
+export interface Gap {
+    row?: number | string | DeviceSize
+    column?: number | string | DeviceSize
+}
+
+/**
  * +====================+
  * |      大小颜色       |
  * +====================+
  * @param size 大小
  * @param color 颜色
  *
- * @see SizeColor
+ * @see DeviceSize
  */
 export interface SizeColor {
     size?: number | string | DeviceSize
     color?: string
+}
+
+/**
+ * +====================+
+ * |      文案设置       |
+ * +====================+
+ * @param size 大小
+ * @param color 颜色
+ * @param text 文案内容
+ * @param bold 是否加粗
+ * @param align 对齐方式
+ *
+ * @see SizeColor
+ */
+export interface TextSetting extends SizeColor {
+    text?: string
+    bold?: boolean
+    align?: 'left' | 'right' | 'center'
+    lineHeight?: string | number | DeviceSize
 }
 
 /**

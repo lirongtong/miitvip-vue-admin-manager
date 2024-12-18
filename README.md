@@ -148,6 +148,8 @@
 
 :white_check_mark: **[文案排版](https://admin.makeit.vip/items/text)** ( [`ItemsText`](./src/components/items/text/README.md) ) :date:
 
+:white_check_mark: **[图片排版](https://admin.makeit.vip/items/image)** ( [`ItemsImage`](./src/components/items/image/README.md) ) :computer:
+
 ## 高级应用
 
 :white_check_mark: **[语言配置](https://admin.makeit.vip/advanced/language)** ( [`AppsLanguage`](./src/components/apps/language/README.md) ) :snowflake:

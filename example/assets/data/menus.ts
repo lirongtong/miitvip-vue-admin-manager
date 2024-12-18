@@ -134,7 +134,7 @@ export const menusData = [
             name: 'items-image',
             path: '/items/image',
             meta: {
-                title: '图文排版',
+                title: '图片排版',
                 subTitle: 'Image Item',
                 icon: AntdvIcons?.FileImageOutlined
             }
