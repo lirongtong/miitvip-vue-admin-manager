@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import { $g } from './global'
-import type { DeviceSize, Position, KeyValue, Gap } from './types'
+import type { DeviceSize, Position, KeyValue, Gap, TextSetting } from './types'
 import {
     argbFromHex,
     themeFromSourceColor,
@@ -1042,6 +1042,33 @@ class MiTools {
         }
         return str
     }
+
+    /**
+     * 获取文案内容及样式
+     * @param text
+     * @returns
+     */
+    getTextSetting(text?: string | TextSetting) {
+        return {
+            text: text ? (typeof text === 'string' ? text : text?.text || '') : null,
+            style:
+                typeof text === 'object'
+                    ? {
+                          fontSize: this.convert2rem(this.distinguishSize(text?.size)),
+                          fontWeight: text?.bold ? 'bold' : 'normal',
+                          color: text?.color || null,
+                          justifyContent:
+                              text?.align === 'center'
+                                  ? 'center'
+                                  : text?.align === 'right'
+                                    ? 'flex-end'
+                                    : 'flex-start',
+                          textAlign: text?.align || null,
+                          lineHeight: this.convert2rem(this.distinguishSize(text?.lineHeight))
+                      }
+                    : {}
+        }
+    }
 }
 
 /**
@@ -1089,6 +1116,7 @@ class MiTools {
  *  - {@link $tools.assignThemeModuleProperties} 合并局部的主题变量
  *  - {@link $tools.destroyThemeModuleProperties} 销毁局部主题变量
  *  - {@link $tools.distinguishSize} 根据屏幕尺寸大小选取所需尺寸
+ *  - {@link $tools.getGap} 根据配置值获取转换后的间距值
  *  - {@link $tools.getAntdvThemeProperties} Antdv 的主题配置
  *  - {@link $tools.beautySub} 截取字符串
  *  - {@link $tools.debounce} 防抖
@@ -1099,6 +1127,7 @@ class MiTools {
  *  - {@link $tools.getLanguage} 获取浏览器语系
  *  - {@link $tools.startWith} 判断字符串开头字符及返回处理
  *  - {@link $tools.convert2RomanNumber} 阿拉伯数字转罗马数字
+ *  - {@link $tools.getTextSetting} 获取文案内容及样式
  */
 export const $tools: MiTools = new MiTools()
 

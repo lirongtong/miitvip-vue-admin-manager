@@ -121,3 +121,6 @@ export { default as ItemsImage } from './items/image'
 
 export type { ImageProperties } from './image/props'
 export { default as Image } from './image'
+
+export type { ButtonProperties } from './button/props'
+export { default as Button } from './button'

@@ -114,15 +114,9 @@
 
 :white_check_mark: **[下拉菜单](https://admin.makeit.vip/component/dropdown)** ( [`Dropdown`](./src/components/dropdown/README.md) ) :palm_tree:
 
-:white_check_mark: **[忘记密码](https://admin.makeit.vip/page/forget)** ( [`Forget`](./src/components/forget/README.md) ) :hammer:
-
 :white_check_mark: **[链接地址](https://admin.makeit.vip/component/link)** ( [`Link`](./src/components/link/README.md) ) :guitar:
 
 :white_check_mark: **[调色面板](https://admin.makeit.vip/component/palette)** ( [`Palette`](./src/components/palette/README.md) ) :books:
-
-:white_check_mark: **[登录页面](https://admin.makeit.vip/page/login)** ( [`Login`](./src/components/login/README.md) ) :cherries:
-
-:white_check_mark: **[注册页面](https://admin.makeit.vip/page/register)** ( [`Register`](./src/components/register/README.md) ) :european_castle:
 
 :white_check_mark: **[授权登录](https://admin.makeit.vip/component/socialite)** ( [`Socialite`](./src/components/socialite/README.md) ) :dizzy:
 
@@ -146,9 +140,21 @@
 
 :white_check_mark: **[历史路由](https://admin.makeit.vip/component/historical)** ( [`History`](./src/components/historical/README.md) ) :guitar:
 
+:white_check_mark: **[图片加载](https://admin.makeit.vip/component/image)** ( [`ItemsImage`](./src/components/image/README.md) ) :tea:
+
+## 排版组件
+
 :white_check_mark: **[文案排版](https://admin.makeit.vip/items/text)** ( [`ItemsText`](./src/components/items/text/README.md) ) :date:
 
 :white_check_mark: **[图片排版](https://admin.makeit.vip/items/image)** ( [`ItemsImage`](./src/components/items/image/README.md) ) :computer:
+
+## 守护组件
+
+:white_check_mark: **[登录页面](https://admin.makeit.vip/page/login)** ( [`Login`](./src/components/login/README.md) ) :cherries:
+
+:white_check_mark: **[注册页面](https://admin.makeit.vip/page/register)** ( [`Register`](./src/components/register/README.md) ) :european_castle:
+
+:white_check_mark: **[忘记密码](https://admin.makeit.vip/page/forget)** ( [`Forget`](./src/components/forget/README.md) ) :hammer:
 
 ## 高级应用
 

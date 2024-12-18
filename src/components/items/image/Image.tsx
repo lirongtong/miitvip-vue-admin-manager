@@ -1,9 +1,9 @@
 import { defineComponent, computed, ref } from 'vue'
 import { ItemsImageProps, type ImageItem } from './props'
 import { $tools } from '../../../utils/tools'
-import type { TextSetting } from '../../../utils/types'
 import MiImage from '../../image/Image'
 import MiLink from '../../link/Link'
+import MiButton from '../../button/Button'
 import applyTheme from '../../_utils/theme'
 import styled from './style/image.module.less'
 
@@ -59,29 +59,6 @@ const MiItemsImage = defineComponent({
 
         const renderImages = () => {
             const images = []
-            const getTextSetting = (text?: string | TextSetting) => {
-                return {
-                    text: text ? (typeof text === 'string' ? text : text?.text || '') : null,
-                    style:
-                        typeof text === 'object'
-                            ? {
-                                  fontSize: $tools.convert2rem($tools.distinguishSize(text?.size)),
-                                  fontWeight: text?.bold ? 'bold' : 'normal',
-                                  color: text?.color || null,
-                                  justifyContent:
-                                      text?.align === 'center'
-                                          ? 'center'
-                                          : text?.align === 'right'
-                                            ? 'flex-end'
-                                            : 'flex-start',
-                                  textAlign: text?.align || null,
-                                  lineHeight: $tools.convert2rem(
-                                      $tools.distinguishSize(text?.lineHeight)
-                                  )
-                              }
-                            : {}
-                }
-            }
 
             const renderItemThumb = (item?: ImageItem, placeholder?: boolean) => {
                 return item?.thumb ? (
@@ -100,14 +77,14 @@ const MiItemsImage = defineComponent({
             }
 
             const renderItemTitle = (item?: ImageItem) => {
-                const title = getTextSetting(item?.title)
+                const title = $tools.getTextSetting(item?.title)
                 return item?.title ? (
                     <div class={styled.itemTitle} innerHTML={title?.text} style={title.style}></div>
                 ) : null
             }
 
             const renderItemSubtitle = (item?: ImageItem) => {
-                const subtitle = getTextSetting(item?.subtitle)
+                const subtitle = $tools.getTextSetting(item?.subtitle)
                 return item?.subtitle ? (
                     <div
                         class={styled.itemSubtitle}
@@ -125,9 +102,9 @@ const MiItemsImage = defineComponent({
                           : props?.hover?.animation === 'slide-left'
                             ? { width: 0, top: 0, right: 0 }
                             : { bottom: 0, left: 0, maxHeight: 0 }
-                const title = getTextSetting(item?.title)
-                const subtitle = getTextSetting(item?.subtitle)
-                const intro = getTextSetting(item?.intro)
+                const title = $tools.getTextSetting(item?.title)
+                const subtitle = $tools.getTextSetting(item?.subtitle)
+                const intro = $tools.getTextSetting(item?.intro)
                 return props?.hover?.open ? (
                     <div
                         class={styled.itemSummary}
@@ -157,6 +134,11 @@ const MiItemsImage = defineComponent({
                                     style={intro?.style}></div>
                             ) : null}
                         </div>
+                        {item?.link ? (
+                            <div class={styled.itemSummaryBtn}>
+                                <MiButton />
+                            </div>
+                        ) : null}
                     </div>
                 ) : null
             }

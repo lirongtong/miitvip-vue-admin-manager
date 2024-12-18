@@ -25,6 +25,7 @@ import { default as Anchor } from './components/anchor'
 import { default as Socialite } from './components/socialite'
 import { default as HistoricalRouting } from './components/historical'
 import { default as Image } from './components/image'
+import { default as Button } from './components/button'
 import { default as ItemsText } from './components/items/text'
 import { default as ItemsImage } from './components/items/image'
 import { default as AppsLanguage } from './components/apps/language'
@@ -92,6 +93,7 @@ declare module '@vue/runtime-core' {
         MiSocialite: typeof Socialite
         MiHistoricalRouting: typeof HistoricalRouting
         MiImage: typeof Image
+        MiButton: typeof Button
         MiItemsText: typeof ItemsText
         MiItemsImage: typeof ItemsImage
         MiAppsLanguage: typeof AppsLanguage
