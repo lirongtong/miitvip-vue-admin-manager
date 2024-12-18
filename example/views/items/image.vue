@@ -2,7 +2,7 @@
     <mi-items-image
         :data="data"
         :hover="{ open: true, scale: true }"
-        line="red"
+        line-color="red"
         :width="320"
         :center="true"
         :number="{ mobile: 1, tablet: 2, laptop: 3 }" />
@@ -17,7 +17,9 @@ const data = [
         title: { text: '《早发白帝城》', bold: true, align: 'center' },
         subtitle: { text: `唐·李白`, align: 'center' },
         thumb: thumb,
-        intro: { text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`, align: `center` }
+        intro: { text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`, align: `center` },
+        link: `https://admin.makeit.vip/start`,
+        target: `_blank`
     },
     {
         title: { text: '《客中行》', bold: true, align: 'center' },

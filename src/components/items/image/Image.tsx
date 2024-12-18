@@ -3,6 +3,7 @@ import { ItemsImageProps, type ImageItem } from './props'
 import { $tools } from '../../../utils/tools'
 import type { TextSetting } from '../../../utils/types'
 import MiImage from '../../image/Image'
+import MiLink from '../../link/Link'
 import applyTheme from '../../_utils/theme'
 import styled from './style/image.module.less'
 
@@ -162,7 +163,7 @@ const MiItemsImage = defineComponent({
 
             for (let i = 0, l = props?.data?.length; i < l; i++) {
                 const item = props?.data?.[i]
-                images.push(
+                const info = (
                     <div
                         class={[
                             styled.item,
@@ -180,12 +181,21 @@ const MiItemsImage = defineComponent({
                         {renderItemTitle(item)}
                         {renderItemSubtitle(item)}
                         {renderItemSummary(item)}
-                        {props?.line ? (
+                        {props?.lineColor ? (
                             <div
                                 class={styled.itemLine}
-                                style={{ borderBottomColor: props?.line }}></div>
+                                style={{ borderBottomColor: props?.lineColor }}></div>
                         ) : null}
                     </div>
+                )
+                images.push(
+                    item?.link ? (
+                        <MiLink path={item?.link} target={item?.target || '_self'}>
+                            {info}
+                        </MiLink>
+                    ) : (
+                        info
+                    )
                 )
             }
 

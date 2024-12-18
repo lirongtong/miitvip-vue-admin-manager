@@ -25,13 +25,18 @@ export interface ImageItemHover {
  * +========================+
  * @param title 标题
  * @param subtitle 子标题
+ * @param intro 介绍
  * @param thumb 缩略图
+ * @param link 链接地址
+ * @param target 链接打开方式
  */
 export interface ImageItem {
     title?: string | TextSetting
     subtitle?: string | TextSetting
     intro?: string | TextSetting
     thumb?: string
+    link?: string
+    target?: '_self' | '_blank'
 }
 
 /**
@@ -45,6 +50,7 @@ export interface ImageItem {
  * @param gap 每一项的间距
  * @param hover 鼠标移入效果配置 ( 移动端无效 )
  * @param center 是否居中显示 ( 结合 width 及 gap 设定最大宽度后居中 - 默认 100% 宽度居中 )
+ * @param lineColor 下划线颜色值
  */
 export interface ItemsImageProperties {
     data?: ImageItem[]
@@ -55,7 +61,7 @@ export interface ItemsImageProperties {
     gap?: number | string | DeviceSize | Gap
     hover?: ImageItemHover
     center?: boolean
-    line?: string
+    lineColor?: string
 }
 
 export const ItemsImageProps = () => ({
@@ -76,5 +82,5 @@ export const ItemsImageProps = () => ({
     ]).def(16),
     hover: object<ImageItemHover>(),
     center: PropTypes.bool.def(false),
-    line: PropTypes.string
+    lineColor: PropTypes.string
 })

@@ -33,4 +33,5 @@
 | `type` | `string` | `''` | 类型 `['email']`
 | `path` | `string` | `''` | 链接地址
 | `query` | `object` | `{}` | 参数配置
+| `target` | `string` | `_blank` | 链接打开方式
 | `vertical` | `boolean` | `false` | 是否垂直排列
