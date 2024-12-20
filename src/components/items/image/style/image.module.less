@@ -54,6 +54,7 @@
             font-weight: bold;
             .properties(font-size, 16);
             .flex(center, flex-start);
+            .lines();
         }
 
         &-subtitle {
@@ -61,6 +62,7 @@
             .flex(center, flex-start);
             .properties(font-size, 14);
             color: var(--mi-outline);
+            .lines();
         }
 
         &-summary {
@@ -93,6 +95,14 @@
             &-intro {
                 .properties(margin-top, 16);
                 .properties(font-size, 14);
+            }
+
+            &-btn {
+                position: absolute;
+                .properties(right, 16);
+                .properties(bottom, 16);
+                .transition();
+                z-index: 10;
             }
         }
 

@@ -1,6 +1,164 @@
 @import '../../theme/style/variables.module.less';
 
 .container {
+    .flex();
     position: relative;
     overflow: hidden;
+}
+
+.inner {
+    .transition();
+
+    &.circle {
+        .properties(width, 36);
+        .properties(height, 36);
+        .flex();
+        .circle();
+        backdrop-filter: blur(1rem);
+        background: rgba(var(--mi-rgb-on-primary), 0.1);
+        border: solid rgba(var(--mi-rgb-primary), 0.5);
+        .properties(border-width, 1);
+    }
+}
+
+.icon {
+    &-container {
+        position: relative;
+        .properties(width, 24);
+        .properties(height, 24);
+        overflow: hidden;
+        z-index: 10;
+    }
+
+    &-inner {
+        .properties(width, 48);
+        .properties(height, 48);
+        .flex(flex-start, flex-start, column);
+
+        :global(.anticon) {
+            .properties(width, 24);
+            .properties(height, 24);
+            .flex();
+        }
+    }
+
+    &-display {
+        .properties(width, 24);
+        .properties(height, 24);
+        .flex();
+    }
+
+    &-backup {
+        .flex();
+        .transition();
+
+        &-first,
+        &-second {
+            .properties(width, 24);
+            .properties(height, 24);
+            .flex();
+        }
+    }
+
+    &-left {
+        .icon-inner {
+            > svg {
+                transform: rotate(-180deg);
+            }
+        }
+
+        .icon-backup {
+            svg {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    &-up {
+        .icon-inner {
+            > svg {
+                transform: rotate(-90deg);
+            }
+        }
+
+        .icon-backup {
+            svg {
+                transform: rotate(-90deg);
+            }
+        }
+    }
+
+    &-down {
+        .icon-inner {
+            > svg {
+                transform: rotate(90deg);
+            }
+        }
+
+        .icon-backup {
+            svg {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &-left {
+        .icon-backup {
+            transform: translateX(1.5rem);
+        }
+    }
+
+    &-up,
+    &-down {
+        .icon-inner {
+            flex-direction: row;
+            transform: unset;
+        }
+
+        .icon-backup {
+            .flex(center, center, column);
+            transform: translateX(0);
+        }
+    }
+
+    &-down  {
+        .icon-backup {
+            transform: translateY(-1.5rem);
+        }
+    }
+
+    &-immediate {
+        .icon-inner {
+            transform: translate(-1.5rem, -1.5rem);
+        }
+
+        .icon-backup {
+            transform: translateX(1.5rem);
+        }
+
+        &.icon-left {
+            .icon-backup {
+                transform: translateX(0);
+            }
+        }
+
+        &.icon-down,
+        &.icon-up {
+            .icon-inner {
+                flex-direction: row;
+                transform: translateX(-1.5rem);
+            }
+
+            .icon-backup {
+                .flex(center, center, column);
+                transform: translateY(-1.5rem);
+            }
+        }
+
+        &.icon-down {
+            .icon-backup {
+                transform: translateY(0);
+            }
+        }
+    }
 }

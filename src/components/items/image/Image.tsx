@@ -1,4 +1,4 @@
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, Transition } from 'vue'
 import { ItemsImageProps, type ImageItem } from './props'
 import { $tools } from '../../../utils/tools'
 import MiImage from '../../image/Image'
@@ -93,7 +93,7 @@ const MiItemsImage = defineComponent({
                 ) : null
             }
 
-            const renderItemSummary = (item?: ImageItem) => {
+            const renderItemSummary = (item?: ImageItem, index?: number) => {
                 const animation =
                     props?.hover?.animation === 'slide-down'
                         ? { left: 0, top: 0, maxHeight: 0 }
@@ -135,9 +135,13 @@ const MiItemsImage = defineComponent({
                             ) : null}
                         </div>
                         {item?.link ? (
-                            <div class={styled.itemSummaryBtn}>
-                                <MiButton />
-                            </div>
+                            <Transition name="mi-anim-scale" appear={true}>
+                                {hover.value?.[index] ? (
+                                    <div class={styled.itemSummaryBtn}>
+                                        <MiButton arrow={{ immediate: true }} />
+                                    </div>
+                                ) : null}
+                            </Transition>
                         ) : null}
                     </div>
                 ) : null
@@ -162,7 +166,7 @@ const MiItemsImage = defineComponent({
                         {renderItemThumb(item, true)}
                         {renderItemTitle(item)}
                         {renderItemSubtitle(item)}
-                        {renderItemSummary(item)}
+                        {renderItemSummary(item, i)}
                         {props?.lineColor ? (
                             <div
                                 class={styled.itemLine}
