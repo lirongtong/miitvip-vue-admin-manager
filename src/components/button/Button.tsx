@@ -64,7 +64,16 @@ const MiButton = defineComponent({
                 <div class={styled.title} innerHTML={textObj?.text} style={textObj?.style}></div>
             ) : null
             return (
-                <div class={[styled.inner, { [styled.circle]: props?.circle && !props?.text }]}>
+                <div
+                    class={[
+                        styled.inner,
+                        { [styled.circle]: props?.circle && !props?.text },
+                        { [styled.square]: !props?.circle && !props?.text }
+                    ]}
+                    style={{
+                        background: props?.background || null,
+                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius))
+                    }}>
                     {props?.link ? (
                         <MiLink path={props?.link} target={props?.target} query={props?.query}>
                             {title}
@@ -85,11 +94,7 @@ const MiButton = defineComponent({
             (props?.arrow?.delay || 0.5) * 1000
         )
 
-        return () => (
-            <div class={[styled.container, { [styled.circle]: props?.circle && !props?.text }]}>
-                {renderButton()}
-            </div>
-        )
+        return () => <div class={[styled.container]}>{renderButton()}</div>
     }
 })
 

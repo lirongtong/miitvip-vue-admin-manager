@@ -57,95 +57,97 @@ const MiItemsImage = defineComponent({
             }
         }
 
-        const renderImages = () => {
-            const images = []
+        const renderItemThumb = (item?: ImageItem, placeholder?: boolean) => {
+            return item?.thumb ? (
+                <div
+                    class={placeholder ? styled.itemThumbPlaceholder : styled.itemThumb}
+                    style={{
+                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius))
+                    }}>
+                    <MiImage src={item.thumb} style={thumbStyle.value} onLoad={handleThumbHeight} />
+                </div>
+            ) : null
+        }
 
-            const renderItemThumb = (item?: ImageItem, placeholder?: boolean) => {
-                return item?.thumb ? (
-                    <div
-                        class={placeholder ? styled.itemThumbPlaceholder : styled.itemThumb}
-                        style={{
-                            borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius))
-                        }}>
-                        <MiImage
-                            src={item.thumb}
-                            style={thumbStyle.value}
-                            onLoad={handleThumbHeight}
-                        />
-                    </div>
-                ) : null
-            }
+        const renderItemTitle = (item?: ImageItem) => {
+            const title = $tools.getTextSetting(item?.title)
+            return item?.title ? (
+                <div class={styled.itemTitle} innerHTML={title?.text} style={title.style}></div>
+            ) : null
+        }
 
-            const renderItemTitle = (item?: ImageItem) => {
-                const title = $tools.getTextSetting(item?.title)
-                return item?.title ? (
-                    <div class={styled.itemTitle} innerHTML={title?.text} style={title.style}></div>
-                ) : null
-            }
+        const renderItemSubtitle = (item?: ImageItem) => {
+            const subtitle = $tools.getTextSetting(item?.subtitle)
+            return item?.subtitle ? (
+                <div
+                    class={styled.itemSubtitle}
+                    innerHTML={subtitle?.text}
+                    style={subtitle.style}></div>
+            ) : null
+        }
 
-            const renderItemSubtitle = (item?: ImageItem) => {
-                const subtitle = $tools.getTextSetting(item?.subtitle)
-                return item?.subtitle ? (
-                    <div
-                        class={styled.itemSubtitle}
-                        innerHTML={subtitle?.text}
-                        style={subtitle.style}></div>
-                ) : null
-            }
-
-            const renderItemSummary = (item?: ImageItem, index?: number) => {
-                const animation =
-                    props?.hover?.animation === 'slide-down'
-                        ? { left: 0, top: 0, maxHeight: 0 }
-                        : props?.hover?.animation === 'slide-right'
-                          ? { width: 0, top: 0, left: 0 }
-                          : props?.hover?.animation === 'slide-left'
-                            ? { width: 0, top: 0, right: 0 }
-                            : { bottom: 0, left: 0, maxHeight: 0 }
-                const title = $tools.getTextSetting(item?.title)
-                const subtitle = $tools.getTextSetting(item?.subtitle)
-                const intro = $tools.getTextSetting(item?.intro)
-                return props?.hover?.open ? (
-                    <div
-                        class={styled.itemSummary}
-                        style={{
-                            borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius)),
-                            ...animation,
-                            backdropFilter: props?.hover?.backdrop,
-                            background: props?.hover?.background
-                        }}>
-                        <div class={styled.itemSummaryInner}>
-                            {title?.text ? (
-                                <div
-                                    class={styled.itemSummaryTitle}
-                                    innerHTML={title.text}
-                                    style={title.style}></div>
-                            ) : null}
-                            {subtitle?.text ? (
-                                <div
-                                    class={styled.itemSummarySubtitle}
-                                    innerHTML={subtitle.text}
-                                    style={subtitle?.style}></div>
-                            ) : null}
-                            {intro?.text ? (
-                                <div
-                                    class={styled.itemSummaryIntro}
-                                    innerHTML={intro.text}
-                                    style={intro?.style}></div>
-                            ) : null}
-                        </div>
-                        {item?.link ? (
-                            <Transition name="mi-anim-scale" appear={true}>
-                                {hover.value?.[index] ? (
-                                    <div class={styled.itemSummaryBtn}>
-                                        <MiButton arrow={{ immediate: true }} />
-                                    </div>
-                                ) : null}
-                            </Transition>
+        const renderItemSummary = (item?: ImageItem, index?: number) => {
+            const animation =
+                props?.hover?.animation === 'slide-down'
+                    ? { left: 0, top: 0, maxHeight: 0 }
+                    : props?.hover?.animation === 'slide-right'
+                      ? { width: 0, top: 0, left: 0 }
+                      : props?.hover?.animation === 'slide-left'
+                        ? { width: 0, top: 0, right: 0 }
+                        : { bottom: 0, left: 0, maxHeight: 0 }
+            const title = $tools.getTextSetting(item?.title)
+            const subtitle = $tools.getTextSetting(item?.subtitle)
+            const intro = $tools.getTextSetting(item?.intro)
+            return props?.hover?.open ? (
+                <div
+                    class={styled.itemSummary}
+                    style={{
+                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius)),
+                        ...animation,
+                        backdropFilter: props?.hover?.backdrop,
+                        background: props?.hover?.background
+                    }}>
+                    <div class={styled.itemSummaryInner}>
+                        {title?.text ? (
+                            <div
+                                class={styled.itemSummaryTitle}
+                                innerHTML={title.text}
+                                style={title.style}></div>
+                        ) : null}
+                        {subtitle?.text ? (
+                            <div
+                                class={styled.itemSummarySubtitle}
+                                innerHTML={subtitle.text}
+                                style={subtitle?.style}></div>
+                        ) : null}
+                        {intro?.text ? (
+                            <div
+                                class={styled.itemSummaryIntro}
+                                innerHTML={intro.text}
+                                style={intro?.style}></div>
                         ) : null}
                     </div>
-                ) : null
-            }
+                    {item?.link ? (
+                        <Transition name="mi-anim-scale" appear={true}>
+                            {hover.value?.[index] ? (
+                                <div class={styled.itemSummaryBtn}>
+                                    <MiButton arrow={{ immediate: true }} />
+                                </div>
+                            ) : null}
+                        </Transition>
+                    ) : null}
+                </div>
+            ) : null
+        }
+
+        const renderItemLine = () => {
+            return props?.lineColor ? (
+                <div class={styled.itemLine} style={{ borderBottomColor: props?.lineColor }}></div>
+            ) : null
+        }
+
+        const renderImages = () => {
+            const images = []
 
             for (let i = 0, l = props?.data?.length; i < l; i++) {
                 const item = props?.data?.[i]
@@ -167,11 +169,7 @@ const MiItemsImage = defineComponent({
                         {renderItemTitle(item)}
                         {renderItemSubtitle(item)}
                         {renderItemSummary(item, i)}
-                        {props?.lineColor ? (
-                            <div
-                                class={styled.itemLine}
-                                style={{ borderBottomColor: props?.lineColor }}></div>
-                        ) : null}
+                        {renderItemLine()}
                     </div>
                 )
                 images.push(

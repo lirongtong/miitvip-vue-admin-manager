@@ -6,15 +6,13 @@ import { type DeviceSize, PropTypes, type TextSetting } from '../../utils/types'
  * +==========================+
  * |       ButtonArrow        |
  * +==========================+
- * @param direction 箭头方向
- * @param animation 动画方向
+ * @param direction 箭头方向 ( & 动画方向 )
  * @param delay 动画延迟时长
  * @param immediate 初始化组件后是否立即执行箭头动画
  * @param color 箭头颜色
  */
 export interface ButtonArrow {
     direction?: 'up' | 'down' | 'right' | 'left'
-    animation?: 'up' | 'down' | 'right' | 'left'
     delay?: number
     immediate?: boolean
     color?: string
@@ -44,6 +42,7 @@ export interface ButtonProperties {
     circle?: boolean
     background?: string
     arrow?: ButtonArrow
+    radius?: string | number | DeviceSize
 }
 
 export const ButtonProps = () => ({
@@ -56,5 +55,6 @@ export const ButtonProps = () => ({
     square: PropTypes.bool.def(false),
     circle: PropTypes.bool.def(true),
     background: PropTypes.string,
-    arrow: object<ButtonArrow>()
+    arrow: object<ButtonArrow>(),
+    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(0)
 })
