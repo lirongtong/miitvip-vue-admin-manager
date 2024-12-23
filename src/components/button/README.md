@@ -56,7 +56,7 @@
 | `circle` | `boolean` | `true` | 圆形按钮
 | `background` | `string` | `''` | 按钮背景颜色
 | `arrow` | [`ButtonArrow`](./README.md#interface-buttonarrow) | `{}` | 箭头配置
-| `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `0` | 圆角
+| `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 圆角
 
 ### Interface `ButtonArrow`
 

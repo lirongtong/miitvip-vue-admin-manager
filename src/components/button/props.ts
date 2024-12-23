@@ -55,5 +55,5 @@ export const ButtonProps = () => ({
     circle: PropTypes.bool.def(true),
     background: PropTypes.string,
     arrow: object<ButtonArrow>(),
-    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(0)
+    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()])
 })
