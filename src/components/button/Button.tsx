@@ -71,6 +71,7 @@ const MiButton = defineComponent({
                         { [styled.square]: !props?.circle && !props?.text }
                     ]}
                     style={{
+                        borderColor: props?.borderColor || null,
                         background: props?.background || null,
                         borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius)),
                         width: $tools.convert2rem($tools.distinguishSize(props.width)),

@@ -57,6 +57,7 @@
 | `background` | `string` | `''` | 按钮背景颜色
 | `arrow` | [`ButtonArrow`](./README.md#interface-buttonarrow) | `{}` | 箭头配置
 | `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 圆角
+| `borderColor` | `string` | `rgba(var(--mi-rgb-primary), 0.5)` | 边框颜色
 
 ### Interface `ButtonArrow`
 

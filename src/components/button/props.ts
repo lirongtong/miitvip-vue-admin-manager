@@ -31,6 +31,8 @@ export interface ButtonArrow {
  * @param circle 是否为圆形
  * @param background 背景色
  * @param arrow 图标设置
+ * @param radius 圆角
+ * @param borderColor 边框颜色
  */
 export interface ButtonProperties {
     text?: string | TextSetting
@@ -43,6 +45,7 @@ export interface ButtonProperties {
     background?: string
     arrow?: ButtonArrow
     radius?: string | number | DeviceSize
+    borderColor?: string
 }
 
 export const ButtonProps = () => ({
@@ -55,5 +58,6 @@ export const ButtonProps = () => ({
     circle: PropTypes.bool.def(true),
     background: PropTypes.string,
     arrow: object<ButtonArrow>(),
-    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()])
+    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]),
+    borderColor: PropTypes.string
 })
