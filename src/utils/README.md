@@ -165,3 +165,10 @@
 | `bold` | `boolean` | 是否加粗
 | `align` | `'left' \| 'right' \| 'center'` | 对齐方式
 | `lineHeight` | `string \| number \| DeviceSize` | 行高
+
+### Interface `Gap`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `row` | `string \| number \| DeviceSize` | 行间距
+| `column` | `string \| number \| DeviceSize` | 列间距
