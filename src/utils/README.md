@@ -154,3 +154,14 @@
 | `id` | `string` | 唯一值
 | `title` | `string` | 标题
 | `offset` | `number` | 偏移量
+
+### Interface `TextSetting`
+
+| 参数 | 类型 | 说明
+| :---- | :---- | :----
+| `text` | `string` | 文案内容
+| `size` | `string` | 大小
+| `color` | `string` | 颜色
+| `bold` | `boolean` | 是否加粗
+| `align` | `'left' \| 'right' \| 'center'` | 对齐方式
+| `lineHeight` | `string \| number \| DeviceSize` | 行高

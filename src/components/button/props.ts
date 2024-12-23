@@ -52,7 +52,6 @@ export const ButtonProps = () => ({
     target: PropTypes.oneOf(tuple(...['_blank', '_self'])).def('_self'),
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(36),
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]).def(36),
-    square: PropTypes.bool.def(false),
     circle: PropTypes.bool.def(true),
     background: PropTypes.string,
     arrow: object<ButtonArrow>(),

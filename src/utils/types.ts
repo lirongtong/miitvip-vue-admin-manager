@@ -276,6 +276,7 @@ export interface SizeColor {
  * @param text 文案内容
  * @param bold 是否加粗
  * @param align 对齐方式
+ * @param lineHeight 行高
  *
  * @see SizeColor
  */
