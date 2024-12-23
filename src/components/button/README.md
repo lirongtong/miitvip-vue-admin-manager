@@ -47,8 +47,8 @@
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `width` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `36` | 宽度
-| `height` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `36` | 高度
+| `width` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 宽度
+| `height` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 高度
 | `text` | `string \|` [`TextSetting`](../../utils/README.md#interface-textsetting) | `''` | 文案配置
 | `link` | `string` | `''` | 链接地址
 | `target` | `_blank \| _self` | `_self` | 链接打开方式

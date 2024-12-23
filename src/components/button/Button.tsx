@@ -77,7 +77,11 @@ const MiButton = defineComponent({
                         height: $tools.convert2rem($tools.distinguishSize(props.height))
                     }}>
                     {props?.link ? (
-                        <MiLink path={props?.link} target={props?.target} query={props?.query}>
+                        <MiLink
+                            class={styled.link}
+                            path={props?.link}
+                            target={props?.target}
+                            query={props?.query}>
                             {title}
                             {iconAnim}
                         </MiLink>
