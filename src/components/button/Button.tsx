@@ -46,7 +46,6 @@ const MiButton = defineComponent({
                 <div
                     class={[
                         styled.iconContainer,
-                        { [styled.iconImmediate]: immediate.value },
                         { [styled.iconUp]: props?.arrow?.direction === 'up' },
                         { [styled.iconDown]: props?.arrow?.direction === 'down' },
                         { [styled.iconLeft]: props?.arrow?.direction === 'left' }
@@ -67,12 +66,15 @@ const MiButton = defineComponent({
                 <div
                     class={[
                         styled.inner,
+                        { [styled.iconImmediate]: immediate.value },
                         { [styled.circle]: props?.circle && !props?.text },
                         { [styled.square]: !props?.circle && !props?.text }
                     ]}
                     style={{
                         background: props?.background || null,
-                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius))
+                        borderRadius: $tools.convert2rem($tools.distinguishSize(props.radius)),
+                        width: $tools.convert2rem($tools.distinguishSize(props.width)),
+                        height: $tools.convert2rem($tools.distinguishSize(props.height))
                     }}>
                     {props?.link ? (
                         <MiLink path={props?.link} target={props?.target} query={props?.query}>
