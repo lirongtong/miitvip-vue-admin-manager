@@ -186,13 +186,13 @@ const data = [
 
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
-| `data` | [`ImageItem`](../../../utils/README.md#interface-imageitem) | `[]` | 图片数据
+| `data` | [`ImageItem`](./README.md#interface-imageitem) | `[]` | 图片数据
 | `number` | `number \| string \|` [`DeviceSize`](../../../utils/README.md#interface-devicesize) | `{ mobile: 1, tablet: 3, laptop: 4 }` | 一行显示个数
 | `width` | `number \| string \|` [`DeviceSize`](../../../utils/README.md#interface-devicesize) | `''` | 每一项的显示宽度 ( 未配置时, 以 100% 宽度与一行显示项为基础自适应宽度 )
 | `height` | `number \| string \|` [`DeviceSize`](../../../utils/README.md#interface-devicesize) | `''` | 每一项的显示高度 ( 适用图片高度不一致时自定义限制统一高度 )
 | `radius` | `number \| string \|` [`DeviceSize`](../../../utils/README.md#interface-devicesize) | `''` | 每一项的圆角
 | `gap` | `number \| string \|` [`DeviceSize`](../../../utils/README.md#interface-devicesize) \| [`Gap`](../../../utils/README.md#interface-gap) | `16` | 每一项的间距
-| `hover` | [`ImageItemHover`](../../../utils/README.md#interface-imageitemhover) | `{}` | 鼠标移入效果配置
+| `hover` | [`ImageItemHover`](./README.md#interface-imageitemhover) | `{}` | 鼠标移入效果配置
 | `center` | `boolean` | `false` | 是否居中显示 ( 结合 width 及 gap 设定最大宽度后居中 - 默认 100% 宽度居中 )
 | `lineColor` | `string` | `transparent` | 下划线颜色值
 
