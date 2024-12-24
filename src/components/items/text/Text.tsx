@@ -2,7 +2,6 @@ import { defineComponent, computed, renderSlot, Fragment } from 'vue'
 import { ItemsTextProps, type TextItem, type TextItemContent } from './props'
 import { $tools } from '../../../utils/tools'
 import { getPropSlot } from '../../_utils/props'
-import type { Position } from '../../../utils/types'
 import MiItemsTextMarker from './Marker'
 import applyTheme from '../../_utils/theme'
 import styled from './style/text.module.less'
@@ -14,12 +13,6 @@ const MiItemsText = defineComponent({
     setup(props, { slots }) {
         applyTheme(styled)
 
-        const handleSpacing = (margin: string | number | Position, prefix = 'margin') => {
-            return typeof margin === 'string' || typeof margin === 'number'
-                ? { [prefix]: $tools.convert2rem($tools.distinguishSize(margin)) }
-                : { ...$tools.wrapPositionOrSpacing(margin || {}, prefix) }
-        }
-
         const handleContentStyle = (content: TextItemContent) => {
             return {
                 color: content?.color || null,
@@ -30,7 +23,7 @@ const MiItemsText = defineComponent({
 
         const containerStyle = computed(() => {
             return {
-                ...handleSpacing(props?.padding, 'padding'),
+                ...$tools.getSpacingStyle(props?.padding, 'padding'),
                 borderRadius: $tools.convert2rem($tools.distinguishSize(props?.radius)),
                 backgroundColor: props?.background?.color || null,
                 backgroundImage: props?.background?.image
@@ -119,7 +112,7 @@ const MiItemsText = defineComponent({
                             { [styled.itemTitleCenter]: props?.title?.marker?.center }
                         ]}
                         style={{
-                            ...handleSpacing(props?.title?.margin),
+                            ...$tools.getSpacingStyle(props?.title?.margin),
                             ...handleContentStyle(props?.title)
                         }}>
                         {props?.title?.marker ? (
@@ -142,7 +135,7 @@ const MiItemsText = defineComponent({
                     class={styled.itemIntro}
                     style={{
                         ...handleContentStyle(props?.intro),
-                        ...handleSpacing(props?.intro?.margin)
+                        ...$tools.getSpacingStyle(props?.intro?.margin)
                     }}
                     innerHTML={intro}></div>
             ) : null

@@ -31,6 +31,7 @@ export interface ImageItemHover {
  * @param target 链接打开方式
  */
 export interface ImageItem {
+    [key: string]: any
     title?: string | TextSetting
     subtitle?: string | TextSetting
     intro?: string | TextSetting
@@ -52,6 +53,9 @@ export interface ImageItem {
  * @param hover 鼠标移入效果配置 ( 移动端无效 )
  * @param center 是否居中显示 ( 结合 width 及 gap 设定最大宽度后居中 - 默认 100% 宽度居中 )
  * @param lineColor 下划线颜色值
+ * @param titleSetting 标题设置 ( 首选单项配置, 次选全局配置 )
+ * @param subtitleSetting 子标题设置 ( 首选单项配置, 次选全局配置 )
+ * @param introSetting 介绍设置 ( 首选单项配置, 次选全局配置 )
  */
 export interface ItemsImageProperties {
     data?: ImageItem[]
@@ -63,6 +67,9 @@ export interface ItemsImageProperties {
     hover?: ImageItemHover
     center?: boolean
     lineColor?: string
+    titleSetting?: TextSetting
+    subtitleSetting?: TextSetting
+    introSetting?: TextSetting
 }
 
 export const ItemsImageProps = () => ({
@@ -83,5 +90,8 @@ export const ItemsImageProps = () => ({
     ]).def(16),
     hover: object<ImageItemHover>(),
     center: PropTypes.bool.def(false),
-    lineColor: PropTypes.string
+    lineColor: PropTypes.string,
+    titleSetting: object<TextSetting>(),
+    subtitleSetting: object<TextSetting>(),
+    introSetting: object<TextSetting>()
 })

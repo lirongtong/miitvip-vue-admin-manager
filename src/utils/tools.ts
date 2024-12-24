@@ -535,7 +535,7 @@ class MiTools {
         return this.isNumber(num)
             ? `${this.px2rem(num)}rem`
             : num
-              ? /%|px|rem|em|rpx/g.test(num)
+              ? /%|px|rem|em|rpx|auto/g.test(num)
                   ? num
                   : `${this.px2rem(parseInt(num))}rem`
               : null
@@ -925,6 +925,20 @@ class MiTools {
     }
 
     /**
+     * 获取间距样式
+     * @param margin
+     * @param prefix
+     * @returns
+     */
+    getSpacingStyle(spacing: string | number | Position, prefix = 'margin') {
+        return ['string', 'number', 'object'].includes(typeof spacing)
+            ? typeof spacing === 'string' || typeof spacing === 'number'
+                ? { [prefix]: this.convert2rem(this.distinguishSize(spacing)) }
+                : { ...this.wrapPositionOrSpacing(spacing || {}, prefix) }
+            : { [prefix]: 0 }
+    }
+
+    /**
      * 颜色转换 hex -> rgba
      * @param color
      * @param opacity
@@ -1049,25 +1063,48 @@ class MiTools {
      * @returns
      */
     getTextSetting(text?: string | TextSetting) {
-        return {
-            text: text ? (typeof text === 'string' ? text : text?.text || '') : null,
-            style:
-                typeof text === 'object'
-                    ? {
-                          fontSize: this.convert2rem(this.distinguishSize(text?.size)),
-                          fontWeight: text?.bold ? 'bold' : 'normal',
-                          color: text?.color || null,
-                          justifyContent:
-                              text?.align === 'center'
-                                  ? 'center'
-                                  : text?.align === 'right'
-                                    ? 'flex-end'
-                                    : 'flex-start',
-                          textAlign: text?.align || null,
-                          lineHeight: this.convert2rem(this.distinguishSize(text?.lineHeight))
-                      }
-                    : {}
+        const config = { style: {} } as any
+        if (text) config.text = typeof text === 'string' ? text : text?.text
+        if (text && typeof text === 'object') {
+            config.style.fontWeight = text?.bold ? 'bold' : 'normal'
+            config.style.justifyContent =
+                text?.align === 'center'
+                    ? 'center'
+                    : text?.align === 'right'
+                      ? 'flex-end'
+                      : 'flex-start'
+            if (text?.color) config.style.color = text?.color
+            if (text?.align) config.style.textAlign = text?.align
+            if (text?.size)
+                config.style.fontSize = this.convert2rem(this.distinguishSize(text?.size))
+            if (text?.lineHeight)
+                config.style.lineHeight = this.convert2rem(this.distinguishSize(text?.lineHeight))
         }
+        return config
+    }
+
+    /**
+     * 对象深度拷贝
+     * @param opts
+     * @returns
+     */
+    deepAssign(...opts: any) {
+        let res = {}
+        const combine = (opt: any) => {
+            for (let prop in opt) {
+                if (opt.hasOwnProperty(prop)) {
+                    if (Object.prototype.toString.call(opt[prop]) === '[object Object]') {
+                        res[prop] = this.deepAssign(res[prop], opt[prop])
+                    } else {
+                        res[prop] = opt[prop]
+                    }
+                }
+            }
+        }
+        for (let i = 0; i < opts?.length; i++) {
+            combine(opts?.[i])
+        }
+        return res
     }
 }
 
@@ -1128,6 +1165,8 @@ class MiTools {
  *  - {@link $tools.startWith} 判断字符串开头字符及返回处理
  *  - {@link $tools.convert2RomanNumber} 阿拉伯数字转罗马数字
  *  - {@link $tools.getTextSetting} 获取文案内容及样式
+ *  - {@link $tools.getSpacingStyle} 获取间距样式
+ *  - {@link $tools.deepAssign} 对象深度拷贝
  */
 export const $tools: MiTools = new MiTools()
 

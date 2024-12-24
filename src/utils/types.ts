@@ -289,6 +289,20 @@ export interface TextSetting extends SizeColor {
 
 /**
  * +====================+
+ * |      文案数据       |
+ * +====================+
+ * @param text 文案内容
+ * @param style 文案样式
+ *
+ * @see TextSetting
+ */
+export interface TextData {
+    text?: string
+    style?: Record<string, any>
+}
+
+/**
+ * +====================+
  * |      菜单项目       |
  * +====================+
  * Path of the record. Should start with `/` unless

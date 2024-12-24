@@ -25,7 +25,10 @@
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
 | `src` | `string` | `''` | 图片地址
-| `alt` | `string` | `''` | Alternative
+| `alt` | `string` | `''` | 图片描述
+| `width` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 宽度
+| `height` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 高度
+| `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 圆角
 
 #### `MiImage` 事件 ( `Events` )
 

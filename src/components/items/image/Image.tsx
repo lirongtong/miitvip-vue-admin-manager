@@ -1,6 +1,7 @@
 import { defineComponent, computed, ref, Transition } from 'vue'
 import { ItemsImageProps, type ImageItem } from './props'
 import { $tools } from '../../../utils/tools'
+import type { TextData } from '../../../utils/types'
 import MiImage from '../../image/Image'
 import MiLink from '../../link/Link'
 import MiButton from '../../button/Button'
@@ -70,19 +71,25 @@ const MiItemsImage = defineComponent({
         }
 
         const renderItemTitle = (item?: ImageItem) => {
-            const title = $tools.getTextSetting(item?.title)
+            const title = $tools.deepAssign(
+                $tools.getTextSetting(props?.titleSetting),
+                $tools.getTextSetting(item?.title)
+            ) as TextData
             return item?.title ? (
                 <div class={styled.itemTitle} innerHTML={title?.text} style={title.style}></div>
             ) : null
         }
 
         const renderItemSubtitle = (item?: ImageItem) => {
-            const subtitle = $tools.getTextSetting(item?.subtitle)
-            return item?.subtitle ? (
+            const subtitle = $tools.deepAssign(
+                $tools.getTextSetting(props?.subtitleSetting),
+                $tools.getTextSetting(item?.subtitle)
+            ) as TextData
+            return subtitle?.text ? (
                 <div
                     class={styled.itemSubtitle}
                     innerHTML={subtitle?.text}
-                    style={subtitle.style}></div>
+                    style={subtitle?.style}></div>
             ) : null
         }
 
@@ -95,9 +102,18 @@ const MiItemsImage = defineComponent({
                       : props?.hover?.animation === 'slide-left'
                         ? { width: 0, top: 0, right: 0 }
                         : { bottom: 0, left: 0, maxHeight: 0 }
-            const title = $tools.getTextSetting(item?.title)
-            const subtitle = $tools.getTextSetting(item?.subtitle)
-            const intro = $tools.getTextSetting(item?.intro)
+            const title = $tools.deepAssign(
+                $tools.getTextSetting(props?.titleSetting),
+                $tools.getTextSetting(item?.title)
+            ) as TextData
+            const subtitle = $tools.deepAssign(
+                $tools.getTextSetting(props?.subtitleSetting),
+                $tools.getTextSetting(item?.subtitle)
+            ) as TextData
+            const intro = $tools.deepAssign(
+                $tools.getTextSetting(props?.introSetting),
+                $tools.getTextSetting(item?.intro)
+            ) as TextData
             return props?.hover?.open ? (
                 <div
                     class={styled.itemSummary}
@@ -111,19 +127,19 @@ const MiItemsImage = defineComponent({
                         {title?.text ? (
                             <div
                                 class={styled.itemSummaryTitle}
-                                innerHTML={title.text}
-                                style={title.style}></div>
+                                innerHTML={title?.text}
+                                style={title?.style}></div>
                         ) : null}
                         {subtitle?.text ? (
                             <div
                                 class={styled.itemSummarySubtitle}
-                                innerHTML={subtitle.text}
+                                innerHTML={subtitle?.text}
                                 style={subtitle?.style}></div>
                         ) : null}
                         {intro?.text ? (
                             <div
                                 class={styled.itemSummaryIntro}
-                                innerHTML={intro.text}
+                                innerHTML={intro?.text}
                                 style={intro?.style}></div>
                         ) : null}
                     </div>

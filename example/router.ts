@@ -45,6 +45,7 @@ const PassportForget = () => import('./views/passport/forget.vue')
 const Items = () => import('./views/items/index.vue')
 const ItemsText = () => import('./views/items/text.vue')
 const ItemsImage = () => import('./views/items/image.vue')
+const ItemsList = () => import('./views/items/list.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [
     {
@@ -137,6 +138,11 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'items-image',
                 meta: { title: '图片排版' },
                 component: ItemsImage
+            }, {
+                path: '/items/list',
+                name: 'items-list',
+                meta: { title: '列表排版' },
+                component: ItemsList
             }]
         }, {
             path: '/components',

@@ -28,6 +28,7 @@ import { default as Image } from './components/image'
 import { default as Button } from './components/button'
 import { default as ItemsText } from './components/items/text'
 import { default as ItemsImage } from './components/items/image'
+import { default as ItemsList } from './components/items/list'
 import { default as AppsLanguage } from './components/apps/language'
 import { default as AppsMenu } from './components/apps/menu'
 
@@ -96,6 +97,7 @@ declare module '@vue/runtime-core' {
         MiButton: typeof Button
         MiItemsText: typeof ItemsText
         MiItemsImage: typeof ItemsImage
+        MiItemsList: typeof ItemsList
         MiAppsLanguage: typeof AppsLanguage
         MiAppsMenu: typeof AppsMenu
     }
