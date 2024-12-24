@@ -43,6 +43,7 @@ export interface ImageItem {
  * +===================================+
  * |       ItemsImageProperties        |
  * +===================================+
+ * @param data 数据
  * @param number 一行显示个数
  * @param width 每一项的显示宽度 ( 未配置时, 以 100% 宽度与一行显示项为基础自适应宽度 )
  * @param height 每一项的显示高度 ( 适用图片高度不一致时自定义限制统一高度 )
