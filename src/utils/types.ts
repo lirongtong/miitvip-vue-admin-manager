@@ -285,6 +285,7 @@ export interface TextSetting extends SizeColor {
     bold?: boolean
     align?: 'left' | 'right' | 'center'
     lineHeight?: string | number | DeviceSize
+    margin?: string | number | Position
 }
 
 /**

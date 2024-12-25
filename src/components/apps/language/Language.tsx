@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref, inject } from 'vue'
+import { defineComponent, reactive, ref, inject, Fragment } from 'vue'
 import { type LanguageItemProperties, LanguageProps, type LanguageModuleProperties } from './props'
 import { useI18n } from 'vue-i18n'
 import { $g } from '../../../utils/global'
@@ -1793,7 +1793,7 @@ const MiAppsLanguage = defineComponent({
         const renderAction = () => {
             const actionBtn =
                 params.category.active === 'customize' ? (
-                    <>
+                    <Fragment>
                         <Popconfirm
                             overlayStyle={{ zIndex: Date.now() }}
                             okText={t('global.ok')}
@@ -1949,7 +1949,7 @@ const MiAppsLanguage = defineComponent({
                                 {t('global.delete.batch')}
                             </Button>
                         </Popover>
-                    </>
+                    </Fragment>
                 ) : null
             return actionBtn ? <Row class={[styled.search]}>{actionBtn}</Row> : null
         }
@@ -2000,11 +2000,11 @@ const MiAppsLanguage = defineComponent({
             for (let i = 0, l = params.category.data.length; i < l; i++) {
                 const cur = params.category.data[i] as LanguageItemProperties
                 const elem = cur.is_default ? (
-                    <>
+                    <Fragment>
                         <span innerHTML={cur.language} />
                         <span> - </span>
                         <a>{t('language.default.name')}</a>
-                    </>
+                    </Fragment>
                 ) : (
                     cur.language
                 )
@@ -2195,7 +2195,7 @@ const MiAppsLanguage = defineComponent({
         // 语系 Modal Title
         const renderCategoriesTitle = () => {
             return (
-                <>
+                <Fragment>
                     <span
                         innerHTML={t('language.management')}
                         style={{
@@ -2209,7 +2209,7 @@ const MiAppsLanguage = defineComponent({
                         onClick={handleCreateCategoryModalState}>
                         {t('language.create')}
                     </Button>
-                </>
+                </Fragment>
             )
         }
 
@@ -2383,7 +2383,7 @@ const MiAppsLanguage = defineComponent({
                             v-slots={{
                                 label: () => {
                                     return (
-                                        <>
+                                        <Fragment>
                                             <span style={{ marginRight: $tools.convert2rem(4) }}>
                                                 {t('language.key')}
                                             </span>
@@ -2403,7 +2403,7 @@ const MiAppsLanguage = defineComponent({
                                                     <ExclamationCircleOutlined />
                                                 </span>
                                             </Tooltip>
-                                        </>
+                                        </Fragment>
                                     )
                                 }
                             }}>
@@ -2433,7 +2433,7 @@ const MiAppsLanguage = defineComponent({
                                 v-slots={{
                                     label: () => {
                                         return (
-                                            <>
+                                            <Fragment>
                                                 <span
                                                     style={{ marginRight: $tools.convert2rem(4) }}>
                                                     {t('language.translate.auto')}
@@ -2454,7 +2454,7 @@ const MiAppsLanguage = defineComponent({
                                                         <ExclamationCircleOutlined />
                                                     </span>
                                                 </Tooltip>
-                                            </>
+                                            </Fragment>
                                         )
                                     }
                                 }}>
@@ -2470,7 +2470,7 @@ const MiAppsLanguage = defineComponent({
                                 v-slots={{
                                     label: () => {
                                         return (
-                                            <>
+                                            <Fragment>
                                                 <span
                                                     style={{ marginRight: $tools.convert2rem(4) }}>
                                                     {t('language.translate.target')}
@@ -2491,7 +2491,7 @@ const MiAppsLanguage = defineComponent({
                                                         <ExclamationCircleOutlined />
                                                     </span>
                                                 </Tooltip>
-                                            </>
+                                            </Fragment>
                                         )
                                     }
                                 }}>
@@ -2551,7 +2551,7 @@ const MiAppsLanguage = defineComponent({
                             v-slots={{
                                 label: () => {
                                     return (
-                                        <>
+                                        <Fragment>
                                             <span style={{ marginRight: $tools.convert2rem(4) }}>
                                                 {t('language.content.key')}
                                             </span>
@@ -2571,7 +2571,7 @@ const MiAppsLanguage = defineComponent({
                                                     <ExclamationCircleOutlined />
                                                 </span>
                                             </Tooltip>
-                                        </>
+                                        </Fragment>
                                     )
                                 }
                             }}>
@@ -2613,7 +2613,7 @@ const MiAppsLanguage = defineComponent({
                                 v-slots={{
                                     label: () => {
                                         return (
-                                            <>
+                                            <Fragment>
                                                 <span
                                                     style={{ marginRight: $tools.convert2rem(4) }}>
                                                     {t('language.content.sync.label')}
@@ -2634,7 +2634,7 @@ const MiAppsLanguage = defineComponent({
                                                         <ExclamationCircleOutlined />
                                                     </span>
                                                 </Tooltip>
-                                            </>
+                                            </Fragment>
                                         )
                                     }
                                 }}>

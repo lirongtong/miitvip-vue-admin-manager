@@ -1,4 +1,4 @@
-import { SlotsType, Transition, defineComponent, ref } from 'vue'
+import { SlotsType, Transition, defineComponent, ref, Fragment } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { CodeDemoProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -44,14 +44,14 @@ const MiCodeDemo = defineComponent({
                             </Divider>
                         ) : null}
                         {props.summary ? (
-                            <>
+                            <Fragment>
                                 <div class={styled.infoSummary} innerHTML={props.summary} />
                                 <Divider dashed={true} />
-                            </>
+                            </Fragment>
                         ) : null}
                     </div>
                     {props.code ? (
-                        <>
+                        <Fragment>
                             <div
                                 class={[
                                     styled.icons,
@@ -71,7 +71,7 @@ const MiCodeDemo = defineComponent({
                                     <MiCode language={props.language} content={props.code || ''} />
                                 </div>
                             </Transition>
-                        </>
+                        </Fragment>
                     ) : null}
                 </div>
             </div>

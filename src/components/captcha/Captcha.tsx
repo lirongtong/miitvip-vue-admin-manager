@@ -6,7 +6,8 @@ import {
     computed,
     Transition,
     onMounted,
-    onUnmounted
+    onUnmounted,
+    Fragment
 } from 'vue'
 import { CaptchaProps } from './props'
 import { getPrefixCls } from '../_utils/props'
@@ -342,7 +343,7 @@ const MiCaptcha = defineComponent({
                 </Teleport>
             ) : null
             return (
-                <>
+                <Fragment>
                     <div
                         ref={captchaContentRef}
                         class={`${styled.content}${params.failed ? ` ${styled.failed}` : ''}${
@@ -354,7 +355,7 @@ const MiCaptcha = defineComponent({
                         {renderSuccess()}
                     </div>
                     {modal}
-                </>
+                </Fragment>
             )
         }
 

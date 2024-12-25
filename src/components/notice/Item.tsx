@@ -1,4 +1,4 @@
-import { SlotsType, defineComponent, Transition, ref } from 'vue'
+import { SlotsType, defineComponent, Transition, ref, Fragment } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { NoticeItemProps } from './props'
 import { __LOGO__ } from '../../utils/images'
@@ -86,7 +86,7 @@ const MiNoticeItem = defineComponent({
 
         return () =>
             getPropSlot(slots, props) ?? (
-                <>
+                <Fragment>
                     <div
                         class={`${styled.container}${
                             props?.onClick || props?.content ? ` ${styled.cursor}` : ''
@@ -130,7 +130,7 @@ const MiNoticeItem = defineComponent({
                             </Row>
                         ) : null}
                     </Transition>
-                </>
+                </Fragment>
             )
     }
 })

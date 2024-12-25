@@ -1,4 +1,13 @@
-import { Transition, defineComponent, reactive, ref, onMounted, onBeforeMount, nextTick } from 'vue'
+import {
+    Transition,
+    defineComponent,
+    reactive,
+    ref,
+    onMounted,
+    onBeforeMount,
+    nextTick,
+    Fragment
+} from 'vue'
 import { CaptchaModalProps, CaptchaModalBlockPosition } from './props'
 import { useI18n } from 'vue-i18n'
 import { Tooltip } from 'ant-design-vue'
@@ -615,7 +624,7 @@ const MiCaptchaModal = defineComponent({
         })
 
         return () => (
-            <>
+            <Fragment>
                 {renderMaks()}
                 <Transition name={params.anim} appear={true}>
                     <div
@@ -632,7 +641,7 @@ const MiCaptchaModal = defineComponent({
                         {renderContent()}
                     </div>
                 </Transition>
-            </>
+            </Fragment>
         )
     }
 })

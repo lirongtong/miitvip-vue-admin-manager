@@ -12,7 +12,8 @@ import {
     onUnmounted,
     nextTick,
     computed,
-    type VNodeTypes
+    type VNodeTypes,
+    Fragment
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchProps } from './props'
@@ -123,22 +124,22 @@ const MiSearch = defineComponent({
                                     renderSearchResult()
                                 } else {
                                     params.error = (
-                                        <>
+                                        <Fragment>
                                             <FrownOutlined />
                                             <p innerHTML={t('search.failed.message')} />
                                             <p>{t('search.failed.code') + res?.ret?.code}</p>
                                             <p>{t('search.failed.reason') + res?.ret?.message}</p>
-                                        </>
+                                        </Fragment>
                                     )
                                 }
                             })
                             .catch((err: any) => {
                                 params.error = (
-                                    <>
+                                    <Fragment>
                                         <FrownOutlined />
                                         <p innerHTML={t('search.failed.error')} />
                                         {err?.message ? <p innerHTML={err.message} /> : null}
-                                    </>
+                                    </Fragment>
                                 )
                             })
                             .finally(() => (params.loading = false))
@@ -277,10 +278,10 @@ const MiSearch = defineComponent({
                 </div>
             )
             return (
-                <>
+                <Fragment>
                     {avatar ?? icon ?? null}
                     {info}
-                </>
+                </Fragment>
             )
         }
 
@@ -434,7 +435,7 @@ const MiSearch = defineComponent({
 
         const renderList = () => {
             const elem = (
-                <>
+                <Fragment>
                     {params.list.length <= 0 && !params.loading && !params.error ? (
                         <div class={styled.noData}>
                             <FormOutlined />
@@ -449,7 +450,7 @@ const MiSearch = defineComponent({
                     {renderLoading()}
                     {renderResultList()}
                     {renderPagination()}
-                </>
+                </Fragment>
             )
             return (
                 <Transition name={params.animation.list} appear={true}>

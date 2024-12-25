@@ -1,4 +1,4 @@
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, Fragment } from 'vue'
 import { Drawer } from 'ant-design-vue'
 import { DrawerMenuProps } from './props'
 import { $tools } from '../../utils/tools'
@@ -38,7 +38,7 @@ const MiDrawerMenu = defineComponent({
         }
 
         return () => (
-            <>
+            <Fragment>
                 <div class={styled.icon} onClick={handleOpen}>
                     {open.value ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
                 </div>
@@ -57,7 +57,7 @@ const MiDrawerMenu = defineComponent({
                         <MiMenu items={menus.value} />
                     </div>
                 </Drawer>
-            </>
+            </Fragment>
         )
     }
 })

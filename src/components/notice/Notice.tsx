@@ -7,7 +7,8 @@ import {
     createVNode,
     computed,
     Transition,
-    nextTick
+    nextTick,
+    Fragment
 } from 'vue'
 import { BellOutlined, ShoppingOutlined, MessageOutlined } from '@ant-design/icons-vue'
 import { ConfigProvider, Popover, Badge, Checkbox, Row, Flex } from 'ant-design-vue'
@@ -138,7 +139,7 @@ const MiNotice = defineComponent({
             const d = date.getDate()
             const times = `${y}-${m > 9 ? m : `0` + m}-${d > 9 ? d : `0` + d}`
             return (
-                <>
+                <Fragment>
                     <div class={styled.emptyTime}>
                         <div class={styled.emptyDate} innerHTML={times}></div>
                         <div class={styled.emptyWeek} innerHTML={week}></div>
@@ -175,7 +176,7 @@ const MiNotice = defineComponent({
                         <ShoppingOutlined />
                         <span innerHTML={messages?.fine} />
                     </div>
-                </>
+                </Fragment>
             )
         }
 
@@ -358,7 +359,7 @@ const MiNotice = defineComponent({
                 slides.push(<swiper-slide>{tab}</swiper-slide>)
             })
             return tabs.length > 0 ? (
-                <>
+                <Fragment>
                     <swiper-container
                         ref={swiperRef}
                         initial-slide={defaultActive.value}
@@ -383,7 +384,7 @@ const MiNotice = defineComponent({
                         </Flex>
                     </Transition>
                     {renderExtra(extras)}
-                </>
+                </Fragment>
             ) : (
                 renderItemsOnly(allSlots)
             )

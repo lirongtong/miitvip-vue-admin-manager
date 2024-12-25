@@ -1,5 +1,6 @@
-import { object } from 'vue-types'
+import { object, array } from 'vue-types'
 import { PropTypes, type DeviceSize, type Position, type TextSetting } from '../../../utils/types'
+import { tuple } from '../../_utils/props'
 
 /**
  * +===============================+
@@ -7,12 +8,12 @@ import { PropTypes, type DeviceSize, type Position, type TextSetting } from '../
  * +===============================+
  * @param color 颜色
  * @param height 高度
- * @param padding 间距
+ * @param margin 间距
  */
 export interface ListItemDividing {
     color?: string
     height?: string | number | DeviceSize
-    padding?: string | number | Position
+    margin?: string | number | Position
 }
 
 /**
@@ -25,16 +26,18 @@ export interface ListItemDividing {
  * @param height 高度
  * @param radius 圆角
  * @param background 背景色
- * @param scale Hover 悬停时放大图片
+ * @param scale Hover 悬停时放大图片 (1.2)
+ * @param align 对齐方式
+ * @param margin 外间距
  */
 export interface ListItemThumb {
-    src?: string
-    alt?: string
     width?: string | number | DeviceSize
     height?: string | number | DeviceSize
     radius?: string | number | DeviceSize
     background?: string
     scale?: boolean
+    align?: 'start' | 'end' | 'center'
+    margin?: number | string | Position
 }
 
 /**
@@ -49,47 +52,64 @@ export interface ListItemThumb {
  * @param link 链接
  * @param target 链接打开方式
  * @param query 链接参数
+ * @param author 作者
+ * @param category 分类
  */
 export interface ListItem {
     [key: string]: any
     id?: string | number
-    thumb?: string | ListItemThumb
+    thumb?: string
     title?: string | TextSetting
     date?: string | TextSetting
     intro?: string | TextSetting
     link?: string
     target?: '_self' | '_blank'
     query?: object
+    author?: string
+    category?: string
 }
 
 /**
  * +==================================+
  * |       ItemsListProperties        |
  * +==================================+
+ * @param type 显示类型
  * @param data 数据
- * @param radius 圆角
- * @param background 背景色
- * @param padding 内间距
- * @param block 分块显示
- * @param dividing 分割线 ( 仅在非分块显示时有效 )
+ * @param thumbSetting 缩略图配置
+ * @param titleSetting 标题通用设置 ( 首选 Item 内的独立配置, 次选通用配置 )
+ * @param introSetting 简介通用设置 ( 首选 Item 内的独立配置, 次选通用配置 )
+ * @param dateSetting 日期通用设置 ( 首选 Item 内的独立配置, 次选通用配置 )
+ * @param radius 容器圆角 ( 同时适用卡片类型 )
+ * @param background 容器背景色
+ * @param padding 容器内间距
+ * @param dividing 分割线 ( 仅在非卡片显示时有效 )
+ *
+ * @see ListItem
+ * @see ListItemThumb
+ * @see ListItemDividing
  */
 export interface ItemsListProperties {
+    type?: 'card' | 'list'
     data?: ListItem[]
+    thumbSetting?: ListItemThumb
     titleSetting?: TextSetting
     introSetting?: TextSetting
     dateSetting?: TextSetting
     radius?: string | number | DeviceSize
     background?: string
     padding?: string | number | Position
-    block?: boolean
     dividing?: ListItemDividing
 }
 
 export const ItemsListProps = () => ({
-    data: object<ListItem[]>().def([]),
+    type: PropTypes.oneOf(tuple(...['card', 'list'])).def('list'),
+    data: array<ListItem>().def([]),
+    thumbSetting: object<ListItemThumb>(),
+    titleSetting: object<TextSetting>(),
+    introSetting: object<TextSetting>(),
+    dateSetting: object<TextSetting>(),
     radius: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]),
     background: PropTypes.string,
     padding: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<Position>()]).def(16),
-    block: PropTypes.bool.def(false),
     dividing: object<ListItemDividing>()
 })

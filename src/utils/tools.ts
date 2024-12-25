@@ -1067,14 +1067,17 @@ class MiTools {
         if (text) config.text = typeof text === 'string' ? text : text?.text
         if (text && typeof text === 'object') {
             config.style.fontWeight = text?.bold ? 'bold' : 'normal'
-            config.style.justifyContent =
-                text?.align === 'center'
-                    ? 'center'
-                    : text?.align === 'right'
-                      ? 'flex-end'
-                      : 'flex-start'
+            if (text?.align) {
+                config.style.justifyContent =
+                    text?.align === 'center'
+                        ? 'center'
+                        : text?.align === 'right'
+                          ? 'flex-end'
+                          : 'flex-start'
+            }
             if (text?.color) config.style.color = text?.color
             if (text?.align) config.style.textAlign = text?.align
+            if (text?.margin) Object.assign(config.style, { ...this.getSpacingStyle(text?.margin) })
             if (text?.size)
                 config.style.fontSize = this.convert2rem(this.distinguishSize(text?.size))
             if (text?.lineHeight)

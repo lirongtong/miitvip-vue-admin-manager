@@ -1,4 +1,4 @@
-import { computed, createVNode, defineComponent, reactive, ref } from 'vue'
+import { computed, createVNode, defineComponent, reactive, ref, Fragment } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
     ConfigProvider,
@@ -1083,7 +1083,7 @@ const MiAppsMenu = defineComponent({
             }
             const btnMenu =
                 params.form.validate.type === 3 ? (
-                    <>
+                    <Fragment>
                         <FormItem label={t('menu.auth')} name="auth_mark">
                             <Input
                                 v-model:value={params.form.validate.auth_mark}
@@ -1105,7 +1105,7 @@ const MiAppsMenu = defineComponent({
                                 disabled={params.detail.show}
                                 v-model:value={params.form.validate.auth_state}></RadioGroup>
                         </FormItem>
-                    </>
+                    </Fragment>
                 ) : null
             const subMenu = [2, 3].includes(params.form.validate.type) ? (
                 <FormItem label={t('menu.up')} name="pid">
@@ -1121,7 +1121,7 @@ const MiAppsMenu = defineComponent({
             ) : null
             const normalMenu =
                 params.form.validate.type === 3 ? null : (
-                    <>
+                    <Fragment>
                         <FormItem label={labels.title} name="title">
                             <Input
                                 v-model:value={params.form.validate.title}
@@ -1235,10 +1235,10 @@ const MiAppsMenu = defineComponent({
                                 onPressEnter={handleCreateOrUpdate}
                             />
                         </FormItem>
-                    </>
+                    </Fragment>
                 )
             const actionBtn = params.detail.show ? (
-                <>
+                <Fragment>
                     <Button
                         onClick={handleOpenDrawer}
                         style={{ marginRight: $tools.convert2rem(8) }}>
@@ -1247,9 +1247,9 @@ const MiAppsMenu = defineComponent({
                     <Button type="primary" onClick={handleEditable}>
                         {t('global.editable')}
                     </Button>
-                </>
+                </Fragment>
             ) : (
-                <>
+                <Fragment>
                     <Button
                         onClick={handleOpenDrawer}
                         style={{ marginRight: $tools.convert2rem(8) }}>
@@ -1261,7 +1261,7 @@ const MiAppsMenu = defineComponent({
                         onClick={handleCreateOrUpdate}>
                         {params.edit.status ? t('global.update') : t('global.save')}
                     </Button>
-                </>
+                </Fragment>
             )
             const title = params.edit.status
                 ? t('menu.update')
