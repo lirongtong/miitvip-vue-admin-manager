@@ -39,7 +39,7 @@ export interface ListItemThumb {
     background?: string
     scale?: boolean
     align?: 'start' | 'end' | 'center'
-    margin?: number | string | Position
+    margin?: string | number | Position
 }
 
 /**
@@ -85,6 +85,7 @@ export interface ListItem {
  * @param background 容器背景色
  * @param padding 容器内间距
  * @param dividing 分割线 ( 仅在非卡片显示时有效 )
+ * @param reverse 反向显示 ( 仅在非卡片显示时有效 )
  *
  * @see ListItem
  * @see ListItemThumb
@@ -100,6 +101,8 @@ export interface ItemsListProperties {
     radius?: string | number | DeviceSize
     background?: string
     padding?: string | number | Position
+    dividing?: ListItemDividing
+    reverse?: boolean
 }
 
 export const ItemsListProps = () => ({
@@ -112,5 +115,6 @@ export const ItemsListProps = () => ({
     radius: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]),
     background: PropTypes.string,
     padding: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<Position>()]).def(16),
-    dividing: object<ListItemDividing>()
+    dividing: object<ListItemDividing>(),
+    reverse: PropTypes.bool.def(false)
 })

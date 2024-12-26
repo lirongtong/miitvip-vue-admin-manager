@@ -7,6 +7,10 @@
     background: var(--mi-items-list-bg);
 }
 
+.items {
+    position: relative;
+}
+
 .item {
     .flex(flex-start, flex-start, column);
     position: relative;
@@ -14,6 +18,20 @@
     &-inner {
         .flex(flex-start, flex-start);
         position: relative;
+
+        &-reverse {
+            flex-direction: row-reverse;
+
+            > a {
+                flex-direction: row-reverse;
+
+                > .btn {
+                    display: none;
+                    visibility: hidden;
+                    opacity: 0;
+                }
+            }
+        }
 
         @media only screen and (max-width: @mi-sm) {
             flex-direction: column;
@@ -28,6 +46,11 @@
 .thumb {
     &-inner {
         position: relative;
+
+        .btn {
+            right: unset;
+            left: -2.25rem;
+        }
     }
 
     position: relative;
@@ -44,6 +67,12 @@
 
     img {
         .transition();
+    }
+}
+
+.item-inner-reverse .thumb-inner {
+    .date {
+        display: none;
     }
 }
 
@@ -97,6 +126,10 @@
     @media only screen and (max-width: @mi-sm) {
         display: none;
     }
+}
+
+.item-inner-reverse .date {
+    left: 0;
 }
 
 .line {

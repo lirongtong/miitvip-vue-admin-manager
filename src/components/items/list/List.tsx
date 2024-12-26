@@ -27,12 +27,14 @@ const MiItemsList = defineComponent({
             hover: {}
         }) as any
 
-        const renderThumb = (item?: ListItem) => {
+        const renderThumb = (item: ListItem, i: number) => {
             const setting = $tools.deepAssign(
                 {
                     radius: 8,
                     width: { mobile: '100%', tablet: 260, laptop: 320 },
-                    margin: { right: { mobile: 0, tablet: 24, laptop: 32 } }
+                    margin: props?.reverse
+                        ? { left: { mobile: 0, tablet: 24, laptop: 32 } }
+                        : { right: { mobile: 0, tablet: 24, laptop: 32 } }
                 },
                 props?.thumbSetting || {}
             ) as ListItemThumb
@@ -57,12 +59,13 @@ const MiItemsList = defineComponent({
                             radius={setting?.radius}
                         />
                     </div>
-                    {renderDate(item)}
+                    {props?.reverse ? null : renderDate(item)}
+                    {props?.reverse ? renderButton(item, i) : null}
                 </div>
             )
         }
 
-        const renderInfo = (item?: ListItem) => {
+        const renderInfo = (item: ListItem) => {
             const title = $tools.deepAssign(
                 $tools.getTextSetting({
                     size: { mobile: 18, tablet: 20, laptop: 24 },
@@ -100,7 +103,7 @@ const MiItemsList = defineComponent({
             )
         }
 
-        const renderDate = (item?: ListItem) => {
+        const renderDate = (item: ListItem) => {
             if (item?.date) {
                 const date = $tools.deepAssign(
                     $tools.getTextSetting({ size: { mobile: 12, tablet: 14 } }),
@@ -133,46 +136,62 @@ const MiItemsList = defineComponent({
             )
         }
 
+        const renderButton = (item: ListItem, i: number) => {
+            return (
+                <Transition name="mi-anim-scale" appear={true}>
+                    {item?.link && params.hover?.[i] ? (
+                        <div class={styled.btn}>
+                            <MiButton
+                                backdrop="unset"
+                                background="transparent"
+                                borderColor="var(--mi-error-container)"
+                                arrow={{
+                                    immediate: true,
+                                    color: 'var(--mi-error-container)'
+                                }}
+                            />
+                        </div>
+                    ) : null}
+                </Transition>
+            )
+        }
+
         const renderList = () => {
             const items = []
             for (let i = 0, l = props?.data?.length; i < l; i++) {
                 const item = props?.data?.[i]
                 const elem = (
                     <Fragment>
-                        {item?.thumb ? renderThumb(item) : null}
+                        {item?.thumb ? renderThumb(item, i) : null}
                         {renderInfo(item)}
-                        <Transition name="mi-anim-scale" appear={true}>
-                            {item?.link && params.hover?.[i] ? (
-                                <div class={styled.btn}>
-                                    <MiButton
-                                        backdrop="unset"
-                                        background="transparent"
-                                        borderColor="var(--mi-error-container)"
-                                        arrow={{
-                                            immediate: true,
-                                            color: 'var(--mi-error-container)'
-                                        }}
-                                    />
-                                </div>
-                            ) : null}
-                        </Transition>
+                        {props?.reverse ? renderDate(item) : null}
+                        {!props?.reverse ? renderButton(item, i) : null}
                     </Fragment>
                 )
                 items.push(
                     <div
-                        class={styled.item}
+                        class={[styled.item]}
                         onMouseenter={() => (params.hover[i] = true)}
                         onMouseleave={() => (params.hover[i] = false)}>
                         {item?.link ? (
                             <MiLink
-                                class={styled.itemInner}
+                                class={[
+                                    styled.itemInner,
+                                    { [styled.itemInnerReverse]: props?.reverse }
+                                ]}
                                 path={item?.link}
                                 target={item?.target || '_self'}
                                 query={item?.query}>
                                 {elem}
                             </MiLink>
                         ) : (
-                            <div class={styled.itemInner}>{elem}</div>
+                            <div
+                                class={[
+                                    styled.itemInner,
+                                    { [styled.itemInnerReverse]: props?.reverse }
+                                ]}>
+                                {elem}
+                            </div>
                         )}
                         {props?.type !== 'card' && i < l - 1 ? renderLine(item, i) : null}
                     </div>

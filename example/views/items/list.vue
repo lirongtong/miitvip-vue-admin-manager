@@ -2,6 +2,12 @@
     <mi-items-list
         :radius="8"
         :data="data" />
+    <div style="margin-top: 2rem">
+        <mi-items-list
+            :radius="8"
+            :data="data"
+            :reverse="true" />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +15,7 @@
 import thumb1 from '@/assets/images/news1.jpg'
 import thumb2 from '@/assets/images/news2.webp'
 import thumb3 from '@/assets/images/news3.jpg'
+import { reverse } from 'dns';
 
 const data = [
     {
