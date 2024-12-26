@@ -1,8 +1,7 @@
 <template>
     <mi-items-list
         :radius="8"
-        :data="data"
-        :thumb-setting="{ radius: 8, width: { mobile: '100%', tablet: 260, laptop: 320 }, margin: { right: 32 } }" />
+        :data="data" />
 </template>
 
 <script setup lang="ts">

@@ -6,11 +6,13 @@ import { tuple } from '../../_utils/props'
  * +===============================+
  * |       ListItemDividing        |
  * +===============================+
+ * @param display 显示分割线
  * @param color 颜色
  * @param height 高度
  * @param margin 间距
  */
 export interface ListItemDividing {
+    display?: boolean
     color?: string
     height?: string | number | DeviceSize
     margin?: string | number | Position
@@ -98,7 +100,6 @@ export interface ItemsListProperties {
     radius?: string | number | DeviceSize
     background?: string
     padding?: string | number | Position
-    dividing?: ListItemDividing
 }
 
 export const ItemsListProps = () => ({

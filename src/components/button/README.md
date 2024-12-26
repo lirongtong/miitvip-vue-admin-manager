@@ -54,7 +54,8 @@
 | `target` | `_blank \| _self` | `_self` | 链接打开方式
 | `query` | `object` | `{}` | 链接参数配置
 | `circle` | `boolean` | `true` | 圆形按钮
-| `background` | `string` | `''` | 按钮背景颜色
+| `background` | `string` | `''` | 背景颜色
+| `background` | `string` | `blur(1rem)` | 背景过滤
 | `arrow` | [`ButtonArrow`](./README.md#interface-buttonarrow) | `{}` | 箭头配置
 | `radius` | `number \| string \|` [`DeviceSize`](../../utils/README.md#interface-devicesize) | `''` | 圆角
 | `borderColor` | `string` | `rgba(var(--mi-rgb-primary), 0.5)` | 边框颜色

@@ -1,9 +1,10 @@
-import { computed, defineComponent, Fragment } from 'vue'
-import { ItemsListProps, type ListItem } from './props'
+import { computed, defineComponent, Fragment, reactive, Transition } from 'vue'
+import { ItemsListProps, ListItemThumb, type ListItem } from './props'
 import { $tools } from '../../../utils/tools'
 import type { TextData } from '../../../utils/types'
 import MiLink from '../../link/Link'
 import MiImage from '../../image/Image'
+import MiButton from '../../button/Button'
 import applyTheme from '../../_utils/theme'
 import styled from './style/list.module.less'
 
@@ -14,7 +15,6 @@ const MiItemsList = defineComponent({
     setup(props) {
         applyTheme(styled)
 
-        const colors = ['pink', 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple']
         const containerStyle = computed(() => {
             return {
                 background: props?.type !== 'card' ? props?.background : null,
@@ -23,8 +23,19 @@ const MiItemsList = defineComponent({
             }
         })
 
+        const params = reactive({
+            hover: {}
+        }) as any
+
         const renderThumb = (item?: ListItem) => {
-            const setting = props?.thumbSetting || {}
+            const setting = $tools.deepAssign(
+                {
+                    radius: 8,
+                    width: { mobile: '100%', tablet: 260, laptop: 320 },
+                    margin: { right: { mobile: 0, tablet: 24, laptop: 32 } }
+                },
+                props?.thumbSetting || {}
+            ) as ListItemThumb
             const width = $tools.convert2rem($tools.distinguishSize(setting?.width || 320))
             const radius = $tools.convert2rem($tools.distinguishSize(setting?.radius))
             return (
@@ -69,6 +80,11 @@ const MiItemsList = defineComponent({
                 $tools.getTextSetting(props?.introSetting),
                 $tools.getTextSetting(item?.intro)
             ) as TextData
+            const date = $tools.deepAssign(
+                $tools.getTextSetting({ size: { mobile: 12, tablet: 14 } }),
+                $tools.getTextSetting(props?.dateSetting),
+                $tools.getTextSetting(item?.date)
+            ) as TextData
             return (
                 <div class={styled.info}>
                     <div
@@ -79,6 +95,7 @@ const MiItemsList = defineComponent({
                         class={styled.infoIntro}
                         innerHTML={intro?.text}
                         style={intro?.style}></div>
+                    <div class={styled.infoDate} innerHTML={date?.text} style={date?.style}></div>
                 </div>
             )
         }
@@ -94,17 +111,23 @@ const MiItemsList = defineComponent({
             } else return null
         }
 
-        const renderLine = () => {
+        const renderLine = (item: ListItem, index: number) => {
+            const display =
+                props?.dividing?.display || typeof props?.dividing?.display === 'undefined'
             return (
                 <div
-                    class={styled.line}
+                    class={[
+                        styled.line,
+                        { [styled.lineHover]: item?.link && params.hover?.[index] },
+                        { [styled.lineTransparent]: !display }
+                    ]}
                     style={{
                         background: props?.dividing?.color,
                         height: $tools.convert2rem(
                             $tools.distinguishSize(props?.dividing?.height || 1)
                         ),
                         ...$tools.getSpacingStyle(
-                            props?.dividing?.margin || { top: 16, bottom: 16 }
+                            props?.dividing?.margin || { top: 20, bottom: 20 }
                         )
                     }}></div>
             )
@@ -118,10 +141,28 @@ const MiItemsList = defineComponent({
                     <Fragment>
                         {item?.thumb ? renderThumb(item) : null}
                         {renderInfo(item)}
+                        <Transition name="mi-anim-scale" appear={true}>
+                            {item?.link && params.hover?.[i] ? (
+                                <div class={styled.btn}>
+                                    <MiButton
+                                        backdrop="unset"
+                                        background="transparent"
+                                        borderColor="var(--mi-error-container)"
+                                        arrow={{
+                                            immediate: true,
+                                            color: 'var(--mi-error-container)'
+                                        }}
+                                    />
+                                </div>
+                            ) : null}
+                        </Transition>
                     </Fragment>
                 )
                 items.push(
-                    <div class={styled.item}>
+                    <div
+                        class={styled.item}
+                        onMouseenter={() => (params.hover[i] = true)}
+                        onMouseleave={() => (params.hover[i] = false)}>
                         {item?.link ? (
                             <MiLink
                                 class={styled.itemInner}
@@ -133,7 +174,7 @@ const MiItemsList = defineComponent({
                         ) : (
                             <div class={styled.itemInner}>{elem}</div>
                         )}
-                        {props?.type !== 'card' && i < l - 1 ? renderLine() : null}
+                        {props?.type !== 'card' && i < l - 1 ? renderLine(item, i) : null}
                     </div>
                 )
             }
