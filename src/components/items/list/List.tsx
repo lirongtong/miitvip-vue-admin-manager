@@ -38,6 +38,11 @@ const MiItemsList = defineComponent({
                 },
                 props?.thumbSetting || {}
             ) as ListItemThumb
+            const date = $tools.deepAssign(
+                $tools.getTextSetting({ size: { mobile: 12, tablet: 14 } }),
+                $tools.getTextSetting(props?.dateSetting),
+                $tools.getTextSetting(item?.date)
+            ) as TextData
             const width = $tools.convert2rem($tools.distinguishSize(setting?.width || 320))
             const radius = $tools.convert2rem($tools.distinguishSize(setting?.radius))
             return (
@@ -61,6 +66,12 @@ const MiItemsList = defineComponent({
                     </div>
                     {props?.reverse ? null : renderDate(item)}
                     {props?.reverse ? renderButton(item, i) : null}
+                    {props?.reverse ? (
+                        <div
+                            class={styled.thumbDate}
+                            innerHTML={date?.text}
+                            style={date?.style}></div>
+                    ) : null}
                 </div>
             )
         }
