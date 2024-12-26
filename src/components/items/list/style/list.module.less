@@ -4,7 +4,6 @@
     width: 100%;
     position: relative;
     overflow: hidden;
-    background: var(--mi-items-list-bg);
 }
 
 .items {
@@ -14,6 +13,16 @@
 .item {
     .flex(flex-start, flex-start, column);
     position: relative;
+
+    &-card {
+        background: var(--mi-items-list-bg);
+        .properties(padding, 16);
+        .radius(8);
+
+        & + & {
+            .properties(margin-top, 16);
+        }
+    }
 
     &-inner {
         .flex(flex-start, flex-start);

@@ -1,5 +1,6 @@
 <template>
     <mi-items-list
+        type="card"
         :radius="8"
         :data="data" />
     <div style="margin-top: 2rem">

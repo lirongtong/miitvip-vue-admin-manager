@@ -17,9 +17,13 @@ const MiItemsList = defineComponent({
 
         const containerStyle = computed(() => {
             return {
-                background: props?.type !== 'card' ? props?.background : null,
+                background:
+                    props?.type !== 'card' ? props?.background || 'var(--mi-items-list-bg)' : null,
                 borderRadius: $tools.convert2rem($tools.distinguishSize(props?.radius)),
-                ...$tools.getSpacingStyle(props?.padding, 'padding')
+                ...$tools.getSpacingStyle(
+                    props?.padding || (props?.type !== 'card' ? 16 : 0),
+                    'padding'
+                )
             }
         })
 
@@ -181,7 +185,7 @@ const MiItemsList = defineComponent({
                 )
                 items.push(
                     <div
-                        class={[styled.item]}
+                        class={[styled.item, { [styled.itemCard]: props?.type === 'card' }]}
                         onMouseenter={() => (params.hover[i] = true)}
                         onMouseleave={() => (params.hover[i] = false)}>
                         {item?.link ? (

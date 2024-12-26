@@ -85,7 +85,7 @@ export interface ListItem {
  * @param background 容器背景色
  * @param padding 容器内间距
  * @param dividing 分割线 ( 仅在非卡片显示时有效 )
- * @param reverse 反向显示 ( 仅在非卡片显示时有效 )
+ * @param reverse 排版反向显示
  *
  * @see ListItem
  * @see ListItemThumb
@@ -114,7 +114,7 @@ export const ItemsListProps = () => ({
     dateSetting: object<TextSetting>(),
     radius: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]),
     background: PropTypes.string,
-    padding: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<Position>()]).def(16),
+    padding: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<Position>()]),
     dividing: object<ListItemDividing>(),
     reverse: PropTypes.bool.def(false)
 })
