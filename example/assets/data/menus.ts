@@ -152,7 +152,7 @@ export const menusData = [
             meta: {
                 title: '详情排版',
                 subTitle: 'Detail Item',
-                icon: AntdvIcons?.CarryOutOutlined
+                icon: AntdvIcons?.ClusterOutlined
             }
         }]
     },
