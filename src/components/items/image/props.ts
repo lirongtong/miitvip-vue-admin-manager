@@ -29,6 +29,7 @@ export interface ImageItemHover {
  * @param thumb 缩略图
  * @param link 链接地址
  * @param target 链接打开方式
+ * @param query 链接携带参数
  */
 export interface ImageItem {
     [key: string]: any
@@ -38,6 +39,7 @@ export interface ImageItem {
     thumb?: string
     link?: string
     target?: '_self' | '_blank'
+    query?: object
 }
 
 /**

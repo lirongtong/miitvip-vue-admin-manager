@@ -190,7 +190,10 @@ const MiItemsImage = defineComponent({
                 )
                 images.push(
                     item?.link ? (
-                        <MiLink path={item?.link} target={item?.target || '_self'}>
+                        <MiLink
+                            path={item?.link}
+                            target={item?.target || '_self'}
+                            query={item?.query}>
                             {info}
                         </MiLink>
                     ) : (

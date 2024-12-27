@@ -77,6 +77,10 @@
     .properties(max-height, 960);
     .transition();
 
+    @media only screen and (max-width: @mi-md) {
+        .properties(min-height, 180);
+    }
+
     @media only screen and (max-width: @mi-sm) {
         min-height: unset;
         .properties(margin-bottom);
@@ -91,7 +95,7 @@
         display: none;
 
         @media only screen and (max-width: @mi-sm) {
-            display: block;
+            .flex(center, space-between);
         }
     }
 }
@@ -133,7 +137,7 @@
         color: var(--mi-items-list-date);
 
         @media only screen and (max-width: @mi-sm) {
-            display: block;
+            .flex(center, space-between);
             .properties(margin-top);
         }
     }
@@ -152,7 +156,10 @@
     color: var(--mi-items-list-date);
     white-space: nowrap;
     z-index: 20;
-    line-height: 1;
+
+    span + span {
+        .properties(margin-left);
+    }
 
     @media only screen and (max-width: @mi-sm) {
         display: none;

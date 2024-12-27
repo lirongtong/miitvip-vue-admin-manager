@@ -71,10 +71,10 @@ const MiItemsList = defineComponent({
                     {props?.reverse ? null : renderDate(item)}
                     {props?.reverse ? renderButton(item, i) : null}
                     {props?.reverse ? (
-                        <div
-                            class={styled.thumbDate}
-                            innerHTML={date?.text}
-                            style={date?.style}></div>
+                        <div class={styled.thumbDate} style={date?.style}>
+                            {item?.category ? <span innerHTML={item?.category}></span> : null}
+                            <span innerHTML={date?.text}></span>
+                        </div>
                     ) : null}
                 </div>
             )
@@ -113,7 +113,10 @@ const MiItemsList = defineComponent({
                         class={styled.infoIntro}
                         innerHTML={intro?.text}
                         style={intro?.style}></div>
-                    <div class={styled.infoDate} innerHTML={date?.text} style={date?.style}></div>
+                    <div class={styled.infoDate} style={date?.style}>
+                        {item?.category ? <span innerHTML={item?.category}></span> : null}
+                        <span innerHTML={date?.text}></span>
+                    </div>
                 </div>
             )
         }
@@ -125,7 +128,12 @@ const MiItemsList = defineComponent({
                     $tools.getTextSetting(props?.dateSetting),
                     $tools.getTextSetting(item?.date)
                 ) as TextData
-                return <div class={styled.date} innerHTML={date?.text} style={date?.style}></div>
+                return (
+                    <div class={styled.date} style={date?.style}>
+                        {item?.category ? <span innerHTML={item?.category}></span> : null}
+                        <span innerHTML={date?.text}></span>
+                    </div>
+                )
             } else return null
         }
 

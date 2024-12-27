@@ -12,13 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import thumb from '@/assets/images/background.jpg'
-
 const data = [
     {
         title: { text: '《早发白帝城》', bold: true, align: 'center', size: 22 },
         subtitle: { text: `唐·李白`, align: 'center', size: 16 },
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`,
             align: `center`,
@@ -41,13 +39,11 @@ const data = [
 </template>
 
 <script setup lang="ts">
-import thumb from '@/assets/images/background.jpg'
-
 const data = [
     {
         title: { text: '《早发白帝城》', bold: true, align: 'center', size: 22 },
         subtitle: { text: `唐·李白`, align: 'center', size: 16 },
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`,
             align: `center`,
@@ -57,7 +53,7 @@ const data = [
     {
         title: { text: '《客中行》', bold: true, align: 'center', size: 22 },
         subtitle: { text: `唐·李白`, align: 'center', size: 18 },
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `兰陵美酒郁金香，玉碗盛来琥珀光。<br />但使主人能醉客，不知何处是他乡。`,
             align: `center`,
@@ -67,7 +63,7 @@ const data = [
     {
         title: { text: '《望庐山瀑布》', bold: true, align: 'center', size: 22 },
         subtitle: { text: `唐·李白`, align: 'center', size: 18 },
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `日照香炉生紫烟，遥看瀑布挂前川。<br />飞流直下三千尺，疑是银河落九天。`,
             align: `center`,
@@ -86,13 +82,11 @@ const data = [
 </template>
 
 <script setup lang="ts">
-import thumb from '@/assets/images/background.jpg'
-
 const data = [
     {
         title: { text: '《早发白帝城》', bold: true, align: 'center', size: 22 },
         subtitle: { text: `唐·李白`, align: 'center', size: 16 },
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`,
             align: `center`,
@@ -119,13 +113,11 @@ const data = [
 </template>
 
 <script setup lang="ts">
-import thumb from '@/assets/images/background.jpg'
-
 const data = [
     {
         title: { text: '《早发白帝城》', bold: true, align: 'center', size: 22 },
         subtitle: { text: `唐·李白`, align: 'center', size: 16 },
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`,
             align: `center`,
@@ -152,14 +144,12 @@ const data = [
 </template>
 
 <script setup lang="ts">
-import thumb from '@/assets/images/background.jpg'
-
 // title & subtitle 默认居左显示
 const data = [
     {
         title: '《早发白帝城》',
         subtitle: '唐·李白',
-        thumb: thumb,
+        thumb: 'https://image.makeit.vip/2024/12/24/background.jpg',
         intro: {
             text: `朝辞白帝彩云间，千里江陵一日还。<br />两岸猿声啼不住，轻舟已过万重山。`,
             align: `center`,
@@ -206,6 +196,7 @@ const data = [
 | `thumb` | `string` | `''` | 图片地址
 | `link` | `string` | `''` | 链接地址
 | `target` | `_blank \| _self` | `_self` | 链接打开方式
+| `query` | `object` | `{}` | 链接携带参数
 
 ### Interface `ImageItemHover`
 
