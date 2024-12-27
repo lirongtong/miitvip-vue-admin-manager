@@ -52,7 +52,11 @@ const MiItemsList = defineComponent({
             return (
                 <div class={styled.thumbInner}>
                     <div
-                        class={[styled.thumb, styled[setting?.align || 'center']]}
+                        class={[
+                            styled.thumb,
+                            styled[setting?.align || 'center'],
+                            { [styled.thumbScale]: setting?.scale }
+                        ]}
                         style={{
                             width,
                             minWidth: width,

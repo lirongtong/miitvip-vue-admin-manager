@@ -2,7 +2,8 @@
     <mi-items-list
         type="card"
         :radius="8"
-        :data="data" />
+        :data="data"
+        :thumb-setting="{ scale: true }" />
     <div style="margin-top: 2rem">
         <mi-items-list
             :radius="8"
