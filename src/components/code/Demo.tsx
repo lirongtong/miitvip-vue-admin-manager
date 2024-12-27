@@ -15,6 +15,7 @@ const MiCodeDemo = defineComponent({
     props: CodeDemoProps(),
     slots: Object as SlotsType<{
         effect: any
+        summary: any
     }>,
     setup(props, { slots }) {
         const { t } = useI18n()
