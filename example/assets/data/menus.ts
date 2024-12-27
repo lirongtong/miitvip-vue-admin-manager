@@ -146,6 +146,14 @@ export const menusData = [
                 subTitle: 'List Item',
                 icon: AntdvIcons?.ExceptionOutlined
             }
+        }, {
+            name: 'items-detail',
+            path: '/items/detail',
+            meta: {
+                title: '详情排版',
+                subTitle: 'Detail Item',
+                icon: AntdvIcons?.CarryOutOutlined
+            }
         }]
     },
     {

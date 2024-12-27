@@ -132,3 +132,6 @@ export type {
     ListItemDividing
 } from './items/list/props'
 export { default as ItemsList } from './items/list'
+
+export type { ItemsDetailProperties } from './items/detail/props'
+export { default as ItemsDetail } from './items/detail'

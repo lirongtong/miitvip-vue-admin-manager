@@ -46,6 +46,7 @@ const Items = () => import('./views/items/index.vue')
 const ItemsText = () => import('./views/items/text.vue')
 const ItemsImage = () => import('./views/items/image.vue')
 const ItemsList = () => import('./views/items/list.vue')
+const ItemsDetail = () => import('./views/items/detail.vue')
 
 const menuRoutes: Array<RouteRecordRaw> = [
     {
@@ -143,6 +144,11 @@ const menuRoutes: Array<RouteRecordRaw> = [
                 name: 'items-list',
                 meta: { title: '列表排版' },
                 component: ItemsList
+            }, {
+                path: '/items/detail',
+                name: 'items-detail',
+                meta: { title: '详情排版' },
+                component: ItemsDetail
             }]
         }, {
             path: '/components',
