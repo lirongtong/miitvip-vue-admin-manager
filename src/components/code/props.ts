@@ -1,6 +1,7 @@
+import type { VNodeTypes } from 'vue'
+import { object } from 'vue-types'
 import { PropTypes } from '../../utils/types'
 import type { DividerProps } from 'ant-design-vue'
-import { object } from 'vue-types'
 
 /**
  * +===================+
@@ -38,8 +39,8 @@ export const CodeProps = () => ({
 export interface CodeDemoProperties {
     title: string
     titleSetting: Partial<DividerProps>
-    summary: string
-    effect: any
+    summary: VNodeTypes
+    effect: VNodeTypes
     animation: string
     language: string
     code: string
@@ -48,7 +49,7 @@ export interface CodeDemoProperties {
 export const CodeDemoProps = () => ({
     title: PropTypes.string,
     titleSetting: object<Partial<DividerProps>>().def({ orientation: 'left' }),
-    summary: PropTypes.string,
+    summary: PropTypes.any,
     effect: PropTypes.any,
     animation: PropTypes.string.def('fade'),
     language: PropTypes.string.def('html'),

@@ -1,4 +1,4 @@
-import { SlotsType, Transition, defineComponent, ref, Fragment } from 'vue'
+import { SlotsType, Transition, defineComponent, ref, Fragment, computed } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { CodeDemoProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -33,6 +33,10 @@ const MiCodeDemo = defineComponent({
                 .catch(() => (copied.value = false))
         }
 
+        const summary = computed(() => {
+            return getPropSlot(slots, props, 'summary')
+        })
+
         return () => (
             <div class={styled.container}>
                 <div class={styled.inner}>
@@ -43,9 +47,9 @@ const MiCodeDemo = defineComponent({
                                 <h4 innerHTML={props.title} />
                             </Divider>
                         ) : null}
-                        {props.summary ? (
+                        {summary.value ? (
                             <Fragment>
-                                <div class={styled.infoSummary} innerHTML={props.summary} />
+                                <div class={styled.infoSummary}>{summary.value}</div>
                                 <Divider dashed={true} />
                             </Fragment>
                         ) : null}
