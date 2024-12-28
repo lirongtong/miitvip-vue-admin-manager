@@ -1,1 +1,25 @@
 @import '../../../theme/style/variables.module.less';
+
+.container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.inner {
+    .flex();
+    margin: 0 auto;
+}
+
+.items {
+    display: grid;
+    .transition();
+}
+
+.item {
+    &-title,
+    &-subtitle {
+        .transition();
+        .lines();
+    }
+}

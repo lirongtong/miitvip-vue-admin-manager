@@ -3,14 +3,15 @@ import {
     type DeviceSize,
     PropTypes,
     type TextSetting,
-    type ThumbSetting
+    type ThumbSetting,
+    type Gap
 } from '../../../utils/types'
 
 export interface DetailItem {
     [key: string]: any
     title?: string | TextSetting
     subtitle?: string | TextSetting
-    thumb?: string | ThumbSetting
+    thumb?: string
 }
 
 /**
@@ -29,6 +30,7 @@ export interface ItemsDetailProperties {
     fullBlock?: boolean
     number?: number | string | DeviceSize
     maxWidth?: string | number | DeviceSize
+    gap?: number | string | DeviceSize | Gap
     titleSetting?: TextSetting
     subtitleSetting?: TextSetting
     thumbSetting?: ThumbSetting
@@ -46,6 +48,12 @@ export const ItemsDetailProps = () => ({
     maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
         '100%'
     ),
+    gap: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        object<DeviceSize>(),
+        object<Gap>()
+    ]).def(16),
     titleSetting: object<TextSetting>(),
     subtitleSetting: object<TextSetting>(),
     thumbSetting: object<ThumbSetting>()

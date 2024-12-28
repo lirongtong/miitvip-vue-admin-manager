@@ -1,7 +1,7 @@
 import { computed, defineComponent, Fragment, reactive, Transition } from 'vue'
-import { ItemsListProps, ListItemThumb, type ListItem } from './props'
+import { ItemsListProps, type ListItem } from './props'
 import { $tools } from '../../../utils/tools'
-import type { TextData } from '../../../utils/types'
+import type { TextData, ThumbSetting } from '../../../utils/types'
 import MiLink from '../../link/Link'
 import MiImage from '../../image/Image'
 import MiButton from '../../button/Button'
@@ -41,7 +41,7 @@ const MiItemsList = defineComponent({
                         : { right: { mobile: 0, tablet: 24, laptop: 32 } }
                 },
                 props?.thumbSetting || {}
-            ) as ListItemThumb
+            ) as ThumbSetting
             const date = $tools.deepAssign(
                 $tools.getTextSetting({ size: { mobile: 12, tablet: 14 } }),
                 $tools.getTextSetting(props?.dateSetting),

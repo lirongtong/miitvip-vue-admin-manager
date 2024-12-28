@@ -128,5 +128,5 @@ export { default as Button } from './button'
 export type { ItemsListProperties, ListItem, ListItemDividing } from './items/list/props'
 export { default as ItemsList } from './items/list'
 
-export type { ItemsDetailProperties } from './items/detail/props'
+export type { ItemsDetailProperties, DetailItem } from './items/detail/props'
 export { default as ItemsDetail } from './items/detail'
