@@ -18,8 +18,7 @@
             :check-module-exist-action="api.languages.module.check"
             :create-module-action="api.languages.module.normal"
             :delete-module-action="api.languages.module.normal"
-            :update-module-action="api.languages.module.normal"
-            :show-builtin-languages="false" />
+            :update-module-action="api.languages.module.normal" />
     </div>
 </template>
 
