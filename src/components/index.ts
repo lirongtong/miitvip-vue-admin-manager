@@ -125,12 +125,7 @@ export { default as Image } from './image'
 export type { ButtonProperties, ButtonArrow } from './button/props'
 export { default as Button } from './button'
 
-export type {
-    ItemsListProperties,
-    ListItem,
-    ListItemThumb,
-    ListItemDividing
-} from './items/list/props'
+export type { ItemsListProperties, ListItem, ListItemDividing } from './items/list/props'
 export { default as ItemsList } from './items/list'
 
 export type { ItemsDetailProperties } from './items/detail/props'

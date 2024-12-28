@@ -303,6 +303,28 @@ export interface TextData {
 }
 
 /**
+ * +===========================+
+ * |       ThumbSetting        |
+ * +===========================+
+ * @param width 宽度
+ * @param height 高度
+ * @param radius 圆角
+ * @param background 背景色
+ * @param scale Hover 悬停时放大图片 (1.2)
+ * @param align 对齐方式
+ * @param margin 外间距
+ */
+export interface ThumbSetting {
+    width?: string | number | DeviceSize
+    height?: string | number | DeviceSize
+    radius?: string | number | DeviceSize
+    background?: string
+    scale?: boolean
+    align?: 'start' | 'end' | 'center'
+    margin?: string | number | Position
+}
+
+/**
  * +====================+
  * |      菜单项目       |
  * +====================+

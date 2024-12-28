@@ -1,5 +1,11 @@
 import { object, array } from 'vue-types'
-import { PropTypes, type DeviceSize, type Position, type TextSetting } from '../../../utils/types'
+import {
+    PropTypes,
+    type DeviceSize,
+    type Position,
+    type TextSetting,
+    type ThumbSetting
+} from '../../../utils/types'
 import { tuple } from '../../_utils/props'
 
 /**
@@ -15,30 +21,6 @@ export interface ListItemDividing {
     display?: boolean
     color?: string
     height?: string | number | DeviceSize
-    margin?: string | number | Position
-}
-
-/**
- * +============================+
- * |       ListItemThumb        |
- * +============================+
- * @param src 图片地址
- * @param alt 图片描述
- * @param width 宽度
- * @param height 高度
- * @param radius 圆角
- * @param background 背景色
- * @param scale Hover 悬停时放大图片 (1.2)
- * @param align 对齐方式
- * @param margin 外间距
- */
-export interface ListItemThumb {
-    width?: string | number | DeviceSize
-    height?: string | number | DeviceSize
-    radius?: string | number | DeviceSize
-    background?: string
-    scale?: boolean
-    align?: 'start' | 'end' | 'center'
     margin?: string | number | Position
 }
 
@@ -88,13 +70,13 @@ export interface ListItem {
  * @param reverse 排版反向显示
  *
  * @see ListItem
- * @see ListItemThumb
+ * @see ThumbSetting
  * @see ListItemDividing
  */
 export interface ItemsListProperties {
     type?: 'card' | 'list'
     data?: ListItem[]
-    thumbSetting?: ListItemThumb
+    thumbSetting?: ThumbSetting
     titleSetting?: TextSetting
     introSetting?: TextSetting
     dateSetting?: TextSetting
@@ -108,7 +90,7 @@ export interface ItemsListProperties {
 export const ItemsListProps = () => ({
     type: PropTypes.oneOf(tuple(...['card', 'list'])).def('list'),
     data: array<ListItem>().def([]),
-    thumbSetting: object<ListItemThumb>(),
+    thumbSetting: object<ThumbSetting>(),
     titleSetting: object<TextSetting>(),
     introSetting: object<TextSetting>(),
     dateSetting: object<TextSetting>(),
