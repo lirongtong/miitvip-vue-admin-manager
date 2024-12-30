@@ -82,6 +82,9 @@ export interface ThemeTokens extends ThemeConfig {
  * @param login 登录页面
  * @param register 注册页面
  * @param socialite 社会化登录
+ * @param historical 历史路由
+ * @param language 语系管理
+ * @param items 排版
  *
  * @see LayoutTokens
  * @see NoticeTokens
@@ -101,6 +104,9 @@ export interface ThemeTokens extends ThemeConfig {
  * @see BacktopTokens
  * @see PassportTokens
  * @see SocialiteTokens
+ * @see HistoricalTokens
+ * @see LanguageTokens
+ * @see ItemsTokens
  */
 export interface ComponentTokens {
     [key: string]: any
@@ -124,6 +130,9 @@ export interface ComponentTokens {
     login: Partial<PassportTokens>
     register: Partial<PassportTokens>
     socialite: Partial<SocialiteTokens>
+    historical: Partial<HistoricalTokens>
+    language: Partial<LanguageTokens>
+    items: Partial<ItemsTokens>
 }
 
 /**
@@ -859,6 +868,158 @@ export interface SocialiteTokens {
             [key: string]: any
             text: string
             background: Partial<GradientTokens>
+        }>
+    }>
+}
+
+/**
+ * +=======================+
+ * |        历史路由        |
+ * +=======================+
+ */
+export interface HistoricalTokens {
+    [key: string]: any
+    routing: Partial<{
+        [key: string]: any
+        bg: string
+        text: string
+        item: Partial<{
+            [key: string]: any
+            active: Partial<{
+                [key: string]: any
+                text: string
+            }>
+            bg: Partial<{
+                [key: string]: any
+                active: Partial<GradientTokens>
+            }>
+        }>
+    }>
+}
+
+/**
+ * +==============================+
+ * |        应用 - 语系管理        |
+ * +==============================+
+ */
+export interface LanguageTokens {
+    [key: string]: any
+    tabs: Partial<{
+        [key: string]: any
+        text: Partial<{
+            [key: string]: any
+            customize: string
+            builtin: string
+            module: string
+            management: string
+        }>
+        subtext: Partial<{
+            [key: string]: any
+            customize: string
+            builtin: string
+            module: string
+            management: string
+        }>
+        background: Partial<{
+            [key: string]: any
+            customize: string
+            builtin: string
+            module: string
+            management: string
+        }>
+        icon: Partial<{
+            [key: string]: any
+            text: Partial<{
+                [key: string]: any
+                customize: string
+                builtin: string
+                module: string
+                management: string
+            }>
+            background: Partial<{
+                [key: string]: any
+                customize: string
+                builtin: string
+                module: string
+                management: string
+            }>
+            check: Partial<{
+                [key: string]: any
+                background: Partial<{
+                    [key: string]: any
+                    customize: string
+                    builtin: string
+                }>
+                text: Partial<{
+                    [key: string]: any
+                    customize: string
+                    builtin: string
+                }>
+            }>
+        }>
+    }>
+    text: string
+    background: string
+    default: Partial<{
+        [key: string]: any
+        text: string
+        background: Partial<GradientTokens>
+    }>
+    danger: string
+    search: Partial<{
+        [key: string]: any
+        background: string
+    }>
+    copied: Partial<{
+        [key: string]: any
+        text: string
+    }>
+}
+
+/**
+ * +=============================+
+ * |        排版类相关组件        |
+ * +=============================+
+ */
+export interface ItemsTokens {
+    [key: string]: any
+    list: Partial<{
+        [key: string]: any
+        background: string
+        text: string
+        date: string
+        line: Partial<{
+            [key: string]: any
+            default: string
+            hover: string
+        }>
+    }>
+    detail: Partial<{
+        [key: string]: any
+        line: string
+        arrow: string
+        icon: Partial<{
+            [key: string]: any
+            border: Partial<{
+                [key: string]: any
+                default: string
+                active: string
+            }>
+            background: Partial<{
+                [key: string]: any
+                default: string
+                active: string
+            }>
+        }>
+        title: Partial<{
+            [key: string]: any
+            default: string
+            active: string
+        }>
+        subtitle: Partial<{
+            [key: string]: any
+            default: string
+            active: string
         }>
     }>
 }

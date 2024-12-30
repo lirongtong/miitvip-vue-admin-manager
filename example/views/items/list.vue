@@ -13,9 +13,9 @@
 
 <script setup lang="ts">
 // @ts-nocheck
-import thumb1 from '@/assets/images/news1.jpg'
-import thumb2 from '@/assets/images/news2.webp'
-import thumb3 from '@/assets/images/news3.jpg'
+import thumb1 from '@/assets/images/news/1.jpg'
+import thumb2 from '@/assets/images/news/2.webp'
+import thumb3 from '@/assets/images/news/3.jpg'
 
 const data = [
     {

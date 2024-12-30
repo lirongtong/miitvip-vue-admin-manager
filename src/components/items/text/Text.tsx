@@ -1,4 +1,4 @@
-import { defineComponent, computed, renderSlot, Fragment } from 'vue'
+import { defineComponent, computed, renderSlot, Fragment, type SlotsType } from 'vue'
 import { ItemsTextProps, type TextItem, type TextItemContent } from './props'
 import { $tools } from '../../../utils/tools'
 import { getPropSlot } from '../../_utils/props'
@@ -10,6 +10,9 @@ const MiItemsText = defineComponent({
     name: 'MiItemsText',
     inheritAttrs: false,
     props: ItemsTextProps(),
+    slots: Object as SlotsType<{
+        item: any
+    }>,
     setup(props, { slots }) {
         applyTheme(styled)
 

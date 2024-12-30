@@ -18,7 +18,9 @@ const MiItemsList = defineComponent({
         const containerStyle = computed(() => {
             return {
                 background:
-                    props?.type !== 'card' ? props?.background || 'var(--mi-items-list-bg)' : null,
+                    props?.type !== 'card'
+                        ? props?.background || 'var(--mi-items-list-background)'
+                        : null,
                 borderRadius: $tools.convert2rem($tools.distinguishSize(props?.radius)),
                 ...$tools.getSpacingStyle(
                     props?.padding || (props?.type !== 'card' ? 16 : 0),
