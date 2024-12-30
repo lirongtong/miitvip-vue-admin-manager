@@ -1109,6 +1109,44 @@ class MiTools {
         }
         return res
     }
+
+    /**
+     * 获取父元素节点
+     * @param elem
+     * @param pSelector
+     * @returns
+     */
+    getParents(elem: HTMLElement, pSelector?: string) {
+        if (!pSelector || pSelector === undefined) {
+            throw new Error('请传入要搜索的父元素Id名或者类名#id或者.classname')
+        }
+        // 默认匹配的类型
+        let type = 'className'
+        let splitF = '.'
+        // 如果第一个字符是#那么证明传入的是id
+        if (pSelector.indexOf('#') === 0) {
+            type = 'id'
+            splitF = '#'
+        }
+        const selector = pSelector.split(splitF)[1]
+        function getP(el: HTMLElement) {
+            // 获取当前元素的父元素
+            const p = el.parentNode as any
+            // 如果元素的父元素是document 那么证明已经到最后一层了 就是没有匹配到这个父元素
+            if (p === document) {
+                return false
+            }
+            // 如果父元素的id或者class包含样式类
+            if (p[type] === selector) {
+                // 如果包含 那么返回这个元素
+                return p
+            } else {
+                // 如果不包含那么就递归 这里要return递归函数 否则会没有返回值
+                return getP(p)
+            }
+        }
+        return getP(elem)
+    }
 }
 
 /**
@@ -1170,6 +1208,7 @@ class MiTools {
  *  - {@link $tools.getTextSetting} 获取文案内容及样式
  *  - {@link $tools.getSpacingStyle} 获取间距样式
  *  - {@link $tools.deepAssign} 对象深度拷贝
+ *  - {@link $tools.getParents} 获取父元素节点
  */
 export const $tools: MiTools = new MiTools()
 

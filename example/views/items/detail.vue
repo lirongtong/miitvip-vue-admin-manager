@@ -9,12 +9,11 @@
         }"
         @item-click="handleItemClick">
         <template #detail="data">
-            <div style="color: var(--mi-background); padding-left: 1rem; padding-right: 1rem">
-                点击返回的参数（当前点击 Item 及数组下标）：<br />
-                item = {{ data?.item }}<br />
-                index = {{ data?.index }}
-            </div>
             <template v-if="active === 0">
+                <div style="color: var(--mi-background); padding-left: 1rem; padding-right: 1rem">
+                点击返回的参数（当前点击 Item 及数组下标）：<br />
+                    <mi-code language="json" :content="`item = ` + JSON.stringify(data?.item).replace(/,/ig, ',\r\n&emsp;').replace(/{/ig, '{\r\n&emsp;').replace(/}/ig, '\r\n}') + `\r\nindex = ` + data?.index" />
+                </div>
                 <div style="margin: 2rem 0">
                     <mi-items-text
                         :items="poetry.libai"
@@ -40,6 +39,10 @@
             </template>
 
             <template v-if="active === 1">
+                <div style="color: var(--mi-background); padding-left: 1rem; padding-right: 1rem">
+                点击返回的参数（当前点击 Item 及数组下标）：<br />
+                    <mi-code language="json" :content="`item = ` + JSON.stringify(data?.item).replace(/,/ig, ',\r\n&emsp;').replace(/{/ig, '{\r\n&emsp;').replace(/}/ig, '\r\n}') + `\r\nindex = ` + data?.index" />
+                </div>
                 <div style="margin: 2rem 0">
                     <mi-items-text
                         :items="poetry.dufu"
@@ -65,6 +68,10 @@
             </template>
 
             <template v-if="active === 2">
+                <div style="color: var(--mi-background); padding-left: 1rem; padding-right: 1rem">
+                点击返回的参数（当前点击 Item 及数组下标）：<br />
+                    <mi-code language="json" :content="`item = ` + JSON.stringify(data?.item).replace(/,/ig, ',\r\n&emsp;').replace(/{/ig, '{\r\n&emsp;').replace(/}/ig, '\r\n}') + `\r\nindex = ` + data?.index" />
+                </div>
                 <div style="margin: 2rem 0">
                     <mi-items-text
                         :items="poetry.baijuyi"
@@ -88,6 +95,10 @@
             </template>
 
             <template v-if="active === 3">
+                <div style="color: var(--mi-background); padding-left: 1rem; padding-right: 1rem">
+                点击返回的参数（当前点击 Item 及数组下标）：<br />
+                    <mi-code language="json" :content="`item = ` + JSON.stringify(data?.item).replace(/,/ig, ',\r\n&emsp;').replace(/{/ig, '{\r\n&emsp;').replace(/}/ig, '\r\n}') + `\r\nindex = ` + data?.index" />
+                </div>
                 <div style="margin: 2rem 0">
                     <mi-items-text
                         :items="poetry.lishangyin"
@@ -115,6 +126,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import 'prismjs/components/prism-json'
 // @ts-ignore
 import libai from '@/assets/images/poet/libai.jpg'
 // @ts-ignore

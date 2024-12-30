@@ -1,6 +1,15 @@
-import { defineComponent, computed, reactive, renderSlot, type SlotsType, Transition } from 'vue'
+import {
+    defineComponent,
+    computed,
+    reactive,
+    renderSlot,
+    type SlotsType,
+    Transition,
+    ref
+} from 'vue'
 import { ItemsDetailProps } from './props'
 import { $tools } from '../../../utils/tools'
+import { $g } from '../../../utils/global'
 import { TextData } from '../../../utils/types'
 import { type ThumbSetting } from '../../../utils/types'
 import type { ListItem } from '../list/props'
@@ -20,6 +29,8 @@ const MiItemsDetail = defineComponent({
     }>,
     setup(props, { slots, emit }) {
         applyTheme(styled)
+
+        const container = ref(null)
 
         // Arrow Icon
         const icon = (
@@ -69,18 +80,20 @@ const MiItemsDetail = defineComponent({
             return {
                 rowGap: $tools.convert2rem(gap.value?.row || gap.value),
                 columnGap: $tools.convert2rem(gap.value?.column || gap.value),
-                gridTemplateColumns: `repeat(${number.value}, 1fr)`
+                gridTemplateColumns: `repeat(${number.value}, 1fr)`,
+                maxWidth: $tools.convert2rem(maxWidth.value)
             }
         })
 
         // 详情内容容器样式
         const detailContentStyle = computed(() => {
             const width = $tools.distinguishSize(props?.maxWidth)
+            const containerWidth = container.value ? container.value.clientWidth : 0
+            const calcWidth =
+                typeof width === 'number' ? (width > containerWidth ? containerWidth : width) : 0
             const margin =
-                typeof width === 'number' &&
-                typeof maxWidth.value === 'number' &&
-                width > maxWidth.value
-                    ? (width - maxWidth.value) / 2
+                calcWidth && typeof maxWidth.value === 'number' && calcWidth > maxWidth.value
+                    ? (calcWidth - maxWidth.value) / 2
                     : 0
             const extra = {} as any
             if (margin) {
@@ -97,18 +110,28 @@ const MiItemsDetail = defineComponent({
             }
         })
 
+        // 滚动偏移量
+        const offset = computed(() => {
+            return (
+                $tools.distinguishSize(props?.scrollOffset) ||
+                ($g?.showHistoricalRouting ? 128 : 80)
+            )
+        })
+
         const params = reactive({
             row: -1,
             active: -1
         })
 
-        const handleItemClick = (item: ListItem, index: number) => {
+        const handleItemClick = (item: ListItem, index: number, evt?: any) => {
             const row = Math.floor(index / number.value)
             params.row = params.active === index ? -1 : row
             if (params.active === index) params.active = -1
             else params.active = index
+            const elem = $tools.getParents(evt?.target, `.${styled.item}`)
+            if (elem) $tools.back2pos(elem, offset.value)
             emit('update:active', params.active)
-            emit('itemClick', item, params.active)
+            emit('itemClick', item, params.active, evt)
         }
 
         const handleDetailContentDisplay = (i: number): boolean => {
@@ -141,11 +164,18 @@ const MiItemsDetail = defineComponent({
                 items.push(
                     <div
                         class={[styled.item, { [styled.itemActive]: params.active === i }]}
-                        onClick={() => handleItemClick(item, i)}>
+                        style={{
+                            width: $tools.convert2rem(
+                                $tools.distinguishSize(thumbSetting.value?.width)
+                            )
+                        }}
+                        onClick={(evt?: any) => handleItemClick(item, i, evt)}>
                         <div
                             class={styled.itemThumb}
                             style={{
-                                width: thumbSetting.value?.width,
+                                width: $tools.convert2rem(
+                                    $tools.distinguishSize(thumbSetting.value?.width)
+                                ),
                                 borderRadius: $tools.convert2rem(
                                     $tools.distinguishSize(thumbSetting.value?.radius)
                                 )
@@ -190,8 +220,9 @@ const MiItemsDetail = defineComponent({
                 if (handleDetailContentDisplay(i)) {
                     items.push(
                         <Transition name={`mi-anim-${props?.animation || 'shake'}`} appear={true}>
-                            {i >= Math.floor(i / number.value) &&
-                            i <= Math.floor(i / number.value) + number.value - 1 ? (
+                            {params.active !== -1 &&
+                            params.active >= params.row * number.value &&
+                            params.active <= (params.row + 1) * number.value - 1 ? (
                                 <div
                                     class={[styled.item, styled.itemDetail]}
                                     style={detailContentStyle.value}>
@@ -213,7 +244,7 @@ const MiItemsDetail = defineComponent({
         }
 
         return () => (
-            <div class={styled.container}>
+            <div ref={container} class={styled.container}>
                 <div
                     class={styled.inner}
                     style={{

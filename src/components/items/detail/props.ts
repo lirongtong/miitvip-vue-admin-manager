@@ -29,6 +29,8 @@ export interface DetailItem {
  * @param titleSetting 标题设置
  * @param subtitleSetting 副标题设置
  * @param thumbSetting 缩略图设置
+ * @param scrollToPosition 点击后滚动到指定位置
+ * @param scrollOffset 滚动指定位置时的偏移量
  */
 export interface ItemsDetailProperties {
     active?: number
@@ -41,6 +43,7 @@ export interface ItemsDetailProperties {
     titleSetting?: TextSetting
     subtitleSetting?: TextSetting
     thumbSetting?: ThumbSetting
+    scrollToPosition?: boolean
 }
 
 export const ItemsDetailProps = () => ({
@@ -64,5 +67,7 @@ export const ItemsDetailProps = () => ({
     arrowColor: PropTypes.string,
     titleSetting: object<TextSetting>(),
     subtitleSetting: object<TextSetting>(),
-    thumbSetting: object<ThumbSetting>()
+    thumbSetting: object<ThumbSetting>(),
+    scrollToPosition: PropTypes.bool.def(true),
+    scrollOffset: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()])
 })
