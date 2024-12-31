@@ -253,12 +253,6 @@ class MiTools {
 
     /**
      * 格式化时间
-     * @param onlyYmd 仅显示年月日
-     * @param onlyHms 仅显示时分秒
-     * @returns string
-     */
-    /**
-     * 格式化时间
      * @param formatter 格式 ( YMD H:m:s )
      * @returns
      */

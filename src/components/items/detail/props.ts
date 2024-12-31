@@ -44,6 +44,7 @@ export interface ItemsDetailProperties {
     subtitleSetting?: TextSetting
     thumbSetting?: ThumbSetting
     scrollToPosition?: boolean
+    scrollOffset?: number | string | DeviceSize
 }
 
 export const ItemsDetailProps = () => ({
