@@ -5,7 +5,9 @@ import {
     renderSlot,
     type SlotsType,
     Transition,
-    ref
+    ref,
+    onMounted,
+    nextTick
 } from 'vue'
 import { ItemsDetailProps } from './props'
 import { $tools } from '../../../utils/tools'
@@ -31,6 +33,7 @@ const MiItemsDetail = defineComponent({
         applyTheme(styled)
 
         const container = ref(null)
+        const items = ref([])
 
         // Arrow Icon
         const icon = (
@@ -123,12 +126,16 @@ const MiItemsDetail = defineComponent({
             active: -1
         })
 
+        const handleItemRef = (el?: any) => {
+            if (el) items.value.push(el)
+        }
+
         const handleItemClick = (item: ListItem, index: number, evt?: any) => {
             const row = Math.floor(index / number.value)
             params.row = params.active === index ? -1 : row
             if (params.active === index) params.active = -1
             else params.active = index
-            const elem = $tools.getParents(evt?.target, `.${styled.item}`)
+            const elem = evt?.target ? $tools.getParents(evt?.target, `.${styled.item}`) : null
             if (elem) $tools.back2pos(elem, offset.value)
             emit('update:active', params.active)
             emit('itemClick', item, params.active, evt)
@@ -163,6 +170,7 @@ const MiItemsDetail = defineComponent({
 
                 items.push(
                     <div
+                        ref={handleItemRef}
                         class={[styled.item, { [styled.itemActive]: params.active === i }]}
                         style={{
                             width: $tools.convert2rem(
@@ -242,6 +250,14 @@ const MiItemsDetail = defineComponent({
                 </div>
             )
         }
+
+        onMounted(() => {
+            nextTick().then(() => {
+                if (typeof props?.active !== 'undefined' && props?.active >= 0) {
+                    handleItemClick(props?.data?.[props?.active], props?.active)
+                }
+            })
+        })
 
         return () => (
             <div ref={container} class={styled.container}>
