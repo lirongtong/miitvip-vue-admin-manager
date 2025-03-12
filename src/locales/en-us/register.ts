@@ -1,29 +1,31 @@
 export default {
-    title: `Sign up`,
-    account: `Please set up a user account`,
-    'no-account': `No account? `,
-    'has-account': `Already have account? `,
+    title: 'Register',
+    account: 'Set up user account',
+    'no-account': 'No account?',
+    'has-account': 'Already have an account?',
     placeholder: {
-        username: `Please enter username`,
-        email: `Please enter the email address`
+        username: 'Username',
+        email: 'Email address'
     },
     email: {
-        text: `Please enter the email address`,
-        invalid: `please enter a valid email address`
+        text: 'Email address',
+        invalid: 'Please enter a valid email address'
     },
-    format: 'Only letters + numbers are allowed, 4-16 characters, and start with a letter',
+    format: 'Allowed: letters + numbers, 4-16 characters, must start with a letter',
     tips: {
-        special: `<span class="red">「 Note 」 </span> Login username, once set, it can't be changed.`,
-        structure: `- Consists of <span class="theme">letters</span>、<span class="theme">numbers</span> 或 <span class="theme">underscores</span>.`,
-        start: `- Only <span class="theme">start with a letter</span>, for example: makeit.`,
-        length: `- Username length is <span class="theme">4-16</span> characters.`
+        special: '<span class="red">[Important Notice]</span> Username cannot be modified once set',
+        structure:
+            '- Contains <span class="theme">letters</span>, <span class="theme">numbers</span> or <span class="theme">underscores</span>',
+        start: '- Must <span class="theme">start with a letter</span> (e.g. makeit)',
+        length: '- Length: <span class="theme">4-16 characters</span>'
     },
-    login: `Go to Sign in`,
-    validate: `Go to Verification`,
-    socialite: `Others`,
-    unknown: `Unknown Error`,
-    verify: `Please click the button to verify`,
-    success: `Success`,
-    emailExpired: ` 10 minutes`,
-    successText: `Your email activation verification link has been sent to <a href="mailto:{email}">{email}</a> and will be valid for{expired}. If you have not received the activation email, it may have been classified as spam. Please check in "Spam" or "Advertisement Email".`
+    login: 'Login now',
+    validate: 'Verify now',
+    socialite: 'Quick login methods',
+    unknown: 'Unknown error',
+    verify: 'Click to verify CAPTCHA',
+    success: 'Registration successful',
+    emailExpired: '30 minutes',
+    successText:
+        'Activation link sent to <a href="mailto:{email}">{email}</a> (valid for {expired}). Check spam/ad folders if not received.'
 }

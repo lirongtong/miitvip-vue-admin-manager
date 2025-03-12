@@ -1,13 +1,13 @@
 export default {
-    name: `Search`,
-    searching: `Searching ···`,
-    placeholder: `Please enter keywords`,
-    components: `Search components`,
+    name: 'Search',
+    searching: 'Searching...',
+    placeholder: 'Enter keywords',
+    components: 'Search Components',
     failed: {
-        message: `Can't search without source data`,
-        code: 'Error code: ',
-        reason: 'Wrong reason: ',
-        error: `Unknowable error`
+        message: 'Failed to fetch source data, search unavailable',
+        code: 'Error Code:',
+        reason: 'Cause:',
+        error: 'Unexpected interface error occurred'
     },
     data: []
 }

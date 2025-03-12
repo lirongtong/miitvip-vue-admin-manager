@@ -1,8 +1,8 @@
 export default {
-    text: `Directory`,
-    close: `Close Anchor Link`,
+    text: 'Directory',
+    close: 'Close anchor links',
     sticky: {
-        yes: `Enable suspension`,
-        no: `Cancel suspension`
+        yes: 'Enable sticky positioning',
+        no: 'Disable sticky positioning'
     }
 }

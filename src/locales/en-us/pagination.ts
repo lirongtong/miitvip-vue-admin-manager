@@ -1,8 +1,8 @@
 export default {
-    prefix: 'No.',
-    prev: 'previous page',
-    next: 'next page',
-    unit: '',
-    strip: '',
-    total: 'Total:'
+    prefix: 'Page ',
+    prev: 'Previous',
+    next: 'Next',
+    unit: 'Page',
+    strip: 'Entries',
+    total: 'Total'
 }

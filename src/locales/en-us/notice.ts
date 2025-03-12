@@ -1,12 +1,12 @@
 export default {
-    title: `Message Center`,
-    wonderful: `Wonderful Day`,
-    fine: `Everything is find`,
+    title: 'Message Center',
+    wonderful: 'Have a nice day',
+    fine: 'All systems go',
     empty: {
-        bugs: `No Bugs`,
-        metting: `No Meetings`,
-        business: `No Business Needs`
+        bugs: 'No defects',
+        metting: 'No meetings',
+        business: 'No requirements'
     },
-    view: `View details`,
-    official: `Official`
+    view: 'View Details',
+    official: 'Official'
 }

@@ -1,104 +1,108 @@
 export default {
     'zh-cn': `Simplified Chinese`,
     'en-us': `English`,
-    management: `Language management`,
-    system: `System language`,
-    custom: `Customized language`,
-    customize: `Language management`,
-    module: `Module management`,
+    management: 'Language Management',
+    system: 'System Language Entries',
+    custom: 'Custom Language Entries',
+    customize: 'Language Configuration',
+    module: 'Module Management',
     modules: {
-        all: `All modules`,
-        name: `Module name`,
-        belong: `Belonging module`,
-        builtin: `Built-in module`,
-        customize: `Customized module`,
-        create: `Add new module`,
-        update: `Update module`
+        all: 'All Modules',
+        name: 'Module Name',
+        belong: 'Parent Module',
+        builtin: 'Built-in Modules',
+        customize: 'Custom Modules',
+        create: 'Add Module',
+        update: 'Edit Module'
     },
     tips: {
-        customize: `Customize the language item content of the configuration language, support overwriting the system built-in language items. `,
-        builtin: `The system built-in language item content does not support operations such as adding/modifying/deleting. `,
-        module: `Dividing language items by module can effectively reduce the coupling degree of keywords and simplify the input length. `,
-        management: `Built-in Chinese/English bilingual system, support Baidu translation of more than 20 languages ​​and synchronize keywords. `
+        customize:
+            'Customize language entries for specific locales. Supports overriding system-built entries.',
+        builtin: 'System-built language entries cannot be added, modified, or deleted.',
+        module: 'Organize entries by modules to reduce coupling and streamline management.',
+        management:
+            'Built-in Chinese/English support. Integrated with Baidu Translate API for 20+ language conversions with key synchronization.'
     },
     placeholder: {
-        search: `Please enter the keyword to be searched`,
-        select: `Please select the language`,
+        search: 'Enter keywords to search',
+        select: 'Select a locale',
         config: {
-            key: 'Please enter the keyword of the language item',
-            value: 'Please enter the language content corresponding to the keyword of the language item'
+            key: 'Enter entry key',
+            value: 'Enter localized content'
         },
         type: {
-            key: 'Please enter the keyword of the language',
-            value: 'Please enter the language display name corresponding to the language keyword'
+            key: 'Enter locale code (e.g. zh-cn)',
+            value: 'Enter locale display name (e.g. Simplified Chinese)'
         },
         language: {
-            active: `Please select the language`,
-            key: `Language encoding, such as the keyword for simplified Chinese is: zh-cn`,
-            display: `Language display name, such as: Simplified Chinese`
+            active: 'Select target locale',
+            key: 'Locale code (e.g. zh-cn)',
+            display: 'Locale display name (e.g. Simplified Chinese)'
         },
         module: {
-            key: `Please enter the module keyword`,
-            name: `Please enter the module name`
+            key: 'Enter module key',
+            name: 'Enter module name'
         }
     },
-    create: `Add a new language`,
-    update: `Update the language`,
-    current: `Current language`,
-    add: `Add a new language item`,
+    create: 'Add Locale',
+    update: 'Edit Locale',
+    current: 'Active Locale',
+    add: 'Add Entry',
     default: {
-        none: `No language set yet`,
-        set: `Set the default language`,
-        name: `Default language`,
-        tip: `The default language will be used as the data basis for the new language. The new language can choose whether to generate a set of configuration attributes with the same key value as the current language configuration of the default language. At the same time, the automatic translation function can be selected to call the language content supported by the Baidu Translate API for automatic translation. `,
-        setting: `Set as default language`
+        none: 'No default locale set',
+        set: 'Set Default Locale',
+        name: 'Default Locale',
+        tip: 'The default locale serves as the base configuration for new locales. New locales can inherit existing keys with optional auto-translation via Baidu Translate API.',
+        setting: 'Set as Default'
     },
-    key: `Language encoding`,
-    'key-tip': `<a>Keyword format:</a><br />1. Start with an English letter, support uppercase and lowercase English, numbers, decimal points and underscores. <br />2. The length is between 2 and 64 characters. `,
-    display: `Display name`,
+    key: 'Locale Code',
+    'key-tip':
+        '<a>Key requirements:</a><br />1. Start with letter, supports alphanumerics, periods and underscores.<br />2. Length between 2-64 characters.',
+    display: 'Display Name',
     translate: {
-        auto: `Whether to translate automatically`,
-        tip: `<a>Note: Supports custom translation function. </a><br />Baidu Translate API is called for automatic translation by default. Please pre-configure the KEY & APPID parameters applied by the Baidu Translate platform. `,
-        target: `Translation target language`,
-        explain: `<a>Note: All language items generated after synchronization are in "disabled" state by default. </a><br /> Based on the configuration content of the default language, automatically translate to the currently selected language. For example: the current default language is Simplified Chinese, and the selected target language is English, then all existing language configuration content in the Simplified Chinese language will be automatically translated to English. `
+        auto: 'Enable Auto-translation',
+        tip: '<a>Note: Custom translations supported.</a><br />Uses Baidu Translate API by default. Configure API KEY & APPID first.',
+        target: 'Target Language',
+        explain:
+            '<a>Note: Synced entries are disabled by default.</a><br />Translations use the default locale as source. Example: Chinese (default) → English translations.'
     },
     error: {
-        language: `Please enter the language display name`,
-        default: `Please select whether to use the default language option`,
-        none: `Please select the language first and then set it as default`,
-        repeated: `The current language is already the default, no need to set it again`,
-        reg: `The keyword format is incorrect, please re-enter`,
+        language: 'Enter locale display name',
+        default: 'Select default locale status',
+        none: 'Select a locale before setting as default',
+        repeated: 'This locale is already set as default',
+        reg: 'Invalid key format',
         key: {
-            exist: 'The keyword already exists, please re-enter',
-            again: 'The keyword is incorrect, please re-enter',
-            empty: `Please enter the language keyword`
+            exist: 'Key already exists',
+            again: 'Invalid key format',
+            empty: 'Enter locale code'
         },
-        config: `Unable to perform related actions, please configure the "{name}" parameter first`
+        config: 'Cannot proceed - configure {name} first'
     },
     content: {
-        create: `Add a new language configuration`,
-        update: `Update language configuration`,
-        key: `Keyword`,
-        content: `Language content`,
-        module: `Module`,
-        status: `Content status`,
-        none: `Does not belong to any module`,
+        create: 'Add Localization Entry',
+        update: 'Edit Localization Entry',
+        key: 'Key',
+        content: 'Content',
+        module: 'Parent Module',
+        status: 'Status',
+        none: 'No parent module',
         sync: {
-            label: `Synchronize Key value`,
-            select: `Select the synchronized language`,
-            tip: `Single-select attribute value description: <br /><a>0: No synchronization; 1: All; 2: Specified;</a><br /><a>The synchronization language item is disabled by default. </a><br />Add the currently added language item to all other languages ​​or specified languages ​​without translation. `,
-            all: `All`,
-            specify: `Specified`,
-            none: `No synchronization`
+            label: 'Sync Keys',
+            select: 'Select target locales',
+            tip: 'Sync options:<br /><a>0: Disabled; 1: All; 2: Specific;</a><br /><a>Synced entries start as disabled.</a><br />Propagate new entries to selected locales without translation.',
+            all: 'All Locales',
+            specify: 'Specific Locales',
+            none: 'Disabled'
         }
     },
     status: {
-        name: `Batch enable/disable`,
-        title: `Batch enable/disable language item status`
+        name: 'Batch Toggle Status',
+        title: 'Batch Update Entry Status'
     },
     delete: {
-        sync: `Synchronize and delete language items with the same key value in other languages`,
-        confirm: `Are you sure you want to delete the currently selected language item? `
+        sync: 'Delete matching keys in all locales',
+        confirm: 'Confirm deletion of selected entries?'
     },
     list: {
         zh: 'Simplified Chinese',
