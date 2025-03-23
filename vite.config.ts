@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -12,6 +13,29 @@ const resolve = (dir: string) => path.join(__dirname, dir)
 export default defineConfig({
     define: {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true'
+    },
+    test: {
+        globals: true,
+        environment: 'happy-dom',
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'html'],
+            thresholds: {
+                lines: 90,
+                functions: 75,
+                branches: 85
+            },
+            exclude: ['**/*.d.ts', '**/__mocks__/**']
+        },
+        include: ['**/*.{test,spec}.{js,ts,tsx}'],
+        exclude: [
+            '**/node_modules/**',
+            '**/dist/**',
+            '**/cypress/**',
+            '**/.{idea,git,cache,output,temp}/**',
+            '**/example/**'
+        ],
+        setupFiles: './vitest.setup.ts'
     },
     resolve: {
         alias: {
