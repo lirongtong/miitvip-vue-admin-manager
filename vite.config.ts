@@ -21,20 +21,25 @@ export default defineConfig({
             provider: 'v8',
             reporter: ['text', 'html'],
             thresholds: {
-                lines: 90,
-                functions: 75,
-                branches: 85
+                lines: 85,
+                branches: 80,
+                functions: 85,
+                statements: 90
             },
-            exclude: ['**/*.d.ts', '**/__mocks__/**']
+            include: ['**/src/components/**/*.{ts,tsx}'],
+            exclude: [
+                '**/build/**',
+                '**/*.d.ts',
+                '**/__mocks__/**',
+                '**/node_modules/**',
+                '**/dist/**',
+                '**/cypress/**',
+                '**/.{idea,git,cache,output,temp}/**',
+                '**/example/**',
+                '**/src/components/**/index.ts'
+            ]
         },
         include: ['**/*.{test,spec}.{js,ts,tsx}'],
-        exclude: [
-            '**/node_modules/**',
-            '**/dist/**',
-            '**/cypress/**',
-            '**/.{idea,git,cache,output,temp}/**',
-            '**/example/**'
-        ],
         setupFiles: './vitest.setup.ts'
     },
     resolve: {

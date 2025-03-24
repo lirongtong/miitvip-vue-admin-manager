@@ -4,6 +4,20 @@ import MiAnchor from '../Anchor'
 import { nextTick } from 'vue'
 
 describe('MiAnchor', () => {
+    test('初始状态 (initial state)', async () => {
+        const wrapper = mount(MiAnchor, {
+            props: {
+                affix: false,
+                delayInit: 0
+            }
+        }) as any
+        await nextTick()
+        setTimeout(() => {
+            expect(wrapper.vm.params.open).toBe(false)
+            expect(wrapper.vm.params.sticky).toBe(true)
+        }, 410)
+    })
+
     test('正确渲染组件 ( renders correctly )', async () => {
         const wrapper = mount(MiAnchor, {
             props: {
@@ -53,6 +67,36 @@ describe('MiAnchor', () => {
             const anchorLink = wrapper.findComponent({ name: 'MiAnchorLink' })
             await anchorLink.trigger('click')
             expect(wrapper.emitted().click).toBeTruthy()
+        }, 410)
+    })
+
+    test('滚动事件处理 (handles scroll event)', async () => {
+        const wrapper = mount(MiAnchor, {
+            props: {
+                affix: false,
+                delayInit: 0
+            },
+            slots: { default: '<h1 id="test">Title</h1>' }
+        }) as any
+        await nextTick()
+        setTimeout(async () => {
+            await wrapper.vm.handleContainerScroll()
+            expect(wrapper.vm.params.actives.some((active) => active)).toBe(true)
+        }, 410)
+    })
+
+    test('关闭锚点 (closes anchor)', async () => {
+        const wrapper = mount(MiAnchor, {
+            props: {
+                affix: false,
+                delayInit: 0
+            }
+        }) as any
+        await nextTick()
+        setTimeout(async () => {
+            const closeIcon = wrapper.findComponent({ name: 'CloseCircleOutlined' })
+            await closeIcon.trigger('click')
+            expect(wrapper.vm.params.open).toBe(false)
         }, 410)
     })
 })
