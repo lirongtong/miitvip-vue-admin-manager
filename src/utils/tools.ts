@@ -999,7 +999,7 @@ class MiTools {
         let lang = 'zh-cn'
         if (typeof window !== 'undefined') {
             lang = (
-                navigator ? navigator.language ?? (navigator as any).browerLanguage : 'zh-cn'
+                navigator ? (navigator.language ?? (navigator as any).browerLanguage) : 'zh-cn'
             ).toLowerCase()
         }
         return lang

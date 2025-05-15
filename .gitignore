@@ -28,3 +28,4 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
+coverage

@@ -1,8 +1,10 @@
 {
+    "$schema": "./tsconfig.schema.json",
     "compilerOptions": {
         "target": "ES2020",
         "useDefineForClassFields": true,
         "module": "ESNext",
+        "sourceMap": true,
         "lib": ["ESNext", "ES2020", "DOM", "DOM.Iterable"],
         "skipLibCheck": true,
         "strictNullChecks": false,
@@ -32,9 +34,25 @@
         "paths": {
             "@/*": ["example/*"],
             "@miitvip/admin-pro": ["src/index.ts"]
-        }
+        },
+        "types": [
+            "vitest/globals",
+            "@testing-library/jest-dom",
+            "@types/node"
+        ]
     },
     "files": ["src/typings.d.ts"],
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-    "exclude": ["node_modules", "dist", "lib", "es", "build", "example"]
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "lib",
+        "es",
+        "build",
+        "example"
+    ]
 }

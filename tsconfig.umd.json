@@ -1,4 +1,5 @@
 {
+    "$schema": "./tsconfig.schema.json",
     "compilerOptions": {
         "target": "ES2020",
         "useDefineForClassFields": true,
@@ -29,8 +30,24 @@
         "paths": {
             "@/*": ["example/*"],
             "@miitvip/admin-pro": ["src/index.ts"]
-        }
+        },
+        "types": [
+            "vitest/globals",
+            "@testing-library/jest-dom",
+            "@types/node"
+        ]
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-    "exclude": ["node_modules", "dist", "lib", "es", "build", "example"]
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "lib",
+        "es",
+        "build",
+        "example"
+    ]
 }
