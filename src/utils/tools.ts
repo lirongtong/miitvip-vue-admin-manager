@@ -16,11 +16,12 @@ class MiTools {
      * @param content
      */
     createMeta(name: string, content: string): void {
-        const head = document.getElementsByTagName('head')
-        const meta = document.createElement('meta')
-        meta.name = name.trim()
-        meta.content = content.trim()
-        if (head) head[0].appendChild(meta)
+        if (document.head) {
+            const meta = document.createElement('meta')
+            meta.name = name.trim()
+            meta.content = content.trim()
+            document.head.appendChild(meta)
+        }
     }
 
     /**
@@ -163,16 +164,13 @@ class MiTools {
      * @returns
      */
     getUrlParamsByObj(query?: {}) {
-        let res: string = ''
-        if (query && Object.keys(query || {}).length > 0) {
-            const values: string[] = []
-            for (const i in query) {
-                const val = `${i}=${query[i]}`
-                values.push(val)
-            }
-            if (values.length > 0) res = encodeURIComponent(values.join('&'))
-        }
-        return res
+        return query
+            ? encodeURIComponent(
+                  Object.entries(query)
+                      .map(([k, v]) => `${k}=${v}`)
+                      .join('&')
+              )
+            : ''
     }
 
     /**
@@ -213,22 +211,11 @@ class MiTools {
      */
     isMobile(): boolean {
         const ua = navigator.userAgent
-        const agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod']
-        const isSafari = ua.indexOf('Safari') !== -1 && ua.indexOf('Version') !== -1
-        const isIPhone = ua.indexOf('iPhone') !== -1 && ua.indexOf('Version') !== -1
-        const isIPad = isSafari && !isIPhone && 'ontouchend' in document
-        let mobile = false
-        if (isIPad) {
-            mobile = true
-        } else {
-            for (let i = 0, len = agents.length; i < len; i++) {
-                if (ua.indexOf(agents[i]) > 0) {
-                    mobile = true
-                    break
-                }
-            }
-        }
-        return mobile
+        const agents = ['Android', 'iPhone', 'iPad', 'iPod']
+        return (
+            agents.some((agent) => ua.includes(agent)) ||
+            (ua.includes('Macintosh') && 'ontouchend' in document)
+        )
     }
 
     /**
@@ -257,52 +244,17 @@ class MiTools {
      * @returns
      */
     formatDateNow(formatter: string = 'Y-M-D H:m:s'): string {
-        const formatters = formatter.split(' ') || []
-        const delimiter = { day: '', time: '' }
-        const singleFormatter = { day: [], time: [] }
-        for (let i = 0, l = formatters.length; i < l; i++) {
-            if (i > 1) break
-            const cur = formatters[i]
-            const delimiters = cur
-                .replace(/[a-zA-Z]+/g, '')
-                .trim()
-                .split('')
-            if (i === 0) {
-                delimiter.day = delimiters[0] || '-'
-                singleFormatter.day.push(...(cur.split(delimiter.day) || []))
-            }
-            if (i === 1) {
-                delimiter.time = delimiters[0] || ':'
-                singleFormatter.time.push(...(cur.split(delimiter.time) || []))
-            }
-        }
         const date = new Date()
-        const y = date.getFullYear()
-        const m = date.getMonth() + 1
-        const month = m > 9 ? m.toString() : `0` + m
-        const d = date.getDate()
-        const day = d > 9 ? d.toString() : `0` + d
-        const h = date.getHours()
-        const hour = h > 9 ? h.toString() : `0` + h
-        const mm = date.getMinutes()
-        const minute = mm > 9 ? mm.toString() : `0` + mm
-        const s = date.getSeconds()
-        const second = s > 9 ? s.toString() : `0` + s
-        let str = singleFormatter.day.includes('Y') ? y.toString() : ''
-        str += str ? (singleFormatter.day.includes('M') ? `${delimiter.day}${month}` : '') : month
-        str += str ? (singleFormatter.day.includes('D') ? `${delimiter.day}${day}` : '') : day
-        str += str ? (singleFormatter.time.includes('H') ? ` ${hour}` : '') : hour
-        str += str
-            ? singleFormatter.time.includes('m')
-                ? `${delimiter.time}${minute}`
-                : ''
-            : minute
-        str += str
-            ? singleFormatter.time.includes('s')
-                ? `${delimiter.time}${second}`
-                : ''
-            : second
-        return str
+        const pad = (n: number) => n.toString().padStart(2, '0')
+        const replacements: Record<string, string> = {
+            Y: date.getFullYear().toString(),
+            M: pad(date.getMonth() + 1),
+            D: pad(date.getDate()),
+            H: pad(date.getHours()),
+            m: pad(date.getMinutes()),
+            s: pad(date.getSeconds())
+        }
+        return formatter.replace(/[YMDHms]/g, (match) => replacements[match])
     }
 
     /**
@@ -478,21 +430,18 @@ class MiTools {
      * @returns
      */
     hex2rgbValues(color: string): number[] {
-        const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
-        if (reg.test(color)) {
-            if (color.length === 4) {
-                let newColor = '#'
-                for (let i = 1; i < 4; i++) {
-                    newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
-                }
-                color = newColor
-            }
-            const changeColor: number[] = []
-            for (let i = 1; i < 7; i += 2) {
-                changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
-            }
-            return changeColor
-        } else return []
+        const hex = color.replace(/^#/, '')
+        const len = hex.length
+        if (len !== 3 && len !== 6) return []
+        const expand =
+            len === 3
+                ? hex
+                      .split('')
+                      .map((c) => c + c)
+                      .join('')
+                : hex
+
+        return expand.match(/[a-f\d]{2}/gi)!.map((v) => parseInt(v, 16))
     }
 
     /**
@@ -550,7 +499,7 @@ class MiTools {
         listener: (this: HTMLElement, evt: HTMLElementEventMap[keyof HTMLElementEventMap]) => any,
         useCapture?: false
     ) {
-        if (!!document.addEventListener) {
+        if (document.addEventListener) {
             if (el && event && listener) el.addEventListener(event, listener, useCapture)
         } else {
             if (el && event && listener) (el as any).attachEvent(`on${event}`, listener)
@@ -570,7 +519,7 @@ class MiTools {
         listener: (this: HTMLElement, evt: HTMLElementEventMap[keyof HTMLElementEventMap]) => any,
         useCapture?: false
     ) {
-        if (!!document.addEventListener) {
+        if (document.addEventListener) {
             if (el && event && listener) el.removeEventListener(event, listener, useCapture)
         } else {
             if (el && event && listener) (el as any).detachEvent(`on${event}`, listener)
@@ -624,7 +573,7 @@ class MiTools {
         try {
             const themes = themeFromSourceColor(argbFromHex(primary || '#FFD464'))
             this.setThemeSchemeProperties(themes.schemes[$g?.theme?.type || 'dark'], target)
-        } catch (err) {
+        } catch {
             throw new Error('The `theme` variable only supports HEX (e.g. `#FFFFFF`).')
         }
     }
@@ -769,32 +718,16 @@ class MiTools {
      * @see Breakpoints
      */
     distinguishSize(value?: string | number | DeviceSize, dynamicWidth?: number) {
-        if (typeof value !== 'undefined') {
-            if (typeof value === 'string' || typeof value === 'number') {
-                return value
-            } else {
-                const width = dynamicWidth ?? ($g?.winSize?.width || 0)
-                if (!width) return null
-                const values = Object.values(value)
-                const breakpoints = {
-                    md: $g?.breakpoints?.md || 768,
-                    lg: $g?.breakpoints?.lg || 992
-                }
-                if (values.length > 0) {
-                    if (width < breakpoints.md)
-                        return typeof value?.mobile !== 'undefined' ? value?.mobile : values[0]
-                    if (width >= breakpoints.lg)
-                        return typeof value?.laptop !== 'undefined'
-                            ? value?.laptop
-                            : typeof value?.tablet !== 'undefined'
-                              ? value?.tablet
-                              : values[0]
-                    if (width >= breakpoints.md && width < breakpoints.lg)
-                        return typeof value?.tablet !== 'undefined' ? value?.tablet : values[0]
-                } else return null
-            }
-        }
-        return null
+        if (value === undefined) return null
+        if (typeof value !== 'object') return value
+        const width = dynamicWidth ?? ($g?.winSize?.width || 0)
+        if (!width) return null
+        const { md = 768, lg = 992 } = $g?.breakpoints ?? {}
+        return width < md
+            ? value.mobile ?? Object.values(value)[0]
+            : width < lg
+              ? value.tablet ?? Object.values(value)[0]
+              : value.laptop ?? value.tablet ?? Object.values(value)[0]
     }
 
     /**
@@ -999,7 +932,7 @@ class MiTools {
         let lang = 'zh-cn'
         if (typeof window !== 'undefined') {
             lang = (
-                navigator ? (navigator.language ?? (navigator as any).browerLanguage) : 'zh-cn'
+                navigator ? navigator.language ?? (navigator as any).browerLanguage : 'zh-cn'
             ).toLowerCase()
         }
         return lang
@@ -1026,29 +959,28 @@ class MiTools {
      * @returns
      */
     convert2RomanNumber(num: number) {
-        const reg = {
-            M: 1000,
-            CM: 900,
-            D: 500,
-            CD: 400,
-            C: 100,
-            XC: 90,
-            L: 50,
-            XL: 40,
-            X: 10,
-            IX: 9,
-            V: 5,
-            IV: 4,
-            I: 1
-        }
-        let str = ''
-        for (const i in reg) {
-            while (num >= reg?.[i]) {
-                str += i
-                num -= reg?.[i]
+        const map: [string, number][] = [
+            ['M', 1000],
+            ['CM', 900],
+            ['D', 500],
+            ['CD', 400],
+            ['C', 100],
+            ['XC', 90],
+            ['L', 50],
+            ['XL', 40],
+            ['X', 10],
+            ['IX', 9],
+            ['V', 5],
+            ['IV', 4],
+            ['I', 1]
+        ]
+        return map.reduce((acc, [symbol, value]) => {
+            while (num >= value) {
+                acc += symbol
+                num -= value
             }
-        }
-        return str
+            return acc
+        }, '')
     }
 
     /**
@@ -1057,27 +989,27 @@ class MiTools {
      * @returns
      */
     getTextSetting(text?: string | TextSetting) {
-        const config = { style: {} } as any
-        if (text) config.text = typeof text === 'string' ? text : text?.text
-        if (text && typeof text === 'object') {
-            config.style.fontWeight = text?.bold ? 'bold' : 'normal'
-            if (text?.align) {
-                config.style.justifyContent =
-                    text?.align === 'center'
-                        ? 'center'
-                        : text?.align === 'right'
-                          ? 'flex-end'
-                          : 'flex-start'
-            }
-            if (text?.color) config.style.color = text?.color
-            if (text?.align) config.style.textAlign = text?.align
-            if (text?.margin) Object.assign(config.style, { ...this.getSpacingStyle(text?.margin) })
-            if (text?.size)
-                config.style.fontSize = this.convert2rem(this.distinguishSize(text?.size))
-            if (text?.lineHeight)
-                config.style.lineHeight = this.convert2rem(this.distinguishSize(text?.lineHeight))
+        if (!text) return { style: {} }
+        const result: any = {
+            text: typeof text === 'string' ? text : text.text,
+            style: {}
         }
-        return config
+        if (typeof text === 'object') {
+            const { bold, align, color, margin, size, lineHeight } = text
+            result.style = {
+                fontWeight: bold ? 'bold' : 'normal',
+                justifyContent:
+                    align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start',
+                color,
+                textAlign: align,
+                ...this.getSpacingStyle(margin),
+                fontSize: size ? this.convert2rem(this.distinguishSize(size)) : undefined,
+                lineHeight: lineHeight
+                    ? this.convert2rem(this.distinguishSize(lineHeight))
+                    : undefined
+            }
+        }
+        return result
     }
 
     /**
@@ -1085,23 +1017,22 @@ class MiTools {
      * @param opts
      * @returns
      */
-    deepAssign(...opts: any) {
-        let res = {}
-        const combine = (opt: any) => {
-            for (let prop in opt) {
-                if (opt.hasOwnProperty(prop)) {
-                    if (Object.prototype.toString.call(opt[prop]) === '[object Object]') {
-                        res[prop] = this.deepAssign(res[prop], opt[prop])
+    deepAssign(target: any, ...sources: any[]) {
+        sources.forEach((source) => {
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    if (typeof source[key] === 'object' && source[key] !== null) {
+                        target[key] = this.deepAssign(
+                            target[key] || (Array.isArray(source[key]) ? [] : {}),
+                            source[key]
+                        )
                     } else {
-                        res[prop] = opt[prop]
+                        target[key] = source[key]
                     }
                 }
             }
-        }
-        for (let i = 0; i < opts?.length; i++) {
-            combine(opts?.[i])
-        }
-        return res
+        })
+        return target
     }
 
     /**
