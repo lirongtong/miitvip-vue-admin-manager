@@ -187,13 +187,13 @@ const MiNotice = defineComponent({
             const name = isStrTab
                 ? tab
                 : isVNode(tab)
-                  ? getSlotContent(tab, 'name') ?? defaultName
-                  : tab?.tab ?? defaultName
+                  ? (getSlotContent(tab, 'name') ?? defaultName)
+                  : (tab?.tab ?? defaultName)
             const icon = isStrTab
                 ? defaultIcon
                 : isVNode(tab)
-                  ? getSlotContent(tab, 'icon') ?? defaultIcon
-                  : tab?.icon ?? defaultIcon
+                  ? (getSlotContent(tab, 'icon') ?? defaultIcon)
+                  : (tab?.icon ?? defaultIcon)
             return (
                 <Row
                     id={$tools.uid()}
@@ -316,7 +316,7 @@ const MiNotice = defineComponent({
             let tabSlots: any[] = []
             for (let i = 0, l = tabs.length; i < l; i++) {
                 const tab = tabs[i]
-                const key = isVNode(tab) ? tab?.props?.tab ?? i : i
+                const key = isVNode(tab) ? (tab?.props?.tab ?? i) : i
                 if (key === active.value) {
                     tabSlots = renderTabItems(tab)
                     break
@@ -346,7 +346,7 @@ const MiNotice = defineComponent({
                 // 参数配置 tabs ( 快速生成 )
                 allSlots = props.tabs
                 ;(props.tabs || []).forEach((tab: any, idx: number) => {
-                    const key = typeof tab === 'string' ? idx : tab?.tab ?? idx
+                    const key = typeof tab === 'string' ? idx : (tab?.tab ?? idx)
                     if (key === props.tabDefaultActive) {
                         defaultActive.value = key
                         active.value = idx

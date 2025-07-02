@@ -63,14 +63,14 @@ const MiNoticeItem = defineComponent({
                     <span innerHTML={props.tag}></span>
                 </Tag>
             ) : (
-                getPropSlot(slots, props, 'tag') ?? (
+                (getPropSlot(slots, props, 'tag') ?? (
                     <Tag
                         class={props.tagColor ? '' : styled.tag}
                         color={props.tagColor}
                         icon={props.tagIcon}>
                         <span innerHTML={t('notice.official')}></span>
                     </Tag>
-                )
+                ))
             )
         }
 

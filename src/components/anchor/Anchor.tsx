@@ -6,7 +6,8 @@ import {
     ref,
     Transition,
     watch,
-    onBeforeUnmount
+    onBeforeUnmount,
+    computed
 } from 'vue'
 import { AnchorProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -17,6 +18,7 @@ import type { AnchorLinkItem, AnchorListItem } from '../../utils/types'
 import MiAnchorLink from './Link'
 import applyTheme from '../_utils/theme'
 import styled from './style/anchor.module.less'
+import { throttle } from 'lodash'
 
 const MiAnchor = defineComponent({
     name: 'MiAnchor',
@@ -45,7 +47,16 @@ const MiAnchor = defineComponent({
                 timer: null
             }
         })
+        const activeIndex = computed(() => {
+            const top = params.container?.scrollTop + props.scrollOffset
+            return params.list.findIndex((item, idx) => {
+                const next = params.list[idx + 1]
+                return !next ? item.offset <= top : item.offset <= top && next.offset > top
+            })
+        })
         applyTheme(styled)
+
+        const onWindowClick = (evt: Event) => handleMaskClose(evt)
 
         const init = async () => {
             let container: HTMLElement | Document = params.container || document
@@ -65,28 +76,22 @@ const MiAnchor = defineComponent({
             params.open = params.affix
             params.sticky = !params.affix
             $tools.on(params.container, 'scroll', handleContainerScroll)
-            $tools.on(window, 'click', (evt) => handleMaskClose(evt))
+            $tools.on(window, 'click', onWindowClick)
         }
 
         const parseAnchorData = (nodes: NodeListOf<HTMLElement>) => {
-            const data: any[] = []
-            ;(nodes || []).forEach((node: HTMLElement) => {
-                const setAttr = (item: HTMLElement) => {
-                    let id = $tools.uid()
-                    if (!item.id) item.setAttribute('id', id)
-                    else id = item.id
-                    const offset = $tools.getElementActualOffsetTopOrLeft(node) || 0
-                    data.push({
-                        id,
-                        offset,
-                        title: item.innerText
-                    })
+            const data: AnchorListItem[] = []
+            for (const node of nodes) {
+                const id = node.id || $tools.uid()
+                node.id ||= id
+                const offset = $tools.getElementActualOffsetTopOrLeft(node) || 0
+                const title = node.innerText || node.textContent || 'Untitled'
+
+                if (!props.requireAttr || node[props.requireAttr]) {
+                    data.push({ id, offset, title })
                     params.actives.push(false)
                 }
-                if (props.requireAttr) {
-                    if (node[props.requireAttr]) setAttr(node)
-                } else setAttr(node)
-            })
+            }
             return data
         }
 
@@ -157,6 +162,8 @@ const MiAnchor = defineComponent({
             }
         }
 
+        const handleContainerScrollThrottled = throttle(handleContainerScroll, 100)
+
         const handleAnchorLink = (data: AnchorLinkItem, evt?: Event) => {
             const elem = document.getElementById(data.id)
             if (elem) {
@@ -179,20 +186,16 @@ const MiAnchor = defineComponent({
         }
 
         const renderAnchorList = () => {
-            const links: any[] = []
-            ;(params.list || []).forEach((link: AnchorListItem, idx: number) => {
-                links.push(
-                    <MiAnchorLink
-                        id={link.id}
-                        title={link.title}
-                        active={params.actives[idx]}
-                        reserveOffset={props.reserveOffset}
-                        listenerContainer={params.container}
-                        onClick={handleAnchorLink}
-                    />
-                )
-            })
-            return links
+            return params.list.map((link: AnchorListItem, idx: number) => (
+                <MiAnchorLink
+                    id={link.id}
+                    title={link.title}
+                    active={activeIndex.value === idx}
+                    reserveOffset={props.reserveOffset}
+                    listenerContainer={params.container}
+                    onClick={handleAnchorLink}
+                />
+            ))
         }
 
         watch(
@@ -200,7 +203,7 @@ const MiAnchor = defineComponent({
             (container: HTMLElement) => {
                 $tools.off(params.container, 'scroll', handleContainerScroll)
                 params.container = container ?? (document.body || document.documentElement)
-                $tools.on(params.container, 'scroll', handleContainerScroll)
+                $tools.on(params.container, 'scroll', handleContainerScrollThrottled)
             },
             { immediate: true, deep: true }
         )
@@ -215,7 +218,7 @@ const MiAnchor = defineComponent({
 
         onBeforeUnmount(() => {
             $tools.off(params.container, 'scroll', handleContainerScroll)
-            $tools.off(window, 'click', (evt) => handleMaskClose(evt))
+            $tools.off(window, 'click', onWindowClick)
         })
 
         return () =>

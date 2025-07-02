@@ -148,9 +148,9 @@ const MiLayoutHeader = defineComponent({
                 <div class={styled.inner}>
                     <div class={styled.left}>
                         {width.value > $g.breakpoints.sm ? (
-                            getPropSlot(slots, props, 'breadcrumb') ?? (
+                            (getPropSlot(slots, props, 'breadcrumb') ?? (
                                 <MiBreadcrumb {...props.breadcrumbSetting} />
-                            )
+                            ))
                         ) : (
                             <div class={styled.drawer}>
                                 <MiDrawerMenu open={menuOpen.value} />
@@ -160,14 +160,14 @@ const MiLayoutHeader = defineComponent({
                     <div class={styled.right}>
                         {getPropSlot(slots, props, 'extra')}
                         {width.value > $g.breakpoints.sm
-                            ? getPropSlot(slots, props, 'search') ?? (
+                            ? (getPropSlot(slots, props, 'search') ?? (
                                   <MiSearch
                                       searchKey={searchKey.value}
                                       data={searchData.value}
                                       onItemClick={handleSearchListItemClick}
                                       {...props.searchSetting}
                                   />
-                              )
+                              ))
                             : null}
                         <div class={styled.palette}>
                             {getPropSlot(slots, props, 'palette') ?? (

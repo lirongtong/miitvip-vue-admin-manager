@@ -724,10 +724,10 @@ class MiTools {
         if (!width) return null
         const { md = 768, lg = 992 } = $g?.breakpoints ?? {}
         return width < md
-            ? value.mobile ?? Object.values(value)[0]
+            ? (value.mobile ?? Object.values(value)[0])
             : width < lg
-              ? value.tablet ?? Object.values(value)[0]
-              : value.laptop ?? value.tablet ?? Object.values(value)[0]
+              ? (value.tablet ?? Object.values(value)[0])
+              : (value.laptop ?? value.tablet ?? Object.values(value)[0])
     }
 
     /**
@@ -932,7 +932,7 @@ class MiTools {
         let lang = 'zh-cn'
         if (typeof window !== 'undefined') {
             lang = (
-                navigator ? navigator.language ?? (navigator as any).browerLanguage : 'zh-cn'
+                navigator ? (navigator.language ?? (navigator as any).browerLanguage) : 'zh-cn'
             ).toLowerCase()
         }
         return lang

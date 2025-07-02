@@ -53,9 +53,9 @@ const MiLayout = defineComponent({
                 <Fragment>
                     <Transition name={anim} appear={true}>
                         {width.value > $g.breakpoints.sm
-                            ? getPropSlot(slots, props, 'sider') ?? (
+                            ? (getPropSlot(slots, props, 'sider') ?? (
                                   <MiLayoutSider {...props.siderSetting} />
-                              )
+                              ))
                             : null}
                     </Transition>
                     <section

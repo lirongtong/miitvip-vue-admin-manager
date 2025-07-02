@@ -109,7 +109,7 @@ const getSlot = (instance: any, name = 'default', options = {}) => {
         if (instance.type === Fragment) {
             return name === 'default' ? flattenChildren(instance?.children as any[]) : []
         } else if (instance?.children && instance.children[name]) {
-            return flattenChildren((instance?.children as any[])[name](options))
+            return flattenChildren((instance.children as any[])[name](options))
         } else {
             return []
         }
@@ -135,8 +135,8 @@ const getSlotContent = (instance: any, prop = 'default', options = instance, exe
             return typeof temp === 'function' && exec ? temp(options) : temp
         } else if (instance.type === Fragment) {
             content = instance?.children
-        } else if (instance?.children && (instance?.children as any[])[prop]) {
-            content = (instance?.children as any[])[prop] as any
+        } else if (instance?.children && (instance.children as any[])[prop]) {
+            content = (instance.children as any[])[prop] as any
             content = content && exec ? content(options) : content
         }
     }
