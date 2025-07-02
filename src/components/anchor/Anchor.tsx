@@ -41,7 +41,7 @@ const MiAnchor = defineComponent({
             actives: [] as boolean[],
             anim: getPrefixCls('anim-anchor'),
             affix: props.affix ?? false,
-            container: props.listenerContainer ?? document.body,
+            container: null,
             manual: {
                 status: false,
                 timer: null
@@ -210,6 +210,7 @@ const MiAnchor = defineComponent({
 
         onMounted(async () => {
             await nextTick()
+            params.container = props.listenerContainer ?? document.body
             setTimeout(() => {
                 parseAnchorText()
                 init()

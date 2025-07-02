@@ -1,5 +1,4 @@
 import {
-    ref,
     SlotsType,
     Transition,
     computed,
@@ -34,7 +33,7 @@ const MiBacktop = defineComponent({
             key: $tools.uid(),
             anim: getPrefixCls('anim-scale'),
             tip: props.tip || t('global.backtop'),
-            container: ref<HTMLElement | null>(null)
+            container: null
         })
         applyTheme(styled)
 
