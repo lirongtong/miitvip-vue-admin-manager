@@ -1,4 +1,5 @@
 import {
+    ref,
     SlotsType,
     Transition,
     computed,
@@ -33,7 +34,7 @@ const MiBacktop = defineComponent({
             key: $tools.uid(),
             anim: getPrefixCls('anim-scale'),
             tip: props.tip || t('global.backtop'),
-            container: props.listenerContainer ?? document.body
+            container: ref<HTMLElement | null>(null)
         })
         applyTheme(styled)
 
@@ -68,7 +69,10 @@ const MiBacktop = defineComponent({
 
         const onScroll = () => handleContainerScroll(params.container)
 
-        onMounted(() => $tools.on(params.container, 'scroll', onScroll))
+        onMounted(() => {
+            params.container = props.listenerContainer ?? document.body
+            $tools.on(params.container, 'scroll', onScroll)
+        })
         onBeforeUnmount(() =>
             handleBacktop(0, () => $tools.off(params.container, 'scroll', onScroll))
         )
@@ -76,9 +80,9 @@ const MiBacktop = defineComponent({
         watch(
             () => props.listenerContainer,
             (container: HTMLElement) => {
-                $tools.off(params.container, 'scroll', onScroll)
+                if (params.container) $tools.off(params.container, 'scroll', onScroll)
                 params.container = container ?? document.body
-                $tools.on(params.container, 'scroll', onScroll)
+                if (params.container) $tools.on(params.container, 'scroll', onScroll)
             },
             { immediate: true, deep: true }
         )
