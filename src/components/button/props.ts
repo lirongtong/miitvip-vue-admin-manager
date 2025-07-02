@@ -54,7 +54,7 @@ export const ButtonProps = () => ({
     text: PropTypes.oneOfType([PropTypes.string, object<TextSetting>()]),
     link: PropTypes.string,
     query: PropTypes.object.def({}),
-    target: PropTypes.oneOf(tuple(...['_blank', '_self'])).def('_self'),
+    target: PropTypes.oneOf(tuple('_blank', '_self')).def('_self'),
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]),
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string, object<DeviceSize>()]),
     circle: PropTypes.bool.def(true),
