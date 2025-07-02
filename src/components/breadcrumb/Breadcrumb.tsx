@@ -1,8 +1,7 @@
 import { Transition, defineComponent, createVNode, watch } from 'vue'
 import { BreadcrumbProps } from './props'
 import { getPrefixCls } from '../_utils/props'
-import { useRoute } from 'vue-router'
-import { $tools } from '../../utils/tools'
+import { useRoute, type RouteRecordNormalized } from 'vue-router'
 import { useBreadcrumbsStore } from '../../stores/breadcrumbs'
 import { HomeOutlined } from '@ant-design/icons-vue'
 import MiLink from '../link/Link'
@@ -15,81 +14,49 @@ const MiBreadcrumb = defineComponent({
     props: BreadcrumbProps(),
     setup(props) {
         const route = useRoute()
-        const useBreadcrumbs = useBreadcrumbsStore()
+        const breadcrumbsStore = useBreadcrumbsStore()
         applyTheme(styled)
 
         const getBreadcrumbs = () => {
-            const matched = route.matched
-            const breadcrumbs: any[] = []
-            const icon = createVNode(HomeOutlined)
-            if (matched.length <= 1) {
-                breadcrumbs.push({
-                    title: matched[0]?.meta?.title ?? matched[0].name,
-                    icon
-                })
-            } else {
-                matched.forEach((match, idx) => {
-                    const title = match?.meta?.title ?? match.name
-                    if (idx === matched.length - 1) {
-                        /** current */
-                        if (!title) {
-                            const last = breadcrumbs.pop()
-                            if (last) breadcrumbs.push({ title: last.title })
-                        } else breadcrumbs.push({ title })
-                    } else {
-                        if (idx === 0) {
-                            /** home */
-                            breadcrumbs.push({
-                                title,
-                                icon,
-                                path: '/'
-                            })
-                        } else {
-                            /** other */
-                            if (title) {
-                                let path = (match.redirect ?? match.path ?? '/') as string
-                                if (path.substring(0, 1) !== '/') path = `/${path}`
-                                breadcrumbs.push({
-                                    title,
-                                    path
-                                })
-                            }
-                        }
-                    }
-                })
-            }
-            useBreadcrumbs.$patch({ breadcrumbs })
+            const breadcrumbs: any[] = route.matched.map((match, idx) =>
+                resolveMatchedRoute(match, idx)
+            )
+            breadcrumbsStore.$patch({ breadcrumbs })
         }
 
-        const renderBreadcrumbItems = (): any[] => {
-            const items: any[] = []
-            const breadcrumbs = (useBreadcrumbs.breadcrumbs || []) as any[]
-            breadcrumbs.forEach((breadcrumb: any) => {
-                const link = (
-                    <MiLink path={breadcrumb?.path} key={breadcrumb?.title ?? breadcrumb.name}>
-                        {breadcrumb.icon ?? null}
-                        {breadcrumb?.title}
-                    </MiLink>
-                )
-                items.push(
-                    <span class={styled.item}>
-                        <span class={styled.link}>{link}</span>
-                        <span class={styled.separator}>{props.separator}</span>
-                    </span>
-                )
-            })
-            return items
+        const resolveMatchedRoute = (match: RouteRecordNormalized, idx: number): any => {
+            const title = match.meta?.title ?? match.name
+            let path = match.redirect ?? match.path ?? '/'
+            if (typeof path === 'string' && !path.startsWith('/')) path = '/' + path
+            return {
+                title,
+                icon: idx === 0 ? createVNode(HomeOutlined) : undefined,
+                path: idx === route.matched.length - 1 ? undefined : path
+            }
         }
+
+        const renderBreadcrumbItems = (): any[] =>
+            breadcrumbsStore.breadcrumbs.map((breadcrumb: any) => (
+                <span class={styled.item} key={breadcrumb.title}>
+                    <span class={styled.link}>
+                        <MiLink path={breadcrumb?.path}>
+                            {breadcrumb.icon ?? null}
+                            {breadcrumb.title}
+                        </MiLink>
+                    </span>
+                    <span class={styled.separator}>{props.separator}</span>
+                </span>
+            ))
 
         watch(
-            () => route,
+            () => route.fullPath,
             () => getBreadcrumbs(),
             { immediate: true, deep: true }
         )
 
         return () => (
             <Transition name={getPrefixCls(`anim-${props.animation}`)} appear={true}>
-                <div class={styled.container} key={route.name ?? $tools.uid()}>
+                <div class={styled.container} key={`breadcrumb-${route.fullPath}`}>
                     {...renderBreadcrumbItems()}
                 </div>
             </Transition>
