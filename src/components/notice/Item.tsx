@@ -5,6 +5,7 @@ import { __LOGO__ } from '../../utils/images'
 import { Row, Tag, Flex } from 'ant-design-vue'
 import { ArrowLeftOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
+import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
 import applyTheme from '../_utils/theme'
 import styled from './style/item.module.less'
@@ -43,7 +44,7 @@ const MiNoticeItem = defineComponent({
             return (
                 getPropSlot(slots, props, 'avatar') ?? (
                     <div class={styled.avatar}>
-                        <img src={__LOGO__} />
+                        <img src={__LOGO__} alt={$g.powered} />
                     </div>
                 )
             )

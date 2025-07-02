@@ -200,7 +200,7 @@ const MiSearch = defineComponent({
         }
 
         const handlePaginationInput = (evt: Event) => {
-            const value = parseInt((evt?.target as HTMLInputElement).value)
+            const value = parseInt((evt.target as HTMLInputElement).value)
             if (value) params.page.active = value
             else params.page.active = 1
             if (value > params.page.total) params.page.active = params.page.total
@@ -290,7 +290,7 @@ const MiSearch = defineComponent({
             ;(templates || []).forEach((template: VNode) => {
                 if (isVNode(template)) {
                     let elem = cloneVNode(template)
-                    if ((template?.type as Component).name === MiSearchKey.name) {
+                    if ((template.type as Component).name === MiSearchKey.name) {
                         elem = renderSearchKey(template, item)
                     }
                     elem = renderCustomResultListItem(elem, item)
@@ -308,7 +308,7 @@ const MiSearch = defineComponent({
                     const cur = node.children[i]
                     if (isVNode(cur)) {
                         let child = cloneVNode(cur)
-                        if ((child?.type as Component).name === MiSearchKey.name) {
+                        if ((child.type as Component).name === MiSearchKey.name) {
                             children[i] = renderSearchKey(child, item)
                         } else children[i] = child
                         child = renderCustomResultListItem(child, data)
