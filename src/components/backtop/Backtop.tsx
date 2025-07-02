@@ -23,7 +23,7 @@ const MiBacktop = defineComponent({
     name: 'MiBacktop',
     inheritAttrs: false,
     props: BacktopProps(),
-    slols: Object as SlotsType<{ icon: any }>,
+    slots: Object as SlotsType<{ icon: any }>,
     emits: ['end'],
     setup(props, { slots, emit }) {
         const { t } = useI18n()
@@ -41,9 +41,7 @@ const MiBacktop = defineComponent({
             const offset = container
                 ? container.scrollTop
                 : document.documentElement.scrollTop || document.body.scrollTop
-            if (offset >= props.offset) params.show = true
-            else params.show = false
-            if (offset === 0) params.show = false
+            params.show = offset >= props.offset && offset !== 0
         }
 
         const handleBacktop = (duration?: number, callback?: Function) => {
@@ -57,29 +55,30 @@ const MiBacktop = defineComponent({
             )
         }
 
-        const renderInner = () => {
-            return (
+        const renderInner = (tooltip = false) => {
+            const content = (
                 <div class={styled.inner} onClick={handleBacktop}>
                     <div class={styled.icon}>
                         {getPropSlot(slots, props, 'icon') ?? <RocketOutlined />}
                     </div>
                 </div>
             )
+            return tooltip ? <Tooltip title={params.tip}>{content}</Tooltip> : content
         }
 
-        onMounted(() => $tools.on(params.container, 'scroll', () => handleContainerScroll()))
-        onBeforeUnmount(() => {
-            handleBacktop(0, () => {
-                $tools.off(params.container, 'scroll', () => handleContainerScroll())
-            })
-        })
+        const onScroll = () => handleContainerScroll(params.container)
+
+        onMounted(() => $tools.on(params.container, 'scroll', onScroll))
+        onBeforeUnmount(() =>
+            handleBacktop(0, () => $tools.off(params.container, 'scroll', onScroll))
+        )
 
         watch(
             () => props.listenerContainer,
             (container: HTMLElement) => {
-                $tools.off(params.container, 'scroll', () => handleContainerScroll(container))
-                params.container = container ?? (document.body || document.documentElement)
-                $tools.on(params.container, 'scroll', () => handleContainerScroll(container))
+                $tools.off(params.container, 'scroll', onScroll)
+                params.container = container ?? document.body
+                $tools.on(params.container, 'scroll', onScroll)
             },
             { immediate: true, deep: true }
         )
@@ -96,19 +95,15 @@ const MiBacktop = defineComponent({
         })
 
         return () => (
-            <Transition name={params.anim} appear={true}>
+            <Transition name={params.anim} appear>
                 <div
                     class={styled.container}
                     style={style.value}
                     key={params.key}
                     v-show={params.show}>
-                    {width.value < $g.breakpoints.md || $tools.isMobile() ? (
-                        renderInner()
-                    ) : (
-                        <Tooltip title={params.tip} placement="top">
-                            {renderInner()}
-                        </Tooltip>
-                    )}
+                    {width.value < $g.breakpoints.md || $tools.isMobile()
+                        ? renderInner()
+                        : renderInner(true)}
                 </div>
             </Transition>
         )
