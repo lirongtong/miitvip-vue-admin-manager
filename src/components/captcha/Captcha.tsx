@@ -33,6 +33,7 @@ const MiCaptcha = defineComponent({
     setup(props, { emit, expose, attrs }) {
         const { t, te } = useI18n()
         const { width } = useWindowResize()
+        const uniqueKey = $tools.uid()
         const size = computed(() => {
             return {
                 width: $tools.convert2rem($tools.distinguishSize(props.width, width.value)),
@@ -102,6 +103,8 @@ const MiCaptcha = defineComponent({
                 : null
         })
         applyTheme(styled)
+
+        const tt = (key: string, fallback: string) => (te(key) ? t(key) : fallback)
 
         const initCaptcha = async () => {
             const afterInit = (tip = t('captcha.click'), failed = false) => {
@@ -175,7 +178,7 @@ const MiCaptcha = defineComponent({
         }
 
         const handleCaptchaSuccess = (data?: any) => {
-            params.tip = te('captcha.pass') ? t('captcha.pass') : 'Pass'
+            params.tip = tt('captcha.pass', 'Pass')
             emit('success', data)
             setTimeout(() => {
                 params.status.ready = false
@@ -190,7 +193,7 @@ const MiCaptcha = defineComponent({
             if (!params.failed) {
                 params.status.ready = false
                 params.status.scanning = true
-                params.tip = te('captcha.checking') ? t('captcha.checking') : 'Scanning ···'
+                params.tip = tt('captcha.checking', 'Scanning ···')
                 if (props.checkAction) {
                     if (typeof props.checkAction === 'string') {
                         $request[(props.checkMethod || 'GET').toLowerCase()](
@@ -346,9 +349,11 @@ const MiCaptcha = defineComponent({
                 <Fragment>
                     <div
                         ref={captchaContentRef}
-                        class={`${styled.content}${params.failed ? ` ${styled.failed}` : ''}${
-                            props.visible ? '' : ` ${styled.hide}`
-                        }`}
+                        class={[
+                            styled.content,
+                            { [styled.failed]: params.failed },
+                            { [styled.hide]: !props.visible }
+                        ]}
                         onClick={handleCaptchaModal}
                         style={size.value}>
                         {renderRadar()}
@@ -376,13 +381,17 @@ const MiCaptcha = defineComponent({
             if (reinit) initCaptcha()
         }
 
+        /**
+         * @method resetCaptcha 重置验证码状态（可选是否重新初始化）
+         * @method openCaptcha 手动打开验证码弹窗
+         */
         expose({
             resetCaptcha: (reinit = true) => resetCaptcha(reinit),
             openCaptcha: () => handleCaptchaModal()
         })
 
         return () => (
-            <div ref={captchaRef} class={styled.container} key={$tools.uid()} {...attrs}>
+            <div ref={captchaRef} class={styled.container} key={uniqueKey} {...attrs}>
                 {renderContent()}
             </div>
         )

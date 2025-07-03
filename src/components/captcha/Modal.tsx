@@ -4,9 +4,9 @@ import {
     reactive,
     ref,
     onMounted,
-    onBeforeMount,
     nextTick,
-    Fragment
+    Fragment,
+    onUnmounted
 } from 'vue'
 import { CaptchaModalProps, CaptchaModalBlockPosition } from './props'
 import { useI18n } from 'vue-i18n'
@@ -95,6 +95,11 @@ const MiCaptchaModal = defineComponent({
 
         applyTheme(styled)
 
+        const tt = (key: string, fallback: string) => (te(key) ? t(key) : fallback)
+
+        const handlePointerUp = () => dragEnd()
+        const handleTouchEnd = () => dragEnd()
+
         const init = () => {
             params._background = props.image ?? params.background
             initModal()
@@ -110,10 +115,10 @@ const MiCaptchaModal = defineComponent({
             initCaptcha()
             $tools.on(params.elements.slider, 'pointerdown', dragStart)
             $tools.on(params.elements.slider, 'touchstart', dragStart)
-            $tools.on(params.elements.slider, 'pointermove', dragMoving)
-            $tools.on(params.elements.slider, 'touchmove', dragMoving)
-            $tools.on(params.elements.slider, 'pointerup', dragEnd)
-            $tools.on(params.elements.slider, 'touchend', dragEnd)
+            $tools.on(modalRef.value, 'pointermove', dragMoving)
+            $tools.on(modalRef.value, 'touchmove', dragMoving)
+            $tools.on(window, 'pointerup', handlePointerUp)
+            $tools.on(window, 'touchend', handleTouchEnd)
         }
 
         const setCheckData = () => {
@@ -123,7 +128,7 @@ const MiCaptchaModal = defineComponent({
                 being: false,
                 value: null,
                 correct: false,
-                tip: te('captcha.dragging') ? t('captcha.dragging') : 'Drag',
+                tip: tt('captcha.dragging', 'Drag'),
                 show: false
             }
         }
@@ -315,6 +320,8 @@ const MiCaptchaModal = defineComponent({
         }
 
         const dragStart = (evt: any) => {
+            evt.preventDefault()
+            evt.stopPropagation()
             const x = evt.clientX || evt.touches[0].clientX
             const sliderRect = getBoundingClientRect(sliderRef.value as any)
             const sliderBtnRect = getBoundingClientRect(sliderBtnRef.value as any)
@@ -327,20 +334,26 @@ const MiCaptchaModal = defineComponent({
 
         const dragMoving = (evt: any) => {
             if (!params.drag.moving || params.check.being) return
+
             const x = evt.clientX || evt.touches[0].clientX
-            const moveX = Math.round((x - params.drag.originX - params.drag.offset) * 10) / 10
-            if (moveX < 0 || moveX + 54 >= params.size.width) {
-                handleVerify()
-                return false
-            }
+            let moveX = Math.round((x - params.drag.originX - params.drag.offset) * 10) / 10
+            moveX = Math.max(0, Math.min(moveX, params.size.width - 54))
+
             params.elements.slider.style.left = `${moveX}px`
             params.elements.block.style.left = `${moveX}px`
             params.check.value = moveX
         }
 
-        const dragEnd = () => {
+        const dragEnd = (forcedStop = false) => {
             if (!params.drag.moving) return
             params.time.end = Date.now()
+            params.drag.moving = false
+
+            if (forcedStop) {
+                dragReset()
+                return
+            }
+
             handleVerify()
         }
 
@@ -476,7 +489,7 @@ const MiCaptchaModal = defineComponent({
                     </div>
                     <div
                         class={styled.loadingTip}
-                        innerHTML={te('captcha.loading') ? t('captcha.loading') : 'Loading ···'}
+                        innerHTML={tt('captcha.loading', 'Loading ···')}
                     />
                 </div>
             ) : null
@@ -510,7 +523,7 @@ const MiCaptchaModal = defineComponent({
                         class={`${styled.sliderTrackTip}${
                             params.drag.moving ? ` ${styled.sliderTrackTipHide}` : ''
                         }`}>
-                        {te('captcha.drag') ? t('captcha.drag') : 'Drag'}
+                        {tt('captcha.drag', 'Drag')}
                     </span>
                 </div>
             )
@@ -537,7 +550,7 @@ const MiCaptchaModal = defineComponent({
             return (
                 <div class={styled.panelAction}>
                     <Tooltip
-                        title={te('captcha.close') ? t('captcha.close') : 'Close'}
+                        title={tt('captcha.close', 'Close')}
                         color={props.color}
                         autoAdjustOverflow={false}
                         overlayClassName={styled.panelActionTooltip}
@@ -545,7 +558,7 @@ const MiCaptchaModal = defineComponent({
                         <CloseCircleOutlined onClick={handleClose} />
                     </Tooltip>
                     <Tooltip
-                        title={te('captcha.refresh') ? t('captcha.refresh') : 'Refresh'}
+                        title={tt('captcha.refresh', 'Refresh')}
                         color={props.color}
                         autoAdjustOverflow={false}
                         overlayClassName={styled.panelActionTooltip}
@@ -553,7 +566,7 @@ const MiCaptchaModal = defineComponent({
                         <ReloadOutlined onClick={handleRefresh} />
                     </Tooltip>
                     <Tooltip
-                        title={te('captcha.feedback') ? t('captcha.feedback') : 'Feedback'}
+                        title={tt('captcha.feedback', 'Feedback')}
                         color={props.color}
                         autoAdjustOverflow={false}
                         overlayClassName={styled.panelActionTooltip}
@@ -573,7 +586,7 @@ const MiCaptchaModal = defineComponent({
                         class={styled.panelCopyrightText}
                         style={{ borderColor: props.color ?? null }}>
                         <Tooltip
-                            title={te('captcha.provide') ? t('captcha.provide') : ''}
+                            title={tt('captcha.provide', '')}
                             color={props.color}
                             autoAdjustOverflow={false}
                             overlayClassName={styled.panelActionTooltip}
@@ -614,13 +627,13 @@ const MiCaptchaModal = defineComponent({
 
         onMounted(() => nextTick().then(() => init()))
 
-        onBeforeMount(() => {
+        onUnmounted(() => {
             $tools.off(params.elements.slider, 'pointerdown', dragStart)
             $tools.off(params.elements.slider, 'touchstart', dragStart)
-            $tools.off(params.elements.slider, 'pointermove', dragMoving)
-            $tools.off(params.elements.slider, 'touchmove', dragMoving)
-            $tools.off(params.elements.slider, 'pointerup', dragEnd)
-            $tools.off(params.elements.slider, 'touchend', dragEnd)
+            $tools.off(modalRef.value, 'pointermove', dragMoving)
+            $tools.off(modalRef.value, 'touchmove', dragMoving)
+            $tools.off(window, 'pointerup', handlePointerUp)
+            $tools.off(window, 'touchend', handleTouchEnd)
         })
 
         return () => (
