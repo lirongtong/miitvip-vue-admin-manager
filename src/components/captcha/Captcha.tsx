@@ -49,9 +49,9 @@ const MiCaptcha = defineComponent({
                 boxShadow: props.boxShadow
                     ? props.color
                         ? `0 0 .25rem ${props.color}`
-                        : null
+                        : undefined
                     : 'none',
-                borderColor: props.color ?? null
+                borderColor: props.color ?? undefined
             }
         })
         const successStyle = computed(() => {
@@ -61,11 +61,11 @@ const MiCaptcha = defineComponent({
                     : $g.regExp.rgb.test(props.color)
                       ? $tools.colorHex2Rgba($tools.colorRgb2Hex(props.color), 0.2)
                       : props.color
-                : null
+                : undefined
             return {
                 borderRadius: radius.value,
                 background,
-                borderColor: props.color ?? null
+                borderColor: props.color ?? undefined
             }
         })
         const captchaRef = ref(null)
