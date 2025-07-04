@@ -11,6 +11,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8;
 const requestBaseURL = ref<string>('/')
 
 class MiRequest {
+    [key: string]: any
     instance: MiRequest
 
     constructor() {
@@ -86,19 +87,39 @@ class MiRequest {
             })
     }
 
-    get(url: string, params?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+    get(
+        url: string,
+        params?: Record<string, any>,
+        config?: RequestConfig,
+        settled?: boolean
+    ): Promise<any> {
         return this.instance['get'](url, params, config, settled)
     }
 
-    post(url: string, data?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+    post(
+        url: string,
+        data?: Record<string, any>,
+        config?: RequestConfig,
+        settled?: boolean
+    ): Promise<any> {
         return this.instance['post'](url, data, config, settled)
     }
 
-    put(url: string, data?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+    put(
+        url: string,
+        data?: Record<string, any>,
+        config?: RequestConfig,
+        settled?: boolean
+    ): Promise<any> {
         return this.instance['put'](url, data, config, settled)
     }
 
-    delete(url: string, data?: {}, config?: RequestConfig, settled?: boolean): Promise<any> {
+    delete(
+        url: string,
+        data?: Record<string, any>,
+        config?: RequestConfig,
+        settled?: boolean
+    ): Promise<any> {
         return this.instance['delete'](url, data, config, settled)
     }
 
