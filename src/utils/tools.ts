@@ -922,7 +922,8 @@ class MiTools {
                     return numHex
                 }
             }
-        } else return color
+        }
+        return color
     }
 
     /**
