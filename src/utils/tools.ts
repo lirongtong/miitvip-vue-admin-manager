@@ -889,7 +889,8 @@ class MiTools {
                     return `rgba(${changeColor.join(',')}, ${opacity})`
                 }
             }
-        } else return color
+        }
+        return color
     }
 
     /**
