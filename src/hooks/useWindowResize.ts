@@ -3,8 +3,10 @@ import { $tools } from '../utils/tools'
 import { $g } from '../utils/global'
 
 export function useWindowResize() {
-    const width = ref<number>(window.innerWidth)
-    const height = ref<number>(window.innerHeight)
+    const defaultWidth = typeof window !== 'undefined' ? window.innerWidth : 1920
+    const defaultHeight = typeof window !== 'undefined' ? window.innerHeight : 945
+    const width = ref<number>(defaultWidth)
+    const height = ref<number>(defaultHeight)
 
     const handleWindowResize = () => {
         width.value = window.innerWidth
