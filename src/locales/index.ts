@@ -37,11 +37,22 @@ const setLocale = async (locale?: string, message?: {}) => {
 }
 i18nIns.setLocale = setLocale
 
+let _i18n: any = null
+export const setupI18n = (options: { i18n?: any } = {}) => {
+    _i18n = options.i18n || null
+}
+
 export default {
     install(app: App) {
-        app.use(i18nIns)
-        app.config.globalProperties.$i18n = i18nIns
-        app.provide('setLocale', (lang: string, message?: {}) => setLocale(lang, message))
-        return app
+        if (_i18n) {
+            Object.entries(locales).forEach(([locale, msg]) => {
+                _i18n.global.mergeLocaleMessage(locale, msg)
+            })
+        } else {
+            app.use(i18nIns)
+            app.config.globalProperties.$i18n = i18nIns
+            app.provide('setLocale', (lang: string, message?: {}) => setLocale(lang, message))
+            return app
+        }
     }
 }
