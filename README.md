@@ -1,6 +1,6 @@
 <div align="center">
 
-[![makeit.vip](https://file.makeit.vip/MIITVIP/M00/00/00/K4vDRGPcbmmAG8_sAAAtlj6Tt_s562.png "makeit.vip")](https://admin.makeit.vip)
+[![makeit.vip](./example/assets/images/logo.png "makeit.vip")](https://admin.makeit.vip)
 
 </div>
 
@@ -45,15 +45,9 @@
 </div>
 
 ## 注意
->
-> `3.x` 版本的 `npm` 包更名为 **[`@miitvip/admin-pro`](https://www.npmjs.com/package/@miitvip/admin-pro)**
->
-> `2.x` 版本的 `npm` 包在这里 **[`makeit-admin-pro`](https://www.npmjs.com/package/makeit-admin-pro)**
->
-> `3.x` 版本体验地址 「 **[https://admin.makeit.vip](https://admin.makeit.vip)** 」
->
-> `2.x` 版本体验地址 「 **[https://2x.makeit.vip](https://2x.makeit.vip)** 」
->
+
+> NPM 包：**[`@miitvip/admin-pro`](https://www.npmjs.com/package/@miitvip/admin-pro)**
+> 体验地址：**[https://admin.makeit.vip](https://admin.makeit.vip)**
 
 ## 关于
 >
