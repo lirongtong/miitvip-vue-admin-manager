@@ -1,6 +1,6 @@
 <div align="center">
 
-[![makeit.vip](./example/assets/images/logo.png "makeit.vip")](https://admin.makeit.vip)
+[![makeit.vip](./example/assets/images/logo-pure-no-rgb.png "makeit.vip")](https://admin.makeit.vip)
 
 </div>
 
@@ -47,6 +47,7 @@
 ## 注意
 
 > NPM 包：**[`@miitvip/admin-pro`](https://www.npmjs.com/package/@miitvip/admin-pro)**
+>
 > 体验地址：**[https://admin.makeit.vip](https://admin.makeit.vip)**
 
 ## 关于
