@@ -1,4 +1,4 @@
-import { SlotsType, Transition, defineComponent, ref, Fragment } from 'vue'
+import { SlotsType, Transition, defineComponent, ref, Fragment, onBeforeUnmount } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { CodeDemoProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -24,15 +24,21 @@ const MiCodeDemo = defineComponent({
         const copied = ref<boolean>(false)
         const anim = getPrefixCls(`anim-${props.animation}`)
         applyTheme(styled)
+        let timer: ReturnType<typeof setTimeout> | null = null
 
         const handleCopy = async () => {
             await toClipboard(props.code)
                 .then(() => {
                     copied.value = true
-                    setTimeout(() => (copied.value = false), 3000)
+                    if (timer) clearTimeout(timer)
+                    timer = setTimeout(() => (copied.value = false), 3000)
                 })
                 .catch(() => (copied.value = false))
         }
+
+        onBeforeUnmount(() => {
+            if (timer) clearTimeout(timer)
+        })
 
         return () => (
             <div class={styled.container}>

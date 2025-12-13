@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onBeforeUnmount, ref } from 'vue'
 import { CodeProps } from './props'
 import { getPropSlot } from '../_utils/props'
 import { Tooltip } from 'ant-design-vue'
@@ -18,16 +18,27 @@ const MiCode = defineComponent({
         const { t } = useI18n()
         const { toClipboard } = useClipboard()
         const copied = ref<boolean>(false)
+        const codeRef = ref<HTMLElement | null>(null)
+        let timer: ReturnType<typeof setTimeout> | null = null
         applyTheme(styled)
 
         const handleCopy = async () => {
-            await toClipboard(props.content)
+            const text =
+                typeof props.content === 'string'
+                    ? props.content
+                    : (codeRef.value?.textContent ?? '').trim()
+            await toClipboard(text)
                 .then(() => {
                     copied.value = true
-                    setTimeout(() => (copied.value = false), 3000)
+                    if (timer) clearTimeout(timer)
+                    timer = setTimeout(() => (copied.value = false), 3000)
                 })
                 .catch(() => (copied.value = false))
         }
+
+        onBeforeUnmount(() => {
+            if (timer) clearTimeout(timer)
+        })
 
         return () => {
             const content = getPropSlot(slots, props, 'content') ?? null
@@ -39,7 +50,7 @@ const MiCode = defineComponent({
                             <span class={styled.titleDotOrange} />
                             <span class={styled.titleDotGreen} />
                         </div>
-                        <code class={`${styled.content} language-${props.language}`}>
+                        <code ref={codeRef} class={`${styled.content} language-${props.language}`}>
                             {content}
                         </code>
                     </pre>

@@ -14,6 +14,16 @@ const MiClock = defineComponent({
         const size = computed(() => {
             return $tools.distinguishSize(props.size, width.value)
         })
+        // Clock 允许 size 为 string/number/DeviceSize；内部计算需要数值，统一转为 number(px)
+        const sizeNumber = computed(() => {
+            const v: any = size.value
+            if (typeof v === 'number') return v
+            if (typeof v === 'string') {
+                const n = parseFloat(v.replace(/[^\d.]/g, ''))
+                return Number.isFinite(n) ? n : 0
+            }
+            return 0
+        })
         const style = computed(() => {
             return {
                 width: $tools.convert2rem(size.value),
@@ -30,7 +40,7 @@ const MiClock = defineComponent({
         let rid = 0
 
         const getPosition = (phase: number, offset = 10) => {
-            const radius = Math.ceil(size.value / 2) - offset
+            const radius = Math.ceil(sizeNumber.value / 2) - offset
             const theta = phase * 2 * Math.PI
             return {
                 top: $tools.convert2rem(Math.round(-radius * Math.cos(theta) * 100) / 100),
@@ -117,18 +127,18 @@ const MiClock = defineComponent({
                     <div class={styled.hand}></div>
                     <div
                         class={`${styled.hand} ${styled.handFat} ${styled.handHour}`}
-                        style={{ height: $tools.convert2rem(size.value / 6) }}></div>
+                        style={{ height: $tools.convert2rem(sizeNumber.value / 6) }}></div>
                 </div>
                 <div class={styled.point} style={{ transform: rotates.minute }}>
                     <div class={styled.hand}></div>
                     <div
                         class={`${styled.hand} ${styled.handFat} ${styled.handMinute}`}
-                        style={{ height: $tools.convert2rem(size.value / 4) }}></div>
+                        style={{ height: $tools.convert2rem(sizeNumber.value / 4) }}></div>
                 </div>
                 <div class={styled.point} style={{ transform: rotates.second }}>
                     <div
                         class={`${styled.hand} ${styled.handSecond}`}
-                        style={{ height: $tools.convert2rem(size.value / 2) }}></div>
+                        style={{ height: $tools.convert2rem(sizeNumber.value / 2) }}></div>
                 </div>
                 <div class={`${styled.pointer} ${styled.pointerMid}`}></div>
                 <div class={`${styled.pointer} ${styled.pointerTop}`}></div>
