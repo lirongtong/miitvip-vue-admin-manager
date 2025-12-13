@@ -178,7 +178,7 @@ const MiCaptchaModal = defineComponent({
             elem.onload = () => {
                 ctx.drawImage(elem, 0, 0, params.size.width, params.size.height)
                 params._background = canvas.toDataURL()
-                callback && callback()
+                if (callback) callback()
             }
         }
 
@@ -425,16 +425,20 @@ const MiCaptchaModal = defineComponent({
             }, 1600)
         }
 
-        const handleClose = (status?: any, data?: any) => {
+        /**
+         * 关闭弹窗
+         * - maskClosable 仅控制「点击遮罩」是否可关闭
+         * - 关闭按钮/校验成功/超频等场景应始终可关闭
+         */
+        const handleClose = (status?: any, data?: any, fromMask = false) => {
             params.loading = true
+            if (fromMask && !props.maskClosable) return
             if (typeof status !== 'string') status = 'close'
-            if (props.maskClosable) {
-                open.value = false
-                emit('update:open', open.value)
-                setTimeout(() => {
-                    emit('close', { status, data })
-                }, 400)
-            }
+            open.value = false
+            emit('update:open', open.value)
+            setTimeout(() => {
+                emit('close', { status, data })
+            }, 400)
         }
 
         const handleRefresh = () => {
@@ -454,7 +458,7 @@ const MiCaptchaModal = defineComponent({
                     class={`${styled.mask}${
                         width.value < $g.breakpoints.md ? ` ${styled.maskMobile}` : ''
                     }`}
-                    onClick={handleClose}
+                    onClick={() => handleClose(undefined, undefined, true)}
                     style={{ zIndex: Date.now() }}
                 />
             ) : null

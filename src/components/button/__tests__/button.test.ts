@@ -13,6 +13,11 @@ const flushMountedTimers = async (ms: number) => {
     await nextTick()
 }
 
+const flushDefaultArrowTimer = async () => {
+    // MiButton 即使不传 arrow，也会默认注册 (0.5s) 的 setTimeout
+    await flushMountedTimers(500)
+}
+
 const MiLinkStub = {
     name: 'MiLink',
     props: {
@@ -54,6 +59,7 @@ describe('MiButton', () => {
     test('基础渲染：container/inner/role/tabindex，并且 click 会 emit', async () => {
         const wrapper = mount(MiButton, { attachTo: document.body })
         wrappers.push(wrapper)
+        await flushDefaultArrowTimer()
 
         const inner = wrapper.find(`.${styled.inner}`)
         expect(wrapper.find(`.${styled.container}`).exists()).toBe(true)
@@ -68,11 +74,13 @@ describe('MiButton', () => {
     test('circle/square class：无 text 时 circle=true 为 circle，circle=false 为 square；有 text 时不加 circle/square', async () => {
         const circleBtn = mount(MiButton, { props: { circle: true }, attachTo: document.body })
         wrappers.push(circleBtn)
+        await flushDefaultArrowTimer()
         expect(circleBtn.find(`.${styled.inner}`).classes()).toContain(styled.circle)
         expect(circleBtn.find(`.${styled.inner}`).classes()).not.toContain(styled.square)
 
         const squareBtn = mount(MiButton, { props: { circle: false }, attachTo: document.body })
         wrappers.push(squareBtn)
+        await flushDefaultArrowTimer()
         expect(squareBtn.find(`.${styled.inner}`).classes()).toContain(styled.square)
         expect(squareBtn.find(`.${styled.inner}`).classes()).not.toContain(styled.circle)
 
@@ -81,6 +89,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(withText)
+        await flushDefaultArrowTimer()
         expect(withText.find(`.${styled.inner}`).classes()).not.toContain(styled.circle)
         expect(withText.find(`.${styled.inner}`).classes()).not.toContain(styled.square)
     })
@@ -91,6 +100,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(wrapper1)
+        await flushDefaultArrowTimer()
         expect(wrapper1.find(`.${styled.title}`).exists()).toBe(true)
         expect(wrapper1.find(`.${styled.title}`).text()).toContain('Hello World')
 
@@ -99,6 +109,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(wrapper2)
+        await flushDefaultArrowTimer()
         const title = wrapper2.find(`.${styled.title}`)
         expect(title.exists()).toBe(true)
         // getTextSetting 会输出 style（包含 color/font-size 等）；这里不做像素/单位强绑定，只验证包含 color
@@ -118,6 +129,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(wrapper)
+        await flushDefaultArrowTimer()
 
         const styleText = wrapper.find(`.${styled.inner}`).attributes('style') || ''
         expect(styleText).toContain('background: rgb(1, 2, 3)')
@@ -135,6 +147,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(up)
+        await flushDefaultArrowTimer()
         expect(up.find(`.${styled.iconContainer}`).classes()).toContain(styled.iconUp)
 
         const down = mount(MiButton, {
@@ -142,6 +155,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(down)
+        await flushDefaultArrowTimer()
         expect(down.find(`.${styled.iconContainer}`).classes()).toContain(styled.iconDown)
 
         const left = mount(MiButton, {
@@ -149,6 +163,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(left)
+        await flushDefaultArrowTimer()
         expect(left.find(`.${styled.iconContainer}`).classes()).toContain(styled.iconLeft)
     })
 
@@ -158,6 +173,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(wrapper)
+        await flushDefaultArrowTimer()
 
         const path = wrapper.find('svg path[data-name="Union 25"]')
         expect(path.exists()).toBe(true)
@@ -183,6 +199,8 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(wrapper2)
+        // 确保 onMounted 已执行并注册定时器，再卸载触发清理
+        await nextTick()
         wrapper2.unmount()
         vi.advanceTimersByTime(200)
         await nextTick()
@@ -202,6 +220,7 @@ describe('MiButton', () => {
             attachTo: document.body
         })
         wrappers.push(wrapper)
+        await flushDefaultArrowTimer()
 
         const link = wrapper.find('[data-testid="mi-link"]')
         expect(link.exists()).toBe(true)
