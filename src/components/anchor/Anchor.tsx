@@ -6,8 +6,7 @@ import {
     ref,
     Transition,
     watch,
-    onBeforeUnmount,
-    computed
+    onBeforeUnmount
 } from 'vue'
 import { AnchorProps } from './props'
 import { useI18n } from 'vue-i18n'
@@ -47,13 +46,6 @@ const MiAnchor = defineComponent({
                 timer: null
             }
         })
-        const activeIndex = computed(() => {
-            const top = params.container?.scrollTop + props.scrollOffset
-            return params.list.findIndex((item, idx) => {
-                const next = params.list[idx + 1]
-                return !next ? item.offset <= top : item.offset <= top && next.offset > top
-            })
-        })
         applyTheme(styled)
 
         const onWindowClick = (evt: Event) => handleMaskClose(evt)
@@ -75,6 +67,8 @@ const MiAnchor = defineComponent({
             await nextTick()
             params.open = params.affix
             params.sticky = !params.affix
+            // 初始化激活态
+            handleContainerScroll()
             $tools.on(params.container, 'scroll', handleContainerScroll)
             $tools.on(window, 'click', onWindowClick)
         }
@@ -148,7 +142,7 @@ const MiAnchor = defineComponent({
         }
 
         const handleContainerScroll = () => {
-            if (!params.manual) {
+            if (!params.manual.status) {
                 const top = params.container?.scrollTop + props.scrollOffset
                 ;(params.list || []).forEach((item: AnchorListItem, idx: number) => {
                     const next = params.list[idx + 1]
@@ -190,7 +184,7 @@ const MiAnchor = defineComponent({
                 <MiAnchorLink
                     id={link.id}
                     title={link.title}
-                    active={activeIndex.value === idx}
+                    active={params.actives[idx]}
                     reserveOffset={props.reserveOffset}
                     listenerContainer={params.container}
                     onClick={handleAnchorLink}
