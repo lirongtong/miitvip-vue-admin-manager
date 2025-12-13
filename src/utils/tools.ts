@@ -571,7 +571,7 @@ class MiTools {
      */
     createThemeProperties(primary?: string, target?: HTMLElement) {
         try {
-            const themes = themeFromSourceColor(argbFromHex(primary || '#FFD464'))
+            const themes = themeFromSourceColor(argbFromHex(primary || '#63ACFF'))
             this.setThemeSchemeProperties(themes.schemes[$g?.theme?.type || 'dark'], target)
         } catch {
             throw new Error('The `theme` variable only supports HEX (e.g. `#FFFFFF`).')

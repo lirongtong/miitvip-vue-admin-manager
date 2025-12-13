@@ -35,7 +35,7 @@ export default {
     install(app: App) {
         __tree_shaking_basic__ = true
         // 默认主题
-        $tools.createThemeProperties($g.theme.primary || '#FFD464')
+        $tools.createThemeProperties($g.theme.primary || '#63ACFF')
         // 窗口大小
         $tools.setWinSize()
         // 轮播

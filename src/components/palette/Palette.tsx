@@ -30,7 +30,7 @@ const MiPalette = defineComponent({
             hex: $storage.get($g.caches.storages.theme.hex) || '',
             tip: te('global.success') ? t('global.success') : '',
             checked: $storage.get($g.caches.storages.theme.type) || $g?.theme?.type || 'dark',
-            default: '#FFD464'
+            default: '#63ACFF'
         })
         applyTheme(styled)
 

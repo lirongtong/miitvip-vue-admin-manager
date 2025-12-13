@@ -48,7 +48,7 @@ export const $g = reactive({
     showHistoricalRouting: true,
     theme: {
         type: 'dark',
-        primary: '#FFD464',
+        primary: '#63ACFF',
         radius: 6
     },
     copyright: {
