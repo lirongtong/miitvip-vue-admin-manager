@@ -55,6 +55,8 @@ const MiHistoricalRouting = defineComponent({
         const listRef = ref(null)
         const itemsRef = ref(null)
         const containerRef = ref(null)
+        let scrollTimer: any = null
+        let initTimer: any = null
 
         applyTheme(styled)
 
@@ -80,7 +82,8 @@ const MiHistoricalRouting = defineComponent({
         const handleScroll = () => {
             nextTick().then(() => {
                 if (containerRef.value && listRef.value && itemsRef.value) {
-                    setTimeout(() => {
+                    if (scrollTimer) clearTimeout(scrollTimer)
+                    scrollTimer = setTimeout(() => {
                         const listWidth = listRef.value?.clientWidth
                         const itemsWidth = itemsRef.value?.clientWidth
                         const max = itemsWidth - listWidth
@@ -89,6 +92,7 @@ const MiHistoricalRouting = defineComponent({
                         if (params.scroll) params.max = itemsWidth - listWidth
                         else params.max = max > 0 ? max : 0
                         handleRedirect(params.active)
+                        scrollTimer = null
                     }, props.animationDuration)
                 }
             })
@@ -108,7 +112,7 @@ const MiHistoricalRouting = defineComponent({
                           : diff > params.max
                             ? params.max
                             : diff
-                    params.offset = routes.value.length <= 1 ? 0 : -offset
+                    params.offset = Object.keys(routes.value || {}).length <= 1 ? 0 : -offset
                     params.active = item
                     params.current = item?.name
                     if (item?.path && route.path !== item?.path) router.push({ path: item?.path })
@@ -178,7 +182,13 @@ const MiHistoricalRouting = defineComponent({
                 }
                 historicalStore.setRoutes({ ...routes.value })
             }
-            nextTick().then(() => setTimeout(() => handleInit(false), props.animationDuration))
+            nextTick().then(() => {
+                if (initTimer) clearTimeout(initTimer)
+                initTimer = setTimeout(() => {
+                    handleInit(false)
+                    initTimer = null
+                }, props.animationDuration)
+            })
         }
 
         const handlePrev = () => {
@@ -324,7 +334,11 @@ const MiHistoricalRouting = defineComponent({
             $tools.on(window, 'resize', handleWindowResize)
         })
 
-        onBeforeUnmount(() => $tools.off(window, 'resize', handleWindowResize))
+        onBeforeUnmount(() => {
+            $tools.off(window, 'resize', handleWindowResize)
+            if (scrollTimer) clearTimeout(scrollTimer)
+            if (initTimer) clearTimeout(initTimer)
+        })
 
         return () => (
             <div ref={containerRef} class={styled.container}>

@@ -5,6 +5,44 @@ import { createI18n } from 'vue-i18n'
 import zh from './src/locales/zh-cn/index'
 import en from './src/locales/en-us/index'
 
+class MemoryStorage implements Storage {
+    private store = new Map<string, string>()
+
+    get length() {
+        return this.store.size
+    }
+
+    clear(): void {
+        this.store.clear()
+    }
+
+    getItem(key: string): string | null {
+        return this.store.has(key) ? (this.store.get(key) as string) : null
+    }
+
+    key(index: number): string | null {
+        return Array.from(this.store.keys())[index] ?? null
+    }
+
+    removeItem(key: string): void {
+        this.store.delete(key)
+    }
+
+    setItem(key: string, value: string): void {
+        this.store.set(key, String(value))
+    }
+}
+
+const ensureStorage = (name: 'localStorage' | 'sessionStorage') => {
+    const s: any = (globalThis as any)[name]
+    if (!s || typeof s.getItem !== 'function' || typeof s.setItem !== 'function') {
+        ;(globalThis as any)[name] = new MemoryStorage()
+    }
+}
+
+ensureStorage('localStorage')
+ensureStorage('sessionStorage')
+
 const pinia = createPinia()
 const i18n = createI18n({
     legacy: false,

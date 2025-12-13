@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
         setData(data: LoginResponseData) {
             const user = data?.user || {}
             this.user = Object.keys(user).length > 0 ? user : {}
-            $storage.set($g.caches?.storages?.user, JSON.stringify(this.user))
+            $storage.set($g.caches?.storages?.user, this.user)
             const access = data?.tokens?.access_token ?? null
             const autoLogin = this.autoLogin
             if (access) {
@@ -44,19 +44,14 @@ export const useAuthStore = defineStore('auth', {
             const params = { ...data }
             if (params.url) delete params.url
             if (params.method) delete params.method
-            return new Promise(async (resolve, reject) => {
-                return await $request[method.toLowerCase()](url, params)
-                    .then((res: ResponseData | any) => {
-                        if (res?.ret?.code === 200) {
-                            const autoLogin = data?.remember ?? false
-                            this.autoLogin = autoLogin
-                            $cookie.set($g.caches?.cookies?.autoLogin, autoLogin, 7)
-                            this.setData((res?.data || {}) as LoginResponseData)
-                        }
-                        resolve(res)
-                    })
-                    .catch((err: any) => reject(err))
-            })
+            const res: ResponseData | any = await $request[method.toLowerCase()](url, params)
+            if (res?.ret?.code === 200) {
+                const autoLogin = data?.remember ?? false
+                this.autoLogin = autoLogin
+                $cookie.set($g.caches?.cookies?.autoLogin, autoLogin, 7)
+                this.setData((res?.data || {}) as LoginResponseData)
+            }
+            return res
         },
         async register(data: RegisterParams): Promise<any> {
             const url = data?.url || api.register
@@ -64,57 +59,33 @@ export const useAuthStore = defineStore('auth', {
             const params = { ...data }
             if (params.url) delete params.url
             if (params.method) delete params.method
-            return new Promise(async (resolve, reject) => {
-                return await $request[method.toLowerCase()](url, params)
-                    .then((res: ResponseData | any) => resolve(res))
-                    .catch((err: any) => reject(err))
-            })
+            return await $request[method.toLowerCase()](url, params)
         },
-        authorize(data: LoginAuth): Promise<any> {
-            return new Promise(async (resolve, reject) => {
-                return await $request
-                    .post(data?.url, { token: data?.token })
-                    .then((res: ResponseData | any) => {
-                        if (res?.ret?.code === 200) {
-                            this.autoLogin = true
-                            $cookie.set($g.caches?.cookies?.autoLogin, true, 7)
-                            this.setData(res?.data)
-                        }
-                        resolve(res)
-                    })
-                    .catch((err: any) => reject(err))
-            })
+        async authorize(data: LoginAuth): Promise<any> {
+            const res: ResponseData | any = await $request.post(data?.url, { token: data?.token })
+            if (res?.ret?.code === 200) {
+                this.autoLogin = true
+                $cookie.set($g.caches?.cookies?.autoLogin, true, 7)
+                this.setData(res?.data)
+            }
+            return res
         },
-        refresh(url: string, token: string): Promise<any> {
-            return new Promise(async (resolve, reject) => {
-                return await $request
-                    ?.post(url, { refresh_token: token })
-                    .then((res: ResponseData | any) => {
-                        if (res?.ret?.code === 200) {
-                            const autoLogin = this.autoLogin
-                            const access = res?.data?.access_token ?? null
-                            if (access) {
-                                this.token.access = access
-                                $cookie.set(
-                                    $g.caches?.cookies?.token?.access,
-                                    access,
-                                    autoLogin ? 7 : null
-                                )
-                            }
-                            const refresh = res?.data?.refresh_token
-                            if (refresh) {
-                                this.token.refresh = refresh
-                                $cookie.set(
-                                    $g.caches?.cookies?.token?.refresh,
-                                    refresh,
-                                    autoLogin ? 7 : null
-                                )
-                            }
-                        }
-                        resolve(res)
-                    })
-                    .catch((err?: any) => reject(err))
-            })
+        async refresh(url: string, token: string): Promise<any> {
+            const res: ResponseData | any = await $request.post(url, { refresh_token: token })
+            if (res?.ret?.code === 200) {
+                const autoLogin = this.autoLogin
+                const access = res?.data?.access_token ?? null
+                if (access) {
+                    this.token.access = access
+                    $cookie.set($g.caches?.cookies?.token?.access, access, autoLogin ? 7 : null)
+                }
+                const refresh = res?.data?.refresh_token
+                if (refresh) {
+                    this.token.refresh = refresh
+                    $cookie.set($g.caches?.cookies?.token?.refresh, refresh, autoLogin ? 7 : null)
+                }
+            }
+            return res
         },
         logout() {
             this.user = {}
