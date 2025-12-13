@@ -356,14 +356,14 @@ class MiTools {
         const step = Math.ceil((difference / duration) * 50)
         if (duration === 0) {
             el.scrollTop = 0
-            endCallback && endCallback()
+            if (endCallback) endCallback()
             return
         }
         let rid: number
         function scroll(start: number, end: number, step: number, vm: any) {
             if (start === end) {
                 if (rid) vm.caf(rid)
-                endCallback && endCallback()
+                if (endCallback) endCallback()
                 return
             }
             let d = start + step > end ? end : start + step
@@ -808,7 +808,8 @@ class MiTools {
      */
     htmlEncode(html: string) {
         let temp: HTMLDivElement | null = document.createElement('div') as HTMLDivElement
-        temp.textContent !== null ? (temp.textContent = html) : (temp.innerText = html)
+        if (temp.textContent !== null) temp.textContent = html
+        else temp.innerText = html
         const output = temp.innerHTML
         temp = null
         return output
