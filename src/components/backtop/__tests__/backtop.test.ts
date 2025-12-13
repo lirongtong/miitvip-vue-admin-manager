@@ -27,7 +27,7 @@ describe('MiBacktop', () => {
         back2topSpy
             .mockReset()
             .mockImplementation((_container: any, _duration?: number, cb?: Function) => {
-                cb && cb()
+                if (cb) cb()
             })
     })
 

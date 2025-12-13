@@ -49,7 +49,7 @@ const MiBacktop = defineComponent({
                 params.container,
                 typeof duration === 'number' ? duration : props.duration,
                 () => {
-                    callback && callback()
+                    if (callback) callback()
                     emit('end')
                 }
             )
