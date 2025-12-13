@@ -1,4 +1,13 @@
-import { defineComponent, createVNode, reactive, ref, onMounted, Transition, h } from 'vue'
+import {
+    defineComponent,
+    createVNode,
+    reactive,
+    ref,
+    onMounted,
+    onBeforeUnmount,
+    Transition,
+    h
+} from 'vue'
 import { ForgetProps } from './props'
 import { __PASSPORT_DEFAULT_BACKGROUND__, __LOGO__ } from '../../utils/images'
 import {
@@ -52,6 +61,7 @@ const MiForget = defineComponent({
         const passwordFormRef = ref<FormInstance>()
         const updateFormRef = ref<FormInstance>()
         const alreadyCheckUsername = ref<boolean>(false)
+        let redirectTimer: any = null
 
         const validateUserName = (_rule: any, value: string) => {
             if (!$tools.isEmpty(value)) {
@@ -112,6 +122,11 @@ const MiForget = defineComponent({
         })
         applyTheme(styled)
 
+        // 合并外部传入的表单校验规则（同名字段覆盖默认规则）
+        if (props.rules && Object.keys(props.rules || {}).length > 0) {
+            params.form.rules = { ...params.form.rules, ...(props.rules as any) }
+        }
+
         const handleDowntime = () => {
             if (params.sent) {
                 const seconds = Math.floor(Date.now() / 1000)
@@ -120,9 +135,18 @@ const MiForget = defineComponent({
                     if (params.downtime.handler) clearInterval(params.downtime.handler)
                     params.downtime.handler = setInterval(() => {
                         params.downtime.remain--
-                        if (params.downtime.remain <= 0) clearInterval(params.downtime.handler)
+                        if (params.downtime.remain <= 0) {
+                            clearInterval(params.downtime.handler)
+                            params.downtime.handler = null
+                        }
                     }, 1000)
-                } else params.downtime.remain = 0
+                } else {
+                    params.downtime.remain = 0
+                    if (params.downtime.handler) {
+                        clearInterval(params.downtime.handler)
+                        params.downtime.handler = null
+                    }
+                }
             }
         }
 
@@ -139,6 +163,7 @@ const MiForget = defineComponent({
                             else await handleSendCode()
                         } else params.loading = false
                     })
+                    .catch(() => null)
                     .finally(() => (params.loading = false))
             }
         }
@@ -170,7 +195,7 @@ const MiForget = defineComponent({
             if (typeof props.sendCodeAction === 'string') {
                 await $request[(props.sendCodeMethod || 'post').toLowerCase()](
                     props.sendCodeAction,
-                    { ...params.form.validate }
+                    { ...props.sendCodeParams, ...params.form.validate }
                 )
                     .then((res: ResponseData) => {
                         params.sent = res?.data?.time || Math.floor(Date.now() / 1000)
@@ -188,6 +213,7 @@ const MiForget = defineComponent({
                     handleSendCodeSuccess()
                 }
                 if (typeof response === 'string') message.error(response)
+                emit('afterSendCode', response)
             }
         }
 
@@ -198,6 +224,7 @@ const MiForget = defineComponent({
                 formRef.value
                     ?.validateFields(['username', 'captcha'])
                     .then(() => handleSendCode())
+                    .catch(() => null)
                     .finally(() => (params.loading = false))
             }
         }
@@ -207,7 +234,8 @@ const MiForget = defineComponent({
             if (props.checkUsernameAction) {
                 if (typeof props.checkUsernameAction === 'string') {
                     await $request[(props.checkUsernameMethod || 'post').toLowerCase()](
-                        `${props.checkUsernameAction}/${params.form.validate.username}`
+                        `${props.checkUsernameAction}/${params.form.validate.username}`,
+                        { ...props.checkUsernameParams }
                     )
                         .then((res: ResponseData) => {
                             if (res?.ret?.code !== 200) params.tips.username = res?.ret?.message
@@ -242,7 +270,7 @@ const MiForget = defineComponent({
             if (typeof props.checkCodeAction === 'string') {
                 await $request[(props.checkCodeMethod || 'post').toLowerCase()](
                     props.checkCodeAction,
-                    { ...data }
+                    { ...props.checkCodeParams, ...data }
                 )
                     .then((res: ResponseData) => {
                         if (res?.ret?.code === 200) {
@@ -268,6 +296,7 @@ const MiForget = defineComponent({
                 const response = await props.checkCodeAction(data)
                 if (typeof response === 'boolean' && response) params.update.show = true
                 if (typeof response === 'string') message.error(response)
+                emit('afterCheckCode', response)
             }
         }
 
@@ -307,9 +336,22 @@ const MiForget = defineComponent({
                             }
                             const handleUpdatePasswordSuccess = () => {
                                 message.success({
-                                    content: t('foget.success'),
+                                    content: t('forget.success'),
                                     duration: 3
                                 })
+                            }
+                            const handleClearResetCaches = () => {
+                                $storage.del(
+                                    Object.values({ ...$g?.caches?.storages?.password?.reset })
+                                )
+                            }
+                            const handleRedirect = () => {
+                                if (redirectTimer) clearTimeout(redirectTimer)
+                                redirectTimer = setTimeout(() => {
+                                    if ($tools.isUrl(props.redirectTo)) {
+                                        window.location.href = props.redirectTo
+                                    } else router.push({ path: props.redirectTo })
+                                }, 3000)
                             }
                             if (typeof props.resetPasswordAction === 'string') {
                                 await $request[(props.resetPasswordMethod || 'put').toLowerCase()](
@@ -319,16 +361,8 @@ const MiForget = defineComponent({
                                     .then((res: ResponseData) => {
                                         if (res?.ret?.code === 200) {
                                             handleUpdatePasswordSuccess()
-                                            $storage.del(
-                                                Object.values({
-                                                    ...$g?.caches?.storages?.password?.reset
-                                                })
-                                            )
-                                            setTimeout(() => {
-                                                if ($tools.isUrl(props.redirectTo)) {
-                                                    window.location.href = props.redirectTo
-                                                } else router.push({ path: props.redirectTo })
-                                            }, 3000)
+                                            handleClearResetCaches()
+                                            handleRedirect()
                                         } else if (res?.ret?.message) message.error(res.ret.message)
                                         emit('afterResetSuccess', res)
                                     })
@@ -337,12 +371,17 @@ const MiForget = defineComponent({
                                     )
                             } else if (typeof props.resetPasswordAction === 'function') {
                                 const response = await props.resetPasswordAction(data)
-                                if (typeof response === 'boolean' && response)
+                                if (typeof response === 'boolean' && response) {
                                     handleUpdatePasswordSuccess()
+                                    handleClearResetCaches()
+                                    handleRedirect()
+                                }
                                 if (typeof response === 'string') message.error(response)
+                                emit('afterResetSuccess', response)
                             }
                         }
                     })
+                    .catch(() => null)
                     .finally(() => (params.loading = false))
             }
         }
@@ -553,6 +592,14 @@ const MiForget = defineComponent({
                     })
                 )
             handleDowntime()
+        })
+
+        onBeforeUnmount(() => {
+            if (params.downtime.handler) {
+                clearInterval(params.downtime.handler)
+                params.downtime.handler = null
+            }
+            if (redirectTimer) clearTimeout(redirectTimer)
         })
 
         return () => (
