@@ -63,23 +63,23 @@
 
 ### 深色主题
 
-[![深色主题](./example/assets/images/demo-dark.png)](https://admin.makeit.vip)
+[![深色主题](./example/assets/images/demo-dark.webp)](https://admin.makeit.vip)
 
 ### 浅色主题
 
-[![浅色主题](./example/assets/images/demo-light.png)](https://admin.makeit.vip)
+[![浅色主题](./example/assets/images/demo-light.webp)](https://admin.makeit.vip)
 
 ### 更换主题
 
-[![快速上手](./example/assets/images/demo-dark-start.png)](https://admin.makeit.vip)
+[![快速上手](./example/assets/images/demo-dark-theme.webp)](https://admin.makeit.vip/theming)
 
 ### 收合菜单
 
-[![收合菜单](./example/assets/images/demo-dark-collapsed.png)](https://admin.makeit.vip)
+[![收合菜单](./example/assets/images/demo-dark-collapsed.webp)](https://admin.makeit.vip)
 
 ### 手机效果
 
-[![手机效果](./example/assets/images/demo-mobile.png)](https://admin.makeit.vip)
+[![手机效果](./example/assets/images/demo-mobile.webp)](https://admin.makeit.vip)
 
 ## 全局应用
 
