@@ -40,10 +40,10 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/lirongtong/miitvip-vue-admin-manager.git"
+        "url": "git+https://github.com/lirongtong/makeit-admin-manager.git"
     },
     "bugs": {
-        "url": "https://github.com/lirongtong/miitvip-vue-admin-manager/issues"
+        "url": "https://github.com/lirongtong/makeit-admin-manager/issues"
     },
     "homepage": "https://admin.makeit.vip",
     "files": [
