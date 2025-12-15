@@ -93,6 +93,12 @@ const MiPassword = defineComponent({
                             params.password.complexity = true
                             return Promise.resolve()
                         }
+                    } else {
+                        params.password.length = true
+                        params.password.strength = $tools.getPasswordStrength(value)
+                        params.password.tips = levels.value[params.password.strength]
+                        params.password.complexity = false
+                        return Promise.reject(defaultTip.value)
                     }
                 } else {
                     params.password.length = true
@@ -253,7 +259,7 @@ const MiPassword = defineComponent({
                 <div class={styled.tips}>
                     <div class={styled.strengthItem}>
                         <span innerHTML={t('password.strong')} />
-                        <div class={styled.strengthGroup}>{...items}</div>
+                        <div class={styled.strengthGroup}>{items}</div>
                         <span class={styled.strengthTips} innerHTML={params.password.tips}></span>
                     </div>
                     <div class={styled.strengthItem}>
@@ -293,7 +299,7 @@ const MiPassword = defineComponent({
         }
 
         const validateFields = (fields: []) => {
-            return passwordFormRef.value.validate(fields)
+            return passwordFormRef.value.validateFields(fields)
         }
 
         expose({ validate, validateFields })
