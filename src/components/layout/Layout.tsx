@@ -33,8 +33,8 @@ const MiLayout = defineComponent({
         const { locale } = useI18n()
         const { width } = useWindowResize()
         const anim = getPrefixCls('anim-scale')
-        const langClass = getPrefixCls(`lang-${locale.value}`, $g.prefix)
-        const themeClass = getPrefixCls(`theme-${theme.value}`, $g.prefix)
+        const langClass = computed(() => getPrefixCls(`lang-${locale.value}`, $g.prefix))
+        const themeClass = computed(() => getPrefixCls(`theme-${theme.value}`, $g.prefix))
 
         applyTheme(styled)
 
@@ -66,6 +66,7 @@ const MiLayout = defineComponent({
                             {getPropSlot(slots, props, 'header') ?? (
                                 <MiLayoutHeader
                                     extra={renderLayoutHeaderExtra()}
+                                    showBreadcrumbs={props.showBreadcrumbs}
                                     {...props.headerSetting}
                                 />
                             )}
@@ -82,7 +83,7 @@ const MiLayout = defineComponent({
 
         return () => (
             <ConfigProvider theme={{ ...$tools.getAntdvThemeProperties() }}>
-                <section class={`${styled.container} ${langClass} ${themeClass}`}>
+                <section class={`${styled.container} ${langClass.value} ${themeClass.value}`}>
                     {renderLayout()}
                 </section>
             </ConfigProvider>

@@ -53,6 +53,7 @@ export const LayoutProps = () => ({
  * @param extra 额外的自定义配置<Slot />(置于右侧)
  */
 export interface LayoutHeaderProperties {
+    showBreadcrumbs: boolean
     dropdown: any
     breadcrumb: any
     search: any
@@ -64,6 +65,7 @@ export interface LayoutHeaderProperties {
     extra: any
 }
 export const LayoutHeaderProps = () => ({
+    showBreadcrumbs: PropTypes.bool.def(true),
     dropdown: PropTypes.any,
     dropdownSetting: object<Partial<DropdownProperties>>(),
     breadcrumb: PropTypes.any,

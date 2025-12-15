@@ -148,9 +148,11 @@ const MiLayoutHeader = defineComponent({
                 <div class={styled.inner}>
                     <div class={styled.left}>
                         {width.value > $g.breakpoints.sm ? (
-                            (getPropSlot(slots, props, 'breadcrumb') ?? (
-                                <MiBreadcrumb {...props.breadcrumbSetting} />
-                            ))
+                            props.showBreadcrumbs ? (
+                                (getPropSlot(slots, props, 'breadcrumb') ?? (
+                                    <MiBreadcrumb {...props.breadcrumbSetting} />
+                                ))
+                            ) : null
                         ) : (
                             <div class={styled.drawer}>
                                 <MiDrawerMenu open={menuOpen.value} />
