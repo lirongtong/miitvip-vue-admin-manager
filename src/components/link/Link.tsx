@@ -15,13 +15,17 @@ const MiLink = defineComponent({
         applyTheme(styled)
 
         const getUrl = () => {
-            if (props.query && Object.keys(props.query)) {
-                const query = Object.keys(props.query).map((key) => {
-                    return `${key}=${props.query[key]}`
-                })
-                return `${props.path}?${query.join('&')}`
-            }
-            return props.path
+            const path = props.path || ''
+            const query = (props.query || {}) as Record<string, any>
+            const entries = Object.entries(query).filter(
+                ([k, v]) => k && typeof v !== 'undefined' && v !== null && v !== ''
+            )
+            if (entries.length <= 0) return path
+            const search = entries
+                .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
+                .join('&')
+            const join = path.includes('?') ? '&' : '?'
+            return `${path}${join}${search}`
         }
 
         const renderPath = () => {
@@ -36,7 +40,7 @@ const MiLink = defineComponent({
                             innerHTML={props.path}
                         />
                     )
-                }
+                } else link.value = <a>{slots?.default?.() ?? props.path}</a>
             } else {
                 if (props.path) {
                     if ($tools.isUrl(props.path)) {
