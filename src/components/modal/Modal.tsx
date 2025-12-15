@@ -2,7 +2,7 @@ import { SlotsType, createVNode, defineComponent, reactive } from 'vue'
 import { Button, Modal as AntModal } from 'ant-design-vue'
 import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
-import { ModalProps, type ModalFunc } from './props'
+import { ModalProps, type ModalDestroyAllFunc, type ModalFunc } from './props'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import MiModalPopup from './Popup'
 import MiModalTeleport from './Teleport'
@@ -14,25 +14,30 @@ const MiModal = defineComponent({
     inheritAttrs: false,
     props: ModalProps(),
     emits: ['ok', 'cancel', 'afterClose', 'update:open'],
-    slots: Object as SlotsType<{
-        title: any
-        content: any
-        footer: any
-        okText: any
-        cancelText: any
-        icon: any
-        closeIcon: any
-    }>,
+    slots: Object as SlotsType<
+        Partial<{
+            default: any
+            title: any
+            content: any
+            footer: any
+            okText: any
+            cancelText: any
+            icon: any
+            closeIcon: any
+        }>
+    >,
     setup(props, { slots, attrs, emit }) {
         const { t } = useI18n()
         applyTheme(styled)
 
         const handleOk = (evt?: Event) => {
+            if (typeof props.ok === 'function') props.ok(evt)
             emit('ok', evt)
         }
 
         const handleCancel = (evt?: Event) => {
             if (props.closable) {
+                if (typeof props.cancel === 'function') props.cancel(evt)
                 emit('update:open', false)
                 emit('cancel', evt)
             }
@@ -120,23 +125,23 @@ const mergeConfig = (config: string | {}, type: string) => {
 }
 
 MiModal.info = (config: string | {}) => {
-    AntModal.info(mergeConfig(config, 'info'))
+    return AntModal.info(mergeConfig(config, 'info'))
 }
 
 MiModal.success = (config: string | {}) => {
-    AntModal.success(mergeConfig(config, 'success'))
+    return AntModal.success(mergeConfig(config, 'success'))
 }
 
 MiModal.error = (config: string | {}) => {
-    AntModal.error(mergeConfig(config, 'error'))
+    return AntModal.error(mergeConfig(config, 'error'))
 }
 
 MiModal.warn = (config: string | {}) => {
-    AntModal.warning(mergeConfig(config, 'warning'))
+    return AntModal.warning(mergeConfig(config, 'warning'))
 }
 
 MiModal.warning = (config: string | {}) => {
-    AntModal.warning(mergeConfig(config, 'warning'))
+    return AntModal.warning(mergeConfig(config, 'warning'))
 }
 
 MiModal.confirm = (config: string | {}) => {
@@ -149,7 +154,7 @@ MiModal.confirm = (config: string | {}) => {
         },
         mergeConfig(config, 'confirm')
     )
-    AntModal.confirm(configuration)
+    return AntModal.confirm(configuration)
 }
 
 MiModal.destroyAll = () => {
@@ -163,5 +168,5 @@ export default MiModal as typeof MiModal & {
     readonly warn: ModalFunc
     readonly warning: ModalFunc
     readonly confirm: ModalFunc
-    readonly destroyAll: ModalFunc
+    readonly destroyAll: ModalDestroyAllFunc
 }

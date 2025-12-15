@@ -111,7 +111,11 @@ export const TeleportProps = () => ({
     forceRender: PropTypes.bool
 })
 
-export type ModalFunc = (props: ModalFuncProps) => {
+export type ModalFuncReturn = {
     destroy: () => void
     update: (newConfig: ModalFuncProps) => void
 }
+
+export type ModalFunc = (config: string | ModalFuncProps) => ModalFuncReturn
+
+export type ModalDestroyAllFunc = () => void

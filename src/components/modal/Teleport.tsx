@@ -2,7 +2,7 @@ import { defineComponent, ref, Teleport, watch, onMounted, onBeforeMount } from 
 import { TeleportProps } from './props'
 
 const windowIsUndefined = !(
-    typeof window !== undefined &&
+    typeof window !== 'undefined' &&
     window.document &&
     window.document.createElement
 )
@@ -14,7 +14,7 @@ const MiModalTeleport = defineComponent({
     setup(props) {
         const teleportRef = ref(null)
         const openCount = ref<number>(props.open ? 1 : 0)
-        const _container = ref(null)
+        const _container = ref<HTMLElement | null>(null)
 
         const createContainer = () => {
             if (windowIsUndefined) return null
@@ -22,7 +22,7 @@ const MiModalTeleport = defineComponent({
             if (type === 'function') return props.container()
             if (type === 'string') {
                 let temp = props.container
-                const firstLetter = temp.chartAt(0)
+                const firstLetter = temp.charAt(0)
                 if (!(firstLetter === '#' || firstLetter === '.')) temp = `#${temp}`
                 return document.querySelector(temp)
             }
@@ -51,7 +51,7 @@ const MiModalTeleport = defineComponent({
         )
 
         onBeforeMount(() => removeContainer())
-        onMounted(() => (_container.value = createContainer()))
+        onMounted(() => (_container.value = createContainer() as HTMLElement | null))
 
         return () => {
             const childProps = { container: createContainer() }

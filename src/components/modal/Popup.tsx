@@ -104,7 +104,9 @@ const MiModalPopup = defineComponent({
                         style={{ zIndex: props.zIndex ?? null }}
                         onClick={handleWrapClick}
                         v-show={props.open}>
-                        {renderModal()}
+                        {props.open || props.forceRender || !props.destroyOnClose
+                            ? renderModal()
+                            : null}
                     </div>
                 </Transition>
             </div>
