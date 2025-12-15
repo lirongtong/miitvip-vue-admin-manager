@@ -58,11 +58,12 @@ const MiMenu = defineComponent({
 
         const setRelationshipChain = (data: string[]) => {
             if (data && data.length > 0) {
-                useMenu.$patch({ relationshipChain: [...data] })
-                useMenu.$patch({ activeKeys: [data[data.length - 1]] })
+                const chain = [...data]
+                useMenu.$patch({ relationshipChain: chain })
+                useMenu.$patch({ activeKeys: [chain[chain.length - 1]] })
                 if (!collapsed.value && useMenu.accordion) {
-                    data.pop()
-                    useMenu.$patch({ openKeys: [...data] })
+                    // 避免修改入参（data 可能引用 relationship.data）
+                    useMenu.$patch({ openKeys: chain.slice(0, -1) })
                 }
             }
         }
@@ -140,8 +141,9 @@ const MiMenu = defineComponent({
                 ) {
                     const menuElem = menuRef.value.$el
                     const top = menuElem ? $tools.getElementActualOffsetTopOrLeft(menuElem) : 0
+                    const activeKey = (activeKeys.value || [])[0]
                     const itemElem = document.querySelector(
-                        `li[data-menu-id="${activeKeys.value}"]`
+                        `li[data-menu-id="${activeKey}"]`
                     ) as HTMLElement
                     if (menuElem && itemElem) {
                         const posTop = $tools.getElementActualOffsetTopOrLeft(itemElem)
