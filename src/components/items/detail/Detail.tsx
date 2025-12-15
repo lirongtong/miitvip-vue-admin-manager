@@ -136,7 +136,7 @@ const MiItemsDetail = defineComponent({
             if (params.active === index) params.active = -1
             else params.active = index
             const elem = evt?.target ? $tools.getParents(evt?.target, `.${styled.item}`) : null
-            if (elem) $tools.back2pos(elem, offset.value)
+            if (props.scrollToPosition && elem) $tools.back2pos(elem, offset.value)
             emit('update:active', params.active)
             emit('itemClick', item, params.active, evt)
         }
@@ -216,7 +216,7 @@ const MiItemsDetail = defineComponent({
                                 style={title?.style}></div>
                         )}
                         {slots?.subtitle ? (
-                            renderSlot(slots, 'title', { title })
+                            renderSlot(slots, 'subtitle', { subtitle })
                         ) : (
                             <div
                                 class={styled.itemSubtitle}

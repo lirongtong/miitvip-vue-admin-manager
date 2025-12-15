@@ -52,9 +52,6 @@ const MiItemsImage = defineComponent({
             } else {
                 const height = elem?.clientHeight
                 if (height && parent) parent.style.height = $tools.convert2rem(height)
-                else if (parent) {
-                    parent.style.height = $tools.convert2rem($tools.distinguishSize(props.height))
-                }
             }
         }
 

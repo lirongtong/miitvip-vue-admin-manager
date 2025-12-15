@@ -1,4 +1,4 @@
-import { defineComponent, ref, onMounted, nextTick } from 'vue'
+import { defineComponent, ref, onMounted, nextTick, onBeforeUnmount } from 'vue'
 import { ImageProps } from './props'
 import { $g } from '../../utils/global'
 import { $tools } from '../../utils/tools'
@@ -7,11 +7,13 @@ const MiImage = defineComponent({
     name: 'MiImage',
     inheritAttrs: false,
     props: ImageProps(),
-    setup(props, { emit }) {
+    emits: ['load'],
+    setup(props, { emit, attrs }) {
         const imgRef = ref<any>()
+        let temp: any = null
         onMounted(() => {
             nextTick().then(() => {
-                const temp = new Image()
+                temp = new Image()
                 temp.src = props.src
                 temp.onload = () => {
                     emit('load', imgRef.value)
@@ -19,15 +21,30 @@ const MiImage = defineComponent({
                 }
             })
         })
+
+        onBeforeUnmount(() => {
+            if (temp) {
+                temp.onload = null
+                temp.onerror = null
+                temp = null
+            }
+        })
+
+        const style = {
+            width: $tools.convert2rem($tools.distinguishSize(props?.width)),
+            height: $tools.convert2rem($tools.distinguishSize(props?.height)),
+            borderRadius: $tools.convert2rem($tools.distinguishSize(props?.radius))
+        } as any
+
         return () => (
             <img
+                {...attrs}
                 ref={imgRef}
                 src={props?.src}
                 alt={props?.alt || $g.powered}
                 style={{
-                    width: $tools.convert2rem($tools.distinguishSize(props?.width)),
-                    height: $tools.convert2rem($tools.distinguishSize(props?.height)),
-                    borderRadius: $tools.convert2rem($tools.distinguishSize(props?.radius))
+                    ...style,
+                    ...(attrs as any)?.style
                 }}
             />
         )
