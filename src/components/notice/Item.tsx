@@ -1,4 +1,4 @@
-import { SlotsType, defineComponent, Transition, ref, Fragment } from 'vue'
+import { SlotsType, defineComponent, Transition, ref, Fragment, useAttrs } from 'vue'
 import { getPrefixCls, getPropSlot } from '../_utils/props'
 import { NoticeItemProps } from './props'
 import { __LOGO__ } from '../../utils/images'
@@ -28,6 +28,7 @@ const MiNoticeItem = defineComponent({
         const { t } = useI18n()
         const anim = getPrefixCls('anim-slide')
         const showContent = ref<boolean>(false)
+        const attrs = useAttrs()
 
         applyTheme(styled)
 
@@ -90,7 +91,7 @@ const MiNoticeItem = defineComponent({
                 <Fragment>
                     <div
                         class={`${styled.container}${
-                            props?.onClick || props?.content ? ` ${styled.cursor}` : ''
+                            attrs?.onClick || props?.content ? ` ${styled.cursor}` : ''
                         }`}
                         onClick={() => handleClick()}>
                         <div class={styled.inner}>

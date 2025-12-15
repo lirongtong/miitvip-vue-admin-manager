@@ -39,6 +39,7 @@ export interface NoticeProperties {
     tabDefaultActive: string | number
     tabGap: number | string | DeviceSize
     tabCenter: boolean
+    tabActive: string | number
 }
 export const NoticeProps = () => ({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(
@@ -59,6 +60,7 @@ export const NoticeProps = () => ({
     ]),
     tabs: PropTypes.oneOfType([array<string>(), array<Partial<NoticeTabProperties>>()]).def([]),
     tabDefaultActive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(0),
+    tabActive: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     tabGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number, object<DeviceSize>()]).def(16),
     tabCenter: PropTypes.bool.def(true)
 })

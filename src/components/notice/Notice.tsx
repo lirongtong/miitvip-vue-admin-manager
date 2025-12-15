@@ -34,7 +34,7 @@ const MiNotice = defineComponent({
         icon: any
     }>,
     props: NoticeProps(),
-    emits: ['tabClick', 'tabChange', 'itemClick'],
+    emits: ['tabClick', 'tabChange', 'itemClick', 'update:tabActive'],
     setup(props, { slots, emit }) {
         const { t, tm } = useI18n()
         const { width } = useWindowResize()
@@ -46,14 +46,14 @@ const MiNotice = defineComponent({
         })
         const itemsAnim = getPrefixCls('anim-slide')
         const swiperRef = ref()
-        const active = ref(0)
-        const defaultActive = ref(props.tabDefaultActive)
+        const active = ref(0) // tab index
         const init = ref<boolean>(false)
 
         applyTheme(styled)
 
         const handleTabClick = (key: string | number) => {
             emit('tabClick', key)
+            emit('update:tabActive', key)
             nextTick().then(() => {
                 if (swiperRef.value) {
                     const swiper = swiperRef.value?.swiper
@@ -241,15 +241,15 @@ const MiNotice = defineComponent({
                 }
             } else if (isVNode(tab)) {
                 const tabItemSlots = getSlotContent(tab)
-                const extra = []
+                const extra: any[] = []
                 if (Array.isArray(tabItemSlots) && tabItemSlots.length > 0) {
                     tabItemSlots.forEach((tabItemSlot: any) => {
                         const comp = tabItemSlot?.type?.name
                         if (comp === MiNoticeItem.name) {
                             items.push(renderTabItem(getItemSlotContent(tabItemSlot)))
                         } else extra.push(tabItemSlot)
-                        if (extra.length > 0) items.push(...extra)
                     })
+                    if (extra.length > 0) items.push(...extra)
                 } else if (tabItemSlots?.type?.name === MiNoticeItem.name) {
                     items.push(renderTabItem(getItemSlotContent(tabItemSlots)))
                 } else extra.push(tabItemSlots)
@@ -267,7 +267,7 @@ const MiNotice = defineComponent({
             const items: any[] = []
             const extras: any[] = []
             if (allSlots && allSlots.length > 0) {
-                allSlots.map((singleSlot: any) => {
+                allSlots.forEach((singleSlot: any) => {
                     if (singleSlot?.type?.name === MiNoticeItem.name) {
                         items.push(renderTabItem(getItemSlotContent(singleSlot)))
                     } else if (
@@ -287,12 +287,12 @@ const MiNotice = defineComponent({
             return items.length > 0 ? (
                 <Transition name={itemsAnim} appear={true}>
                     <Flex vertical={true} class={styled.items}>
-                        {...items}
+                        {items}
                     </Flex>
-                    {...extras}
+                    {extras}
                 </Transition>
             ) : extras.length > 0 ? (
-                { ...extras }
+                <Fragment>{extras}</Fragment>
             ) : null
         }
 
@@ -306,8 +306,8 @@ const MiNotice = defineComponent({
             })
             return (
                 <Row class={styled.extra}>
-                    {...items}
-                    {...others}
+                    {items}
+                    {others}
                 </Row>
             )
         }
@@ -316,7 +316,7 @@ const MiNotice = defineComponent({
             let tabSlots: any[] = []
             for (let i = 0, l = tabs.length; i < l; i++) {
                 const tab = tabs[i]
-                const key = isVNode(tab) ? (tab?.props?.tab ?? i) : i
+                const key = isVNode(tab) ? (tab?.props?.name ?? i) : i
                 if (key === active.value) {
                     tabSlots = renderTabItems(tab)
                     break
@@ -325,19 +325,23 @@ const MiNotice = defineComponent({
             return tabSlots
         }
 
+        const getTabKey = (tab: any, idx: number) => {
+            if (typeof tab === 'string') return idx
+            if (isVNode(tab)) return tab?.props?.name ?? idx
+            return tab?.name ?? idx
+        }
+
         const renderTabs = () => {
             let allSlots = getPropSlot(slots, props)
             const tabs: any[] = []
             const extras: any[] = []
             if (allSlots && allSlots.length > 0) {
                 // 自定义配置 mi-notice-tab
-                allSlots.map((singleSlot: any, idx: number) => {
+                allSlots.forEach((singleSlot: any, idx: number) => {
                     if (singleSlot?.type?.name === MiNoticeTab.name) {
                         const key = singleSlot?.props?.name ?? idx
-                        if (key === props.tabDefaultActive) {
-                            defaultActive.value = key
-                            active.value = idx
-                        }
+                        const target = props.tabActive ?? props.tabDefaultActive
+                        if (key === target) active.value = idx
                         tabs.push(renderTab(singleSlot, idx, key))
                     } else extras.push(singleSlot)
                 })
@@ -346,11 +350,9 @@ const MiNotice = defineComponent({
                 // 参数配置 tabs ( 快速生成 )
                 allSlots = props.tabs
                 ;(props.tabs || []).forEach((tab: any, idx: number) => {
-                    const key = typeof tab === 'string' ? idx : (tab?.tab ?? idx)
-                    if (key === props.tabDefaultActive) {
-                        defaultActive.value = key
-                        active.value = idx
-                    }
+                    const key = getTabKey(tab, idx)
+                    const target = props.tabActive ?? props.tabDefaultActive
+                    if (key === target) active.value = idx
                     tabs.push(renderTab(tab, idx, key))
                 })
             }
@@ -362,7 +364,7 @@ const MiNotice = defineComponent({
                 <Fragment>
                     <swiper-container
                         ref={swiperRef}
-                        initial-slide={defaultActive.value}
+                        initial-slide={active.value}
                         free-mode={true}
                         mousewheel={true}
                         pagination={false}
@@ -376,11 +378,11 @@ const MiNotice = defineComponent({
                         centered-slides={props.tabCenter}
                         centered-slides-bounds={props.tabCenter}
                         id={$tools.uid()}>
-                        {...slides}
+                        {slides}
                     </swiper-container>
                     <Transition name={itemsAnim} appear={true}>
                         <Flex vertical={true} class={styled.items}>
-                            {...renderTabSlot(allSlots)}
+                            {renderTabSlot(allSlots)}
                         </Flex>
                     </Transition>
                     {renderExtra(extras)}
