@@ -88,7 +88,7 @@ const MiLogin = defineComponent({
                 )
             }
         })
-        !params.form.validate.captcha && delete params.form.validate.cuid
+        if (!params.form.validate.captcha) delete params.form.validate.cuid
         const socialiteSetting = computed(() => {
             return Object.assign(
                 {
@@ -123,19 +123,15 @@ const MiLogin = defineComponent({
                             if (typeof props.action === 'string') {
                                 api.login = props.action
                                 params.form.validate.url = api.login
-                                await auth
-                                    .login(params.form.validate)
-                                    .then((res: ResponseData) => {
-                                        if (res?.ret?.code === 200) {
-                                            emit('afterLogin', res)
-                                        } else if (res?.ret?.message) {
-                                            message.error({
-                                                content: res?.ret?.message,
-                                                duration: 6
-                                            })
-                                        }
+                                const res: ResponseData = await auth.login(params.form.validate)
+                                if (res?.ret?.code === 200) {
+                                    emit('afterLogin', res)
+                                } else if (res?.ret?.message) {
+                                    message.error({
+                                        content: res?.ret?.message,
+                                        duration: 6
                                     })
-                                    .finally(() => (params.loading = false))
+                                }
                             } else if (typeof props.action === 'function') {
                                 const response = await props.action(params.form.validate)
                                 if (typeof response === 'boolean' && response) emit('afterLogin')
@@ -143,6 +139,7 @@ const MiLogin = defineComponent({
                             }
                         }
                     })
+                    .catch(() => null)
                     .finally(() => (params.loading = false))
             }
         }
@@ -204,7 +201,7 @@ const MiLogin = defineComponent({
                         prefix={createVNode(UserOutlined)}
                         v-model:value={params.form.validate.username}
                         maxlength={64}
-                        autcomplete="off"
+                        autocomplete="off"
                         onPressEnter={handleLogin}
                         class={styled.input}
                         placeholder={t('login.username')}
@@ -256,7 +253,7 @@ const MiLogin = defineComponent({
                     </Button>
                     {width.value < $g.breakpoints.md ? (
                         <Button class={styled.btn}>
-                            <MiLink path="/register">
+                            <MiLink path={props.registerLink ?? '/register'}>
                                 {t('login.no-account')}
                                 {t('login.signup')}
                             </MiLink>
@@ -291,7 +288,7 @@ const MiLogin = defineComponent({
                         class={styled.formLogin}
                         model={params.form.validate}
                         rules={params.form.rules}
-                        autcomplete="off">
+                        autocomplete="off">
                         {renderUserName()}
                         {
                             <MiPassword
