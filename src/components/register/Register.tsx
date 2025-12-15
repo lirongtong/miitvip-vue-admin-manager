@@ -95,7 +95,7 @@ const MiRegister = defineComponent({
                     email: '',
                     password: '',
                     confirm: '',
-                    captcha: false,
+                    captcha: props.captcha || false,
                     cuid: null
                 },
                 rules: Object.assign(
@@ -113,6 +113,7 @@ const MiRegister = defineComponent({
                 email: null
             }
         })
+        if (!params.form.validate.captcha) delete params.form.validate.cuid
         const socialiteSetting = computed(() => {
             return Object.assign(
                 {
@@ -153,6 +154,7 @@ const MiRegister = defineComponent({
                                         if (res?.ret?.code === 200) {
                                             if (props.showSendEmailSuccessModal)
                                                 params.success = true
+                                            else router.push({ path: props.redirectTo })
                                         } else if (res?.ret?.message) {
                                             message.error({
                                                 content: res.ret.message,
@@ -164,22 +166,30 @@ const MiRegister = defineComponent({
                                     .finally(() => (params.loading = false))
                             } else if (typeof props.action === 'function') {
                                 const response = await props.action(params.form.validate)
-                                if (typeof response === 'boolean' && response) params.success = true
+                                if (typeof response === 'boolean' && response) {
+                                    if (props.showSendEmailSuccessModal) params.success = true
+                                    else router.push({ path: props.redirectTo })
+                                }
                                 if (typeof response === 'string') message.error(response)
+                                emit('afterRegister', response)
                             }
                         }
                     })
+                    .catch(() => null)
                     .finally(() => (params.loading = false))
             }
         }
 
         const handleVerify = async (key: 'username' | 'email') => {
             if ($tools.isEmpty(params.form.validate?.[key])) return
-            const action = props.verify?.[key]?.action
+            const cfg = props.verify?.[key]
+            const action = cfg?.action
             if (action) {
                 if (typeof action === 'string') {
-                    const method = props.verify?.[key]?.method || 'post'
-                    const data = { data: params.form.validate?.[key] }
+                    const method = cfg?.method || 'post'
+                    const data = Object.assign({}, cfg?.params, {
+                        data: params.form.validate?.[key]
+                    })
                     await $request[method.toLowerCase()](action, data)
                         .then((res: ResponseData) => {
                             if (res?.ret?.code === 200) params.tips[key] = null
@@ -187,19 +197,19 @@ const MiRegister = defineComponent({
                         })
                         .catch((err: any) => (params.tips[key] = err?.message))
                 } else if (typeof action === 'function') {
-                    const state = await action()
+                    const state = await action(params.form.validate?.[key], params.form.validate)
                     if (state === true) params.tips[key] = null
                     else if (typeof state === 'string') params.tips[key] = state
                     else params.tips[key] = t('register.unknown')
                 }
-                if (formRef.value) formRef.value?.validateFields([key])
+                if (formRef.value) formRef.value?.validateFields([key]).catch(() => null)
             } else params.tips[key] = null
         }
 
         const handleCaptchaSuccess = (data?: any) => {
             if (data?.cuid) params.form.validate.cuid = data.cuid
             params.captcha = true
-            if (formRef.value) formRef.value.validateFields(['captcha'])
+            if (formRef.value) formRef.value.validateFields(['captcha']).catch(() => null)
             emit('captchaSuccess', data)
         }
 
@@ -280,7 +290,7 @@ const MiRegister = defineComponent({
                     prefix={createVNode(UserOutlined)}
                     v-model:value={params.form.validate.username}
                     maxlength={32}
-                    autcomplete="off"
+                    autocomplete="off"
                     onPressEnter={handleRegister}
                     onBlur={() => handleVerify('username')}
                     class={styled.input}
@@ -355,7 +365,7 @@ const MiRegister = defineComponent({
                     </Button>
                     {width.value < $g.breakpoints.md ? (
                         <Button class={styled.btn}>
-                            <MiLink path="/login">
+                            <MiLink path={props.loginLink ?? '/login'}>
                                 {t('register.has-account')}
                                 {t('register.login')}
                             </MiLink>
@@ -370,7 +380,7 @@ const MiRegister = defineComponent({
                 <Form.Item class={styled.socialite}>
                     {width.value >= $g.breakpoints.md ? (
                         <div class={styled.socialiteLink}>
-                            {t('register.no-account')}
+                            {t('register.has-account')}
                             <MiLink path={props.loginLink ?? '/login'}>
                                 {t('register.login')}
                             </MiLink>
@@ -409,13 +419,15 @@ const MiRegister = defineComponent({
                         class={styled.formLogin}
                         model={params.form.validate}
                         rules={params.form.rules}
-                        autcomplete="off">
+                        autocomplete="off">
                         {renderUsername()}
                         {renderEmail()}
                         {
                             <MiPassword
                                 ref={passwordFormRef}
+                                {...props.passwordSetting}
                                 v-model:value={params.form.validate.password}
+                                v-model:confirm-value={params.form.validate.confirm}
                                 confirm={true}
                                 onPressEnter={handleRegister}
                             />
