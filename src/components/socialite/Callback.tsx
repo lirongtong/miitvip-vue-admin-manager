@@ -45,6 +45,9 @@ const MiSocialiteCallback = defineComponent({
                                 $cookie.set('refresh-token', tokens?.refresh_token)
                                 if (res?.data?.user) $storage.set('user-info', res?.data?.user)
                                 router.push({ path: '/' })
+                            } else {
+                                router.push({ path: '/login' })
+                                message.error({ content: t(`login.auth-failed`) })
                             }
                         } else {
                             router.push({ path: '/login' })
@@ -55,6 +58,8 @@ const MiSocialiteCallback = defineComponent({
                         router.push({ path: '/login' })
                         if (err?.message) message.error(err?.message)
                     })
+            } else {
+                router.push({ path: '/login' })
             }
         })
 

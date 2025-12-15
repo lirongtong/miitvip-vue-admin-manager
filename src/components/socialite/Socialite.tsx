@@ -1,4 +1,4 @@
-import { defineComponent, reactive, isVNode, h } from 'vue'
+import { defineComponent, reactive, isVNode, h, watchEffect } from 'vue'
 import {
     MoreOutlined,
     GithubOutlined,
@@ -43,15 +43,15 @@ const MiSocialite = defineComponent({
                           { name: 'google', icon: GoogleOutlined }
                       ]
             ) as DropdownItem[]
-            const items: DropdownItem[] = []
-            ;(data || []).forEach((item: DropdownItem, idx: number) => {
+            const mapped: DropdownItem[] = (data || []).map((raw) => {
+                const item = { ...(raw as any) } as DropdownItem
                 item.callback = item.callback ?? (() => redirect(item.name))
-                if (idx === 0) params.first = item
-                else items.push(item)
+                return item
             })
-            params.remain = items
+            params.first = (mapped[0] ?? {}) as DropdownItem
+            params.remain = mapped.slice(1)
         }
-        parseItems()
+        watchEffect(parseItems)
 
         return () => {
             if (!props.showMore) {
@@ -69,7 +69,7 @@ const MiSocialite = defineComponent({
                     <div class={styled.mobile}>
                         <div class={styled.mobileLine} />
                         <div class={styled.mobileTitle} innerHTML={props.tip} />
-                        <div class={styled.mobileCates}>{...icons}</div>
+                        <div class={styled.mobileCates}>{icons}</div>
                     </div>
                 )
             } else {
