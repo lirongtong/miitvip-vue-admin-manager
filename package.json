@@ -11,8 +11,9 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "run-s clean build:css build:esm build:umd",
+        "build": "run-s clean build:parallel build:umd",
         "clean": "rimraf dist es lib",
+        "build:parallel": "run-p build:css build:esm",
         "build:css": "rollup --config build/rollup.css.mjs",
         "build:esm": "rollup --config build/rollup.esm.mjs",
         "build:umd": "rollup --config build/rollup.umd.mjs",

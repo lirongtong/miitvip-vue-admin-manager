@@ -13,11 +13,9 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import { externalPackages, externalGlobals } from './rollup.external.mjs'
-import { rimraf } from 'rimraf'
 import strip from '@rollup/plugin-strip'
 
 const fileName = 'makeit-admin-pro'
-rimraf(`../dist/${fileName}.min.js`)
 
 const babelOptions = {
     presets: [['@babel/preset-env', { modules: false }]],
@@ -31,8 +29,13 @@ const babelOptions = {
     babelHelpers: 'runtime'
 }
 
+const analyze = process.env.MI_ROLLUP_ANALYZE === '1'
+
 const plugins = [
-    typescript({ tsconfig: path.resolve(process.cwd(), './tsconfig.umd.json') }),
+    typescript({
+        tsconfig: path.resolve(process.cwd(), './tsconfig.umd.json'),
+        cacheRoot: path.resolve(process.cwd(), './node_modules/.rpt2_cache_umd')
+    }),
     nodeResolve({ browser: true, jsnext: true }),
     json(),
     strip(),
@@ -44,9 +47,9 @@ const plugins = [
         minimize: true
     }),
     gzip(),
-    visualizer(),
+    analyze ? visualizer() : null,
     filesize()
-]
+].filter(Boolean)
 
 const config = defineConfig([
     {

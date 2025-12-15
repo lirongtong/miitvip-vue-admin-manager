@@ -10,7 +10,6 @@ import { DEFAULT_EXTENSIONS } from '@babel/core'
 import { visualizer } from 'rollup-plugin-visualizer'
 import postcss from 'rollup-plugin-postcss'
 import { externalPackages } from './rollup.external.mjs'
-import { rimraf } from 'rimraf'
 import strip from '@rollup/plugin-strip'
 
 const requireRes = createRequire(import.meta.url)
@@ -19,8 +18,6 @@ const fileName = 'makeit-admin-pro'
 const styleInject = path
     .resolve(process.cwd(), './node_modules/style-inject/dist/style-inject.es.js')
     .replace(/\\|\\\\/g, '/')
-
-rimraf(`../dist/${fileName}.min.js`)
 
 const banner = `/**
  * ${pkg.name} v${pkg.version}
@@ -44,8 +41,13 @@ const babelOptions = {
     babelHelpers: 'runtime'
 }
 
+const analyze = process.env.MI_ROLLUP_ANALYZE === '1'
+
 const plugins = [
-    typescript({ tsconfig: path.resolve(process.cwd(), './tsconfig.json') }),
+    typescript({
+        tsconfig: path.resolve(process.cwd(), './tsconfig.json'),
+        cacheRoot: path.resolve(process.cwd(), './node_modules/.rpt2_cache_esm')
+    }),
     nodeResolve({ browser: true, jsnext: true }),
     json(),
     strip(),
@@ -64,8 +66,8 @@ const plugins = [
             })
         }
     },
-    visualizer()
-]
+    analyze ? visualizer() : null
+].filter(Boolean)
 
 const config = defineConfig([
     {

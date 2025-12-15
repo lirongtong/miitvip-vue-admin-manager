@@ -41,7 +41,10 @@ const config = defineConfig([
         ],
         external: externalPackages,
         plugins: [
-            typescript({ tsconfig: path.resolve(process.cwd(), './tsconfig.umd.json') }),
+            typescript({
+                tsconfig: path.resolve(process.cwd(), './tsconfig.umd.json'),
+                cacheRoot: path.resolve(process.cwd(), './node_modules/.rpt2_cache_css')
+            }),
             ...plugins,
             postcss({
                 modules: { generateScopedName: 'mi-[name]-[hash:base64:8]', localsConvention: 'camelCase' },
