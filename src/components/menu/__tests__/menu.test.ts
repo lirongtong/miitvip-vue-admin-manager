@@ -1,9 +1,9 @@
 /* eslint-disable vue/one-component-per-file */
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount, config as vtuConfig, type VueWrapper } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { h, nextTick } from 'vue'
 import { createMemoryHistory, createRouter } from 'vue-router'
-import { createPinia, setActivePinia } from 'pinia'
+import { setActivePinia } from 'pinia'
 
 import MiMenu from '../Menu'
 import { useMenuStore } from '../../../stores/menu'
@@ -126,17 +126,25 @@ const flushPromises = async () => {
 
 describe('MiMenu', () => {
     const wrappers: VueWrapper[] = []
-    let pinia: ReturnType<typeof createPinia>
+    const getPiniaFromVtu = () => {
+        const plugins = (vtuConfig.global.plugins || []) as any[]
+        return plugins.find((p) => p && typeof p === 'object' && '_s' in p) as any
+    }
+    let pinia: any
 
     beforeEach(() => {
-        pinia = createPinia()
-        setActivePinia(pinia)
+        pinia = getPiniaFromVtu()
+        if (pinia) setActivePinia(pinia)
         resizeState.width.value = 1200
         resizeState.height.value = 600
         toolsMock.distinguishSize.mockClear()
         toolsMock.getElementActualOffsetTopOrLeft.mockClear()
         toolsMock.scrollToPos.mockClear()
         scrollSpy.mockClear()
+
+        // 避免测试间串状态
+        useMenuStore().$reset()
+        useLayoutStore().$reset()
     })
 
     afterEach(() => {
@@ -178,7 +186,7 @@ describe('MiMenu', () => {
 
         const wrapper = mount(MiMenu, {
             props: { items },
-            global: { plugins: [router, pinia] },
+            global: { plugins: [router] },
             attachTo: document.body
         })
         wrappers.push(wrapper)
@@ -204,7 +212,7 @@ describe('MiMenu', () => {
 
         const wrapper = mount(MiMenu, {
             props: { items },
-            global: { plugins: [router, pinia] },
+            global: { plugins: [router] },
             attachTo: document.body
         })
         wrappers.push(wrapper)
@@ -241,7 +249,7 @@ describe('MiMenu', () => {
 
         const wrapper = mount(MiMenu, {
             props: { items },
-            global: { plugins: [router, pinia] },
+            global: { plugins: [router] },
             attachTo: document.body
         })
         wrappers.push(wrapper)
@@ -265,7 +273,7 @@ describe('MiMenu', () => {
 
         const wrapper = mount(MiMenu, {
             props: { items },
-            global: { plugins: [router, pinia] },
+            global: { plugins: [router] },
             attachTo: document.body
         })
         wrappers.push(wrapper)

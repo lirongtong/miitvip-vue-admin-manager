@@ -40,6 +40,10 @@ const MiButtonStub = defineComponent({
 
 const TransitionStub = defineComponent({
     name: 'Transition',
+    props: {
+        name: { type: String, default: '' },
+        appear: { type: Boolean, default: false }
+    },
     setup(_props, { slots }) {
         return () => slots.default?.()
     }

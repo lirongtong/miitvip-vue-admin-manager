@@ -34,7 +34,10 @@ class MemoryStorage implements Storage {
 }
 
 const ensureStorage = (name: 'localStorage' | 'sessionStorage') => {
-    const s: any = (globalThis as any)[name]
+    // Node(v20+) 可能在 globalThis 上提供带 getter 的 WebStorage（读取会触发 `--localstorage-file` warning）。
+    // 这里用 descriptor 读取，避免访问 getter。
+    const desc = Object.getOwnPropertyDescriptor(globalThis, name)
+    const s: any = desc && 'value' in desc ? (desc as any).value : undefined
     if (!s || typeof s.getItem !== 'function' || typeof s.setItem !== 'function') {
         ;(globalThis as any)[name] = new MemoryStorage()
     }

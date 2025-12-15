@@ -92,15 +92,16 @@ vi.mock('ant-design-vue', async () => {
         props: {
             value: { type: [String, Number], default: '' },
             type: { type: String, default: 'text' },
-            suffix: { type: null, default: null }
+            suffix: { type: null, default: null },
+            prefix: { type: null, default: null }
         },
         emits: ['update:value'],
         setup(props, { emit, attrs }) {
+            const { class: cls, prefix: _prefix, ...restAttrs } = attrs as any
             return () =>
-                h('div', { class: attrs.class }, [
+                h('div', { class: cls }, [
                     h('input', {
-                        ...attrs,
-                        class: undefined,
+                        ...restAttrs,
                         type: props.type,
                         value: props.value as any,
                         onInput: (e: any) => emit('update:value', e?.target?.value)
