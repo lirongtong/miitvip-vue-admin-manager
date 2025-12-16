@@ -128,7 +128,7 @@ const MiAppsLanguage = defineComponent({
         // 检验- 语系 key 值
         const checkCategoryKeyValidate = async (_rule: any, value: string) => {
             if (!value) return Promise.reject(t('language.placeholder.type.key'))
-            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-\.\_]/gi.test(value)) {
+            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-._]/gi.test(value)) {
                 return Promise.reject(t('language.error.reg'))
             }
             if (props.checkCategoryExistAction) {
@@ -167,14 +167,17 @@ const MiAppsLanguage = defineComponent({
         // 校验 - 语言项 key 值
         const checkContentKeyValidate = async (_rule: any, value: string) => {
             if (!value) return Promise.reject(t('language.placeholder.config.key'))
-            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-\.\_]/gi.test(value)) {
+            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-._]/gi.test(value)) {
                 return Promise.reject(t('language.error.reg'))
             }
             if (props.checkContentExistAction) {
                 const actionParams = Object.assign(
                     {
                         id: params.form.content.id,
-                        cid: params.form.content.validate?.cid || params.category.current,
+                        cid:
+                            params.form.content.validate?.cid ||
+                            params.category.ids[params.category.key] ||
+                            params.category.current,
                         mid: params.form.content.validate.mid,
                         key: params.form.content.validate.key,
                         edit: params.form.content.edit ? 1 : 0
@@ -208,7 +211,7 @@ const MiAppsLanguage = defineComponent({
         // 校验 - 模块 key 值
         const checkModuleKeyValidate = async (_rule: any, value: string) => {
             if (!value) return Promise.reject(t('language.placeholder.module.key'))
-            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-\.\_]/gi.test(value)) {
+            if (!/^[a-zA-Z]{1}[a-zA-Z0-9\-._]/gi.test(value)) {
                 return Promise.reject(t('language.error.reg'))
             }
             if (props.checkModuleExistAction) {
@@ -818,7 +821,8 @@ const MiAppsLanguage = defineComponent({
                     }
                 }
                 languages.customize = data
-                params.total.customize = res?.total || 0
+                const total = res instanceof Array ? data.length : res?.total
+                params.total.customize = typeof total === 'number' ? total : data.length
                 emit('afterGetContent', res)
             }
             await handleAction(
@@ -916,15 +920,23 @@ const MiAppsLanguage = defineComponent({
             if (params.loading.categories) return
             params.loading.categories = true
             const afterSuccess = async (res?: ResponseData | any) => {
-                params.category.data = res instanceof Array ? res : res?.data || []
+                const list = res instanceof Array ? res : res?.data || []
+                params.category.data = list
                 params.category.current = 0
-                for (let i = 0, l = res?.data?.length; i < l; i++) {
-                    const category = res?.data[i]
-                    params.category.types[category?.key] = category?.language
-                    params.category.ids[category?.key] = category?.id
-                    if (category?.is_default) {
-                        params.category.current = category?.id
-                        params.category.key = category?.key
+                params.category.types = {}
+                params.category.ids = {}
+                for (let i = 0, l = params.category.data.length; i < l; i++) {
+                    const category = params.category.data[i]
+                    if (!category) continue
+                    const key = (category as any)?.key
+                    if (!key) continue
+                    params.category.types[key] = (category as any)?.language
+                    if ((category as any)?.id) {
+                        params.category.ids[key] = (category as any)?.id
+                    }
+                    if ((category as any)?.is_default) {
+                        params.category.current = (category as any)?.id
+                        params.category.key = key
                     }
                 }
                 // 无默认语系
@@ -950,13 +962,39 @@ const MiAppsLanguage = defineComponent({
 
         // 设置语系分类
         const setCategory = async (updateLanguage: boolean = true) => {
-            if (props.category && props.category.length > 0) params.category.data = props.category
-            else await getCategories(updateLanguage)
+            if (props.category && props.category.length > 0) {
+                params.category.data = props.category as any
+                params.category.types = {}
+                params.category.ids = {}
+                params.category.current = 0
+                for (let i = 0, l = params.category.data.length; i < l; i++) {
+                    const category = params.category.data[i] as any
+                    if (!category) continue
+                    const key = category?.key
+                    if (!key) continue
+                    params.category.types[key] = category?.language
+                    if (category?.id) {
+                        params.category.ids[key] = category?.id
+                    }
+                    if (category?.is_default) {
+                        params.category.current = category?.id
+                        params.category.key = key
+                    }
+                }
+                if (!params.category.current && params.category.data.length > 0) {
+                    const cur = params.category.data[0] as any
+                    params.category.current = parseInt(cur?.id?.toString())
+                    params.category.key = cur?.key
+                }
+                if (updateLanguage && params.category.data.length > 0) {
+                    await setLanguages(params.search.key, params.category.key)
+                }
+            } else await getCategories(updateLanguage)
         }
 
         // 设置默认语系
         const setDefaultCategory = () => {
-            if (params.category.data && params.category.data.length < 0) {
+            if (params.category.data && params.category.data.length <= 0) {
                 message.destroy()
                 message.error({ content: t('language.error.none'), duration: 5 })
                 return
@@ -1625,6 +1663,7 @@ const MiAppsLanguage = defineComponent({
                         if (reg.test(cur.key) || reg.test(cur.language)) res.push(cur)
                     }
                     languages.builtin = res
+                    languages.builtinSelection = [...res]
                 }
             }
         }
@@ -2271,7 +2310,7 @@ const MiAppsLanguage = defineComponent({
                                     params.table.module.pagination.customize.size = size
                                 },
                                 responsive: true,
-                                total: params.total.customize,
+                                total: languages.modules.customize.length,
                                 current: params.table.module.pagination.customize.page,
                                 pageSize: params.table.module.pagination.customize.size
                             }}

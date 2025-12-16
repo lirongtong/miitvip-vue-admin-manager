@@ -182,7 +182,7 @@
 | `deleteModuleMethod` | `string` | `delete` | 删除模块接口的请求方式 ( `deleteModuleAction` string 时有效 )
 | `deleteModuleParams` | `object` | `{}` | 删除模块接口参数
 | `checkModuleExistAction` | `string \| function` | `''` | 检测模块是否存在接口地址或自定义方法
-| `checkModuleExistMethod` | `string` | `get` | 检测模块是否存在接口的请求方式 ( `deleteModuleAction` string 时有效 )
+| `checkModuleExistMethod` | `string` | `get` | 检测模块是否存在接口的请求方式 ( `checkModuleExistAction` string 时有效 )
 | `checkModuleExistParams` | `object` | `{}` | 检测模块是否存在接口参数
 
 #### `LanguageItemProperties` 属性 ( `Interface` )
@@ -204,8 +204,8 @@
 | 参数 | 类型 | 默认值 | 说明
 | :---- | :---- | :---- | :----
 | `baidu` | [`BaiduTranslateProperties`](./README.md#baidutranslateproperties-属性--interface-) | `{}` | 百度翻译配置
-| `languages` | `Record<string, string>` | `{}` | 自定义翻译语言列表
-| `defaultLanguage` | `string` | `''` | 自定义翻译语言列表默认选中值
+| `languages` | `Record<string, string>` | `{}` | 自定义翻译语言列表 ( 未配置时内部会提供一组常用语言 )
+| `defaultLanguage` | `string` | `'zh'` | 自定义翻译语言列表默认选中值 ( 默认中文 )
 | `translate` | `function` | *`None`* | 自定义翻译功能
 
 #### `BaiduTranslateProperties` 属性 ( `Interface` )
