@@ -6,7 +6,10 @@ const pkg = requireRes('../package.json')
 
 const dependencies = Object.keys(pkg.dependencies || {})
 const globalDependencies = {}
-Object.entries(dependencies).forEach(([_key, value]) => globalDependencies[value] = value)
+dependencies.forEach((key) => {
+    const camelCase = key.replace(/@/g, '').replace(/[\/-]/g, '')
+    globalDependencies[key] = camelCase
+})
 
 export const externalPackages = [
     ...dependencies,

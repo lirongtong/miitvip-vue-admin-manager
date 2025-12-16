@@ -79,6 +79,7 @@ const config = defineConfig([
                 preserveModules: true,
                 exports: 'named',
                 banner,
+                sourcemap: true,
                 preserveModulesRoot: './src'
             },
             {
@@ -87,6 +88,7 @@ const config = defineConfig([
                 preserveModules: true,
                 exports: 'named',
                 banner,
+                sourcemap: true,
                 preserveModulesRoot: './src'
             }
         ],

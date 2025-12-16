@@ -8,6 +8,7 @@ import json from '@rollup/plugin-json'
 import babel from '@rollup/plugin-babel'
 import path from 'path'
 import filesize from 'rollup-plugin-filesize'
+import { createRequire } from 'module'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
 import { visualizer } from 'rollup-plugin-visualizer'
 import postcss from 'rollup-plugin-postcss'
@@ -15,7 +16,19 @@ import autoprefixer from 'autoprefixer'
 import { externalPackages, externalGlobals } from './rollup.external.mjs'
 import strip from '@rollup/plugin-strip'
 
+const requireRes = createRequire(import.meta.url)
+const pkg = requireRes('../package.json')
 const fileName = 'makeit-admin-pro'
+
+const banner = `/**
+ * ${pkg.name} v${pkg.version}
+ *
+ * Copyright 2020 - ${new Date().getFullYear()} makeit.vip <makeit@makeit.vip>.
+ * All rights reserved.
+ * @license MIT
+ * 
+ * follow me on Github! https://github.com/lirongtong
+ **/`
 
 const babelOptions = {
     presets: [['@babel/preset-env', { modules: false }]],
@@ -44,7 +57,9 @@ const plugins = [
     postcss({
         modules: { generateScopedName: 'mi-[name]-[hash:base64:8]', localsConvention: 'camelCase' },
         plugins: [autoprefixer()],
-        minimize: true
+        minimize: true,
+        extract: `${fileName}.min.css`,
+        sourceMap: true
     }),
     gzip(),
     analyze ? visualizer() : null,
@@ -60,6 +75,7 @@ const config = defineConfig([
                 file: `dist/${fileName}.js`,
                 format: 'umd',
                 exports: 'named',
+                banner,
                 sourcemap: true,
                 globals: externalGlobals
             },
@@ -68,6 +84,7 @@ const config = defineConfig([
                 file: `dist/${fileName}.min.js`,
                 format: 'umd',
                 exports: 'named',
+                banner,
                 sourcemap: true,
                 globals: externalGlobals,
                 plugins: [terser()]

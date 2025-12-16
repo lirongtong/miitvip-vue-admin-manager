@@ -1,7 +1,7 @@
 {
     "name": "@miitvip/admin-pro",
     "private": false,
-    "version": "3.1.37",
+    "version": "3.1.38",
     "type": "module",
     "author": {
         "url": "https://admin.makeit.vip",
@@ -11,11 +11,10 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "run-s clean build:css build:esm build:umd",
+        "build": "run-s clean build:esm build:umd",
         "clean": "rimraf dist es lib",
-        "build:parallel": "run-p build:css build:esm",
-        "build:fast": "run-s clean build:parallel build:umd",
-        "build:css": "rollup --config build/rollup.css.mjs",
+        "build:parallel": "run-p build:esm build:umd",
+        "build:fast": "run-s clean build:parallel",
         "build:esm": "rollup --config build/rollup.esm.mjs",
         "build:umd": "rollup --config build/rollup.umd.mjs",
         "build:example": "vue-tsc && vite build",
