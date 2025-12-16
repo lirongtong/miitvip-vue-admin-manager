@@ -66,11 +66,11 @@ const MiTheme = defineComponent({
                 return response
             },
             async (err: any) => {
-                // 重试
                 const config = err?.config || {}
-                const resend = async () => {
-                    const method = config?.method.toLowerCase()
-                    return await $request?.[method](
+
+                const resend = () => {
+                    const method = (config?.method || 'get').toLowerCase()
+                    return $request?.[method](
                         config.url,
                         method === 'get' ? config?.params || {} : config?.data || {},
                         {
@@ -79,42 +79,51 @@ const MiTheme = defineComponent({
                         }
                     )
                 }
+
                 // 未授权 ( unauthorized ).
                 if (err?.response?.status === 401) {
                     if (!regranting) {
                         regranting = true
                         const token = $cookie.get($g.caches.cookies?.token?.refresh)
                         const useAuth = useAuthStore()
-                        // 失败处理
-                        const failed = (err?: any) => {
+
+                        const failed = (error?: any) => {
                             regranting = false
                             message.destroy()
-                            message.error(err?.message || err || t('global.error.auth'))
+                            message.error(error?.message || error || t('global.error.auth'))
                             useAuth.logout()
                             router.push({ path: '/login', query: { redirect: route.path } })
+                            return Promise.reject(error || err)
                         }
+
                         if (!$tools.isEmpty(token) && api?.oauth?.refresh) {
-                            // token 过期, 重新获取.
-                            useAuth
-                                .refresh(api?.oauth?.refresh, token)
-                                .then(async (res?: ResponseData | any) => {
-                                    if (res?.ret?.code === 200) await resend()
-                                    else failed()
-                                })
-                                .catch((err?: any) => failed(err))
-                        } else failed()
+                            try {
+                                const res: ResponseData | any = await useAuth.refresh(
+                                    api?.oauth?.refresh,
+                                    token
+                                )
+                                regranting = false
+                                if (res?.ret?.code === 200) return resend()
+                                return failed()
+                            } catch (error: any) {
+                                return failed(error)
+                            }
+                        }
+
+                        return failed()
                     }
-                } else {
-                    /**
-                     * 请求重试.
-                     * 设置了 retry 且重试次数少于设定值 retryCount.
-                     * request retry and delay 1000ms each time.
-                     */
-                    if (!config?.retry) return Promise.reject(err?.response)
-                    if (config?.retryCount >= config.retry) return Promise.reject(err.response)
-                    config.retryCount += 1
-                    await resend()
+
+                    // 已在其他请求中进行 regranting，这里直接抛出原错误
+                    return Promise.reject(err?.response || err)
                 }
+
+                // 其他错误：根据 retry 配置进行重试
+                if (!config?.retry) return Promise.reject(err?.response || err)
+                if (config?.retryCount >= config.retry) {
+                    return Promise.reject(err?.response || err)
+                }
+                config.retryCount += 1
+                return resend()
             }
         )
 
