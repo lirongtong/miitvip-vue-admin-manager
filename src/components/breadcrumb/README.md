@@ -1,25 +1,26 @@
-# 面包屑导航
+# 面包屑导航（MiBreadcrumb）
 
-> 「 面包屑导航 」 组件根据 `route` 路由配置信息自动生成面包屑导航数据
+> 「面包屑导航」组件会根据路由配置自动生成当前位置的路径导航，支持自定义分隔符和切换动画效果。
 
 ## 使用示例
 
 ### 默认
 
 ```html
+<!-- 自动读取当前路由信息并生成面包屑 -->
 <mi-breadcrumb />
 ```
 
-### 分隔符
+### 自定义分隔符
 
 ```html
 <mi-breadcrumb separator="~" />
 ```
 
-### 动画
+### 启用动画效果
 
 ```html
-<!-- 内置的动画效果请看 `components/_utils/props` - animations -->
+<!-- 内置动画名称请查看 `components/_utils/props` 中的 animations 列表 -->
 <mi-breadcrumb animation="scale" />
 ```
 

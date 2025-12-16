@@ -1,13 +1,13 @@
-# 回到顶部
+# 回到顶部（MiBacktop）
 
-> 「 回到顶部 」 组件用于在当前位置快速回到顶部
+> 「回到顶部」组件用于在长页面中快速返回顶部，支持监听指定滚动容器、定制尺寸/位置/样式等。
 
 ## 使用示例
 
 ### 默认
 
 ```html
-<!-- 默认监听 document.body 的 scroll 事件 -->
+<!-- 默认监听 document.body 的 scroll 事件，当滚动高度超过 offset 时出现按钮 -->
 <mi-backtop />
 ```
 
@@ -15,15 +15,30 @@
 
 ```html
 <template>
-    <mi-backtop :listener-container="container" />
+    <div ref="scrollContainer" class="content-wrapper">
+        <!-- 页面内容 -->
+        <mi-backtop :listener-container="scrollContainer" />
+    </div>
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted, nextTick } from 'vue'
+import { ref } from 'vue'
 
-    const container = ref<HTMLElement | null>(null)
-    onMounted(() => nextTick().then(() => container.value = document.getElement('mi-anchor-container')))
+const scrollContainer = ref<HTMLElement | null>(null)
 </script>
+```
+
+### 自定义尺寸、位置与提示文案
+
+```html
+<mi-backtop
+    :width="56"
+    :height="56"
+    :radius="28"
+    :offset="300"
+    tip="返回顶部"
+    :position="{ bottom: 80, right: 40 }"
+/>
 ```
 
 ## 主题配置
