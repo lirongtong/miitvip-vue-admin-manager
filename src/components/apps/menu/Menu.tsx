@@ -131,6 +131,7 @@ const MiAppsMenu = defineComponent({
                         align: 'center',
                         customRender: (record: any) => {
                             const IconTag = AntdvIcons?.[record.record.icon]
+                            if (!IconTag) return null
                             return <IconTag style={`font-size: 1.25rem`} />
                         },
                         width: 80
@@ -327,6 +328,11 @@ const MiAppsMenu = defineComponent({
                     (res: ResponseData | any) => {
                         params.menus = getMenusTreeData(res?.data)
                         params.table.data = params.menus
+                        if (Array.isArray(res?.data)) {
+                            params.total = res.data.length
+                        } else if (typeof res?.total === 'number') {
+                            params.total = res.total
+                        }
                         emit('afterGetMenus', res)
                     },
                     () => (params.loading.list = false)
@@ -419,7 +425,7 @@ const MiAppsMenu = defineComponent({
         // 设置表单默认值
         const handleSetFormData = (data?: any) => {
             if (data && Object.keys(data)?.length > 0 && data?.id) {
-                if (data?.badge) params.form.badge.validate = { ...(data?.badge || {}) }
+                if (data?.badge) params.form.badge.validate = { ...data.badge }
                 params.edit.status = true
                 params.detail.id = 0
                 params.detail.show = false
@@ -864,6 +870,7 @@ const MiAppsMenu = defineComponent({
                 const res: any[] = []
                 data.forEach((icon: string) => {
                     const IconTag = AntdvIcons[icon]
+                    if (!IconTag) return
                     res.push(
                         <div
                             class={`${styled.tabItem} ${
@@ -954,10 +961,11 @@ const MiAppsMenu = defineComponent({
                 const res: any[] = []
                 data.forEach((icon: string) => {
                     const IconTag = AntdvIcons[icon]
+                    if (!IconTag) return
                     res.push(
                         <div
                             class={`${styled.tabItem} ${
-                                params.form.validate.icon === icon ? styled.tabItemActive : ''
+                                params.form.badge.validate.icon === icon ? styled.tabItemActive : ''
                             }`}
                             onClick={() => handleSetBadgeIcon(icon)}>
                             <IconTag />
