@@ -66,6 +66,9 @@ const plugins = [
     filesize()
 ].filter(Boolean)
 
+// 缓存实例，用于加速增量构建
+let cache
+
 const config = defineConfig([
     {
         input: path.resolve(process.cwd(), './src/index.ts'),
@@ -92,6 +95,8 @@ const config = defineConfig([
         ],
         external: externalPackages,
         plugins,
+        // 启用 Rollup 缓存
+        cache,
         onwarn(warning) {
             if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.exporter === 'vue') return
         }

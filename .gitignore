@@ -18,6 +18,11 @@ dist-ssr
 stats.html
 .env.production
 
+# Build caches
+node_modules/.rpt2_cache_*
+node_modules/.cache
+.tsbuildinfo
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

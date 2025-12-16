@@ -14,7 +14,6 @@ import strip from '@rollup/plugin-strip'
 
 const requireRes = createRequire(import.meta.url)
 const pkg = requireRes('../package.json')
-const fileName = 'makeit-admin-pro'
 const styleInject = path
     .resolve(process.cwd(), './node_modules/style-inject/dist/style-inject.es.js')
     .replace(/\\|\\\\/g, '/')
@@ -69,6 +68,9 @@ const plugins = [
     analyze ? visualizer() : null
 ].filter(Boolean)
 
+// 缓存实例，用于加速增量构建
+let cache
+
 const config = defineConfig([
     {
         input: path.resolve(process.cwd(), './src/index.ts'),
@@ -94,6 +96,8 @@ const config = defineConfig([
         ],
         external: [...externalPackages],
         plugins,
+        // 启用 Rollup 缓存
+        cache,
         onwarn(warning) {
             if (warning.code === 'UNUSED_EXTERNAL_IMPORT' && warning.exporter === 'vue') return
         }
