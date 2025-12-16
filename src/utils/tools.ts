@@ -164,13 +164,10 @@ class MiTools {
      * @returns
      */
     getUrlParamsByObj(query?: {}) {
-        return query
-            ? encodeURIComponent(
-                  Object.entries(query)
-                      .map(([k, v]) => `${k}=${v}`)
-                      .join('&')
-              )
-            : ''
+        if (!query) return ''
+        return Object.entries(query)
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
+            .join('&')
     }
 
     /**
@@ -316,7 +313,10 @@ class MiTools {
      * @returns
      */
     raf(callback: FrameRequestCallback) {
-        return window.requestAnimationFrame(callback) || window.setTimeout(callback, 1000 / 60)
+        if (typeof window.requestAnimationFrame === 'function') {
+            return window.requestAnimationFrame(callback)
+        }
+        return window.setTimeout(callback, 1000 / 60)
     }
 
     /**
@@ -324,7 +324,9 @@ class MiTools {
      * @param rid
      */
     caf(rid: number) {
-        if (rid) window.cancelAnimationFrame(rid)
+        if (!rid) return
+        if (typeof window.cancelAnimationFrame === 'function') window.cancelAnimationFrame(rid)
+        else clearTimeout(rid)
     }
 
     /**
@@ -355,7 +357,8 @@ class MiTools {
         const difference = Math.abs(from - to)
         const step = Math.ceil((difference / duration) * 50)
         if (duration === 0) {
-            el.scrollTop = 0
+            if (el === window) window.scrollTo(window.scrollX, 0)
+            else el.scrollTop = 0
             if (endCallback) endCallback()
             return
         }
@@ -368,7 +371,7 @@ class MiTools {
             }
             let d = start + step > end ? end : start + step
             if (start > end) d = start - step < end ? end : start - step
-            if (el === window) window.scrollTo(d, d)
+            if (el === window) window.scrollTo(window.scrollX, d)
             else el.scrollTop = d
             rid = vm.raf(() => scroll(d, end, step, vm))
         }
@@ -385,7 +388,7 @@ class MiTools {
         const top = container
             ? container?.scrollTop || 0
             : document.documentElement.scrollTop || document.body.scrollTop
-        this.scrollToPos(container, top, 0, duration, endCallback)
+        this.scrollToPos(container || window, top, 0, duration, endCallback)
     }
 
     /**
@@ -778,7 +781,8 @@ class MiTools {
         if (str && len) {
             const slice = str.substring(0, len)
             const reg = /[\u4e00-\u9fa5]/g
-            const charNum = ~~(slice.match(reg) && slice.match(reg).length)
+            const match = slice.match(reg)
+            const charNum = match ? match.length : 0
             const realNum = slice.length * 2 - charNum
             return `${str.substring(0, realNum)}${realNum < str.length ? '...' : ''}`
         } else return str
@@ -873,23 +877,9 @@ class MiTools {
      * @returns
      */
     colorHex2Rgba(color: string, opacity = 1): string {
-        if (color) {
-            if ($g.regExp.hex.test(color)) {
-                if (color.length === 4) {
-                    if (color.length === 4) {
-                        let newColor = '#'
-                        for (let i = 1; i < 4; i++) {
-                            newColor += color.slice(i, i + 1).concat(color.slice(i, i + 1))
-                        }
-                        color = newColor
-                    }
-                    const changeColor: number[] = []
-                    for (let i = 1; i < 7; i += 2) {
-                        changeColor.push(parseInt('0x' + color.slice(i, i + 2)))
-                    }
-                    return `rgba(${changeColor.join(',')}, ${opacity})`
-                }
-            }
+        if (color && $g.regExp.hex.test(color)) {
+            const rgb = this.hex2rgbValues(color)
+            if (rgb.length > 0) return `rgba(${rgb.join(',')}, ${opacity})`
         }
         return color
     }
@@ -1064,8 +1054,14 @@ class MiTools {
             if (p === document) {
                 return false
             }
-            // 如果父元素的id或者class包含样式类
-            if (p[type] === selector) {
+            // 如果父元素的 id 或 class 包含样式类
+            if (
+                (type === 'id' && p.id === selector) ||
+                (type === 'className' &&
+                    (p.classList
+                        ? p.classList.contains(selector)
+                        : (p.className || '').toString().split(/\s+/).includes(selector)))
+            ) {
                 // 如果包含 那么返回这个元素
                 return p
             } else {
