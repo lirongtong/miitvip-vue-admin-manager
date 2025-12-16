@@ -4,6 +4,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import babel from '@rollup/plugin-babel'
+import esbuild from '@rollup/plugin-esbuild'
 import path from 'path'
 import { createRequire } from 'module'
 import { DEFAULT_EXTENSIONS } from '@babel/core'
@@ -28,16 +29,14 @@ const banner = `/**
  * follow me on Github! https://github.com/lirongtong
  **/`
 
+// Babel 仅用于处理 Vue JSX，其他转译由 esbuild 完成
 const babelOptions = {
-    presets: [['@babel/preset-env', { modules: false }]],
-    extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
+    extensions: ['.jsx', '.tsx'],
     plugins: [
-        ['@babel/plugin-transform-runtime', { corejs: 3 }],
-        ['@vue/babel-plugin-jsx', { isCustomElement: (tag) => tag.startsWith('swiper-') }],
-        '@babel/plugin-transform-object-assign'
+        ['@vue/babel-plugin-jsx', { isCustomElement: (tag) => tag.startsWith('swiper-') }]
     ],
-    exclude: /[\\/]node_modules[\\/]/,
-    babelHelpers: 'runtime'
+    exclude: /[\/]node_modules[\/]/,
+    babelHelpers: 'bundled'
 }
 
 const analyze = process.env.MI_ROLLUP_ANALYZE === '1'
@@ -50,6 +49,18 @@ const plugins = [
     nodeResolve({ browser: true, jsnext: true }),
     json(),
     strip(),
+    // esbuild 处理 TS/JS 转译，速度比 Babel 快 10-100 倍
+    esbuild({
+        include: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        sourceMap: true,
+        target: 'es2015',
+        loaders: {
+            '.js': 'js',
+            '.ts': 'ts'
+        }
+    }),
+    // Babel 仅处理 Vue JSX 语法
     babel(babelOptions),
     commonjs(),
     postcss({
