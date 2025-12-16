@@ -94,6 +94,6 @@ export interface SearchKeyProperties {
 export const SearchKeyProps = () => ({
     name: PropTypes.string.isRequired,
     tag: PropTypes.string.def('span'),
-    type: PropTypes.oneOf(tuple(...['text', 'image', 'link'])).def('text'),
+    type: PropTypes.oneOf(tuple('text', 'image', 'link')).def('text'),
     content: PropTypes.any
 })

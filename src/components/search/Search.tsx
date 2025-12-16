@@ -372,12 +372,18 @@ const MiSearch = defineComponent({
         }
 
         const renderSearchResult = () => {
-            const reg = new RegExp(params.keyword, 'ig')
+            if (!params.keyword) {
+                params.list = []
+                return
+            }
+            const escapedKeyword = params.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+            const reg = new RegExp(escapedKeyword, 'ig')
             params.list = []
             ;(params.data || []).forEach((data: SearchData, idx: number) => {
-                if (data[props.searchKey] && reg.test(data[props.searchKey])) {
+                const text = data[props.searchKey]
+                if (text && reg.test(text)) {
                     const temp = { ...data }
-                    temp[props.searchKey] = data[props.searchKey].replace(
+                    temp[props.searchKey] = text.replace(
                         reg,
                         `<span class="${styled.searchKey}">${params.keyword}</span>`
                     )
@@ -478,8 +484,10 @@ const MiSearch = defineComponent({
             })
         }
 
-        onMounted(() => $tools.on(window, 'click', (evt) => handleClose(evt)))
-        onUnmounted(() => $tools.off(window, 'click', (evt) => handleClose(evt)))
+        const handleWindowClick = (evt: Event) => handleClose(evt)
+
+        onMounted(() => $tools.on(window, 'click', handleWindowClick))
+        onUnmounted(() => $tools.off(window, 'click', handleWindowClick))
 
         return () => (
             <div
