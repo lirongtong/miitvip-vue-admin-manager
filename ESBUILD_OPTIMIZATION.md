@@ -38,7 +38,7 @@
 
 ```javascript
 // 引入 esbuild 插件
-import esbuild from '@rollup/plugin-esbuild'
+import esbuild from 'rollup-plugin-esbuild'
 
 // 在 plugins 中添加
 esbuild({
@@ -132,7 +132,7 @@ CSS 处理 (postcss)
 ### 新增依赖
 
 ```bash
-npm install --save-dev @rollup/plugin-esbuild esbuild
+npm install --save-dev rollup-plugin-esbuild esbuild
 ```
 
 ### 可选移除（如果不再需要）
@@ -196,7 +196,7 @@ npm install --save-dev @rollup/plugin-esbuild esbuild
 
 ```bash
 # 安装依赖（首次使用）
-npm install --save-dev @rollup/plugin-esbuild esbuild
+npm install --save-dev rollup-plugin-esbuild esbuild
 
 # 正常构建（自动使用 esbuild）
 npm run build
@@ -283,12 +283,12 @@ target: ['chrome80', 'firefox80', 'safari13']
 
 ### 问题 1: esbuild 未安装
 
-**症状：** 构建报错 `Cannot find module '@rollup/plugin-esbuild'`
+**症状：** 构建报错 `Cannot find module 'rollup-plugin-esbuild'`
 
 **解决方案：**
 
 ```bash
-npm install --save-dev @rollup/plugin-esbuild esbuild
+npm install --save-dev rollup-plugin-esbuild esbuild
 ```
 
 ### 问题 2: 构建输出异常
@@ -344,7 +344,7 @@ npx tsc --noEmit
 ```json
 {
   "devDependencies": {
-    "@rollup/plugin-esbuild": "^6.1.0",
+    "rollup-plugin-esbuild": "^6.1.0",
     "esbuild": "^0.19.0"
   }
 }
@@ -394,7 +394,7 @@ MI_ROLLUP_ANALYZE=1 npm run build
 ## 📚 相关文档
 
 - [esbuild 官方文档](https://esbuild.github.io/)
-- [@rollup/plugin-esbuild](https://github.com/rollup/plugins/tree/master/packages/esbuild)
+- [rollup-plugin-esbuild](https://github.com/egoist/rollup-plugin-esbuild)
 - [Vue JSX 插件](https://github.com/vuejs/babel-plugin-jsx)
 - [BUILD_OPTIMIZATION.md](./BUILD_OPTIMIZATION.md) - 第一轮构建优化
 - [CACHE_OPTIMIZATION.md](./CACHE_OPTIMIZATION.md) - 缓存机制优化

@@ -5,7 +5,7 @@
 首先，安装 esbuild 相关依赖：
 
 ```bash
-npm install --save-dev @rollup/plugin-esbuild esbuild
+npm install --save-dev rollup-plugin-esbuild esbuild
 ```
 
 ## ✅ 优化完成清单
@@ -63,7 +63,7 @@ TypeScript → esbuild ⚡️ → Babel 🎨 → 完成
 ### build/rollup.esm.mjs
 
 ```javascript
-import esbuild from '@rollup/plugin-esbuild'
+import esbuild from 'rollup-plugin-esbuild'
 
 // esbuild 处理 TS/JS 转译
 esbuild({
@@ -85,7 +85,7 @@ babel({
 
 ## 💡 注意事项
 
-1. **依赖安装**：必须先安装 `@rollup/plugin-esbuild` 和 `esbuild`
+1. **依赖安装**：必须先安装 `rollup-plugin-esbuild` 和 `esbuild`
 2. **向后兼容**：构建输出格式完全不变
 3. **类型检查**：esbuild 不做类型检查，由 TypeScript 插件完成
 4. **Vue JSX**：完全支持，由 Babel 处理
