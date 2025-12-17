@@ -29,9 +29,12 @@ const banner = `/**
  * follow me on Github! https://github.com/lirongtong
  **/`
 
-// Babel 仅用于处理 Vue JSX，其他转译由 esbuild 完成
+// Babel 处理 JSX/TSX 文件（包括 Vue JSX 语法和 ES6+ 转译）
 const babelOptions = {
     extensions: ['.jsx', '.tsx'],
+    presets: [
+        ['@babel/preset-env', { modules: false }]
+    ],
     plugins: [
         ['@vue/babel-plugin-jsx', { isCustomElement: (tag) => tag.startsWith('swiper-') }]
     ],
@@ -49,9 +52,9 @@ const plugins = [
     nodeResolve({ browser: true, jsnext: true }),
     json(),
     strip(),
-    // esbuild 处理 TS/JS 转译，速度比 Babel 快 10-100 倍
+    // esbuild 处理 .js 和 .ts 文件转译（不含 JSX），速度比 Babel 快 10-100 倍
     esbuild({
-        include: /\.[jt]sx?$/,
+        include: /\.[jt]s$/,
         exclude: /node_modules/,
         sourceMap: true,
         target: 'es2015',
@@ -60,7 +63,7 @@ const plugins = [
             '.ts': 'ts'
         }
     }),
-    // Babel 仅处理 Vue JSX 语法
+    // Babel 处理 .jsx 和 .tsx（Vue JSX 语法）
     babel(babelOptions),
     commonjs(),
     postcss({
